@@ -62,9 +62,9 @@ If the market or the depth is missing, ask only for the missing choice. Default 
    validates before writing. Never present an output that fails.
 7. Return the human-readable `.md` and the TradingView-importable `.txt`.
 
-To widen an existing universe to a deeper tier, pass it as `--seed output/universe.json` instead
-of rebuilding. Upgrading a tier is an extension; a rebuild churns a universe whose entire purpose
-is low turnover.
+To change the depth of an existing universe, pass it as `--seed` instead of rebuilding. Widening
+keeps every incumbent and fills the rest; narrowing reselects inside the incumbents against the
+smaller target. A rebuild at the new depth churns a universe whose entire purpose is low turnover.
 
 The model proposes taxonomy, roles and evidence. Python owns normalization, eligibility gates,
 tier nesting, quotas, ordering, caps, hashing and rendering. Never hand-write the final txt.

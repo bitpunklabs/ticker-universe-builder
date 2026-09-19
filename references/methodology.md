@@ -53,7 +53,24 @@ The builder allocates seats in this order:
 
 Building Medium resolves the Light set first; Heavy resolves Medium first. Under one snapshot and
 one policy, `Light ⊆ Medium ⊆ Heavy` therefore holds. Across snapshots it holds only if the
-narrower universe is passed in as `--seed`.
+existing universe is passed in as `--seed`.
+
+## Changing depth in either direction
+
+`--seed` reads the depth of the universe you hand it and moves along the nesting from there.
+
+- **Widening** (Light → Medium) keeps every incumbent and fills the remaining slots from the
+  snapshot.
+- **Narrowing** (Heavy → Light) makes the incumbents the *only* candidates and reselects inside
+  them against the smaller target. Themes above the narrower coverage level fall away with the
+  reason `outside_profile_coverage`; members that lost a slot to the smaller target are recorded
+  as `removed_by_downgrade`; everything else in the snapshot is `not_in_seed_universe`, because
+  a narrowing run never considered it and saying it lost on budget would be a different claim.
+
+Neither direction is a rebuild. Rebuilding at the new depth would churn a pool whose entire
+purpose is low turnover, and would drop incumbents for reasons that have nothing to do with the
+depth that changed. An incumbent the new snapshot no longer carries as an eligible candidate
+stops the build and is named either way: dropping it is the operator's decision.
 
 ## What the composite score is, and what it is not
 

@@ -120,7 +120,10 @@ def parser() -> argparse.ArgumentParser:
     new.add_argument("--spec", required=True, help="build-spec.json")
     new.add_argument("--snapshot", required=True, help="researched snapshot.json")
     new.add_argument("--output", required=True, help="new, empty output directory")
-    new.add_argument("--seed", help="existing universe.json to extend instead of rebuilding")
+    new.add_argument(
+        "--seed",
+        help="existing universe to widen or narrow to this profile instead of rebuilding",
+    )
     new.set_defaults(handler=build)
 
     review = sub.add_parser("maintain", help="apply an evidence-backed change set")

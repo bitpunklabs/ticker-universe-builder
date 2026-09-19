@@ -185,6 +185,8 @@ AUDIT_CODES = {
     "outside_profile_coverage",
     "not_selected_under_budget_or_theme_cap",
     "removed_by_maintenance",
+    "removed_by_downgrade",
+    "not_in_seed_universe",
 }
 DECISION_OPS = {"ADD", "REMOVE", "REPLACE"}
 THEME_OPS = {"ADD_THEME", "REMOVE_THEME"}
@@ -795,12 +797,12 @@ def _select_stage(
 def _seed_members(
     snapshot: dict[str, Any], previous: dict[str, Any] | None
 ) -> list[dict[str, Any]]:
-    """Carry an existing universe into a wider one.
+    """Resolve an existing universe's members against the new snapshot.
 
-    Upgrading a tier is an extension, not a rebuild: rebuilding from scratch would churn every
-    slot of a pool whose whole point is low turnover. Any incumbent the new snapshot no longer
-    carries as an eligible candidate stops the build and is named, because dropping it is a
-    decision the operator has to make, not one this function can make quietly.
+    Changing tier is a move along a nesting, not a rebuild: rebuilding from scratch would churn
+    every slot of a pool whose whole point is low turnover. Any incumbent the new snapshot no
+    longer carries as an eligible candidate stops the build and is named, because dropping it is
+    a decision the operator has to make, not one this function can make quietly.
     """
     if previous is None:
         return []
@@ -854,15 +856,29 @@ def build_universe(
         + [(item["ticker"], item["evidence"]) for item in snapshot["candidates"]],
         policy,
     )
-    selected: list[dict[str, Any]] = _seed_members(snapshot, previous)
-    if selected:
+    incumbents = _seed_members(snapshot, previous)
+    seed_profile = str(previous.get("profile", "")).lower() if previous else ""
+    # Widening extends the seed; narrowing reselects inside it. Both beat a rebuild, which would
+    # churn a pool whose whole point is low turnover — and narrowing by rebuilding would drop
+    # incumbents for reasons that have nothing to do with the smaller target.
+    narrowing = bool(incumbents) and PROFILE_INDEX.get(seed_profile, -1) > PROFILE_INDEX[profile]
+    pool = snapshot["candidates"]
+    selected: list[dict[str, Any]] = []
+    if narrowing:
+        pool = incumbents
+        warnings.append(
+            f"narrowed universe {previous.get('version_hash')} from {seed_profile} to {profile}; "
+            f"its {len(incumbents)} members were the only candidates"
+        )
+    elif incumbents:
+        selected = incumbents
         warnings.append(
             f"seeded {len(selected)} members from universe "
-            f"{previous.get('version_hash')} ({previous.get('profile')})"
+            f"{previous.get('version_hash')} ({seed_profile})"
         )
     # Without a seed the tiers are built in order so that Light ⊆ Medium ⊆ Heavy holds inside one
-    # run. A seed already is the narrower tier, so only the final stage is left to fill.
-    stages = (profile,) if selected else PROFILES[: PROFILE_INDEX[profile] + 1]
+    # run. A seed already is one of the tiers, so only the final stage is left to resolve.
+    stages = (profile,) if incumbents else PROFILES[: PROFILE_INDEX[profile] + 1]
     for stage in stages:
         guide = market_policy[stage]
         stage_target = target if stage == profile else int(guide["target"])
@@ -878,7 +894,7 @@ def build_universe(
                 f"{stage}: target reduced from {stage_target} to {stage_effective} by token cap"
             )
         selected, stage_warnings = _select_stage(
-            candidates=snapshot["candidates"],
+            candidates=pool,
             taxonomy=snapshot["taxonomy"],
             profile=stage,
             target=stage_effective,
@@ -892,6 +908,7 @@ def build_universe(
     final_level = int(policy["profiles"][profile]["coverage_level"])
     selection_audit = []
     taxonomy_by_code = {item["theme_code"]: item for item in snapshot["taxonomy"]}
+    incumbent_tickers = {item["ticker"] for item in incumbents}
     for candidate in snapshot["candidates"]:
         if candidate["asset_id"] in selected_assets:
             continue
@@ -899,6 +916,14 @@ def build_universe(
             reasons = candidate["exclusion_reasons"]
         elif taxonomy_by_code[candidate["theme_code"]]["coverage_level"] > final_level:
             reasons = ["outside_profile_coverage"]
+        elif narrowing:
+            # A narrowing run never considered the rest of the snapshot, and saying they lost on
+            # budget would be a different claim from the true one.
+            reasons = [
+                "removed_by_downgrade"
+                if candidate["ticker"] in incumbent_tickers
+                else "not_in_seed_universe"
+            ]
         else:
             reasons = ["not_selected_under_budget_or_theme_cap"]
         selection_audit.append({

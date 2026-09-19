@@ -284,6 +284,48 @@ class SeedTests(unittest.TestCase):
             {item["ticker"] for item in medium["members"]},
         )
 
+    def test_narrowing_reselects_inside_the_incumbents(self) -> None:
+        heavy, _ = build_universe(spec("heavy"), snapshot(), small_policy())
+        light, report = build_universe(spec("light"), snapshot(), small_policy(), heavy)
+        heavy_members = {item["ticker"] for item in heavy["members"]}
+        light_members = {item["ticker"] for item in light["members"]}
+        self.assertLess(light_members, heavy_members)
+        self.assertTrue(
+            any("narrowed universe" in warning for warning in report["warnings"]),
+            report["warnings"],
+        )
+        # A member that lost its slot to the smaller target did not lose it to a budget, and the
+        # audit has to say which.
+        dropped = {
+            item["ticker"]: item["reasons"] for item in light["selection_audit"]
+        }
+        for ticker in heavy_members - light_members:
+            self.assertIn(
+                dropped[ticker][0], {"removed_by_downgrade", "outside_profile_coverage"}, ticker
+            )
+
+    def test_narrowing_never_introduces_a_name_the_seed_did_not_hold(self) -> None:
+        data = snapshot()
+        data["candidates"].append(
+            candidate("BINANCE:AVAXUSDT.P", "AVAX", "10_A", "THEME_LEADER")
+        )
+        heavy, _ = build_universe(spec("heavy"), snapshot(), small_policy())
+        light, _ = build_universe(spec("light"), data, small_policy(), heavy)
+        self.assertNotIn(
+            "BINANCE:AVAXUSDT.P", {item["ticker"] for item in light["members"]}
+        )
+        reasons = {item["ticker"]: item["reasons"] for item in light["selection_audit"]}
+        self.assertEqual(reasons["BINANCE:AVAXUSDT.P"], ["not_in_seed_universe"])
+
+    def test_a_round_trip_through_a_narrower_tier_is_stable(self) -> None:
+        heavy, _ = build_universe(spec("heavy"), snapshot(), small_policy())
+        light, _ = build_universe(spec("light"), snapshot(), small_policy(), heavy)
+        again, _ = build_universe(spec("heavy"), snapshot(), small_policy(), light)
+        self.assertLessEqual(
+            {item["ticker"] for item in light["members"]},
+            {item["ticker"] for item in again["members"]},
+        )
+
     def test_incumbent_missing_from_the_new_snapshot_stops_the_build(self) -> None:
         light, _ = build_universe(spec("light"), snapshot(), small_policy())
         raw = snapshot()
