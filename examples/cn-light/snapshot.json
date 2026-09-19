@@ -61,6 +61,20 @@
       "coverage_level": 1
     },
     {
+      "l1_code": "00",
+      "l1_name": "市场基准",
+      "theme_code": "00_B",
+      "theme_name": "SECTOR_ROTATION_ETF",
+      "coverage_level": 2
+    },
+    {
+      "l1_code": "00",
+      "l1_name": "市场基准",
+      "theme_code": "00_C",
+      "theme_name": "THEMATIC_ETF",
+      "coverage_level": 3
+    },
+    {
       "l1_code": "10",
       "l1_name": "食品饮料",
       "theme_code": "10_A",
@@ -73,6 +87,34 @@
       "theme_code": "10_B",
       "theme_name": "FOOD_AND_DAIRY",
       "coverage_level": 1
+    },
+    {
+      "l1_code": "10",
+      "l1_name": "食品饮料",
+      "theme_code": "10_C",
+      "theme_name": "BEVERAGE_AND_BREWING",
+      "coverage_level": 2
+    },
+    {
+      "l1_code": "10",
+      "l1_name": "食品饮料",
+      "theme_code": "10_D",
+      "theme_name": "CONDIMENTS_AND_SNACKS",
+      "coverage_level": 3
+    },
+    {
+      "l1_code": "15",
+      "l1_name": "农林牧渔",
+      "theme_code": "15_A",
+      "theme_name": "LIVESTOCK_AND_FEED",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "15",
+      "l1_name": "农林牧渔",
+      "theme_code": "15_B",
+      "theme_name": "SEED_AND_AGRITECH",
+      "coverage_level": 3
     },
     {
       "l1_code": "20",
@@ -96,6 +138,34 @@
       "coverage_level": 1
     },
     {
+      "l1_code": "20",
+      "l1_name": "金融",
+      "theme_code": "20_D",
+      "theme_name": "REGIONAL_BANKS",
+      "coverage_level": 2
+    },
+    {
+      "l1_code": "20",
+      "l1_name": "金融",
+      "theme_code": "20_E",
+      "theme_name": "DIVERSIFIED_FINANCIALS",
+      "coverage_level": 3
+    },
+    {
+      "l1_code": "25",
+      "l1_name": "房地产",
+      "theme_code": "25_A",
+      "theme_name": "PROPERTY_DEVELOPERS",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "25",
+      "l1_name": "房地产",
+      "theme_code": "25_B",
+      "theme_name": "PROPERTY_SERVICES",
+      "coverage_level": 3
+    },
+    {
       "l1_code": "30",
       "l1_name": "新能源",
       "theme_code": "30_A",
@@ -114,7 +184,21 @@
       "l1_name": "新能源",
       "theme_code": "30_C",
       "theme_name": "POWER_EQUIPMENT",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "30",
+      "l1_name": "新能源",
+      "theme_code": "30_D",
+      "theme_name": "WIND_POWER",
       "coverage_level": 2
+    },
+    {
+      "l1_code": "30",
+      "l1_name": "新能源",
+      "theme_code": "30_E",
+      "theme_name": "HYDROGEN_AND_STORAGE",
+      "coverage_level": 3
     },
     {
       "l1_code": "40",
@@ -128,7 +212,21 @@
       "l1_name": "汽车",
       "theme_code": "40_B",
       "theme_name": "AUTO_PARTS",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "40",
+      "l1_name": "汽车",
+      "theme_code": "40_C",
+      "theme_name": "COMMERCIAL_VEHICLES",
       "coverage_level": 2
+    },
+    {
+      "l1_code": "40",
+      "l1_name": "汽车",
+      "theme_code": "40_D",
+      "theme_name": "AUTO_ELECTRONICS",
+      "coverage_level": 3
     },
     {
       "l1_code": "50",
@@ -149,6 +247,20 @@
       "l1_name": "半导体与电子",
       "theme_code": "50_C",
       "theme_name": "DISPLAY_AND_OPTICS",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "50",
+      "l1_name": "半导体与电子",
+      "theme_code": "50_D",
+      "theme_name": "SEMICAP_AND_MATERIALS",
+      "coverage_level": 2
+    },
+    {
+      "l1_code": "50",
+      "l1_name": "半导体与电子",
+      "theme_code": "50_E",
+      "theme_name": "PCB_AND_COMPONENTS",
       "coverage_level": 2
     },
     {
@@ -163,13 +275,48 @@
       "l1_name": "医药生物",
       "theme_code": "60_B",
       "theme_name": "MEDICAL_DEVICES",
-      "coverage_level": 2
+      "coverage_level": 1
     },
     {
       "l1_code": "60",
       "l1_name": "医药生物",
       "theme_code": "60_C",
       "theme_name": "CRO_AND_CDMO",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "60",
+      "l1_name": "医药生物",
+      "theme_code": "60_D",
+      "theme_name": "TCM_AND_GENERICS",
+      "coverage_level": 2
+    },
+    {
+      "l1_code": "60",
+      "l1_name": "医药生物",
+      "theme_code": "60_E",
+      "theme_name": "VACCINES_AND_BIOLOGICS",
+      "coverage_level": 3
+    },
+    {
+      "l1_code": "60",
+      "l1_name": "医药生物",
+      "theme_code": "60_F",
+      "theme_name": "PHARMACY_AND_DISTRIBUTION",
+      "coverage_level": 3
+    },
+    {
+      "l1_code": "65",
+      "l1_name": "国防军工",
+      "theme_code": "65_A",
+      "theme_name": "AEROSPACE_AND_DEFENSE",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "65",
+      "l1_name": "国防军工",
+      "theme_code": "65_B",
+      "theme_name": "DEFENSE_ELECTRONICS",
       "coverage_level": 2
     },
     {
@@ -191,21 +338,56 @@
       "l1_name": "资源品",
       "theme_code": "70_C",
       "theme_name": "CHEMICALS",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "70",
+      "l1_name": "资源品",
+      "theme_code": "70_D",
+      "theme_name": "STEEL_AND_BUILDING_MATERIALS",
       "coverage_level": 2
     },
     {
+      "l1_code": "70",
+      "l1_name": "资源品",
+      "theme_code": "70_E",
+      "theme_name": "RARE_EARTH_AND_LITHIUM",
+      "coverage_level": 2
+    },
+    {
+      "l1_code": "70",
+      "l1_name": "资源品",
+      "theme_code": "70_F",
+      "theme_name": "GOLD_MINERS",
+      "coverage_level": 3
+    },
+    {
       "l1_code": "80",
-      "l1_name": "基建",
+      "l1_name": "机械与基建",
       "theme_code": "80_A",
       "theme_name": "CONSTRUCTION_AND_RAIL",
       "coverage_level": 1
     },
     {
       "l1_code": "80",
-      "l1_name": "基建",
+      "l1_name": "机械与基建",
       "theme_code": "80_B",
       "theme_name": "MACHINERY",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "80",
+      "l1_name": "机械与基建",
+      "theme_code": "80_C",
+      "theme_name": "ROBOTICS_AND_AUTOMATION",
       "coverage_level": 2
+    },
+    {
+      "l1_code": "80",
+      "l1_name": "机械与基建",
+      "theme_code": "80_D",
+      "theme_name": "ENGINEERING_SERVICES",
+      "coverage_level": 3
     },
     {
       "l1_code": "85",
@@ -219,7 +401,28 @@
       "l1_name": "公用事业与交运",
       "theme_code": "85_B",
       "theme_name": "LOGISTICS_AND_SHIPPING",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "85",
+      "l1_name": "公用事业与交运",
+      "theme_code": "85_C",
+      "theme_name": "AIRLINES_AND_AIRPORTS",
       "coverage_level": 2
+    },
+    {
+      "l1_code": "85",
+      "l1_name": "公用事业与交运",
+      "theme_code": "85_D",
+      "theme_name": "WATER_AND_ENVIRONMENT",
+      "coverage_level": 3
+    },
+    {
+      "l1_code": "85",
+      "l1_name": "公用事业与交运",
+      "theme_code": "85_E",
+      "theme_name": "HIGHWAYS_AND_PORTS",
+      "coverage_level": 3
     },
     {
       "l1_code": "90",
@@ -233,7 +436,21 @@
       "l1_name": "消费服务",
       "theme_code": "90_B",
       "theme_name": "TRAVEL_AND_RETAIL",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "90",
+      "l1_name": "消费服务",
+      "theme_code": "90_C",
+      "theme_name": "APPAREL_AND_TEXTILES",
       "coverage_level": 2
+    },
+    {
+      "l1_code": "90",
+      "l1_name": "消费服务",
+      "theme_code": "90_D",
+      "theme_name": "EDUCATION_AND_SERVICES",
+      "coverage_level": 3
     },
     {
       "l1_code": "95",
@@ -247,13 +464,48 @@
       "l1_name": "通信与计算机",
       "theme_code": "95_B",
       "theme_name": "SOFTWARE_AND_AI",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "95",
+      "l1_name": "通信与计算机",
+      "theme_code": "95_C",
+      "theme_name": "COMMUNICATION_EQUIPMENT",
       "coverage_level": 2
+    },
+    {
+      "l1_code": "95",
+      "l1_name": "通信与计算机",
+      "theme_code": "95_D",
+      "theme_name": "CLOUD_AND_IDC",
+      "coverage_level": 2
+    },
+    {
+      "l1_code": "95",
+      "l1_name": "通信与计算机",
+      "theme_code": "95_E",
+      "theme_name": "FINTECH_SOFTWARE",
+      "coverage_level": 3
+    },
+    {
+      "l1_code": "96",
+      "l1_name": "传媒",
+      "theme_code": "96_A",
+      "theme_name": "MEDIA_AND_GAMING",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "96",
+      "l1_name": "传媒",
+      "theme_code": "96_B",
+      "theme_name": "PUBLISHING_AND_MARKETING",
+      "coverage_level": 3
     }
   ],
   "candidates": [
     {
-      "ticker": "SSE:510300",
-      "name": "沪深300ETF",
+      "ticker": "SSE:510050",
+      "name": "上证50ETF",
       "theme_code": "00_A",
       "role": "BENCHMARK",
       "eligible": true,
@@ -279,8 +531,8 @@
       }
     },
     {
-      "ticker": "SSE:510050",
-      "name": "上证50ETF",
+      "ticker": "SSE:510300",
+      "name": "沪深300ETF",
       "theme_code": "00_A",
       "role": "BENCHMARK",
       "eligible": true,
@@ -306,8 +558,8 @@
       }
     },
     {
-      "ticker": "SZSE:159915",
-      "name": "创业板ETF",
+      "ticker": "SSE:588000",
+      "name": "科创50ETF",
       "theme_code": "00_A",
       "role": "BREADTH_PROXY",
       "eligible": true,
@@ -324,12 +576,11 @@
           "kind": "listing",
           "tier": 1
         }
-      ],
-      "required": true
+      ]
     },
     {
-      "ticker": "SSE:588000",
-      "name": "科创50ETF",
+      "ticker": "SZSE:159915",
+      "name": "创业板ETF",
       "theme_code": "00_A",
       "role": "BREADTH_PROXY",
       "eligible": true,
@@ -346,7 +597,8 @@
           "kind": "listing",
           "tier": 1
         }
-      ]
+      ],
+      "required": true
     },
     {
       "ticker": "SSE:600519",
@@ -505,8 +757,8 @@
       }
     },
     {
-      "ticker": "SZSE:002714",
-      "name": "牧原股份",
+      "ticker": "SSE:600298",
+      "name": "安琪酵母",
       "theme_code": "10_B",
       "role": "QUALITY_LEADER",
       "eligible": true,
@@ -531,10 +783,10 @@
       }
     },
     {
-      "ticker": "SSE:600298",
-      "name": "安琪酵母",
-      "theme_code": "10_B",
-      "role": "QUALITY_LEADER",
+      "ticker": "SZSE:002714",
+      "name": "牧原股份",
+      "theme_code": "15_A",
+      "role": "THEME_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 88,
@@ -557,10 +809,10 @@
       }
     },
     {
-      "ticker": "SSE:601398",
-      "name": "工商银行",
-      "theme_code": "20_A",
-      "role": "THEME_LEADER",
+      "ticker": "SZSE:002311",
+      "name": "海大集团",
+      "theme_code": "15_A",
+      "role": "QUALITY_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 87,
@@ -583,10 +835,10 @@
       }
     },
     {
-      "ticker": "SSE:600036",
-      "name": "招商银行",
-      "theme_code": "20_A",
-      "role": "THEME_LEADER",
+      "ticker": "SZSE:300498",
+      "name": "温氏股份",
+      "theme_code": "15_A",
+      "role": "QUALITY_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 86,
@@ -609,10 +861,10 @@
       }
     },
     {
-      "ticker": "SSE:601288",
-      "name": "农业银行",
+      "ticker": "SSE:600036",
+      "name": "招商银行",
       "theme_code": "20_A",
-      "role": "QUALITY_LEADER",
+      "role": "THEME_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 85,
@@ -635,10 +887,10 @@
       }
     },
     {
-      "ticker": "SSE:601939",
-      "name": "建设银行",
+      "ticker": "SSE:601398",
+      "name": "工商银行",
       "theme_code": "20_A",
-      "role": "QUALITY_LEADER",
+      "role": "THEME_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 84,
@@ -661,10 +913,10 @@
       }
     },
     {
-      "ticker": "SSE:600030",
-      "name": "中信证券",
-      "theme_code": "20_B",
-      "role": "THEME_LEADER",
+      "ticker": "SSE:601288",
+      "name": "农业银行",
+      "theme_code": "20_A",
+      "role": "QUALITY_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 83,
@@ -687,10 +939,10 @@
       }
     },
     {
-      "ticker": "SZSE:300059",
-      "name": "东方财富",
-      "theme_code": "20_B",
-      "role": "THEME_LEADER",
+      "ticker": "SSE:601939",
+      "name": "建设银行",
+      "theme_code": "20_A",
+      "role": "QUALITY_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 82,
@@ -713,18 +965,16 @@
       }
     },
     {
-      "ticker": "SSE:600837",
-      "name": "海通证券",
+      "ticker": "SSE:600030",
+      "name": "中信证券",
       "theme_code": "20_B",
-      "role": "BETA_SATELLITE",
+      "role": "THEME_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 81,
         "quality": 85,
         "heat": 61,
-        "independence": 24,
-        "beta_strength": 86,
-        "beta_stability": 86
+        "independence": 24
       },
       "evidence": [
         {
@@ -733,13 +983,18 @@
           "kind": "listing",
           "tier": 1
         }
-      ]
+      ],
+      "quality_facts": {
+        "listing_age_days": 4480,
+        "size_rank_pct": 80,
+        "adverse_flags": []
+      }
     },
     {
-      "ticker": "SSE:601688",
-      "name": "华泰证券",
+      "ticker": "SZSE:300059",
+      "name": "东方财富",
       "theme_code": "20_B",
-      "role": "QUALITY_LEADER",
+      "role": "THEME_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 80,
@@ -762,10 +1017,10 @@
       }
     },
     {
-      "ticker": "SSE:601318",
-      "name": "中国平安",
-      "theme_code": "20_C",
-      "role": "THEME_LEADER",
+      "ticker": "SSE:601688",
+      "name": "华泰证券",
+      "theme_code": "20_B",
+      "role": "QUALITY_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 79,
@@ -788,16 +1043,18 @@
       }
     },
     {
-      "ticker": "SSE:601628",
-      "name": "中国人寿",
-      "theme_code": "20_C",
-      "role": "QUALITY_LEADER",
+      "ticker": "SSE:600837",
+      "name": "海通证券",
+      "theme_code": "20_B",
+      "role": "BETA_SATELLITE",
       "eligible": true,
       "metrics": {
         "liquidity": 78,
         "quality": 84,
         "heat": 82,
-        "independence": 45
+        "independence": 45,
+        "beta_strength": 65,
+        "beta_stability": 69
       },
       "evidence": [
         {
@@ -806,18 +1063,13 @@
           "kind": "listing",
           "tier": 1
         }
-      ],
-      "quality_facts": {
-        "listing_age_days": 4360,
-        "size_rank_pct": 77,
-        "adverse_flags": []
-      }
+      ]
     },
     {
-      "ticker": "SSE:601601",
-      "name": "中国太保",
+      "ticker": "SSE:601318",
+      "name": "中国平安",
       "theme_code": "20_C",
-      "role": "QUALITY_LEADER",
+      "role": "THEME_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 77,
@@ -840,16 +1092,16 @@
       }
     },
     {
-      "ticker": "SZSE:300750",
-      "name": "宁德时代",
-      "theme_code": "30_A",
-      "role": "ANCHOR",
+      "ticker": "SSE:601601",
+      "name": "中国太保",
+      "theme_code": "20_C",
+      "role": "QUALITY_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 76,
         "quality": 83,
         "heat": 56,
-        "independence": 15
+        "independence": 39
       },
       "evidence": [
         {
@@ -866,18 +1118,16 @@
       }
     },
     {
-      "ticker": "SZSE:002460",
-      "name": "赣锋锂业",
-      "theme_code": "30_A",
-      "role": "BETA_SATELLITE",
+      "ticker": "SSE:601628",
+      "name": "中国人寿",
+      "theme_code": "20_C",
+      "role": "QUALITY_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 75,
         "quality": 82,
         "heat": 63,
-        "independence": 36,
-        "beta_strength": 74,
-        "beta_stability": 84
+        "independence": 36
       },
       "evidence": [
         {
@@ -886,13 +1136,18 @@
           "kind": "listing",
           "tier": 1
         }
-      ]
+      ],
+      "quality_facts": {
+        "listing_age_days": 4240,
+        "size_rank_pct": 74,
+        "adverse_flags": []
+      }
     },
     {
-      "ticker": "SZSE:300014",
-      "name": "亿纬锂能",
-      "theme_code": "30_A",
-      "role": "QUALITY_LEADER",
+      "ticker": "SSE:600048",
+      "name": "保利发展",
+      "theme_code": "25_A",
+      "role": "THEME_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 74,
@@ -915,9 +1170,9 @@
       }
     },
     {
-      "ticker": "SZSE:002812",
-      "name": "恩捷股份",
-      "theme_code": "30_A",
+      "ticker": "SZSE:001979",
+      "name": "招商蛇口",
+      "theme_code": "25_A",
       "role": "QUALITY_LEADER",
       "eligible": true,
       "metrics": {
@@ -941,16 +1196,18 @@
       }
     },
     {
-      "ticker": "SSE:601012",
-      "name": "隆基绿能",
-      "theme_code": "30_B",
-      "role": "THEME_LEADER",
+      "ticker": "SZSE:000002",
+      "name": "万科A",
+      "theme_code": "25_A",
+      "role": "BETA_SATELLITE",
       "eligible": true,
       "metrics": {
         "liquidity": 72,
         "quality": 81,
         "heat": 84,
-        "independence": 27
+        "independence": 27,
+        "beta_strength": 83,
+        "beta_stability": 67
       },
       "evidence": [
         {
@@ -959,24 +1216,19 @@
           "kind": "listing",
           "tier": 1
         }
-      ],
-      "quality_facts": {
-        "listing_age_days": 4120,
-        "size_rank_pct": 71,
-        "adverse_flags": []
-      }
+      ]
     },
     {
-      "ticker": "SSE:600438",
-      "name": "通威股份",
-      "theme_code": "30_B",
-      "role": "THEME_LEADER",
+      "ticker": "SZSE:300750",
+      "name": "宁德时代",
+      "theme_code": "30_A",
+      "role": "ANCHOR",
       "eligible": true,
       "metrics": {
         "liquidity": 71,
         "quality": 80,
         "heat": 91,
-        "independence": 24
+        "independence": 15
       },
       "evidence": [
         {
@@ -993,18 +1245,16 @@
       }
     },
     {
-      "ticker": "SZSE:002129",
-      "name": "TCL中环",
-      "theme_code": "30_B",
-      "role": "BETA_SATELLITE",
+      "ticker": "SZSE:002812",
+      "name": "恩捷股份",
+      "theme_code": "30_A",
+      "role": "QUALITY_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 70,
         "quality": 80,
         "heat": 58,
-        "independence": 21,
-        "beta_strength": 89,
-        "beta_stability": 77
+        "independence": 21
       },
       "evidence": [
         {
@@ -1013,12 +1263,17 @@
           "kind": "listing",
           "tier": 1
         }
-      ]
+      ],
+      "quality_facts": {
+        "listing_age_days": 4040,
+        "size_rank_pct": 69,
+        "adverse_flags": []
+      }
     },
     {
-      "ticker": "SSE:688599",
-      "name": "天合光能",
-      "theme_code": "30_B",
+      "ticker": "SZSE:300014",
+      "name": "亿纬锂能",
+      "theme_code": "30_A",
       "role": "QUALITY_LEADER",
       "eligible": true,
       "metrics": {
@@ -1042,16 +1297,18 @@
       }
     },
     {
-      "ticker": "SZSE:300124",
-      "name": "汇川技术",
-      "theme_code": "30_C",
-      "role": "THEME_LEADER",
+      "ticker": "SZSE:002460",
+      "name": "赣锋锂业",
+      "theme_code": "30_A",
+      "role": "BETA_SATELLITE",
       "eligible": true,
       "metrics": {
         "liquidity": 68,
         "quality": 79,
         "heat": 72,
-        "independence": 45
+        "independence": 45,
+        "beta_strength": 65,
+        "beta_stability": 87
       },
       "evidence": [
         {
@@ -1060,17 +1317,12 @@
           "kind": "listing",
           "tier": 1
         }
-      ],
-      "quality_facts": {
-        "listing_age_days": 3960,
-        "size_rank_pct": 67,
-        "adverse_flags": []
-      }
+      ]
     },
     {
-      "ticker": "SZSE:002594",
-      "name": "比亚迪",
-      "theme_code": "40_A",
+      "ticker": "SSE:600438",
+      "name": "通威股份",
+      "theme_code": "30_B",
       "role": "THEME_LEADER",
       "eligible": true,
       "metrics": {
@@ -1094,9 +1346,9 @@
       }
     },
     {
-      "ticker": "SSE:601633",
-      "name": "长城汽车",
-      "theme_code": "40_A",
+      "ticker": "SSE:601012",
+      "name": "隆基绿能",
+      "theme_code": "30_B",
       "role": "THEME_LEADER",
       "eligible": true,
       "metrics": {
@@ -1120,9 +1372,9 @@
       }
     },
     {
-      "ticker": "SSE:600104",
-      "name": "上汽集团",
-      "theme_code": "40_A",
+      "ticker": "SSE:688599",
+      "name": "天合光能",
+      "theme_code": "30_B",
       "role": "QUALITY_LEADER",
       "eligible": true,
       "metrics": {
@@ -1146,16 +1398,18 @@
       }
     },
     {
-      "ticker": "SSE:601127",
-      "name": "赛力斯",
-      "theme_code": "40_A",
-      "role": "LIQUIDITY_SENSOR",
+      "ticker": "SZSE:002129",
+      "name": "TCL中环",
+      "theme_code": "30_B",
+      "role": "BETA_SATELLITE",
       "eligible": true,
       "metrics": {
         "liquidity": 64,
         "quality": 77,
         "heat": 60,
-        "independence": 33
+        "independence": 33,
+        "beta_strength": 77,
+        "beta_stability": 75
       },
       "evidence": [
         {
@@ -1167,9 +1421,9 @@
       ]
     },
     {
-      "ticker": "SZSE:002475",
-      "name": "立讯精密",
-      "theme_code": "40_B",
+      "ticker": "SZSE:300124",
+      "name": "汇川技术",
+      "theme_code": "30_C",
       "role": "THEME_LEADER",
       "eligible": true,
       "metrics": {
@@ -1193,10 +1447,10 @@
       }
     },
     {
-      "ticker": "SSE:601689",
-      "name": "拓普集团",
-      "theme_code": "40_B",
-      "role": "QUALITY_LEADER",
+      "ticker": "SSE:688187",
+      "name": "时代电气",
+      "theme_code": "30_C",
+      "role": "LIQUIDITY_SENSOR",
       "eligible": true,
       "metrics": {
         "liquidity": 62,
@@ -1211,17 +1465,12 @@
           "kind": "listing",
           "tier": 1
         }
-      ],
-      "quality_facts": {
-        "listing_age_days": 3720,
-        "size_rank_pct": 61,
-        "adverse_flags": []
-      }
+      ]
     },
     {
-      "ticker": "SSE:688981",
-      "name": "中芯国际",
-      "theme_code": "50_A",
+      "ticker": "SSE:601633",
+      "name": "长城汽车",
+      "theme_code": "40_A",
       "role": "THEME_LEADER",
       "eligible": true,
       "metrics": {
@@ -1245,9 +1494,9 @@
       }
     },
     {
-      "ticker": "SSE:603501",
-      "name": "韦尔股份",
-      "theme_code": "50_A",
+      "ticker": "SZSE:002594",
+      "name": "比亚迪",
+      "theme_code": "40_A",
       "role": "THEME_LEADER",
       "eligible": true,
       "metrics": {
@@ -1271,9 +1520,9 @@
       }
     },
     {
-      "ticker": "SSE:603986",
-      "name": "兆易创新",
-      "theme_code": "50_A",
+      "ticker": "SSE:600104",
+      "name": "上汽集团",
+      "theme_code": "40_A",
       "role": "QUALITY_LEADER",
       "eligible": true,
       "metrics": {
@@ -1297,10 +1546,10 @@
       }
     },
     {
-      "ticker": "SSE:688012",
-      "name": "中微公司",
-      "theme_code": "50_A",
-      "role": "QUALITY_LEADER",
+      "ticker": "SSE:601127",
+      "name": "赛力斯",
+      "theme_code": "40_A",
+      "role": "LIQUIDITY_SENSOR",
       "eligible": true,
       "metrics": {
         "liquidity": 58,
@@ -1315,17 +1564,12 @@
           "kind": "listing",
           "tier": 1
         }
-      ],
-      "quality_facts": {
-        "listing_age_days": 3560,
-        "size_rank_pct": 57,
-        "adverse_flags": []
-      }
+      ]
     },
     {
-      "ticker": "SZSE:002415",
-      "name": "海康威视",
-      "theme_code": "50_B",
+      "ticker": "SZSE:002475",
+      "name": "立讯精密",
+      "theme_code": "40_B",
       "role": "THEME_LEADER",
       "eligible": true,
       "metrics": {
@@ -1349,18 +1593,16 @@
       }
     },
     {
-      "ticker": "SZSE:000725",
-      "name": "京东方A",
-      "theme_code": "50_B",
-      "role": "BETA_SATELLITE",
+      "ticker": "SSE:601689",
+      "name": "拓普集团",
+      "theme_code": "40_B",
+      "role": "QUALITY_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 56,
         "quality": 73,
         "heat": 76,
-        "independence": 39,
-        "beta_strength": 71,
-        "beta_stability": 83
+        "independence": 39
       },
       "evidence": [
         {
@@ -1369,13 +1611,18 @@
           "kind": "listing",
           "tier": 1
         }
-      ]
+      ],
+      "quality_facts": {
+        "listing_age_days": 3480,
+        "size_rank_pct": 55,
+        "adverse_flags": []
+      }
     },
     {
-      "ticker": "SZSE:002241",
-      "name": "歌尔股份",
-      "theme_code": "50_B",
-      "role": "QUALITY_LEADER",
+      "ticker": "SSE:603501",
+      "name": "韦尔股份",
+      "theme_code": "50_A",
+      "role": "THEME_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 55,
@@ -1398,10 +1645,10 @@
       }
     },
     {
-      "ticker": "SSE:688036",
-      "name": "传音控股",
-      "theme_code": "50_B",
-      "role": "QUALITY_LEADER",
+      "ticker": "SSE:688981",
+      "name": "中芯国际",
+      "theme_code": "50_A",
+      "role": "THEME_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 54,
@@ -1424,10 +1671,10 @@
       }
     },
     {
-      "ticker": "SSE:600703",
-      "name": "三安光电",
-      "theme_code": "50_C",
-      "role": "THEME_LEADER",
+      "ticker": "SSE:603986",
+      "name": "兆易创新",
+      "theme_code": "50_A",
+      "role": "QUALITY_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 53,
@@ -1450,10 +1697,10 @@
       }
     },
     {
-      "ticker": "SSE:600276",
-      "name": "恒瑞医药",
-      "theme_code": "60_A",
-      "role": "THEME_LEADER",
+      "ticker": "SSE:688041",
+      "name": "海光信息",
+      "theme_code": "50_A",
+      "role": "LIQUIDITY_SENSOR",
       "eligible": true,
       "metrics": {
         "liquidity": 52,
@@ -1468,18 +1715,13 @@
           "kind": "listing",
           "tier": 1
         }
-      ],
-      "quality_facts": {
-        "listing_age_days": 3320,
-        "size_rank_pct": 51,
-        "adverse_flags": []
-      }
+      ]
     },
     {
-      "ticker": "SZSE:000538",
-      "name": "云南白药",
-      "theme_code": "60_A",
-      "role": "QUALITY_LEADER",
+      "ticker": "SZSE:002415",
+      "name": "海康威视",
+      "theme_code": "50_B",
+      "role": "THEME_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 51,
@@ -1502,9 +1744,9 @@
       }
     },
     {
-      "ticker": "SSE:600436",
-      "name": "片仔癀",
-      "theme_code": "60_A",
+      "ticker": "SSE:688036",
+      "name": "传音控股",
+      "theme_code": "50_B",
       "role": "QUALITY_LEADER",
       "eligible": true,
       "metrics": {
@@ -1528,10 +1770,10 @@
       }
     },
     {
-      "ticker": "SSE:688180",
-      "name": "君实生物",
-      "theme_code": "60_A",
-      "role": "BREADTH_PROXY",
+      "ticker": "SZSE:002241",
+      "name": "歌尔股份",
+      "theme_code": "50_B",
+      "role": "QUALITY_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 49,
@@ -1546,19 +1788,26 @@
           "kind": "listing",
           "tier": 1
         }
-      ]
+      ],
+      "quality_facts": {
+        "listing_age_days": 3200,
+        "size_rank_pct": 48,
+        "adverse_flags": []
+      }
     },
     {
-      "ticker": "SZSE:300760",
-      "name": "迈瑞医疗",
-      "theme_code": "60_B",
-      "role": "THEME_LEADER",
+      "ticker": "SZSE:000725",
+      "name": "京东方A",
+      "theme_code": "50_B",
+      "role": "BETA_SATELLITE",
       "eligible": true,
       "metrics": {
         "liquidity": 48,
         "quality": 69,
         "heat": 92,
-        "independence": 45
+        "independence": 45,
+        "beta_strength": 65,
+        "beta_stability": 91
       },
       "evidence": [
         {
@@ -1567,18 +1816,13 @@
           "kind": "listing",
           "tier": 1
         }
-      ],
-      "quality_facts": {
-        "listing_age_days": 3160,
-        "size_rank_pct": 47,
-        "adverse_flags": []
-      }
+      ]
     },
     {
-      "ticker": "SZSE:300015",
-      "name": "爱尔眼科",
-      "theme_code": "60_B",
-      "role": "QUALITY_LEADER",
+      "ticker": "SSE:600703",
+      "name": "三安光电",
+      "theme_code": "50_C",
+      "role": "THEME_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 47,
@@ -1601,10 +1845,10 @@
       }
     },
     {
-      "ticker": "SSE:603259",
-      "name": "药明康德",
-      "theme_code": "60_C",
-      "role": "THEME_LEADER",
+      "ticker": "SSE:688012",
+      "name": "中微公司",
+      "theme_code": "50_D",
+      "role": "QUALITY_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 46,
@@ -1627,9 +1871,9 @@
       }
     },
     {
-      "ticker": "SSE:601899",
-      "name": "紫金矿业",
-      "theme_code": "70_A",
+      "ticker": "SSE:600276",
+      "name": "恒瑞医药",
+      "theme_code": "60_A",
       "role": "THEME_LEADER",
       "eligible": true,
       "metrics": {
@@ -1653,18 +1897,42 @@
       }
     },
     {
-      "ticker": "SSE:600111",
-      "name": "北方稀土",
-      "theme_code": "70_A",
-      "role": "BETA_SATELLITE",
+      "ticker": "SZSE:000538",
+      "name": "云南白药",
+      "theme_code": "60_A",
+      "role": "QUALITY_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 44,
         "quality": 67,
         "heat": 80,
-        "independence": 33,
-        "beta_strength": 77,
-        "beta_stability": 79
+        "independence": 33
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3000,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SSE:600436",
+      "name": "片仔癀",
+      "theme_code": "60_A",
+      "role": "INDEPENDENT_SENSOR",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 43,
+        "quality": 66,
+        "heat": 87,
+        "independence": 64
       },
       "evidence": [
         {
@@ -1676,36 +1944,10 @@
       ]
     },
     {
-      "ticker": "SSE:603993",
-      "name": "洛阳钼业",
-      "theme_code": "70_A",
-      "role": "QUALITY_LEADER",
-      "eligible": true,
-      "metrics": {
-        "liquidity": 43,
-        "quality": 66,
-        "heat": 87,
-        "independence": 30
-      },
-      "evidence": [
-        {
-          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
-          "as_of": "2026-09-17",
-          "kind": "listing",
-          "tier": 1
-        }
-      ],
-      "quality_facts": {
-        "listing_age_days": 2960,
-        "size_rank_pct": 45,
-        "adverse_flags": []
-      }
-    },
-    {
-      "ticker": "SSE:600362",
-      "name": "江西铜业",
-      "theme_code": "70_A",
-      "role": "QUALITY_LEADER",
+      "ticker": "SSE:688180",
+      "name": "君实生物",
+      "theme_code": "60_A",
+      "role": "BREADTH_PROXY",
       "eligible": true,
       "metrics": {
         "liquidity": 42,
@@ -1720,17 +1962,12 @@
           "kind": "listing",
           "tier": 1
         }
-      ],
-      "quality_facts": {
-        "listing_age_days": 2920,
-        "size_rank_pct": 45,
-        "adverse_flags": []
-      }
+      ]
     },
     {
-      "ticker": "SSE:601088",
-      "name": "中国神华",
-      "theme_code": "70_B",
+      "ticker": "SZSE:300760",
+      "name": "迈瑞医疗",
+      "theme_code": "60_B",
       "role": "THEME_LEADER",
       "eligible": true,
       "metrics": {
@@ -1754,10 +1991,10 @@
       }
     },
     {
-      "ticker": "SSE:601857",
-      "name": "中国石油",
-      "theme_code": "70_B",
-      "role": "THEME_LEADER",
+      "ticker": "SZSE:300015",
+      "name": "爱尔眼科",
+      "theme_code": "60_B",
+      "role": "QUALITY_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 40,
@@ -1780,10 +2017,10 @@
       }
     },
     {
-      "ticker": "SSE:600028",
-      "name": "中国石化",
-      "theme_code": "70_B",
-      "role": "QUALITY_LEADER",
+      "ticker": "SSE:688271",
+      "name": "联影医疗",
+      "theme_code": "60_B",
+      "role": "LIQUIDITY_SENSOR",
       "eligible": true,
       "metrics": {
         "liquidity": 40,
@@ -1798,18 +2035,13 @@
           "kind": "listing",
           "tier": 1
         }
-      ],
-      "quality_facts": {
-        "listing_age_days": 2800,
-        "size_rank_pct": 45,
-        "adverse_flags": []
-      }
+      ]
     },
     {
-      "ticker": "SSE:601225",
-      "name": "陕西煤业",
-      "theme_code": "70_B",
-      "role": "QUALITY_LEADER",
+      "ticker": "SSE:603259",
+      "name": "药明康德",
+      "theme_code": "60_C",
+      "role": "THEME_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 40,
@@ -1832,9 +2064,9 @@
       }
     },
     {
-      "ticker": "SZSE:002601",
-      "name": "龙佰集团",
-      "theme_code": "70_C",
+      "ticker": "SSE:600760",
+      "name": "中航沈飞",
+      "theme_code": "65_A",
       "role": "THEME_LEADER",
       "eligible": true,
       "metrics": {
@@ -1858,10 +2090,10 @@
       }
     },
     {
-      "ticker": "SSE:601668",
-      "name": "中国建筑",
-      "theme_code": "80_A",
-      "role": "THEME_LEADER",
+      "ticker": "SZSE:002179",
+      "name": "中航光电",
+      "theme_code": "65_A",
+      "role": "QUALITY_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 40,
@@ -1884,16 +2116,18 @@
       }
     },
     {
-      "ticker": "SSE:601390",
-      "name": "中国中铁",
-      "theme_code": "80_A",
-      "role": "QUALITY_LEADER",
+      "ticker": "SSE:600893",
+      "name": "航发动力",
+      "theme_code": "65_A",
+      "role": "BETA_SATELLITE",
       "eligible": true,
       "metrics": {
         "liquidity": 40,
         "quality": 62,
         "heat": 63,
-        "independence": 36
+        "independence": 36,
+        "beta_strength": 74,
+        "beta_stability": 60
       },
       "evidence": [
         {
@@ -1902,18 +2136,13 @@
           "kind": "listing",
           "tier": 1
         }
-      ],
-      "quality_facts": {
-        "listing_age_days": 2640,
-        "size_rank_pct": 45,
-        "adverse_flags": []
-      }
+      ]
     },
     {
-      "ticker": "SSE:601766",
-      "name": "中国中车",
-      "theme_code": "80_A",
-      "role": "QUALITY_LEADER",
+      "ticker": "SSE:601899",
+      "name": "紫金矿业",
+      "theme_code": "70_A",
+      "role": "THEME_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 40,
@@ -1936,9 +2165,9 @@
       }
     },
     {
-      "ticker": "SSE:600585",
-      "name": "海螺水泥",
-      "theme_code": "80_A",
+      "ticker": "SSE:600362",
+      "name": "江西铜业",
+      "theme_code": "70_A",
       "role": "QUALITY_LEADER",
       "eligible": true,
       "metrics": {
@@ -1962,10 +2191,10 @@
       }
     },
     {
-      "ticker": "SSE:600031",
-      "name": "三一重工",
-      "theme_code": "80_B",
-      "role": "THEME_LEADER",
+      "ticker": "SSE:603993",
+      "name": "洛阳钼业",
+      "theme_code": "70_A",
+      "role": "QUALITY_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 40,
@@ -1988,16 +2217,18 @@
       }
     },
     {
-      "ticker": "SZSE:000425",
-      "name": "徐工机械",
-      "theme_code": "80_B",
-      "role": "QUALITY_LEADER",
+      "ticker": "SSE:600111",
+      "name": "北方稀土",
+      "theme_code": "70_A",
+      "role": "BETA_SATELLITE",
       "eligible": true,
       "metrics": {
         "liquidity": 40,
         "quality": 60,
         "heat": 91,
-        "independence": 24
+        "independence": 24,
+        "beta_strength": 86,
+        "beta_stability": 80
       },
       "evidence": [
         {
@@ -2006,24 +2237,19 @@
           "kind": "listing",
           "tier": 1
         }
-      ],
-      "quality_facts": {
-        "listing_age_days": 2480,
-        "size_rank_pct": 45,
-        "adverse_flags": []
-      }
+      ]
     },
     {
-      "ticker": "SSE:600900",
-      "name": "长江电力",
-      "theme_code": "85_A",
-      "role": "ANCHOR",
+      "ticker": "SSE:601088",
+      "name": "中国神华",
+      "theme_code": "70_B",
+      "role": "THEME_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 40,
         "quality": 60,
         "heat": 58,
-        "independence": 16
+        "independence": 21
       },
       "evidence": [
         {
@@ -2040,10 +2266,10 @@
       }
     },
     {
-      "ticker": "SSE:601985",
-      "name": "中国核电",
-      "theme_code": "85_A",
-      "role": "QUALITY_LEADER",
+      "ticker": "SSE:601857",
+      "name": "中国石油",
+      "theme_code": "70_B",
+      "role": "THEME_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 40,
@@ -2066,9 +2292,9 @@
       }
     },
     {
-      "ticker": "SSE:600886",
-      "name": "国投电力",
-      "theme_code": "85_A",
+      "ticker": "SSE:600028",
+      "name": "中国石化",
+      "theme_code": "70_B",
       "role": "QUALITY_LEADER",
       "eligible": true,
       "metrics": {
@@ -2092,10 +2318,10 @@
       }
     },
     {
-      "ticker": "SZSE:002352",
-      "name": "顺丰控股",
-      "theme_code": "85_B",
-      "role": "THEME_LEADER",
+      "ticker": "SSE:601225",
+      "name": "陕西煤业",
+      "theme_code": "70_B",
+      "role": "QUALITY_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 40,
@@ -2118,18 +2344,16 @@
       }
     },
     {
-      "ticker": "SSE:601919",
-      "name": "中远海控",
-      "theme_code": "85_B",
-      "role": "BETA_SATELLITE",
+      "ticker": "SZSE:002601",
+      "name": "龙佰集团",
+      "theme_code": "70_C",
+      "role": "THEME_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 40,
         "quality": 58,
         "heat": 86,
-        "independence": 39,
-        "beta_strength": 71,
-        "beta_stability": 73
+        "independence": 39
       },
       "evidence": [
         {
@@ -2138,12 +2362,17 @@
           "kind": "listing",
           "tier": 1
         }
-      ]
+      ],
+      "quality_facts": {
+        "listing_age_days": 2280,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
     },
     {
-      "ticker": "SZSE:000333",
-      "name": "美的集团",
-      "theme_code": "90_A",
+      "ticker": "SSE:601668",
+      "name": "中国建筑",
+      "theme_code": "80_A",
       "role": "THEME_LEADER",
       "eligible": true,
       "metrics": {
@@ -2167,10 +2396,10 @@
       }
     },
     {
-      "ticker": "SZSE:000651",
-      "name": "格力电器",
-      "theme_code": "90_A",
-      "role": "THEME_LEADER",
+      "ticker": "SSE:600585",
+      "name": "海螺水泥",
+      "theme_code": "80_A",
+      "role": "QUALITY_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 40,
@@ -2193,9 +2422,9 @@
       }
     },
     {
-      "ticker": "SSE:600690",
-      "name": "海尔智家",
-      "theme_code": "90_A",
+      "ticker": "SSE:601390",
+      "name": "中国中铁",
+      "theme_code": "80_A",
       "role": "QUALITY_LEADER",
       "eligible": true,
       "metrics": {
@@ -2219,9 +2448,9 @@
       }
     },
     {
-      "ticker": "SZSE:002050",
-      "name": "三花智控",
-      "theme_code": "90_A",
+      "ticker": "SSE:601766",
+      "name": "中国中车",
+      "theme_code": "80_A",
       "role": "QUALITY_LEADER",
       "eligible": true,
       "metrics": {
@@ -2245,9 +2474,9 @@
       }
     },
     {
-      "ticker": "SSE:601888",
-      "name": "中国中免",
-      "theme_code": "90_B",
+      "ticker": "SSE:600031",
+      "name": "三一重工",
+      "theme_code": "80_B",
       "role": "THEME_LEADER",
       "eligible": true,
       "metrics": {
@@ -2271,9 +2500,9 @@
       }
     },
     {
-      "ticker": "SSE:600009",
-      "name": "上海机场",
-      "theme_code": "90_B",
+      "ticker": "SZSE:000425",
+      "name": "徐工机械",
+      "theme_code": "80_B",
       "role": "QUALITY_LEADER",
       "eligible": true,
       "metrics": {
@@ -2297,16 +2526,16 @@
       }
     },
     {
-      "ticker": "SSE:600941",
-      "name": "中国移动",
-      "theme_code": "95_A",
-      "role": "THEME_LEADER",
+      "ticker": "SSE:600900",
+      "name": "长江电力",
+      "theme_code": "85_A",
+      "role": "ANCHOR",
       "eligible": true,
       "metrics": {
         "liquidity": 40,
         "quality": 58,
         "heat": 55,
-        "independence": 48
+        "independence": 12
       },
       "evidence": [
         {
@@ -2323,9 +2552,9 @@
       }
     },
     {
-      "ticker": "SSE:601728",
-      "name": "中国电信",
-      "theme_code": "95_A",
+      "ticker": "SSE:600886",
+      "name": "国投电力",
+      "theme_code": "85_A",
       "role": "QUALITY_LEADER",
       "eligible": true,
       "metrics": {
@@ -2349,9 +2578,9 @@
       }
     },
     {
-      "ticker": "SSE:600050",
-      "name": "中国联通",
-      "theme_code": "95_A",
+      "ticker": "SSE:601985",
+      "name": "中国核电",
+      "theme_code": "85_A",
       "role": "QUALITY_LEADER",
       "eligible": true,
       "metrics": {
@@ -2375,9 +2604,9 @@
       }
     },
     {
-      "ticker": "SZSE:002230",
-      "name": "科大讯飞",
-      "theme_code": "95_B",
+      "ticker": "SZSE:002352",
+      "name": "顺丰控股",
+      "theme_code": "85_B",
       "role": "THEME_LEADER",
       "eligible": true,
       "metrics": {
@@ -2401,15 +2630,272 @@
       }
     },
     {
-      "ticker": "SSE:688111",
-      "name": "金山办公",
-      "theme_code": "95_B",
-      "role": "QUALITY_LEADER",
+      "ticker": "SSE:601919",
+      "name": "中远海控",
+      "theme_code": "85_B",
+      "role": "BETA_SATELLITE",
       "eligible": true,
       "metrics": {
         "liquidity": 40,
         "quality": 58,
         "heat": 83,
+        "independence": 36,
+        "beta_strength": 74,
+        "beta_stability": 64
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "SZSE:000333",
+      "name": "美的集团",
+      "theme_code": "90_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 90,
+        "independence": 33
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1800,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SZSE:000651",
+      "name": "格力电器",
+      "theme_code": "90_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 57,
+        "independence": 30
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1760,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SSE:600690",
+      "name": "海尔智家",
+      "theme_code": "90_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 64,
+        "independence": 27
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1720,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SZSE:002050",
+      "name": "三花智控",
+      "theme_code": "90_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 71,
+        "independence": 24
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1680,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SSE:601888",
+      "name": "中国中免",
+      "theme_code": "90_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 78,
+        "independence": 21
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1640,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SSE:600009",
+      "name": "上海机场",
+      "theme_code": "90_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 85,
+        "independence": 48
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1600,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SSE:600941",
+      "name": "中国移动",
+      "theme_code": "95_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 92,
+        "independence": 45
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1560,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SSE:600050",
+      "name": "中国联通",
+      "theme_code": "95_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 59,
+        "independence": 42
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1520,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SSE:601728",
+      "name": "中国电信",
+      "theme_code": "95_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 66,
+        "independence": 39
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1480,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SZSE:002230",
+      "name": "科大讯飞",
+      "theme_code": "95_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 73,
         "independence": 36
       },
       "evidence": [
@@ -2421,10 +2907,111 @@
         }
       ],
       "quality_facts": {
-        "listing_age_days": 1840,
+        "listing_age_days": 1440,
         "size_rank_pct": 45,
         "adverse_flags": []
       }
+    },
+    {
+      "ticker": "SSE:688111",
+      "name": "金山办公",
+      "theme_code": "95_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 80,
+        "independence": 33
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1400,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SZSE:002027",
+      "name": "分众传媒",
+      "theme_code": "96_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 87,
+        "independence": 30
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1360,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SZSE:300413",
+      "name": "芒果超媒",
+      "theme_code": "96_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 94,
+        "independence": 27
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1320,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SZSE:002555",
+      "name": "三七互娱",
+      "theme_code": "96_A",
+      "role": "BETA_SATELLITE",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 61,
+        "independence": 24,
+        "beta_strength": 86,
+        "beta_stability": 70
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
     },
     {
       "ticker": "SZSE:000001",
@@ -2435,8 +3022,8 @@
       "metrics": {
         "liquidity": 40,
         "quality": 58,
-        "heat": 90,
-        "independence": 33
+        "heat": 68,
+        "independence": 21
       },
       "evidence": [
         {
@@ -2459,8 +3046,8 @@
       "metrics": {
         "liquidity": 40,
         "quality": 58,
-        "heat": 57,
-        "independence": 30
+        "heat": 75,
+        "independence": 48
       },
       "evidence": [
         {

@@ -6,10 +6,10 @@
 
 - Profile: Light
 - Facts as of: 2026-10-15
-- Version: `ebccb0a456de`
+- Version: `e0ee146af293`
 - Tickers: 40
-- Themes: 13
-- TradingView tokens: 53 / 1000
+- Themes: 15
+- TradingView tokens: 55 / 1000
 - Rejected or unselected candidates: 18
 - Validation: PASS
 
@@ -22,8 +22,8 @@
 | BETA_SATELLITE | 3 |
 | INDEPENDENT_SENSOR | 2 |
 | LIQUIDITY_SENSOR | 2 |
-| QUALITY_LEADER | 17 |
-| THEME_LEADER | 12 |
+| QUALITY_LEADER | 15 |
+| THEME_LEADER | 14 |
 
 ## Themes
 
@@ -45,14 +45,14 @@
 | 15_A | Interoperability | INTEROP | 1 | 2 |
 | 15_B | Interoperability | BRIDGES | 3 | 0 |
 | 20_A | Exchange and Payments | EXCHANGE_TOKENS | 1 | 3 |
-| 20_B | Exchange and Payments | PAYMENT_ASSETS | 1 | 4 |
-| 30_A | Consumer | GAMING | 2 | 0 |
+| 20_B | Exchange and Payments | PAYMENT_ASSETS | 1 | 3 |
+| 30_A | Consumer | GAMING | 1 | 1 |
 | 30_B | Consumer | SOCIAL_AND_NFT | 3 | 0 |
 | 40_A | Reflexive | MAJOR_MEMES | 1 | 4 |
 | 40_B | Reflexive | ROTATIONAL_MEMES | 3 | 0 |
-| 50_A | Store of Value | PROOF_OF_WORK | 1 | 2 |
+| 50_A | Store of Value | PROOF_OF_WORK | 1 | 1 |
 | 50_B | Store of Value | PRIVACY | 2 | 0 |
-| 60_A | Real World Assets | RWA | 2 | 0 |
+| 60_A | Real World Assets | RWA | 1 | 1 |
 
 ## How the metrics were produced
 
@@ -72,8 +72,8 @@ Quality is 50% rule and 50% judgement for 33 of 40 members. The rule half reads 
 
 | Reason | Count |
 |---|---:|
-| outside_profile_coverage | 12 |
-| not_selected_under_budget_or_theme_cap | 3 |
+| outside_profile_coverage | 9 |
+| not_selected_under_budget_or_theme_cap | 6 |
 | delisted_or_halted | 1 |
 | excluded_instrument_type | 1 |
 | removed_by_maintenance | 1 |
@@ -123,10 +123,10 @@ Quality is 50% rule and 50% judgement for 33 of 40 members. The rule half reads 
 | 20_B PAYMENT_ASSETS | BINANCE:XRPUSDT.P | XRP | THEME_LEADER |  | https://api.binance.com/api/v3/exchangeInfo |
 | 20_B PAYMENT_ASSETS | BINANCE:TRXUSDT.P | TRON | QUALITY_LEADER | Carries the largest settled payment volume of any unheld asset in the theme | https://api.binance.com/api/v3/exchangeInfo |
 | 20_B PAYMENT_ASSETS | BINANCE:XLMUSDT.P | Stellar | QUALITY_LEADER |  | https://api.binance.com/api/v3/exchangeInfo |
-| 20_B PAYMENT_ASSETS | BINANCE:HBARUSDT.P | Hedera | QUALITY_LEADER |  | https://api.binance.com/api/v3/exchangeInfo |
+| 30_A GAMING | BINANCE:AXSUSDT.P | Axie Infinity | THEME_LEADER |  | https://api.binance.com/api/v3/exchangeInfo |
 | 40_A MAJOR_MEMES | BINANCE:DOGEUSDT.P | Dogecoin | THEME_LEADER |  | https://api.binance.com/api/v3/exchangeInfo |
 | 40_A MAJOR_MEMES | BINANCE:WIFUSDT.P | dogwifhat | BETA_SATELLITE |  | https://api.binance.com/api/v3/exchangeInfo |
 | 40_A MAJOR_MEMES | BINANCE:PEPEUSDT.P | Pepe | BETA_SATELLITE |  | https://api.binance.com/api/v3/exchangeInfo |
 | 40_A MAJOR_MEMES | BINANCE:SHIBUSDT.P | Shiba Inu | BETA_SATELLITE |  | https://api.binance.com/api/v3/exchangeInfo |
 | 50_A PROOF_OF_WORK | BINANCE:LTCUSDT.P | Litecoin | THEME_LEADER |  | https://api.binance.com/api/v3/exchangeInfo |
-| 50_A PROOF_OF_WORK | BINANCE:BCHUSDT.P | Bitcoin Cash | QUALITY_LEADER |  | https://api.binance.com/api/v3/exchangeInfo |
+| 60_A RWA | BINANCE:ONDOUSDT.P | Ondo | THEME_LEADER |  | https://api.binance.com/api/v3/exchangeInfo |

@@ -126,7 +126,7 @@
       "l1_name": "Consumer",
       "theme_code": "30_A",
       "theme_name": "GAMING",
-      "coverage_level": 2
+      "coverage_level": 1
     },
     {
       "l1_code": "30",
@@ -168,7 +168,7 @@
       "l1_name": "Real World Assets",
       "theme_code": "60_A",
       "theme_name": "RWA",
-      "coverage_level": 2
+      "coverage_level": 1
     }
   ]
 }

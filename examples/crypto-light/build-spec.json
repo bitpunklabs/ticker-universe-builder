@@ -3,6 +3,5 @@
   "market": "crypto",
   "profile": "light",
   "as_of": "2026-09-17",
-  "target_count": 40,
-  "allow_outside_guidance": false
+  "target_count": 40
 }

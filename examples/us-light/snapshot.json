@@ -61,6 +61,20 @@
       "coverage_level": 1
     },
     {
+      "l1_code": "00",
+      "l1_name": "Market Benchmarks",
+      "theme_code": "00_B",
+      "theme_name": "EQUAL_WEIGHT_AND_BREADTH",
+      "coverage_level": 2
+    },
+    {
+      "l1_code": "00",
+      "l1_name": "Market Benchmarks",
+      "theme_code": "00_C",
+      "theme_name": "VOLATILITY_AND_HEDGES",
+      "coverage_level": 3
+    },
+    {
       "l1_code": "10",
       "l1_name": "Technology",
       "theme_code": "10_A",
@@ -79,7 +93,7 @@
       "l1_name": "Technology",
       "theme_code": "10_C",
       "theme_name": "SEMICAP_EQUIPMENT",
-      "coverage_level": 2
+      "coverage_level": 1
     },
     {
       "l1_code": "10",
@@ -103,6 +117,20 @@
       "coverage_level": 1
     },
     {
+      "l1_code": "10",
+      "l1_name": "Technology",
+      "theme_code": "10_G",
+      "theme_name": "IT_SERVICES_AND_CONSULTING",
+      "coverage_level": 2
+    },
+    {
+      "l1_code": "10",
+      "l1_name": "Technology",
+      "theme_code": "10_H",
+      "theme_name": "HARDWARE_AND_NETWORKING",
+      "coverage_level": 3
+    },
+    {
       "l1_code": "11",
       "l1_name": "AI Infrastructure",
       "theme_code": "11_A",
@@ -114,6 +142,13 @@
       "l1_name": "AI Infrastructure",
       "theme_code": "11_B",
       "theme_name": "DATA_CENTER_AND_POWER",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "11",
+      "l1_name": "AI Infrastructure",
+      "theme_code": "11_C",
+      "theme_name": "AI_SOFTWARE_AND_MODELS",
       "coverage_level": 2
     },
     {
@@ -121,14 +156,28 @@
       "l1_name": "Communication",
       "theme_code": "20_A",
       "theme_name": "STREAMING_AND_MEDIA",
-      "coverage_level": 2
+      "coverage_level": 1
     },
     {
       "l1_code": "20",
       "l1_name": "Communication",
       "theme_code": "20_B",
       "theme_name": "TELECOM",
-      "coverage_level": 2
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "20",
+      "l1_name": "Communication",
+      "theme_code": "20_C",
+      "theme_name": "GAMING_AND_INTERACTIVE",
+      "coverage_level": 3
+    },
+    {
+      "l1_code": "20",
+      "l1_name": "Communication",
+      "theme_code": "20_D",
+      "theme_name": "ADVERTISING_AND_MARKETING",
+      "coverage_level": 3
     },
     {
       "l1_code": "30",
@@ -149,7 +198,35 @@
       "l1_name": "Consumer",
       "theme_code": "30_C",
       "theme_name": "RESTAURANTS_AND_TRAVEL",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "30",
+      "l1_name": "Consumer",
+      "theme_code": "30_D",
+      "theme_name": "APPAREL_AND_LUXURY",
       "coverage_level": 2
+    },
+    {
+      "l1_code": "30",
+      "l1_name": "Consumer",
+      "theme_code": "30_E",
+      "theme_name": "AUTOS_AND_MOBILITY",
+      "coverage_level": 2
+    },
+    {
+      "l1_code": "30",
+      "l1_name": "Consumer",
+      "theme_code": "30_F",
+      "theme_name": "HOMEBUILDERS",
+      "coverage_level": 3
+    },
+    {
+      "l1_code": "30",
+      "l1_name": "Consumer",
+      "theme_code": "30_G",
+      "theme_name": "LEISURE_AND_LODGING",
+      "coverage_level": 3
     },
     {
       "l1_code": "40",
@@ -170,7 +247,7 @@
       "l1_name": "Financials",
       "theme_code": "40_C",
       "theme_name": "ASSET_MANAGERS_AND_EXCHANGES",
-      "coverage_level": 2
+      "coverage_level": 1
     },
     {
       "l1_code": "40",
@@ -178,6 +255,20 @@
       "theme_code": "40_D",
       "theme_name": "INSURANCE",
       "coverage_level": 1
+    },
+    {
+      "l1_code": "40",
+      "l1_name": "Financials",
+      "theme_code": "40_E",
+      "theme_name": "REGIONAL_BANKS",
+      "coverage_level": 2
+    },
+    {
+      "l1_code": "40",
+      "l1_name": "Financials",
+      "theme_code": "40_F",
+      "theme_name": "FINTECH_LENDERS",
+      "coverage_level": 3
     },
     {
       "l1_code": "50",
@@ -191,20 +282,34 @@
       "l1_name": "Healthcare",
       "theme_code": "50_B",
       "theme_name": "MEDTECH_AND_DEVICES",
-      "coverage_level": 2
+      "coverage_level": 1
     },
     {
       "l1_code": "50",
       "l1_name": "Healthcare",
       "theme_code": "50_C",
       "theme_name": "MANAGED_CARE",
-      "coverage_level": 2
+      "coverage_level": 1
     },
     {
       "l1_code": "50",
       "l1_name": "Healthcare",
       "theme_code": "50_D",
       "theme_name": "BIOTECH",
+      "coverage_level": 2
+    },
+    {
+      "l1_code": "50",
+      "l1_name": "Healthcare",
+      "theme_code": "50_E",
+      "theme_name": "LIFE_SCIENCE_TOOLS",
+      "coverage_level": 2
+    },
+    {
+      "l1_code": "50",
+      "l1_name": "Healthcare",
+      "theme_code": "50_F",
+      "theme_name": "HEALTHCARE_DISTRIBUTION",
       "coverage_level": 3
     },
     {
@@ -226,7 +331,28 @@
       "l1_name": "Industrials",
       "theme_code": "60_C",
       "theme_name": "TRANSPORT_AND_LOGISTICS",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "60",
+      "l1_name": "Industrials",
+      "theme_code": "60_D",
+      "theme_name": "ELECTRICAL_EQUIPMENT",
       "coverage_level": 2
+    },
+    {
+      "l1_code": "60",
+      "l1_name": "Industrials",
+      "theme_code": "60_E",
+      "theme_name": "ENGINEERING_AND_CONSTRUCTION",
+      "coverage_level": 3
+    },
+    {
+      "l1_code": "60",
+      "l1_name": "Industrials",
+      "theme_code": "60_F",
+      "theme_name": "DISTRIBUTION_AND_SUPPLY",
+      "coverage_level": 3
     },
     {
       "l1_code": "70",
@@ -240,14 +366,28 @@
       "l1_name": "Energy",
       "theme_code": "70_B",
       "theme_name": "OILFIELD_AND_MIDSTREAM",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "70",
+      "l1_name": "Energy",
+      "theme_code": "70_C",
+      "theme_name": "EXPLORATION_AND_PRODUCTION",
       "coverage_level": 2
+    },
+    {
+      "l1_code": "70",
+      "l1_name": "Energy",
+      "theme_code": "70_D",
+      "theme_name": "COAL_AND_URANIUM",
+      "coverage_level": 3
     },
     {
       "l1_code": "80",
       "l1_name": "Materials and Utilities",
       "theme_code": "80_A",
       "theme_name": "MATERIALS",
-      "coverage_level": 2
+      "coverage_level": 1
     },
     {
       "l1_code": "80",
@@ -257,17 +397,59 @@
       "coverage_level": 1
     },
     {
+      "l1_code": "80",
+      "l1_name": "Materials and Utilities",
+      "theme_code": "80_C",
+      "theme_name": "METALS_AND_MINING",
+      "coverage_level": 2
+    },
+    {
+      "l1_code": "80",
+      "l1_name": "Materials and Utilities",
+      "theme_code": "80_D",
+      "theme_name": "CHEMICALS",
+      "coverage_level": 3
+    },
+    {
+      "l1_code": "80",
+      "l1_name": "Materials and Utilities",
+      "theme_code": "80_E",
+      "theme_name": "WATER_AND_WASTE",
+      "coverage_level": 3
+    },
+    {
       "l1_code": "90",
       "l1_name": "Real Estate",
       "theme_code": "90_A",
       "theme_name": "REITS",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "90",
+      "l1_name": "Real Estate",
+      "theme_code": "90_B",
+      "theme_name": "DATA_AND_TOWER_REITS",
       "coverage_level": 2
+    },
+    {
+      "l1_code": "90",
+      "l1_name": "Real Estate",
+      "theme_code": "90_C",
+      "theme_name": "REAL_ESTATE_SERVICES",
+      "coverage_level": 3
     },
     {
       "l1_code": "95",
       "l1_name": "Digital Assets",
       "theme_code": "95_A",
       "theme_name": "DIGITAL_ASSET_EQUITIES",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "95",
+      "l1_name": "Digital Assets",
+      "theme_code": "95_B",
+      "theme_name": "MINERS_AND_INFRASTRUCTURE",
       "coverage_level": 3
     }
   ],
@@ -422,8 +604,8 @@
       }
     },
     {
-      "ticker": "NASDAQ:GOOGL",
-      "name": "Alphabet Class A",
+      "ticker": "NASDAQ:AMZN",
+      "name": "Amazon",
       "theme_code": "10_A",
       "role": "THEME_LEADER",
       "eligible": true,
@@ -448,8 +630,8 @@
       }
     },
     {
-      "ticker": "NASDAQ:AMZN",
-      "name": "Amazon",
+      "ticker": "NASDAQ:GOOGL",
+      "name": "Alphabet Class A",
       "theme_code": "10_A",
       "role": "THEME_LEADER",
       "eligible": true,
@@ -500,18 +682,16 @@
       }
     },
     {
-      "ticker": "NASDAQ:AMD",
-      "name": "Advanced Micro Devices",
+      "ticker": "NASDAQ:AVGO",
+      "name": "Broadcom",
       "theme_code": "10_B",
-      "role": "BETA_SATELLITE",
+      "role": "QUALITY_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 90,
         "quality": 90,
         "heat": 78,
-        "independence": 21,
-        "beta_strength": 89,
-        "beta_stability": 73
+        "independence": 21
       },
       "evidence": [
         {
@@ -520,11 +700,16 @@
           "kind": "listing",
           "tier": 1
         }
-      ]
+      ],
+      "quality_facts": {
+        "listing_age_days": 4840,
+        "size_rank_pct": 89,
+        "adverse_flags": []
+      }
     },
     {
-      "ticker": "NASDAQ:AVGO",
-      "name": "Broadcom",
+      "ticker": "NASDAQ:QCOM",
+      "name": "Qualcomm",
       "theme_code": "10_B",
       "role": "QUALITY_LEADER",
       "eligible": true,
@@ -549,16 +734,18 @@
       }
     },
     {
-      "ticker": "NASDAQ:QCOM",
-      "name": "Qualcomm",
+      "ticker": "NASDAQ:AMD",
+      "name": "Advanced Micro Devices",
       "theme_code": "10_B",
-      "role": "QUALITY_LEADER",
+      "role": "BETA_SATELLITE",
       "eligible": true,
       "metrics": {
         "liquidity": 88,
         "quality": 89,
         "heat": 92,
-        "independence": 45
+        "independence": 45,
+        "beta_strength": 65,
+        "beta_stability": 83
       },
       "evidence": [
         {
@@ -567,12 +754,7 @@
           "kind": "listing",
           "tier": 1
         }
-      ],
-      "quality_facts": {
-        "listing_age_days": 4760,
-        "size_rank_pct": 87,
-        "adverse_flags": []
-      }
+      ]
     },
     {
       "ticker": "NASDAQ:ASML",
@@ -627,8 +809,8 @@
       }
     },
     {
-      "ticker": "NYSE:CRM",
-      "name": "Salesforce",
+      "ticker": "NASDAQ:ADBE",
+      "name": "Adobe",
       "theme_code": "10_D",
       "role": "THEME_LEADER",
       "eligible": true,
@@ -653,8 +835,8 @@
       }
     },
     {
-      "ticker": "NASDAQ:ADBE",
-      "name": "Adobe",
+      "ticker": "NYSE:CRM",
+      "name": "Salesforce",
       "theme_code": "10_D",
       "role": "THEME_LEADER",
       "eligible": true,
@@ -731,8 +913,8 @@
       }
     },
     {
-      "ticker": "NASDAQ:PANW",
-      "name": "Palo Alto Networks",
+      "ticker": "NASDAQ:CRWD",
+      "name": "CrowdStrike",
       "theme_code": "10_E",
       "role": "THEME_LEADER",
       "eligible": true,
@@ -757,8 +939,8 @@
       }
     },
     {
-      "ticker": "NASDAQ:CRWD",
-      "name": "CrowdStrike",
+      "ticker": "NASDAQ:PANW",
+      "name": "Palo Alto Networks",
       "theme_code": "10_E",
       "role": "THEME_LEADER",
       "eligible": true,
@@ -856,10 +1038,10 @@
       }
     },
     {
-      "ticker": "NASDAQ:NFLX",
-      "name": "Netflix",
+      "ticker": "NASDAQ:BKNG",
+      "name": "Booking Holdings",
       "theme_code": "10_F",
-      "role": "THEME_LEADER",
+      "role": "QUALITY_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 76,
@@ -903,16 +1085,16 @@
       ]
     },
     {
-      "ticker": "NASDAQ:BKNG",
-      "name": "Booking Holdings",
+      "ticker": "NYSE:RDDT",
+      "name": "Reddit",
       "theme_code": "10_F",
-      "role": "QUALITY_LEADER",
+      "role": "NEW_LISTING",
       "eligible": true,
       "metrics": {
         "liquidity": 74,
         "quality": 82,
         "heat": 70,
-        "independence": 33
+        "independence": 12
       },
       "evidence": [
         {
@@ -921,12 +1103,7 @@
           "kind": "listing",
           "tier": 1
         }
-      ],
-      "quality_facts": {
-        "listing_age_days": 4200,
-        "size_rank_pct": 73,
-        "adverse_flags": []
-      }
+      ]
     },
     {
       "ticker": "NASDAQ:TSM",
@@ -955,8 +1132,8 @@
       }
     },
     {
-      "ticker": "NASDAQ:MU",
-      "name": "Micron Technology",
+      "ticker": "NASDAQ:MRVL",
+      "name": "Marvell Technology",
       "theme_code": "11_A",
       "role": "BETA_SATELLITE",
       "eligible": true,
@@ -978,8 +1155,8 @@
       ]
     },
     {
-      "ticker": "NASDAQ:MRVL",
-      "name": "Marvell Technology",
+      "ticker": "NASDAQ:MU",
+      "name": "Micron Technology",
       "theme_code": "11_A",
       "role": "BETA_SATELLITE",
       "eligible": true,
@@ -1074,16 +1251,16 @@
       }
     },
     {
-      "ticker": "NASDAQ:TSLA",
-      "name": "Tesla",
-      "theme_code": "30_A",
-      "role": "THEME_LEADER",
+      "ticker": "NASDAQ:CRWV",
+      "name": "CoreWeave",
+      "theme_code": "11_B",
+      "role": "NEW_LISTING",
       "eligible": true,
       "metrics": {
         "liquidity": 67,
         "quality": 78,
         "heat": 79,
-        "independence": 42
+        "independence": 14
       },
       "evidence": [
         {
@@ -1092,17 +1269,12 @@
           "kind": "listing",
           "tier": 1
         }
-      ],
-      "quality_facts": {
-        "listing_age_days": 3920,
-        "size_rank_pct": 66,
-        "adverse_flags": []
-      }
+      ]
     },
     {
-      "ticker": "NYSE:HD",
-      "name": "Home Depot",
-      "theme_code": "30_A",
+      "ticker": "NASDAQ:NFLX",
+      "name": "Netflix",
+      "theme_code": "20_A",
       "role": "THEME_LEADER",
       "eligible": true,
       "metrics": {
@@ -1126,10 +1298,10 @@
       }
     },
     {
-      "ticker": "NYSE:NKE",
-      "name": "Nike",
-      "theme_code": "30_A",
-      "role": "BREADTH_PROXY",
+      "ticker": "NYSE:DIS",
+      "name": "Walt Disney",
+      "theme_code": "20_A",
+      "role": "THEME_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 65,
@@ -1144,12 +1316,17 @@
           "kind": "listing",
           "tier": 1
         }
-      ]
+      ],
+      "quality_facts": {
+        "listing_age_days": 3840,
+        "size_rank_pct": 64,
+        "adverse_flags": []
+      }
     },
     {
-      "ticker": "NYSE:LOW",
-      "name": "Lowe's",
-      "theme_code": "30_A",
+      "ticker": "NASDAQ:CMCSA",
+      "name": "Comcast",
+      "theme_code": "20_A",
       "role": "QUALITY_LEADER",
       "eligible": true,
       "metrics": {
@@ -1173,16 +1350,18 @@
       }
     },
     {
-      "ticker": "NYSE:WMT",
-      "name": "Walmart",
-      "theme_code": "30_B",
-      "role": "THEME_LEADER",
+      "ticker": "NASDAQ:WBD",
+      "name": "Warner Bros. Discovery",
+      "theme_code": "20_A",
+      "role": "BETA_SATELLITE",
       "eligible": true,
       "metrics": {
         "liquidity": 63,
         "quality": 76,
         "heat": 67,
-        "independence": 30
+        "independence": 30,
+        "beta_strength": 80,
+        "beta_stability": 80
       },
       "evidence": [
         {
@@ -1191,17 +1370,12 @@
           "kind": "listing",
           "tier": 1
         }
-      ],
-      "quality_facts": {
-        "listing_age_days": 3760,
-        "size_rank_pct": 62,
-        "adverse_flags": []
-      }
+      ]
     },
     {
-      "ticker": "NYSE:PG",
-      "name": "Procter & Gamble",
-      "theme_code": "30_B",
+      "ticker": "NASDAQ:TMUS",
+      "name": "T-Mobile US",
+      "theme_code": "20_B",
       "role": "THEME_LEADER",
       "eligible": true,
       "metrics": {
@@ -1225,10 +1399,10 @@
       }
     },
     {
-      "ticker": "NYSE:KO",
-      "name": "Coca-Cola",
-      "theme_code": "30_B",
-      "role": "QUALITY_LEADER",
+      "ticker": "NYSE:T",
+      "name": "AT&T",
+      "theme_code": "20_B",
+      "role": "THEME_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 61,
@@ -1251,9 +1425,9 @@
       }
     },
     {
-      "ticker": "NASDAQ:COST",
-      "name": "Costco Wholesale",
-      "theme_code": "30_B",
+      "ticker": "NYSE:VZ",
+      "name": "Verizon Communications",
+      "theme_code": "20_B",
       "role": "QUALITY_LEADER",
       "eligible": true,
       "metrics": {
@@ -1277,9 +1451,9 @@
       }
     },
     {
-      "ticker": "NYSE:MCD",
-      "name": "McDonald's",
-      "theme_code": "30_C",
+      "ticker": "NASDAQ:TSLA",
+      "name": "Tesla",
+      "theme_code": "30_A",
       "role": "THEME_LEADER",
       "eligible": true,
       "metrics": {
@@ -1303,10 +1477,10 @@
       }
     },
     {
-      "ticker": "NYSE:SBUX",
-      "name": "Starbucks",
-      "theme_code": "30_C",
-      "role": "QUALITY_LEADER",
+      "ticker": "NYSE:HD",
+      "name": "Home Depot",
+      "theme_code": "30_A",
+      "role": "THEME_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 58,
@@ -1329,10 +1503,10 @@
       }
     },
     {
-      "ticker": "NYSE:JPM",
-      "name": "JPMorgan Chase",
-      "theme_code": "40_A",
-      "role": "THEME_LEADER",
+      "ticker": "NYSE:LOW",
+      "name": "Lowe's",
+      "theme_code": "30_A",
+      "role": "QUALITY_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 57,
@@ -1355,10 +1529,10 @@
       }
     },
     {
-      "ticker": "NYSE:BAC",
-      "name": "Bank of America",
-      "theme_code": "40_A",
-      "role": "THEME_LEADER",
+      "ticker": "NYSE:NKE",
+      "name": "Nike",
+      "theme_code": "30_A",
+      "role": "BREADTH_PROXY",
       "eligible": true,
       "metrics": {
         "liquidity": 56,
@@ -1373,18 +1547,13 @@
           "kind": "listing",
           "tier": 1
         }
-      ],
-      "quality_facts": {
-        "listing_age_days": 3480,
-        "size_rank_pct": 55,
-        "adverse_flags": []
-      }
+      ]
     },
     {
-      "ticker": "NYSE:WFC",
-      "name": "Wells Fargo",
-      "theme_code": "40_A",
-      "role": "QUALITY_LEADER",
+      "ticker": "NYSE:PG",
+      "name": "Procter & Gamble",
+      "theme_code": "30_B",
+      "role": "THEME_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 55,
@@ -1407,18 +1576,16 @@
       }
     },
     {
-      "ticker": "NYSE:GS",
-      "name": "Goldman Sachs",
-      "theme_code": "40_A",
-      "role": "BETA_SATELLITE",
+      "ticker": "NYSE:WMT",
+      "name": "Walmart",
+      "theme_code": "30_B",
+      "role": "THEME_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 54,
         "quality": 72,
         "heat": 90,
-        "independence": 33,
-        "beta_strength": 77,
-        "beta_stability": 61
+        "independence": 33
       },
       "evidence": [
         {
@@ -1427,13 +1594,18 @@
           "kind": "listing",
           "tier": 1
         }
-      ]
+      ],
+      "quality_facts": {
+        "listing_age_days": 3400,
+        "size_rank_pct": 53,
+        "adverse_flags": []
+      }
     },
     {
-      "ticker": "NYSE:V",
-      "name": "Visa",
-      "theme_code": "40_B",
-      "role": "THEME_LEADER",
+      "ticker": "NASDAQ:COST",
+      "name": "Costco Wholesale",
+      "theme_code": "30_B",
+      "role": "QUALITY_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 53,
@@ -1456,10 +1628,10 @@
       }
     },
     {
-      "ticker": "NYSE:MA",
-      "name": "Mastercard",
-      "theme_code": "40_B",
-      "role": "THEME_LEADER",
+      "ticker": "NYSE:KO",
+      "name": "Coca-Cola",
+      "theme_code": "30_B",
+      "role": "QUALITY_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 52,
@@ -1482,10 +1654,10 @@
       }
     },
     {
-      "ticker": "NASDAQ:PYPL",
-      "name": "PayPal",
-      "theme_code": "40_B",
-      "role": "BREADTH_PROXY",
+      "ticker": "NYSE:MCD",
+      "name": "McDonald's",
+      "theme_code": "30_C",
+      "role": "THEME_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 51,
@@ -1500,12 +1672,17 @@
           "kind": "listing",
           "tier": 1
         }
-      ]
+      ],
+      "quality_facts": {
+        "listing_age_days": 3280,
+        "size_rank_pct": 50,
+        "adverse_flags": []
+      }
     },
     {
-      "ticker": "NYSE:AXP",
-      "name": "American Express",
-      "theme_code": "40_B",
+      "ticker": "NYSE:SBUX",
+      "name": "Starbucks",
+      "theme_code": "30_C",
       "role": "QUALITY_LEADER",
       "eligible": true,
       "metrics": {
@@ -1529,9 +1706,9 @@
       }
     },
     {
-      "ticker": "NYSE:BLK",
-      "name": "BlackRock",
-      "theme_code": "40_C",
+      "ticker": "NYSE:BAC",
+      "name": "Bank of America",
+      "theme_code": "40_A",
       "role": "THEME_LEADER",
       "eligible": true,
       "metrics": {
@@ -1555,10 +1732,10 @@
       }
     },
     {
-      "ticker": "NYSE:SPGI",
-      "name": "S&P Global",
-      "theme_code": "40_C",
-      "role": "QUALITY_LEADER",
+      "ticker": "NYSE:JPM",
+      "name": "JPMorgan Chase",
+      "theme_code": "40_A",
+      "role": "THEME_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 48,
@@ -1581,16 +1758,16 @@
       }
     },
     {
-      "ticker": "NYSE:BRK.B",
-      "name": "Berkshire Hathaway Class B",
-      "theme_code": "40_D",
-      "role": "ANCHOR",
+      "ticker": "NYSE:WFC",
+      "name": "Wells Fargo",
+      "theme_code": "40_A",
+      "role": "QUALITY_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 47,
         "quality": 68,
         "heat": 59,
-        "independence": 14
+        "independence": 42
       },
       "evidence": [
         {
@@ -1607,16 +1784,18 @@
       }
     },
     {
-      "ticker": "NYSE:PGR",
-      "name": "Progressive",
-      "theme_code": "40_D",
-      "role": "THEME_LEADER",
+      "ticker": "NYSE:GS",
+      "name": "Goldman Sachs",
+      "theme_code": "40_A",
+      "role": "BETA_SATELLITE",
       "eligible": true,
       "metrics": {
         "liquidity": 46,
         "quality": 68,
         "heat": 66,
-        "independence": 39
+        "independence": 39,
+        "beta_strength": 71,
+        "beta_stability": 69
       },
       "evidence": [
         {
@@ -1625,18 +1804,13 @@
           "kind": "listing",
           "tier": 1
         }
-      ],
-      "quality_facts": {
-        "listing_age_days": 3080,
-        "size_rank_pct": 45,
-        "adverse_flags": []
-      }
+      ]
     },
     {
-      "ticker": "NYSE:CB",
-      "name": "Chubb",
-      "theme_code": "40_D",
-      "role": "QUALITY_LEADER",
+      "ticker": "NYSE:MA",
+      "name": "Mastercard",
+      "theme_code": "40_B",
+      "role": "THEME_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 45,
@@ -1659,10 +1833,10 @@
       }
     },
     {
-      "ticker": "NYSE:TRV",
-      "name": "Travelers",
-      "theme_code": "40_D",
-      "role": "QUALITY_LEADER",
+      "ticker": "NYSE:V",
+      "name": "Visa",
+      "theme_code": "40_B",
+      "role": "THEME_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 44,
@@ -1685,10 +1859,10 @@
       }
     },
     {
-      "ticker": "NYSE:LLY",
-      "name": "Eli Lilly",
-      "theme_code": "50_A",
-      "role": "THEME_LEADER",
+      "ticker": "NYSE:AXP",
+      "name": "American Express",
+      "theme_code": "40_B",
+      "role": "QUALITY_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 43,
@@ -1711,10 +1885,10 @@
       }
     },
     {
-      "ticker": "NYSE:JNJ",
-      "name": "Johnson & Johnson",
-      "theme_code": "50_A",
-      "role": "THEME_LEADER",
+      "ticker": "NASDAQ:PYPL",
+      "name": "PayPal",
+      "theme_code": "40_B",
+      "role": "BREADTH_PROXY",
       "eligible": true,
       "metrics": {
         "liquidity": 42,
@@ -1729,18 +1903,13 @@
           "kind": "listing",
           "tier": 1
         }
-      ],
-      "quality_facts": {
-        "listing_age_days": 2920,
-        "size_rank_pct": 45,
-        "adverse_flags": []
-      }
+      ]
     },
     {
-      "ticker": "NYSE:MRK",
-      "name": "Merck",
-      "theme_code": "50_A",
-      "role": "QUALITY_LEADER",
+      "ticker": "NYSE:BLK",
+      "name": "BlackRock",
+      "theme_code": "40_C",
+      "role": "THEME_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 41,
@@ -1763,9 +1932,9 @@
       }
     },
     {
-      "ticker": "NYSE:PFE",
-      "name": "Pfizer",
-      "theme_code": "50_A",
+      "ticker": "NYSE:SPGI",
+      "name": "S&P Global",
+      "theme_code": "40_C",
       "role": "QUALITY_LEADER",
       "eligible": true,
       "metrics": {
@@ -1789,16 +1958,16 @@
       }
     },
     {
-      "ticker": "NYSE:ABT",
-      "name": "Abbott Laboratories",
-      "theme_code": "50_B",
-      "role": "THEME_LEADER",
+      "ticker": "NYSE:BRK.B",
+      "name": "Berkshire Hathaway Class B",
+      "theme_code": "40_D",
+      "role": "ANCHOR",
       "eligible": true,
       "metrics": {
         "liquidity": 40,
         "quality": 64,
         "heat": 75,
-        "independence": 48
+        "independence": 12
       },
       "evidence": [
         {
@@ -1815,10 +1984,10 @@
       }
     },
     {
-      "ticker": "NYSE:ISRG",
-      "name": "Intuitive Surgical",
-      "theme_code": "50_B",
-      "role": "QUALITY_LEADER",
+      "ticker": "NYSE:PGR",
+      "name": "Progressive",
+      "theme_code": "40_D",
+      "role": "THEME_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 40,
@@ -1841,10 +2010,10 @@
       }
     },
     {
-      "ticker": "NYSE:UNH",
-      "name": "UnitedHealth Group",
-      "theme_code": "50_C",
-      "role": "THEME_LEADER",
+      "ticker": "NYSE:CB",
+      "name": "Chubb",
+      "theme_code": "40_D",
+      "role": "QUALITY_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 40,
@@ -1867,10 +2036,10 @@
       }
     },
     {
-      "ticker": "NYSE:BA",
-      "name": "Boeing",
-      "theme_code": "60_A",
-      "role": "THEME_LEADER",
+      "ticker": "NYSE:TRV",
+      "name": "Travelers",
+      "theme_code": "40_D",
+      "role": "QUALITY_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 40,
@@ -1893,9 +2062,9 @@
       }
     },
     {
-      "ticker": "NYSE:RTX",
-      "name": "RTX",
-      "theme_code": "60_A",
+      "ticker": "NYSE:JNJ",
+      "name": "Johnson & Johnson",
+      "theme_code": "50_A",
       "role": "THEME_LEADER",
       "eligible": true,
       "metrics": {
@@ -1919,10 +2088,10 @@
       }
     },
     {
-      "ticker": "NYSE:LMT",
-      "name": "Lockheed Martin",
-      "theme_code": "60_A",
-      "role": "QUALITY_LEADER",
+      "ticker": "NYSE:LLY",
+      "name": "Eli Lilly",
+      "theme_code": "50_A",
+      "role": "THEME_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 40,
@@ -1945,9 +2114,9 @@
       }
     },
     {
-      "ticker": "NYSE:GE",
-      "name": "GE Aerospace",
-      "theme_code": "60_A",
+      "ticker": "NYSE:MRK",
+      "name": "Merck",
+      "theme_code": "50_A",
       "role": "QUALITY_LEADER",
       "eligible": true,
       "metrics": {
@@ -1971,10 +2140,10 @@
       }
     },
     {
-      "ticker": "NYSE:CAT",
-      "name": "Caterpillar",
-      "theme_code": "60_B",
-      "role": "THEME_LEADER",
+      "ticker": "NYSE:PFE",
+      "name": "Pfizer",
+      "theme_code": "50_A",
+      "role": "QUALITY_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 40,
@@ -1997,9 +2166,9 @@
       }
     },
     {
-      "ticker": "NYSE:DE",
-      "name": "Deere",
-      "theme_code": "60_B",
+      "ticker": "NYSE:ABT",
+      "name": "Abbott Laboratories",
+      "theme_code": "50_B",
       "role": "THEME_LEADER",
       "eligible": true,
       "metrics": {
@@ -2023,9 +2192,9 @@
       }
     },
     {
-      "ticker": "NYSE:UNP",
-      "name": "Union Pacific",
-      "theme_code": "60_B",
+      "ticker": "NYSE:ISRG",
+      "name": "Intuitive Surgical",
+      "theme_code": "50_B",
       "role": "QUALITY_LEADER",
       "eligible": true,
       "metrics": {
@@ -2049,10 +2218,10 @@
       }
     },
     {
-      "ticker": "NYSE:HON",
-      "name": "Honeywell",
-      "theme_code": "60_B",
-      "role": "QUALITY_LEADER",
+      "ticker": "NYSE:UNH",
+      "name": "UnitedHealth Group",
+      "theme_code": "50_C",
+      "role": "THEME_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 40,
@@ -2075,10 +2244,10 @@
       }
     },
     {
-      "ticker": "NYSE:UPS",
-      "name": "United Parcel Service",
-      "theme_code": "60_C",
-      "role": "THEME_LEADER",
+      "ticker": "NYSE:CI",
+      "name": "Cigna Group",
+      "theme_code": "50_C",
+      "role": "QUALITY_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 40,
@@ -2101,10 +2270,10 @@
       }
     },
     {
-      "ticker": "NASDAQ:CSX",
-      "name": "CSX",
-      "theme_code": "60_C",
-      "role": "BREADTH_PROXY",
+      "ticker": "NYSE:ELV",
+      "name": "Elevance Health",
+      "theme_code": "50_C",
+      "role": "QUALITY_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 40,
@@ -2119,12 +2288,17 @@
           "kind": "listing",
           "tier": 1
         }
-      ]
+      ],
+      "quality_facts": {
+        "listing_age_days": 2320,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
     },
     {
-      "ticker": "NYSE:XOM",
-      "name": "Exxon Mobil",
-      "theme_code": "70_A",
+      "ticker": "NYSE:BA",
+      "name": "Boeing",
+      "theme_code": "60_A",
       "role": "THEME_LEADER",
       "eligible": true,
       "metrics": {
@@ -2148,9 +2322,9 @@
       }
     },
     {
-      "ticker": "NYSE:CVX",
-      "name": "Chevron",
-      "theme_code": "70_A",
+      "ticker": "NYSE:RTX",
+      "name": "RTX",
+      "theme_code": "60_A",
       "role": "THEME_LEADER",
       "eligible": true,
       "metrics": {
@@ -2174,9 +2348,9 @@
       }
     },
     {
-      "ticker": "NYSE:COP",
-      "name": "ConocoPhillips",
-      "theme_code": "70_A",
+      "ticker": "NYSE:GE",
+      "name": "GE Aerospace",
+      "theme_code": "60_A",
       "role": "QUALITY_LEADER",
       "eligible": true,
       "metrics": {
@@ -2200,18 +2374,16 @@
       }
     },
     {
-      "ticker": "NYSE:OXY",
-      "name": "Occidental Petroleum",
-      "theme_code": "70_A",
-      "role": "BETA_SATELLITE",
+      "ticker": "NYSE:LMT",
+      "name": "Lockheed Martin",
+      "theme_code": "60_A",
+      "role": "QUALITY_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 40,
         "quality": 58,
         "heat": 67,
-        "independence": 30,
-        "beta_strength": 80,
-        "beta_stability": 88
+        "independence": 30
       },
       "evidence": [
         {
@@ -2220,12 +2392,17 @@
           "kind": "listing",
           "tier": 1
         }
-      ]
+      ],
+      "quality_facts": {
+        "listing_age_days": 2160,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
     },
     {
-      "ticker": "NYSE:SLB",
-      "name": "SLB",
-      "theme_code": "70_B",
+      "ticker": "NYSE:CAT",
+      "name": "Caterpillar",
+      "theme_code": "60_B",
       "role": "THEME_LEADER",
       "eligible": true,
       "metrics": {
@@ -2249,18 +2426,16 @@
       }
     },
     {
-      "ticker": "NYSE:HAL",
-      "name": "Halliburton",
-      "theme_code": "70_B",
-      "role": "BETA_SATELLITE",
+      "ticker": "NYSE:DE",
+      "name": "Deere",
+      "theme_code": "60_B",
+      "role": "THEME_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 40,
         "quality": 58,
         "heat": 81,
-        "independence": 24,
-        "beta_strength": 86,
-        "beta_stability": 66
+        "independence": 24
       },
       "evidence": [
         {
@@ -2269,13 +2444,18 @@
           "kind": "listing",
           "tier": 1
         }
-      ]
+      ],
+      "quality_facts": {
+        "listing_age_days": 2080,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
     },
     {
-      "ticker": "NYSE:LIN",
-      "name": "Linde",
-      "theme_code": "80_A",
-      "role": "THEME_LEADER",
+      "ticker": "NYSE:HON",
+      "name": "Honeywell",
+      "theme_code": "60_B",
+      "role": "QUALITY_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 40,
@@ -2298,18 +2478,16 @@
       }
     },
     {
-      "ticker": "NYSE:FCX",
-      "name": "Freeport-McMoRan",
-      "theme_code": "80_A",
-      "role": "BETA_SATELLITE",
+      "ticker": "NYSE:UNP",
+      "name": "Union Pacific",
+      "theme_code": "60_B",
+      "role": "QUALITY_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 40,
         "quality": 58,
         "heat": 55,
-        "independence": 48,
-        "beta_strength": 62,
-        "beta_stability": 76
+        "independence": 48
       },
       "evidence": [
         {
@@ -2318,12 +2496,17 @@
           "kind": "listing",
           "tier": 1
         }
-      ]
+      ],
+      "quality_facts": {
+        "listing_age_days": 2000,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
     },
     {
-      "ticker": "NYSE:NEE",
-      "name": "NextEra Energy",
-      "theme_code": "80_B",
+      "ticker": "NYSE:UPS",
+      "name": "United Parcel Service",
+      "theme_code": "60_C",
       "role": "THEME_LEADER",
       "eligible": true,
       "metrics": {
@@ -2347,10 +2530,10 @@
       }
     },
     {
-      "ticker": "NYSE:DUK",
-      "name": "Duke Energy",
-      "theme_code": "80_B",
-      "role": "QUALITY_LEADER",
+      "ticker": "NASDAQ:CSX",
+      "name": "CSX",
+      "theme_code": "60_C",
+      "role": "BREADTH_PROXY",
       "eligible": true,
       "metrics": {
         "liquidity": 40,
@@ -2365,18 +2548,13 @@
           "kind": "listing",
           "tier": 1
         }
-      ],
-      "quality_facts": {
-        "listing_age_days": 1920,
-        "size_rank_pct": 45,
-        "adverse_flags": []
-      }
+      ]
     },
     {
-      "ticker": "NYSE:SO",
-      "name": "Southern Company",
-      "theme_code": "80_B",
-      "role": "QUALITY_LEADER",
+      "ticker": "NYSE:CVX",
+      "name": "Chevron",
+      "theme_code": "70_A",
+      "role": "THEME_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 40,
@@ -2399,10 +2577,10 @@
       }
     },
     {
-      "ticker": "NYSE:AEP",
-      "name": "American Electric Power",
-      "theme_code": "80_B",
-      "role": "QUALITY_LEADER",
+      "ticker": "NYSE:XOM",
+      "name": "Exxon Mobil",
+      "theme_code": "70_A",
+      "role": "THEME_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 40,
@@ -2425,10 +2603,10 @@
       }
     },
     {
-      "ticker": "NYSE:AMT",
-      "name": "American Tower",
-      "theme_code": "90_A",
-      "role": "THEME_LEADER",
+      "ticker": "NYSE:COP",
+      "name": "ConocoPhillips",
+      "theme_code": "70_A",
+      "role": "QUALITY_LEADER",
       "eligible": true,
       "metrics": {
         "liquidity": 40,
@@ -2451,16 +2629,18 @@
       }
     },
     {
-      "ticker": "NYSE:PLD",
-      "name": "Prologis",
-      "theme_code": "90_A",
-      "role": "QUALITY_LEADER",
+      "ticker": "NYSE:OXY",
+      "name": "Occidental Petroleum",
+      "theme_code": "70_A",
+      "role": "BETA_SATELLITE",
       "eligible": true,
       "metrics": {
         "liquidity": 40,
         "quality": 58,
         "heat": 57,
-        "independence": 30
+        "independence": 30,
+        "beta_strength": 80,
+        "beta_stability": 74
       },
       "evidence": [
         {
@@ -2469,17 +2649,12 @@
           "kind": "listing",
           "tier": 1
         }
-      ],
-      "quality_facts": {
-        "listing_age_days": 1760,
-        "size_rank_pct": 45,
-        "adverse_flags": []
-      }
+      ]
     },
     {
-      "ticker": "NASDAQ:COIN",
-      "name": "Coinbase Global",
-      "theme_code": "95_A",
+      "ticker": "NYSE:SLB",
+      "name": "SLB",
+      "theme_code": "70_B",
       "role": "THEME_LEADER",
       "eligible": true,
       "metrics": {
@@ -2503,9 +2678,9 @@
       }
     },
     {
-      "ticker": "NASDAQ:MSTR",
-      "name": "MicroStrategy",
-      "theme_code": "95_A",
+      "ticker": "NYSE:HAL",
+      "name": "Halliburton",
+      "theme_code": "70_B",
       "role": "BETA_SATELLITE",
       "eligible": true,
       "metrics": {
@@ -2526,6 +2701,260 @@
       ]
     },
     {
+      "ticker": "NYSE:LIN",
+      "name": "Linde",
+      "theme_code": "80_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 78,
+        "independence": 21
+      },
+      "evidence": [
+        {
+          "url": "https://www.nasdaq.com/market-activity/stocks/screener",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1640,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NYSE:FCX",
+      "name": "Freeport-McMoRan",
+      "theme_code": "80_A",
+      "role": "BETA_SATELLITE",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 85,
+        "independence": 48,
+        "beta_strength": 62,
+        "beta_stability": 62
+      },
+      "evidence": [
+        {
+          "url": "https://www.nasdaq.com/market-activity/stocks/screener",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "NYSE:NEE",
+      "name": "NextEra Energy",
+      "theme_code": "80_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 92,
+        "independence": 45
+      },
+      "evidence": [
+        {
+          "url": "https://www.nasdaq.com/market-activity/stocks/screener",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1560,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NYSE:AEP",
+      "name": "American Electric Power",
+      "theme_code": "80_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 59,
+        "independence": 42
+      },
+      "evidence": [
+        {
+          "url": "https://www.nasdaq.com/market-activity/stocks/screener",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1520,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NYSE:DUK",
+      "name": "Duke Energy",
+      "theme_code": "80_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 66,
+        "independence": 39
+      },
+      "evidence": [
+        {
+          "url": "https://www.nasdaq.com/market-activity/stocks/screener",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1480,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NYSE:SO",
+      "name": "Southern Company",
+      "theme_code": "80_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 73,
+        "independence": 36
+      },
+      "evidence": [
+        {
+          "url": "https://www.nasdaq.com/market-activity/stocks/screener",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1440,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NYSE:AMT",
+      "name": "American Tower",
+      "theme_code": "90_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 80,
+        "independence": 33
+      },
+      "evidence": [
+        {
+          "url": "https://www.nasdaq.com/market-activity/stocks/screener",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1400,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NYSE:PLD",
+      "name": "Prologis",
+      "theme_code": "90_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 87,
+        "independence": 30
+      },
+      "evidence": [
+        {
+          "url": "https://www.nasdaq.com/market-activity/stocks/screener",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1360,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NASDAQ:COIN",
+      "name": "Coinbase Global",
+      "theme_code": "95_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 94,
+        "independence": 27
+      },
+      "evidence": [
+        {
+          "url": "https://www.nasdaq.com/market-activity/stocks/screener",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1320,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NASDAQ:MSTR",
+      "name": "MicroStrategy",
+      "theme_code": "95_A",
+      "role": "BETA_SATELLITE",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 61,
+        "independence": 24,
+        "beta_strength": 86,
+        "beta_stability": 70
+      },
+      "evidence": [
+        {
+          "url": "https://www.nasdaq.com/market-activity/stocks/screener",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
       "ticker": "NASDAQ:GOOG",
       "name": "Alphabet Class C",
       "theme_code": "10_A",
@@ -2534,7 +2963,7 @@
       "metrics": {
         "liquidity": 40,
         "quality": 58,
-        "heat": 78,
+        "heat": 68,
         "independence": 21
       },
       "evidence": [
@@ -2558,7 +2987,7 @@
       "metrics": {
         "liquidity": 40,
         "quality": 58,
-        "heat": 85,
+        "heat": 75,
         "independence": 48
       },
       "evidence": [

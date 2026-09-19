@@ -453,6 +453,33 @@ class MarketRegistryTests(unittest.TestCase):
         for code in MARKET_SPECS:
             self.assertEqual(set(policy["markets"][code]), {"light", "medium", "heavy"})
 
+    def test_a_size_band_is_one_rule_rather_than_nine_numbers(self) -> None:
+        # min and max used to be set by hand per market per profile, which is nine chances to
+        # be inconsistent and no way to tell which of the nine was deliberate. They are the
+        # target plus or minus a quarter, rounded to ten, and nothing else.
+        for code, rows in load_policy()["markets"].items():
+            for name, row in rows.items():
+                with self.subTest(market=code, profile=name):
+                    target = row["target"]
+                    self.assertEqual(row["min"], round(target * 0.75 / 10) * 10)
+                    self.assertEqual(row["max"], round(target * 1.25 / 10) * 10)
+
+    def test_every_starter_table_can_reach_its_own_target(self) -> None:
+        # The gap this closes: guidance and the starter taxonomy were two independent sets of
+        # numbers that nobody was forced to reconcile, and they were not reconciled — cn Light
+        # asked for 220 members from a table that tops out at 72. Every profile of every
+        # shipped market now checks clean, warnings included, so the two cannot drift apart
+        # again without this failing.
+        for code in sorted(MARKETS):
+            for name in PROFILES:
+                with self.subTest(market=code, profile=name):
+                    result = check_taxonomy(
+                        read_json(ROOT / "assets" / "taxonomy" / f"{code}.json"), code,
+                        profile=name,
+                    )
+                    self.assertTrue(result["passed"], result["errors"])
+                    self.assertEqual(result["warnings"], [])
+
     def test_unknown_market_is_named_not_silently_dropped(self) -> None:
         with self.assertRaisesRegex(UniverseError, "unsupported market 'hk'"):
             market_spec("hk")
@@ -1182,6 +1209,24 @@ class ExampleTests(unittest.TestCase):
                 )
                 self.assertTrue(report["passed"], report["errors"])
                 self.assertEqual(universe["market"], market)
+
+    def test_every_example_is_a_full_size_universe_for_its_market(self) -> None:
+        # An example below its own guidance teaches the wrong shape, and `allow_outside_guidance`
+        # in a shipped build spec teaches that the flag is normal. Both used to be true here.
+        guidance = load_policy()["markets"]
+        for market in ("cn", "us", "crypto"):
+            folder = ROOT / "examples" / f"{market}-light"
+            with self.subTest(market=market):
+                spec = read_json(folder / "build-spec.json")
+                self.assertNotIn("allow_outside_guidance", spec)
+                universe, report = build_universe(
+                    spec, read_json(folder / "snapshot.json"), load_policy()
+                )
+                band = guidance[market]["light"]
+                self.assertEqual(len(universe["members"]), band["target"])
+                self.assertGreaterEqual(len(universe["members"]), band["min"])
+                self.assertLessEqual(len(universe["members"]), band["max"])
+                self.assertEqual(report["warnings"], [])
 
     def test_the_crypto_change_set_still_applies_to_its_own_universe(self) -> None:
         folder = ROOT / "examples" / "crypto-light"

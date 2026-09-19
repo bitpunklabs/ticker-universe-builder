@@ -116,13 +116,19 @@ registry row would have held:
   "asset_id_strip": [],
   "factor_r2_required": false,
   "guidance": {
-    "light":  {"min": 40, "target": 60,  "max": 90},
-    "medium": {"min": 80, "target": 110, "max": 150},
-    "heavy":  {"min": 140, "target": 190, "max": 260}
+    "light":  {"min": 45, "target": 60,  "max": 75},
+    "medium": {"min": 90, "target": 120, "max": 150},
+    "heavy":  {"min": 190, "target": 250, "max": 310}
   },
   "evidence": [{"url": "https://www.set.or.th/...", "as_of": "2026-09-17", "tier": 1}]
 }
 ```
+
+Size the guidance the way the shipped markets are sized: the band is the target ±25%, and the
+target is about two thirds of what the theme table can hold (`reachable themes x theme_cap`).
+Run `taxonomy --check --market <code> --target <n>` against the table before researching a single
+candidate — a target the taxonomy cannot reach is the one build failure that costs a whole
+research session. See [tier-profiles.md](tier-profiles.md).
 
 Nothing else about the build changes — roles, quotas, coverage levels, evidence tiers, the
 measurement rules, turnover budgets and hashing are the same as for a registered market. This

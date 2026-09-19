@@ -85,10 +85,11 @@ Stated plainly, because a limit you cannot see is a defect:
 - **The composite score is an ordinal tie-break**, deliberately. Role order carries the structural
   judgement; the weighted metric score only breaks ties inside a bucket, and nothing downstream
   should read it as a rating.
-- **The equity examples are not full size.** Crypto Light ships complete — 40 members, inside
-  its guidance range, no warnings. US and CN stop at 64 against guidance of 180 and 150, because
-  every ticker in `examples/seeds/*.tsv` is written from knowledge rather than read off an
-  exchange listing. Extending them is a TSV edit, not a code change.
+- **Only Light examples ship.** All three are full size — exactly their market's Light target,
+  inside guidance, on quota, zero warnings — but Medium and Heavy have none, because every ticker
+  in `examples/seeds/*.tsv` is written from knowledge rather than read off an exchange listing and
+  the honest limit of that is about a hundred names. Extending them is a TSV edit, not a code
+  change.
 - **Three markets ship reviewed rules** (`cn`, `us`, `crypto`), in one `MARKET_SPECS` table
   rather than in scattered branches. Any other market builds by declaring the same handful of
   facts in the snapshot, under the same evidence gate as everything else — recorded, hashed, and

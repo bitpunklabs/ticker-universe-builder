@@ -15,26 +15,26 @@ It writes `crypto-light-2026-09-17.{json,md,txt,validation.json}` and prints all
 | Example | Members | Shows |
 |---|---:|---|
 | `crypto-light/` | 40 | A **complete** Light universe: inside its guidance range, buckets exactly on quota, zero warnings. Spot/perpetual merging via `asset_id`, the BTC/ETH/SOL factor measurement, a delisted pair and a stablecoin pair kept in the audit, and a `changes.json` that retires one satellite and adds one payment asset at 5% turnover |
-| `us-light/` | 64 | Sector breadth across seventeen Level-1 themes, ETF benchmarks, beta satellites in the cyclical themes, and two rejections: a second share class of a company already held, and a sector ETF redundant with its own leaders |
-| `cn-light/` | 64 | Venue-bearing identity (`SSE:` / `SZSE:`), an ETF-and-single-name mix, the broker and resource beta satellites, the cash-management exclusion that every liquidity ranking otherwise puts first — and a report written end to end in Simplified Chinese |
+| `us-light/` | 80 | Sector breadth across thirty Level-1 themes, ETF benchmarks, beta satellites in the cyclical themes, two recent listings as the tactical budget, and two rejections: a second share class of a company already held, and a sector ETF redundant with its own leaders |
+| `cn-light/` | 80 | Venue-bearing identity (`SSE:` / `SZSE:`), an ETF-and-single-name mix, the broker and resource beta satellites, the cash-management exclusion that every liquidity ranking otherwise puts first — and a report written end to end in Simplified Chinese |
 
-## Why Crypto is full size and the equity ones are not
+## All three are full size
 
-A Light universe is led by names that turn over slowly, so a full-size Light example stays correct
-for years rather than months. Crypto Light is 40 and the example is 40 — it sits inside the
-guidance range and prints no warnings at all.
+Each example is exactly its market's Light target, inside the guidance band, buckets on quota,
+and **zero warnings** — no `allow_outside_guidance`, because an example that needs an escape
+hatch teaches that the hatch is normal.
 
-The equity examples stop at 64 against Light guidance of 180 (US) and 150 (CN), so both set
-`allow_outside_guidance: true` and both print:
+That was not true until the theme tables and the size guidance were reconciled. The equity
+examples used to stop at 64 against a Light target of 220, and the reason was not the seeds: with
+eighteen Level-1 themes and a `theme_cap` of 4, the table itself could not hold more than 72
+members. The target was asking for something the taxonomy could not produce. Both moved — the
+tables to about thirty Level-1 themes each, the target to 80 — and `taxonomy --check` now passes
+clean for all three markets at all three tiers, which is asserted by a test.
 
-```text
-member count 64 is below us/light guidance 180
-```
-
-That is the guidance range doing its job — reporting an abnormal input rather than blocking it.
-They stop there because every ticker in these files is written from knowledge rather than read off
-an exchange listing, and the honest limit of that is well short of 180 symbols. Growing them is a
-matter of extending `seeds/*.tsv` from a real listing file, not of changing any code.
+What has not changed is the honesty constraint: every ticker in `seeds/*.tsv` is written from
+knowledge rather than read off an exchange listing. That is why the seeds hold around a hundred
+names and not a thousand, and why Medium and Heavy examples do not ship. Growing them is a TSV
+edit against a real listing file, not a code change.
 
 ## Read one without running it
 

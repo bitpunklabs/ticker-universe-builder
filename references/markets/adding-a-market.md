@@ -45,10 +45,14 @@ A new *registered* market is five additions and no edits to existing logic:
 1. A `MarketSpec` row in `MARKET_SPECS`.
 2. A `markets.<code>` block in `assets/default-policy.json` with Light, Medium and Heavy counts.
    `MarketRegistryTests` fails until this exists, which is the point — a market with no size
-   guidance would build universes of an arbitrary size and report nothing.
-3. A starter taxonomy at `assets/taxonomy/<code>.json`. Run `taxonomy --check` on it against
-   each profile's guidance before shipping it — a starter that cannot reach its own Light target
-   sends every user down the same dead end.
+   guidance would build universes of an arbitrary size and report nothing. The band is the
+   target ±25% rounded to ten, and a test asserts it; do not hand-set the bounds.
+3. A starter taxonomy at `assets/taxonomy/<code>.json`, sized with the guidance rather than
+   independently of it: at each tier, `reachable themes x theme_cap` should be roughly half
+   again the target. `taxonomy --check` has to pass clean — errors *and* warnings — for all
+   three profiles, which is also a test. A starter that cannot reach its own Light target sends
+   every user down the same dead end, and that is not hypothetical: it shipped that way, and cn
+   Light asked 220 members of a table that topped out at 72.
 4. An overlay at `references/markets/<code>.md` covering instrument scope, venue and identity
    rules, the exclusions that market requires, and where its primary sources live.
 5. One worked example under `examples/`, so the market is exercised by CI rather than merely

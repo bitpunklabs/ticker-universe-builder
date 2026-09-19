@@ -36,7 +36,7 @@ from universe_core import (  # noqa: E402
 )
 
 AS_OF = "2026-09-17"
-TARGETS = {"crypto": 40, "us": 64, "cn": 64}
+TARGETS = {"crypto": 40, "us": 80, "cn": 80}
 
 SOURCES = {
     "crypto": [
@@ -278,10 +278,9 @@ def build(market: str) -> dict:
         "as_of": AS_OF,
         "target_count": TARGETS[market],
     }
-    # Crypto reaches its Light guidance range; the two equity seeds do not yet, and say so
-    # rather than being waved through by a policy edit.
-    if TARGETS[market] < 100:
-        spec["allow_outside_guidance"] = market != "crypto"
+    # Every example now builds at its market's Light target, inside guidance, with no escape
+    # hatch. If one stops fitting, that is a finding about the seeds or the policy, not a flag
+    # to set.
     folder = ROOT / "examples" / f"{market}-light"
     folder.mkdir(parents=True, exist_ok=True)
     for name, payload in (("snapshot.json", snapshot), ("build-spec.json", spec)):
