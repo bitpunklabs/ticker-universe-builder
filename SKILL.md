@@ -84,7 +84,10 @@ reported rather than dropped.
 7. The command prints the path of every artifact it wrote; they are named
    `{market}-{profile}-{as_of}`. Run `validate` on the `universe` path even though the builder
    validates before writing. Never present an output that fails.
-8. Return the human-readable `.md` and the TradingView-importable `.txt`.
+8. Return the human-readable `.md` and the TradingView-importable `.txt`. The `.md` is written
+   in the market's own language — Simplified Chinese for CN, English for US and Crypto — so
+   write the snapshot's names, themes, reasons and methods in that language too. `--language`
+   overrides it; nothing else about the build changes.
 
 To change the depth of an existing universe, pass it as `--seed` instead of rebuilding. Widening
 keeps every incumbent and fills the rest; narrowing reselects inside the incumbents against the

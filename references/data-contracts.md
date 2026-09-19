@@ -240,3 +240,14 @@ The `.json` is the record: spec limits, policy hash, sources, measurement, taxon
 selection audit and the review history. `version_hash` covers membership and taxonomy only, so
 re-running with fresher metrics does not churn the version. The other three are derived from it
 and are never edited by hand.
+
+The `.md` is written in the market's own language, because a universe is read by the people who
+trade that market: CN is Simplified Chinese, US and Crypto are English, and `--language` overrides
+it per run. Only the report's chrome is translated — headings, labels and the closed
+vocabularies, printed as `基准 (BENCHMARK)` so the code a reader greps for survives the
+translation. Everything else is the content this file carries: `name`, `l1_name`, `reason` and
+`method` appear exactly as the snapshot wrote them, so write them in the market's language.
+`.validation.json` stays English, diagnostics included; it is the machine surface, and its
+messages name policy fields and code paths.
+[markets/adding-a-market.md](markets/adding-a-market.md) carries the language for every
+above-scale market, decided ahead of implementation.

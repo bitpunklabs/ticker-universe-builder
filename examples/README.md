@@ -16,7 +16,7 @@ It writes `crypto-light-2026-09-17.{json,md,txt,validation.json}` and prints all
 |---|---:|---|
 | `crypto-light/` | 40 | A **complete** Light universe: inside its guidance range, buckets exactly on quota, zero warnings. Spot/perpetual merging via `asset_id`, the BTC/ETH/SOL factor measurement, a delisted pair and a stablecoin pair kept in the audit, and a `changes.json` that retires one satellite and adds one payment asset at 5% turnover |
 | `us-light/` | 64 | Sector breadth across seventeen Level-1 themes, ETF benchmarks, beta satellites in the cyclical themes, and two rejections: a second share class of a company already held, and a sector ETF redundant with its own leaders |
-| `cn-light/` | 64 | Venue-bearing identity (`SSE:` / `SZSE:`), an ETF-and-single-name mix, the broker and resource beta satellites, and the cash-management exclusion that every liquidity ranking otherwise puts first |
+| `cn-light/` | 64 | Venue-bearing identity (`SSE:` / `SZSE:`), an ETF-and-single-name mix, the broker and resource beta satellites, the cash-management exclusion that every liquidity ranking otherwise puts first — and a report written end to end in Simplified Chinese |
 
 ## Why Crypto is full size and the equity ones are not
 
@@ -47,6 +47,12 @@ Each folder carries the report the build produces:
 
 Both are generated, not written. Committing them means a change in selection shows up as a
 reviewable diff instead of as a silently different result the next time someone runs a build.
+
+`cn-light/universe.md` is in Simplified Chinese and the other two are in English, because the
+report follows the market rather than the tool. The cn seed is written the same way — `贵州茅台`,
+Chinese `l1_name`, Chinese `measurement.method` — since the renderer translates the chrome and
+leaves the content exactly as the snapshot wrote it. See
+[markets/adding-a-market.md](../references/markets/adding-a-market.md) for the classification.
 
 ## They are generated from seeds
 

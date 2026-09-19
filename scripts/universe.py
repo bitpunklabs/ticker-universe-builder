@@ -102,7 +102,7 @@ def build(args: argparse.Namespace) -> int:
         load_policy(args.policy),
         read_json(args.seed) if args.seed else None,
     )
-    artifacts = write_artifacts(universe, report, args.output)
+    artifacts = write_artifacts(universe, report, args.output, args.language)
     return _ok(universe, report, artifacts, report["stats"])
 
 
@@ -110,7 +110,7 @@ def maintain(args: argparse.Namespace) -> int:
     universe, report = apply_change_set(
         read_json(args.universe), read_json(args.changes), load_policy(args.policy)
     )
-    artifacts = write_artifacts(universe, report, args.output)
+    artifacts = write_artifacts(universe, report, args.output, args.language)
     return _ok(universe, report, artifacts, report["maintenance"])
 
 
@@ -130,6 +130,12 @@ def _ok(universe: dict, report: dict, artifacts: dict[str, Path], detail: dict) 
         **detail,
     }, ensure_ascii=False))
     return 0
+
+
+_LANGUAGE_HELP = (
+    "language for the .md report; defaults to the market's own "
+    "(cn is zh-Hans, us and crypto are en)"
+)
 
 
 def parser() -> argparse.ArgumentParser:
@@ -176,12 +182,14 @@ def parser() -> argparse.ArgumentParser:
         "--seed",
         help="existing universe to widen or narrow to this profile instead of rebuilding",
     )
+    new.add_argument("--language", help=_LANGUAGE_HELP)
     new.set_defaults(handler=build)
 
     review = sub.add_parser("maintain", help="apply an evidence-backed change set")
     review.add_argument("--universe", required=True, help="existing universe.json")
     review.add_argument("--changes", required=True, help="changes.json")
     review.add_argument("--output", required=True, help="new, empty output directory")
+    review.add_argument("--language", help=_LANGUAGE_HELP)
     review.set_defaults(handler=maintain)
 
     check = sub.add_parser("validate", help="validate a standalone universe.json")

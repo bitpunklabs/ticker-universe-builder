@@ -25,6 +25,35 @@
 | QUALITY_LEADER | 17 |
 | THEME_LEADER | 12 |
 
+## Themes
+
+| Code | Group | Theme | Level | Count |
+|---|---|---|---:|---:|
+| 00_A | Core Assets | CORE_ASSETS | 1 | 3 |
+| 10_A | Smart Contract Platforms | L1_MAJORS | 1 | 4 |
+| 10_B | Smart Contract Platforms | L1_CHALLENGERS | 2 | 0 |
+| 11_A | Scaling | L2_ROLLUPS | 1 | 4 |
+| 11_B | Scaling | MODULAR_DA | 2 | 0 |
+| 12_A | DeFi | DEX_AND_PERPS | 1 | 3 |
+| 12_B | DeFi | LENDING | 1 | 3 |
+| 12_C | DeFi | LST_AND_RESTAKING | 1 | 3 |
+| 12_D | DeFi | STABLECOIN_AND_YIELD | 2 | 0 |
+| 13_A | Oracles and Data | ORACLES | 1 | 2 |
+| 13_B | Oracles and Data | DATA_NETWORKS | 3 | 0 |
+| 14_A | Compute and Storage | DEPIN_STORAGE | 2 | 0 |
+| 14_B | Compute and Storage | AI_COMPUTE | 1 | 3 |
+| 15_A | Interoperability | INTEROP | 1 | 2 |
+| 15_B | Interoperability | BRIDGES | 3 | 0 |
+| 20_A | Exchange and Payments | EXCHANGE_TOKENS | 1 | 3 |
+| 20_B | Exchange and Payments | PAYMENT_ASSETS | 1 | 4 |
+| 30_A | Consumer | GAMING | 2 | 0 |
+| 30_B | Consumer | SOCIAL_AND_NFT | 3 | 0 |
+| 40_A | Reflexive | MAJOR_MEMES | 1 | 4 |
+| 40_B | Reflexive | ROTATIONAL_MEMES | 3 | 0 |
+| 50_A | Store of Value | PROOF_OF_WORK | 1 | 2 |
+| 50_B | Store of Value | PRIVACY | 2 | 0 |
+| 60_A | Real World Assets | RWA | 2 | 0 |
+
 ## How the metrics were produced
 
 | Metric | Basis | Method | Window |

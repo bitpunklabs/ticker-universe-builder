@@ -58,7 +58,7 @@ references/           methodology, tiers, contracts, maintenance, sources, per-m
 scripts/universe.py   the only entry point (taxonomy | import | measure | build | maintain | validate)
 scripts/measure_core.py   window statistics from a local price table, stdlib only
 scripts/universe_core.py  every mutation and output invariant
-assets/               default policy (counts, quotas, turnover budgets, freshness) + starter taxonomies
+assets/               default policy (counts, quotas, turnover budgets, freshness), starter taxonomies, locales
 examples/             one Light universe per market, generated from seeds and rebuilt by the test suite
 tests/                pytest
 ```
@@ -88,6 +88,10 @@ Stated plainly, because a limit you cannot see is a defect:
   rather than in scattered branches, so a fourth is a registry row plus a policy row plus an
   overlay — see [references/markets/adding-a-market.md](references/markets/adding-a-market.md).
   It is still a code change, and no unexercised market is shipped on speculation.
+- **Three locales ship** (`en`, `zh-Hans`, `zh-Hant`), and the report is written in the market's
+  own language by default. Only the chrome is translated; validation diagnostics stay English
+  because they name policy fields and code paths. The language of every above-scale market is
+  already decided in the same document, so implementing one does not reopen the question.
 
 ## Not investment advice
 

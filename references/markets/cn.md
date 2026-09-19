@@ -12,6 +12,10 @@
   the default `asset_id` keeps the venue prefix.
 - ETFs and single names are compared separately. ETFs carry structural gauges; single names carry
   company and supply-chain information.
+- The report is written in Simplified Chinese, so write the snapshot in Simplified Chinese:
+  `name` is the listed short name (`贵州茅台`, not `Kweichow Moutai`), and `l1_name`, `reason`
+  and every `measurement.method` are Chinese prose. Theme codes and `theme_name` stay ASCII —
+  they are identifiers that have to survive a TradingView import.
 
 ## Build focus
 

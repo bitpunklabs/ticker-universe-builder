@@ -25,6 +25,42 @@
 | QUALITY_LEADER | 20 |
 | THEME_LEADER | 28 |
 
+## Themes
+
+| Code | Group | Theme | Level | Count |
+|---|---|---|---:|---:|
+| 00_A | Market Benchmarks | BROAD_MARKET_ETF | 1 | 4 |
+| 10_A | Technology | MEGACAP_PLATFORMS | 1 | 4 |
+| 10_B | Technology | SEMICONDUCTORS | 1 | 4 |
+| 10_C | Technology | SEMICAP_EQUIPMENT | 2 | 0 |
+| 10_D | Technology | ENTERPRISE_SOFTWARE | 1 | 4 |
+| 10_E | Technology | CYBERSECURITY | 1 | 4 |
+| 10_F | Technology | INTERNET_AND_ADTECH | 1 | 4 |
+| 11_A | AI Infrastructure | AI_COMPUTE | 1 | 4 |
+| 11_B | AI Infrastructure | DATA_CENTER_AND_POWER | 2 | 0 |
+| 20_A | Communication | STREAMING_AND_MEDIA | 2 | 0 |
+| 20_B | Communication | TELECOM | 2 | 0 |
+| 30_A | Consumer | DISCRETIONARY_LEADERS | 1 | 4 |
+| 30_B | Consumer | STAPLES | 1 | 4 |
+| 30_C | Consumer | RESTAURANTS_AND_TRAVEL | 2 | 0 |
+| 40_A | Financials | MONEY_CENTER_BANKS | 1 | 4 |
+| 40_B | Financials | PAYMENTS | 1 | 3 |
+| 40_C | Financials | ASSET_MANAGERS_AND_EXCHANGES | 2 | 0 |
+| 40_D | Financials | INSURANCE | 1 | 4 |
+| 50_A | Healthcare | PHARMA | 1 | 3 |
+| 50_B | Healthcare | MEDTECH_AND_DEVICES | 2 | 0 |
+| 50_C | Healthcare | MANAGED_CARE | 2 | 0 |
+| 50_D | Healthcare | BIOTECH | 3 | 0 |
+| 60_A | Industrials | AEROSPACE_AND_DEFENSE | 1 | 4 |
+| 60_B | Industrials | MACHINERY_AND_RAIL | 1 | 3 |
+| 60_C | Industrials | TRANSPORT_AND_LOGISTICS | 2 | 0 |
+| 70_A | Energy | INTEGRATED_ENERGY | 1 | 3 |
+| 70_B | Energy | OILFIELD_AND_MIDSTREAM | 2 | 0 |
+| 80_A | Materials and Utilities | MATERIALS | 2 | 0 |
+| 80_B | Materials and Utilities | UTILITIES | 1 | 4 |
+| 90_A | Real Estate | REITS | 2 | 0 |
+| 95_A | Digital Assets | DIGITAL_ASSET_EQUITIES | 3 | 0 |
+
 ## How the metrics were produced
 
 | Metric | Basis | Method | Window |

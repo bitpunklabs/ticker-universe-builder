@@ -20,34 +20,34 @@
   "measurement": {
     "liquidity": {
       "basis": "measured",
-      "method": "cross-sectional percentile of mean daily turnover",
+      "method": "30 日日均成交额的截面分位",
       "window": "30d",
       "source": "http://www.sse.com.cn/market/stockdata/overview/"
     },
     "quality": {
       "basis": "blended",
-      "method": "listing age and size percentile against a judged durability read",
+      "method": "上市时长与规模分位,叠加对经营持续性的判断",
       "source": "http://www.sse.com.cn/assortment/stock/list/share/"
     },
     "heat": {
       "basis": "judged",
-      "method": "turnover jump confirmed against exchange data, never a single-day move"
+      "method": "成交额跃升,须以交易所数据确认,单日波动不算"
     },
     "beta_strength": {
       "basis": "measured",
-      "method": "absolute OLS beta against SSE:510300, beta 2.0 reads 100",
+      "method": "对 SSE:510300 的 OLS beta 绝对值,beta 为 2.0 记 100",
       "window": "180d",
       "source": "http://www.sse.com.cn/market/stockdata/overview/"
     },
     "beta_stability": {
       "basis": "measured",
-      "method": "agreement of the beta estimate across the two halves of the window",
+      "method": "beta 估计在窗口前后两半之间的一致程度",
       "window": "180d",
       "source": "http://www.sse.com.cn/market/stockdata/overview/"
     },
     "independence": {
       "basis": "measured",
-      "method": "100 - the OLS R-squared of daily returns on SSE:510300",
+      "method": "100 减去日收益对 SSE:510300 回归的 R²",
       "window": "180d",
       "source": "http://www.sse.com.cn/market/stockdata/overview/"
     }
@@ -55,196 +55,196 @@
   "taxonomy": [
     {
       "l1_code": "00",
-      "l1_name": "Market Benchmarks",
+      "l1_name": "市场基准",
       "theme_code": "00_A",
       "theme_name": "BROAD_INDEX_ETF",
       "coverage_level": 1
     },
     {
       "l1_code": "10",
-      "l1_name": "Consumer Staples",
+      "l1_name": "食品饮料",
       "theme_code": "10_A",
       "theme_name": "BAIJIU",
       "coverage_level": 1
     },
     {
       "l1_code": "10",
-      "l1_name": "Consumer Staples",
+      "l1_name": "食品饮料",
       "theme_code": "10_B",
       "theme_name": "FOOD_AND_DAIRY",
       "coverage_level": 1
     },
     {
       "l1_code": "20",
-      "l1_name": "Financials",
+      "l1_name": "金融",
       "theme_code": "20_A",
       "theme_name": "LARGE_BANKS",
       "coverage_level": 1
     },
     {
       "l1_code": "20",
-      "l1_name": "Financials",
+      "l1_name": "金融",
       "theme_code": "20_B",
       "theme_name": "BROKERS",
       "coverage_level": 1
     },
     {
       "l1_code": "20",
-      "l1_name": "Financials",
+      "l1_name": "金融",
       "theme_code": "20_C",
       "theme_name": "INSURANCE",
       "coverage_level": 1
     },
     {
       "l1_code": "30",
-      "l1_name": "New Energy",
+      "l1_name": "新能源",
       "theme_code": "30_A",
       "theme_name": "BATTERY_CHAIN",
       "coverage_level": 1
     },
     {
       "l1_code": "30",
-      "l1_name": "New Energy",
+      "l1_name": "新能源",
       "theme_code": "30_B",
       "theme_name": "PHOTOVOLTAIC",
       "coverage_level": 1
     },
     {
       "l1_code": "30",
-      "l1_name": "New Energy",
+      "l1_name": "新能源",
       "theme_code": "30_C",
       "theme_name": "POWER_EQUIPMENT",
       "coverage_level": 2
     },
     {
       "l1_code": "40",
-      "l1_name": "Autos",
+      "l1_name": "汽车",
       "theme_code": "40_A",
       "theme_name": "AUTO_OEM",
       "coverage_level": 1
     },
     {
       "l1_code": "40",
-      "l1_name": "Autos",
+      "l1_name": "汽车",
       "theme_code": "40_B",
       "theme_name": "AUTO_PARTS",
       "coverage_level": 2
     },
     {
       "l1_code": "50",
-      "l1_name": "Semis and Electronics",
+      "l1_name": "半导体与电子",
       "theme_code": "50_A",
       "theme_name": "SEMICONDUCTORS",
       "coverage_level": 1
     },
     {
       "l1_code": "50",
-      "l1_name": "Semis and Electronics",
+      "l1_name": "半导体与电子",
       "theme_code": "50_B",
       "theme_name": "CONSUMER_ELECTRONICS_CHAIN",
       "coverage_level": 1
     },
     {
       "l1_code": "50",
-      "l1_name": "Semis and Electronics",
+      "l1_name": "半导体与电子",
       "theme_code": "50_C",
       "theme_name": "DISPLAY_AND_OPTICS",
       "coverage_level": 2
     },
     {
       "l1_code": "60",
-      "l1_name": "Healthcare",
+      "l1_name": "医药生物",
       "theme_code": "60_A",
       "theme_name": "INNOVATIVE_PHARMA",
       "coverage_level": 1
     },
     {
       "l1_code": "60",
-      "l1_name": "Healthcare",
+      "l1_name": "医药生物",
       "theme_code": "60_B",
       "theme_name": "MEDICAL_DEVICES",
       "coverage_level": 2
     },
     {
       "l1_code": "60",
-      "l1_name": "Healthcare",
+      "l1_name": "医药生物",
       "theme_code": "60_C",
       "theme_name": "CRO_AND_CDMO",
       "coverage_level": 2
     },
     {
       "l1_code": "70",
-      "l1_name": "Resources",
+      "l1_name": "资源品",
       "theme_code": "70_A",
       "theme_name": "NONFERROUS_METALS",
       "coverage_level": 1
     },
     {
       "l1_code": "70",
-      "l1_name": "Resources",
+      "l1_name": "资源品",
       "theme_code": "70_B",
       "theme_name": "COAL_AND_OIL",
       "coverage_level": 1
     },
     {
       "l1_code": "70",
-      "l1_name": "Resources",
+      "l1_name": "资源品",
       "theme_code": "70_C",
       "theme_name": "CHEMICALS",
       "coverage_level": 2
     },
     {
       "l1_code": "80",
-      "l1_name": "Infrastructure",
+      "l1_name": "基建",
       "theme_code": "80_A",
       "theme_name": "CONSTRUCTION_AND_RAIL",
       "coverage_level": 1
     },
     {
       "l1_code": "80",
-      "l1_name": "Infrastructure",
+      "l1_name": "基建",
       "theme_code": "80_B",
       "theme_name": "MACHINERY",
       "coverage_level": 2
     },
     {
       "l1_code": "85",
-      "l1_name": "Utilities and Transport",
+      "l1_name": "公用事业与交运",
       "theme_code": "85_A",
       "theme_name": "POWER_UTILITIES",
       "coverage_level": 1
     },
     {
       "l1_code": "85",
-      "l1_name": "Utilities and Transport",
+      "l1_name": "公用事业与交运",
       "theme_code": "85_B",
       "theme_name": "LOGISTICS_AND_SHIPPING",
       "coverage_level": 2
     },
     {
       "l1_code": "90",
-      "l1_name": "Consumer Services",
+      "l1_name": "消费服务",
       "theme_code": "90_A",
       "theme_name": "HOME_APPLIANCES",
       "coverage_level": 1
     },
     {
       "l1_code": "90",
-      "l1_name": "Consumer Services",
+      "l1_name": "消费服务",
       "theme_code": "90_B",
       "theme_name": "TRAVEL_AND_RETAIL",
       "coverage_level": 2
     },
     {
       "l1_code": "95",
-      "l1_name": "Telecom and Computing",
+      "l1_name": "通信与计算机",
       "theme_code": "95_A",
       "theme_name": "TELECOM_OPERATORS",
       "coverage_level": 1
     },
     {
       "l1_code": "95",
-      "l1_name": "Telecom and Computing",
+      "l1_name": "通信与计算机",
       "theme_code": "95_B",
       "theme_name": "SOFTWARE_AND_AI",
       "coverage_level": 2
@@ -253,7 +253,7 @@
   "candidates": [
     {
       "ticker": "SSE:510300",
-      "name": "CSI 300 ETF",
+      "name": "沪深300ETF",
       "theme_code": "00_A",
       "role": "BENCHMARK",
       "eligible": true,
@@ -280,7 +280,7 @@
     },
     {
       "ticker": "SSE:510050",
-      "name": "SSE 50 ETF",
+      "name": "上证50ETF",
       "theme_code": "00_A",
       "role": "BENCHMARK",
       "eligible": true,
@@ -307,7 +307,7 @@
     },
     {
       "ticker": "SZSE:159915",
-      "name": "ChiNext ETF",
+      "name": "创业板ETF",
       "theme_code": "00_A",
       "role": "BREADTH_PROXY",
       "eligible": true,
@@ -329,7 +329,7 @@
     },
     {
       "ticker": "SSE:588000",
-      "name": "STAR 50 ETF",
+      "name": "科创50ETF",
       "theme_code": "00_A",
       "role": "BREADTH_PROXY",
       "eligible": true,
@@ -350,7 +350,7 @@
     },
     {
       "ticker": "SSE:600519",
-      "name": "Kweichow Moutai",
+      "name": "贵州茅台",
       "theme_code": "10_A",
       "role": "ANCHOR",
       "eligible": true,
@@ -376,7 +376,7 @@
     },
     {
       "ticker": "SZSE:000858",
-      "name": "Wuliangye Yibin",
+      "name": "五粮液",
       "theme_code": "10_A",
       "role": "THEME_LEADER",
       "eligible": true,
@@ -402,7 +402,7 @@
     },
     {
       "ticker": "SSE:600809",
-      "name": "Shanxi Xinghuacun Fen Wine",
+      "name": "山西汾酒",
       "theme_code": "10_A",
       "role": "QUALITY_LEADER",
       "eligible": true,
@@ -428,7 +428,7 @@
     },
     {
       "ticker": "SZSE:000568",
-      "name": "Luzhou Laojiao",
+      "name": "泸州老窖",
       "theme_code": "10_A",
       "role": "QUALITY_LEADER",
       "eligible": true,
@@ -454,7 +454,7 @@
     },
     {
       "ticker": "SSE:600887",
-      "name": "Inner Mongolia Yili Industrial",
+      "name": "伊利股份",
       "theme_code": "10_B",
       "role": "THEME_LEADER",
       "eligible": true,
@@ -480,7 +480,7 @@
     },
     {
       "ticker": "SSE:603288",
-      "name": "Foshan Haitian Flavouring",
+      "name": "海天味业",
       "theme_code": "10_B",
       "role": "THEME_LEADER",
       "eligible": true,
@@ -506,7 +506,7 @@
     },
     {
       "ticker": "SZSE:002714",
-      "name": "Muyuan Foods",
+      "name": "牧原股份",
       "theme_code": "10_B",
       "role": "QUALITY_LEADER",
       "eligible": true,
@@ -532,7 +532,7 @@
     },
     {
       "ticker": "SSE:600298",
-      "name": "Angel Yeast",
+      "name": "安琪酵母",
       "theme_code": "10_B",
       "role": "QUALITY_LEADER",
       "eligible": true,
@@ -558,7 +558,7 @@
     },
     {
       "ticker": "SSE:601398",
-      "name": "Industrial and Commercial Bank of China",
+      "name": "工商银行",
       "theme_code": "20_A",
       "role": "THEME_LEADER",
       "eligible": true,
@@ -584,7 +584,7 @@
     },
     {
       "ticker": "SSE:600036",
-      "name": "China Merchants Bank",
+      "name": "招商银行",
       "theme_code": "20_A",
       "role": "THEME_LEADER",
       "eligible": true,
@@ -610,7 +610,7 @@
     },
     {
       "ticker": "SSE:601288",
-      "name": "Agricultural Bank of China",
+      "name": "农业银行",
       "theme_code": "20_A",
       "role": "QUALITY_LEADER",
       "eligible": true,
@@ -636,7 +636,7 @@
     },
     {
       "ticker": "SSE:601939",
-      "name": "China Construction Bank",
+      "name": "建设银行",
       "theme_code": "20_A",
       "role": "QUALITY_LEADER",
       "eligible": true,
@@ -662,7 +662,7 @@
     },
     {
       "ticker": "SSE:600030",
-      "name": "CITIC Securities",
+      "name": "中信证券",
       "theme_code": "20_B",
       "role": "THEME_LEADER",
       "eligible": true,
@@ -688,7 +688,7 @@
     },
     {
       "ticker": "SZSE:300059",
-      "name": "East Money Information",
+      "name": "东方财富",
       "theme_code": "20_B",
       "role": "THEME_LEADER",
       "eligible": true,
@@ -714,7 +714,7 @@
     },
     {
       "ticker": "SSE:600837",
-      "name": "Haitong Securities",
+      "name": "海通证券",
       "theme_code": "20_B",
       "role": "BETA_SATELLITE",
       "eligible": true,
@@ -737,7 +737,7 @@
     },
     {
       "ticker": "SSE:601688",
-      "name": "Huatai Securities",
+      "name": "华泰证券",
       "theme_code": "20_B",
       "role": "QUALITY_LEADER",
       "eligible": true,
@@ -763,7 +763,7 @@
     },
     {
       "ticker": "SSE:601318",
-      "name": "Ping An Insurance",
+      "name": "中国平安",
       "theme_code": "20_C",
       "role": "THEME_LEADER",
       "eligible": true,
@@ -789,7 +789,7 @@
     },
     {
       "ticker": "SSE:601628",
-      "name": "China Life Insurance",
+      "name": "中国人寿",
       "theme_code": "20_C",
       "role": "QUALITY_LEADER",
       "eligible": true,
@@ -815,7 +815,7 @@
     },
     {
       "ticker": "SSE:601601",
-      "name": "China Pacific Insurance",
+      "name": "中国太保",
       "theme_code": "20_C",
       "role": "QUALITY_LEADER",
       "eligible": true,
@@ -841,7 +841,7 @@
     },
     {
       "ticker": "SZSE:300750",
-      "name": "Contemporary Amperex Technology",
+      "name": "宁德时代",
       "theme_code": "30_A",
       "role": "ANCHOR",
       "eligible": true,
@@ -867,7 +867,7 @@
     },
     {
       "ticker": "SZSE:002460",
-      "name": "Ganfeng Lithium",
+      "name": "赣锋锂业",
       "theme_code": "30_A",
       "role": "BETA_SATELLITE",
       "eligible": true,
@@ -890,7 +890,7 @@
     },
     {
       "ticker": "SZSE:300014",
-      "name": "EVE Energy",
+      "name": "亿纬锂能",
       "theme_code": "30_A",
       "role": "QUALITY_LEADER",
       "eligible": true,
@@ -916,7 +916,7 @@
     },
     {
       "ticker": "SZSE:002812",
-      "name": "Yunnan Energy New Material",
+      "name": "恩捷股份",
       "theme_code": "30_A",
       "role": "QUALITY_LEADER",
       "eligible": true,
@@ -942,7 +942,7 @@
     },
     {
       "ticker": "SSE:601012",
-      "name": "LONGi Green Energy",
+      "name": "隆基绿能",
       "theme_code": "30_B",
       "role": "THEME_LEADER",
       "eligible": true,
@@ -968,7 +968,7 @@
     },
     {
       "ticker": "SSE:600438",
-      "name": "Tongwei",
+      "name": "通威股份",
       "theme_code": "30_B",
       "role": "THEME_LEADER",
       "eligible": true,
@@ -994,7 +994,7 @@
     },
     {
       "ticker": "SZSE:002129",
-      "name": "TCL Zhonghuan Renewable Energy",
+      "name": "TCL中环",
       "theme_code": "30_B",
       "role": "BETA_SATELLITE",
       "eligible": true,
@@ -1017,7 +1017,7 @@
     },
     {
       "ticker": "SSE:688599",
-      "name": "Trina Solar",
+      "name": "天合光能",
       "theme_code": "30_B",
       "role": "QUALITY_LEADER",
       "eligible": true,
@@ -1043,7 +1043,7 @@
     },
     {
       "ticker": "SZSE:300124",
-      "name": "Shenzhen Inovance Technology",
+      "name": "汇川技术",
       "theme_code": "30_C",
       "role": "THEME_LEADER",
       "eligible": true,
@@ -1069,7 +1069,7 @@
     },
     {
       "ticker": "SZSE:002594",
-      "name": "BYD",
+      "name": "比亚迪",
       "theme_code": "40_A",
       "role": "THEME_LEADER",
       "eligible": true,
@@ -1095,7 +1095,7 @@
     },
     {
       "ticker": "SSE:601633",
-      "name": "Great Wall Motor",
+      "name": "长城汽车",
       "theme_code": "40_A",
       "role": "THEME_LEADER",
       "eligible": true,
@@ -1121,7 +1121,7 @@
     },
     {
       "ticker": "SSE:600104",
-      "name": "SAIC Motor",
+      "name": "上汽集团",
       "theme_code": "40_A",
       "role": "QUALITY_LEADER",
       "eligible": true,
@@ -1147,7 +1147,7 @@
     },
     {
       "ticker": "SSE:601127",
-      "name": "Seres Group",
+      "name": "赛力斯",
       "theme_code": "40_A",
       "role": "LIQUIDITY_SENSOR",
       "eligible": true,
@@ -1168,7 +1168,7 @@
     },
     {
       "ticker": "SZSE:002475",
-      "name": "Luxshare Precision",
+      "name": "立讯精密",
       "theme_code": "40_B",
       "role": "THEME_LEADER",
       "eligible": true,
@@ -1194,7 +1194,7 @@
     },
     {
       "ticker": "SSE:601689",
-      "name": "Ningbo Tuopu Group",
+      "name": "拓普集团",
       "theme_code": "40_B",
       "role": "QUALITY_LEADER",
       "eligible": true,
@@ -1220,7 +1220,7 @@
     },
     {
       "ticker": "SSE:688981",
-      "name": "Semiconductor Manufacturing International",
+      "name": "中芯国际",
       "theme_code": "50_A",
       "role": "THEME_LEADER",
       "eligible": true,
@@ -1246,7 +1246,7 @@
     },
     {
       "ticker": "SSE:603501",
-      "name": "Will Semiconductor",
+      "name": "韦尔股份",
       "theme_code": "50_A",
       "role": "THEME_LEADER",
       "eligible": true,
@@ -1272,7 +1272,7 @@
     },
     {
       "ticker": "SSE:603986",
-      "name": "GigaDevice Semiconductor",
+      "name": "兆易创新",
       "theme_code": "50_A",
       "role": "QUALITY_LEADER",
       "eligible": true,
@@ -1298,7 +1298,7 @@
     },
     {
       "ticker": "SSE:688012",
-      "name": "Advanced Micro-Fabrication Equipment",
+      "name": "中微公司",
       "theme_code": "50_A",
       "role": "QUALITY_LEADER",
       "eligible": true,
@@ -1324,7 +1324,7 @@
     },
     {
       "ticker": "SZSE:002415",
-      "name": "Hangzhou Hikvision Digital Technology",
+      "name": "海康威视",
       "theme_code": "50_B",
       "role": "THEME_LEADER",
       "eligible": true,
@@ -1350,7 +1350,7 @@
     },
     {
       "ticker": "SZSE:000725",
-      "name": "BOE Technology",
+      "name": "京东方A",
       "theme_code": "50_B",
       "role": "BETA_SATELLITE",
       "eligible": true,
@@ -1373,7 +1373,7 @@
     },
     {
       "ticker": "SZSE:002241",
-      "name": "GoerTek",
+      "name": "歌尔股份",
       "theme_code": "50_B",
       "role": "QUALITY_LEADER",
       "eligible": true,
@@ -1399,7 +1399,7 @@
     },
     {
       "ticker": "SSE:688036",
-      "name": "Transsion Holdings",
+      "name": "传音控股",
       "theme_code": "50_B",
       "role": "QUALITY_LEADER",
       "eligible": true,
@@ -1425,7 +1425,7 @@
     },
     {
       "ticker": "SSE:600703",
-      "name": "Sanan Optoelectronics",
+      "name": "三安光电",
       "theme_code": "50_C",
       "role": "THEME_LEADER",
       "eligible": true,
@@ -1451,7 +1451,7 @@
     },
     {
       "ticker": "SSE:600276",
-      "name": "Jiangsu Hengrui Pharmaceuticals",
+      "name": "恒瑞医药",
       "theme_code": "60_A",
       "role": "THEME_LEADER",
       "eligible": true,
@@ -1477,7 +1477,7 @@
     },
     {
       "ticker": "SZSE:000538",
-      "name": "Yunnan Baiyao",
+      "name": "云南白药",
       "theme_code": "60_A",
       "role": "QUALITY_LEADER",
       "eligible": true,
@@ -1503,7 +1503,7 @@
     },
     {
       "ticker": "SSE:600436",
-      "name": "Zhangzhou Pientzehuang",
+      "name": "片仔癀",
       "theme_code": "60_A",
       "role": "QUALITY_LEADER",
       "eligible": true,
@@ -1529,7 +1529,7 @@
     },
     {
       "ticker": "SSE:688180",
-      "name": "Genor Biopharma",
+      "name": "君实生物",
       "theme_code": "60_A",
       "role": "BREADTH_PROXY",
       "eligible": true,
@@ -1550,7 +1550,7 @@
     },
     {
       "ticker": "SZSE:300760",
-      "name": "Shenzhen Mindray Bio-Medical",
+      "name": "迈瑞医疗",
       "theme_code": "60_B",
       "role": "THEME_LEADER",
       "eligible": true,
@@ -1576,7 +1576,7 @@
     },
     {
       "ticker": "SZSE:300015",
-      "name": "Aier Eye Hospital",
+      "name": "爱尔眼科",
       "theme_code": "60_B",
       "role": "QUALITY_LEADER",
       "eligible": true,
@@ -1602,7 +1602,7 @@
     },
     {
       "ticker": "SSE:603259",
-      "name": "WuXi AppTec",
+      "name": "药明康德",
       "theme_code": "60_C",
       "role": "THEME_LEADER",
       "eligible": true,
@@ -1628,7 +1628,7 @@
     },
     {
       "ticker": "SSE:601899",
-      "name": "Zijin Mining",
+      "name": "紫金矿业",
       "theme_code": "70_A",
       "role": "THEME_LEADER",
       "eligible": true,
@@ -1654,7 +1654,7 @@
     },
     {
       "ticker": "SSE:600111",
-      "name": "China Northern Rare Earth",
+      "name": "北方稀土",
       "theme_code": "70_A",
       "role": "BETA_SATELLITE",
       "eligible": true,
@@ -1677,7 +1677,7 @@
     },
     {
       "ticker": "SSE:603993",
-      "name": "China Molybdenum",
+      "name": "洛阳钼业",
       "theme_code": "70_A",
       "role": "QUALITY_LEADER",
       "eligible": true,
@@ -1703,7 +1703,7 @@
     },
     {
       "ticker": "SSE:600362",
-      "name": "Jiangxi Copper",
+      "name": "江西铜业",
       "theme_code": "70_A",
       "role": "QUALITY_LEADER",
       "eligible": true,
@@ -1729,7 +1729,7 @@
     },
     {
       "ticker": "SSE:601088",
-      "name": "China Shenhua Energy",
+      "name": "中国神华",
       "theme_code": "70_B",
       "role": "THEME_LEADER",
       "eligible": true,
@@ -1755,7 +1755,7 @@
     },
     {
       "ticker": "SSE:601857",
-      "name": "PetroChina",
+      "name": "中国石油",
       "theme_code": "70_B",
       "role": "THEME_LEADER",
       "eligible": true,
@@ -1781,7 +1781,7 @@
     },
     {
       "ticker": "SSE:600028",
-      "name": "China Petroleum & Chemical",
+      "name": "中国石化",
       "theme_code": "70_B",
       "role": "QUALITY_LEADER",
       "eligible": true,
@@ -1807,7 +1807,7 @@
     },
     {
       "ticker": "SSE:601225",
-      "name": "Shaanxi Coal Industry",
+      "name": "陕西煤业",
       "theme_code": "70_B",
       "role": "QUALITY_LEADER",
       "eligible": true,
@@ -1833,7 +1833,7 @@
     },
     {
       "ticker": "SZSE:002601",
-      "name": "LB Group",
+      "name": "龙佰集团",
       "theme_code": "70_C",
       "role": "THEME_LEADER",
       "eligible": true,
@@ -1859,7 +1859,7 @@
     },
     {
       "ticker": "SSE:601668",
-      "name": "China State Construction Engineering",
+      "name": "中国建筑",
       "theme_code": "80_A",
       "role": "THEME_LEADER",
       "eligible": true,
@@ -1885,7 +1885,7 @@
     },
     {
       "ticker": "SSE:601390",
-      "name": "China Railway Group",
+      "name": "中国中铁",
       "theme_code": "80_A",
       "role": "QUALITY_LEADER",
       "eligible": true,
@@ -1911,7 +1911,7 @@
     },
     {
       "ticker": "SSE:601766",
-      "name": "CRRC",
+      "name": "中国中车",
       "theme_code": "80_A",
       "role": "QUALITY_LEADER",
       "eligible": true,
@@ -1937,7 +1937,7 @@
     },
     {
       "ticker": "SSE:600585",
-      "name": "Anhui Conch Cement",
+      "name": "海螺水泥",
       "theme_code": "80_A",
       "role": "QUALITY_LEADER",
       "eligible": true,
@@ -1963,7 +1963,7 @@
     },
     {
       "ticker": "SSE:600031",
-      "name": "Sany Heavy Industry",
+      "name": "三一重工",
       "theme_code": "80_B",
       "role": "THEME_LEADER",
       "eligible": true,
@@ -1989,7 +1989,7 @@
     },
     {
       "ticker": "SZSE:000425",
-      "name": "XCMG Machinery",
+      "name": "徐工机械",
       "theme_code": "80_B",
       "role": "QUALITY_LEADER",
       "eligible": true,
@@ -2015,7 +2015,7 @@
     },
     {
       "ticker": "SSE:600900",
-      "name": "China Yangtze Power",
+      "name": "长江电力",
       "theme_code": "85_A",
       "role": "ANCHOR",
       "eligible": true,
@@ -2041,7 +2041,7 @@
     },
     {
       "ticker": "SSE:601985",
-      "name": "China National Nuclear Power",
+      "name": "中国核电",
       "theme_code": "85_A",
       "role": "QUALITY_LEADER",
       "eligible": true,
@@ -2067,7 +2067,7 @@
     },
     {
       "ticker": "SSE:600886",
-      "name": "SDIC Power",
+      "name": "国投电力",
       "theme_code": "85_A",
       "role": "QUALITY_LEADER",
       "eligible": true,
@@ -2093,7 +2093,7 @@
     },
     {
       "ticker": "SZSE:002352",
-      "name": "SF Holding",
+      "name": "顺丰控股",
       "theme_code": "85_B",
       "role": "THEME_LEADER",
       "eligible": true,
@@ -2119,7 +2119,7 @@
     },
     {
       "ticker": "SSE:601919",
-      "name": "COSCO Shipping",
+      "name": "中远海控",
       "theme_code": "85_B",
       "role": "BETA_SATELLITE",
       "eligible": true,
@@ -2142,7 +2142,7 @@
     },
     {
       "ticker": "SZSE:000333",
-      "name": "Midea Group",
+      "name": "美的集团",
       "theme_code": "90_A",
       "role": "THEME_LEADER",
       "eligible": true,
@@ -2168,7 +2168,7 @@
     },
     {
       "ticker": "SZSE:000651",
-      "name": "Gree Electric Appliances",
+      "name": "格力电器",
       "theme_code": "90_A",
       "role": "THEME_LEADER",
       "eligible": true,
@@ -2194,7 +2194,7 @@
     },
     {
       "ticker": "SSE:600690",
-      "name": "Haier Smart Home",
+      "name": "海尔智家",
       "theme_code": "90_A",
       "role": "QUALITY_LEADER",
       "eligible": true,
@@ -2220,7 +2220,7 @@
     },
     {
       "ticker": "SZSE:002050",
-      "name": "Zhejiang Sanhua Intelligent Controls",
+      "name": "三花智控",
       "theme_code": "90_A",
       "role": "QUALITY_LEADER",
       "eligible": true,
@@ -2246,7 +2246,7 @@
     },
     {
       "ticker": "SSE:601888",
-      "name": "China Tourism Group Duty Free",
+      "name": "中国中免",
       "theme_code": "90_B",
       "role": "THEME_LEADER",
       "eligible": true,
@@ -2272,7 +2272,7 @@
     },
     {
       "ticker": "SSE:600009",
-      "name": "Shanghai International Airport",
+      "name": "上海机场",
       "theme_code": "90_B",
       "role": "QUALITY_LEADER",
       "eligible": true,
@@ -2298,7 +2298,7 @@
     },
     {
       "ticker": "SSE:600941",
-      "name": "China Mobile",
+      "name": "中国移动",
       "theme_code": "95_A",
       "role": "THEME_LEADER",
       "eligible": true,
@@ -2324,7 +2324,7 @@
     },
     {
       "ticker": "SSE:601728",
-      "name": "China Telecom",
+      "name": "中国电信",
       "theme_code": "95_A",
       "role": "QUALITY_LEADER",
       "eligible": true,
@@ -2350,7 +2350,7 @@
     },
     {
       "ticker": "SSE:600050",
-      "name": "China United Network Communications",
+      "name": "中国联通",
       "theme_code": "95_A",
       "role": "QUALITY_LEADER",
       "eligible": true,
@@ -2376,7 +2376,7 @@
     },
     {
       "ticker": "SZSE:002230",
-      "name": "iFlytek",
+      "name": "科大讯飞",
       "theme_code": "95_B",
       "role": "THEME_LEADER",
       "eligible": true,
@@ -2402,7 +2402,7 @@
     },
     {
       "ticker": "SSE:688111",
-      "name": "Beijing Kingsoft Office Software",
+      "name": "金山办公",
       "theme_code": "95_B",
       "role": "QUALITY_LEADER",
       "eligible": true,
@@ -2428,7 +2428,7 @@
     },
     {
       "ticker": "SZSE:000001",
-      "name": "Ping An Bank",
+      "name": "平安银行",
       "theme_code": "20_A",
       "role": "QUALITY_LEADER",
       "eligible": false,
@@ -2447,12 +2447,12 @@
         }
       ],
       "exclusion_reasons": [
-        "redundant_with_member: the group is already held through 601318"
+        "redundant_with_member: 该集团已通过 601318 覆盖"
       ]
     },
     {
       "ticker": "SSE:511990",
-      "name": "Huabao Cash Management ETF",
+      "name": "华宝添益",
       "theme_code": "00_A",
       "role": "BREADTH_PROXY",
       "eligible": false,
@@ -2471,7 +2471,7 @@
         }
       ],
       "exclusion_reasons": [
-        "excluded_instrument_type: a money market fund is not a market observation"
+        "excluded_instrument_type: 货币基金不构成对市场的观测"
       ]
     }
   ]

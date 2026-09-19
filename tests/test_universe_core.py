@@ -11,17 +11,25 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
 from universe_core import (  # noqa: E402
+    AUDIT_CODES,
+    EXCLUSION_CODES,
     MARKET_SPECS,
+    MEASUREMENT_BASES,
+    PROFILES,
+    ROLES,
     UniverseError,
     apply_change_set,
     build_universe,
     default_asset_id,
+    languages,
+    load_lexicon,
     load_policy,
     market_spec,
     normalize_candidate,
     read_json,
     render_markdown,
     render_txt,
+    report_language,
     starter_taxonomy,
     validate_ticker,
     validate_universe,
@@ -451,6 +459,65 @@ class MarketRegistryTests(unittest.TestCase):
         self.assertTrue(validate_ticker("crypto", "BINANCE:BTCUSDC"))
         self.assertFalse(validate_ticker("crypto", "BINANCE:BTCUSDT.P"))
         self.assertFalse(validate_ticker("us", "NYSEARCA:BRK.B"))
+
+
+class LocalizationTests(unittest.TestCase):
+    """A universe is read by the people who trade that market, so the report follows the market.
+
+    Only the chrome is translated. The content — names, themes, reasons, methods — is whatever
+    the research wrote, and the codes stay beside their translation because the code is what the
+    documentation names and what a reader greps for.
+    """
+
+    def test_every_locale_carries_every_key(self) -> None:
+        english = set(load_lexicon("en"))
+        self.assertIn("zh-Hans", languages())
+        for language in languages():
+            self.assertEqual(set(load_lexicon(language)), english, language)
+
+    def test_every_closed_vocabulary_has_a_word_in_every_language(self) -> None:
+        # The vocabularies are closed so that they can be counted; the same property is what
+        # makes them translatable at all. Adding a role or an exclusion code without a word for
+        # it fails here rather than printing an untranslated code into a Chinese report.
+        expected = (
+            {f"role.{code}" for code in ROLES}
+            | {f"reason.{code}" for code in EXCLUSION_CODES | AUDIT_CODES}
+            | {f"profile.{name}" for name in PROFILES}
+            | {f"basis.{name}" for name in MEASUREMENT_BASES}
+            | {f"depth.{name}" for name in load_policy()["maintenance"]}
+        )
+        for language in languages():
+            lexicon = load_lexicon(language)
+            for key in sorted(expected):
+                self.assertTrue(lexicon.get(key), f"{language} is missing {key}")
+
+    def test_the_report_language_follows_the_market(self) -> None:
+        self.assertEqual(report_language("cn"), "zh-Hans")
+        self.assertEqual(report_language("us"), "en")
+        self.assertEqual(report_language("crypto"), "en")
+        self.assertEqual(report_language("hk"), "en")
+
+    def test_a_market_report_is_written_in_its_own_language(self) -> None:
+        chinese = (ROOT / "examples" / "cn-light" / "universe.md").read_text(encoding="utf-8")
+        english = (ROOT / "examples" / "us-light" / "universe.md").read_text(encoding="utf-8")
+        self.assertIn("# CN 标的池", chinese)
+        self.assertIn("## 成员", chinese)
+        self.assertNotIn("## Members", chinese)
+        self.assertIn("## Members", english)
+
+    def test_the_language_can_be_overridden(self) -> None:
+        universe, report = build_universe(spec(), snapshot(), small_policy())
+        self.assertIn("## Members", render_markdown(universe, report))
+        self.assertIn("## 成員", render_markdown(universe, report, "zh-Hant"))
+
+    def test_a_translation_never_replaces_the_code(self) -> None:
+        universe, report = build_universe(spec(), snapshot(), small_policy())
+        text = render_markdown(universe, report, "zh-Hans")
+        self.assertIn("基准 (BENCHMARK)", text)
+
+    def test_an_unknown_language_is_named_not_silently_ignored(self) -> None:
+        with self.assertRaisesRegex(UniverseError, "unknown language 'de'"):
+            load_lexicon("de")
 
 
 class QualityTests(unittest.TestCase):

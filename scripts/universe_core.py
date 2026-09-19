@@ -76,6 +76,10 @@ class MarketSpec:
     venues: frozenset[str]
     symbol_pattern: re.Pattern[str]
     symbol_hint: str
+    # The language the human-readable report is written in unless the caller overrides it. A
+    # universe is read by the people who trade that market, so the default follows the market
+    # rather than the tool: an A-share report is Simplified Chinese the same way it is six digits.
+    language: str = "en"
     # Whether two venues listing the same symbol are the same economic asset. CN dual listings
     # are distinct instruments; a US symbol is the company wherever it prints.
     venue_in_asset_id: bool = False
@@ -95,6 +99,7 @@ MARKET_SPECS: dict[str, MarketSpec] = {
             venues=frozenset({"SSE", "SZSE", "BSE"}),
             symbol_pattern=re.compile(r"\d{6}"),
             symbol_hint="six digits",
+            language="zh-Hans",
             venue_in_asset_id=True,
         ),
         MarketSpec(
@@ -228,6 +233,28 @@ def default_policy_path() -> Path:
 
 def load_policy(path: str | Path | None = None) -> dict[str, Any]:
     return read_json(path or default_policy_path())
+
+
+def locales_path() -> Path:
+    return Path(__file__).resolve().parent.parent / "assets" / "locales"
+
+
+def languages() -> tuple[str, ...]:
+    return tuple(sorted(path.stem for path in locales_path().glob("*.json")))
+
+
+def load_lexicon(language: str) -> dict[str, str]:
+    """The words a report is written in, as data.
+
+    Only the chrome is translated — headings, labels and the closed vocabularies. Those are
+    finite, so a lexicon can be complete and a test can prove it. The content around them is
+    whatever the research wrote: a Chinese A-share snapshot carries Chinese names and reasons
+    without this file knowing anything about them. Adding a language is one more JSON file.
+    """
+    path = locales_path() / f"{language}.json"
+    if not path.is_file():
+        raise UniverseError(f"unknown language {language!r}; available: {', '.join(languages())}")
+    return {key: str(value) for key, value in read_json(path).items()}
 
 
 def starter_taxonomy(market: str, profile: str | None = None) -> list[dict[str, Any]]:
@@ -1226,49 +1253,93 @@ def watchlist_to_snapshot(text: str, market: str, as_of: str) -> dict[str, Any]:
     }
 
 
-def render_markdown(universe: dict[str, Any], report: dict[str, Any]) -> str:
+def report_language(market: str) -> str:
+    """The default report language for a market; English for anything unregistered."""
+    spec = MARKET_SPECS.get(str(market).strip().lower())
+    return spec.language if spec else "en"
+
+
+def _glossed(lexicon: dict[str, str], domain: str, code: str) -> str:
+    """`BENCHMARK` in English, `基准 (BENCHMARK)` in Chinese.
+
+    The code is the vocabulary this skill documents and the string a reader greps for, so the
+    translation is added beside it rather than in place of it.
+    """
+    label = lexicon.get(f"{domain}.{code}", code)
+    return label if label == code else f"{label} ({code})"
+
+
+def render_markdown(
+    universe: dict[str, Any], report: dict[str, Any], language: str | None = None
+) -> str:
+    lex = load_lexicon(language or report_language(universe["market"]))
     taxonomy = {item["theme_code"]: item for item in universe["taxonomy"]}
+    per_theme = Counter(member["theme_code"] for member in universe["members"])
+    limits = universe.get("limits", {})
+    profile = universe["profile"]
     lines = [
-        f"# {universe['market'].upper()} Ticker Universe",
+        "# " + lex["title"].format(market=universe["market"].upper()),
         "",
-        f"- Profile: {universe['profile'].title()}",
-        f"- Facts as of: {universe['source_as_of']}",
-        f"- Version: `{universe['version_hash']}`",
-        f"- Tickers: {report['stats']['tickers']}",
-        f"- Themes: {report['stats']['themes']}",
-        f"- TradingView tokens: {report['stats']['tradingview_tokens']} / "
-        f"{universe.get('limits', {}).get('tradingview_token_cap', 1000)}",
-        f"- Rejected or unselected candidates: {len(universe.get('selection_audit', []))}",
-        f"- Validation: {'PASS' if report['passed'] else 'FAIL'}",
+        f"- {lex['label.profile']}: {lex.get('profile.' + profile, profile)}",
+        f"- {lex['label.facts_as_of']}: {universe['source_as_of']}",
+        f"- {lex['label.version']}: `{universe['version_hash']}`",
+        f"- {lex['label.tickers']}: {report['stats']['tickers']}",
+        f"- {lex['label.themes']}: {report['stats']['themes']}",
+        f"- {lex['label.tv_tokens']}: {report['stats']['tradingview_tokens']} / "
+        f"{limits.get('tradingview_token_cap', 1000)}",
+        f"- {lex['label.rejected']}: {len(universe.get('selection_audit', []))}",
+        f"- {lex['label.validation']}: "
+        f"{lex['value.pass'] if report['passed'] else lex['value.fail']}",
         "",
-        "## Roles",
+        f"## {lex['section.roles']}",
         "",
-        "| Role | Count |",
+        f"| {lex['column.role']} | {lex['column.count']} |",
         "|---|---:|",
     ]
     for role, count in report["stats"]["roles"].items():
-        lines.append(f"| {role} | {count} |")
+        lines.append(f"| {_glossed(lex, 'role', role)} | {count} |")
+    # The theme table is where a reader sees the shape of the instrument: which parts of the
+    # market are covered, at what depth, and which theme is carrying more weight than it should.
+    # It is also the only place the taxonomy's own labels appear, which is why they are authored
+    # in the market's language rather than translated here.
+    lines.extend([
+        "",
+        f"## {lex['section.themes']}",
+        "",
+        f"| {lex['column.code']} | {lex['column.group']} | {lex['column.theme']} "
+        f"| {lex['column.level']} | {lex['column.count']} |",
+        "|---|---|---|---:|---:|",
+    ])
+    for code in sorted(taxonomy):
+        theme = taxonomy[code]
+        lines.append(
+            f"| {code} | {theme['l1_name']} | {theme['theme_name']} | "
+            f"{theme['coverage_level']} | {per_theme.get(code, 0)} |"
+        )
     measurement = universe.get("measurement") or {}
     if measurement:
         lines.extend([
             "",
-            "## How the metrics were produced",
+            f"## {lex['section.measurement']}",
             "",
-            "| Metric | Basis | Method | Window |",
+            f"| {lex['column.metric']} | {lex['column.basis']} | {lex['column.method']} "
+            f"| {lex['column.window']} |",
             "|---|---|---|---|",
         ])
         for field, entry in measurement.items():
-            lines.append(
-                f"| {field} | {entry['basis']} | {entry['method']} | {entry.get('window', '—')} |"
-            )
+            window = entry.get("window") or lex["value.na"]
+            basis = _glossed(lex, "basis", entry["basis"])
+            lines.append(f"| {field} | {basis} | {entry['method']} | {window} |")
         with_facts = sum(1 for item in universe["members"] if item.get("quality_facts"))
         if with_facts:
             lines.extend([
                 "",
-                f"Quality is {QUALITY_RULE_WEIGHT:.0%} rule and {1 - QUALITY_RULE_WEIGHT:.0%} "
-                f"judgement for {with_facts} of {len(universe['members'])} members. The rule half "
-                "reads listing age, size percentile and adverse flags; the judged half is the "
-                "part no statistic covers.",
+                lex["note.quality_blend"].format(
+                    rule=f"{QUALITY_RULE_WEIGHT:.0%}",
+                    judged=f"{1 - QUALITY_RULE_WEIGHT:.0%}",
+                    with_facts=with_facts,
+                    total=len(universe["members"]),
+                ),
             ])
     rejections = audit_summary(universe.get("selection_audit") or [])
     if rejections:
@@ -1277,32 +1348,40 @@ def render_markdown(universe: dict[str, Any], report: dict[str, Any]) -> str:
         # has a research problem, and one losing them to theme caps has a budget problem.
         lines.extend([
             "",
-            "## Why candidates did not make it",
+            f"## {lex['section.rejections']}",
             "",
-            "| Reason | Count |",
+            f"| {lex['column.reason']} | {lex['column.count']} |",
             "|---|---:|",
         ])
-        lines.extend(f"| {code} | {count} |" for code, count in rejections)
+        lines.extend(
+            f"| {_glossed(lex, 'reason', code)} | {count} |" for code, count in rejections
+        )
     if report["warnings"]:
-        lines.extend(["", "## Warnings", ""])
+        lines.extend(["", f"## {lex['section.warnings']}", ""])
         lines.extend(f"- {warning}" for warning in report["warnings"])
+        # Diagnostics name policy fields and code paths and are worth grepping for verbatim, so
+        # they stay in one language and the report says so rather than half-translating them.
+        if lex.get("note.diagnostics_language"):
+            lines.extend(["", lex["note.diagnostics_language"]])
     if report.get("maintenance"):
         maintenance = report["maintenance"]
+        depth = maintenance["review_depth"]
         lines.extend([
             "",
-            "## This review",
+            f"## {lex['section.review']}",
             "",
-            f"- Depth: {maintenance['review_depth']}",
-            f"- Turnover: {maintenance['turnover']:.1%}",
-            f"- Added: {', '.join(maintenance['added']) or 'none'}",
-            f"- Removed: {', '.join(maintenance['removed']) or 'none'}",
-            f"- Deferred: {len(maintenance['deferred'])}",
+            f"- {lex['review.depth']}: {lex.get('depth.' + depth, depth)}",
+            f"- {lex['review.turnover']}: {maintenance['turnover']:.1%}",
+            f"- {lex['review.added']}: {', '.join(maintenance['added']) or lex['value.none']}",
+            f"- {lex['review.removed']}: {', '.join(maintenance['removed']) or lex['value.none']}",
+            f"- {lex['review.deferred']}: {len(maintenance['deferred'])}",
         ])
     lines.extend([
         "",
-        "## Members",
+        f"## {lex['section.members']}",
         "",
-        "| Theme | Ticker | Name | Role | Reason | Evidence |",
+        f"| {lex['column.theme']} | {lex['column.ticker']} | {lex['column.name']} "
+        f"| {lex['column.role']} | {lex['column.reason']} | {lex['column.evidence']} |",
         "|---|---|---|---|---|---|",
     ])
     for member in universe["members"]:
@@ -1311,7 +1390,8 @@ def render_markdown(universe: dict[str, Any], report: dict[str, Any]) -> str:
         reason = member.get("reason") or ""
         lines.append(
             f"| {member['theme_code']} {theme['theme_name']} | {member['ticker']} | "
-            f"{member['name']} | {member['role']} | {reason} | {evidence} |"
+            f"{member['name']} | {_glossed(lex, 'role', member['role'])} | {reason} | "
+            f"{evidence} |"
         )
     return "\n".join(lines) + "\n"
 
@@ -1345,14 +1425,17 @@ def artifact_stem(universe: dict[str, Any]) -> str:
 
 
 def write_artifacts(
-    universe: dict[str, Any], report: dict[str, Any], output: str | Path
+    universe: dict[str, Any],
+    report: dict[str, Any],
+    output: str | Path,
+    language: str | None = None,
 ) -> dict[str, Path]:
     stem = artifact_stem(universe)
     files = {
         f"{stem}.json": json.dumps(universe, ensure_ascii=False, indent=2) + "\n",
         f"{stem}.validation.json": json.dumps(report, ensure_ascii=False, indent=2) + "\n",
         f"{stem}.txt": render_txt(universe),
-        f"{stem}.md": render_markdown(universe, report),
+        f"{stem}.md": render_markdown(universe, report, language),
     }
     destination = _write_atomic(output, files)
     return {

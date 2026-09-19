@@ -59,6 +59,14 @@ jobs:
           python scripts/universe.py import --watchlist "$watchlist" --market crypto \
             --output /tmp/crypto.draft.json
           python scripts/universe.py taxonomy --market crypto --profile light > /dev/null
+      - name: the report follows the market's language
+        run: |
+          grep -q '^# CN 标的池' "$(dirname "$(cat /tmp/cn.path)")"/cn-light-*.md
+          grep -q '^# US Ticker Universe' "$(dirname "$(cat /tmp/us.path)")"/us-light-*.md
+          python scripts/universe.py build --language en \
+            --spec examples/cn-light/build-spec.json \
+            --snapshot examples/cn-light/snapshot.json --output /tmp/cn-en > /dev/null
+          grep -q '^# CN Ticker Universe' /tmp/cn-en/cn-light-*.md
       - name: apply the example change set
         run: |
           python scripts/universe.py maintain \
