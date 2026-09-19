@@ -7,7 +7,8 @@
   "label.version": "版本",
   "label.tickers": "標的數",
   "label.themes": "主題數",
-  "label.theme_cap": "每主題上限",
+  "label.largest_theme": "最大主題",
+  "label.weighted_share": "權重應得",
   "label.tv_tokens": "TradingView 條目",
   "label.rejected": "落選或被排除的候選",
   "label.validation": "校驗",
@@ -76,7 +77,7 @@
   "reason.duplicate_asset": "同一資產重複出現",
   "reason.other": "其他",
   "reason.outside_profile_coverage": "超出本檔的覆蓋層級",
-  "reason.not_selected_under_budget_or_theme_cap": "名額或主題上限已用盡",
+  "reason.not_selected_under_budget": "名額已用盡",
   "reason.removed_by_maintenance": "維護中被移出",
   "reason.removed_by_downgrade": "降檔時被移出",
   "reason.not_in_seed_universe": "不在種子池中",
@@ -95,5 +96,11 @@
   "flag.material_weakness": "內控重大缺陷",
   "flag.unlock_overhang": "解鎖拋壓",
   "flag.supply_concentration": "供應集中",
-  "flag.unaudited_contract": "合約未經審計"
+  "flag.unaudited_contract": "合約未經審計",
+  "flag.prolonged_suspension": "長期停牌",
+  "flag.cancellation_procedure": "除牌程序",
+  "flag.shell_activity_concern": "殼股活動關注",
+  "flag.disposition_stock": "處置股票",
+  "flag.altered_trading_method": "變更交易方法",
+  "flag.full_delivery": "全額交割"
 }

@@ -1,5 +1,9 @@
 # CN overlay
 
+Read [equity-common.md](equity-common.md) first: the universe boundary, the fund-versus-basket
+redundancy test, the cash-management exclusion and the rule about regressing against the
+theme rather than the index are the same in every equity market.
+
 ## Universe boundary
 
 - Shanghai, Shenzhen and Beijing listings plus the indices and ETFs needed as gauges, all

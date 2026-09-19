@@ -1,7 +1,8 @@
 # Adding a market
 
-This document is for whoever extends the skill, not for the agent using it. `cn`, `us` and
-`crypto` are the markets that ship; nothing about the design stops at three.
+This document is for whoever extends the skill, not for the agent using it. Fourteen markets
+ship — `us`, `cn`, `jp`, `in`, `hk`, `kr`, `uk`, `tw`, `de`, `fr`, `ca`, `au`, `br` and
+`crypto`; nothing about the design stops at fourteen.
 
 Every market-specific rule lives in one row of `MARKET_SPECS` in `scripts/universe_core.py`:
 
@@ -17,7 +18,7 @@ Every market-specific rule lives in one row of `MARKET_SPECS` in `scripts/univer
 
 ## Two ways in, and when each is right
 
-A market outside the three is not forbidden. It has two routes, and they answer different
+A market outside the fourteen is not forbidden. It has two routes, and they answer different
 questions:
 
 | | **Declared** | **Registered** |
@@ -25,7 +26,7 @@ questions:
 | Where the rules live | `market_spec` in the snapshot | a row in `MARKET_SPECS` |
 | Who wrote them | whoever built this universe, at run time | this repository, reviewed |
 | What it costs | research, with evidence | a pull request |
-| What ships | nothing | a policy row, a starter taxonomy, an overlay, an example |
+| What ships | nothing | a policy breadth, a starter taxonomy, an overlay, a locale |
 | What the report says | `Market rules: declared`, on every run | nothing; silence is the reviewed case |
 
 A declared market has no starter taxonomy, so the agent writes one from nothing;
@@ -40,31 +41,38 @@ first does not block on us; the second does not depend on the agent getting it r
 Both build under identical general logic. The only thing that differs is who vouches for those
 seven fields, and the report never lets a reader confuse the two.
 
-A new *registered* market is five additions and no edits to existing logic:
+A new *registered* market is four additions and no edits to existing logic:
 
 1. A `MarketSpec` row in `MARKET_SPECS`.
-2. A `markets.<code>` block in `assets/default-policy.json` with Light, Medium and Heavy counts.
-   `MarketRegistryTests` fails until this exists, which is the point — a market with no size
-   guidance would build universes of an arbitrary size and report nothing. The band is the
-   target ±25% rounded to ten, and a test asserts it; do not hand-set the bounds.
-3. A starter taxonomy at `assets/taxonomy/<code>.json`, sized with the guidance rather than
-   independently of it: at each tier, `reachable themes x theme_cap` should be roughly half
-   again the target. `taxonomy --check` has to pass clean — errors *and* warnings — for all
-   three profiles, which is also a test. A starter that cannot reach its own Light target sends
-   every user down the same dead end, and that is not hypothetical: it shipped that way, and cn
-   Light asked 220 members of a table that topped out at 72.
-4. An overlay at `references/markets/<code>.md` covering instrument scope, venue and identity
-   rules, the exclusions that market requires, and where its primary sources live.
-5. One worked example under `examples/`, so the market is exercised by CI rather than merely
-   declared.
+2. A `markets.<code>.breadth` number in `assets/default-policy.json`. One number, not nine: the
+   tier bases are 60 / 160 / 400 and breadth scales them. `MarketRegistryTests` fails until it
+   exists, which is the point — a market with no size would build universes of an arbitrary size
+   and report nothing. Place it against the markets already in the table rather than deriving it
+   from market capitalisation; it is a claim about how many names a reader can tell apart.
+3. A starter taxonomy at `assets/taxonomy/<code>.json`. For an equity market this is a delta on
+   `_equity.json`, not a new table: state `extends`, then `drop` what this market does not list,
+   `add` what nobody else lists, `groups` to put the group labels in the market's own language,
+   `level` to move a theme between tiers, and `weight` to say what this market is actually about.
+   Eleven of the shipped tables are under fifty lines because of this. `taxonomy --check` has to
+   pass clean — errors *and* warnings — for all three profiles, which is also a test.
+4. An overlay at `references/markets/<code>.md` covering identity, what this market is, its
+   adverse flags and where its primary sources live. Start from another market's; the shared
+   equity material is in [equity-common.md](equity-common.md) and must not be repeated.
 
-Plus, if the market's regulator issues flags the universal seven cannot express, a
-`quality_flags` set on the row and a `flag.<code>` entry in every locale. Three tests decide
+Plus a locale at `assets/locales/<language>.json` if the market's language has none yet, and, if
+the market's regulator issues flags the universal seven cannot express, a `quality_flags` set on
+the row with a `flag.<code>` entry in that market's own locale and in `en`. Three tests decide
 whether a flag belongs there: does this regime issue it as a discrete, lookupable status; does
 recording it as `risk_warning` or `regulatory_action` lose something that would change a
 selection; and is the code meaningless in every other market. A flag that fails the third is a
 universal code that has not been added yet — add it to `QUALITY_FLAG_CODES` instead, where it is
 comparable across markets, rather than to two market specs where it silently is not.
+
+A worked example under `examples/` is welcome but is not part of the bar, and deliberately so:
+an example needs a hundred verified tickers, and holding a market registration hostage to that
+is how fourteen markets would have stayed at three. What CI does check for every registered
+market is the row, the breadth, the table checking clean at all three tiers, the overlay file
+and the locale.
 
 ## Report language
 

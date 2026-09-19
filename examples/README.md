@@ -24,17 +24,19 @@ Each example is exactly its market's Light target, inside the guidance band, buc
 and **zero warnings** — no `allow_outside_guidance`, because an example that needs an escape
 hatch teaches that the hatch is normal.
 
-That was not true until the theme tables and the size guidance were reconciled. The equity
-examples used to stop at 64 against a Light target of 220, and the reason was not the seeds: with
-eighteen Level-1 themes and a `theme_cap` of 4, the table itself could not hold more than 72
-members. The target was asking for something the taxonomy could not produce. Both moved — the
-tables to about thirty Level-1 themes each, the target to 80 — and `taxonomy --check` now passes
-clean for all three markets at all three tiers, which is asserted by a test.
+Three examples against fourteen registered markets is deliberate, not a backlog. Every ticker in
+`seeds/*.tsv` is written from knowledge rather than read off an exchange listing, which is why
+the seeds hold around a hundred names and not a thousand — and why eleven markets ship a
+reviewed registry row, a theme table that checks clean at all three tiers and an overlay, but no
+example. Holding a market registration hostage to a hundred verified tickers is how fourteen
+markets would have stayed at three.
 
-What has not changed is the honesty constraint: every ticker in `seeds/*.tsv` is written from
-knowledge rather than read off an exchange listing. That is why the seeds hold around a hundred
-names and not a thousand, and why Medium and Heavy examples do not ship. Growing them is a TSV
-edit against a real listing file, not a code change.
+`us-light` is also the demonstration of the shared equity table: the thirty Level-1 themes it
+covers are `assets/taxonomy/_equity.json` unchanged, which is the same table `jp`, `de`, `br` and
+the rest state their delta against.
+
+Medium and Heavy examples do not ship either. Growing a seed to 240 names is a TSV edit against a
+real listing file, not a code change.
 
 ## Read one without running it
 

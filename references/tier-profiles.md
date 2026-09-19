@@ -2,124 +2,65 @@
 
 ## How the counts are set
 
-A tier is a **depth knob on the theme table**, not a size knob. Pick a coverage level, and the
-count follows from how many themes that level reaches and how deep the tier goes into each:
+A tier is a **depth of observation**, and it costs a different number of tickers in different
+markets. The same depth needs more names where more distinguishable, separately-moving stock
+lists — so a market states one number, its **breadth**, and the three targets follow:
 
 ```text
-capacity = themes reachable at this coverage level x theme_cap
-target   ~ two thirds of capacity
+target = tier base x market breadth, rounded to five
+band   = target +/- 25%, rounded to ten
 ```
 
-Those two lines are one statement seen from either end. Sizing a target at two thirds of
-capacity is the same as capping a theme at half again its fair share — and the builder enforces
-it from the second direction, so it holds per build rather than only per policy edit.
+The tier bases are **60 / 160 / 400** and live in `assets/default-policy.json` under `tiers`.
+Breadth lives beside each market under `markets.<code>.breadth`, and it is the only size number
+a market carries. Nine numbers per market was nine chances to be inconsistent and no way to tell
+which of the nine was deliberate; one number is a claim about the market that can be argued with.
 
-Two thirds, not all of it, because a target equal to capacity means every theme is forced to
-exactly `theme_cap` members and the selector has no choice left to make — the ranking stops
-mattering and the universe is just the seed list. Two thirds leaves the cap binding where a
-theme is genuinely crowded and slack everywhere else, which is what a cap is for.
-
-This is also why the sizes differ per market and the tier parameters do not. The more
-homogeneous a market is, the more its main factors explain and the fewer assets sustain high
-turnover, so the fewer themes it can distinguish — and the count falls out. Crypto is far
-smaller than CN or US because its table is, not because a smaller number was chosen for it.
-
-## V1 default ranges
-
-| Market | Light | Medium | Heavy |
-|---|---:|---:|---:|
-| CN | 60–100, default 80 | 180–300, default 240 | 450–750, default 600 |
-| US | 60–100, default 80 | 180–300, default 240 | 450–750, default 600 |
-| Crypto | 30–50, default 40 | 60–90, default 75 | 90–160, default 125 |
-
-The band is one rule rather than nine numbers: **target ±25%, rounded to ten.** A test asserts
-it, so a hand-edited bound fails rather than quietly becoming a market's private convention.
-
-Read the tiers as: Light is a focus list — every Level-1 theme represented two or three times,
-scannable in one sitting. Medium is a sector-complete scanning pool. Heavy is index-scale
-breadth, and at 600 it still leaves room under the 1000-token TradingView cap once the theme
+Read the tiers as: Light is a focus list — every Level-1 theme represented, the important ones
+several times over, scannable in one sitting. Medium is a sector-complete scanning pool. Heavy is
+index-scale breadth, and even at 540 it stays under the 1000-token TradingView cap once the theme
 headers are counted.
 
-CN and US carry identical numbers because there is no evidence to separate them: comparable
-listed breadth, comparable theme tables. Two numbers that differ by ten for no stated reason are
-worse than one number used twice.
+## The registered markets
 
-These are an initial calibration, not permanent constants. `evaluate` is what recalibrates them —
-specifically its coverage section, which reports how much of the largest realised moves a
-universe of this size actually contained, and names the ones it missed. Nothing here has been
-recalibrated from real data yet; see the limits section of the README.
+| Market | | Breadth | Light | Medium | Heavy |
+|---|---|---:|---:|---:|---:|
+| `us` | US equities and ETFs | 1.35 | 80 | 215 | 540 |
+| `cn` | China A-shares | 1.3 | 80 | 210 | 520 |
+| `jp` | Japan equities | 1.05 | 65 | 170 | 420 |
+| `in` | India equities | 1.0 | 60 | 160 | 400 |
+| `hk` | Hong Kong equities | 0.9 | 55 | 145 | 360 |
+| `kr` | Korea equities | 0.9 | 55 | 145 | 360 |
+| `uk` | UK equities | 0.85 | 50 | 135 | 340 |
+| `tw` | Taiwan equities | 0.8 | 50 | 130 | 320 |
+| `de` | Germany equities | 0.75 | 45 | 120 | 300 |
+| `fr` | Euronext Paris equities | 0.75 | 45 | 120 | 300 |
+| `ca` | Canada equities | 0.75 | 45 | 120 | 300 |
+| `au` | Australia equities | 0.7 | 40 | 110 | 280 |
+| `crypto` | Crypto spot and perpetuals | 0.65 | 40 | 105 | 260 |
+| `br` | Brazil equities | 0.55 | 35 | 90 | 220 |
+
+Breadth is not market capitalisation. It is roughly: how many names this market lists that a
+reader could tell apart, sustain a position in, and would be worse off not watching. The US and
+the A-share market sit at the top because they list thousands of such names; Brazil sits at the
+bottom because it lists perhaps eighty, and a Heavy Brazilian universe of 540 would be padding.
+
+Any market not in this table builds by declaring `breadth` in its snapshot's `market_spec`, under
+the same evidence gate as every other researched fact. Same arithmetic, same tiers; what it does
+not carry is a second pair of eyes, and the report says so on every run.
+
+These numbers are an initial calibration, not permanent constants. `evaluate` is what
+recalibrates them — specifically its coverage section, which reports how much of the largest
+realised moves a universe of this size actually contained, and names the ones it missed. Nothing
+here has been recalibrated from real data yet; see the limits section of the README.
 
 ## Coverage and role quotas
 
-| Tier | Coverage | core target | satellite cap | tactical cap | `theme_cap` ceiling |
-|---|---|---:|---:|---:|---:|
-| Light | Core structure and core themes | 80% | 15% | 5% | 4 |
-| Medium | All major sectors and major second-level themes | 65% | 25% | 10% | 8 |
-| Heavy | Qualified broad, cold and emerging themes | 50% | 35% | 15% | 15 |
-
-### The cap in force is a share, not the number in the table
-
-The policy number is a **ceiling** — the most any one theme may hold at that depth, in any
-market. The cap a build actually runs with is the tighter of that and half again a theme's fair
-share:
-
-```text
-cap = min(ceiling, round(1.5 x target / themes)), never below 2
-```
-
-This exists because a fixed count is not market-independent, it only looks it. At a flat 4 / 8 /
-15, one crypto theme could hold 10–12% of its universe while one equity theme could hold 2.5–5%,
-purely because the targets differ by an order of magnitude. Same number, three times the
-concentration. Expressed as a share, every tier of every market now sits at 1.4–1.6x fair share,
-and the three cells that were out of line tightened on their own:
-
-| Market | Tier | Ceiling | In force |
-|---|---|---:|---:|
-| CN | Heavy | 15 | 14 |
-| Crypto | Medium | 8 | 6 |
-| Crypto | Heavy | 15 | 8 |
-
-Three properties make this safe to derive rather than configure:
-
-- **A richer table tightens its own cap.** Split a theme in two and each half may hold less,
-  which is what a cap is supposed to mean and what a fixed count cannot express.
-- **The feasibility check survives.** If the cap were purely derived, `themes x cap` would always
-  be 1.5x the target and `taxonomy --check` could never report an impossible table. The ceiling
-  is what keeps that check alive: a thin table hits the ceiling, and the ceiling is independent
-  of the target.
-- **No market gets its own cap.** A per-market cap is the kind of knob that turns one general
-  tool into three specialised ones; a market that appears to need one has a theme table that is
-  too coarse, and the share form says so by tightening instead of by asking.
-
-The cap in force is printed in the report header and recomputed during validation from what the
-universe itself records — not from the current policy file, so a later policy edit cannot
-retroactively fail a universe that was built correctly.
-
-### What `theme_cap` actually does
-
-It is the most-members-one-theme-may-hold limit, and it is the only thing standing between a
-universe and the failure mode every hand-built watchlist has: the theme its author finds most
-interesting eats the list. Ranking alone cannot prevent that — if semiconductors genuinely hold
-the twenty highest-scoring names in the market, a pure ranking returns twenty semiconductors, and
-the universe stops being an observation instrument for the market and becomes one for
-semiconductors.
-
-So the cap is a **diversity floor written as a ceiling**. Capping any one theme at four in Light
-is what forces the twentieth slot to go to the best name in a theme not yet represented, which is
-the name that actually adds information.
-
-Three consequences worth knowing:
-
-- **The ceiling scales with the tier, not with the market.** Four, eight, fifteen — going deeper
-  into a market means both more themes and more names per theme. What varies per market is how
-  far below that ceiling the share rule lands.
-- **The cap and the target are one constraint, not two.** `themes x cap` is a hard ceiling on the
-  universe, so a table too thin for its target cannot be fixed by raising the target. Run
-  `taxonomy --check` before researching anything; it does this arithmetic for you.
-- **Hitting the cap is reported, not silent.** Rejected candidates carry
-  `not_selected_under_budget_or_theme_cap` in the audit, and the count of them is in the report.
-  A universe losing many candidates to the cap is telling you its theme table is too coarse for
-  the market it is trying to observe.
+| Tier | Coverage | core target | satellite cap | tactical cap |
+|---|---|---:|---:|---:|
+| Light | Core structure and core themes | 80% | 15% | 5% |
+| Medium | All major sectors and major second-level themes | 65% | 25% | 10% |
+| Heavy | Qualified broad, cold and emerging themes | 50% | 35% | 15% |
 
 Quotas are targets, not filling instructions. With no qualified satellite, the seats return to
 core; with no candidate clearing the hard gates, the universe is allowed to sit below its lower
@@ -129,6 +70,53 @@ A bucket that ends up more than ten points above its target is reported as a war
 that means the qualified core ran out, and on a review it means the universe has been drifting one
 evidence-backed operation at a time.
 
+## There is no theme cap
+
+There used to be one: a ceiling on how many members any single theme could hold. It is gone, and
+what replaced it is the reason it had to go.
+
+A cap says every theme is worth the same. That is false in every market and obviously false in
+some. Semiconductors, the battery chain and the software complex carry what the A-share market
+does; property development is still listed, still liquid, and worth watching — but not on the
+same shelf. Under a shared ceiling there were only two outcomes, and both were wrong: cut the
+theme that matters off at four names, or hand four slots to the theme that does not and watch the
+selector fill them with whatever was least bad.
+
+So a theme now carries a **weight** instead, and the ceiling is gone entirely.
+
+```text
+priority(theme) = weight / (2 x members already held + 1)
+```
+
+Every theme reachable at the tier's coverage level gets its first member before any theme gets a
+second — breadth is a floor and is not negotiable. After that, each remaining slot goes to the
+theme with the highest priority, which is the Sainte-Laguë divisor rule used to apportion seats
+to votes. Run to convergence it gives a theme members in proportion to its weight: three times
+the weight, about three times the members. Within the chosen theme, the slot goes to the
+best-ranked candidate the bucket quotas still allow.
+
+Three properties follow, and they are the ones a cap could not give:
+
+- **An empty bench costs nothing.** A theme with no eligible candidates left simply stops winning
+  slots, and they flow to the next theme in line. Under a cap, a thin theme held its allowance
+  open while the universe finished short.
+- **Weights are auditable and local.** They live in the taxonomy, beside the theme they describe,
+  where the person arguing about semiconductors versus property can see and change the number.
+  A cap lived in the policy file and applied to everything.
+- **Concentration is disclosed, not prevented.** The report prints the largest theme, its share
+  of the universe, and what its weight asked for. If a market really is one theme deep — Taiwan
+  is — the universe says so instead of hiding it behind a ceiling.
+
+Weights run from 0.25 to 4.0, default 1.0. The range is a guard rail, not a judgement: below a
+quarter a theme is not worth a row in the table, and above four the apportionment is being used
+to hand-pick the universe, which is what roles and buckets are for. `taxonomy --check` reports
+any theme weighted to hold more than 15% of the universe — not as an error, because that may be
+exactly right, but because it should be deliberate.
+
+Validation is a disclosure too. A theme holding five or more members and more than 2.5x its
+weighted share is reported, because a build apportions but maintenance does not: a pool can walk
+a long way into one theme, one evidence-backed operation at a time, and nothing else would say so.
+
 ## Coverage levels
 
 Every theme in the taxonomy carries one:
@@ -136,6 +124,12 @@ Every theme in the taxonomy carries one:
 - `coverage_level=1` — the market skeleton Light must cover;
 - `coverage_level=2` — the major themes Medium adds;
 - `coverage_level=3` — the breadth, cold and emerging themes Heavy adds.
+
+A market's own table moves themes between levels. Autos sit at level 2 in the shared equity base
+and at level 1 in Japan and Germany; games and interactive sit at level 3 in the base and at
+level 1 in Japan and Korea. That is the same statement as a weight, made at a coarser grain: not
+how much of the universe this theme is worth, but whether the shallowest tier has to look at it
+at all.
 
 Inside a theme, members are still ordered by role and metrics. What Heavy adds should mostly be
 independent sensors, supply-chain breadth, high beta, liquidity and new-listing observation — not

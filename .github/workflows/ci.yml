@@ -60,11 +60,19 @@ jobs:
             --output /tmp/crypto.draft.json
           python scripts/universe.py taxonomy --market crypto --profile light > /dev/null
       - name: check every starter theme table
+        # Every registered market, at every depth, read off the registry rather than listed here
+        # -- a market added without a table that checks clean fails the job on the same commit.
         run: |
-          for market in cn us crypto; do
+          markets=$(python -c \
+            "import sys; sys.path.insert(0, 'scripts'); import universe_core; \
+             print(' '.join(sorted(universe_core.MARKETS)))")
+          echo "checking: $markets"
+          for market in $markets; do
             python scripts/universe.py taxonomy --market "$market" --output "/tmp/$market.tax.json"
-            python scripts/universe.py taxonomy --check "/tmp/$market.tax.json" \
-              --market "$market" > /dev/null
+            for profile in light medium heavy; do
+              python scripts/universe.py taxonomy --check "/tmp/$market.tax.json" \
+                --market "$market" --profile "$profile" > /dev/null
+            done
           done
       - name: the report follows the market's language
         run: |

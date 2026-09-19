@@ -136,6 +136,123 @@ MARKET_SPECS: dict[str, MarketSpec] = {
                 "unlock_overhang", "supply_concentration", "unaudited_contract",
             }),
         ),
+        MarketSpec(
+            code="jp",
+            label="Japan equities",
+            venues=frozenset({"TSE"}),
+            symbol_pattern=re.compile(r"\d{3}[0-9A-Z]"),
+            symbol_hint="four characters: three digits then a digit or a letter",
+            language="ja",
+            quality_flags=frozenset({
+                "security_on_alert", "supervision_post", "listing_criteria_shortfall",
+            }),
+        ),
+        MarketSpec(
+            code="hk",
+            label="Hong Kong equities",
+            venues=frozenset({"HKEX"}),
+            symbol_pattern=re.compile(r"\d{1,5}"),
+            symbol_hint="one to five digits, unpadded",
+            language="zh-Hant",
+            quality_flags=frozenset({
+                "prolonged_suspension", "cancellation_procedure", "shell_activity_concern",
+            }),
+        ),
+        MarketSpec(
+            code="in",
+            label="India equities",
+            venues=frozenset({"NSE", "BSE"}),
+            symbol_pattern=re.compile(r"[A-Z][A-Z0-9&\-]{0,19}"),
+            symbol_hint="an alphanumeric code, ampersand and hyphen allowed",
+            quality_flags=frozenset({
+                "asm_surveillance", "gsm_surveillance", "promoter_pledge",
+            }),
+        ),
+        MarketSpec(
+            code="kr",
+            label="Korea equities",
+            venues=frozenset({"KRX"}),
+            symbol_pattern=re.compile(r"\d{6}"),
+            symbol_hint="six digits",
+            language="ko",
+            quality_flags=frozenset({
+                "administrative_issue", "investment_alert", "trading_halt_review",
+            }),
+        ),
+        MarketSpec(
+            code="tw",
+            label="Taiwan equities",
+            venues=frozenset({"TWSE", "TPEX"}),
+            symbol_pattern=re.compile(r"\d{4,6}[A-Z]?"),
+            symbol_hint="four to six digits, optionally one trailing letter",
+            language="zh-Hant",
+            quality_flags=frozenset({
+                "disposition_stock", "altered_trading_method", "full_delivery",
+            }),
+        ),
+        MarketSpec(
+            code="uk",
+            label="UK equities",
+            venues=frozenset({"LSE"}),
+            symbol_pattern=re.compile(r"[A-Z][A-Z0-9.]{0,5}"),
+            symbol_hint="two to six characters starting with a letter",
+            quality_flags=frozenset({
+                "offer_period", "cancellation_notice", "listing_category_transfer",
+            }),
+        ),
+        MarketSpec(
+            code="de",
+            label="Germany equities",
+            venues=frozenset({"XETR", "FWB"}),
+            symbol_pattern=re.compile(r"[A-Z][A-Z0-9]{0,5}"),
+            symbol_hint="one to six characters starting with a letter",
+            language="de",
+            quality_flags=frozenset({
+                "squeeze_out", "delisting_offer", "prime_standard_breach",
+            }),
+        ),
+        MarketSpec(
+            code="fr",
+            label="Euronext Paris equities",
+            venues=frozenset({"EURONEXT"}),
+            symbol_pattern=re.compile(r"[A-Z][A-Z0-9]{0,4}"),
+            symbol_hint="one to five characters starting with a letter",
+            language="fr",
+            quality_flags=frozenset({
+                "tender_offer_period", "amf_injunction", "transfer_to_growth",
+            }),
+        ),
+        MarketSpec(
+            code="ca",
+            label="Canada equities",
+            venues=frozenset({"TSX", "TSXV"}),
+            symbol_pattern=re.compile(r"[A-Z][A-Z0-9.]{0,9}"),
+            symbol_hint="one to ten characters starting with a letter",
+            quality_flags=frozenset({
+                "cease_trade_order", "management_cto", "delisting_review",
+            }),
+        ),
+        MarketSpec(
+            code="au",
+            label="Australia equities",
+            venues=frozenset({"ASX"}),
+            symbol_pattern=re.compile(r"[A-Z][A-Z0-9]{2,5}"),
+            symbol_hint="three to six characters starting with a letter",
+            quality_flags=frozenset({
+                "asx_price_query", "voluntary_administration", "capital_raising_halt",
+            }),
+        ),
+        MarketSpec(
+            code="br",
+            label="Brazil equities",
+            venues=frozenset({"BMFBOVESPA"}),
+            symbol_pattern=re.compile(r"[A-Z]{4}\d{1,2}"),
+            symbol_hint="four letters then one or two digits",
+            language="pt-BR",
+            quality_flags=frozenset({
+                "judicial_recovery", "cvm_inquiry", "segment_downgrade",
+            }),
+        ),
     )
 }
 MARKETS = frozenset(MARKET_SPECS)
@@ -148,7 +265,7 @@ MARKETS = frozenset(MARKET_SPECS)
 DECLARED_SPEC_FIELDS = frozenset({
     "code", "label", "language", "venues", "symbol_pattern", "symbol_hint",
     "venue_in_asset_id", "asset_id_strip", "factor_r2_required", "quality_flags",
-    "guidance", "evidence",
+    "breadth", "guidance", "evidence",
 })
 MARKET_CODE_RE = re.compile(r"[a-z][a-z0-9_]{1,15}")
 VENUE_RE = re.compile(r"[A-Z][A-Z0-9_.\-]{1,15}")
@@ -227,7 +344,7 @@ EXCLUSION_CODES = {
 # Reasons this module writes into the selection audit itself.
 AUDIT_CODES = {
     "outside_profile_coverage",
-    "not_selected_under_budget_or_theme_cap",
+    "not_selected_under_budget",
     "removed_by_maintenance",
     "removed_by_downgrade",
     "not_in_seed_universe",
@@ -245,17 +362,28 @@ OP_ORDER = {
     "REMOVE_THEME": 5,
     "NO_CHANGE": 6,
 }
-# A theme cap is a share, not a count. The number in the policy is the tier's ceiling — the most
-# any one theme may hold at that depth, whatever the market — and the cap actually in force is the
-# tighter of that and half again a theme's fair share of the universe. Holding the count fixed
-# across markets looked market-independent and was not: at 4/8/15 one crypto theme could take 10%
-# to 12% of its universe while one equity theme could take 2.5% to 5%, because the denominators
-# differ by an order of magnitude. This is the same statement as sizing a target at two thirds of
-# capacity, enforced per build instead of asked of whoever edits the policy file.
-THEME_CAP_FAIR_SHARE = 1.5
-# One member per theme is a list of themes, not a universe: a theme has to be able to hold a
-# leader and a challenger before its slots say anything.
-MIN_THEME_CAP = 2
+# Themes are not equal and a cap said they were. Semiconductors in CN, or the megacap platforms in
+# US, carry more of what their market does than property development does, and a ceiling both had
+# to share meant either the important theme was cut off or the unimportant one was handed slots it
+# had nothing to fill them with. So there is no cap. A theme declares a `weight` — how much of the
+# market it accounts for — and the slots left after every theme has its first one are apportioned
+# to weight by the Sainte-Laguë divisor rule. A weight-3 theme with a deep bench ends up with
+# roughly three times the members of a weight-1 theme, and a theme that runs out of eligible
+# candidates simply stops being served, with its slots flowing to the next theme in line.
+DEFAULT_THEME_WEIGHT = 1.0
+# The range is a guard rail, not a judgement. Below a quarter a theme is not worth a row in the
+# table; above four the apportionment is being used to hand-pick the universe, which is what the
+# roles and the buckets are for.
+MIN_THEME_WEIGHT = 0.25
+MAX_THEME_WEIGHT = 4.0
+# One theme holding more than this share of a universe is not an error — it may be exactly what
+# the market looks like — but it is worth saying out loud, in the report and in the taxonomy check.
+THEME_CONCENTRATION_NOTICE = 0.15
+# What counts as a pool that walked away from its own table. Deliberately loose: a build hands
+# unfilled slots to whichever theme still has candidates, so the honest reading of a busy theme
+# is usually that its neighbours were thin, not that anything is wrong.
+THEME_DRIFT_RATIO = 2.5
+THEME_DRIFT_FLOOR = 5
 # How far a bucket may sit above its profile target before the drift is reported.
 BUCKET_DRIFT_TOLERANCE = 0.10
 STRONG_EVIDENCE_TIERS = {1, 2}
@@ -338,10 +466,14 @@ def check_taxonomy(
                 "this part of the market is invisible to a Light universe"
             )
 
-    guidance = (policy.get("markets") or {}).get(str(market).strip().lower())
+    try:
+        guidance = market_guidance(str(market).strip().lower(), policy, None)
+    except UniverseError:
+        guidance = None
     stats: dict[str, Any] = {
         "themes": len(taxonomy),
         "l1_groups": len(names),
+        "weight_total": round(sum(theme_weight(item) for item in taxonomy), 3),
         "by_level": {str(level): by_level[level] for level in (1, 2, 3)},
         "capacity": {},
     }
@@ -349,16 +481,19 @@ def check_taxonomy(
         raise UniverseError(f"profile must be one of {', '.join(PROFILES)}")
     for name in (profile,) if profile else PROFILES:
         level = int(policy["profiles"][name]["coverage_level"])
-        cap = int(policy["profiles"][name]["theme_cap"])
-        reachable = sum(by_level[step] for step in range(1, level + 1))
+        in_level = [item for item in taxonomy if int(item["coverage_level"]) <= level]
+        reachable = len(in_level)
         want = target if target is not None else (
             int(guidance[name]["target"]) if guidance else None
         )
         stats["capacity"][name] = {
             "themes": reachable,
-            "max_members": reachable * cap,
             "target": want,
-            "theme_cap": theme_cap_for(want, reachable, cap) if want else cap,
+            "weight_total": round(sum(theme_weight(item) for item in in_level), 3),
+            "expected": {
+                code: round(share, 1)
+                for code, share in sorted(expected_members(in_level, want or 0).items())
+            } if want else {},
         }
         if want is None:
             continue
@@ -369,12 +504,13 @@ def check_taxonomy(
                 f"{name}: {reachable} themes against a target of {want}; every theme must "
                 "hold a member, so widen the target or raise some themes' coverage_level"
             )
-        elif reachable * cap < want:
-            warnings.append(
-                f"{name}: {reachable} themes x theme_cap {cap} reaches {reachable * cap}, "
-                f"short of the {want} target; add Level-{level} themes or the pool will fill "
-                "against the cap"
-            )
+        for code, share in sorted(expected_members(in_level, want).items()):
+            if share / want > THEME_CONCENTRATION_NOTICE:
+                warnings.append(
+                    f"{name}: {code} is weighted to about {share:.0f} of {want} members "
+                    f"({share / want:.0%} of the universe); that is the table saying so, not a "
+                    "limit — check it is what you meant"
+                )
         if reachable + want > 1000:
             warnings.append(
                 f"{name}: {reachable} themes + {want} tickers exceeds the 1000-token "
@@ -392,18 +528,51 @@ def check_taxonomy(
     }
 
 
-def theme_cap_for(target: int, themes: int, ceiling: int) -> int:
-    """The most members one theme may hold in this build.
+def theme_weight(item: dict[str, Any]) -> float:
+    return float(item.get("weight") or DEFAULT_THEME_WEIGHT)
 
-    Never above the tier's ceiling, never below two, and otherwise half again what the theme
-    would hold if the universe were spread evenly. A richer taxonomy therefore tightens the cap
-    on its own, which is what keeps the cap doing its job in a market whose table outgrew it.
+
+def theme_priority(weight: float, held: int) -> float:
+    """Sainte-Laguë: the claim a theme has on the next free slot.
+
+    A theme holding `held` members and carrying `weight` divides by `2 x held + 1`, so the first
+    slot is cheap and each further one costs more. Run to convergence this apportions the
+    universe to weight — three times the weight, about three times the members — without ever
+    naming a ceiling, and a theme whose bench is empty drops out of the race instead of holding
+    slots the way a quota would.
     """
-    ceiling = int(ceiling)
-    if themes <= 0:
-        return ceiling
-    fair = int(THEME_CAP_FAIR_SHARE * int(target) / int(themes) + 0.5)
-    return max(MIN_THEME_CAP, min(ceiling, fair))
+    return float(weight) / float(2 * int(held) + 1)
+
+
+def expected_members(taxonomy: list[dict[str, Any]], target: int) -> dict[str, float]:
+    """What apportionment converges on, if every theme had candidates enough to take its share."""
+    total = sum(theme_weight(item) for item in taxonomy)
+    if total <= 0:
+        return {}
+    return {
+        item["theme_code"]: float(target) * theme_weight(item) / total for item in taxonomy
+    }
+
+
+def tier_guidance(breadth: float, policy: dict[str, Any]) -> dict[str, dict[str, int]]:
+    """How big this market's Light, Medium and Heavy are.
+
+    One number per market. A tier is a base size — 60, 160, 400 — scaled by the market's breadth:
+    how much investable, liquid, separately-moving stock it actually lists. The US and the A-share
+    market carry more distinguishable names than Brazil does, so the same depth of observation
+    costs more tickers there, and pretending otherwise gave Brazil a Heavy universe it had to
+    pad and the US a Light one that left whole sectors unwatched. The band around the target is
+    the same everywhere: plus or minus a quarter, rounded to ten.
+    """
+    band = float(policy.get("guidance_band", 0.25))
+    guidance: dict[str, dict[str, int]] = {}
+    for profile in PROFILES:
+        base = float(policy["tiers"][profile])
+        target = max(5, int(round(base * float(breadth) / 5.0)) * 5)
+        low = min(target, max(10, int(round(target * (1 - band) / 10.0)) * 10))
+        high = max(target, int(round(target * (1 + band) / 10.0)) * 10)
+        guidance[profile] = {"min": low, "target": target, "max": high}
+    return guidance
 
 
 def locales_path() -> Path:
@@ -437,14 +606,66 @@ def starter_taxonomy(market: str, profile: str | None = None) -> list[dict[str, 
     a fixed schema — but starting from an edit is a different task from starting from nothing.
     """
     spec = market_spec(market)
-    path = Path(__file__).resolve().parent.parent / "assets" / "taxonomy" / f"{spec.code}.json"
-    taxonomy = normalize_taxonomy(read_json(path).get("taxonomy") or [])
+    taxonomy = normalize_taxonomy(resolve_taxonomy_file(taxonomy_path(spec.code)))
     if profile is None:
         return taxonomy
     if profile not in PROFILES:
         raise UniverseError(f"profile must be one of {', '.join(PROFILES)}")
     level = int(load_policy()["profiles"][profile]["coverage_level"])
     return [item for item in taxonomy if item["coverage_level"] <= level]
+
+
+def taxonomy_path(name: str) -> Path:
+    return Path(__file__).resolve().parent.parent / "assets" / "taxonomy" / f"{name}.json"
+
+
+def resolve_taxonomy_file(path: Path, _seen: frozenset[str] = frozenset()) -> list[dict[str, Any]]:
+    """Read a theme table, resolving the one inheritance step a market table is allowed.
+
+    Fourteen markets do not have fourteen unrelated sector structures. Banks, semiconductors,
+    pharma and utilities are the same idea in Frankfurt and in Toronto, and copying the shared
+    skeleton into every file would mean a correction landing in one of them and not the other
+    thirteen. So the shared part lives in `_equity.json` and a market file states only its
+    delta: the groups it renames into its own language, the themes it does not have, the ones it
+    has and nobody else does, and the weights that say which of them its market is actually
+    about. A table that inherits nothing — crypto — just carries `taxonomy` and is read as is.
+    """
+    document = read_json(path)
+    parent = document.get("extends")
+    if not parent:
+        return list(document.get("taxonomy") or [])
+    parent = str(parent)
+    if parent in _seen or parent == path.stem:
+        raise UniverseError(f"taxonomy {path.stem}: extends cycle through {parent!r}")
+    rows = {
+        str(item.get("theme_code")): dict(item)
+        for item in resolve_taxonomy_file(taxonomy_path(parent), _seen | {path.stem})
+    }
+    for code in document.get("drop") or []:
+        if str(code) not in rows:
+            raise UniverseError(f"taxonomy {path.stem}: drop names unknown theme {code}")
+        rows.pop(str(code))
+    for item in document.get("add") or []:
+        rows[str(item.get("theme_code"))] = dict(item)
+    for group, label in (document.get("groups") or {}).items():
+        touched = [row for row in rows.values() if row.get("l1_code") == str(group)]
+        if not touched:
+            raise UniverseError(f"taxonomy {path.stem}: groups names unknown l1_code {group}")
+        for row in touched:
+            row["l1_name"] = label
+    for code, patch in (document.get("rename") or {}).items():
+        if str(code) not in rows:
+            raise UniverseError(f"taxonomy {path.stem}: rename names unknown theme {code}")
+        rows[str(code)].update(patch)
+    for code, level in (document.get("level") or {}).items():
+        if str(code) not in rows:
+            raise UniverseError(f"taxonomy {path.stem}: level names unknown theme {code}")
+        rows[str(code)]["coverage_level"] = level
+    for code, weight in (document.get("weight") or {}).items():
+        if str(code) not in rows:
+            raise UniverseError(f"taxonomy {path.stem}: weight names unknown theme {code}")
+        rows[str(code)]["weight"] = weight
+    return list(rows.values())
 
 
 def canonical_hash(value: Any) -> str:
@@ -563,24 +784,42 @@ def normalize_market_declaration(raw: Any, market: str) -> dict[str, Any]:
                 f"market_spec: quality flag {flag!r} is already universal; declare only the "
                 "ones this market's regime issues and no other's does"
             )
-    # Size guidance is not optional for a declared market. The deeper tiers are defined relative
-    # to the shallower ones, so a build with no stated Light size has no way to reach Medium
-    # except by inventing one — and an invented range reports nothing when a universe is wrong.
+    # Size is not optional for a declared market. The deeper tiers are defined relative to the
+    # shallower ones, so a build with no stated Light size has no way to reach Medium except by
+    # inventing one — and an invented range reports nothing when a universe is wrong. State it
+    # the way a registered market does, as one breadth factor, or state the nine numbers.
+    breadth = raw.get("breadth")
     guidance = raw.get("guidance")
-    if not isinstance(guidance, dict) or set(guidance) != set(PROFILES):
+    if (breadth is None) == (guidance is None):
         raise UniverseError(
-            "market_spec: guidance must carry " + ", ".join(PROFILES) +
-            " (same shape as assets/default-policy.json markets.<code>)"
+            "market_spec: declare exactly one of breadth (a scale on the 60/160/400 tier bases, "
+            "like every registered market) or guidance (min, target and max per tier)"
         )
-    clean_guidance: dict[str, dict[str, int]] = {}
-    for profile in PROFILES:
-        row = guidance[profile]
-        if not isinstance(row, dict) or set(row) != {"min", "target", "max"}:
-            raise UniverseError(f"market_spec: guidance.{profile} needs min, target and max")
-        values = {key: int(row[key]) for key in ("min", "target", "max")}
-        if not 0 < values["min"] <= values["target"] <= values["max"]:
-            raise UniverseError(f"market_spec: guidance.{profile} must be 0 < min <= target <= max")
-        clean_guidance[profile] = values
+    clean_breadth: float | None = None
+    clean_guidance: dict[str, dict[str, int]] | None = None
+    if breadth is not None:
+        if isinstance(breadth, bool) or not isinstance(breadth, (int, float)):
+            raise UniverseError("market_spec: breadth must be a number")
+        if not 0.1 <= float(breadth) <= 3.0:
+            raise UniverseError("market_spec: breadth must be between 0.1 and 3.0")
+        clean_breadth = float(breadth)
+    else:
+        if not isinstance(guidance, dict) or set(guidance) != set(PROFILES):
+            raise UniverseError(
+                "market_spec: guidance must carry " + ", ".join(PROFILES) +
+                " (min, target and max for each)"
+            )
+        clean_guidance = {}
+        for profile in PROFILES:
+            row = guidance[profile]
+            if not isinstance(row, dict) or set(row) != {"min", "target", "max"}:
+                raise UniverseError(f"market_spec: guidance.{profile} needs min, target and max")
+            values = {key: int(row[key]) for key in ("min", "target", "max")}
+            if not 0 < values["min"] <= values["target"] <= values["max"]:
+                raise UniverseError(
+                    f"market_spec: guidance.{profile} must be 0 < min <= target <= max"
+                )
+            clean_guidance[profile] = values
     subject = f"market_spec {code}"
     evidence = validate_evidence(raw.get("evidence") or [], subject)
     require_strong_evidence(evidence, subject)
@@ -595,6 +834,7 @@ def normalize_market_declaration(raw: Any, market: str) -> dict[str, Any]:
         "asset_id_strip": strip,
         "factor_r2_required": bool(raw.get("factor_r2_required", False)),
         "quality_flags": flags,
+        "breadth": clean_breadth,
         "guidance": clean_guidance,
         "evidence": evidence,
     }
@@ -631,13 +871,22 @@ def _spec(value: str | MarketSpec) -> MarketSpec:
 def market_guidance(
     market: str, policy: dict[str, Any], declaration: dict[str, Any] | None
 ) -> dict[str, Any]:
-    """Size guidance from the shipped policy, or from the declaration for a market it omits."""
+    """How big this market's tiers are, derived from its breadth or stated outright.
+
+    A registered market carries one number, its breadth, and the three tiers follow from it. A
+    declared market may do the same, or state the nine numbers itself when it knows better than
+    a scale factor can say.
+    """
     if declaration:
-        return declaration["guidance"]
-    guidance = (policy.get("markets") or {}).get(market)
-    if not guidance:
+        if declaration.get("guidance"):
+            return declaration["guidance"]
+        return tier_guidance(declaration["breadth"], policy)
+    row = (policy.get("markets") or {}).get(market)
+    if not row:
         raise UniverseError(f"policy carries no size guidance for market {market!r}")
-    return guidance
+    if "breadth" not in row:
+        raise UniverseError(f"policy markets.{market} carries no breadth")
+    return tier_guidance(row["breadth"], policy)
 
 
 def declared_market_warnings(declaration: dict[str, Any] | None) -> list[str]:
@@ -723,12 +972,22 @@ def normalize_taxonomy(raw: list[dict[str, Any]]) -> list[dict[str, Any]]:
             raise UniverseError(f"{theme_code}: l1_name and theme_name are required")
         if any(char in l1_name + theme_name for char in (",", "\n", "\r")):
             raise UniverseError(f"{theme_code}: taxonomy names cannot contain commas or newlines")
+        raw_weight = item.get("weight", DEFAULT_THEME_WEIGHT)
+        if isinstance(raw_weight, bool) or not isinstance(raw_weight, (int, float)):
+            raise UniverseError(f"{theme_code}: weight must be a number")
+        weight = float(raw_weight)
+        if not MIN_THEME_WEIGHT <= weight <= MAX_THEME_WEIGHT:
+            raise UniverseError(
+                f"{theme_code}: weight {weight} is outside "
+                f"{MIN_THEME_WEIGHT}-{MAX_THEME_WEIGHT}"
+            )
         taxonomy.append({
             "l1_code": l1_code,
             "l1_name": l1_name,
             "theme_code": theme_code,
             "theme_name": theme_name,
             "coverage_level": level,
+            "weight": weight,
         })
     return sorted(taxonomy, key=lambda item: item["theme_code"])
 
@@ -1124,11 +1383,8 @@ def _add_candidate(
     selected_assets: set[str],
     theme_counts: Counter[str],
     candidate: dict[str, Any],
-    theme_cap: int,
 ) -> bool:
     if candidate["asset_id"] in selected_assets:
-        return False
-    if theme_counts[candidate["theme_code"]] >= theme_cap:
         return False
     selected.append(candidate)
     selected_assets.add(candidate["asset_id"])
@@ -1149,7 +1405,6 @@ def _select_stage(
     allowed_themes = [
         item for item in taxonomy if int(item["coverage_level"]) <= coverage_level
     ]
-    theme_cap = theme_cap_for(target, len(allowed_themes), profile_policy["theme_cap"])
     allowed_codes = {item["theme_code"] for item in allowed_themes}
     eligible = [
         candidate for candidate in candidates
@@ -1177,12 +1432,15 @@ def _select_stage(
         key=lambda item: (item["theme_code"], rank_key(item)),
     )
     for candidate in required:
-        _add_candidate(selected, selected_assets, theme_counts, candidate, theme_cap)
+        _add_candidate(selected, selected_assets, theme_counts, candidate)
 
+    # Breadth first, and only one deep. Every theme inside the coverage level holds a member
+    # before any theme holds a second, so the instrument still looks at the whole market no
+    # matter how lopsided the weights are.
     for theme in allowed_themes:
         if theme_counts[theme["theme_code"]] == 0:
             _add_candidate(
-                selected, selected_assets, theme_counts, by_theme[theme["theme_code"]][0], theme_cap
+                selected, selected_assets, theme_counts, by_theme[theme["theme_code"]][0]
             )
 
     if len(selected) > target:
@@ -1192,29 +1450,50 @@ def _select_stage(
         )
 
     bucket_targets = profile_policy["bucket_targets"]
+    quotas = {
+        bucket: math.floor(target * float(share)) for bucket, share in bucket_targets.items()
+    }
     bucket_counts = Counter(candidate_bucket(item) for item in selected)
-    for bucket in ("core", "satellite", "tactical"):
-        quota = math.floor(target * float(bucket_targets[bucket]))
-        ranked = sorted(
-            (item for item in eligible if candidate_bucket(item) == bucket),
-            key=rank_key,
-        )
-        for candidate in ranked:
-            if len(selected) >= target or bucket_counts[bucket] >= quota:
-                break
-            if _add_candidate(selected, selected_assets, theme_counts, candidate, theme_cap):
-                bucket_counts[bucket] += 1
 
-    for candidate in sorted(eligible, key=rank_key):
-        if len(selected) >= target:
-            break
-        if _add_candidate(selected, selected_assets, theme_counts, candidate, theme_cap):
-            bucket_counts[candidate_bucket(candidate)] += 1
+    def next_in(theme_code: str, respect_quota: bool) -> dict[str, Any] | None:
+        for candidate in by_theme[theme_code]:
+            if candidate["asset_id"] in selected_assets:
+                continue
+            bucket = candidate_bucket(candidate)
+            if respect_quota and bucket_counts[bucket] >= quotas.get(bucket, 0):
+                continue
+            return candidate
+        return None
+
+    # Two passes over the same apportionment. The first respects the bucket quotas, so the
+    # core/satellite/tactical shape of the tier is what steers which candidate a theme offers;
+    # the second fills whatever the floors left over — quotas are floors of a fraction, so they
+    # rarely add to exactly the target — and by then the shape is already set.
+    for respect_quota in (True, False):
+        while len(selected) < target:
+            best_key: tuple[Any, ...] | None = None
+            best_candidate: dict[str, Any] | None = None
+            for theme in allowed_themes:
+                code = theme["theme_code"]
+                candidate = next_in(code, respect_quota)
+                if candidate is None:
+                    continue
+                key = (
+                    -theme_priority(theme_weight(theme), theme_counts[code]),
+                    rank_key(candidate),
+                    code,
+                )
+                if best_key is None or key < best_key:
+                    best_key, best_candidate = key, candidate
+            if best_candidate is None:
+                break
+            _add_candidate(selected, selected_assets, theme_counts, best_candidate)
+            bucket_counts[candidate_bucket(best_candidate)] += 1
 
     if len(selected) < target:
         warnings.append(
             f"qualified universe filled {len(selected)} of {target}; "
-            "eligibility and theme caps were not relaxed"
+            "eligibility was not relaxed"
         )
     return selected, warnings
 
@@ -1350,7 +1629,7 @@ def build_universe(
                 else "not_in_seed_universe"
             ]
         else:
-            reasons = ["not_selected_under_budget_or_theme_cap"]
+            reasons = ["not_selected_under_budget"]
         selection_audit.append({
             "ticker": candidate["ticker"],
             "asset_id": candidate["asset_id"],
@@ -1431,7 +1710,7 @@ def validate_universe(
         seen_tickers.add(item["ticker"])
         seen_assets.add(item["asset_id"])
         normalized.append(item)
-    theme_cap: int | None = None
+    concentration: dict[str, Any] | None = None
     if rules is not None and profile in PROFILES:
         level = policy["profiles"][profile]["coverage_level"]
         required_themes = {
@@ -1447,20 +1726,33 @@ def validate_universe(
         })
         if disallowed:
             errors.append("themes exceed profile coverage level: " + ", ".join(disallowed))
-        # Recomputed from what the universe records rather than read from the policy, so a
-        # later policy edit cannot retroactively fail a universe that was built correctly.
-        theme_cap = theme_cap_for(
-            int((universe.get("limits") or {}).get("target_count") or len(normalized)),
-            sum(1 for item in taxonomy if int(item["coverage_level"]) <= level),
-            policy["profiles"][profile]["theme_cap"],
-        )
-        over = {
-            code: count
-            for code, count in Counter(item["theme_code"] for item in normalized).items()
-            if count > theme_cap
-        }
-        if over:
-            errors.append(f"theme caps exceeded: {over}")
+        # No cap to check. What is worth saying is where the universe actually concentrated,
+        # measured against what the taxonomy's own weights asked for — a build apportions to
+        # weight, but maintenance adds and removes one name at a time and nothing re-checks the
+        # shape, so a pool can walk a long way from its table without anyone being told.
+        counts = Counter(item["theme_code"] for item in normalized)
+        in_level = [item for item in taxonomy if int(item["coverage_level"]) <= level]
+        expected = expected_members(in_level, len(normalized))
+        top = counts.most_common(1)
+        if top:
+            code, held = top[0]
+            concentration = {
+                "theme_code": code,
+                "members": held,
+                "share": round(held / len(normalized), 4) if normalized else 0.0,
+                "expected": round(expected.get(code, 0.0), 1),
+            }
+        for code, held in sorted(counts.items()):
+            want = expected.get(code)
+            # Generous on purpose. A build already apportions to weight, and a theme whose
+            # neighbours ran out of eligible candidates legitimately absorbs their slots — that
+            # is the behaviour a cap could not produce. What this catches is the other thing:
+            # a pool that maintenance walked into one theme, one evidence-backed op at a time.
+            if want and held >= THEME_DRIFT_FLOOR and held > THEME_DRIFT_RATIO * want:
+                warnings.append(
+                    f"{code} holds {held} members against a weighted share of {want:.0f}; "
+                    "either the weight in the taxonomy is stale or maintenance drifted"
+                )
     try:
         normalize_measurement(
             universe.get("measurement") or {},
@@ -1518,7 +1810,7 @@ def validate_universe(
         "stats": {
             "tickers": len(normalized),
             "themes": len({item["theme_code"] for item in normalized}),
-            "theme_cap": theme_cap,
+            "concentration": concentration,
             "tradingview_tokens": token_count,
             "roles": dict(sorted(Counter(item["role"] for item in normalized).items())),
             "buckets": dict(sorted(Counter(candidate_bucket(item) for item in normalized).items())),
@@ -1711,11 +2003,17 @@ def render_markdown(
         f"- {lex['label.version']}{colon}`{universe['version_hash']}`",
         f"- {lex['label.tickers']}{colon}{report['stats']['tickers']}",
         f"- {lex['label.themes']}{colon}{report['stats']['themes']}",
-        # The cap in force decides what got in, so a reader who cannot see it cannot tell a
-        # universe that spread itself from one whose theme table simply had nothing more to give.
+        # Where the universe concentrated, beside what its own table asked for. Nothing caps a
+        # theme any more, so this line is how a reader tells a market that really is one theme
+        # deep from a taxonomy whose weights were never revisited.
         *([
-            f"- {lex['label.theme_cap']}{colon}{report['stats']['theme_cap']}"
-        ] if report["stats"].get("theme_cap") else []),
+            f"- {lex['label.largest_theme']}{colon}"
+            f"{report['stats']['concentration']['theme_code']} · "
+            f"{report['stats']['concentration']['members']} · "
+            f"{report['stats']['concentration']['share']:.0%} · "
+            f"{lex['label.weighted_share']} "
+            f"{report['stats']['concentration']['expected']:.0f}"
+        ] if report["stats"].get("concentration") else []),
         f"- {lex['label.tv_tokens']}{colon}{report['stats']['tradingview_tokens']} / "
         f"{limits.get('tradingview_token_cap', 1000)}",
         f"- {lex['label.rejected']}{colon}{len(universe.get('selection_audit', []))}",

@@ -64,168 +64,192 @@
       "l1_name": "Core Assets",
       "theme_code": "00_A",
       "theme_name": "CORE_ASSETS",
-      "coverage_level": 1
+      "coverage_level": 1,
+      "weight": 2.5
     },
     {
       "l1_code": "10",
       "l1_name": "Smart Contract Platforms",
       "theme_code": "10_A",
       "theme_name": "L1_MAJORS",
-      "coverage_level": 1
+      "coverage_level": 1,
+      "weight": 2.5
     },
     {
       "l1_code": "10",
       "l1_name": "Smart Contract Platforms",
       "theme_code": "10_B",
       "theme_name": "L1_CHALLENGERS",
-      "coverage_level": 2
+      "coverage_level": 2,
+      "weight": 1.0
     },
     {
       "l1_code": "11",
       "l1_name": "Scaling",
       "theme_code": "11_A",
       "theme_name": "L2_ROLLUPS",
-      "coverage_level": 1
+      "coverage_level": 1,
+      "weight": 1.5
     },
     {
       "l1_code": "11",
       "l1_name": "Scaling",
       "theme_code": "11_B",
       "theme_name": "MODULAR_DA",
-      "coverage_level": 2
+      "coverage_level": 2,
+      "weight": 0.75
     },
     {
       "l1_code": "12",
       "l1_name": "DeFi",
       "theme_code": "12_A",
       "theme_name": "DEX_AND_PERPS",
-      "coverage_level": 1
+      "coverage_level": 1,
+      "weight": 2.0
     },
     {
       "l1_code": "12",
       "l1_name": "DeFi",
       "theme_code": "12_B",
       "theme_name": "LENDING",
-      "coverage_level": 1
+      "coverage_level": 1,
+      "weight": 1.5
     },
     {
       "l1_code": "12",
       "l1_name": "DeFi",
       "theme_code": "12_C",
       "theme_name": "LST_AND_RESTAKING",
-      "coverage_level": 1
+      "coverage_level": 1,
+      "weight": 1.5
     },
     {
       "l1_code": "12",
       "l1_name": "DeFi",
       "theme_code": "12_D",
       "theme_name": "STABLECOIN_AND_YIELD",
-      "coverage_level": 2
+      "coverage_level": 2,
+      "weight": 0.75
     },
     {
       "l1_code": "13",
       "l1_name": "Oracles and Data",
       "theme_code": "13_A",
       "theme_name": "ORACLES",
-      "coverage_level": 1
+      "coverage_level": 1,
+      "weight": 1.0
     },
     {
       "l1_code": "13",
       "l1_name": "Oracles and Data",
       "theme_code": "13_B",
       "theme_name": "DATA_NETWORKS",
-      "coverage_level": 3
+      "coverage_level": 3,
+      "weight": 0.5
     },
     {
       "l1_code": "14",
       "l1_name": "Compute and Storage",
       "theme_code": "14_A",
       "theme_name": "DEPIN_STORAGE",
-      "coverage_level": 2
+      "coverage_level": 2,
+      "weight": 0.75
     },
     {
       "l1_code": "14",
       "l1_name": "Compute and Storage",
       "theme_code": "14_B",
       "theme_name": "AI_COMPUTE",
-      "coverage_level": 1
+      "coverage_level": 1,
+      "weight": 1.75
     },
     {
       "l1_code": "15",
       "l1_name": "Interoperability",
       "theme_code": "15_A",
       "theme_name": "INTEROP",
-      "coverage_level": 1
+      "coverage_level": 1,
+      "weight": 0.75
     },
     {
       "l1_code": "15",
       "l1_name": "Interoperability",
       "theme_code": "15_B",
       "theme_name": "BRIDGES",
-      "coverage_level": 3
+      "coverage_level": 3,
+      "weight": 0.5
     },
     {
       "l1_code": "20",
       "l1_name": "Exchange and Payments",
       "theme_code": "20_A",
       "theme_name": "EXCHANGE_TOKENS",
-      "coverage_level": 1
+      "coverage_level": 1,
+      "weight": 1.0
     },
     {
       "l1_code": "20",
       "l1_name": "Exchange and Payments",
       "theme_code": "20_B",
       "theme_name": "PAYMENT_ASSETS",
-      "coverage_level": 1
+      "coverage_level": 1,
+      "weight": 1.0
     },
     {
       "l1_code": "30",
       "l1_name": "Consumer",
       "theme_code": "30_A",
       "theme_name": "GAMING",
-      "coverage_level": 1
+      "coverage_level": 1,
+      "weight": 0.75
     },
     {
       "l1_code": "30",
       "l1_name": "Consumer",
       "theme_code": "30_B",
       "theme_name": "SOCIAL_AND_NFT",
-      "coverage_level": 3
+      "coverage_level": 3,
+      "weight": 0.5
     },
     {
       "l1_code": "40",
       "l1_name": "Reflexive",
       "theme_code": "40_A",
       "theme_name": "MAJOR_MEMES",
-      "coverage_level": 1
+      "coverage_level": 1,
+      "weight": 1.25
     },
     {
       "l1_code": "40",
       "l1_name": "Reflexive",
       "theme_code": "40_B",
       "theme_name": "ROTATIONAL_MEMES",
-      "coverage_level": 3
+      "coverage_level": 3,
+      "weight": 0.75
     },
     {
       "l1_code": "50",
       "l1_name": "Store of Value",
       "theme_code": "50_A",
       "theme_name": "PROOF_OF_WORK",
-      "coverage_level": 1
+      "coverage_level": 1,
+      "weight": 1.0
     },
     {
       "l1_code": "50",
       "l1_name": "Store of Value",
       "theme_code": "50_B",
       "theme_name": "PRIVACY",
-      "coverage_level": 2
+      "coverage_level": 2,
+      "weight": 0.5
     },
     {
       "l1_code": "60",
       "l1_name": "Real World Assets",
       "theme_code": "60_A",
       "theme_name": "RWA",
-      "coverage_level": 1
+      "coverage_level": 1,
+      "weight": 1.25
     }
   ],
   "candidates": [

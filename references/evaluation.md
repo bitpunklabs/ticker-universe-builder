@@ -1,7 +1,7 @@
 # Evaluation
 
 Every threshold in this skill is a guess. The guidance ranges, `BETA_FULL_SCALE`, the listing-age
-bands, the score weights, `theme_cap` — all set by judgement, none ever checked against an
+bands, the score weights, the theme weights — all set by judgement, none ever checked against an
 outcome. `evaluate` is the only thing here that can change that, and it matters more for a
 market whose rules were declared at run time than for one that was reviewed once by a person.
 
@@ -36,7 +36,7 @@ beside every coverage number.
 | `survival` | members the table cannot see, or that print fewer than 10 bars | the freshness window and the review cadence |
 | `coverage` | of the largest absolute moves in the pool, how many the universe held — and names the ones it missed | the per-market guidance ranges: was it wide enough |
 | `rejections` | median move of the rejected candidates, **by exclusion code**, and which of them landed in the top cut | the eligibility rules. "Some rejections were expensive" changes nothing; "every candidate dropped for `insufficient_liquidity` was in the top ten" changes a threshold |
-| `themes` | realised volatility per theme and its share of the total | `theme_cap`, and whether the taxonomy spread its slots where the market moved |
+| `themes` | realised volatility per theme and its share of the total | the theme weights, and whether the taxonomy put its slots where the market moved |
 | `metrics` | Spearman rank correlation of each metric against the realised move and against realised volatility | `SCORE_WEIGHTS` |
 | `independence` | declared `independence` against `100 - R²` from an OLS on the benchmark basket | `BETA_FULL_SCALE` and the `INDEPENDENT_SENSOR >= 50` gate |
 

@@ -6,6 +6,7 @@ import re
 import sys
 import tempfile
 import unittest
+from collections import Counter
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -30,19 +31,24 @@ from universe_core import (  # noqa: E402
     declared_market_warnings,
     default_asset_id,
     diff_universes,
+    expected_members,
     languages,
     load_lexicon,
     load_policy,
+    market_guidance,
     market_spec,
     normalize_candidate,
     normalize_market_declaration,
+    normalize_taxonomy,
     quality_flag_codes,
     read_json,
     render_markdown,
     render_txt,
     report_language,
     starter_taxonomy,
-    theme_cap_for,
+    theme_priority,
+    theme_weight,
+    tier_guidance,
     universe_hash,
     validate_ticker,
     validate_universe,
@@ -156,11 +162,10 @@ def snapshot() -> dict:
 
 def small_policy() -> dict:
     value = copy.deepcopy(load_policy())
-    value["markets"]["crypto"] = {
-        "light": {"min": 1, "target": 2, "max": 2},
-        "medium": {"min": 2, "target": 3, "max": 3},
-        "heavy": {"min": 3, "target": 4, "max": 4},
-    }
+    # A two-name universe: small enough that every selection rule is visible in one diff.
+    value["tiers"] = {"light": 2, "medium": 3, "heavy": 4}
+    value["markets"]["crypto"] = {"breadth": 1.0}
+    value["guidance_band"] = 0.0
     return value
 
 
@@ -453,18 +458,39 @@ class MarketRegistryTests(unittest.TestCase):
         policy = load_policy()
         self.assertEqual(set(MARKET_SPECS), set(policy["markets"]))
         for code in MARKET_SPECS:
-            self.assertEqual(set(policy["markets"][code]), {"light", "medium", "heavy"})
+            self.assertEqual(set(policy["markets"][code]), {"breadth"})
 
-    def test_a_size_band_is_one_rule_rather_than_nine_numbers(self) -> None:
-        # min and max used to be set by hand per market per profile, which is nine chances to
-        # be inconsistent and no way to tell which of the nine was deliberate. They are the
-        # target plus or minus a quarter, rounded to ten, and nothing else.
-        for code, rows in load_policy()["markets"].items():
-            for name, row in rows.items():
+    def test_a_market_states_its_size_as_one_number(self) -> None:
+        # Nine numbers per market is nine chances to be inconsistent and no way to tell which
+        # of the nine was deliberate. A market states its breadth; the three targets are the
+        # tier bases scaled by it and the band is the target plus or minus a quarter.
+        policy = load_policy()
+        for code, row in policy["markets"].items():
+            self.assertEqual(set(row), {"breadth"}, code)
+            guidance = market_guidance(code, policy, None)
+            for name, band in guidance.items():
                 with self.subTest(market=code, profile=name):
-                    target = row["target"]
-                    self.assertEqual(row["min"], round(target * 0.75 / 10) * 10)
-                    self.assertEqual(row["max"], round(target * 1.25 / 10) * 10)
+                    base = policy["tiers"][name]
+                    self.assertEqual(band["target"], round(base * row["breadth"] / 5) * 5)
+                    self.assertEqual(band["min"], round(band["target"] * 0.75 / 10) * 10)
+                    self.assertEqual(band["max"], round(band["target"] * 1.25 / 10) * 10)
+
+    def test_a_bigger_market_gets_a_bigger_universe_at_the_same_depth(self) -> None:
+        # The thing breadth exists to say. Light in the US is not Light in Brazil, because the
+        # same depth of observation costs more tickers where more distinguishable stock lists.
+        policy = load_policy()
+        sizes = {
+            code: market_guidance(code, policy, None)["light"]["target"]
+            for code in ("us", "cn", "jp", "uk", "br")
+        }
+        self.assertEqual(sizes, dict(sorted(sizes.items(), key=lambda kv: -kv[1])))
+        self.assertGreater(sizes["us"], sizes["br"] * 2)
+
+    def test_a_market_can_be_sized_without_the_policy_file(self) -> None:
+        band = tier_guidance(1.0, load_policy())
+        self.assertEqual(
+            [band[name]["target"] for name in PROFILES], [60, 160, 400]
+        )
 
     def test_every_starter_table_can_reach_its_own_target(self) -> None:
         # The gap this closes: guidance and the starter taxonomy were two independent sets of
@@ -475,16 +501,27 @@ class MarketRegistryTests(unittest.TestCase):
         for code in sorted(MARKETS):
             for name in PROFILES:
                 with self.subTest(market=code, profile=name):
-                    result = check_taxonomy(
-                        read_json(ROOT / "assets" / "taxonomy" / f"{code}.json"), code,
-                        profile=name,
-                    )
+                    result = check_taxonomy(starter_taxonomy(code), code, profile=name)
                     self.assertTrue(result["passed"], result["errors"])
                     self.assertEqual(result["warnings"], [])
 
     def test_unknown_market_is_named_not_silently_dropped(self) -> None:
-        with self.assertRaisesRegex(UniverseError, "unsupported market 'hk'"):
-            market_spec("hk")
+        with self.assertRaisesRegex(UniverseError, "unsupported market 'th'"):
+            market_spec("th")
+
+    def test_the_registry_covers_the_markets_the_skill_claims_to_cover(self) -> None:
+        # Fourteen rows, one policy breadth each, one starter table each, and a locale for the
+        # language each of them defaults to. A market half-registered is worse than one not
+        # registered at all: it builds, and nothing says which half is missing.
+        policy = load_policy()
+        self.assertGreaterEqual(len(MARKETS), 14)
+        for code in sorted(MARKETS):
+            with self.subTest(market=code):
+                spec = market_spec(code)
+                self.assertIn(code, policy["markets"])
+                self.assertIn(spec.language, languages())
+                self.assertTrue(starter_taxonomy(code))
+                self.assertTrue((ROOT / "references" / "markets" / f"{code}.md").is_file())
 
     def test_identity_follows_the_registry(self) -> None:
         # Venue is part of the asset only where two venues really are two instruments.
@@ -538,63 +575,108 @@ def declared_snapshot(**overrides) -> dict:
     return value
 
 
-class ThemeCapTests(unittest.TestCase):
-    """A cap is a share of the universe, not a count that happens to be written as one.
+class ThemeWeightTests(unittest.TestCase):
+    """Themes are not equal, and a cap said they were.
 
-    Holding 4 / 8 / 15 fixed across markets read as market-independence and was not: the
-    denominators differ by an order of magnitude, so one crypto theme could take 10-12% of its
-    universe while one equity theme could take 2.5-5%. The policy number is the tier's ceiling;
-    what a build runs with is the tighter of that and half again a theme's fair share.
+    Semiconductors carry more of what the A-share market does than property development does.
+    Under a shared cap the only two outcomes were cutting the theme that matters off at four
+    names or handing the one that does not four slots it had nothing to fill. So there is no
+    cap: a theme declares a weight, and the slots left after every theme has its first one are
+    apportioned to weight. The tests below pin the two properties that makes true — more weight
+    means more members, and an empty bench costs a theme nothing.
     """
 
-    def test_the_ceiling_is_never_exceeded(self) -> None:
-        self.assertEqual(theme_cap_for(target=1000, themes=2, ceiling=4), 4)
+    def weighted(self, weights: dict[str, float]) -> list[dict]:
+        rows = taxonomy()
+        for item in rows:
+            item["weight"] = weights.get(item["theme_code"], 1.0)
+        return normalize_taxonomy(rows)
 
-    def test_a_theme_can_always_hold_a_leader_and_a_challenger(self) -> None:
-        # One member per theme is a list of themes, not a universe.
-        self.assertEqual(theme_cap_for(target=10, themes=40, ceiling=8), 2)
+    def test_the_first_slot_is_cheap_and_the_next_one_costs_more(self) -> None:
+        self.assertEqual(theme_priority(1.0, 0), 1.0)
+        self.assertAlmostEqual(theme_priority(1.0, 1), 1 / 3)
+        self.assertAlmostEqual(theme_priority(3.0, 1), 1.0)
 
-    def test_a_richer_table_tightens_the_cap_by_itself(self) -> None:
-        loose = theme_cap_for(target=120, themes=20, ceiling=15)
-        tight = theme_cap_for(target=120, themes=60, ceiling=15)
-        self.assertEqual((loose, tight), (9, 3))
+    def test_weight_is_what_a_theme_holds_relative_to_another(self) -> None:
+        # Three times the weight, three times the members, once there are slots to apportion.
+        shares = expected_members(self.weighted({"10_A": 3.0, "12_A": 1.0}), 100)
+        self.assertAlmostEqual(shares["10_A"] / shares["12_A"], 3.0)
 
-    def test_every_shipped_tier_caps_a_theme_at_about_its_fair_share(self) -> None:
-        # The invariant that was silently broken. 1.5x by construction, with room for rounding
-        # and for the ceiling biting in a thin table.
+    def test_a_default_weight_is_no_weight_at_all(self) -> None:
+        plain = normalize_taxonomy(taxonomy())
+        self.assertEqual({theme_weight(item) for item in plain}, {1.0})
+
+    def test_a_weight_outside_the_guard_rail_is_refused(self) -> None:
+        rows = taxonomy()
+        rows[0]["weight"] = 9
+        with self.assertRaisesRegex(UniverseError, "weight 9.0 is outside"):
+            normalize_taxonomy(rows)
+
+    def test_a_heavier_theme_takes_more_of_the_universe(self) -> None:
+        # The end-to-end statement: same candidates, same target, one weight changed.
+        folder = ROOT / "examples" / "crypto-light"
+        snapshot = read_json(folder / "snapshot.json")
         policy = load_policy()
-        for code in sorted(MARKETS):
-            taxonomy = starter_taxonomy(code)
-            for name, profile in policy["profiles"].items():
-                with self.subTest(market=code, profile=name):
-                    level = int(profile["coverage_level"])
-                    themes = sum(
-                        1 for item in taxonomy if int(item["coverage_level"]) <= level
-                    )
-                    target = int(policy["markets"][code][name]["target"])
-                    cap = theme_cap_for(target, themes, profile["theme_cap"])
-                    self.assertLessEqual(cap, int(profile["theme_cap"]))
-                    self.assertLessEqual(cap / (target / themes), 1.7)
-                    self.assertGreaterEqual(cap / (target / themes), 1.2)
 
-    def test_the_cap_in_force_is_the_one_validation_enforces(self) -> None:
-        # Not the policy ceiling: a universe under a tightened cap must fail on the tighter one.
+        def held(weight: float) -> int:
+            data = copy.deepcopy(snapshot)
+            for item in data["taxonomy"]:
+                if item["theme_code"] == "12_A":
+                    item["weight"] = weight
+            universe, _ = build_universe(read_json(folder / "build-spec.json"), data, policy)
+            return sum(1 for item in universe["members"] if item["theme_code"] == "12_A")
+
+        self.assertGreater(held(4.0), held(0.25))
+
+    def test_a_theme_with_no_bench_left_costs_the_universe_nothing(self) -> None:
+        # The property a cap could never have: slots the theme cannot fill flow to the next
+        # theme in line instead of being held open or spent on relaxing eligibility.
+        folder = ROOT / "examples" / "crypto-light"
+        data = read_json(folder / "snapshot.json")
+        for item in data["taxonomy"]:
+            if item["theme_code"] == "60_A":
+                item["weight"] = 4.0
+        universe, report = build_universe(
+            read_json(folder / "build-spec.json"), data, load_policy()
+        )
+        available = sum(
+            1 for item in data["candidates"] if item["theme_code"] == "60_A"
+        )
+        self.assertLessEqual(
+            sum(1 for item in universe["members"] if item["theme_code"] == "60_A"), available
+        )
+        self.assertEqual(len(universe["members"]), universe["limits"]["target_count"])
+
+    def test_the_report_says_where_the_universe_concentrated(self) -> None:
         folder = ROOT / "examples" / "crypto-light"
         universe, report = build_universe(
             read_json(folder / "build-spec.json"),
             read_json(folder / "snapshot.json"),
             load_policy(),
         )
-        self.assertEqual(report["stats"]["theme_cap"], 4)
+        concentration = report["stats"]["concentration"]
+        self.assertEqual(
+            concentration["members"],
+            max(Counter(item["theme_code"] for item in universe["members"]).values()),
+        )
+        self.assertGreater(concentration["share"], 0)
+
+    def test_drift_away_from_the_table_is_reported(self) -> None:
+        # Nothing caps a theme, so the check that replaces the cap is a disclosure: a pool that
+        # walked far from what its own weights asked for says so.
+        folder = ROOT / "examples" / "crypto-light"
+        universe, _ = build_universe(
+            read_json(folder / "build-spec.json"),
+            read_json(folder / "snapshot.json"),
+            load_policy(),
+        )
         crowded = copy.deepcopy(universe)
         theme = crowded["members"][-1]["theme_code"]
-        for item in crowded["members"][:5]:
+        for item in crowded["members"][:12]:
             item["theme_code"] = theme
         crowded["version_hash"] = universe_hash(crowded)
-        self.assertIn(
-            "theme caps exceeded",
-            " ".join(validate_universe(crowded, load_policy())["errors"]),
-        )
+        report = validate_universe(crowded, load_policy())
+        self.assertIn("weighted share", " ".join(report["warnings"]))
 
 
 class DiffTests(unittest.TestCase):
@@ -683,13 +765,16 @@ class TaxonomyCheckTests(unittest.TestCase):
         self.assertFalse(report["passed"])
         self.assertTrue(any("every theme must hold a member" in e for e in report["errors"]))
 
-    def test_a_taxonomy_too_small_for_its_target_is_reported_before_the_research(self) -> None:
-        report = check_taxonomy(
-            self.themes(("00_A", 1), ("10_A", 1)), "crypto", target=40, profile="light"
-        )
+    def test_a_table_that_puts_a_target_in_one_theme_is_reported_before_the_research(self) -> None:
+        # There is no capacity to be short of any more — a theme will hold whatever its bench
+        # can fill. What is worth learning before researching a single candidate is the other
+        # shape of mistake: a table so thin that one theme is weighted to be the universe.
+        rows = self.themes(("00_A", 1), ("10_A", 1))
+        rows[0]["weight"] = 3.0
+        report = check_taxonomy(rows, "crypto", target=40, profile="light")
         self.assertTrue(report["passed"])
-        self.assertTrue(any("reaches 8" in item for item in report["warnings"]))
-        self.assertEqual(report["stats"]["capacity"]["light"]["max_members"], 8)
+        self.assertTrue(any("00_A is weighted to about 30" in w for w in report["warnings"]))
+        self.assertEqual(report["stats"]["capacity"]["light"]["weight_total"], 4.0)
 
     def test_one_group_cannot_have_two_names(self) -> None:
         rows = self.themes(("00_A", 1), ("00_B", 1))
@@ -803,10 +888,28 @@ class DeclaredMarketTests(unittest.TestCase):
         with self.assertRaisesRegex(UniverseError, "tier 1 or tier 2"):
             normalize_market_declaration(declaration(evidence=evidence(tier=3)), "th")
 
-    def test_size_guidance_is_not_optional(self) -> None:
+    def test_size_is_not_optional(self) -> None:
         raw = declaration()
         del raw["guidance"]
-        with self.assertRaisesRegex(UniverseError, "guidance must carry"):
+        with self.assertRaisesRegex(UniverseError, "declare exactly one of breadth"):
+            normalize_market_declaration(raw, "th")
+
+    def test_size_can_be_stated_the_way_a_registered_market_states_it(self) -> None:
+        # One number, scaling the same tier bases. A declared market that has to invent nine
+        # numbers usually invents nine inconsistent ones.
+        raw = declaration()
+        del raw["guidance"]
+        raw["breadth"] = 0.5
+        clean = normalize_market_declaration(raw, "th")
+        self.assertEqual(clean["breadth"], 0.5)
+        self.assertEqual(
+            market_guidance("th", load_policy(), clean)["light"]["target"], 30
+        )
+
+    def test_stating_size_twice_is_refused(self) -> None:
+        raw = declaration()
+        raw["breadth"] = 0.5
+        with self.assertRaisesRegex(UniverseError, "declare exactly one of breadth"):
             normalize_market_declaration(raw, "th")
 
     def test_a_language_with_no_locale_is_named(self) -> None:
@@ -947,11 +1050,33 @@ class LocalizationTests(unittest.TestCase):
     documentation names and what a reader greps for.
     """
 
-    def test_every_locale_carries_every_key(self) -> None:
-        english = set(load_lexicon("en"))
+    def test_every_locale_carries_every_chrome_key(self) -> None:
+        # The chrome is finite and shared, so it is identical everywhere. The adverse-flag
+        # vocabulary is not: it grows one market at a time, and a Korean designation has no
+        # word in French because no French-language report will ever print it.
+        def chrome(language: str) -> set[str]:
+            return {key for key in load_lexicon(language) if not key.startswith("flag.")}
+
+        english = chrome("en")
         self.assertIn("zh-Hans", languages())
         for language in languages():
-            self.assertEqual(set(load_lexicon(language)), english, language)
+            self.assertEqual(chrome(language), english, language)
+
+    def test_every_market_can_name_its_own_flags_in_its_own_language(self) -> None:
+        # The rule that replaces "every locale carries every flag". A market's report is
+        # written in its language by default, so its own vocabulary has to exist there.
+        for code in sorted(MARKETS):
+            spec = market_spec(code)
+            lexicon = load_lexicon(spec.language)
+            for flag in sorted(spec.quality_flags):
+                with self.subTest(market=code, flag=flag):
+                    self.assertTrue(lexicon.get(f"flag.{flag}"), f"{spec.language}/{flag}")
+
+    def test_english_is_the_fallback_for_every_flag_there_is(self) -> None:
+        lexicon = load_lexicon("en")
+        for spec in MARKET_SPECS.values():
+            for flag in sorted(spec.quality_flags):
+                self.assertEqual(lexicon.get(f"flag.{flag}"), flag)
 
     def test_every_closed_vocabulary_has_a_word_in_every_language(self) -> None:
         # The vocabularies are closed so that they can be counted; the same property is what
@@ -964,10 +1089,6 @@ class LocalizationTests(unittest.TestCase):
             | {f"basis.{name}" for name in MEASUREMENT_BASES}
             | {f"depth.{name}" for name in load_policy()["maintenance"]}
             | {f"flag.{code}" for code in QUALITY_FLAG_CODES}
-            | {
-                f"flag.{code}"
-                for spec in MARKET_SPECS.values() for code in spec.quality_flags
-            }
         )
         for language in languages():
             lexicon = load_lexicon(language)
@@ -978,7 +1099,10 @@ class LocalizationTests(unittest.TestCase):
         self.assertEqual(report_language("cn"), "zh-Hans")
         self.assertEqual(report_language("us"), "en")
         self.assertEqual(report_language("crypto"), "en")
-        self.assertEqual(report_language("hk"), "en")
+        self.assertEqual(report_language("hk"), "zh-Hant")
+        self.assertEqual(report_language("jp"), "ja")
+        self.assertEqual(report_language("br"), "pt-BR")
+        self.assertEqual(report_language("th"), "en")
 
     def test_a_market_report_is_written_in_its_own_language(self) -> None:
         chinese = (ROOT / "examples" / "cn-light" / "universe.md").read_text(encoding="utf-8")
@@ -999,8 +1123,8 @@ class LocalizationTests(unittest.TestCase):
         self.assertIn("基准 (BENCHMARK)", text)
 
     def test_an_unknown_language_is_named_not_silently_ignored(self) -> None:
-        with self.assertRaisesRegex(UniverseError, "unknown language 'de'"):
-            load_lexicon("de")
+        with self.assertRaisesRegex(UniverseError, "unknown language 'th'"):
+            load_lexicon("th")
 
     # The three checks below are the ones proofreading keeps missing. A translation that is
     # merely wrong is caught by reading it; a translation that is ASCII-punctuated, that collides
@@ -1274,16 +1398,16 @@ class ExampleTests(unittest.TestCase):
     def test_every_example_is_a_full_size_universe_for_its_market(self) -> None:
         # An example below its own guidance teaches the wrong shape, and `allow_outside_guidance`
         # in a shipped build spec teaches that the flag is normal. Both used to be true here.
-        guidance = load_policy()["markets"]
+        policy = load_policy()
         for market in ("cn", "us", "crypto"):
             folder = ROOT / "examples" / f"{market}-light"
             with self.subTest(market=market):
                 spec = read_json(folder / "build-spec.json")
                 self.assertNotIn("allow_outside_guidance", spec)
                 universe, report = build_universe(
-                    spec, read_json(folder / "snapshot.json"), load_policy()
+                    spec, read_json(folder / "snapshot.json"), policy
                 )
-                band = guidance[market]["light"]
+                band = market_guidance(market, policy, None)["light"]
                 self.assertEqual(len(universe["members"]), band["target"])
                 self.assertGreaterEqual(len(universe["members"]), band["min"])
                 self.assertLessEqual(len(universe["members"]), band["max"])

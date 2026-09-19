@@ -46,13 +46,14 @@ it can produce the universe being asked for, before any candidate is researched:
 | **error** | more themes inside the coverage level than the target can hold; every theme must carry a member, so the build could not validate |
 | **error** | one `l1_code` carrying two different `l1_name`s |
 | **error** | no theme at `coverage_level` 1 |
-| **warning** | `themes x theme_cap` below the target — the pool will fill against the cap |
+| **warning** | a theme weighted to hold more than 15% of the universe — not wrong, but it should be deliberate |
 | **warning** | an `l1_code` group first appearing at level 2 or 3, invisible to a Light universe |
 | **warning** | a non-ASCII `theme_name`; it becomes a `###00_A_NAME` section header in the TradingView export, so the local-language label belongs in `l1_name` |
 | **warning** | themes plus tickers over the 1000-token cap |
 
-Exit 0 with warnings, 2 with errors. The shipped starters pass with capacity warnings: a starter
-is a starting point, and the warning is the size of the edit it still needs.
+Exit 0 with warnings, 2 with errors. Every shipped starter table passes clean — no errors and no
+warnings — at every tier of its own market, and a test asserts it. A starter is still a starting
+point to edit, but it is not one that ships needing repairs.
 
 ## snapshot.json
 
@@ -78,7 +79,8 @@ is a starting point, and the warning is the size of the edit it still needs.
       "l1_name": "Core Assets",
       "theme_code": "00_A",
       "theme_name": "CORE_ASSETS",
-      "coverage_level": 1
+      "coverage_level": 1,
+      "weight": 2.5
     }
   ],
   "candidates": [
@@ -115,22 +117,22 @@ registry row would have held:
   "venue_in_asset_id": false,
   "asset_id_strip": [],
   "factor_r2_required": false,
-  "guidance": {
-    "light":  {"min": 45, "target": 60,  "max": 75},
-    "medium": {"min": 90, "target": 120, "max": 150},
-    "heavy":  {"min": 190, "target": 250, "max": 310}
-  },
+  "breadth": 0.7,
   "evidence": [{"url": "https://www.set.or.th/...", "as_of": "2026-09-17", "tier": 1}]
 }
 ```
 
-Size the guidance the way the shipped markets are sized: the band is the target ±25%, and the
-target is about two thirds of what the theme table can hold (`reachable themes x theme_cap`).
-`theme_cap` is a ceiling; the cap a build runs with is the tighter of it and half again a theme's
-fair share, and it is printed in the report header.
+Size it the way every registered market is sized: one `breadth` factor scaling the 60 / 160 / 400
+tier bases, rounded to five, with the band at ±25%. Breadth is roughly how many names this market
+lists that a reader could tell apart, sustain a position in, and would be worse off not watching
+— see the table in [tier-profiles.md](tier-profiles.md) for where the registered markets sit, and
+place the new one against them rather than inventing a scale.
+
+A market that knows better than a scale factor can say may state `guidance` instead — the same
+`{min, target, max}` per tier the policy used to carry. Exactly one of the two is required.
 Run `taxonomy --check --market <code> --target <n>` against the table before researching a single
-candidate — a target the taxonomy cannot reach is the one build failure that costs a whole
-research session. See [tier-profiles.md](tier-profiles.md).
+candidate — a table that cannot produce the universe being asked for is the one build failure that
+costs a whole research session.
 
 Nothing else about the build changes — roles, quotas, coverage levels, evidence tiers, the
 measurement rules, turnover budgets and hashing are the same as for a registered market. This
@@ -139,9 +141,9 @@ other researched fact:
 
 - **Strong evidence is required.** A venue code and a symbol shape are easier to invent than a
   ticker, and a wrong one changes what counts as the same asset for every member at once.
-- **`guidance` is not optional.** The deeper tiers are defined relative to the shallower ones, so
+- **A size is not optional.** The deeper tiers are defined relative to the shallower ones, so
   a build with no stated Light size would have to invent one — and an invented range reports
-  nothing when a universe comes out the wrong size. Use `assets/default-policy.json` as the shape.
+  nothing when a universe comes out the wrong size.
 - **`language` must have a locale.** Omit it for English rather than naming a language this skill
   cannot write.
 - **It is recorded and hashed.** The universe carries the declaration, `validate` re-resolves the
@@ -261,11 +263,11 @@ redundant_with_member unverifiable_fact       duplicate_asset        other
 ```
 
 The audit also carries reasons the builder writes itself: `outside_profile_coverage`,
-`not_selected_under_budget_or_theme_cap`, `removed_by_maintenance`.
+`not_selected_under_budget`, `removed_by_maintenance`.
 
 Counting these is the point of the closed vocabulary, so `universe.md` and the CLI's JSON line
 both report rejections by code. A universe losing most of its candidates to `unverifiable_fact`
-has a research problem; one losing them to `not_selected_under_budget_or_theme_cap` has a budget
+has a research problem; one losing them to `not_selected_under_budget` has a budget
 problem. Free text cannot tell you which.
 
 ### evidence

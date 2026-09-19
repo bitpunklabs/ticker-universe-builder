@@ -1,25 +1,33 @@
 ---
 name: ticker-universe-builder
-description: Build a new or maintain an existing CN, US, or Crypto ticker universe at Light, Medium, or Heavy depth. Use when the user wants an auditable market universe or ticker pool, sector and theme coverage, leader and satellite selection, a universe review, or TradingView-importable watchlist files. Do not use for stock tips, portfolio construction, order instructions, or trade execution.
+description: Build a new or maintain an existing ticker universe at Light, Medium, or Heavy depth for any of fourteen registered markets (US, China A-shares, Japan, India, Hong Kong, Korea, UK, Taiwan, Germany, France, Canada, Australia, Brazil, Crypto) or any other market the snapshot declares. Use when the user wants an auditable market universe or ticker pool, sector and theme coverage, leader and satellite selection, a universe review, or TradingView-importable watchlist files. Do not use for stock tips, portfolio construction, order instructions, or trade execution.
 allowed-tools: Read, Write, Bash, WebSearch, WebFetch
 ---
 
 # Ticker Universe Builder
 
-Build one market at a time. Treat `cn`, `us`, and `crypto` as independent universes.
+Build one market at a time. Every market is an independent universe; there is no cross-market
+merge and a name listed in two markets is two members.
 
-Read [examples/README.md](examples/README.md) first and open the example for the market you were
-asked about. One worked snapshot answers more questions about the input format than the contract
-does, and the shipped examples are known to build.
+Registered markets, each with reviewed rules, its own theme table and a report in its own
+language: `us`, `cn` (zh-Hans), `jp` (ja), `in`, `hk` (zh-Hant), `kr` (ko), `uk`, `tw` (zh-Hant),
+`de` (de), `fr` (fr), `ca`, `au`, `br` (pt-BR), `crypto`. Anything else builds too — see step 6.
+
+Read [examples/README.md](examples/README.md) first and open one example. The three that ship are
+`cn`, `us` and `crypto`; if you were asked about another market, read the one closest to it. One
+worked snapshot answers more questions about the input format than the contract does, and the
+shipped examples are known to build.
 
 ## Route the request
 
 1. Read [references/methodology.md](references/methodology.md) and
    [references/tier-profiles.md](references/tier-profiles.md).
-2. Read exactly one market overlay:
-   - CN: [references/markets/cn.md](references/markets/cn.md)
-   - US: [references/markets/us.md](references/markets/us.md)
-   - Crypto: [references/markets/crypto.md](references/markets/crypto.md)
+2. Read the market overlay at `references/markets/<market>.md` — exactly one. For an equity
+   market read [references/markets/equity-common.md](references/markets/equity-common.md) first:
+   the universe boundary, the fund-versus-basket redundancy test, the cash-management exclusion
+   and the rule about regressing against the theme rather than the index are shared by all of
+   them, and the per-market file covers only what is true there and nowhere else. `crypto` has
+   no shared part; read [references/markets/crypto.md](references/markets/crypto.md) alone.
 3. For an existing universe, also read [references/maintenance.md](references/maintenance.md).
 4. Read [references/data-contracts.md](references/data-contracts.md) before writing any JSON.
 5. Follow [references/source-policy.md](references/source-policy.md) for evidence and provider use.
@@ -55,8 +63,11 @@ reported rather than dropped.
    python scripts/universe.py taxonomy --market us --profile light
    ```
 
-   Edit it: add what the market has grown, drop what it has not. It is a starting point, not a
-   schema.
+   Edit it: add what the market has grown, drop what it has not, and **revisit the `weight` on
+   every theme before you revisit a single ticker**. There is no per-theme cap; the slots left
+   after each theme has its first member are apportioned to weight, so one number moves dozens
+   of members. A weight of 3 against 1 means about three times the members. It is a starting
+   point, not a schema.
 3. Check the table before researching a single candidate. This is the step that is cheapest to
    redo now and most expensive to redo later:
 
@@ -65,8 +76,8 @@ reported rather than dropped.
    ```
 
    It reports a table that cannot produce the universe you asked for — more themes than the
-   target can hold, a target the theme cap cannot reach, a group invisible at this depth, a
-   `theme_name` that will not survive a TradingView import.
+   target can hold, a group invisible at this depth, a theme weighted to be more than 15% of the
+   universe, a `theme_name` that will not survive a TradingView import.
 4. Research the eligible universe against that taxonomy. Record facts in `snapshot.json`;
    never pass a claim to the scripts hidden inside prose.
 5. Declare in `measurement` how each metric was produced. A window-dependent statistic —
@@ -83,9 +94,9 @@ reported rather than dropped.
    candidates that need those metrics do not belong in the universe yet.
 6. Cite current sources for listing status, venue, liquidity and every non-obvious admission. If
    an essential fact cannot be verified, exclude the candidate or mark the snapshot incomplete.
-   For a market outside `cn`, `us` and `crypto`, also research its rules and declare them in the
-   snapshot's `market_spec` — venues, symbol shape, identity rule and size guidance, with tier 1
-   or tier 2 evidence. Everything else about the build is unchanged. See
+   For a market outside the fourteen, also research its rules and declare them in the snapshot's
+   `market_spec` — venues, symbol shape, identity rule and one `breadth` factor sizing the tiers,
+   with tier 1 or tier 2 evidence. Everything else about the build is unchanged. See
    [references/data-contracts.md](references/data-contracts.md#market_spec); do not guess a venue
    code or a symbol format, and say in your answer that the rules were declared, not reviewed.
 7. Run:
@@ -101,9 +112,10 @@ reported rather than dropped.
    `{market}-{profile}-{as_of}`. Run `validate` on the `universe` path even though the builder
    validates before writing. Never present an output that fails.
 9. Return the human-readable `.md` and the TradingView-importable `.txt`. The `.md` is written
-   in the market's own language — Simplified Chinese for CN, English for US and Crypto — so
-   write the snapshot's names, themes, reasons and methods in that language too. `--language`
-   overrides it; nothing else about the build changes.
+   in the market's own language — Japanese for `jp`, Korean for `kr`, Traditional Chinese for
+   `hk` and `tw`, Portuguese for `br`, and so on — so write the snapshot's names, themes,
+   reasons and methods in that language too. `--language` overrides it; nothing else about the
+   build changes.
 
 If you have a price table covering the window after a universe was built, run
 `evaluate --universe U --prices P` before proposing the next set of changes. It reports whether
@@ -151,6 +163,8 @@ a note for a later round is how a universe rots: use `ADD_THEME`, `REMOVE_THEME`
 - Never select a name solely because it is popular or recently rose.
 - Preserve benchmarks and anchors before adding satellites.
 - Heavy means broader independent observation, not relaxed quality or an arbitrary long tail.
+- Weight a theme for what it is to that market, not for what it is to you. The range is 0.25 to
+  4.0 and a build reports the theme that ended up largest, so a lopsided table shows.
 - No return guarantees, allocations, order instructions or trade execution. This skill produces
   an observation instrument, not investment advice.
 - Keep each TradingView file at or below 1,000 tokens including `###` section headers.

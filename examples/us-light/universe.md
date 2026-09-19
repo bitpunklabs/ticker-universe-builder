@@ -6,10 +6,10 @@
 
 - Profile: Light
 - Facts as of: 2026-09-17
-- Version: `47c8159e541e`
+- Version: `7feafca93c74`
 - Tickers: 80
 - Themes: 30
-- Theme cap: 4
+- Largest theme: 10_A · 4 · 5% · weighted share 5
 - TradingView tokens: 110 / 1000
 - Rejected or unselected candidates: 21
 - Validation: PASS
@@ -20,8 +20,8 @@
 |---|---:|
 | ANCHOR | 3 |
 | BENCHMARK | 2 |
-| BETA_SATELLITE | 9 |
-| BREADTH_PROXY | 3 |
+| BETA_SATELLITE | 8 |
+| BREADTH_PROXY | 4 |
 | LIQUIDITY_SENSOR | 2 |
 | NEW_LISTING | 2 |
 | QUALITY_LEADER | 17 |
@@ -31,26 +31,26 @@
 
 | Code | Group | Theme | Level | Count |
 |---|---|---|---:|---:|
-| 00_A | Market Benchmarks | BROAD_MARKET_ETF | 1 | 4 |
+| 00_A | Market Benchmarks | BROAD_MARKET_ETF | 1 | 3 |
 | 00_B | Market Benchmarks | EQUAL_WEIGHT_AND_BREADTH | 2 | 0 |
 | 00_C | Market Benchmarks | VOLATILITY_AND_HEDGES | 3 | 0 |
 | 10_A | Technology | MEGACAP_PLATFORMS | 1 | 4 |
 | 10_B | Technology | SEMICONDUCTORS | 1 | 4 |
 | 10_C | Technology | SEMICAP_EQUIPMENT | 1 | 2 |
 | 10_D | Technology | ENTERPRISE_SOFTWARE | 1 | 4 |
-| 10_E | Technology | CYBERSECURITY | 1 | 4 |
+| 10_E | Technology | CYBERSECURITY | 1 | 3 |
 | 10_F | Technology | INTERNET_AND_ADTECH | 1 | 4 |
 | 10_G | Technology | IT_SERVICES_AND_CONSULTING | 2 | 0 |
 | 10_H | Technology | HARDWARE_AND_NETWORKING | 3 | 0 |
 | 11_A | AI Infrastructure | AI_COMPUTE | 1 | 4 |
 | 11_B | AI Infrastructure | DATA_CENTER_AND_POWER | 1 | 3 |
 | 11_C | AI Infrastructure | AI_SOFTWARE_AND_MODELS | 2 | 0 |
-| 20_A | Communication | STREAMING_AND_MEDIA | 1 | 4 |
-| 20_B | Communication | TELECOM | 1 | 3 |
+| 20_A | Communication | STREAMING_AND_MEDIA | 1 | 3 |
+| 20_B | Communication | TELECOM | 1 | 2 |
 | 20_C | Communication | GAMING_AND_INTERACTIVE | 3 | 0 |
 | 20_D | Communication | ADVERTISING_AND_MARKETING | 3 | 0 |
-| 30_A | Consumer | DISCRETIONARY_LEADERS | 1 | 3 |
-| 30_B | Consumer | STAPLES | 1 | 4 |
+| 30_A | Consumer | DISCRETIONARY_LEADERS | 1 | 4 |
+| 30_B | Consumer | STAPLES | 1 | 3 |
 | 30_C | Consumer | RESTAURANTS_AND_TRAVEL | 1 | 2 |
 | 30_D | Consumer | APPAREL_AND_LUXURY | 2 | 0 |
 | 30_E | Consumer | AUTOS_AND_MOBILITY | 2 | 0 |
@@ -58,19 +58,19 @@
 | 30_G | Consumer | LEISURE_AND_LODGING | 3 | 0 |
 | 40_A | Financials | MONEY_CENTER_BANKS | 1 | 4 |
 | 40_B | Financials | PAYMENTS | 1 | 3 |
-| 40_C | Financials | ASSET_MANAGERS_AND_EXCHANGES | 1 | 1 |
-| 40_D | Financials | INSURANCE | 1 | 3 |
+| 40_C | Financials | ASSET_MANAGERS_AND_EXCHANGES | 1 | 2 |
+| 40_D | Financials | INSURANCE | 1 | 2 |
 | 40_E | Financials | REGIONAL_BANKS | 2 | 0 |
 | 40_F | Financials | FINTECH_LENDERS | 3 | 0 |
-| 50_A | Healthcare | PHARMA | 1 | 2 |
-| 50_B | Healthcare | MEDTECH_AND_DEVICES | 1 | 1 |
-| 50_C | Healthcare | MANAGED_CARE | 1 | 1 |
+| 50_A | Healthcare | PHARMA | 1 | 3 |
+| 50_B | Healthcare | MEDTECH_AND_DEVICES | 1 | 2 |
+| 50_C | Healthcare | MANAGED_CARE | 1 | 2 |
 | 50_D | Healthcare | BIOTECH | 2 | 0 |
 | 50_E | Healthcare | LIFE_SCIENCE_TOOLS | 2 | 0 |
 | 50_F | Healthcare | HEALTHCARE_DISTRIBUTION | 3 | 0 |
 | 60_A | Industrials | AEROSPACE_AND_DEFENSE | 1 | 2 |
 | 60_B | Industrials | MACHINERY_AND_RAIL | 1 | 2 |
-| 60_C | Industrials | TRANSPORT_AND_LOGISTICS | 1 | 1 |
+| 60_C | Industrials | TRANSPORT_AND_LOGISTICS | 1 | 2 |
 | 60_D | Industrials | ELECTRICAL_EQUIPMENT | 2 | 0 |
 | 60_E | Industrials | ENGINEERING_AND_CONSTRUCTION | 3 | 0 |
 | 60_F | Industrials | DISTRIBUTION_AND_SUPPLY | 3 | 0 |
@@ -79,14 +79,14 @@
 | 70_C | Energy | EXPLORATION_AND_PRODUCTION | 2 | 0 |
 | 70_D | Energy | COAL_AND_URANIUM | 3 | 0 |
 | 80_A | Materials and Utilities | MATERIALS | 1 | 2 |
-| 80_B | Materials and Utilities | UTILITIES | 1 | 1 |
+| 80_B | Materials and Utilities | UTILITIES | 1 | 2 |
 | 80_C | Materials and Utilities | METALS_AND_MINING | 2 | 0 |
 | 80_D | Materials and Utilities | CHEMICALS | 3 | 0 |
 | 80_E | Materials and Utilities | WATER_AND_WASTE | 3 | 0 |
 | 90_A | Real Estate | REITS | 1 | 1 |
 | 90_B | Real Estate | DATA_AND_TOWER_REITS | 2 | 0 |
 | 90_C | Real Estate | REAL_ESTATE_SERVICES | 3 | 0 |
-| 95_A | Digital Assets | DIGITAL_ASSET_EQUITIES | 1 | 2 |
+| 95_A | Digital Assets | DIGITAL_ASSET_EQUITIES | 1 | 1 |
 | 95_B | Digital Assets | MINERS_AND_INFRASTRUCTURE | 3 | 0 |
 
 ## How the metrics were produced
@@ -106,7 +106,7 @@ Quality is 50% rule and 50% judgement for 64 of 80 members. The rule half reads 
 
 | Reason | Count |
 |---|---:|
-| not_selected_under_budget_or_theme_cap | 19 |
+| not_selected_under_budget | 19 |
 | duplicate_asset | 1 |
 | redundant_with_member | 1 |
 
@@ -117,7 +117,6 @@ Quality is 50% rule and 50% judgement for 64 of 80 members. The rule half reads 
 | 00_A BROAD_MARKET_ETF | NASDAQ:QQQ | Invesco QQQ Trust | BENCHMARK |  | https://www.nasdaq.com/market-activity/stocks/screener |
 | 00_A BROAD_MARKET_ETF | AMEX:SPY | SPDR S&P 500 ETF Trust | BENCHMARK |  | https://www.nasdaq.com/market-activity/stocks/screener |
 | 00_A BROAD_MARKET_ETF | AMEX:IWM | iShares Russell 2000 ETF | BREADTH_PROXY |  | https://www.nasdaq.com/market-activity/stocks/screener |
-| 00_A BROAD_MARKET_ETF | AMEX:RSP | Invesco S&P 500 Equal Weight ETF | BREADTH_PROXY |  | https://www.nasdaq.com/market-activity/stocks/screener |
 | 10_A MEGACAP_PLATFORMS | NASDAQ:AAPL | Apple | ANCHOR |  | https://www.nasdaq.com/market-activity/stocks/screener |
 | 10_A MEGACAP_PLATFORMS | NASDAQ:MSFT | Microsoft | ANCHOR |  | https://www.nasdaq.com/market-activity/stocks/screener |
 | 10_A MEGACAP_PLATFORMS | NASDAQ:AMZN | Amazon | THEME_LEADER |  | https://www.nasdaq.com/market-activity/stocks/screener |
@@ -134,7 +133,6 @@ Quality is 50% rule and 50% judgement for 64 of 80 members. The rule half reads 
 | 10_D ENTERPRISE_SOFTWARE | NYSE:NOW | ServiceNow | QUALITY_LEADER |  | https://www.nasdaq.com/market-activity/stocks/screener |
 | 10_E CYBERSECURITY | NASDAQ:CRWD | CrowdStrike | THEME_LEADER |  | https://www.nasdaq.com/market-activity/stocks/screener |
 | 10_E CYBERSECURITY | NASDAQ:PANW | Palo Alto Networks | THEME_LEADER |  | https://www.nasdaq.com/market-activity/stocks/screener |
-| 10_E CYBERSECURITY | NASDAQ:FTNT | Fortinet | QUALITY_LEADER |  | https://www.nasdaq.com/market-activity/stocks/screener |
 | 10_E CYBERSECURITY | NASDAQ:ZS | Zscaler | BREADTH_PROXY |  | https://www.nasdaq.com/market-activity/stocks/screener |
 | 10_F INTERNET_AND_ADTECH | NASDAQ:META | Meta Platforms | THEME_LEADER |  | https://www.nasdaq.com/market-activity/stocks/screener |
 | 10_F INTERNET_AND_ADTECH | NASDAQ:BKNG | Booking Holdings | QUALITY_LEADER |  | https://www.nasdaq.com/market-activity/stocks/screener |
@@ -149,18 +147,16 @@ Quality is 50% rule and 50% judgement for 64 of 80 members. The rule half reads 
 | 11_B DATA_CENTER_AND_POWER | NASDAQ:CRWV | CoreWeave | NEW_LISTING |  | https://www.nasdaq.com/market-activity/stocks/screener |
 | 20_A STREAMING_AND_MEDIA | NASDAQ:NFLX | Netflix | THEME_LEADER |  | https://www.nasdaq.com/market-activity/stocks/screener |
 | 20_A STREAMING_AND_MEDIA | NYSE:DIS | Walt Disney | THEME_LEADER |  | https://www.nasdaq.com/market-activity/stocks/screener |
-| 20_A STREAMING_AND_MEDIA | NASDAQ:CMCSA | Comcast | QUALITY_LEADER |  | https://www.nasdaq.com/market-activity/stocks/screener |
 | 20_A STREAMING_AND_MEDIA | NASDAQ:WBD | Warner Bros. Discovery | BETA_SATELLITE |  | https://www.nasdaq.com/market-activity/stocks/screener |
 | 20_B TELECOM | NASDAQ:TMUS | T-Mobile US | THEME_LEADER |  | https://www.nasdaq.com/market-activity/stocks/screener |
 | 20_B TELECOM | NYSE:T | AT&T | THEME_LEADER |  | https://www.nasdaq.com/market-activity/stocks/screener |
-| 20_B TELECOM | NYSE:VZ | Verizon Communications | QUALITY_LEADER |  | https://www.nasdaq.com/market-activity/stocks/screener |
 | 30_A DISCRETIONARY_LEADERS | NASDAQ:TSLA | Tesla | THEME_LEADER |  | https://www.nasdaq.com/market-activity/stocks/screener |
 | 30_A DISCRETIONARY_LEADERS | NYSE:HD | Home Depot | THEME_LEADER |  | https://www.nasdaq.com/market-activity/stocks/screener |
 | 30_A DISCRETIONARY_LEADERS | NYSE:LOW | Lowe's | QUALITY_LEADER |  | https://www.nasdaq.com/market-activity/stocks/screener |
+| 30_A DISCRETIONARY_LEADERS | NYSE:NKE | Nike | BREADTH_PROXY |  | https://www.nasdaq.com/market-activity/stocks/screener |
 | 30_B STAPLES | NYSE:PG | Procter & Gamble | THEME_LEADER |  | https://www.nasdaq.com/market-activity/stocks/screener |
 | 30_B STAPLES | NYSE:WMT | Walmart | THEME_LEADER |  | https://www.nasdaq.com/market-activity/stocks/screener |
 | 30_B STAPLES | NASDAQ:COST | Costco Wholesale | QUALITY_LEADER |  | https://www.nasdaq.com/market-activity/stocks/screener |
-| 30_B STAPLES | NYSE:KO | Coca-Cola | QUALITY_LEADER |  | https://www.nasdaq.com/market-activity/stocks/screener |
 | 30_C RESTAURANTS_AND_TRAVEL | NYSE:MCD | McDonald's | THEME_LEADER |  | https://www.nasdaq.com/market-activity/stocks/screener |
 | 30_C RESTAURANTS_AND_TRAVEL | NYSE:SBUX | Starbucks | QUALITY_LEADER |  | https://www.nasdaq.com/market-activity/stocks/screener |
 | 40_A MONEY_CENTER_BANKS | NYSE:BAC | Bank of America | THEME_LEADER |  | https://www.nasdaq.com/market-activity/stocks/screener |
@@ -171,18 +167,22 @@ Quality is 50% rule and 50% judgement for 64 of 80 members. The rule half reads 
 | 40_B PAYMENTS | NYSE:V | Visa | THEME_LEADER |  | https://www.nasdaq.com/market-activity/stocks/screener |
 | 40_B PAYMENTS | NYSE:AXP | American Express | QUALITY_LEADER |  | https://www.nasdaq.com/market-activity/stocks/screener |
 | 40_C ASSET_MANAGERS_AND_EXCHANGES | NYSE:BLK | BlackRock | THEME_LEADER |  | https://www.nasdaq.com/market-activity/stocks/screener |
+| 40_C ASSET_MANAGERS_AND_EXCHANGES | NYSE:SPGI | S&P Global | QUALITY_LEADER |  | https://www.nasdaq.com/market-activity/stocks/screener |
 | 40_D INSURANCE | NYSE:BRK.B | Berkshire Hathaway Class B | ANCHOR |  | https://www.nasdaq.com/market-activity/stocks/screener |
 | 40_D INSURANCE | NYSE:PGR | Progressive | THEME_LEADER |  | https://www.nasdaq.com/market-activity/stocks/screener |
-| 40_D INSURANCE | NYSE:CB | Chubb | QUALITY_LEADER |  | https://www.nasdaq.com/market-activity/stocks/screener |
 | 50_A PHARMA | NYSE:LLY | Eli Lilly | THEME_LEADER |  | https://www.nasdaq.com/market-activity/stocks/screener |
 | 50_A PHARMA | NYSE:JNJ | Johnson & Johnson | THEME_LEADER |  | https://www.nasdaq.com/market-activity/stocks/screener |
+| 50_A PHARMA | NYSE:PFE | Pfizer | QUALITY_LEADER |  | https://www.nasdaq.com/market-activity/stocks/screener |
 | 50_B MEDTECH_AND_DEVICES | NYSE:ABT | Abbott Laboratories | THEME_LEADER |  | https://www.nasdaq.com/market-activity/stocks/screener |
+| 50_B MEDTECH_AND_DEVICES | NYSE:ISRG | Intuitive Surgical | QUALITY_LEADER |  | https://www.nasdaq.com/market-activity/stocks/screener |
 | 50_C MANAGED_CARE | NYSE:UNH | UnitedHealth Group | THEME_LEADER |  | https://www.nasdaq.com/market-activity/stocks/screener |
+| 50_C MANAGED_CARE | NYSE:ELV | Elevance Health | QUALITY_LEADER |  | https://www.nasdaq.com/market-activity/stocks/screener |
 | 60_A AEROSPACE_AND_DEFENSE | NYSE:RTX | RTX | THEME_LEADER |  | https://www.nasdaq.com/market-activity/stocks/screener |
 | 60_A AEROSPACE_AND_DEFENSE | NYSE:BA | Boeing | THEME_LEADER |  | https://www.nasdaq.com/market-activity/stocks/screener |
 | 60_B MACHINERY_AND_RAIL | NYSE:DE | Deere | THEME_LEADER |  | https://www.nasdaq.com/market-activity/stocks/screener |
 | 60_B MACHINERY_AND_RAIL | NYSE:CAT | Caterpillar | THEME_LEADER |  | https://www.nasdaq.com/market-activity/stocks/screener |
 | 60_C TRANSPORT_AND_LOGISTICS | NYSE:UPS | United Parcel Service | THEME_LEADER |  | https://www.nasdaq.com/market-activity/stocks/screener |
+| 60_C TRANSPORT_AND_LOGISTICS | NASDAQ:CSX | CSX | BREADTH_PROXY |  | https://www.nasdaq.com/market-activity/stocks/screener |
 | 70_A INTEGRATED_ENERGY | NYSE:XOM | Exxon Mobil | THEME_LEADER |  | https://www.nasdaq.com/market-activity/stocks/screener |
 | 70_A INTEGRATED_ENERGY | NYSE:CVX | Chevron | THEME_LEADER |  | https://www.nasdaq.com/market-activity/stocks/screener |
 | 70_A INTEGRATED_ENERGY | NYSE:OXY | Occidental Petroleum | BETA_SATELLITE |  | https://www.nasdaq.com/market-activity/stocks/screener |
@@ -191,6 +191,6 @@ Quality is 50% rule and 50% judgement for 64 of 80 members. The rule half reads 
 | 80_A MATERIALS | NYSE:LIN | Linde | THEME_LEADER |  | https://www.nasdaq.com/market-activity/stocks/screener |
 | 80_A MATERIALS | NYSE:FCX | Freeport-McMoRan | BETA_SATELLITE |  | https://www.nasdaq.com/market-activity/stocks/screener |
 | 80_B UTILITIES | NYSE:NEE | NextEra Energy | THEME_LEADER |  | https://www.nasdaq.com/market-activity/stocks/screener |
+| 80_B UTILITIES | NYSE:SO | Southern Company | QUALITY_LEADER |  | https://www.nasdaq.com/market-activity/stocks/screener |
 | 90_A REITS | NYSE:AMT | American Tower | THEME_LEADER |  | https://www.nasdaq.com/market-activity/stocks/screener |
 | 95_A DIGITAL_ASSET_EQUITIES | NASDAQ:COIN | Coinbase Global | THEME_LEADER |  | https://www.nasdaq.com/market-activity/stocks/screener |
-| 95_A DIGITAL_ASSET_EQUITIES | NASDAQ:MSTR | MicroStrategy | BETA_SATELLITE |  | https://www.nasdaq.com/market-activity/stocks/screener |

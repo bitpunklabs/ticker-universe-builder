@@ -6,10 +6,10 @@
 
 - Profile: Light
 - Facts as of: 2026-10-15
-- Version: `e0ee146af293`
+- Version: `511949ee2a4e`
 - Tickers: 40
 - Themes: 15
-- Theme cap: 4
+- Largest theme: 10_A · 4 · 10% · weighted share 5
 - TradingView tokens: 55 / 1000
 - Rejected or unselected candidates: 18
 - Validation: PASS
@@ -20,7 +20,8 @@
 |---|---:|
 | ANCHOR | 2 |
 | BENCHMARK | 2 |
-| BETA_SATELLITE | 3 |
+| BETA_SATELLITE | 2 |
+| BREADTH_PROXY | 1 |
 | INDEPENDENT_SENSOR | 2 |
 | LIQUIDITY_SENSOR | 2 |
 | QUALITY_LEADER | 15 |
@@ -33,7 +34,7 @@
 | 00_A | Core Assets | CORE_ASSETS | 1 | 3 |
 | 10_A | Smart Contract Platforms | L1_MAJORS | 1 | 4 |
 | 10_B | Smart Contract Platforms | L1_CHALLENGERS | 2 | 0 |
-| 11_A | Scaling | L2_ROLLUPS | 1 | 4 |
+| 11_A | Scaling | L2_ROLLUPS | 1 | 3 |
 | 11_B | Scaling | MODULAR_DA | 2 | 0 |
 | 12_A | DeFi | DEX_AND_PERPS | 1 | 3 |
 | 12_B | DeFi | LENDING | 1 | 3 |
@@ -45,13 +46,13 @@
 | 14_B | Compute and Storage | AI_COMPUTE | 1 | 3 |
 | 15_A | Interoperability | INTEROP | 1 | 2 |
 | 15_B | Interoperability | BRIDGES | 3 | 0 |
-| 20_A | Exchange and Payments | EXCHANGE_TOKENS | 1 | 3 |
-| 20_B | Exchange and Payments | PAYMENT_ASSETS | 1 | 3 |
-| 30_A | Consumer | GAMING | 1 | 1 |
+| 20_A | Exchange and Payments | EXCHANGE_TOKENS | 1 | 2 |
+| 20_B | Exchange and Payments | PAYMENT_ASSETS | 1 | 4 |
+| 30_A | Consumer | GAMING | 1 | 2 |
 | 30_B | Consumer | SOCIAL_AND_NFT | 3 | 0 |
-| 40_A | Reflexive | MAJOR_MEMES | 1 | 4 |
+| 40_A | Reflexive | MAJOR_MEMES | 1 | 3 |
 | 40_B | Reflexive | ROTATIONAL_MEMES | 3 | 0 |
-| 50_A | Store of Value | PROOF_OF_WORK | 1 | 1 |
+| 50_A | Store of Value | PROOF_OF_WORK | 1 | 2 |
 | 50_B | Store of Value | PRIVACY | 2 | 0 |
 | 60_A | Real World Assets | RWA | 1 | 1 |
 
@@ -74,7 +75,7 @@ Quality is 50% rule and 50% judgement for 33 of 40 members. The rule half reads 
 | Reason | Count |
 |---|---:|
 | outside_profile_coverage | 9 |
-| not_selected_under_budget_or_theme_cap | 6 |
+| not_selected_under_budget | 6 |
 | delisted_or_halted | 1 |
 | excluded_instrument_type | 1 |
 | removed_by_maintenance | 1 |
@@ -101,7 +102,6 @@ Quality is 50% rule and 50% judgement for 33 of 40 members. The rule half reads 
 | 11_A L2_ROLLUPS | BINANCE:OPUSDT.P | Optimism | THEME_LEADER |  | https://api.binance.com/api/v3/exchangeInfo |
 | 11_A L2_ROLLUPS | BINANCE:ARBUSDT.P | Arbitrum | THEME_LEADER |  | https://api.binance.com/api/v3/exchangeInfo |
 | 11_A L2_ROLLUPS | BINANCE:POLUSDT.P | Polygon | QUALITY_LEADER |  | https://api.binance.com/api/v3/exchangeInfo |
-| 11_A L2_ROLLUPS | BINANCE:STRKUSDT.P | Starknet | QUALITY_LEADER |  | https://api.binance.com/api/v3/exchangeInfo |
 | 12_A DEX_AND_PERPS | BINANCE:UNIUSDT.P | Uniswap | THEME_LEADER |  | https://api.binance.com/api/v3/exchangeInfo |
 | 12_A DEX_AND_PERPS | BINANCE:DYDXUSDT.P | dYdX | QUALITY_LEADER |  | https://api.binance.com/api/v3/exchangeInfo |
 | 12_A DEX_AND_PERPS | BINANCE:JUPUSDT.P | Jupiter | LIQUIDITY_SENSOR |  | https://api.binance.com/api/v3/exchangeInfo |
@@ -120,14 +120,15 @@ Quality is 50% rule and 50% judgement for 33 of 40 members. The rule half reads 
 | 15_A INTEROP | BINANCE:ATOMUSDT.P | Cosmos | QUALITY_LEADER |  | https://api.binance.com/api/v3/exchangeInfo |
 | 20_A EXCHANGE_TOKENS | BINANCE:BNBUSDT.P | BNB | ANCHOR |  | https://api.binance.com/api/v3/exchangeInfo |
 | 20_A EXCHANGE_TOKENS | BINANCE:CAKEUSDT.P | PancakeSwap | QUALITY_LEADER |  | https://api.binance.com/api/v3/exchangeInfo |
-| 20_A EXCHANGE_TOKENS | BINANCE:RAYUSDT.P | Raydium | QUALITY_LEADER |  | https://api.binance.com/api/v3/exchangeInfo |
 | 20_B PAYMENT_ASSETS | BINANCE:XRPUSDT.P | XRP | THEME_LEADER |  | https://api.binance.com/api/v3/exchangeInfo |
 | 20_B PAYMENT_ASSETS | BINANCE:TRXUSDT.P | TRON | QUALITY_LEADER | Carries the largest settled payment volume of any unheld asset in the theme | https://api.binance.com/api/v3/exchangeInfo |
 | 20_B PAYMENT_ASSETS | BINANCE:XLMUSDT.P | Stellar | QUALITY_LEADER |  | https://api.binance.com/api/v3/exchangeInfo |
+| 20_B PAYMENT_ASSETS | BINANCE:ALGOUSDT.P | Algorand | BREADTH_PROXY |  | https://api.binance.com/api/v3/exchangeInfo |
 | 30_A GAMING | BINANCE:AXSUSDT.P | Axie Infinity | THEME_LEADER |  | https://api.binance.com/api/v3/exchangeInfo |
+| 30_A GAMING | BINANCE:SANDUSDT.P | The Sandbox | QUALITY_LEADER |  | https://api.binance.com/api/v3/exchangeInfo |
 | 40_A MAJOR_MEMES | BINANCE:DOGEUSDT.P | Dogecoin | THEME_LEADER |  | https://api.binance.com/api/v3/exchangeInfo |
 | 40_A MAJOR_MEMES | BINANCE:WIFUSDT.P | dogwifhat | BETA_SATELLITE |  | https://api.binance.com/api/v3/exchangeInfo |
 | 40_A MAJOR_MEMES | BINANCE:PEPEUSDT.P | Pepe | BETA_SATELLITE |  | https://api.binance.com/api/v3/exchangeInfo |
-| 40_A MAJOR_MEMES | BINANCE:SHIBUSDT.P | Shiba Inu | BETA_SATELLITE |  | https://api.binance.com/api/v3/exchangeInfo |
 | 50_A PROOF_OF_WORK | BINANCE:LTCUSDT.P | Litecoin | THEME_LEADER |  | https://api.binance.com/api/v3/exchangeInfo |
+| 50_A PROOF_OF_WORK | BINANCE:BCHUSDT.P | Bitcoin Cash | QUALITY_LEADER |  | https://api.binance.com/api/v3/exchangeInfo |
 | 60_A RWA | BINANCE:ONDOUSDT.P | Ondo | THEME_LEADER |  | https://api.binance.com/api/v3/exchangeInfo |

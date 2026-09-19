@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "market": "cn",
   "taxonomy": [
     {
@@ -7,448 +7,513 @@
       "l1_name": "市场基准",
       "theme_code": "00_A",
       "theme_name": "BROAD_INDEX_ETF",
-      "coverage_level": 1
+      "coverage_level": 1,
+      "weight": 1.0
     },
     {
       "l1_code": "00",
       "l1_name": "市场基准",
       "theme_code": "00_B",
       "theme_name": "SECTOR_ROTATION_ETF",
-      "coverage_level": 2
+      "coverage_level": 2,
+      "weight": 0.75
     },
     {
       "l1_code": "00",
       "l1_name": "市场基准",
       "theme_code": "00_C",
       "theme_name": "THEMATIC_ETF",
-      "coverage_level": 3
+      "coverage_level": 3,
+      "weight": 0.5
     },
     {
       "l1_code": "10",
       "l1_name": "食品饮料",
       "theme_code": "10_A",
       "theme_name": "BAIJIU",
-      "coverage_level": 1
+      "coverage_level": 1,
+      "weight": 2.0
     },
     {
       "l1_code": "10",
       "l1_name": "食品饮料",
       "theme_code": "10_B",
       "theme_name": "FOOD_AND_DAIRY",
-      "coverage_level": 1
+      "coverage_level": 1,
+      "weight": 1.0
     },
     {
       "l1_code": "10",
       "l1_name": "食品饮料",
       "theme_code": "10_C",
       "theme_name": "BEVERAGE_AND_BREWING",
-      "coverage_level": 2
+      "coverage_level": 2,
+      "weight": 0.75
     },
     {
       "l1_code": "10",
       "l1_name": "食品饮料",
       "theme_code": "10_D",
       "theme_name": "CONDIMENTS_AND_SNACKS",
-      "coverage_level": 3
+      "coverage_level": 3,
+      "weight": 0.5
     },
     {
       "l1_code": "15",
       "l1_name": "农林牧渔",
       "theme_code": "15_A",
       "theme_name": "LIVESTOCK_AND_FEED",
-      "coverage_level": 1
+      "coverage_level": 1,
+      "weight": 0.75
     },
     {
       "l1_code": "15",
       "l1_name": "农林牧渔",
       "theme_code": "15_B",
       "theme_name": "SEED_AND_AGRITECH",
-      "coverage_level": 3
+      "coverage_level": 3,
+      "weight": 0.5
     },
     {
       "l1_code": "20",
       "l1_name": "金融",
       "theme_code": "20_A",
       "theme_name": "LARGE_BANKS",
-      "coverage_level": 1
+      "coverage_level": 1,
+      "weight": 2.0
     },
     {
       "l1_code": "20",
       "l1_name": "金融",
       "theme_code": "20_B",
       "theme_name": "BROKERS",
-      "coverage_level": 1
+      "coverage_level": 1,
+      "weight": 1.25
     },
     {
       "l1_code": "20",
       "l1_name": "金融",
       "theme_code": "20_C",
       "theme_name": "INSURANCE",
-      "coverage_level": 1
+      "coverage_level": 1,
+      "weight": 1.25
     },
     {
       "l1_code": "20",
       "l1_name": "金融",
       "theme_code": "20_D",
       "theme_name": "REGIONAL_BANKS",
-      "coverage_level": 2
+      "coverage_level": 2,
+      "weight": 0.75
     },
     {
       "l1_code": "20",
       "l1_name": "金融",
       "theme_code": "20_E",
       "theme_name": "DIVERSIFIED_FINANCIALS",
-      "coverage_level": 3
+      "coverage_level": 3,
+      "weight": 0.5
     },
     {
       "l1_code": "25",
       "l1_name": "房地产",
       "theme_code": "25_A",
       "theme_name": "PROPERTY_DEVELOPERS",
-      "coverage_level": 1
+      "coverage_level": 1,
+      "weight": 0.4
     },
     {
       "l1_code": "25",
       "l1_name": "房地产",
       "theme_code": "25_B",
       "theme_name": "PROPERTY_SERVICES",
-      "coverage_level": 3
+      "coverage_level": 3,
+      "weight": 0.25
     },
     {
       "l1_code": "30",
       "l1_name": "新能源",
       "theme_code": "30_A",
       "theme_name": "BATTERY_CHAIN",
-      "coverage_level": 1
+      "coverage_level": 1,
+      "weight": 2.5
     },
     {
       "l1_code": "30",
       "l1_name": "新能源",
       "theme_code": "30_B",
       "theme_name": "PHOTOVOLTAIC",
-      "coverage_level": 1
+      "coverage_level": 1,
+      "weight": 1.5
     },
     {
       "l1_code": "30",
       "l1_name": "新能源",
       "theme_code": "30_C",
       "theme_name": "POWER_EQUIPMENT",
-      "coverage_level": 1
+      "coverage_level": 1,
+      "weight": 1.25
     },
     {
       "l1_code": "30",
       "l1_name": "新能源",
       "theme_code": "30_D",
       "theme_name": "WIND_POWER",
-      "coverage_level": 2
+      "coverage_level": 2,
+      "weight": 1.0
     },
     {
       "l1_code": "30",
       "l1_name": "新能源",
       "theme_code": "30_E",
       "theme_name": "HYDROGEN_AND_STORAGE",
-      "coverage_level": 3
+      "coverage_level": 3,
+      "weight": 0.5
     },
     {
       "l1_code": "40",
       "l1_name": "汽车",
       "theme_code": "40_A",
       "theme_name": "AUTO_OEM",
-      "coverage_level": 1
+      "coverage_level": 1,
+      "weight": 2.0
     },
     {
       "l1_code": "40",
       "l1_name": "汽车",
       "theme_code": "40_B",
       "theme_name": "AUTO_PARTS",
-      "coverage_level": 1
+      "coverage_level": 1,
+      "weight": 1.5
     },
     {
       "l1_code": "40",
       "l1_name": "汽车",
       "theme_code": "40_C",
       "theme_name": "COMMERCIAL_VEHICLES",
-      "coverage_level": 2
+      "coverage_level": 2,
+      "weight": 0.75
     },
     {
       "l1_code": "40",
       "l1_name": "汽车",
       "theme_code": "40_D",
       "theme_name": "AUTO_ELECTRONICS",
-      "coverage_level": 3
+      "coverage_level": 3,
+      "weight": 0.75
     },
     {
       "l1_code": "50",
       "l1_name": "半导体与电子",
       "theme_code": "50_A",
       "theme_name": "SEMICONDUCTORS",
-      "coverage_level": 1
+      "coverage_level": 1,
+      "weight": 3.5
     },
     {
       "l1_code": "50",
       "l1_name": "半导体与电子",
       "theme_code": "50_B",
       "theme_name": "CONSUMER_ELECTRONICS_CHAIN",
-      "coverage_level": 1
+      "coverage_level": 1,
+      "weight": 2.0
     },
     {
       "l1_code": "50",
       "l1_name": "半导体与电子",
       "theme_code": "50_C",
       "theme_name": "DISPLAY_AND_OPTICS",
-      "coverage_level": 1
+      "coverage_level": 1,
+      "weight": 1.25
     },
     {
       "l1_code": "50",
       "l1_name": "半导体与电子",
       "theme_code": "50_D",
       "theme_name": "SEMICAP_AND_MATERIALS",
-      "coverage_level": 2
+      "coverage_level": 2,
+      "weight": 1.75
     },
     {
       "l1_code": "50",
       "l1_name": "半导体与电子",
       "theme_code": "50_E",
       "theme_name": "PCB_AND_COMPONENTS",
-      "coverage_level": 2
+      "coverage_level": 2,
+      "weight": 1.0
     },
     {
       "l1_code": "60",
       "l1_name": "医药生物",
       "theme_code": "60_A",
       "theme_name": "INNOVATIVE_PHARMA",
-      "coverage_level": 1
+      "coverage_level": 1,
+      "weight": 2.0
     },
     {
       "l1_code": "60",
       "l1_name": "医药生物",
       "theme_code": "60_B",
       "theme_name": "MEDICAL_DEVICES",
-      "coverage_level": 1
+      "coverage_level": 1,
+      "weight": 1.25
     },
     {
       "l1_code": "60",
       "l1_name": "医药生物",
       "theme_code": "60_C",
       "theme_name": "CRO_AND_CDMO",
-      "coverage_level": 1
+      "coverage_level": 1,
+      "weight": 1.25
     },
     {
       "l1_code": "60",
       "l1_name": "医药生物",
       "theme_code": "60_D",
       "theme_name": "TCM_AND_GENERICS",
-      "coverage_level": 2
+      "coverage_level": 2,
+      "weight": 0.75
     },
     {
       "l1_code": "60",
       "l1_name": "医药生物",
       "theme_code": "60_E",
       "theme_name": "VACCINES_AND_BIOLOGICS",
-      "coverage_level": 3
+      "coverage_level": 3,
+      "weight": 0.5
     },
     {
       "l1_code": "60",
       "l1_name": "医药生物",
       "theme_code": "60_F",
       "theme_name": "PHARMACY_AND_DISTRIBUTION",
-      "coverage_level": 3
+      "coverage_level": 3,
+      "weight": 0.5
     },
     {
       "l1_code": "65",
       "l1_name": "国防军工",
       "theme_code": "65_A",
       "theme_name": "AEROSPACE_AND_DEFENSE",
-      "coverage_level": 1
+      "coverage_level": 1,
+      "weight": 1.5
     },
     {
       "l1_code": "65",
       "l1_name": "国防军工",
       "theme_code": "65_B",
       "theme_name": "DEFENSE_ELECTRONICS",
-      "coverage_level": 2
+      "coverage_level": 2,
+      "weight": 0.75
     },
     {
       "l1_code": "70",
       "l1_name": "资源品",
       "theme_code": "70_A",
       "theme_name": "NONFERROUS_METALS",
-      "coverage_level": 1
+      "coverage_level": 1,
+      "weight": 1.5
     },
     {
       "l1_code": "70",
       "l1_name": "资源品",
       "theme_code": "70_B",
       "theme_name": "COAL_AND_OIL",
-      "coverage_level": 1
+      "coverage_level": 1,
+      "weight": 1.25
     },
     {
       "l1_code": "70",
       "l1_name": "资源品",
       "theme_code": "70_C",
       "theme_name": "CHEMICALS",
-      "coverage_level": 1
+      "coverage_level": 1,
+      "weight": 1.25
     },
     {
       "l1_code": "70",
       "l1_name": "资源品",
       "theme_code": "70_D",
       "theme_name": "STEEL_AND_BUILDING_MATERIALS",
-      "coverage_level": 2
+      "coverage_level": 2,
+      "weight": 0.75
     },
     {
       "l1_code": "70",
       "l1_name": "资源品",
       "theme_code": "70_E",
       "theme_name": "RARE_EARTH_AND_LITHIUM",
-      "coverage_level": 2
+      "coverage_level": 2,
+      "weight": 1.0
     },
     {
       "l1_code": "70",
       "l1_name": "资源品",
       "theme_code": "70_F",
       "theme_name": "GOLD_MINERS",
-      "coverage_level": 3
+      "coverage_level": 3,
+      "weight": 0.5
     },
     {
       "l1_code": "80",
       "l1_name": "机械与基建",
       "theme_code": "80_A",
       "theme_name": "CONSTRUCTION_AND_RAIL",
-      "coverage_level": 1
+      "coverage_level": 1,
+      "weight": 0.75
     },
     {
       "l1_code": "80",
       "l1_name": "机械与基建",
       "theme_code": "80_B",
       "theme_name": "MACHINERY",
-      "coverage_level": 1
+      "coverage_level": 1,
+      "weight": 1.25
     },
     {
       "l1_code": "80",
       "l1_name": "机械与基建",
       "theme_code": "80_C",
       "theme_name": "ROBOTICS_AND_AUTOMATION",
-      "coverage_level": 2
+      "coverage_level": 2,
+      "weight": 1.0
     },
     {
       "l1_code": "80",
       "l1_name": "机械与基建",
       "theme_code": "80_D",
       "theme_name": "ENGINEERING_SERVICES",
-      "coverage_level": 3
+      "coverage_level": 3,
+      "weight": 0.5
     },
     {
       "l1_code": "85",
       "l1_name": "公用事业与交运",
       "theme_code": "85_A",
       "theme_name": "POWER_UTILITIES",
-      "coverage_level": 1
+      "coverage_level": 1,
+      "weight": 1.25
     },
     {
       "l1_code": "85",
       "l1_name": "公用事业与交运",
       "theme_code": "85_B",
       "theme_name": "LOGISTICS_AND_SHIPPING",
-      "coverage_level": 1
+      "coverage_level": 1,
+      "weight": 1.0
     },
     {
       "l1_code": "85",
       "l1_name": "公用事业与交运",
       "theme_code": "85_C",
       "theme_name": "AIRLINES_AND_AIRPORTS",
-      "coverage_level": 2
+      "coverage_level": 2,
+      "weight": 0.75
     },
     {
       "l1_code": "85",
       "l1_name": "公用事业与交运",
       "theme_code": "85_D",
       "theme_name": "WATER_AND_ENVIRONMENT",
-      "coverage_level": 3
+      "coverage_level": 3,
+      "weight": 0.5
     },
     {
       "l1_code": "85",
       "l1_name": "公用事业与交运",
       "theme_code": "85_E",
       "theme_name": "HIGHWAYS_AND_PORTS",
-      "coverage_level": 3
+      "coverage_level": 3,
+      "weight": 0.5
     },
     {
       "l1_code": "90",
       "l1_name": "消费服务",
       "theme_code": "90_A",
       "theme_name": "HOME_APPLIANCES",
-      "coverage_level": 1
+      "coverage_level": 1,
+      "weight": 1.5
     },
     {
       "l1_code": "90",
       "l1_name": "消费服务",
       "theme_code": "90_B",
       "theme_name": "TRAVEL_AND_RETAIL",
-      "coverage_level": 1
+      "coverage_level": 1,
+      "weight": 1.0
     },
     {
       "l1_code": "90",
       "l1_name": "消费服务",
       "theme_code": "90_C",
       "theme_name": "APPAREL_AND_TEXTILES",
-      "coverage_level": 2
+      "coverage_level": 2,
+      "weight": 0.75
     },
     {
       "l1_code": "90",
       "l1_name": "消费服务",
       "theme_code": "90_D",
       "theme_name": "EDUCATION_AND_SERVICES",
-      "coverage_level": 3
+      "coverage_level": 3,
+      "weight": 0.5
     },
     {
       "l1_code": "95",
       "l1_name": "通信与计算机",
       "theme_code": "95_A",
       "theme_name": "TELECOM_OPERATORS",
-      "coverage_level": 1
+      "coverage_level": 1,
+      "weight": 1.0
     },
     {
       "l1_code": "95",
       "l1_name": "通信与计算机",
       "theme_code": "95_B",
       "theme_name": "SOFTWARE_AND_AI",
-      "coverage_level": 1
+      "coverage_level": 1,
+      "weight": 2.5
     },
     {
       "l1_code": "95",
       "l1_name": "通信与计算机",
       "theme_code": "95_C",
       "theme_name": "COMMUNICATION_EQUIPMENT",
-      "coverage_level": 2
+      "coverage_level": 2,
+      "weight": 1.0
     },
     {
       "l1_code": "95",
       "l1_name": "通信与计算机",
       "theme_code": "95_D",
       "theme_name": "CLOUD_AND_IDC",
-      "coverage_level": 2
+      "coverage_level": 2,
+      "weight": 1.0
     },
     {
       "l1_code": "95",
       "l1_name": "通信与计算机",
       "theme_code": "95_E",
       "theme_name": "FINTECH_SOFTWARE",
-      "coverage_level": 3
+      "coverage_level": 3,
+      "weight": 0.5
     },
     {
       "l1_code": "96",
       "l1_name": "传媒",
       "theme_code": "96_A",
       "theme_name": "MEDIA_AND_GAMING",
-      "coverage_level": 1
+      "coverage_level": 1,
+      "weight": 1.0
     },
     {
       "l1_code": "96",
       "l1_name": "传媒",
       "theme_code": "96_B",
       "theme_name": "PUBLISHING_AND_MARKETING",
-      "coverage_level": 3
+      "coverage_level": 3,
+      "weight": 0.5
     }
-  ]
+  ],
+  "note": "Weights are the point of this table. Semiconductors, the battery chain and the software complex carry what this market does; property development is still listed, still liquid and still worth one seat, and pretending it deserves the same shelf as semis is how a universe ends up watching the 2015 market."
 }

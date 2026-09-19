@@ -3,7 +3,7 @@
   "market": "crypto",
   "as_of": "2026-10-15",
   "complete": true,
-  "base_version_hash": "c8a5de84748b",
+  "base_version_hash": "1af6a641bdb9",
   "review_depth": "routine",
   "summary": "Monthly liveness and turnover refresh; one satellite retired, one payment asset added, nothing else moved",
   "sources": [
@@ -11,7 +11,7 @@
     {"url": "https://data.binance.vision/", "as_of": "2026-10-15", "kind": "market_data", "tier": 2}
   ],
   "deferred": [
-    {"ticker": "BINANCE:TONUSDT.P", "deferred_because": "20_B reaches its theme cap with TRX; revisit if a payment asset drops out"}
+    {"ticker": "BINANCE:TONUSDT.P", "deferred_because": "20_B is already at its weighted share with TRX; revisit if a payment asset drops out"}
   ],
   "ops": [
     {

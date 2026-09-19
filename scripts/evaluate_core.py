@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """Measure a universe after the fact, from a price table covering the window it lived through.
 
-Every threshold in this skill is a guess. The guidance ranges, `BETA_FULL_SCALE`, the listing-age
-bands, the score weights, the theme cap — all of them were set by judgement and none of them has
-ever been checked against an outcome. That is the largest gap in the design, and it is worse for
-a declared market, whose numbers were invented at run time by an agent rather than judged once by
-a person.
+Every threshold in this skill is a guess. The guidance ranges, `BETA_FULL_SCALE`, the
+listing-age bands, the score weights, the breadth factors, the theme weights — all set by
+judgement, and none of them has ever been checked against an outcome. That is the largest gap in
+the design, and it is worse for a declared market, whose numbers were invented at run time by an
+agent rather than judged once by a person.
 
 This is not a backtest and does not produce one. A universe is an observation instrument, not a
 portfolio, so the question is never "what did it return" — it is whether the instrument saw what
@@ -16,7 +16,7 @@ happened. Every section below is tied to one constant it would recalibrate:
 | `survival` | the freshness window and the review cadence |
 | `coverage` | the per-market guidance ranges — was the universe wide enough to see the move |
 | `rejections` | the eligibility rules, by exclusion code |
-| `themes` | `theme_cap`, and whether the taxonomy is weighted where the volatility is |
+| `themes` | the theme `weight`s — whether the taxonomy is weighted where the moves were |
 | `metrics` | `SCORE_WEIGHTS` — which metric actually ordered anything |
 | `independence` | the declared factor redundancy against the realised one |
 

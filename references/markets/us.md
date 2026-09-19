@@ -1,5 +1,9 @@
 # US overlay
 
+Read [equity-common.md](equity-common.md) first: the universe boundary, the fund-versus-
+basket redundancy test, the cash-management exclusion and the rule about regressing
+against the theme rather than the index are the same in every equity market.
+
 ## Universe boundary
 
 - Common stock and the ETFs needed as gauges. Warrants, rights, units, preferred shares and shell
@@ -17,27 +21,26 @@
   high-beta components.
 - Heavy adds cold sectors, mid-cap breadth, independent residual sensors and qualified IPOs.
 
-## Funds and single names compete for the same seats
-
-A sector fund covering a theme the universe already holds through several single names may be a
-low-information copy of a basket it already owns. Test it: build an equal-weighted, daily-rebalanced
-basket from the members that cover the fund's mandate and ask two questions — does the basket track
-the fund, and does it beat it over both a one-year and a two-year leg? Both yes means the fund is
-redundant. Failure to track means it is an independent factor and stays, however redundant its
-holdings look on paper.
-
-Daily rebalancing is not a detail: a buy-and-hold basket silently becomes a bet on its best member,
-and the excess return you then measure belongs to that one name rather than to coverage.
-
-Before deleting on that test, drop the basket's largest contributor and recompute. A conclusion
-that rests on a single name is a conclusion about that name.
-
 ## Cash-management instruments
 
-Money-market, ultra-short and cash-management funds win every liquidity test in the market and
-carry no observable signal. They are excluded by instrument type, not scored. This has to be stated
-as a rule, because any ranking built on AUM, turnover, spread and tracking quality will otherwise
-rank them first.
+Money-market, ultra-short and cash-management funds are the ones that win every US liquidity
+ranking and carry no signal. They are excluded by instrument type — see equity-common.md.
+
+## What this market is
+
+The heaviest weights in `assets/taxonomy/_equity.json` are the megacap platforms, semiconductors
+and enterprise software, with AI compute and the power that feeds it beside them. That table is
+the shared equity base, because it was abstracted from this market — so the US delta in
+`assets/taxonomy/us.json` is empty by construction, and every other market states how it differs
+from here.
+
+## Adverse flags
+
+| Code | What it is |
+|---|---|
+| `late_filing` | An NT 10-K or NT 10-Q, or a filing past its extended deadline |
+| `listing_deficiency` | An exchange deficiency notice: price, market value, float or governance |
+| `material_weakness` | A disclosed material weakness in internal control over financial reporting |
 
 ## Suggested live fields
 
