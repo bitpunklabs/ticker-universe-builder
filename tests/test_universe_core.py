@@ -21,6 +21,7 @@ from universe_core import (  # noqa: E402
     UniverseError,
     apply_change_set,
     build_universe,
+    check_taxonomy,
     default_asset_id,
     languages,
     load_lexicon,
@@ -498,6 +499,70 @@ def declared_snapshot(**overrides) -> dict:
     ]
     value.update(overrides)
     return value
+
+
+class TaxonomyCheckTests(unittest.TestCase):
+    """The first step is the one with no help in it, and a declared market has no starter.
+
+    A malformed table is caught by the builder anyway. What this catches is the table that is
+    structurally fine and cannot produce the universe that was asked for — which today you learn
+    after the research is done.
+    """
+
+    def themes(self, *rows) -> list[dict]:
+        return [
+            {"l1_code": code.split("_")[0], "l1_name": f"Group {code.split('_')[0]}",
+             "theme_code": code, "theme_name": f"THEME_{code}", "coverage_level": level}
+            for code, level in rows
+        ]
+
+    def test_a_target_smaller_than_the_theme_count_cannot_build(self) -> None:
+        # Every theme inside the coverage level must hold a member, so this is not a tight fit.
+        report = check_taxonomy(
+            self.themes(("00_A", 1), ("10_A", 1), ("20_A", 1)), "crypto",
+            target=2, profile="light",
+        )
+        self.assertFalse(report["passed"])
+        self.assertTrue(any("every theme must hold a member" in e for e in report["errors"]))
+
+    def test_a_taxonomy_too_small_for_its_target_is_reported_before_the_research(self) -> None:
+        report = check_taxonomy(
+            self.themes(("00_A", 1), ("10_A", 1)), "crypto", target=40, profile="light"
+        )
+        self.assertTrue(report["passed"])
+        self.assertTrue(any("reaches 8" in item for item in report["warnings"]))
+        self.assertEqual(report["stats"]["capacity"]["light"]["max_members"], 8)
+
+    def test_one_group_cannot_have_two_names(self) -> None:
+        rows = self.themes(("00_A", 1), ("00_B", 1))
+        rows[1]["l1_name"] = "Something else"
+        report = check_taxonomy(rows, "crypto", profile="light", target=4)
+        self.assertFalse(report["passed"])
+        self.assertTrue(any("is called both" in item for item in report["errors"]))
+
+    def test_a_group_that_light_cannot_see_is_reported(self) -> None:
+        report = check_taxonomy(
+            self.themes(("00_A", 1), ("10_A", 2)), "crypto", target=4, profile="light"
+        )
+        self.assertTrue(any("invisible to a Light universe" in i for i in report["warnings"]))
+
+    def test_a_non_ascii_theme_name_is_reported_because_it_becomes_a_txt_header(self) -> None:
+        rows = self.themes(("00_A", 1))
+        rows[0]["theme_name"] = "白酒"
+        report = check_taxonomy(rows, "crypto", target=4, profile="light")
+        self.assertTrue(any("TradingView section header" in i for i in report["warnings"]))
+
+    def test_a_malformed_table_is_one_error_not_a_traceback(self) -> None:
+        report = check_taxonomy([{"theme_code": "nope"}], "crypto")
+        self.assertFalse(report["passed"])
+        self.assertIn("invalid theme_code", report["errors"][0])
+
+    def test_the_shipped_starters_are_structurally_sound(self) -> None:
+        # They warn about capacity — a starter is deliberately a starting point — but nothing in
+        # them should be an error.
+        for market in sorted(MARKET_SPECS):
+            report = check_taxonomy(starter_taxonomy(market), market)
+            self.assertEqual(report["errors"], [], market)
 
 
 class DeclaredMarketTests(unittest.TestCase):

@@ -253,6 +253,110 @@ def load_policy(path: str | Path | None = None) -> dict[str, Any]:
     return read_json(path or default_policy_path())
 
 
+def check_taxonomy(
+    raw: Any,
+    market: str,
+    policy: dict[str, Any] | None = None,
+    target: int | None = None,
+    profile: str | None = None,
+) -> dict[str, Any]:
+    """Check a hand-written theme table before a single candidate has been researched.
+
+    Designing the taxonomy is the first step and the one with no help in it, and a declared
+    market has no starter to edit — the agent writes it from nothing. The expensive failure is
+    not a malformed file, which the builder catches anyway; it is a table that is structurally
+    fine and cannot produce the universe that was asked for. A Light target of 150 against
+    twelve Level-1 themes and a cap of four can reach 48, and today you learn that after the
+    research is done.
+    """
+    policy = policy or load_policy()
+    errors: list[str] = []
+    warnings: list[str] = []
+    items = raw.get("taxonomy") if isinstance(raw, dict) else raw
+    try:
+        taxonomy = normalize_taxonomy(items or [])
+    except UniverseError as exc:
+        return {"passed": False, "errors": [str(exc)], "warnings": [], "stats": {}}
+    if not taxonomy:
+        return {"passed": False, "errors": ["taxonomy is empty"], "warnings": [], "stats": {}}
+
+    names: dict[str, str] = {}
+    for item in taxonomy:
+        first = names.setdefault(item["l1_code"], item["l1_name"])
+        if first != item["l1_name"]:
+            errors.append(
+                f"{item['theme_code']}: l1_code {item['l1_code']} is called both "
+                f"{first!r} and {item['l1_name']!r}"
+            )
+        if not item["theme_name"].isascii():
+            # It becomes a `###00_A_NAME` section header in the TradingView export, and what a
+            # third-party importer does with non-ASCII there is not something to find out later.
+            warnings.append(
+                f"{item['theme_code']}: theme_name {item['theme_name']!r} is not ASCII; it is "
+                "a TradingView section header. Put the local-language label in l1_name"
+            )
+    by_level = Counter(item["coverage_level"] for item in taxonomy)
+    if not by_level[1]:
+        errors.append("no theme at coverage_level 1; a Light universe would have nothing to hold")
+    for l1_code in sorted(names):
+        levels = {item["coverage_level"] for item in taxonomy if item["l1_code"] == l1_code}
+        if 1 not in levels:
+            warnings.append(
+                f"{l1_code} {names[l1_code]!r} first appears at level {min(levels)}; "
+                "this part of the market is invisible to a Light universe"
+            )
+
+    guidance = (policy.get("markets") or {}).get(str(market).strip().lower())
+    stats: dict[str, Any] = {
+        "themes": len(taxonomy),
+        "l1_groups": len(names),
+        "by_level": {str(level): by_level[level] for level in (1, 2, 3)},
+        "capacity": {},
+    }
+    if profile is not None and profile not in PROFILES:
+        raise UniverseError(f"profile must be one of {', '.join(PROFILES)}")
+    for name in (profile,) if profile else PROFILES:
+        level = int(policy["profiles"][name]["coverage_level"])
+        cap = int(policy["profiles"][name]["theme_cap"])
+        reachable = sum(by_level[step] for step in range(1, level + 1))
+        want = target if target is not None else (
+            int(guidance[name]["target"]) if guidance else None
+        )
+        stats["capacity"][name] = {
+            "themes": reachable, "max_members": reachable * cap, "target": want,
+        }
+        if want is None:
+            continue
+        if reachable > want:
+            # Every theme inside the coverage level must hold at least one member, so this is not
+            # a tight fit — it is a build that cannot validate.
+            errors.append(
+                f"{name}: {reachable} themes against a target of {want}; every theme must "
+                "hold a member, so widen the target or raise some themes' coverage_level"
+            )
+        elif reachable * cap < want:
+            warnings.append(
+                f"{name}: {reachable} themes x theme_cap {cap} reaches {reachable * cap}, "
+                f"short of the {want} target; add Level-{level} themes or the pool will fill "
+                "against the cap"
+            )
+        if reachable + want > 1000:
+            warnings.append(
+                f"{name}: {reachable} themes + {want} tickers exceeds the 1000-token "
+                "TradingView cap"
+            )
+    if target is None and not guidance:
+        warnings.append(
+            f"no size guidance for market {market!r}; pass --target to check capacity"
+        )
+    return {
+        "passed": not errors,
+        "errors": sorted(set(errors)),
+        "warnings": sorted(set(warnings)),
+        "stats": stats,
+    }
+
+
 def locales_path() -> Path:
     return Path(__file__).resolve().parent.parent / "assets" / "locales"
 

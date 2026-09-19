@@ -27,6 +27,10 @@ questions:
 | What ships | nothing | a policy row, a starter taxonomy, an overlay, an example |
 | What the report says | `Market rules: declared`, on every run | nothing; silence is the reviewed case |
 
+A declared market has no starter taxonomy, so the agent writes one from nothing;
+`taxonomy --check` is the gate on that, and it is worth running before any candidate is
+researched.
+
 Declaring is the answer for a market nobody here has looked at — a smaller exchange, a market one
 user cares about, a market being tried out. Registering is the answer once a market is used often
 enough that leaving its venue list to be re-researched every session is the larger risk. The
@@ -41,7 +45,9 @@ A new *registered* market is five additions and no edits to existing logic:
 2. A `markets.<code>` block in `assets/default-policy.json` with Light, Medium and Heavy counts.
    `MarketRegistryTests` fails until this exists, which is the point — a market with no size
    guidance would build universes of an arbitrary size and report nothing.
-3. A starter taxonomy at `assets/taxonomy/<code>.json`.
+3. A starter taxonomy at `assets/taxonomy/<code>.json`. Run `taxonomy --check` on it against
+   each profile's guidance before shipping it — a starter that cannot reach its own Light target
+   sends every user down the same dead end.
 4. An overlay at `references/markets/<code>.md` covering instrument scope, venue and identity
    rules, the exclusions that market requires, and where its primary sources live.
 5. One worked example under `examples/`, so the market is exercised by CI rather than merely

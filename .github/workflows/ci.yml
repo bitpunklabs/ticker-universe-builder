@@ -59,6 +59,13 @@ jobs:
           python scripts/universe.py import --watchlist "$watchlist" --market crypto \
             --output /tmp/crypto.draft.json
           python scripts/universe.py taxonomy --market crypto --profile light > /dev/null
+      - name: check every starter theme table
+        run: |
+          for market in cn us crypto; do
+            python scripts/universe.py taxonomy --market "$market" --output "/tmp/$market.tax.json"
+            python scripts/universe.py taxonomy --check "/tmp/$market.tax.json" \
+              --market "$market" > /dev/null
+          done
       - name: the report follows the market's language
         run: |
           grep -q '^# CN 标的池' "$(dirname "$(cat /tmp/cn.path)")"/cn-light-*.md

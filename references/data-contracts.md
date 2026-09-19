@@ -35,6 +35,25 @@ draft will not build until it has been researched, which is the correct behaviou
 saves the transcription, not the work. Tickers that do not match the named market are listed in
 `notes` instead of being dropped.
 
+## Checking a theme table
+
+`taxonomy --check FILE --market M [--profile P] [--target N]` reads a taxonomy — a bare list, or
+the `{schema_version, market, taxonomy}` object `taxonomy --output` writes — and reports whether
+it can produce the universe being asked for, before any candidate is researched:
+
+| | |
+|---|---|
+| **error** | more themes inside the coverage level than the target can hold; every theme must carry a member, so the build could not validate |
+| **error** | one `l1_code` carrying two different `l1_name`s |
+| **error** | no theme at `coverage_level` 1 |
+| **warning** | `themes x theme_cap` below the target — the pool will fill against the cap |
+| **warning** | an `l1_code` group first appearing at level 2 or 3, invisible to a Light universe |
+| **warning** | a non-ASCII `theme_name`; it becomes a `###00_A_NAME` section header in the TradingView export, so the local-language label belongs in `l1_name` |
+| **warning** | themes plus tickers over the 1000-token cap |
+
+Exit 0 with warnings, 2 with errors. The shipped starters pass with capacity warnings: a starter
+is a starting point, and the warning is the size of the edit it still needs.
+
 ## snapshot.json
 
 ```json

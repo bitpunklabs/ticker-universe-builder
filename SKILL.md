@@ -56,9 +56,19 @@ reported rather than dropped.
 
    Edit it: add what the market has grown, drop what it has not. It is a starting point, not a
    schema.
-3. Research the eligible universe against that taxonomy. Record facts in `snapshot.json`;
+3. Check the table before researching a single candidate. This is the step that is cheapest to
+   redo now and most expensive to redo later:
+
+   ```bash
+   python scripts/universe.py taxonomy --check taxonomy.json --market cn --profile light
+   ```
+
+   It reports a table that cannot produce the universe you asked for — more themes than the
+   target can hold, a target the theme cap cannot reach, a group invisible at this depth, a
+   `theme_name` that will not survive a TradingView import.
+4. Research the eligible universe against that taxonomy. Record facts in `snapshot.json`;
    never pass a claim to the scripts hidden inside prose.
-4. Declare in `measurement` how each metric was produced. A window-dependent statistic —
+5. Declare in `measurement` how each metric was produced. A window-dependent statistic —
    liquidity, `factor_r2`, `beta_strength`, `beta_stability` — must be computed, not estimated,
    and the builder refuses to accept it as judgement. If you have a table of daily bars, compute
    them instead of arguing with the gate:
@@ -70,14 +80,14 @@ reported rather than dropped.
 
    See [references/measurement.md](references/measurement.md). If you have no price table, the
    candidates that need those metrics do not belong in the universe yet.
-5. Cite current sources for listing status, venue, liquidity and every non-obvious admission. If
+6. Cite current sources for listing status, venue, liquidity and every non-obvious admission. If
    an essential fact cannot be verified, exclude the candidate or mark the snapshot incomplete.
    For a market outside `cn`, `us` and `crypto`, also research its rules and declare them in the
    snapshot's `market_spec` — venues, symbol shape, identity rule and size guidance, with tier 1
    or tier 2 evidence. Everything else about the build is unchanged. See
    [references/data-contracts.md](references/data-contracts.md#market_spec); do not guess a venue
    code or a symbol format, and say in your answer that the rules were declared, not reviewed.
-6. Run:
+7. Run:
 
    ```bash
    python scripts/universe.py build \
@@ -86,10 +96,10 @@ reported rather than dropped.
      --output output
    ```
 
-7. The command prints the path of every artifact it wrote; they are named
+8. The command prints the path of every artifact it wrote; they are named
    `{market}-{profile}-{as_of}`. Run `validate` on the `universe` path even though the builder
    validates before writing. Never present an output that fails.
-8. Return the human-readable `.md` and the TradingView-importable `.txt`. The `.md` is written
+9. Return the human-readable `.md` and the TradingView-importable `.txt`. The `.md` is written
    in the market's own language — Simplified Chinese for CN, English for US and Crypto — so
    write the snapshot's names, themes, reasons and methods in that language too. `--language`
    overrides it; nothing else about the build changes.

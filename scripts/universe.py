@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Build, maintain and validate one ticker universe.
 
-    python scripts/universe.py taxonomy --market M [--profile P]
+    python scripts/universe.py taxonomy --market M [--profile P | --check mine.json]
     python scripts/universe.py import   --watchlist W --market M --output snapshot.draft.json
     python scripts/universe.py measure  --prices P --benchmark B --source URL --output M
     python scripts/universe.py build    --spec S --snapshot N --output DIR [--seed universe.json]
@@ -27,6 +27,7 @@ from universe_core import (  # noqa: E402
     UniverseError,
     apply_change_set,
     build_universe,
+    check_taxonomy,
     load_policy,
     read_json,
     starter_taxonomy,
@@ -37,6 +38,15 @@ from universe_core import (  # noqa: E402
 
 
 def taxonomy(args: argparse.Namespace) -> int:
+    if args.check:
+        if args.target is not None and not args.profile:
+            raise UniverseError("--target applies to one profile; pass --profile as well")
+        report = check_taxonomy(
+            read_json(args.check), args.market, load_policy(args.policy),
+            args.target, args.profile,
+        )
+        print(json.dumps(report, ensure_ascii=False, indent=2))
+        return 0 if report["passed"] else 2
     themes = starter_taxonomy(args.market, args.profile)
     payload = json.dumps(
         {"schema_version": 1, "market": args.market, "taxonomy": themes},
@@ -149,6 +159,14 @@ def parser() -> argparse.ArgumentParser:
     themes.add_argument("--market", required=True, help="cn, us or crypto")
     themes.add_argument("--profile", help="cut to this profile's coverage level")
     themes.add_argument("--output", help="write to a file instead of stdout")
+    themes.add_argument(
+        "--check", metavar="FILE",
+        help="check a hand-written theme table instead of printing the starter",
+    )
+    themes.add_argument(
+        "--target", type=int,
+        help="target member count for --profile (default: the policy guidance)",
+    )
     themes.set_defaults(handler=taxonomy)
 
     draft = sub.add_parser("import", help="read an existing watchlist into a snapshot skeleton")
