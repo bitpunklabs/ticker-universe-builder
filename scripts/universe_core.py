@@ -142,7 +142,28 @@ METRIC_FIELDS = (
 # Window-dependent statistics. A model cannot know these without computing them, so the snapshot
 # has to say which window and which source produced them; declaring them as judgement is refused.
 MEASURED_ONLY_METRICS = {"liquidity", "factor_r2", "beta_strength", "beta_stability"}
-MEASUREMENT_BASES = {"measured", "judged"}
+# `quality` is the heaviest weight in the core bucket and the least checkable thing in the file.
+# It stays a judgement — durability is not a statistic — but where checkable facts exist they
+# carry half of it, so the score cannot drift on opinion alone.
+BLENDABLE_METRICS = {"quality"}
+MEASUREMENT_BASES = {"measured", "judged", "blended"}
+QUALITY_RULE_WEIGHT = 0.5
+QUALITY_FLAG_PENALTY = 25
+# Closed vocabulary, same reasoning as the exclusion codes: a flag that can be counted is worth
+# more than a sentence that cannot.
+QUALITY_FLAG_CODES = {
+    "risk_warning",
+    "going_concern",
+    "regulatory_action",
+    "audit_qualification",
+    "monitoring_tag",
+    "restructuring",
+    "loss_making",
+}
+QUALITY_FACT_FIELDS = ("listing_age_days", "size_rank_pct", "adverse_flags")
+# Survival is the one quality signal every market states the same way. The bands are coarse on
+# purpose: the difference between four and five years of listing is not information.
+LISTING_AGE_BANDS = ((1825, 100), (1095, 85), (730, 70), (365, 50), (180, 30))
 
 # Closed vocabulary. Free text hides the reason a candidate lost its slot inside prose nobody
 # aggregates; a code can be counted across rounds.
@@ -372,13 +393,21 @@ def staleness_warnings(
     return sorted(set(warnings))
 
 
-def normalize_measurement(raw: Any, used_fields: set[str]) -> dict[str, dict[str, Any]]:
+def normalize_measurement(
+    raw: Any, used_fields: set[str], blended: set[str] | None = None
+) -> dict[str, dict[str, Any]]:
     """Every populated metric must say how it was produced.
 
-    `measured` carries a window and a source; `judged` carries a method and nothing else. The
-    window-dependent statistics cannot be declared `judged` — a model that has not run the
-    regression does not have the number, and a filled-in guess is indistinguishable from one.
+    `measured` carries a window and a source; `judged` carries a method and nothing else;
+    `blended` means a rule component computed from declared facts plus a judged remainder, and
+    carries the source those facts were read from. The window-dependent statistics cannot be
+    declared `judged` — a model that has not run the regression does not have the number, and a
+    filled-in guess is indistinguishable from one.
+
+    `blended` is not optional where it applies: if the candidates carry `quality_facts`, the
+    declaration has to say so, and if they do not, it may not claim they do.
     """
+    blended = set(blended or ())
     if not isinstance(raw, dict):
         raise UniverseError("measurement must be an object keyed by metric name")
     declared: dict[str, dict[str, Any]] = {}
@@ -389,27 +418,104 @@ def normalize_measurement(raw: Any, used_fields: set[str]) -> dict[str, dict[str
             raise UniverseError(f"measurement {field}: must be an object")
         basis = str(entry.get("basis", "")).strip().lower()
         if basis not in MEASUREMENT_BASES:
-            raise UniverseError(f"measurement {field}: basis must be measured or judged")
+            raise UniverseError(
+                f"measurement {field}: basis must be {', '.join(sorted(MEASUREMENT_BASES))}"
+            )
         method = str(entry.get("method", "")).strip()
         if not method:
             raise UniverseError(f"measurement {field}: method is required")
         if basis == "judged" and field in MEASURED_ONLY_METRICS:
             raise UniverseError(f"measurement {field}: this metric cannot be judged, only measured")
+        if basis == "blended" and field not in BLENDABLE_METRICS:
+            raise UniverseError(f"measurement {field}: this metric cannot be blended")
+        if field in blended and basis != "blended":
+            raise UniverseError(
+                f"measurement {field}: candidates carry quality_facts, so declare it as blended"
+            )
+        if basis == "blended" and field not in blended:
+            raise UniverseError(
+                f"measurement {field}: declared blended but no candidate carries quality_facts"
+            )
         item = {"basis": basis, "method": method}
+        if basis in {"measured", "blended"}:
+            source = str(entry.get("source", "")).strip()
+            if not source.startswith(("http://", "https://")):
+                raise UniverseError(f"measurement {field}: {basis} metrics need a source URL")
+            item["source"] = source
         if basis == "measured":
             window = str(entry.get("window", "")).strip()
-            source = str(entry.get("source", "")).strip()
             if not window:
                 raise UniverseError(f"measurement {field}: measured metrics need a window")
-            if not source.startswith(("http://", "https://")):
-                raise UniverseError(f"measurement {field}: measured metrics need a source URL")
             item["window"] = window
-            item["source"] = source
         declared[field] = item
     missing = sorted(used_fields - set(declared))
     if missing:
         raise UniverseError("metrics used without a measurement declaration: " + ", ".join(missing))
     return dict(sorted(declared.items()))
+
+
+def normalize_quality_facts(raw: Any, ticker: str) -> dict[str, Any] | None:
+    """Checkable inputs to `quality`, or None when the candidate offers none.
+
+    Every field here is something a person can look up and disagree with by citing a source,
+    which is the difference between it and the judged half of the score.
+    """
+    if raw is None:
+        return None
+    if not isinstance(raw, dict):
+        raise UniverseError(f"{ticker}: quality_facts must be an object")
+    unknown = sorted(set(raw) - set(QUALITY_FACT_FIELDS))
+    if unknown:
+        raise UniverseError(f"{ticker}: unknown quality_facts fields: {', '.join(unknown)}")
+    facts: dict[str, Any] = {}
+    age = raw.get("listing_age_days")
+    if age is not None:
+        if isinstance(age, bool) or not isinstance(age, (int, float)) or age < 0:
+            raise UniverseError(f"{ticker}: listing_age_days must be a non-negative number")
+        facts["listing_age_days"] = int(age)
+    size = raw.get("size_rank_pct")
+    if size is not None:
+        facts["size_rank_pct"] = _score_value(size, "size_rank_pct", ticker)
+    flags = raw.get("adverse_flags") or []
+    if not isinstance(flags, list):
+        raise UniverseError(f"{ticker}: adverse_flags must be a list")
+    codes = sorted({str(flag).strip() for flag in flags if str(flag).strip()})
+    for code in codes:
+        if code not in QUALITY_FLAG_CODES:
+            raise UniverseError(
+                f"{ticker}: unknown adverse flag {code!r}; "
+                f"known: {', '.join(sorted(QUALITY_FLAG_CODES))}"
+            )
+    facts["adverse_flags"] = codes
+    if "listing_age_days" not in facts and "size_rank_pct" not in facts:
+        raise UniverseError(
+            f"{ticker}: quality_facts needs listing_age_days or size_rank_pct; "
+            "adverse flags alone do not make a score"
+        )
+    return facts
+
+
+def quality_rule_score(facts: dict[str, Any] | None) -> float | None:
+    if not facts:
+        return None
+    parts: list[float] = []
+    age = facts.get("listing_age_days")
+    if age is not None:
+        parts.append(float(next((score for days, score in LISTING_AGE_BANDS if age >= days), 10)))
+    size = facts.get("size_rank_pct")
+    if size is not None:
+        parts.append(float(size))
+    if not parts:
+        return None
+    penalty = QUALITY_FLAG_PENALTY * len(facts.get("adverse_flags") or [])
+    return min(100.0, max(0.0, sum(parts) / len(parts) - penalty))
+
+
+def blended_metrics(candidates: list[dict[str, Any]]) -> set[str]:
+    """Which metrics actually carry a rule component in this universe."""
+    if any(item.get("quality_facts") for item in candidates):
+        return {"quality"}
+    return set()
 
 
 def metrics_in_use(candidates: list[dict[str, Any]]) -> set[str]:
@@ -487,6 +593,17 @@ def normalize_candidate(
     asset_id = str(raw.get("asset_id") or default_asset_id(market, ticker)).strip().upper()
     if not asset_id:
         raise UniverseError(f"{ticker}: asset_id is empty")
+    quality_facts = normalize_quality_facts(raw.get("quality_facts"), ticker)
+    rule_score = quality_rule_score(quality_facts)
+    if quality_facts is not None and metrics["quality"] is None:
+        raise UniverseError(
+            f"{ticker}: quality_facts supply half the score; the judged half is still required"
+        )
+    # Derived, never stored back into metrics: `metrics.quality` stays the judged input, so
+    # re-normalizing an already-built member reaches the same blend instead of compounding it.
+    quality_score = metrics["quality"] if rule_score is None else round(
+        QUALITY_RULE_WEIGHT * rule_score + (1 - QUALITY_RULE_WEIGHT) * float(metrics["quality"]), 1
+    )
     taxonomy = taxonomy_by_code[theme_code]
     return {
         "ticker": ticker,
@@ -499,6 +616,9 @@ def normalize_candidate(
         "eligible": eligible,
         "exclusion_reasons": exclusion_reasons,
         "metrics": metrics,
+        "quality_facts": quality_facts,
+        "quality_rule_score": rule_score,
+        "quality_score": quality_score,
         "evidence": evidence,
         "reason": str(raw.get("reason", "")).strip(),
         "tags": sorted({str(tag).strip() for tag in raw.get("tags", []) if str(tag).strip()}),
@@ -532,7 +652,9 @@ def normalize_snapshot(snapshot: dict[str, Any]) -> dict[str, Any]:
         seen_tickers.add(candidate["ticker"])
         seen_assets.add(candidate["asset_id"])
     measurement = normalize_measurement(
-        snapshot.get("measurement") or {}, metrics_in_use(candidates)
+        snapshot.get("measurement") or {},
+        metrics_in_use(candidates),
+        blended_metrics(candidates),
     )
     return {
         "schema_version": 1,
@@ -552,7 +674,9 @@ def candidate_bucket(candidate: dict[str, Any]) -> str:
 
 def metric_score(candidate: dict[str, Any]) -> float:
     bucket = candidate_bucket(candidate)
-    values = candidate["metrics"]
+    values = dict(candidate["metrics"])
+    if candidate.get("quality_score") is not None:
+        values["quality"] = candidate["quality_score"]
     weights = BETA_SCORE_WEIGHTS if candidate["role"] == "BETA_SATELLITE" else SCORE_WEIGHTS[bucket]
     weighted = [
         (float(values[field]), weight)
@@ -872,9 +996,20 @@ def validate_universe(
         if over:
             errors.append(f"theme caps exceeded: {over}")
     try:
-        normalize_measurement(universe.get("measurement") or {}, metrics_in_use(normalized))
+        normalize_measurement(
+            universe.get("measurement") or {},
+            metrics_in_use(normalized),
+            blended_metrics(normalized),
+        )
     except UniverseError as exc:
         errors.append(str(exc))
+    if normalized and any(item["metrics"]["quality"] is not None for item in normalized):
+        with_facts = sum(1 for item in normalized if item.get("quality_facts"))
+        if not with_facts:
+            warnings.append(
+                f"quality rests on judgement alone for all {len(normalized)} members; "
+                "no candidate carries quality_facts"
+            )
     if market in MARKETS and profile in PROFILES and normalized:
         # Quotas steer the build; nothing re-checked them afterwards, so a maintenance round could
         # walk a pool from 5% tactical to 30% one evidence-backed op at a time and never be told.
@@ -985,6 +1120,15 @@ def render_markdown(universe: dict[str, Any], report: dict[str, Any]) -> str:
             lines.append(
                 f"| {field} | {entry['basis']} | {entry['method']} | {entry.get('window', '—')} |"
             )
+        with_facts = sum(1 for item in universe["members"] if item.get("quality_facts"))
+        if with_facts:
+            lines.extend([
+                "",
+                f"Quality is {QUALITY_RULE_WEIGHT:.0%} rule and {1 - QUALITY_RULE_WEIGHT:.0%} "
+                f"judgement for {with_facts} of {len(universe['members'])} members. The rule half "
+                "reads listing age, size percentile and adverse flags; the judged half is the "
+                "part no statistic covers.",
+            ])
     rejections = audit_summary(universe.get("selection_audit") or [])
     if rejections:
         # The detail stays in universe.json. What belongs in a document a person reads is the
@@ -1242,6 +1386,7 @@ def apply_change_set(
     universe["measurement"] = normalize_measurement(
         changes.get("measurement") or universe.get("measurement") or {},
         metrics_in_use(members),
+        blended_metrics(members),
     )
     extra_warnings.extend(
         staleness_warnings(

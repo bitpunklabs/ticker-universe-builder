@@ -68,13 +68,16 @@ stays inside the guidance range.
 ### measurement
 
 Every metric that appears on any candidate needs a declaration, and a metric with no declaration
-stops the build. `basis` is `measured` or `judged`:
+stops the build. `basis` is `measured`, `judged` or `blended`:
 
 - `measured` additionally requires `window` and a `source` URL.
 - `judged` requires only `method`, and is **refused** for `liquidity`, `factor_r2`,
   `beta_strength` and `beta_stability`. Those are window-dependent statistics: a model that has
   not run the computation does not have the number, and a filled-in guess is indistinguishable
-  from one that was measured.
+  from one that was measured. [measurement.md](measurement.md) is how you compute them.
+- `blended` applies to `quality` alone and requires a `source` for the facts. It is not optional:
+  if any candidate carries `quality_facts` the declaration must say `blended`, and if none does
+  it may not claim otherwise.
 
 This block is the difference between a universe whose numbers can be re-derived and one whose
 numbers merely look quantitative.
@@ -96,6 +99,39 @@ Role-specific requirements the builder enforces:
 | established Crypto members | `factor_r2` |
 
 `null` means not measurable. It is not a bad score, and it must not be replaced by a low one.
+
+### quality_facts
+
+`quality` carries the heaviest weight in the core bucket and is the least checkable field in the
+file. It stays a judgement — durability is not a statistic — but where checkable facts exist they
+carry half of it, so the score cannot drift on opinion alone.
+
+```json
+"quality_facts": {
+  "listing_age_days": 4380,
+  "size_rank_pct": 96,
+  "adverse_flags": []
+}
+```
+
+The rule half is the mean of the components present, less 25 points per adverse flag, clamped to
+`0..100`. Listing age is banded — five years scores 100, three 85, two 70, one 50, half a year 30,
+anything shorter 10 — because the difference between four and five years of listing is not
+information. `size_rank_pct` is a cross-sectional percentile within the market.
+
+`adverse_flags` is a closed vocabulary, for the same reason the exclusion codes are:
+
+```text
+risk_warning   going_concern   regulatory_action   audit_qualification
+monitoring_tag restructuring   loss_making
+```
+
+The block is optional, and needs at least one of `listing_age_days` or `size_rank_pct` — flags
+alone do not make a score. It does not replace the judged value: `metrics.quality` is still
+required and stays in the record exactly as supplied, while the built member carries
+`quality_rule_score` and the blended `quality_score` beside it. Selection reads the blend; the
+inputs stay separable, so re-validating a built universe reaches the same number rather than
+compounding it. A universe where no member carries facts validates, with a warning saying so.
 
 ### asset_id
 

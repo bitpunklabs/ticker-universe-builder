@@ -40,6 +40,9 @@ correct file. Operations can be checked one at a time, rejected one at a time an
 - **Measured, not asserted.** Window-dependent statistics (liquidity, `factor_r2`, beta strength
   and stability) must declare their method, window and source. They cannot be submitted as
   judgement — and `measure` computes them from a price table so the rule has a way to be kept.
+- **Judgement, bounded.** `quality` is half rule and half model opinion wherever checkable facts
+  exist — listing age, size percentile, a closed list of adverse flags — and the two halves stay
+  separately recorded.
 - **Low turnover.** Per-depth turnover budgets, hysteresis, flip-flop warnings and a `deferred`
   queue that the next round inherits.
 - **Fail closed.** Incomplete facts, stale versions, missing evidence or a failed structural check

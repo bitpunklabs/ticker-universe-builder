@@ -18,6 +18,7 @@ from universe_core import (  # noqa: E402
     default_asset_id,
     load_policy,
     market_spec,
+    normalize_candidate,
     read_json,
     render_markdown,
     render_txt,
@@ -395,6 +396,97 @@ class MarketRegistryTests(unittest.TestCase):
         self.assertTrue(validate_ticker("crypto", "BINANCE:BTCUSDC"))
         self.assertFalse(validate_ticker("crypto", "BINANCE:BTCUSDT.P"))
         self.assertFalse(validate_ticker("us", "NYSEARCA:BRK.B"))
+
+
+class QualityTests(unittest.TestCase):
+    """Quality stays a judgement, but no longer an unchecked one."""
+
+    def scored(self, facts: dict | None, judged: int = 60) -> dict:
+        item = candidate("BINANCE:ARBUSDT.P", "ARB", "10_A", "THEME_LEADER")
+        item["metrics"]["quality"] = judged
+        if facts is not None:
+            item["quality_facts"] = facts
+        return normalize_candidate(
+            "crypto", item, {entry["theme_code"]: entry for entry in taxonomy()}
+        )
+
+    def with_facts(self, facts: dict, declaration: dict | None = None) -> dict:
+        data = snapshot()
+        item = candidate("BINANCE:ARBUSDT.P", "ARB", "10_A", "THEME_LEADER")
+        item["quality_facts"] = facts
+        data["candidates"].append(item)
+        if declaration is not None:
+            data["measurement"]["quality"] = declaration
+        return data
+
+    def test_facts_and_judgement_are_averaged(self) -> None:
+        member = self.scored({"listing_age_days": 2000, "size_rank_pct": 80})
+        # (100 from the five-year band + 80 size) / 2 = 90 rule, halved against 60 judged.
+        self.assertEqual(member["quality_rule_score"], 90)
+        self.assertEqual(member["quality_score"], 75.0)
+        # The judged input is kept as given; the blend is derived beside it, never over it.
+        self.assertEqual(member["metrics"]["quality"], 60)
+
+    def test_an_adverse_flag_costs_the_rule_half(self) -> None:
+        member = self.scored({"size_rank_pct": 80, "adverse_flags": ["risk_warning"]})
+        self.assertEqual(member["quality_rule_score"], 55)
+        self.assertEqual(member["quality_score"], 57.5)
+
+    def test_without_facts_the_score_is_the_judgement(self) -> None:
+        member = self.scored(None)
+        self.assertIsNone(member["quality_rule_score"])
+        self.assertEqual(member["quality_score"], 60)
+
+    def test_an_unknown_flag_is_refused(self) -> None:
+        with self.assertRaisesRegex(UniverseError, "unknown adverse flag"):
+            self.scored({"size_rank_pct": 80, "adverse_flags": ["vibes"]})
+
+    def test_flags_alone_do_not_make_a_score(self) -> None:
+        with self.assertRaisesRegex(UniverseError, "listing_age_days or size_rank_pct"):
+            self.scored({"adverse_flags": ["restructuring"]})
+
+    def test_facts_without_a_blended_declaration_are_refused(self) -> None:
+        with self.assertRaisesRegex(UniverseError, "declare it as blended"):
+            build_universe(spec(), self.with_facts({"size_rank_pct": 80}), small_policy())
+
+    def test_a_blended_declaration_without_facts_is_refused(self) -> None:
+        data = snapshot()
+        data["measurement"]["quality"] = {
+            "basis": "blended", "method": "x", "source": "https://example.com/reference",
+        }
+        with self.assertRaisesRegex(UniverseError, "no candidate carries quality_facts"):
+            build_universe(spec(), data, small_policy())
+
+    def test_a_blended_declaration_needs_the_source_of_the_facts(self) -> None:
+        data = self.with_facts(
+            {"size_rank_pct": 80}, {"basis": "blended", "method": "listing age and size"}
+        )
+        with self.assertRaisesRegex(UniverseError, "blended metrics need a source URL"):
+            build_universe(spec(), data, small_policy())
+
+    def test_blending_survives_a_round_trip_unchanged(self) -> None:
+        data = self.with_facts(
+            {"listing_age_days": 2000, "size_rank_pct": 80},
+            {
+                "basis": "blended",
+                "method": "listing age and size percentile against a judged durability read",
+                "source": "https://example.com/reference",
+            },
+        )
+        universe, report = build_universe(spec("heavy"), data, small_policy())
+        self.assertTrue(report["passed"], report["errors"])
+        scores = {item["ticker"]: item["quality_score"] for item in universe["members"]}
+        self.assertEqual(scores["BINANCE:ARBUSDT.P"], 80.0)  # rule 90, judged 70
+        again = validate_universe(copy.deepcopy(universe), small_policy())
+        self.assertTrue(again["passed"], again["errors"])
+        self.assertIn("50% rule and 50% judgement", render_markdown(universe, report))
+
+    def test_judgement_alone_is_reported(self) -> None:
+        _, report = build_universe(spec(), snapshot(), small_policy())
+        self.assertTrue(
+            any("rests on judgement alone" in warning for warning in report["warnings"]),
+            report["warnings"],
+        )
 
 
 class AuditTests(unittest.TestCase):
