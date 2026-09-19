@@ -1,0 +1,156 @@
+{
+  "schema_version": 1,
+  "market": "cn",
+  "as_of": "2026-09-16",
+  "complete": true,
+  "sources": [
+    {"url": "http://www.sse.com.cn/assortment/stock/list/share/", "as_of": "2026-09-16", "kind": "exchange", "tier": 1},
+    {"url": "http://www.szse.cn/market/product/stock/list/index.html", "as_of": "2026-09-16", "kind": "exchange", "tier": 1}
+  ],
+  "measurement": {
+    "liquidity": {
+      "basis": "measured",
+      "method": "20d average turnover in CNY, cross-sectional percentile within the listed universe",
+      "window": "20d",
+      "source": "http://www.sse.com.cn/market/price/report/"
+    },
+    "beta_strength": {
+      "basis": "measured",
+      "method": "OLS beta of daily returns against the theme's own sector ETF, not against CSI 300",
+      "window": "252d",
+      "source": "http://www.sse.com.cn/market/price/report/"
+    },
+    "beta_stability": {
+      "basis": "measured",
+      "method": "agreement of the beta estimate across 63/126/252d windows",
+      "window": "63/126/252d",
+      "source": "http://www.sse.com.cn/market/price/report/"
+    },
+    "quality": {
+      "basis": "judged",
+      "method": "durability of the business position read from disclosures, ranked inside its own theme"
+    }
+  },
+  "taxonomy": [
+    {"l1_code": "00", "l1_name": "Market Benchmarks", "theme_code": "00_A", "theme_name": "BROAD_BENCHMARKS", "coverage_level": 1},
+    {"l1_code": "10", "l1_name": "Technology", "theme_code": "10_A", "theme_name": "SEMICONDUCTORS", "coverage_level": 1},
+    {"l1_code": "11", "l1_name": "Consumer", "theme_code": "11_A", "theme_name": "LIQUOR_AND_STAPLES", "coverage_level": 1},
+    {"l1_code": "20", "l1_name": "New Energy", "theme_code": "20_A", "theme_name": "BATTERIES_AND_EV", "coverage_level": 1},
+    {"l1_code": "30", "l1_name": "Financials", "theme_code": "30_A", "theme_name": "BANKS_AND_INSURERS", "coverage_level": 1},
+    {"l1_code": "40", "l1_name": "Utilities", "theme_code": "40_A", "theme_name": "POWER_AND_GRID", "coverage_level": 1}
+  ],
+  "candidates": [
+    {
+      "ticker": "SSE:510300", "name": "CSI 300 ETF",
+      "theme_code": "00_A", "role": "BENCHMARK", "required": true, "eligible": true,
+      "reason": "Large-cap ruler; the tradable expression of the index, not the index print",
+      "metrics": {"liquidity": 99, "quality": 94},
+      "evidence": [{"url": "http://www.sse.com.cn/market/funddata/volumn/etfvolumn/", "as_of": "2026-09-16", "kind": "exchange", "tier": 1}]
+    },
+    {
+      "ticker": "SZSE:159915", "name": "ChiNext ETF",
+      "theme_code": "00_A", "role": "BENCHMARK", "required": true, "eligible": true,
+      "reason": "Growth leg of the style pair; spread against the large-cap ruler is the style read",
+      "metrics": {"liquidity": 95, "quality": 90},
+      "evidence": [{"url": "http://www.szse.cn/market/product/list/etfList/index.html", "as_of": "2026-09-16", "kind": "exchange", "tier": 1}]
+    },
+    {
+      "ticker": "SSE:588000", "name": "STAR 50 ETF",
+      "theme_code": "00_A", "role": "ANCHOR", "required": true, "eligible": true,
+      "reason": "STAR board has its own listing rules and investor base; not derivable from the other two",
+      "metrics": {"liquidity": 91, "quality": 86},
+      "evidence": [{"url": "http://www.sse.com.cn/market/funddata/volumn/etfvolumn/", "as_of": "2026-09-16", "kind": "exchange", "tier": 1}]
+    },
+    {
+      "ticker": "SSE:688981", "name": "SMIC",
+      "theme_code": "10_A", "role": "THEME_LEADER", "required": false, "eligible": true,
+      "reason": "Domestic foundry capacity is the theme; utilisation commentary leads the group",
+      "metrics": {"liquidity": 93, "quality": 82},
+      "evidence": [{"url": "http://www.sse.com.cn/assortment/stock/list/info/company/index.shtml?COMPANY_CODE=688981", "as_of": "2026-09-16", "kind": "exchange", "tier": 1}]
+    },
+    {
+      "ticker": "SZSE:002371", "name": "NAURA Technology",
+      "theme_code": "10_A", "role": "QUALITY_LEADER", "required": false, "eligible": true,
+      "reason": "Equipment orders, a different point in the chain from foundry output",
+      "metrics": {"liquidity": 88, "quality": 84},
+      "evidence": [{"url": "http://www.szse.cn/market/product/stock/list/index.html", "as_of": "2026-09-16", "kind": "exchange", "tier": 1}]
+    },
+    {
+      "ticker": "SSE:688012", "name": "AMEC",
+      "theme_code": "10_A", "role": "BETA_SATELLITE", "required": false, "eligible": true,
+      "reason": "Amplifies the equipment cycle against the semiconductor ETF across all three windows",
+      "metrics": {"liquidity": 81, "beta_strength": 84, "beta_stability": 71},
+      "evidence": [{"url": "http://www.sse.com.cn/market/price/report/", "as_of": "2026-09-16", "kind": "market_data", "tier": 2}]
+    },
+    {
+      "ticker": "SSE:600519", "name": "Kweichow Moutai",
+      "theme_code": "11_A", "role": "THEME_LEADER", "required": false, "eligible": true,
+      "reason": "Wholesale price of its flagship product is the theme's own leading indicator",
+      "metrics": {"liquidity": 96, "quality": 93},
+      "evidence": [{"url": "http://www.sse.com.cn/assortment/stock/list/info/company/index.shtml?COMPANY_CODE=600519", "as_of": "2026-09-16", "kind": "exchange", "tier": 1}]
+    },
+    {
+      "ticker": "SZSE:000858", "name": "Wuliangye",
+      "theme_code": "11_A", "role": "QUALITY_LEADER", "required": false, "eligible": true,
+      "reason": "Second price tier; channel inventory diverges from the leader's in downturns",
+      "metrics": {"liquidity": 87, "quality": 81},
+      "evidence": [{"url": "http://www.szse.cn/market/product/stock/list/index.html", "as_of": "2026-09-16", "kind": "exchange", "tier": 1}]
+    },
+    {
+      "ticker": "SZSE:300750", "name": "CATL",
+      "theme_code": "20_A", "role": "THEME_LEADER", "required": false, "eligible": true,
+      "reason": "Cell shipment share sets the theme's direction; suppliers follow it",
+      "metrics": {"liquidity": 97, "quality": 89},
+      "evidence": [{"url": "http://www.szse.cn/market/product/stock/list/index.html", "as_of": "2026-09-16", "kind": "exchange", "tier": 1}]
+    },
+    {
+      "ticker": "SZSE:002594", "name": "BYD",
+      "theme_code": "20_A", "role": "QUALITY_LEADER", "required": false, "eligible": true,
+      "reason": "Vehicle demand rather than cell pricing; monthly deliveries are a separate release",
+      "metrics": {"liquidity": 94, "quality": 85},
+      "evidence": [{"url": "http://www.szse.cn/market/product/stock/list/index.html", "as_of": "2026-09-16", "kind": "exchange", "tier": 1}]
+    },
+    {
+      "ticker": "SSE:601318", "name": "Ping An Insurance",
+      "theme_code": "30_A", "role": "THEME_LEADER", "required": false, "eligible": true,
+      "reason": "Insurance plus asset exposure; the theme's most reactive large name",
+      "metrics": {"liquidity": 90, "quality": 80},
+      "evidence": [{"url": "http://www.sse.com.cn/assortment/stock/list/info/company/index.shtml?COMPANY_CODE=601318", "as_of": "2026-09-16", "kind": "exchange", "tier": 1}]
+    },
+    {
+      "ticker": "SSE:601398", "name": "ICBC",
+      "theme_code": "30_A", "role": "QUALITY_LEADER", "required": false, "eligible": true,
+      "reason": "State-owned bank; dividend and margin behave unlike the insurer in stress",
+      "metrics": {"liquidity": 86, "quality": 83},
+      "evidence": [{"url": "http://www.sse.com.cn/assortment/stock/list/info/company/index.shtml?COMPANY_CODE=601398", "as_of": "2026-09-16", "kind": "exchange", "tier": 1}]
+    },
+    {
+      "ticker": "SSE:600900", "name": "China Yangtze Power",
+      "theme_code": "40_A", "role": "THEME_LEADER", "required": false, "eligible": true,
+      "reason": "Hydro output and tariff; the defensive leg of the market's risk appetite",
+      "metrics": {"liquidity": 84, "quality": 87},
+      "evidence": [{"url": "http://www.sse.com.cn/assortment/stock/list/info/company/index.shtml?COMPANY_CODE=600900", "as_of": "2026-09-16", "kind": "exchange", "tier": 1}]
+    },
+    {
+      "ticker": "SZSE:300274", "name": "Sungrow Power Supply",
+      "theme_code": "40_A", "role": "BETA_SATELLITE", "required": false, "eligible": true,
+      "reason": "Inverter and storage capex amplifies the grid theme instead of tracking utility tariffs",
+      "metrics": {"liquidity": 89, "beta_strength": 81, "beta_stability": 68},
+      "evidence": [{"url": "http://www.sse.com.cn/market/price/report/", "as_of": "2026-09-16", "kind": "market_data", "tier": 2}]
+    },
+    {
+      "ticker": "SSE:511360", "name": "Short-term Financing Bond ETF",
+      "theme_code": "00_A", "role": "BENCHMARK", "required": false, "eligible": false,
+      "exclusion_reasons": ["excluded_instrument_type: cash-management instrument; it wins every liquidity test and carries no market signal"],
+      "metrics": {"liquidity": 100},
+      "evidence": [{"url": "http://www.sse.com.cn/market/funddata/volumn/etfvolumn/", "as_of": "2026-09-16", "kind": "exchange", "tier": 1}]
+    },
+    {
+      "ticker": "SZSE:000100", "name": "TCL Technology",
+      "theme_code": "10_A", "role": "BREADTH_PROXY", "required": false, "eligible": false,
+      "exclusion_reasons": ["redundant_with_member: panel cycle already carried by the equipment and foundry names in this theme"],
+      "metrics": {"liquidity": 78},
+      "evidence": [{"url": "http://www.szse.cn/market/product/stock/list/index.html", "as_of": "2026-09-16", "kind": "exchange", "tier": 1}]
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "markets": {
+    "cn": {
+      "light": {"min": 150, "target": 220, "max": 250},
+      "medium": {"min": 350, "target": 450, "max": 500},
+      "heavy": {"min": 650, "target": 750, "max": 850}
+    },
+    "us": {
+      "light": {"min": 180, "target": 230, "max": 280},
+      "medium": {"min": 380, "target": 450, "max": 520},
+      "heavy": {"min": 650, "target": 750, "max": 850}
+    },
+    "crypto": {
+      "light": {"min": 30, "target": 40, "max": 50},
+      "medium": {"min": 60, "target": 75, "max": 90},
+      "heavy": {"min": 100, "target": 125, "max": 150}
+    }
+  },
+  "profiles": {
+    "light": {
+      "coverage_level": 1,
+      "bucket_targets": {"core": 0.8, "satellite": 0.15, "tactical": 0.05},
+      "theme_cap": 4
+    },
+    "medium": {
+      "coverage_level": 2,
+      "bucket_targets": {"core": 0.65, "satellite": 0.25, "tactical": 0.1},
+      "theme_cap": 8
+    },
+    "heavy": {
+      "coverage_level": 3,
+      "bucket_targets": {"core": 0.5, "satellite": 0.35, "tactical": 0.15},
+      "theme_cap": 15
+    }
+  },
+  "maintenance": {
+    "routine": {"turnover_warning": 0.05},
+    "deep": {"turnover_warning": 0.1},
+    "event": {"turnover_warning": 0.2}
+  },
+  "freshness": {
+    "evidence_warning_days": 180
+  }
+}

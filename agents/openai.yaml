@@ -1,0 +1,4 @@
+interface:
+  display_name: "Ticker Universe Builder"
+  short_description: "Build and maintain auditable TradingView ticker universes."
+  default_prompt: "Build or maintain a Light, Medium, or Heavy ticker universe for CN, US, or Crypto."

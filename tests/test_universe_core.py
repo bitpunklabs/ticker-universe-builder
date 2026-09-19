@@ -1,0 +1,397 @@
+from __future__ import annotations
+
+import copy
+import json
+import sys
+import tempfile
+import unittest
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "scripts"))
+
+from universe_core import (  # noqa: E402
+    UniverseError,
+    apply_change_set,
+    build_universe,
+    load_policy,
+    read_json,
+    render_txt,
+    validate_universe,
+    write_artifacts,
+)
+
+
+def evidence(tier: int = 1, as_of: str = "2026-09-09") -> list[dict]:
+    return [{"url": "https://example.com/source", "as_of": as_of, "tier": tier}]
+
+
+def measurement() -> dict:
+    return {
+        "liquidity": {
+            "basis": "measured",
+            "method": "30d notional percentile",
+            "window": "30d",
+            "source": "https://example.com/data",
+        },
+        "factor_r2": {
+            "basis": "measured",
+            "method": "OLS on the core factors",
+            "window": "180d",
+            "source": "https://example.com/data",
+        },
+        "independence": {
+            "basis": "measured",
+            "method": "derived as 100 - factor_r2",
+            "window": "180d",
+            "source": "https://example.com/data",
+        },
+        "beta_strength": {
+            "basis": "measured",
+            "method": "OLS beta on the core factors",
+            "window": "180d",
+            "source": "https://example.com/data",
+        },
+        "beta_stability": {
+            "basis": "measured",
+            "method": "cross-window agreement",
+            "window": "30/90/180d",
+            "source": "https://example.com/data",
+        },
+        "quality": {"basis": "judged", "method": "protocol role read from documentation"},
+        "heat": {"basis": "judged", "method": "turnover jump confirmed against exchange data"},
+    }
+
+
+def candidate(
+    ticker: str,
+    asset_id: str,
+    theme_code: str,
+    role: str,
+    *,
+    required: bool = False,
+) -> dict:
+    metrics = {
+        "liquidity": 90,
+        "quality": 70,
+        "independence": 60,
+        "heat": 60,
+        "factor_r2": 40,
+        "beta_strength": 70,
+        "beta_stability": 70,
+    }
+    return {
+        "ticker": ticker,
+        "asset_id": asset_id,
+        "name": asset_id,
+        "theme_code": theme_code,
+        "role": role,
+        "required": required,
+        "eligible": True,
+        "metrics": metrics,
+        "evidence": evidence(),
+        "reason": "fixture",
+    }
+
+
+def taxonomy() -> list[dict]:
+    return [
+        {"l1_code": "00", "l1_name": "Core", "theme_code": "00_A",
+         "theme_name": "Core Assets", "coverage_level": 1},
+        {"l1_code": "10", "l1_name": "L1", "theme_code": "10_A",
+         "theme_name": "L1 Leaders", "coverage_level": 1},
+        {"l1_code": "11", "l1_name": "Infrastructure", "theme_code": "11_A",
+         "theme_name": "Infrastructure", "coverage_level": 2},
+        {"l1_code": "12", "l1_name": "Meme", "theme_code": "12_A",
+         "theme_name": "Meme", "coverage_level": 3},
+    ]
+
+
+def snapshot() -> dict:
+    return {
+        "schema_version": 1,
+        "market": "crypto",
+        "as_of": "2026-09-09",
+        "complete": True,
+        "sources": evidence(),
+        "measurement": measurement(),
+        "taxonomy": taxonomy(),
+        "candidates": [
+            candidate("BINANCE:BTCUSDT.P", "BTC", "00_A", "BENCHMARK", required=True),
+            candidate("BINANCE:SOLUSDT.P", "SOL", "10_A", "THEME_LEADER"),
+            candidate("BINANCE:LINKUSDT.P", "LINK", "11_A", "INDEPENDENT_SENSOR"),
+            candidate("BINANCE:DOGEUSDT.P", "DOGE", "12_A", "BETA_SATELLITE"),
+        ],
+    }
+
+
+def small_policy() -> dict:
+    value = copy.deepcopy(load_policy())
+    value["markets"]["crypto"] = {
+        "light": {"min": 1, "target": 2, "max": 2},
+        "medium": {"min": 2, "target": 3, "max": 3},
+        "heavy": {"min": 3, "target": 4, "max": 4},
+    }
+    return value
+
+
+def spec(profile: str = "light") -> dict:
+    return {"schema_version": 1, "market": "crypto", "profile": profile}
+
+
+def change_set(universe: dict, ops: list[dict], **extra) -> dict:
+    return {
+        "schema_version": 1,
+        "market": "crypto",
+        "as_of": "2026-09-10",
+        "complete": True,
+        "sources": evidence(),
+        "base_version_hash": universe["version_hash"],
+        "review_depth": extra.pop("review_depth", "routine"),
+        "ops": ops,
+        **extra,
+    }
+
+
+class BuildTests(unittest.TestCase):
+    def test_profiles_are_nested(self) -> None:
+        built = {}
+        for profile in ("light", "medium", "heavy"):
+            built[profile], report = build_universe(spec(profile), snapshot(), small_policy())
+            self.assertTrue(report["passed"])
+        light = {item["asset_id"] for item in built["light"]["members"]}
+        medium = {item["asset_id"] for item in built["medium"]["members"]}
+        heavy = {item["asset_id"] for item in built["heavy"]["members"]}
+        self.assertLessEqual(light, medium)
+        self.assertLessEqual(medium, heavy)
+
+    def test_render_and_artifacts(self) -> None:
+        universe, report = build_universe(spec(), snapshot(), small_policy())
+        text = render_txt(universe)
+        self.assertIn("###00_A_Core Assets", text)
+        self.assertIn("BINANCE:BTCUSDT.P", text)
+        with tempfile.TemporaryDirectory() as root:
+            output = Path(root) / "output"
+            write_artifacts(universe, report, output)
+            self.assertTrue((output / "universe.md").is_file())
+            self.assertTrue((output / "universe.txt").is_file())
+            self.assertEqual(
+                json.loads((output / "universe.json").read_text())["version_hash"],
+                universe["version_hash"],
+            )
+
+    def test_duplicate_crypto_asset_is_rejected(self) -> None:
+        raw = snapshot()
+        raw["candidates"].append(candidate("BINANCE:BTCUSDT", "BTC", "00_A", "ANCHOR"))
+        with self.assertRaisesRegex(UniverseError, "duplicate economic asset"):
+            build_universe(spec(), raw, small_policy())
+
+    def test_incomplete_snapshot_fails_closed(self) -> None:
+        raw = snapshot()
+        raw["complete"] = False
+        with self.assertRaisesRegex(UniverseError, "snapshot is incomplete"):
+            build_universe(spec(), raw, small_policy())
+
+
+class MeasurementTests(unittest.TestCase):
+    def test_metric_without_a_declaration_is_rejected(self) -> None:
+        raw = snapshot()
+        del raw["measurement"]["factor_r2"]
+        with self.assertRaisesRegex(UniverseError, "without a measurement declaration"):
+            build_universe(spec(), raw, small_policy())
+
+    def test_window_dependent_statistics_cannot_be_judged(self) -> None:
+        raw = snapshot()
+        raw["measurement"]["factor_r2"] = {"basis": "judged", "method": "estimated from memory"}
+        with self.assertRaisesRegex(UniverseError, "cannot be judged, only measured"):
+            build_universe(spec(), raw, small_policy())
+
+    def test_measured_metric_needs_window_and_source(self) -> None:
+        raw = snapshot()
+        raw["measurement"]["liquidity"].pop("window")
+        with self.assertRaisesRegex(UniverseError, "measured metrics need a window"):
+            build_universe(spec(), raw, small_policy())
+
+    def test_declaration_survives_into_the_universe(self) -> None:
+        universe, _ = build_universe(spec(), snapshot(), small_policy())
+        self.assertEqual(universe["measurement"]["liquidity"]["window"], "30d")
+
+
+class EvidenceTests(unittest.TestCase):
+    def test_evidence_needs_a_tier(self) -> None:
+        raw = snapshot()
+        raw["candidates"][0]["evidence"] = [
+            {"url": "https://example.com/source", "as_of": "2026-09-09"}
+        ]
+        with self.assertRaisesRegex(UniverseError, "needs tier 1, 2, or 3"):
+            build_universe(spec(), raw, small_policy())
+
+    def test_market_narrative_alone_cannot_admit_a_member(self) -> None:
+        universe, _ = build_universe(spec("heavy"), snapshot(), small_policy())
+        new = candidate("BINANCE:ADAUSDT.P", "ADA", "10_A", "BETA_SATELLITE")
+        changes = change_set(
+            universe,
+            [{
+                "op": "ADD", "candidate": new,
+                "reason": "trending in community coverage",
+                "evidence": evidence(tier=3),
+            }],
+        )
+        with self.assertRaisesRegex(UniverseError, "tier 1 or tier 2"):
+            apply_change_set(universe, changes, small_policy())
+
+    def test_stale_evidence_is_reported_not_silently_accepted(self) -> None:
+        raw = snapshot()
+        raw["candidates"][1]["evidence"] = evidence(as_of="2024-01-01")
+        _, report = build_universe(spec(), raw, small_policy())
+        self.assertTrue(any("older than the snapshot" in item for item in report["warnings"]))
+
+    def test_exclusion_reason_must_use_a_known_code(self) -> None:
+        raw = snapshot()
+        raw["candidates"].append({
+            **candidate("BINANCE:XVGUSDT", "XVG", "10_A", "BREADTH_PROXY"),
+            "eligible": False,
+            "exclusion_reasons": ["it looked weak"],
+        })
+        with self.assertRaisesRegex(UniverseError, "exclusion reason must start with"):
+            build_universe(spec(), raw, small_policy())
+
+
+class SeedTests(unittest.TestCase):
+    def test_upgrading_a_tier_keeps_every_incumbent(self) -> None:
+        light, _ = build_universe(spec("light"), snapshot(), small_policy())
+        medium, report = build_universe(spec("medium"), snapshot(), small_policy(), light)
+        self.assertTrue(report["passed"])
+        self.assertLessEqual(
+            {item["ticker"] for item in light["members"]},
+            {item["ticker"] for item in medium["members"]},
+        )
+
+    def test_incumbent_missing_from_the_new_snapshot_stops_the_build(self) -> None:
+        light, _ = build_universe(spec("light"), snapshot(), small_policy())
+        raw = snapshot()
+        raw["candidates"] = [
+            item for item in raw["candidates"] if item["ticker"] != "BINANCE:BTCUSDT.P"
+        ]
+        with self.assertRaisesRegex(UniverseError, "seed members absent or ineligible"):
+            build_universe(spec("medium"), raw, small_policy(), light)
+
+
+class MaintenanceTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.policy = small_policy()
+        self.universe, _ = build_universe(spec("heavy"), snapshot(), self.policy)
+
+    def test_stale_change_set_is_rejected(self) -> None:
+        changes = change_set(self.universe, [])
+        changes["base_version_hash"] = "stale"
+        with self.assertRaisesRegex(UniverseError, "stale change set"):
+            apply_change_set(self.universe, changes, self.policy)
+
+    def test_no_change_keeps_membership_hash_and_adds_history(self) -> None:
+        changes = change_set(
+            self.universe,
+            [{"op": "NO_CHANGE", "scope": "universe", "reason": "no information gain"}],
+            summary="fresh checks passed",
+        )
+        updated, report = apply_change_set(self.universe, changes, self.policy)
+        self.assertTrue(report["passed"])
+        self.assertEqual(updated["version_hash"], self.universe["version_hash"])
+        self.assertEqual(len(updated["history"]), 1)
+
+    def test_anchor_cannot_be_removed(self) -> None:
+        changes = change_set(
+            self.universe,
+            [{
+                "op": "REMOVE", "ticker": "BINANCE:BTCUSDT.P",
+                "reason": "fixture", "evidence": evidence(),
+            }],
+            review_depth="event",
+        )
+        with self.assertRaisesRegex(UniverseError, "anchor removal requires REPLACE"):
+            apply_change_set(self.universe, changes, self.policy)
+
+    def test_a_new_theme_and_its_first_member_land_in_one_round(self) -> None:
+        new = candidate("BINANCE:ETHFIUSDT.P", "ETHFI", "13_A", "THEME_LEADER")
+        changes = change_set(
+            self.universe,
+            [
+                {
+                    "op": "ADD_THEME", "l1_code": "13", "l1_name": "Staking",
+                    "theme_code": "13_A", "theme_name": "Restaking", "coverage_level": 1,
+                    "reason": "restaking is now its own driver", "evidence": evidence(),
+                },
+                {
+                    "op": "ADD", "candidate": new,
+                    "reason": "most traded restaking token", "evidence": evidence(),
+                },
+            ],
+            # One addition is a quarter of this four-member fixture, so the turnover budget that
+            # fits it is the event budget, not the deep one.
+            review_depth="event",
+        )
+        updated, report = apply_change_set(self.universe, changes, self.policy)
+        self.assertTrue(report["passed"])
+        self.assertIn("13_A", {item["theme_code"] for item in updated["taxonomy"]})
+        self.assertIn("BINANCE:ETHFIUSDT.P", {item["ticker"] for item in updated["members"]})
+
+    def test_a_theme_cannot_be_retired_while_it_still_holds_members(self) -> None:
+        changes = change_set(
+            self.universe,
+            [{
+                "op": "REMOVE_THEME", "theme": "10_A",
+                "reason": "obsolete", "evidence": evidence(),
+            }],
+            review_depth="deep",
+        )
+        with self.assertRaisesRegex(UniverseError, "move or remove its members first"):
+            apply_change_set(self.universe, changes, self.policy)
+
+    def test_bucket_drift_is_reported(self) -> None:
+        drifted = copy.deepcopy(self.universe)
+        for member in drifted["members"]:
+            member["role"] = "LIQUIDITY_SENSOR"
+            member["required"] = False
+        drifted["version_hash"] = None
+        report = validate_universe(drifted, self.policy)
+        self.assertTrue(any("tactical bucket holds" in item for item in report["warnings"]))
+
+    def test_validation_detects_tampering(self) -> None:
+        altered = copy.deepcopy(self.universe)
+        altered["members"][0]["theme_code"] = "10_A"
+        report = validate_universe(altered, self.policy)
+        self.assertFalse(report["passed"])
+        self.assertIn("version_hash does not match universe content", report["errors"])
+
+
+class ExampleTests(unittest.TestCase):
+    """The shipped examples are the first thing anyone runs; a rotted one is a broken skill."""
+
+    def test_every_example_builds_and_passes(self) -> None:
+        for market in ("cn", "us", "crypto"):
+            folder = ROOT / "examples" / f"{market}-light"
+            with self.subTest(market=market):
+                universe, report = build_universe(
+                    read_json(folder / "build-spec.json"),
+                    read_json(folder / "snapshot.json"),
+                    load_policy(),
+                )
+                self.assertTrue(report["passed"], report["errors"])
+                self.assertEqual(universe["market"], market)
+
+    def test_the_crypto_change_set_still_applies_to_its_own_universe(self) -> None:
+        folder = ROOT / "examples" / "crypto-light"
+        universe, _ = build_universe(
+            read_json(folder / "build-spec.json"),
+            read_json(folder / "snapshot.json"),
+            load_policy(),
+        )
+        changes = read_json(folder / "changes.json")
+        self.assertEqual(changes["base_version_hash"], universe["version_hash"])
+        updated, report = apply_change_set(universe, changes, load_policy())
+        self.assertTrue(report["passed"], report["errors"])
+        self.assertEqual(report["maintenance"]["added"], ["BINANCE:ETHFIUSDT.P"])
+
+
+if __name__ == "__main__":
+    unittest.main()

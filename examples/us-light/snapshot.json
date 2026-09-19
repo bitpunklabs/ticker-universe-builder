@@ -1,0 +1,156 @@
+{
+  "schema_version": 1,
+  "market": "us",
+  "as_of": "2026-09-16",
+  "complete": true,
+  "sources": [
+    {"url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany", "as_of": "2026-09-16", "kind": "filing", "tier": 1},
+    {"url": "https://www.nasdaq.com/market-activity/stocks/screener", "as_of": "2026-09-16", "kind": "market_data", "tier": 2}
+  ],
+  "measurement": {
+    "liquidity": {
+      "basis": "measured",
+      "method": "20d average dollar turnover, cross-sectional percentile within the listed universe",
+      "window": "20d",
+      "source": "https://www.nasdaq.com/market-activity/stocks/screener"
+    },
+    "beta_strength": {
+      "basis": "measured",
+      "method": "OLS beta of daily returns against the theme's own sector ETF, not against SPY",
+      "window": "252d",
+      "source": "https://www.nasdaq.com/market-activity/stocks/screener"
+    },
+    "beta_stability": {
+      "basis": "measured",
+      "method": "agreement of the beta estimate across 63/126/252d windows",
+      "window": "63/126/252d",
+      "source": "https://www.nasdaq.com/market-activity/stocks/screener"
+    },
+    "quality": {
+      "basis": "judged",
+      "method": "durability of the business position read from filings, ranked inside its own theme"
+    }
+  },
+  "taxonomy": [
+    {"l1_code": "00", "l1_name": "Market Benchmarks", "theme_code": "00_A", "theme_name": "BROAD_BENCHMARKS", "coverage_level": 1},
+    {"l1_code": "10", "l1_name": "Technology", "theme_code": "10_A", "theme_name": "SEMICONDUCTORS", "coverage_level": 1},
+    {"l1_code": "11", "l1_name": "Technology", "theme_code": "11_A", "theme_name": "SOFTWARE_AND_CLOUD", "coverage_level": 1},
+    {"l1_code": "20", "l1_name": "Energy", "theme_code": "20_A", "theme_name": "OIL_AND_GAS", "coverage_level": 1},
+    {"l1_code": "30", "l1_name": "Financials", "theme_code": "30_A", "theme_name": "BANKS_AND_INSURERS", "coverage_level": 1},
+    {"l1_code": "40", "l1_name": "Health Care", "theme_code": "40_A", "theme_name": "PHARMA_AND_PAYERS", "coverage_level": 1}
+  ],
+  "candidates": [
+    {
+      "ticker": "NYSEARCA:SPY", "name": "SPDR S&P 500 ETF Trust",
+      "theme_code": "00_A", "role": "BENCHMARK", "required": true, "eligible": true,
+      "reason": "The large-cap ruler every other US reading is stated against",
+      "metrics": {"liquidity": 100, "quality": 95},
+      "evidence": [{"url": "https://www.ssga.com/us/en/intermediary/etfs/spdr-sp-500-etf-trust-spy", "as_of": "2026-09-16", "kind": "fund_disclosure", "tier": 1}]
+    },
+    {
+      "ticker": "NASDAQ:QQQ", "name": "Invesco QQQ Trust",
+      "theme_code": "00_A", "role": "BENCHMARK", "required": true, "eligible": true,
+      "reason": "Growth and large-cap technology ruler; separates style from index level",
+      "metrics": {"liquidity": 97, "quality": 92},
+      "evidence": [{"url": "https://www.invesco.com/qqq-etf/en/home.html", "as_of": "2026-09-16", "kind": "fund_disclosure", "tier": 1}]
+    },
+    {
+      "ticker": "NYSEARCA:IWM", "name": "iShares Russell 2000 ETF",
+      "theme_code": "00_A", "role": "ANCHOR", "required": true, "eligible": true,
+      "reason": "Breadth and small-cap risk appetite; not derivable from the two large-cap rulers",
+      "metrics": {"liquidity": 93, "quality": 88},
+      "evidence": [{"url": "https://www.ishares.com/us/products/239710/", "as_of": "2026-09-16", "kind": "fund_disclosure", "tier": 1}]
+    },
+    {
+      "ticker": "NASDAQ:NVDA", "name": "NVIDIA Corporation",
+      "theme_code": "10_A", "role": "THEME_LEADER", "required": false, "eligible": true,
+      "reason": "Accelerator demand sets the theme's direction and its earnings date moves the tape",
+      "metrics": {"liquidity": 99, "quality": 90},
+      "evidence": [{"url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&ticker=NVDA", "as_of": "2026-09-16", "kind": "filing", "tier": 1}]
+    },
+    {
+      "ticker": "NASDAQ:AVGO", "name": "Broadcom Inc.",
+      "theme_code": "10_A", "role": "QUALITY_LEADER", "required": false, "eligible": true,
+      "reason": "Custom silicon plus infrastructure software; a different revenue base inside the theme",
+      "metrics": {"liquidity": 88, "quality": 86},
+      "evidence": [{"url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&ticker=AVGO", "as_of": "2026-09-16", "kind": "filing", "tier": 1}]
+    },
+    {
+      "ticker": "NASDAQ:AMD", "name": "Advanced Micro Devices",
+      "theme_code": "10_A", "role": "BETA_SATELLITE", "required": false, "eligible": true,
+      "reason": "Amplifies semiconductor shocks against SMH with a beta that holds across windows",
+      "metrics": {"liquidity": 91, "beta_strength": 82, "beta_stability": 74},
+      "evidence": [{"url": "https://www.nasdaq.com/market-activity/stocks/amd", "as_of": "2026-09-16", "kind": "market_data", "tier": 2}]
+    },
+    {
+      "ticker": "NASDAQ:MSFT", "name": "Microsoft Corporation",
+      "theme_code": "11_A", "role": "THEME_LEADER", "required": false, "eligible": true,
+      "reason": "Cloud capacity commentary is the theme's reference disclosure",
+      "metrics": {"liquidity": 96, "quality": 93},
+      "evidence": [{"url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&ticker=MSFT", "as_of": "2026-09-16", "kind": "filing", "tier": 1}]
+    },
+    {
+      "ticker": "NYSE:CRM", "name": "Salesforce, Inc.",
+      "theme_code": "11_A", "role": "QUALITY_LEADER", "required": false, "eligible": true,
+      "reason": "Application-layer spending, which turns before infrastructure spending does",
+      "metrics": {"liquidity": 80, "quality": 74},
+      "evidence": [{"url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&ticker=CRM", "as_of": "2026-09-16", "kind": "filing", "tier": 1}]
+    },
+    {
+      "ticker": "NYSE:XOM", "name": "Exxon Mobil Corporation",
+      "theme_code": "20_A", "role": "THEME_LEADER", "required": false, "eligible": true,
+      "reason": "Integrated major; the theme's price and the crude curve are read together here",
+      "metrics": {"liquidity": 89, "quality": 84},
+      "evidence": [{"url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&ticker=XOM", "as_of": "2026-09-16", "kind": "filing", "tier": 1}]
+    },
+    {
+      "ticker": "NYSE:SLB", "name": "SLB (Schlumberger)",
+      "theme_code": "20_A", "role": "BETA_SATELLITE", "required": false, "eligible": true,
+      "reason": "Services capex cycle amplifies the theme against XLE rather than tracking it",
+      "metrics": {"liquidity": 76, "beta_strength": 79, "beta_stability": 66},
+      "evidence": [{"url": "https://www.nasdaq.com/market-activity/stocks/slb", "as_of": "2026-09-16", "kind": "market_data", "tier": 2}]
+    },
+    {
+      "ticker": "NYSE:JPM", "name": "JPMorgan Chase & Co.",
+      "theme_code": "30_A", "role": "THEME_LEADER", "required": false, "eligible": true,
+      "reason": "Credit and capital-markets read for the whole theme; first to report each season",
+      "metrics": {"liquidity": 92, "quality": 89},
+      "evidence": [{"url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&ticker=JPM", "as_of": "2026-09-16", "kind": "filing", "tier": 1}]
+    },
+    {
+      "ticker": "NYSE:BRK.B", "name": "Berkshire Hathaway Inc. Class B",
+      "theme_code": "30_A", "role": "QUALITY_LEADER", "required": false, "eligible": true,
+      "reason": "Insurance float and cash position; behaves unlike a lender in stress",
+      "metrics": {"liquidity": 83, "quality": 91},
+      "evidence": [{"url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&ticker=BRK.B", "as_of": "2026-09-16", "kind": "filing", "tier": 1}]
+    },
+    {
+      "ticker": "NYSE:UNH", "name": "UnitedHealth Group",
+      "theme_code": "40_A", "role": "THEME_LEADER", "required": false, "eligible": true,
+      "reason": "Payer economics; medical cost trend is the theme's leading disclosure",
+      "metrics": {"liquidity": 85, "quality": 82},
+      "evidence": [{"url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&ticker=UNH", "as_of": "2026-09-16", "kind": "filing", "tier": 1}]
+    },
+    {
+      "ticker": "NYSE:LLY", "name": "Eli Lilly and Company",
+      "theme_code": "40_A", "role": "QUALITY_LEADER", "required": false, "eligible": true,
+      "reason": "Drug pipeline drives it independently of payer cost trend",
+      "metrics": {"liquidity": 87, "quality": 88},
+      "evidence": [{"url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&ticker=LLY", "as_of": "2026-09-16", "kind": "filing", "tier": 1}]
+    },
+    {
+      "ticker": "NYSEARCA:VOO", "name": "Vanguard S&P 500 ETF",
+      "theme_code": "00_A", "role": "BENCHMARK", "required": false, "eligible": false,
+      "exclusion_reasons": ["redundant_with_member: 252d daily-return correlation 1.00 with SPY, which is already held"],
+      "metrics": {"liquidity": 95},
+      "evidence": [{"url": "https://investor.vanguard.com/investment-products/etfs/profile/voo", "as_of": "2026-09-16", "kind": "fund_disclosure", "tier": 1}]
+    },
+    {
+      "ticker": "NASDAQ:GOOG", "name": "Alphabet Inc. Class C",
+      "theme_code": "11_A", "role": "THEME_LEADER", "required": false, "eligible": false,
+      "exclusion_reasons": ["duplicate_asset: same economic entity as the Class A line; two share classes are one information source"],
+      "metrics": {"liquidity": 94},
+      "evidence": [{"url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&ticker=GOOG", "as_of": "2026-09-16", "kind": "filing", "tier": 1}]
+    }
+  ]
+}

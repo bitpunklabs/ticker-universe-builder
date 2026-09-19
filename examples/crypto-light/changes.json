@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "market": "crypto",
+  "as_of": "2026-09-16",
+  "complete": true,
+  "base_version_hash": "97b6d17308d2",
+  "review_depth": "deep",
+  "summary": "Restaking has its own liquid leader and is no longer readable through the L1 names",
+  "sources": [
+    {"url": "https://api.binance.com/api/v3/exchangeInfo", "as_of": "2026-09-16", "kind": "exchange", "tier": 1}
+  ],
+  "deferred": [
+    {
+      "ticker": "BINANCE:TIAUSDT.P",
+      "deferred_because": "Qualifies on liquidity but the turnover budget was spent on the restaking seat"
+    }
+  ],
+  "ops": [
+    {
+      "op": "ADD_THEME",
+      "l1_code": "13", "l1_name": "Staking",
+      "theme_code": "13_A", "theme_name": "RESTAKING",
+      "coverage_level": 1,
+      "reason": "Restaking yield is now a driver of its own; the L1 names no longer carry it",
+      "evidence": [{"url": "https://api.binance.com/api/v3/exchangeInfo", "as_of": "2026-09-16", "kind": "listing", "tier": 1}]
+    },
+    {
+      "op": "ADD",
+      "candidate": {
+        "ticker": "BINANCE:ETHFIUSDT.P", "asset_id": "ETHFI", "name": "ether.fi Perpetual",
+        "theme_code": "13_A", "role": "THEME_LEADER", "required": false, "eligible": true,
+        "metrics": {"liquidity": 58, "quality": 55, "factor_r2": 69}
+      },
+      "reason": "Most traded restaking token with continuous sessions since listing",
+      "evidence": [{"url": "https://api.binance.com/api/v3/exchangeInfo", "as_of": "2026-09-16", "kind": "listing", "tier": 1}]
+    },
+    {
+      "op": "NO_CHANGE",
+      "scope": "00_A",
+      "reason": "Factor set is unchanged and no candidate improves on the three anchors"
+    }
+  ]
+}

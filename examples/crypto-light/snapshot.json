@@ -1,0 +1,172 @@
+{
+  "schema_version": 1,
+  "market": "crypto",
+  "as_of": "2026-09-16",
+  "complete": true,
+  "sources": [
+    {"url": "https://api.binance.com/api/v3/exchangeInfo", "as_of": "2026-09-16", "kind": "exchange", "tier": 1},
+    {"url": "https://data.binance.vision/", "as_of": "2026-09-16", "kind": "market_data", "tier": 2}
+  ],
+  "measurement": {
+    "liquidity": {
+      "basis": "measured",
+      "method": "cross-sectional percentile of 30d USDT-quoted notional turnover on Binance",
+      "window": "30d",
+      "source": "https://data.binance.vision/"
+    },
+    "factor_r2": {
+      "basis": "measured",
+      "method": "OLS of daily returns on the 00_A BTC/ETH/SOL factors",
+      "window": "180d",
+      "source": "https://data.binance.vision/"
+    },
+    "independence": {
+      "basis": "measured",
+      "method": "derived as 100 - factor_r2 by the builder",
+      "window": "180d",
+      "source": "https://data.binance.vision/"
+    },
+    "beta_strength": {
+      "basis": "measured",
+      "method": "OLS beta against the 00_A factor basket",
+      "window": "180d",
+      "source": "https://data.binance.vision/"
+    },
+    "beta_stability": {
+      "basis": "measured",
+      "method": "agreement of the beta estimate across 30/90/180d windows",
+      "window": "30/90/180d",
+      "source": "https://data.binance.vision/"
+    },
+    "quality": {
+      "basis": "judged",
+      "method": "protocol revenue durability and ecosystem role read from official documentation"
+    },
+    "heat": {
+      "basis": "judged",
+      "method": "turnover jump confirmed against exchange data, never a single-day price move"
+    }
+  },
+  "taxonomy": [
+    {"l1_code": "00", "l1_name": "Core Assets", "theme_code": "00_A", "theme_name": "CORE_ASSETS", "coverage_level": 1},
+    {"l1_code": "10", "l1_name": "Smart Contract Platforms", "theme_code": "10_A", "theme_name": "L1_NETWORKS", "coverage_level": 1},
+    {"l1_code": "11", "l1_name": "Scaling", "theme_code": "11_A", "theme_name": "L2_ROLLUPS", "coverage_level": 1},
+    {"l1_code": "12", "l1_name": "DeFi", "theme_code": "12_A", "theme_name": "DEX_AND_LENDING", "coverage_level": 1},
+    {"l1_code": "20", "l1_name": "Infrastructure", "theme_code": "20_A", "theme_name": "ORACLES_AND_STORAGE", "coverage_level": 1},
+    {"l1_code": "30", "l1_name": "Exchange and Payments", "theme_code": "30_A", "theme_name": "EXCHANGE_AND_PAYMENTS", "coverage_level": 1}
+  ],
+  "candidates": [
+    {
+      "ticker": "BINANCE:BTCUSDT.P", "asset_id": "BTC", "name": "Bitcoin Perpetual",
+      "theme_code": "00_A", "role": "BENCHMARK", "required": true, "eligible": true,
+      "reason": "The market's primary ruler; every other factor is measured against it",
+      "metrics": {"liquidity": 100, "quality": 95},
+      "evidence": [{"url": "https://api.binance.com/api/v3/exchangeInfo", "as_of": "2026-09-16", "kind": "listing", "tier": 1}]
+    },
+    {
+      "ticker": "BINANCE:ETHUSDT.P", "asset_id": "ETH", "name": "Ethereum Perpetual",
+      "theme_code": "00_A", "role": "BENCHMARK", "required": true, "eligible": true,
+      "reason": "Second factor; the smart-contract complex is read relative to it",
+      "metrics": {"liquidity": 98, "quality": 92},
+      "evidence": [{"url": "https://api.binance.com/api/v3/exchangeInfo", "as_of": "2026-09-16", "kind": "listing", "tier": 1}]
+    },
+    {
+      "ticker": "BINANCE:SOLUSDT.P", "asset_id": "SOL", "name": "Solana Perpetual",
+      "theme_code": "00_A", "role": "ANCHOR", "required": true, "eligible": true,
+      "reason": "Third factor; carries flow the BTC/ETH pair does not explain",
+      "metrics": {"liquidity": 94, "quality": 84},
+      "evidence": [{"url": "https://api.binance.com/api/v3/exchangeInfo", "as_of": "2026-09-16", "kind": "listing", "tier": 1}]
+    },
+    {
+      "ticker": "BINANCE:DOGEUSDT.P", "asset_id": "DOGE", "name": "Dogecoin Perpetual",
+      "theme_code": "00_A", "role": "LIQUIDITY_SENSOR", "required": false, "eligible": true,
+      "reason": "Market-wide speculative appetite; held for the reading, not for the asset",
+      "metrics": {"liquidity": 88, "heat": 74, "factor_r2": 62},
+      "evidence": [{"url": "https://data.binance.vision/", "as_of": "2026-09-16", "kind": "market_data", "tier": 2}]
+    },
+    {
+      "ticker": "BINANCE:AVAXUSDT.P", "asset_id": "AVAX", "name": "Avalanche Perpetual",
+      "theme_code": "10_A", "role": "THEME_LEADER", "required": false, "eligible": true,
+      "reason": "Highest sustained turnover among alternative L1s",
+      "metrics": {"liquidity": 74, "quality": 68, "factor_r2": 71},
+      "evidence": [{"url": "https://api.binance.com/api/v3/exchangeInfo", "as_of": "2026-09-16", "kind": "listing", "tier": 1}]
+    },
+    {
+      "ticker": "BINANCE:NEARUSDT.P", "asset_id": "NEAR", "name": "NEAR Protocol Perpetual",
+      "theme_code": "10_A", "role": "QUALITY_LEADER", "required": false, "eligible": true,
+      "reason": "Distinct execution model, so the theme is not one architecture twice",
+      "metrics": {"liquidity": 66, "quality": 71, "factor_r2": 66},
+      "evidence": [{"url": "https://api.binance.com/api/v3/exchangeInfo", "as_of": "2026-09-16", "kind": "listing", "tier": 1}]
+    },
+    {
+      "ticker": "BINANCE:ARBUSDT.P", "asset_id": "ARB", "name": "Arbitrum Perpetual",
+      "theme_code": "11_A", "role": "THEME_LEADER", "required": false, "eligible": true,
+      "reason": "Largest rollup by settled activity and the most traded L2 token",
+      "metrics": {"liquidity": 70, "quality": 64, "factor_r2": 74},
+      "evidence": [{"url": "https://api.binance.com/api/v3/exchangeInfo", "as_of": "2026-09-16", "kind": "listing", "tier": 1}]
+    },
+    {
+      "ticker": "BINANCE:OPUSDT.P", "asset_id": "OP", "name": "Optimism Perpetual",
+      "theme_code": "11_A", "role": "BETA_SATELLITE", "required": false, "eligible": true,
+      "reason": "Amplifies rollup-theme shocks with a beta that holds across windows",
+      "metrics": {"liquidity": 61, "factor_r2": 78, "beta_strength": 76, "beta_stability": 69},
+      "evidence": [{"url": "https://data.binance.vision/", "as_of": "2026-09-16", "kind": "market_data", "tier": 2}]
+    },
+    {
+      "ticker": "BINANCE:UNIUSDT.P", "asset_id": "UNI", "name": "Uniswap Perpetual",
+      "theme_code": "12_A", "role": "THEME_LEADER", "required": false, "eligible": true,
+      "reason": "Dominant spot DEX venue; the theme's reference name",
+      "metrics": {"liquidity": 69, "quality": 76, "factor_r2": 68},
+      "evidence": [{"url": "https://api.binance.com/api/v3/exchangeInfo", "as_of": "2026-09-16", "kind": "listing", "tier": 1}]
+    },
+    {
+      "ticker": "BINANCE:AAVEUSDT.P", "asset_id": "AAVE", "name": "Aave Perpetual",
+      "theme_code": "12_A", "role": "QUALITY_LEADER", "required": false, "eligible": true,
+      "reason": "Lending is a different driver from trading; revenue survives drawdowns",
+      "metrics": {"liquidity": 64, "quality": 79, "factor_r2": 64},
+      "evidence": [{"url": "https://api.binance.com/api/v3/exchangeInfo", "as_of": "2026-09-16", "kind": "listing", "tier": 1}]
+    },
+    {
+      "ticker": "BINANCE:LINKUSDT.P", "asset_id": "LINK", "name": "Chainlink Perpetual",
+      "theme_code": "20_A", "role": "THEME_LEADER", "required": false, "eligible": true,
+      "reason": "Oracle position is the theme; no comparable liquid substitute",
+      "metrics": {"liquidity": 76, "quality": 80, "factor_r2": 72},
+      "evidence": [{"url": "https://api.binance.com/api/v3/exchangeInfo", "as_of": "2026-09-16", "kind": "listing", "tier": 1}]
+    },
+    {
+      "ticker": "BINANCE:FILUSDT.P", "asset_id": "FIL", "name": "Filecoin Perpetual",
+      "theme_code": "20_A", "role": "INDEPENDENT_SENSOR", "required": false, "eligible": true,
+      "reason": "Storage supply cycle leaves residual the three factors do not explain",
+      "metrics": {"liquidity": 57, "quality": 52, "factor_r2": 44},
+      "evidence": [{"url": "https://data.binance.vision/", "as_of": "2026-09-16", "kind": "market_data", "tier": 2}]
+    },
+    {
+      "ticker": "BINANCE:BNBUSDT.P", "asset_id": "BNB", "name": "BNB Perpetual",
+      "theme_code": "30_A", "role": "THEME_LEADER", "required": false, "eligible": true,
+      "reason": "Exchange economics; moves on venue flow rather than on chain activity",
+      "metrics": {"liquidity": 86, "quality": 82, "factor_r2": 58},
+      "evidence": [{"url": "https://api.binance.com/api/v3/exchangeInfo", "as_of": "2026-09-16", "kind": "listing", "tier": 1}]
+    },
+    {
+      "ticker": "BINANCE:XRPUSDT.P", "asset_id": "XRP", "name": "XRP Perpetual",
+      "theme_code": "30_A", "role": "INDEPENDENT_SENSOR", "required": false, "eligible": true,
+      "reason": "Payment and legal events drive it independently of the factor complex",
+      "metrics": {"liquidity": 90, "quality": 58, "factor_r2": 41},
+      "evidence": [{"url": "https://data.binance.vision/", "as_of": "2026-09-16", "kind": "market_data", "tier": 2}]
+    },
+    {
+      "ticker": "BINANCE:USDCUSDT", "asset_id": "USDC", "name": "USD Coin",
+      "theme_code": "30_A", "role": "BREADTH_PROXY", "required": false, "eligible": false,
+      "exclusion_reasons": ["excluded_instrument_type: a stablecoin has no price signal to observe"],
+      "metrics": {"liquidity": 99},
+      "evidence": [{"url": "https://api.binance.com/api/v3/exchangeInfo", "as_of": "2026-09-16", "kind": "listing", "tier": 1}]
+    },
+    {
+      "ticker": "BINANCE:XVGUSDT", "asset_id": "XVG", "name": "Verge",
+      "theme_code": "30_A", "role": "BREADTH_PROXY", "required": false, "eligible": false,
+      "exclusion_reasons": ["insufficient_liquidity: 30d notional sits in the bottom decile with flat-line sessions"],
+      "metrics": {"liquidity": 8},
+      "evidence": [{"url": "https://data.binance.vision/", "as_of": "2026-09-16", "kind": "market_data", "tier": 2}]
+    }
+  ]
+}
