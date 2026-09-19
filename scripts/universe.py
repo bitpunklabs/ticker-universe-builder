@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Build, maintain and validate one ticker universe.
 
+    python scripts/universe.py import   --watchlist W --market M --output snapshot.draft.json
     python scripts/universe.py measure  --prices P --benchmark B --source URL --output M
     python scripts/universe.py build    --spec S --snapshot N --output DIR [--seed universe.json]
     python scripts/universe.py maintain --universe U --changes C --output DIR
@@ -15,6 +16,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+from datetime import date
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -27,8 +29,29 @@ from universe_core import (  # noqa: E402
     load_policy,
     read_json,
     validate_universe,
+    watchlist_to_snapshot,
     write_artifacts,
 )
+
+
+def import_watchlist(args: argparse.Namespace) -> int:
+    try:
+        text = Path(args.watchlist).read_text(encoding="utf-8")
+    except OSError as exc:
+        raise UniverseError(f"cannot read watchlist {args.watchlist}: {exc}") from exc
+    draft = watchlist_to_snapshot(text, args.market, args.as_of or str(date.today()))
+    Path(args.output).write_text(
+        json.dumps(draft, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
+    print(json.dumps({
+        "status": "drafted",
+        "output": args.output,
+        "themes": len(draft["taxonomy"]),
+        "candidates": len(draft["candidates"]),
+        "notes": draft["notes"],
+        "next": "research each candidate: role, metrics, evidence, eligibility, then build",
+    }, ensure_ascii=False))
+    return 0
 
 
 def measure(args: argparse.Namespace) -> int:
@@ -99,6 +122,13 @@ def parser() -> argparse.ArgumentParser:
         "--policy", help="policy JSON override (default: assets/default-policy.json)"
     )
     sub = value.add_subparsers(dest="command", required=True)
+
+    draft = sub.add_parser("import", help="read an existing watchlist into a snapshot skeleton")
+    draft.add_argument("--watchlist", required=True, help="TradingView .txt export")
+    draft.add_argument("--market", required=True, help="cn, us or crypto")
+    draft.add_argument("--as-of", help="defaults to today")
+    draft.add_argument("--output", required=True, help="snapshot skeleton to write")
+    draft.set_defaults(handler=import_watchlist)
 
     stats = sub.add_parser("measure", help="compute the window statistics from a price table")
     stats.add_argument("--prices", required=True, help="CSV of date,ticker,close[,volume|turnover]")

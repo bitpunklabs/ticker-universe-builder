@@ -28,6 +28,21 @@ does, and the shipped examples are known to build.
 If the market or the depth is missing, ask only for the missing choice. Default the depth to
 `medium` when the user asks for a generally useful universe without naming one.
 
+## Start from a watchlist the user already has
+
+If the user brings an existing TradingView export, do not retype it:
+
+```bash
+python scripts/universe.py import --watchlist theirs.txt --market us \
+  --output snapshot.draft.json
+```
+
+The draft carries their tickers and their sections as a starting taxonomy, and nothing else — a
+txt file does not say what is still listed, what anything is for, or how liquid it is. Every
+candidate comes back ineligible and `complete` is false, so the draft cannot build until the
+research below has been done against it. Tickers that do not belong to the named market are
+reported rather than dropped.
+
 ## Build a new universe
 
 1. Write `build-spec.json` from the user's request. Use the policy defaults unless the user asks

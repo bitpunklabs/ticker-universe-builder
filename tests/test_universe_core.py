@@ -24,6 +24,7 @@ from universe_core import (  # noqa: E402
     render_txt,
     validate_ticker,
     validate_universe,
+    watchlist_to_snapshot,
     write_artifacts,
 )
 
@@ -554,6 +555,69 @@ class AuditTests(unittest.TestCase):
             {"duplicate_asset": 1, "redundant_with_member": 1},
         )
         self.assertIn("redundant_with_member | 1", render_markdown(universe, report))
+
+
+class ImportTests(unittest.TestCase):
+    """Most people arrive holding a watchlist, not a research file."""
+
+    def draft(self, text: str, market: str = "us") -> dict:
+        return watchlist_to_snapshot(text, market, "2026-09-17")
+
+    def test_a_comma_export_and_a_line_list_read_the_same(self) -> None:
+        comma = self.draft("###Tech,NASDAQ:AAPL,NASDAQ:MSFT")
+        lines = self.draft("###Tech\nNASDAQ:AAPL\nNASDAQ:MSFT\n")
+        self.assertEqual(comma, lines)
+
+    def test_sections_become_a_draft_taxonomy(self) -> None:
+        draft = self.draft("###Big Tech,NASDAQ:AAPL\n###Energy,NYSE:XOM")
+        self.assertEqual(
+            [(item["theme_code"], item["theme_name"]) for item in draft["taxonomy"]],
+            [("00_A", "BIG_TECH"), ("01_A", "ENERGY")],
+        )
+
+    def test_nothing_is_claimed_that_a_txt_file_cannot_carry(self) -> None:
+        draft = self.draft("###Tech,NASDAQ:AAPL")
+        self.assertFalse(draft["complete"])
+        candidate_ = draft["candidates"][0]
+        self.assertEqual(candidate_["role"], "")
+        self.assertFalse(candidate_["eligible"])
+        self.assertEqual(candidate_["metrics"], {})
+        self.assertEqual(candidate_["evidence"], [])
+        with self.assertRaisesRegex(UniverseError, "incomplete"):
+            build_universe(
+                {"schema_version": 1, "market": "us", "profile": "light"}, draft, load_policy()
+            )
+
+    def test_a_ticker_from_another_market_is_reported_not_dropped(self) -> None:
+        draft = self.draft("###Mixed,NASDAQ:AAPL,BINANCE:BTCUSDT.P")
+        self.assertEqual(len(draft["candidates"]), 1)
+        self.assertTrue(any("BINANCE:BTCUSDT.P" in note for note in draft["notes"]))
+
+    def test_a_repeated_ticker_keeps_its_first_section(self) -> None:
+        draft = self.draft("###A,NASDAQ:AAPL\n###B,NASDAQ:AAPL")
+        self.assertEqual(len(draft["candidates"]), 1)
+        self.assertEqual(draft["candidates"][0]["theme_code"], "00_A")
+        self.assertTrue(any("more than once" in note for note in draft["notes"]))
+
+    def test_our_own_watchlist_round_trips(self) -> None:
+        universe, _ = build_universe(
+            read_json(ROOT / "examples" / "crypto-light" / "build-spec.json"),
+            read_json(ROOT / "examples" / "crypto-light" / "snapshot.json"),
+            load_policy(),
+        )
+        draft = self.draft(render_txt(universe), market="crypto")
+        self.assertEqual(
+            [item["theme_code"] for item in draft["taxonomy"]],
+            sorted({item["theme_code"] for item in universe["members"]}),
+        )
+        self.assertEqual(
+            sorted(item["ticker"] for item in draft["candidates"]),
+            sorted(item["ticker"] for item in universe["members"]),
+        )
+
+    def test_an_empty_watchlist_is_an_error_not_an_empty_draft(self) -> None:
+        with self.assertRaisesRegex(UniverseError, "no us tickers"):
+            self.draft("###Tech\n")
 
 
 class ExampleTests(unittest.TestCase):

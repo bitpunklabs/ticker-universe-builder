@@ -21,6 +21,20 @@ Three inputs, one output record. Every file is a JSON object with `schema_versio
 run. `allow_outside_guidance` is for deliberately small demonstration universes; a production build
 stays inside the guidance range.
 
+## Importing an existing watchlist
+
+`import` reads a TradingView `.txt` — comma separated on one line, or one ticker per line — and
+writes a snapshot skeleton. Sections become a draft taxonomy at coverage level 1; a section
+already named in this skill's own format (`00_A_CORE_ASSETS`) keeps its codes, so the output of a
+build round-trips back into an input.
+
+Everything a txt file cannot carry is left empty rather than guessed: `role` is blank, `metrics`
+and `evidence` are empty, every candidate is `eligible: false` with the reason
+`unverifiable_fact: imported from a watchlist, not yet researched`, and `complete` is false. The
+draft will not build until it has been researched, which is the correct behaviour — the import
+saves the transcription, not the work. Tickers that do not match the named market are listed in
+`notes` instead of being dropped.
+
 ## snapshot.json
 
 ```json

@@ -1110,6 +1110,103 @@ def render_txt(universe: dict[str, Any]) -> str:
     return ",".join(tokens) + "\n"
 
 
+_SECTION_RE = re.compile(r"^(\d{2})_([A-Z])_(.+)$")
+_NAME_SAFE_RE = re.compile(r"[^A-Z0-9]+")
+IMPORT_NOT_RESEARCHED = "unverifiable_fact: imported from a watchlist, not yet researched"
+
+
+def parse_watchlist(text: str) -> list[tuple[str, list[str]]]:
+    """Read a TradingView watchlist back into (section, tickers) pairs.
+
+    Comma separated on one line is what TradingView exports; one per line is what people keep by
+    hand. Both are the same file as far as this is concerned.
+    """
+    sections: list[tuple[str, list[str]]] = []
+    current = ""
+    for token in (part.strip() for line in text.splitlines() for part in line.split(",")):
+        if not token:
+            continue
+        if token.startswith("###"):
+            current = token[3:].strip()
+            if not any(name == current for name, _ in sections):
+                sections.append((current, []))
+            continue
+        if not sections:
+            sections.append((current, []))
+        for name, tickers in sections:
+            if name == current:
+                tickers.append(token.upper())
+                break
+    return [(name, tickers) for name, tickers in sections if tickers]
+
+
+def watchlist_to_snapshot(text: str, market: str, as_of: str) -> dict[str, Any]:
+    """Turn a watchlist into a snapshot skeleton that is honest about what it does not know.
+
+    A txt file carries tickers and section names. It does not carry roles, liquidity, evidence or
+    whether anything is still listed, so this writes none of those: every candidate arrives
+    ineligible, `complete` is false, and the build refuses it until someone does the research.
+    What it saves is the transcription — which is the part that is tedious rather than the part
+    that is hard.
+    """
+    spec = market_spec(market)
+    taxonomy: list[dict[str, Any]] = []
+    candidates: list[dict[str, Any]] = []
+    notes: list[str] = []
+    seen: set[str] = set()
+    for index, (section, tickers) in enumerate(parse_watchlist(text)):
+        match = _SECTION_RE.fullmatch(section)
+        if match:
+            # Our own output round-trips: the codes it already carries are kept.
+            l1_code, letter, theme_name = match.groups()
+            theme_code = f"{l1_code}_{letter}"
+        else:
+            if index >= 100:
+                raise UniverseError("a watchlist with more than 100 sections needs manual sorting")
+            l1_code = f"{index:02d}"
+            theme_code = f"{l1_code}_A"
+            theme_name = _NAME_SAFE_RE.sub("_", (section or "UNSORTED").upper()).strip("_")
+        taxonomy.append({
+            "l1_code": l1_code,
+            "l1_name": theme_name.replace("_", " ").title(),
+            "theme_code": theme_code,
+            "theme_name": theme_name or "UNSORTED",
+            "coverage_level": 1,
+        })
+        for ticker in tickers:
+            problems = validate_ticker(spec.code, ticker)
+            if problems:
+                notes.append(f"{ticker}: not imported; {problems[0]}")
+                continue
+            if ticker in seen:
+                notes.append(f"{ticker}: listed more than once, kept the first section")
+                continue
+            seen.add(ticker)
+            candidates.append({
+                "ticker": ticker,
+                "name": "",
+                "theme_code": theme_code,
+                "role": "",
+                "eligible": False,
+                "exclusion_reasons": [IMPORT_NOT_RESEARCHED],
+                "metrics": {},
+                "evidence": [],
+            })
+    if not candidates:
+        raise UniverseError(f"no {spec.code} tickers found in the watchlist")
+    return {
+        "schema_version": 1,
+        "market": spec.code,
+        "as_of": as_of,
+        "complete": False,
+        "sources": [],
+        "measurement": {},
+        "taxonomy": normalize_taxonomy(taxonomy),
+        "candidates": candidates,
+        "notes": sorted(set(notes)),
+    }
+
+
 def render_markdown(universe: dict[str, Any], report: dict[str, Any]) -> str:
     taxonomy = {item["theme_code"]: item for item in universe["taxonomy"]}
     lines = [
