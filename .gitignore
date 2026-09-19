@@ -17,3 +17,5 @@ venv/
 output/
 
 tracker.md
+# Scratch: research notes, drafts, anything not shipped
+temp/
