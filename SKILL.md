@@ -47,9 +47,18 @@ reported rather than dropped.
 
 1. Write `build-spec.json` from the user's request. Use the policy defaults unless the user asks
    for a target count inside the documented guidance range.
-2. Research the eligible universe and the current taxonomy. Record facts in `snapshot.json`;
+2. Start the taxonomy from the published one rather than inventing themes per run — two
+   universes of one market built on ad-hoc taxonomies cannot be compared:
+
+   ```bash
+   python scripts/universe.py taxonomy --market us --profile light
+   ```
+
+   Edit it: add what the market has grown, drop what it has not. It is a starting point, not a
+   schema.
+3. Research the eligible universe against that taxonomy. Record facts in `snapshot.json`;
    never pass a claim to the scripts hidden inside prose.
-3. Declare in `measurement` how each metric was produced. A window-dependent statistic —
+4. Declare in `measurement` how each metric was produced. A window-dependent statistic —
    liquidity, `factor_r2`, `beta_strength`, `beta_stability` — must be computed, not estimated,
    and the builder refuses to accept it as judgement. If you have a table of daily bars, compute
    them instead of arguing with the gate:
@@ -61,9 +70,9 @@ reported rather than dropped.
 
    See [references/measurement.md](references/measurement.md). If you have no price table, the
    candidates that need those metrics do not belong in the universe yet.
-4. Cite current sources for listing status, venue, liquidity and every non-obvious admission. If
+5. Cite current sources for listing status, venue, liquidity and every non-obvious admission. If
    an essential fact cannot be verified, exclude the candidate or mark the snapshot incomplete.
-5. Run:
+6. Run:
 
    ```bash
    python scripts/universe.py build \
@@ -72,10 +81,10 @@ reported rather than dropped.
      --output output
    ```
 
-6. The command prints the path of every artifact it wrote; they are named
+7. The command prints the path of every artifact it wrote; they are named
    `{market}-{profile}-{as_of}`. Run `validate` on the `universe` path even though the builder
    validates before writing. Never present an output that fails.
-7. Return the human-readable `.md` and the TradingView-importable `.txt`.
+8. Return the human-readable `.md` and the TradingView-importable `.txt`.
 
 To change the depth of an existing universe, pass it as `--seed` instead of rebuilding. Widening
 keeps every incumbent and fills the rest; narrowing reselects inside the incumbents against the

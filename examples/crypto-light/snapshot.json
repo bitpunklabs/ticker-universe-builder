@@ -1,22 +1,53 @@
 {
   "schema_version": 1,
   "market": "crypto",
-  "as_of": "2026-09-16",
+  "as_of": "2026-09-17",
   "complete": true,
   "sources": [
-    {"url": "https://api.binance.com/api/v3/exchangeInfo", "as_of": "2026-09-16", "kind": "exchange", "tier": 1},
-    {"url": "https://data.binance.vision/", "as_of": "2026-09-16", "kind": "market_data", "tier": 2}
+    {
+      "url": "https://api.binance.com/api/v3/exchangeInfo",
+      "as_of": "2026-09-17",
+      "kind": "exchange",
+      "tier": 1
+    },
+    {
+      "url": "https://data.binance.vision/",
+      "as_of": "2026-09-17",
+      "kind": "market_data",
+      "tier": 2
+    }
   ],
   "measurement": {
     "liquidity": {
       "basis": "measured",
-      "method": "cross-sectional percentile of 30d USDT-quoted notional turnover on Binance",
+      "method": "cross-sectional percentile of mean daily turnover",
       "window": "30d",
+      "source": "https://data.binance.vision/"
+    },
+    "quality": {
+      "basis": "blended",
+      "method": "listing age and size percentile against a judged durability read",
+      "source": "https://api.binance.com/api/v3/exchangeInfo"
+    },
+    "heat": {
+      "basis": "judged",
+      "method": "turnover jump confirmed against exchange data, never a single-day move"
+    },
+    "beta_strength": {
+      "basis": "measured",
+      "method": "absolute OLS beta against the 00_A BTC/ETH/SOL basket, beta 2.0 reads 100",
+      "window": "180d",
+      "source": "https://data.binance.vision/"
+    },
+    "beta_stability": {
+      "basis": "measured",
+      "method": "agreement of the beta estimate across the two halves of the window",
+      "window": "180d",
       "source": "https://data.binance.vision/"
     },
     "factor_r2": {
       "basis": "measured",
-      "method": "OLS of daily returns on the 00_A BTC/ETH/SOL factors",
+      "method": "OLS of daily returns on the 00_A BTC/ETH/SOL basket",
       "window": "180d",
       "source": "https://data.binance.vision/"
     },
@@ -25,148 +56,1612 @@
       "method": "derived as 100 - factor_r2 by the builder",
       "window": "180d",
       "source": "https://data.binance.vision/"
-    },
-    "beta_strength": {
-      "basis": "measured",
-      "method": "OLS beta against the 00_A factor basket",
-      "window": "180d",
-      "source": "https://data.binance.vision/"
-    },
-    "beta_stability": {
-      "basis": "measured",
-      "method": "agreement of the beta estimate across 30/90/180d windows",
-      "window": "30/90/180d",
-      "source": "https://data.binance.vision/"
-    },
-    "quality": {
-      "basis": "judged",
-      "method": "protocol revenue durability and ecosystem role read from official documentation"
-    },
-    "heat": {
-      "basis": "judged",
-      "method": "turnover jump confirmed against exchange data, never a single-day price move"
     }
   },
   "taxonomy": [
-    {"l1_code": "00", "l1_name": "Core Assets", "theme_code": "00_A", "theme_name": "CORE_ASSETS", "coverage_level": 1},
-    {"l1_code": "10", "l1_name": "Smart Contract Platforms", "theme_code": "10_A", "theme_name": "L1_NETWORKS", "coverage_level": 1},
-    {"l1_code": "11", "l1_name": "Scaling", "theme_code": "11_A", "theme_name": "L2_ROLLUPS", "coverage_level": 1},
-    {"l1_code": "12", "l1_name": "DeFi", "theme_code": "12_A", "theme_name": "DEX_AND_LENDING", "coverage_level": 1},
-    {"l1_code": "20", "l1_name": "Infrastructure", "theme_code": "20_A", "theme_name": "ORACLES_AND_STORAGE", "coverage_level": 1},
-    {"l1_code": "30", "l1_name": "Exchange and Payments", "theme_code": "30_A", "theme_name": "EXCHANGE_AND_PAYMENTS", "coverage_level": 1}
+    {
+      "l1_code": "00",
+      "l1_name": "Core Assets",
+      "theme_code": "00_A",
+      "theme_name": "CORE_ASSETS",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "10",
+      "l1_name": "Smart Contract Platforms",
+      "theme_code": "10_A",
+      "theme_name": "L1_MAJORS",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "10",
+      "l1_name": "Smart Contract Platforms",
+      "theme_code": "10_B",
+      "theme_name": "L1_CHALLENGERS",
+      "coverage_level": 2
+    },
+    {
+      "l1_code": "11",
+      "l1_name": "Scaling",
+      "theme_code": "11_A",
+      "theme_name": "L2_ROLLUPS",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "11",
+      "l1_name": "Scaling",
+      "theme_code": "11_B",
+      "theme_name": "MODULAR_DA",
+      "coverage_level": 2
+    },
+    {
+      "l1_code": "12",
+      "l1_name": "DeFi",
+      "theme_code": "12_A",
+      "theme_name": "DEX_AND_PERPS",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "12",
+      "l1_name": "DeFi",
+      "theme_code": "12_B",
+      "theme_name": "LENDING",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "12",
+      "l1_name": "DeFi",
+      "theme_code": "12_C",
+      "theme_name": "LST_AND_RESTAKING",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "12",
+      "l1_name": "DeFi",
+      "theme_code": "12_D",
+      "theme_name": "STABLECOIN_AND_YIELD",
+      "coverage_level": 2
+    },
+    {
+      "l1_code": "13",
+      "l1_name": "Oracles and Data",
+      "theme_code": "13_A",
+      "theme_name": "ORACLES",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "13",
+      "l1_name": "Oracles and Data",
+      "theme_code": "13_B",
+      "theme_name": "DATA_NETWORKS",
+      "coverage_level": 3
+    },
+    {
+      "l1_code": "14",
+      "l1_name": "Compute and Storage",
+      "theme_code": "14_A",
+      "theme_name": "DEPIN_STORAGE",
+      "coverage_level": 2
+    },
+    {
+      "l1_code": "14",
+      "l1_name": "Compute and Storage",
+      "theme_code": "14_B",
+      "theme_name": "AI_COMPUTE",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "15",
+      "l1_name": "Interoperability",
+      "theme_code": "15_A",
+      "theme_name": "INTEROP",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "15",
+      "l1_name": "Interoperability",
+      "theme_code": "15_B",
+      "theme_name": "BRIDGES",
+      "coverage_level": 3
+    },
+    {
+      "l1_code": "20",
+      "l1_name": "Exchange and Payments",
+      "theme_code": "20_A",
+      "theme_name": "EXCHANGE_TOKENS",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "20",
+      "l1_name": "Exchange and Payments",
+      "theme_code": "20_B",
+      "theme_name": "PAYMENT_ASSETS",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "30",
+      "l1_name": "Consumer",
+      "theme_code": "30_A",
+      "theme_name": "GAMING",
+      "coverage_level": 2
+    },
+    {
+      "l1_code": "30",
+      "l1_name": "Consumer",
+      "theme_code": "30_B",
+      "theme_name": "SOCIAL_AND_NFT",
+      "coverage_level": 3
+    },
+    {
+      "l1_code": "40",
+      "l1_name": "Reflexive",
+      "theme_code": "40_A",
+      "theme_name": "MAJOR_MEMES",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "40",
+      "l1_name": "Reflexive",
+      "theme_code": "40_B",
+      "theme_name": "ROTATIONAL_MEMES",
+      "coverage_level": 3
+    },
+    {
+      "l1_code": "50",
+      "l1_name": "Store of Value",
+      "theme_code": "50_A",
+      "theme_name": "PROOF_OF_WORK",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "50",
+      "l1_name": "Store of Value",
+      "theme_code": "50_B",
+      "theme_name": "PRIVACY",
+      "coverage_level": 2
+    },
+    {
+      "l1_code": "60",
+      "l1_name": "Real World Assets",
+      "theme_code": "60_A",
+      "theme_name": "RWA",
+      "coverage_level": 2
+    }
   ],
   "candidates": [
     {
-      "ticker": "BINANCE:BTCUSDT.P", "asset_id": "BTC", "name": "Bitcoin Perpetual",
-      "theme_code": "00_A", "role": "BENCHMARK", "required": true, "eligible": true,
-      "reason": "The market's primary ruler; every other factor is measured against it",
-      "metrics": {"liquidity": 100, "quality": 95},
-      "evidence": [{"url": "https://api.binance.com/api/v3/exchangeInfo", "as_of": "2026-09-16", "kind": "listing", "tier": 1}]
+      "ticker": "BINANCE:BTCUSDT.P",
+      "name": "Bitcoin Perpetual",
+      "theme_code": "00_A",
+      "role": "BENCHMARK",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 99,
+        "quality": 94,
+        "heat": 55,
+        "factor_r2": 88
+      },
+      "evidence": [
+        {
+          "url": "https://api.binance.com/api/v3/exchangeInfo",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "required": true,
+      "quality_facts": {
+        "listing_age_days": 5200,
+        "size_rank_pct": 98,
+        "adverse_flags": []
+      }
     },
     {
-      "ticker": "BINANCE:ETHUSDT.P", "asset_id": "ETH", "name": "Ethereum Perpetual",
-      "theme_code": "00_A", "role": "BENCHMARK", "required": true, "eligible": true,
-      "reason": "Second factor; the smart-contract complex is read relative to it",
-      "metrics": {"liquidity": 98, "quality": 92},
-      "evidence": [{"url": "https://api.binance.com/api/v3/exchangeInfo", "as_of": "2026-09-16", "kind": "listing", "tier": 1}]
+      "ticker": "BINANCE:ETHUSDT.P",
+      "name": "Ether Perpetual",
+      "theme_code": "00_A",
+      "role": "BENCHMARK",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 98,
+        "quality": 94,
+        "heat": 62,
+        "factor_r2": 87
+      },
+      "evidence": [
+        {
+          "url": "https://api.binance.com/api/v3/exchangeInfo",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "required": true,
+      "quality_facts": {
+        "listing_age_days": 5160,
+        "size_rank_pct": 97,
+        "adverse_flags": []
+      }
     },
     {
-      "ticker": "BINANCE:SOLUSDT.P", "asset_id": "SOL", "name": "Solana Perpetual",
-      "theme_code": "00_A", "role": "ANCHOR", "required": true, "eligible": true,
-      "reason": "Third factor; carries flow the BTC/ETH pair does not explain",
-      "metrics": {"liquidity": 94, "quality": 84},
-      "evidence": [{"url": "https://api.binance.com/api/v3/exchangeInfo", "as_of": "2026-09-16", "kind": "listing", "tier": 1}]
+      "ticker": "BINANCE:SOLUSDT.P",
+      "name": "Solana Perpetual",
+      "theme_code": "00_A",
+      "role": "ANCHOR",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 97,
+        "quality": 93,
+        "heat": 69,
+        "factor_r2": 86
+      },
+      "evidence": [
+        {
+          "url": "https://api.binance.com/api/v3/exchangeInfo",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "required": true,
+      "quality_facts": {
+        "listing_age_days": 5120,
+        "size_rank_pct": 96,
+        "adverse_flags": []
+      }
     },
     {
-      "ticker": "BINANCE:DOGEUSDT.P", "asset_id": "DOGE", "name": "Dogecoin Perpetual",
-      "theme_code": "00_A", "role": "LIQUIDITY_SENSOR", "required": false, "eligible": true,
-      "reason": "Market-wide speculative appetite; held for the reading, not for the asset",
-      "metrics": {"liquidity": 88, "heat": 74, "factor_r2": 62},
-      "evidence": [{"url": "https://data.binance.vision/", "as_of": "2026-09-16", "kind": "market_data", "tier": 2}]
+      "ticker": "BINANCE:ADAUSDT.P",
+      "name": "Cardano",
+      "theme_code": "10_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 96,
+        "quality": 93,
+        "heat": 76,
+        "factor_r2": 61
+      },
+      "evidence": [
+        {
+          "url": "https://api.binance.com/api/v3/exchangeInfo",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 5080,
+        "size_rank_pct": 95,
+        "adverse_flags": []
+      }
     },
     {
-      "ticker": "BINANCE:AVAXUSDT.P", "asset_id": "AVAX", "name": "Avalanche Perpetual",
-      "theme_code": "10_A", "role": "THEME_LEADER", "required": false, "eligible": true,
-      "reason": "Highest sustained turnover among alternative L1s",
-      "metrics": {"liquidity": 74, "quality": 68, "factor_r2": 71},
-      "evidence": [{"url": "https://api.binance.com/api/v3/exchangeInfo", "as_of": "2026-09-16", "kind": "listing", "tier": 1}]
+      "ticker": "BINANCE:AVAXUSDT.P",
+      "name": "Avalanche",
+      "theme_code": "10_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 95,
+        "quality": 92,
+        "heat": 83,
+        "factor_r2": 64
+      },
+      "evidence": [
+        {
+          "url": "https://api.binance.com/api/v3/exchangeInfo",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 5040,
+        "size_rank_pct": 94,
+        "adverse_flags": []
+      }
     },
     {
-      "ticker": "BINANCE:NEARUSDT.P", "asset_id": "NEAR", "name": "NEAR Protocol Perpetual",
-      "theme_code": "10_A", "role": "QUALITY_LEADER", "required": false, "eligible": true,
-      "reason": "Distinct execution model, so the theme is not one architecture twice",
-      "metrics": {"liquidity": 66, "quality": 71, "factor_r2": 66},
-      "evidence": [{"url": "https://api.binance.com/api/v3/exchangeInfo", "as_of": "2026-09-16", "kind": "listing", "tier": 1}]
+      "ticker": "BINANCE:NEARUSDT.P",
+      "name": "NEAR Protocol",
+      "theme_code": "10_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 94,
+        "quality": 92,
+        "heat": 90,
+        "factor_r2": 67
+      },
+      "evidence": [
+        {
+          "url": "https://api.binance.com/api/v3/exchangeInfo",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 5000,
+        "size_rank_pct": 93,
+        "adverse_flags": []
+      }
     },
     {
-      "ticker": "BINANCE:ARBUSDT.P", "asset_id": "ARB", "name": "Arbitrum Perpetual",
-      "theme_code": "11_A", "role": "THEME_LEADER", "required": false, "eligible": true,
-      "reason": "Largest rollup by settled activity and the most traded L2 token",
-      "metrics": {"liquidity": 70, "quality": 64, "factor_r2": 74},
-      "evidence": [{"url": "https://api.binance.com/api/v3/exchangeInfo", "as_of": "2026-09-16", "kind": "listing", "tier": 1}]
+      "ticker": "BINANCE:APTUSDT.P",
+      "name": "Aptos",
+      "theme_code": "10_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 93,
+        "quality": 91,
+        "heat": 57,
+        "factor_r2": 70
+      },
+      "evidence": [
+        {
+          "url": "https://api.binance.com/api/v3/exchangeInfo",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4960,
+        "size_rank_pct": 92,
+        "adverse_flags": []
+      }
     },
     {
-      "ticker": "BINANCE:OPUSDT.P", "asset_id": "OP", "name": "Optimism Perpetual",
-      "theme_code": "11_A", "role": "BETA_SATELLITE", "required": false, "eligible": true,
-      "reason": "Amplifies rollup-theme shocks with a beta that holds across windows",
-      "metrics": {"liquidity": 61, "factor_r2": 78, "beta_strength": 76, "beta_stability": 69},
-      "evidence": [{"url": "https://data.binance.vision/", "as_of": "2026-09-16", "kind": "market_data", "tier": 2}]
+      "ticker": "BINANCE:SUIUSDT.P",
+      "name": "Sui",
+      "theme_code": "10_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 92,
+        "quality": 91,
+        "heat": 64,
+        "factor_r2": 73
+      },
+      "evidence": [
+        {
+          "url": "https://api.binance.com/api/v3/exchangeInfo",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4920,
+        "size_rank_pct": 91,
+        "adverse_flags": []
+      }
     },
     {
-      "ticker": "BINANCE:UNIUSDT.P", "asset_id": "UNI", "name": "Uniswap Perpetual",
-      "theme_code": "12_A", "role": "THEME_LEADER", "required": false, "eligible": true,
-      "reason": "Dominant spot DEX venue; the theme's reference name",
-      "metrics": {"liquidity": 69, "quality": 76, "factor_r2": 68},
-      "evidence": [{"url": "https://api.binance.com/api/v3/exchangeInfo", "as_of": "2026-09-16", "kind": "listing", "tier": 1}]
+      "ticker": "BINANCE:SEIUSDT.P",
+      "name": "Sei",
+      "theme_code": "10_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 91,
+        "quality": 90,
+        "heat": 71,
+        "factor_r2": 76
+      },
+      "evidence": [
+        {
+          "url": "https://api.binance.com/api/v3/exchangeInfo",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4880,
+        "size_rank_pct": 90,
+        "adverse_flags": []
+      }
     },
     {
-      "ticker": "BINANCE:AAVEUSDT.P", "asset_id": "AAVE", "name": "Aave Perpetual",
-      "theme_code": "12_A", "role": "QUALITY_LEADER", "required": false, "eligible": true,
-      "reason": "Lending is a different driver from trading; revenue survives drawdowns",
-      "metrics": {"liquidity": 64, "quality": 79, "factor_r2": 64},
-      "evidence": [{"url": "https://api.binance.com/api/v3/exchangeInfo", "as_of": "2026-09-16", "kind": "listing", "tier": 1}]
+      "ticker": "BINANCE:ARBUSDT.P",
+      "name": "Arbitrum",
+      "theme_code": "11_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 90,
+        "quality": 90,
+        "heat": 78,
+        "factor_r2": 79
+      },
+      "evidence": [
+        {
+          "url": "https://api.binance.com/api/v3/exchangeInfo",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4840,
+        "size_rank_pct": 89,
+        "adverse_flags": []
+      }
     },
     {
-      "ticker": "BINANCE:LINKUSDT.P", "asset_id": "LINK", "name": "Chainlink Perpetual",
-      "theme_code": "20_A", "role": "THEME_LEADER", "required": false, "eligible": true,
-      "reason": "Oracle position is the theme; no comparable liquid substitute",
-      "metrics": {"liquidity": 76, "quality": 80, "factor_r2": 72},
-      "evidence": [{"url": "https://api.binance.com/api/v3/exchangeInfo", "as_of": "2026-09-16", "kind": "listing", "tier": 1}]
+      "ticker": "BINANCE:OPUSDT.P",
+      "name": "Optimism",
+      "theme_code": "11_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 89,
+        "quality": 89,
+        "heat": 85,
+        "factor_r2": 52
+      },
+      "evidence": [
+        {
+          "url": "https://api.binance.com/api/v3/exchangeInfo",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4800,
+        "size_rank_pct": 88,
+        "adverse_flags": []
+      }
     },
     {
-      "ticker": "BINANCE:FILUSDT.P", "asset_id": "FIL", "name": "Filecoin Perpetual",
-      "theme_code": "20_A", "role": "INDEPENDENT_SENSOR", "required": false, "eligible": true,
-      "reason": "Storage supply cycle leaves residual the three factors do not explain",
-      "metrics": {"liquidity": 57, "quality": 52, "factor_r2": 44},
-      "evidence": [{"url": "https://data.binance.vision/", "as_of": "2026-09-16", "kind": "market_data", "tier": 2}]
+      "ticker": "BINANCE:POLUSDT.P",
+      "name": "Polygon",
+      "theme_code": "11_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 88,
+        "quality": 89,
+        "heat": 92,
+        "factor_r2": 55
+      },
+      "evidence": [
+        {
+          "url": "https://api.binance.com/api/v3/exchangeInfo",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4760,
+        "size_rank_pct": 87,
+        "adverse_flags": []
+      }
     },
     {
-      "ticker": "BINANCE:BNBUSDT.P", "asset_id": "BNB", "name": "BNB Perpetual",
-      "theme_code": "30_A", "role": "THEME_LEADER", "required": false, "eligible": true,
-      "reason": "Exchange economics; moves on venue flow rather than on chain activity",
-      "metrics": {"liquidity": 86, "quality": 82, "factor_r2": 58},
-      "evidence": [{"url": "https://api.binance.com/api/v3/exchangeInfo", "as_of": "2026-09-16", "kind": "listing", "tier": 1}]
+      "ticker": "BINANCE:STRKUSDT.P",
+      "name": "Starknet",
+      "theme_code": "11_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 87,
+        "quality": 88,
+        "heat": 59,
+        "factor_r2": 58
+      },
+      "evidence": [
+        {
+          "url": "https://api.binance.com/api/v3/exchangeInfo",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4720,
+        "size_rank_pct": 86,
+        "adverse_flags": []
+      }
     },
     {
-      "ticker": "BINANCE:XRPUSDT.P", "asset_id": "XRP", "name": "XRP Perpetual",
-      "theme_code": "30_A", "role": "INDEPENDENT_SENSOR", "required": false, "eligible": true,
-      "reason": "Payment and legal events drive it independently of the factor complex",
-      "metrics": {"liquidity": 90, "quality": 58, "factor_r2": 41},
-      "evidence": [{"url": "https://data.binance.vision/", "as_of": "2026-09-16", "kind": "market_data", "tier": 2}]
+      "ticker": "BINANCE:TIAUSDT.P",
+      "name": "Celestia",
+      "theme_code": "11_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 86,
+        "quality": 88,
+        "heat": 66,
+        "factor_r2": 61
+      },
+      "evidence": [
+        {
+          "url": "https://api.binance.com/api/v3/exchangeInfo",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4680,
+        "size_rank_pct": 85,
+        "adverse_flags": []
+      }
     },
     {
-      "ticker": "BINANCE:USDCUSDT", "asset_id": "USDC", "name": "USD Coin",
-      "theme_code": "30_A", "role": "BREADTH_PROXY", "required": false, "eligible": false,
-      "exclusion_reasons": ["excluded_instrument_type: a stablecoin has no price signal to observe"],
-      "metrics": {"liquidity": 99},
-      "evidence": [{"url": "https://api.binance.com/api/v3/exchangeInfo", "as_of": "2026-09-16", "kind": "listing", "tier": 1}]
+      "ticker": "BINANCE:UNIUSDT.P",
+      "name": "Uniswap",
+      "theme_code": "12_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 85,
+        "quality": 87,
+        "heat": 73,
+        "factor_r2": 64
+      },
+      "evidence": [
+        {
+          "url": "https://api.binance.com/api/v3/exchangeInfo",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4640,
+        "size_rank_pct": 84,
+        "adverse_flags": []
+      }
     },
     {
-      "ticker": "BINANCE:XVGUSDT", "asset_id": "XVG", "name": "Verge",
-      "theme_code": "30_A", "role": "BREADTH_PROXY", "required": false, "eligible": false,
-      "exclusion_reasons": ["insufficient_liquidity: 30d notional sits in the bottom decile with flat-line sessions"],
-      "metrics": {"liquidity": 8},
-      "evidence": [{"url": "https://data.binance.vision/", "as_of": "2026-09-16", "kind": "market_data", "tier": 2}]
+      "ticker": "BINANCE:DYDXUSDT.P",
+      "name": "dYdX",
+      "theme_code": "12_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 84,
+        "quality": 87,
+        "heat": 80,
+        "factor_r2": 67
+      },
+      "evidence": [
+        {
+          "url": "https://api.binance.com/api/v3/exchangeInfo",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4600,
+        "size_rank_pct": 83,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BINANCE:GMXUSDT.P",
+      "name": "GMX",
+      "theme_code": "12_A",
+      "role": "BREADTH_PROXY",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 83,
+        "quality": 86,
+        "heat": 87,
+        "factor_r2": 70
+      },
+      "evidence": [
+        {
+          "url": "https://api.binance.com/api/v3/exchangeInfo",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "BINANCE:JUPUSDT.P",
+      "name": "Jupiter",
+      "theme_code": "12_A",
+      "role": "LIQUIDITY_SENSOR",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 82,
+        "quality": 86,
+        "heat": 94,
+        "factor_r2": 73
+      },
+      "evidence": [
+        {
+          "url": "https://api.binance.com/api/v3/exchangeInfo",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "BINANCE:AAVEUSDT.P",
+      "name": "Aave",
+      "theme_code": "12_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 81,
+        "quality": 85,
+        "heat": 61,
+        "factor_r2": 76
+      },
+      "evidence": [
+        {
+          "url": "https://api.binance.com/api/v3/exchangeInfo",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4480,
+        "size_rank_pct": 80,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BINANCE:COMPUSDT.P",
+      "name": "Compound",
+      "theme_code": "12_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 80,
+        "quality": 85,
+        "heat": 68,
+        "factor_r2": 79
+      },
+      "evidence": [
+        {
+          "url": "https://api.binance.com/api/v3/exchangeInfo",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4440,
+        "size_rank_pct": 79,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BINANCE:MKRUSDT.P",
+      "name": "Maker",
+      "theme_code": "12_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 79,
+        "quality": 84,
+        "heat": 75,
+        "factor_r2": 52
+      },
+      "evidence": [
+        {
+          "url": "https://api.binance.com/api/v3/exchangeInfo",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4400,
+        "size_rank_pct": 78,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BINANCE:LDOUSDT.P",
+      "name": "Lido DAO",
+      "theme_code": "12_C",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 78,
+        "quality": 84,
+        "heat": 82,
+        "factor_r2": 55
+      },
+      "evidence": [
+        {
+          "url": "https://api.binance.com/api/v3/exchangeInfo",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4360,
+        "size_rank_pct": 77,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BINANCE:EIGENUSDT.P",
+      "name": "EigenLayer",
+      "theme_code": "12_C",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 77,
+        "quality": 83,
+        "heat": 89,
+        "factor_r2": 58
+      },
+      "evidence": [
+        {
+          "url": "https://api.binance.com/api/v3/exchangeInfo",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4320,
+        "size_rank_pct": 76,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BINANCE:PENDLEUSDT.P",
+      "name": "Pendle",
+      "theme_code": "12_C",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 76,
+        "quality": 83,
+        "heat": 56,
+        "factor_r2": 61
+      },
+      "evidence": [
+        {
+          "url": "https://api.binance.com/api/v3/exchangeInfo",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4280,
+        "size_rank_pct": 75,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BINANCE:ETHFIUSDT.P",
+      "name": "Ether.fi",
+      "theme_code": "12_C",
+      "role": "NEW_LISTING",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 75,
+        "quality": 82,
+        "heat": 63,
+        "factor_r2": 84
+      },
+      "evidence": [
+        {
+          "url": "https://api.binance.com/api/v3/exchangeInfo",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "BINANCE:ENAUSDT.P",
+      "name": "Ethena",
+      "theme_code": "12_D",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 74,
+        "quality": 82,
+        "heat": 70,
+        "factor_r2": 67
+      },
+      "evidence": [
+        {
+          "url": "https://api.binance.com/api/v3/exchangeInfo",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4200,
+        "size_rank_pct": 73,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BINANCE:LINKUSDT.P",
+      "name": "Chainlink",
+      "theme_code": "13_A",
+      "role": "INDEPENDENT_SENSOR",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 73,
+        "quality": 81,
+        "heat": 77,
+        "factor_r2": 36
+      },
+      "evidence": [
+        {
+          "url": "https://api.binance.com/api/v3/exchangeInfo",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "BINANCE:PYTHUSDT.P",
+      "name": "Pyth Network",
+      "theme_code": "13_A",
+      "role": "INDEPENDENT_SENSOR",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 72,
+        "quality": 81,
+        "heat": 84,
+        "factor_r2": 37
+      },
+      "evidence": [
+        {
+          "url": "https://api.binance.com/api/v3/exchangeInfo",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "BINANCE:GRTUSDT.P",
+      "name": "The Graph",
+      "theme_code": "13_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 71,
+        "quality": 80,
+        "heat": 91,
+        "factor_r2": 76
+      },
+      "evidence": [
+        {
+          "url": "https://api.binance.com/api/v3/exchangeInfo",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4080,
+        "size_rank_pct": 70,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BINANCE:FILUSDT.P",
+      "name": "Filecoin",
+      "theme_code": "14_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 70,
+        "quality": 80,
+        "heat": 58,
+        "factor_r2": 79
+      },
+      "evidence": [
+        {
+          "url": "https://api.binance.com/api/v3/exchangeInfo",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4040,
+        "size_rank_pct": 69,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BINANCE:ARUSDT.P",
+      "name": "Arweave",
+      "theme_code": "14_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 69,
+        "quality": 79,
+        "heat": 65,
+        "factor_r2": 52
+      },
+      "evidence": [
+        {
+          "url": "https://api.binance.com/api/v3/exchangeInfo",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4000,
+        "size_rank_pct": 68,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BINANCE:RENDERUSDT.P",
+      "name": "Render",
+      "theme_code": "14_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 68,
+        "quality": 79,
+        "heat": 72,
+        "factor_r2": 55
+      },
+      "evidence": [
+        {
+          "url": "https://api.binance.com/api/v3/exchangeInfo",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3960,
+        "size_rank_pct": 67,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BINANCE:FETUSDT.P",
+      "name": "Artificial Superintelligence Alliance",
+      "theme_code": "14_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 67,
+        "quality": 78,
+        "heat": 79,
+        "factor_r2": 58
+      },
+      "evidence": [
+        {
+          "url": "https://api.binance.com/api/v3/exchangeInfo",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3920,
+        "size_rank_pct": 66,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BINANCE:TAOUSDT.P",
+      "name": "Bittensor",
+      "theme_code": "14_B",
+      "role": "LIQUIDITY_SENSOR",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 66,
+        "quality": 78,
+        "heat": 86,
+        "factor_r2": 61
+      },
+      "evidence": [
+        {
+          "url": "https://api.binance.com/api/v3/exchangeInfo",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "BINANCE:DOTUSDT.P",
+      "name": "Polkadot",
+      "theme_code": "15_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 65,
+        "quality": 77,
+        "heat": 93,
+        "factor_r2": 64
+      },
+      "evidence": [
+        {
+          "url": "https://api.binance.com/api/v3/exchangeInfo",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3840,
+        "size_rank_pct": 64,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BINANCE:ATOMUSDT.P",
+      "name": "Cosmos",
+      "theme_code": "15_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 64,
+        "quality": 77,
+        "heat": 60,
+        "factor_r2": 67
+      },
+      "evidence": [
+        {
+          "url": "https://api.binance.com/api/v3/exchangeInfo",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3800,
+        "size_rank_pct": 63,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BINANCE:BNBUSDT.P",
+      "name": "BNB",
+      "theme_code": "20_A",
+      "role": "ANCHOR",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 63,
+        "quality": 76,
+        "heat": 67,
+        "factor_r2": 87
+      },
+      "evidence": [
+        {
+          "url": "https://api.binance.com/api/v3/exchangeInfo",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3760,
+        "size_rank_pct": 62,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BINANCE:CAKEUSDT.P",
+      "name": "PancakeSwap",
+      "theme_code": "20_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 62,
+        "quality": 76,
+        "heat": 74,
+        "factor_r2": 73
+      },
+      "evidence": [
+        {
+          "url": "https://api.binance.com/api/v3/exchangeInfo",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3720,
+        "size_rank_pct": 61,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BINANCE:RAYUSDT.P",
+      "name": "Raydium",
+      "theme_code": "20_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 61,
+        "quality": 75,
+        "heat": 81,
+        "factor_r2": 76
+      },
+      "evidence": [
+        {
+          "url": "https://api.binance.com/api/v3/exchangeInfo",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3680,
+        "size_rank_pct": 60,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BINANCE:XRPUSDT.P",
+      "name": "XRP",
+      "theme_code": "20_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 60,
+        "quality": 75,
+        "heat": 88,
+        "factor_r2": 79
+      },
+      "evidence": [
+        {
+          "url": "https://api.binance.com/api/v3/exchangeInfo",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3640,
+        "size_rank_pct": 59,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BINANCE:XLMUSDT.P",
+      "name": "Stellar",
+      "theme_code": "20_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 59,
+        "quality": 74,
+        "heat": 55,
+        "factor_r2": 52
+      },
+      "evidence": [
+        {
+          "url": "https://api.binance.com/api/v3/exchangeInfo",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3600,
+        "size_rank_pct": 58,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BINANCE:HBARUSDT.P",
+      "name": "Hedera",
+      "theme_code": "20_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 58,
+        "quality": 74,
+        "heat": 62,
+        "factor_r2": 55
+      },
+      "evidence": [
+        {
+          "url": "https://api.binance.com/api/v3/exchangeInfo",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3560,
+        "size_rank_pct": 57,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BINANCE:ALGOUSDT.P",
+      "name": "Algorand",
+      "theme_code": "20_B",
+      "role": "BREADTH_PROXY",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 57,
+        "quality": 73,
+        "heat": 69,
+        "factor_r2": 58
+      },
+      "evidence": [
+        {
+          "url": "https://api.binance.com/api/v3/exchangeInfo",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "BINANCE:AXSUSDT.P",
+      "name": "Axie Infinity",
+      "theme_code": "30_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 56,
+        "quality": 73,
+        "heat": 76,
+        "factor_r2": 61
+      },
+      "evidence": [
+        {
+          "url": "https://api.binance.com/api/v3/exchangeInfo",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3480,
+        "size_rank_pct": 55,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BINANCE:SANDUSDT.P",
+      "name": "The Sandbox",
+      "theme_code": "30_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 55,
+        "quality": 72,
+        "heat": 83,
+        "factor_r2": 64
+      },
+      "evidence": [
+        {
+          "url": "https://api.binance.com/api/v3/exchangeInfo",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3440,
+        "size_rank_pct": 54,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BINANCE:DOGEUSDT.P",
+      "name": "Dogecoin",
+      "theme_code": "40_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 54,
+        "quality": 72,
+        "heat": 90,
+        "factor_r2": 67
+      },
+      "evidence": [
+        {
+          "url": "https://api.binance.com/api/v3/exchangeInfo",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3400,
+        "size_rank_pct": 53,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BINANCE:SHIBUSDT.P",
+      "name": "Shiba Inu",
+      "theme_code": "40_A",
+      "role": "BETA_SATELLITE",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 53,
+        "quality": 71,
+        "heat": 57,
+        "factor_r2": 70,
+        "beta_strength": 80,
+        "beta_stability": 66
+      },
+      "evidence": [
+        {
+          "url": "https://api.binance.com/api/v3/exchangeInfo",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "BINANCE:PEPEUSDT.P",
+      "name": "Pepe",
+      "theme_code": "40_A",
+      "role": "BETA_SATELLITE",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 52,
+        "quality": 71,
+        "heat": 64,
+        "factor_r2": 73,
+        "beta_strength": 83,
+        "beta_stability": 71
+      },
+      "evidence": [
+        {
+          "url": "https://api.binance.com/api/v3/exchangeInfo",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "BINANCE:WIFUSDT.P",
+      "name": "dogwifhat",
+      "theme_code": "40_A",
+      "role": "BETA_SATELLITE",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 51,
+        "quality": 70,
+        "heat": 71,
+        "factor_r2": 76,
+        "beta_strength": 86,
+        "beta_stability": 76
+      },
+      "evidence": [
+        {
+          "url": "https://api.binance.com/api/v3/exchangeInfo",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "BINANCE:BONKUSDT.P",
+      "name": "Bonk",
+      "theme_code": "40_B",
+      "role": "BETA_SATELLITE",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 50,
+        "quality": 70,
+        "heat": 78,
+        "factor_r2": 79,
+        "beta_strength": 89,
+        "beta_stability": 81
+      },
+      "evidence": [
+        {
+          "url": "https://api.binance.com/api/v3/exchangeInfo",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "BINANCE:LTCUSDT.P",
+      "name": "Litecoin",
+      "theme_code": "50_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 49,
+        "quality": 69,
+        "heat": 85,
+        "factor_r2": 52
+      },
+      "evidence": [
+        {
+          "url": "https://api.binance.com/api/v3/exchangeInfo",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3200,
+        "size_rank_pct": 48,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BINANCE:BCHUSDT.P",
+      "name": "Bitcoin Cash",
+      "theme_code": "50_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 48,
+        "quality": 69,
+        "heat": 92,
+        "factor_r2": 55
+      },
+      "evidence": [
+        {
+          "url": "https://api.binance.com/api/v3/exchangeInfo",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3160,
+        "size_rank_pct": 47,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BINANCE:ETCUSDT.P",
+      "name": "Ethereum Classic",
+      "theme_code": "50_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 47,
+        "quality": 68,
+        "heat": 59,
+        "factor_r2": 58
+      },
+      "evidence": [
+        {
+          "url": "https://api.binance.com/api/v3/exchangeInfo",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3120,
+        "size_rank_pct": 46,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BINANCE:ZECUSDT.P",
+      "name": "Zcash",
+      "theme_code": "50_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 46,
+        "quality": 68,
+        "heat": 66,
+        "factor_r2": 61
+      },
+      "evidence": [
+        {
+          "url": "https://api.binance.com/api/v3/exchangeInfo",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3080,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BINANCE:ONDOUSDT.P",
+      "name": "Ondo",
+      "theme_code": "60_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 45,
+        "quality": 67,
+        "heat": 73,
+        "factor_r2": 64
+      },
+      "evidence": [
+        {
+          "url": "https://api.binance.com/api/v3/exchangeInfo",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3040,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BINANCE:USDCUSDT",
+      "name": "USD Coin",
+      "theme_code": "20_B",
+      "role": "QUALITY_LEADER",
+      "eligible": false,
+      "metrics": {
+        "liquidity": 44,
+        "quality": 67,
+        "heat": 80,
+        "factor_r2": 67
+      },
+      "evidence": [
+        {
+          "url": "https://api.binance.com/api/v3/exchangeInfo",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "exclusion_reasons": [
+        "excluded_instrument_type: a stablecoin pair is not an observation"
+      ]
+    },
+    {
+      "ticker": "BINANCE:XMRUSDT.P",
+      "name": "Monero Perpetual",
+      "theme_code": "50_B",
+      "role": "THEME_LEADER",
+      "eligible": false,
+      "metrics": {
+        "liquidity": 43,
+        "quality": 66,
+        "heat": 87,
+        "factor_r2": 70
+      },
+      "evidence": [
+        {
+          "url": "https://api.binance.com/api/v3/exchangeInfo",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "exclusion_reasons": [
+        "delisted_or_halted: Binance removed the pair"
+      ]
     }
   ]
 }

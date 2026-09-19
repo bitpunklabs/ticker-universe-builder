@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Build, maintain and validate one ticker universe.
 
+    python scripts/universe.py taxonomy --market M [--profile P]
     python scripts/universe.py import   --watchlist W --market M --output snapshot.draft.json
     python scripts/universe.py measure  --prices P --benchmark B --source URL --output M
     python scripts/universe.py build    --spec S --snapshot N --output DIR [--seed universe.json]
@@ -28,10 +29,25 @@ from universe_core import (  # noqa: E402
     build_universe,
     load_policy,
     read_json,
+    starter_taxonomy,
     validate_universe,
     watchlist_to_snapshot,
     write_artifacts,
 )
+
+
+def taxonomy(args: argparse.Namespace) -> int:
+    themes = starter_taxonomy(args.market, args.profile)
+    payload = json.dumps(
+        {"schema_version": 1, "market": args.market, "taxonomy": themes},
+        ensure_ascii=False, indent=2,
+    ) + "\n"
+    if args.output:
+        Path(args.output).write_text(payload, encoding="utf-8")
+        print(json.dumps({"status": "written", "output": args.output, "themes": len(themes)}))
+    else:
+        print(payload, end="")
+    return 0
 
 
 def import_watchlist(args: argparse.Namespace) -> int:
@@ -122,6 +138,12 @@ def parser() -> argparse.ArgumentParser:
         "--policy", help="policy JSON override (default: assets/default-policy.json)"
     )
     sub = value.add_subparsers(dest="command", required=True)
+
+    themes = sub.add_parser("taxonomy", help="print the starter theme table for a market")
+    themes.add_argument("--market", required=True, help="cn, us or crypto")
+    themes.add_argument("--profile", help="cut to this profile's coverage level")
+    themes.add_argument("--output", help="write to a file instead of stdout")
+    themes.set_defaults(handler=taxonomy)
 
     draft = sub.add_parser("import", help="read an existing watchlist into a snapshot skeleton")
     draft.add_argument("--watchlist", required=True, help="TradingView .txt export")

@@ -1,0 +1,223 @@
+{
+  "schema_version": 1,
+  "market": "us",
+  "taxonomy": [
+    {
+      "l1_code": "00",
+      "l1_name": "Market Benchmarks",
+      "theme_code": "00_A",
+      "theme_name": "BROAD_MARKET_ETF",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "10",
+      "l1_name": "Technology",
+      "theme_code": "10_A",
+      "theme_name": "MEGACAP_PLATFORMS",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "10",
+      "l1_name": "Technology",
+      "theme_code": "10_B",
+      "theme_name": "SEMICONDUCTORS",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "10",
+      "l1_name": "Technology",
+      "theme_code": "10_C",
+      "theme_name": "SEMICAP_EQUIPMENT",
+      "coverage_level": 2
+    },
+    {
+      "l1_code": "10",
+      "l1_name": "Technology",
+      "theme_code": "10_D",
+      "theme_name": "ENTERPRISE_SOFTWARE",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "10",
+      "l1_name": "Technology",
+      "theme_code": "10_E",
+      "theme_name": "CYBERSECURITY",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "10",
+      "l1_name": "Technology",
+      "theme_code": "10_F",
+      "theme_name": "INTERNET_AND_ADTECH",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "11",
+      "l1_name": "AI Infrastructure",
+      "theme_code": "11_A",
+      "theme_name": "AI_COMPUTE",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "11",
+      "l1_name": "AI Infrastructure",
+      "theme_code": "11_B",
+      "theme_name": "DATA_CENTER_AND_POWER",
+      "coverage_level": 2
+    },
+    {
+      "l1_code": "20",
+      "l1_name": "Communication",
+      "theme_code": "20_A",
+      "theme_name": "STREAMING_AND_MEDIA",
+      "coverage_level": 2
+    },
+    {
+      "l1_code": "20",
+      "l1_name": "Communication",
+      "theme_code": "20_B",
+      "theme_name": "TELECOM",
+      "coverage_level": 2
+    },
+    {
+      "l1_code": "30",
+      "l1_name": "Consumer",
+      "theme_code": "30_A",
+      "theme_name": "DISCRETIONARY_LEADERS",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "30",
+      "l1_name": "Consumer",
+      "theme_code": "30_B",
+      "theme_name": "STAPLES",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "30",
+      "l1_name": "Consumer",
+      "theme_code": "30_C",
+      "theme_name": "RESTAURANTS_AND_TRAVEL",
+      "coverage_level": 2
+    },
+    {
+      "l1_code": "40",
+      "l1_name": "Financials",
+      "theme_code": "40_A",
+      "theme_name": "MONEY_CENTER_BANKS",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "40",
+      "l1_name": "Financials",
+      "theme_code": "40_B",
+      "theme_name": "PAYMENTS",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "40",
+      "l1_name": "Financials",
+      "theme_code": "40_C",
+      "theme_name": "ASSET_MANAGERS_AND_EXCHANGES",
+      "coverage_level": 2
+    },
+    {
+      "l1_code": "40",
+      "l1_name": "Financials",
+      "theme_code": "40_D",
+      "theme_name": "INSURANCE",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "50",
+      "l1_name": "Healthcare",
+      "theme_code": "50_A",
+      "theme_name": "PHARMA",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "50",
+      "l1_name": "Healthcare",
+      "theme_code": "50_B",
+      "theme_name": "MEDTECH_AND_DEVICES",
+      "coverage_level": 2
+    },
+    {
+      "l1_code": "50",
+      "l1_name": "Healthcare",
+      "theme_code": "50_C",
+      "theme_name": "MANAGED_CARE",
+      "coverage_level": 2
+    },
+    {
+      "l1_code": "50",
+      "l1_name": "Healthcare",
+      "theme_code": "50_D",
+      "theme_name": "BIOTECH",
+      "coverage_level": 3
+    },
+    {
+      "l1_code": "60",
+      "l1_name": "Industrials",
+      "theme_code": "60_A",
+      "theme_name": "AEROSPACE_AND_DEFENSE",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "60",
+      "l1_name": "Industrials",
+      "theme_code": "60_B",
+      "theme_name": "MACHINERY_AND_RAIL",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "60",
+      "l1_name": "Industrials",
+      "theme_code": "60_C",
+      "theme_name": "TRANSPORT_AND_LOGISTICS",
+      "coverage_level": 2
+    },
+    {
+      "l1_code": "70",
+      "l1_name": "Energy",
+      "theme_code": "70_A",
+      "theme_name": "INTEGRATED_ENERGY",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "70",
+      "l1_name": "Energy",
+      "theme_code": "70_B",
+      "theme_name": "OILFIELD_AND_MIDSTREAM",
+      "coverage_level": 2
+    },
+    {
+      "l1_code": "80",
+      "l1_name": "Materials and Utilities",
+      "theme_code": "80_A",
+      "theme_name": "MATERIALS",
+      "coverage_level": 2
+    },
+    {
+      "l1_code": "80",
+      "l1_name": "Materials and Utilities",
+      "theme_code": "80_B",
+      "theme_name": "UTILITIES",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "90",
+      "l1_name": "Real Estate",
+      "theme_code": "90_A",
+      "theme_name": "REITS",
+      "coverage_level": 2
+    },
+    {
+      "l1_code": "95",
+      "l1_name": "Digital Assets",
+      "theme_code": "95_A",
+      "theme_name": "DIGITAL_ASSET_EQUITIES",
+      "coverage_level": 3
+    }
+  ]
+}

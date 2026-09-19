@@ -1,156 +1,2478 @@
 {
   "schema_version": 1,
   "market": "cn",
-  "as_of": "2026-09-16",
+  "as_of": "2026-09-17",
   "complete": true,
   "sources": [
-    {"url": "http://www.sse.com.cn/assortment/stock/list/share/", "as_of": "2026-09-16", "kind": "exchange", "tier": 1},
-    {"url": "http://www.szse.cn/market/product/stock/list/index.html", "as_of": "2026-09-16", "kind": "exchange", "tier": 1}
+    {
+      "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+      "as_of": "2026-09-17",
+      "kind": "exchange",
+      "tier": 1
+    },
+    {
+      "url": "https://www.szse.cn/market/product/stock/list/",
+      "as_of": "2026-09-17",
+      "kind": "exchange",
+      "tier": 1
+    }
   ],
   "measurement": {
     "liquidity": {
       "basis": "measured",
-      "method": "20d average turnover in CNY, cross-sectional percentile within the listed universe",
-      "window": "20d",
-      "source": "http://www.sse.com.cn/market/price/report/"
+      "method": "cross-sectional percentile of mean daily turnover",
+      "window": "30d",
+      "source": "http://www.sse.com.cn/market/stockdata/overview/"
+    },
+    "quality": {
+      "basis": "blended",
+      "method": "listing age and size percentile against a judged durability read",
+      "source": "http://www.sse.com.cn/assortment/stock/list/share/"
+    },
+    "heat": {
+      "basis": "judged",
+      "method": "turnover jump confirmed against exchange data, never a single-day move"
     },
     "beta_strength": {
       "basis": "measured",
-      "method": "OLS beta of daily returns against the theme's own sector ETF, not against CSI 300",
-      "window": "252d",
-      "source": "http://www.sse.com.cn/market/price/report/"
+      "method": "absolute OLS beta against SSE:510300, beta 2.0 reads 100",
+      "window": "180d",
+      "source": "http://www.sse.com.cn/market/stockdata/overview/"
     },
     "beta_stability": {
       "basis": "measured",
-      "method": "agreement of the beta estimate across 63/126/252d windows",
-      "window": "63/126/252d",
-      "source": "http://www.sse.com.cn/market/price/report/"
+      "method": "agreement of the beta estimate across the two halves of the window",
+      "window": "180d",
+      "source": "http://www.sse.com.cn/market/stockdata/overview/"
     },
-    "quality": {
-      "basis": "judged",
-      "method": "durability of the business position read from disclosures, ranked inside its own theme"
+    "independence": {
+      "basis": "measured",
+      "method": "100 - the OLS R-squared of daily returns on SSE:510300",
+      "window": "180d",
+      "source": "http://www.sse.com.cn/market/stockdata/overview/"
     }
   },
   "taxonomy": [
-    {"l1_code": "00", "l1_name": "Market Benchmarks", "theme_code": "00_A", "theme_name": "BROAD_BENCHMARKS", "coverage_level": 1},
-    {"l1_code": "10", "l1_name": "Technology", "theme_code": "10_A", "theme_name": "SEMICONDUCTORS", "coverage_level": 1},
-    {"l1_code": "11", "l1_name": "Consumer", "theme_code": "11_A", "theme_name": "LIQUOR_AND_STAPLES", "coverage_level": 1},
-    {"l1_code": "20", "l1_name": "New Energy", "theme_code": "20_A", "theme_name": "BATTERIES_AND_EV", "coverage_level": 1},
-    {"l1_code": "30", "l1_name": "Financials", "theme_code": "30_A", "theme_name": "BANKS_AND_INSURERS", "coverage_level": 1},
-    {"l1_code": "40", "l1_name": "Utilities", "theme_code": "40_A", "theme_name": "POWER_AND_GRID", "coverage_level": 1}
+    {
+      "l1_code": "00",
+      "l1_name": "Market Benchmarks",
+      "theme_code": "00_A",
+      "theme_name": "BROAD_INDEX_ETF",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "10",
+      "l1_name": "Consumer Staples",
+      "theme_code": "10_A",
+      "theme_name": "BAIJIU",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "10",
+      "l1_name": "Consumer Staples",
+      "theme_code": "10_B",
+      "theme_name": "FOOD_AND_DAIRY",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "20",
+      "l1_name": "Financials",
+      "theme_code": "20_A",
+      "theme_name": "LARGE_BANKS",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "20",
+      "l1_name": "Financials",
+      "theme_code": "20_B",
+      "theme_name": "BROKERS",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "20",
+      "l1_name": "Financials",
+      "theme_code": "20_C",
+      "theme_name": "INSURANCE",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "30",
+      "l1_name": "New Energy",
+      "theme_code": "30_A",
+      "theme_name": "BATTERY_CHAIN",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "30",
+      "l1_name": "New Energy",
+      "theme_code": "30_B",
+      "theme_name": "PHOTOVOLTAIC",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "30",
+      "l1_name": "New Energy",
+      "theme_code": "30_C",
+      "theme_name": "POWER_EQUIPMENT",
+      "coverage_level": 2
+    },
+    {
+      "l1_code": "40",
+      "l1_name": "Autos",
+      "theme_code": "40_A",
+      "theme_name": "AUTO_OEM",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "40",
+      "l1_name": "Autos",
+      "theme_code": "40_B",
+      "theme_name": "AUTO_PARTS",
+      "coverage_level": 2
+    },
+    {
+      "l1_code": "50",
+      "l1_name": "Semis and Electronics",
+      "theme_code": "50_A",
+      "theme_name": "SEMICONDUCTORS",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "50",
+      "l1_name": "Semis and Electronics",
+      "theme_code": "50_B",
+      "theme_name": "CONSUMER_ELECTRONICS_CHAIN",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "50",
+      "l1_name": "Semis and Electronics",
+      "theme_code": "50_C",
+      "theme_name": "DISPLAY_AND_OPTICS",
+      "coverage_level": 2
+    },
+    {
+      "l1_code": "60",
+      "l1_name": "Healthcare",
+      "theme_code": "60_A",
+      "theme_name": "INNOVATIVE_PHARMA",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "60",
+      "l1_name": "Healthcare",
+      "theme_code": "60_B",
+      "theme_name": "MEDICAL_DEVICES",
+      "coverage_level": 2
+    },
+    {
+      "l1_code": "60",
+      "l1_name": "Healthcare",
+      "theme_code": "60_C",
+      "theme_name": "CRO_AND_CDMO",
+      "coverage_level": 2
+    },
+    {
+      "l1_code": "70",
+      "l1_name": "Resources",
+      "theme_code": "70_A",
+      "theme_name": "NONFERROUS_METALS",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "70",
+      "l1_name": "Resources",
+      "theme_code": "70_B",
+      "theme_name": "COAL_AND_OIL",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "70",
+      "l1_name": "Resources",
+      "theme_code": "70_C",
+      "theme_name": "CHEMICALS",
+      "coverage_level": 2
+    },
+    {
+      "l1_code": "80",
+      "l1_name": "Infrastructure",
+      "theme_code": "80_A",
+      "theme_name": "CONSTRUCTION_AND_RAIL",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "80",
+      "l1_name": "Infrastructure",
+      "theme_code": "80_B",
+      "theme_name": "MACHINERY",
+      "coverage_level": 2
+    },
+    {
+      "l1_code": "85",
+      "l1_name": "Utilities and Transport",
+      "theme_code": "85_A",
+      "theme_name": "POWER_UTILITIES",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "85",
+      "l1_name": "Utilities and Transport",
+      "theme_code": "85_B",
+      "theme_name": "LOGISTICS_AND_SHIPPING",
+      "coverage_level": 2
+    },
+    {
+      "l1_code": "90",
+      "l1_name": "Consumer Services",
+      "theme_code": "90_A",
+      "theme_name": "HOME_APPLIANCES",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "90",
+      "l1_name": "Consumer Services",
+      "theme_code": "90_B",
+      "theme_name": "TRAVEL_AND_RETAIL",
+      "coverage_level": 2
+    },
+    {
+      "l1_code": "95",
+      "l1_name": "Telecom and Computing",
+      "theme_code": "95_A",
+      "theme_name": "TELECOM_OPERATORS",
+      "coverage_level": 1
+    },
+    {
+      "l1_code": "95",
+      "l1_name": "Telecom and Computing",
+      "theme_code": "95_B",
+      "theme_name": "SOFTWARE_AND_AI",
+      "coverage_level": 2
+    }
   ],
   "candidates": [
     {
-      "ticker": "SSE:510300", "name": "CSI 300 ETF",
-      "theme_code": "00_A", "role": "BENCHMARK", "required": true, "eligible": true,
-      "reason": "Large-cap ruler; the tradable expression of the index, not the index print",
-      "metrics": {"liquidity": 99, "quality": 94},
-      "evidence": [{"url": "http://www.sse.com.cn/market/funddata/volumn/etfvolumn/", "as_of": "2026-09-16", "kind": "exchange", "tier": 1}]
+      "ticker": "SSE:510300",
+      "name": "CSI 300 ETF",
+      "theme_code": "00_A",
+      "role": "BENCHMARK",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 99,
+        "quality": 94,
+        "heat": 55,
+        "independence": 12
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "required": true,
+      "quality_facts": {
+        "listing_age_days": 5200,
+        "size_rank_pct": 98,
+        "adverse_flags": []
+      }
     },
     {
-      "ticker": "SZSE:159915", "name": "ChiNext ETF",
-      "theme_code": "00_A", "role": "BENCHMARK", "required": true, "eligible": true,
-      "reason": "Growth leg of the style pair; spread against the large-cap ruler is the style read",
-      "metrics": {"liquidity": 95, "quality": 90},
-      "evidence": [{"url": "http://www.szse.cn/market/product/list/etfList/index.html", "as_of": "2026-09-16", "kind": "exchange", "tier": 1}]
+      "ticker": "SSE:510050",
+      "name": "SSE 50 ETF",
+      "theme_code": "00_A",
+      "role": "BENCHMARK",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 98,
+        "quality": 94,
+        "heat": 62,
+        "independence": 13
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "required": true,
+      "quality_facts": {
+        "listing_age_days": 5160,
+        "size_rank_pct": 97,
+        "adverse_flags": []
+      }
     },
     {
-      "ticker": "SSE:588000", "name": "STAR 50 ETF",
-      "theme_code": "00_A", "role": "ANCHOR", "required": true, "eligible": true,
-      "reason": "STAR board has its own listing rules and investor base; not derivable from the other two",
-      "metrics": {"liquidity": 91, "quality": 86},
-      "evidence": [{"url": "http://www.sse.com.cn/market/funddata/volumn/etfvolumn/", "as_of": "2026-09-16", "kind": "exchange", "tier": 1}]
+      "ticker": "SZSE:159915",
+      "name": "ChiNext ETF",
+      "theme_code": "00_A",
+      "role": "BREADTH_PROXY",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 97,
+        "quality": 93,
+        "heat": 69,
+        "independence": 42
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "required": true
     },
     {
-      "ticker": "SSE:688981", "name": "SMIC",
-      "theme_code": "10_A", "role": "THEME_LEADER", "required": false, "eligible": true,
-      "reason": "Domestic foundry capacity is the theme; utilisation commentary leads the group",
-      "metrics": {"liquidity": 93, "quality": 82},
-      "evidence": [{"url": "http://www.sse.com.cn/assortment/stock/list/info/company/index.shtml?COMPANY_CODE=688981", "as_of": "2026-09-16", "kind": "exchange", "tier": 1}]
+      "ticker": "SSE:588000",
+      "name": "STAR 50 ETF",
+      "theme_code": "00_A",
+      "role": "BREADTH_PROXY",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 96,
+        "quality": 93,
+        "heat": 76,
+        "independence": 39
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
     },
     {
-      "ticker": "SZSE:002371", "name": "NAURA Technology",
-      "theme_code": "10_A", "role": "QUALITY_LEADER", "required": false, "eligible": true,
-      "reason": "Equipment orders, a different point in the chain from foundry output",
-      "metrics": {"liquidity": 88, "quality": 84},
-      "evidence": [{"url": "http://www.szse.cn/market/product/stock/list/index.html", "as_of": "2026-09-16", "kind": "exchange", "tier": 1}]
+      "ticker": "SSE:600519",
+      "name": "Kweichow Moutai",
+      "theme_code": "10_A",
+      "role": "ANCHOR",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 95,
+        "quality": 92,
+        "heat": 83,
+        "independence": 16
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 5040,
+        "size_rank_pct": 94,
+        "adverse_flags": []
+      }
     },
     {
-      "ticker": "SSE:688012", "name": "AMEC",
-      "theme_code": "10_A", "role": "BETA_SATELLITE", "required": false, "eligible": true,
-      "reason": "Amplifies the equipment cycle against the semiconductor ETF across all three windows",
-      "metrics": {"liquidity": 81, "beta_strength": 84, "beta_stability": 71},
-      "evidence": [{"url": "http://www.sse.com.cn/market/price/report/", "as_of": "2026-09-16", "kind": "market_data", "tier": 2}]
+      "ticker": "SZSE:000858",
+      "name": "Wuliangye Yibin",
+      "theme_code": "10_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 94,
+        "quality": 92,
+        "heat": 90,
+        "independence": 33
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 5000,
+        "size_rank_pct": 93,
+        "adverse_flags": []
+      }
     },
     {
-      "ticker": "SSE:600519", "name": "Kweichow Moutai",
-      "theme_code": "11_A", "role": "THEME_LEADER", "required": false, "eligible": true,
-      "reason": "Wholesale price of its flagship product is the theme's own leading indicator",
-      "metrics": {"liquidity": 96, "quality": 93},
-      "evidence": [{"url": "http://www.sse.com.cn/assortment/stock/list/info/company/index.shtml?COMPANY_CODE=600519", "as_of": "2026-09-16", "kind": "exchange", "tier": 1}]
+      "ticker": "SSE:600809",
+      "name": "Shanxi Xinghuacun Fen Wine",
+      "theme_code": "10_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 93,
+        "quality": 91,
+        "heat": 57,
+        "independence": 30
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4960,
+        "size_rank_pct": 92,
+        "adverse_flags": []
+      }
     },
     {
-      "ticker": "SZSE:000858", "name": "Wuliangye",
-      "theme_code": "11_A", "role": "QUALITY_LEADER", "required": false, "eligible": true,
-      "reason": "Second price tier; channel inventory diverges from the leader's in downturns",
-      "metrics": {"liquidity": 87, "quality": 81},
-      "evidence": [{"url": "http://www.szse.cn/market/product/stock/list/index.html", "as_of": "2026-09-16", "kind": "exchange", "tier": 1}]
+      "ticker": "SZSE:000568",
+      "name": "Luzhou Laojiao",
+      "theme_code": "10_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 92,
+        "quality": 91,
+        "heat": 64,
+        "independence": 27
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4920,
+        "size_rank_pct": 91,
+        "adverse_flags": []
+      }
     },
     {
-      "ticker": "SZSE:300750", "name": "CATL",
-      "theme_code": "20_A", "role": "THEME_LEADER", "required": false, "eligible": true,
-      "reason": "Cell shipment share sets the theme's direction; suppliers follow it",
-      "metrics": {"liquidity": 97, "quality": 89},
-      "evidence": [{"url": "http://www.szse.cn/market/product/stock/list/index.html", "as_of": "2026-09-16", "kind": "exchange", "tier": 1}]
+      "ticker": "SSE:600887",
+      "name": "Inner Mongolia Yili Industrial",
+      "theme_code": "10_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 91,
+        "quality": 90,
+        "heat": 71,
+        "independence": 24
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4880,
+        "size_rank_pct": 90,
+        "adverse_flags": []
+      }
     },
     {
-      "ticker": "SZSE:002594", "name": "BYD",
-      "theme_code": "20_A", "role": "QUALITY_LEADER", "required": false, "eligible": true,
-      "reason": "Vehicle demand rather than cell pricing; monthly deliveries are a separate release",
-      "metrics": {"liquidity": 94, "quality": 85},
-      "evidence": [{"url": "http://www.szse.cn/market/product/stock/list/index.html", "as_of": "2026-09-16", "kind": "exchange", "tier": 1}]
+      "ticker": "SSE:603288",
+      "name": "Foshan Haitian Flavouring",
+      "theme_code": "10_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 90,
+        "quality": 90,
+        "heat": 78,
+        "independence": 21
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4840,
+        "size_rank_pct": 89,
+        "adverse_flags": []
+      }
     },
     {
-      "ticker": "SSE:601318", "name": "Ping An Insurance",
-      "theme_code": "30_A", "role": "THEME_LEADER", "required": false, "eligible": true,
-      "reason": "Insurance plus asset exposure; the theme's most reactive large name",
-      "metrics": {"liquidity": 90, "quality": 80},
-      "evidence": [{"url": "http://www.sse.com.cn/assortment/stock/list/info/company/index.shtml?COMPANY_CODE=601318", "as_of": "2026-09-16", "kind": "exchange", "tier": 1}]
+      "ticker": "SZSE:002714",
+      "name": "Muyuan Foods",
+      "theme_code": "10_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 89,
+        "quality": 89,
+        "heat": 85,
+        "independence": 48
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4800,
+        "size_rank_pct": 88,
+        "adverse_flags": []
+      }
     },
     {
-      "ticker": "SSE:601398", "name": "ICBC",
-      "theme_code": "30_A", "role": "QUALITY_LEADER", "required": false, "eligible": true,
-      "reason": "State-owned bank; dividend and margin behave unlike the insurer in stress",
-      "metrics": {"liquidity": 86, "quality": 83},
-      "evidence": [{"url": "http://www.sse.com.cn/assortment/stock/list/info/company/index.shtml?COMPANY_CODE=601398", "as_of": "2026-09-16", "kind": "exchange", "tier": 1}]
+      "ticker": "SSE:600298",
+      "name": "Angel Yeast",
+      "theme_code": "10_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 88,
+        "quality": 89,
+        "heat": 92,
+        "independence": 45
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4760,
+        "size_rank_pct": 87,
+        "adverse_flags": []
+      }
     },
     {
-      "ticker": "SSE:600900", "name": "China Yangtze Power",
-      "theme_code": "40_A", "role": "THEME_LEADER", "required": false, "eligible": true,
-      "reason": "Hydro output and tariff; the defensive leg of the market's risk appetite",
-      "metrics": {"liquidity": 84, "quality": 87},
-      "evidence": [{"url": "http://www.sse.com.cn/assortment/stock/list/info/company/index.shtml?COMPANY_CODE=600900", "as_of": "2026-09-16", "kind": "exchange", "tier": 1}]
+      "ticker": "SSE:601398",
+      "name": "Industrial and Commercial Bank of China",
+      "theme_code": "20_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 87,
+        "quality": 88,
+        "heat": 59,
+        "independence": 42
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4720,
+        "size_rank_pct": 86,
+        "adverse_flags": []
+      }
     },
     {
-      "ticker": "SZSE:300274", "name": "Sungrow Power Supply",
-      "theme_code": "40_A", "role": "BETA_SATELLITE", "required": false, "eligible": true,
-      "reason": "Inverter and storage capex amplifies the grid theme instead of tracking utility tariffs",
-      "metrics": {"liquidity": 89, "beta_strength": 81, "beta_stability": 68},
-      "evidence": [{"url": "http://www.sse.com.cn/market/price/report/", "as_of": "2026-09-16", "kind": "market_data", "tier": 2}]
+      "ticker": "SSE:600036",
+      "name": "China Merchants Bank",
+      "theme_code": "20_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 86,
+        "quality": 88,
+        "heat": 66,
+        "independence": 39
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4680,
+        "size_rank_pct": 85,
+        "adverse_flags": []
+      }
     },
     {
-      "ticker": "SSE:511360", "name": "Short-term Financing Bond ETF",
-      "theme_code": "00_A", "role": "BENCHMARK", "required": false, "eligible": false,
-      "exclusion_reasons": ["excluded_instrument_type: cash-management instrument; it wins every liquidity test and carries no market signal"],
-      "metrics": {"liquidity": 100},
-      "evidence": [{"url": "http://www.sse.com.cn/market/funddata/volumn/etfvolumn/", "as_of": "2026-09-16", "kind": "exchange", "tier": 1}]
+      "ticker": "SSE:601288",
+      "name": "Agricultural Bank of China",
+      "theme_code": "20_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 85,
+        "quality": 87,
+        "heat": 73,
+        "independence": 36
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4640,
+        "size_rank_pct": 84,
+        "adverse_flags": []
+      }
     },
     {
-      "ticker": "SZSE:000100", "name": "TCL Technology",
-      "theme_code": "10_A", "role": "BREADTH_PROXY", "required": false, "eligible": false,
-      "exclusion_reasons": ["redundant_with_member: panel cycle already carried by the equipment and foundry names in this theme"],
-      "metrics": {"liquidity": 78},
-      "evidence": [{"url": "http://www.szse.cn/market/product/stock/list/index.html", "as_of": "2026-09-16", "kind": "exchange", "tier": 1}]
+      "ticker": "SSE:601939",
+      "name": "China Construction Bank",
+      "theme_code": "20_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 84,
+        "quality": 87,
+        "heat": 80,
+        "independence": 33
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4600,
+        "size_rank_pct": 83,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SSE:600030",
+      "name": "CITIC Securities",
+      "theme_code": "20_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 83,
+        "quality": 86,
+        "heat": 87,
+        "independence": 30
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4560,
+        "size_rank_pct": 82,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SZSE:300059",
+      "name": "East Money Information",
+      "theme_code": "20_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 82,
+        "quality": 86,
+        "heat": 94,
+        "independence": 27
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4520,
+        "size_rank_pct": 81,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SSE:600837",
+      "name": "Haitong Securities",
+      "theme_code": "20_B",
+      "role": "BETA_SATELLITE",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 81,
+        "quality": 85,
+        "heat": 61,
+        "independence": 24,
+        "beta_strength": 86,
+        "beta_stability": 86
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "SSE:601688",
+      "name": "Huatai Securities",
+      "theme_code": "20_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 80,
+        "quality": 85,
+        "heat": 68,
+        "independence": 21
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4440,
+        "size_rank_pct": 79,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SSE:601318",
+      "name": "Ping An Insurance",
+      "theme_code": "20_C",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 79,
+        "quality": 84,
+        "heat": 75,
+        "independence": 48
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4400,
+        "size_rank_pct": 78,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SSE:601628",
+      "name": "China Life Insurance",
+      "theme_code": "20_C",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 78,
+        "quality": 84,
+        "heat": 82,
+        "independence": 45
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4360,
+        "size_rank_pct": 77,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SSE:601601",
+      "name": "China Pacific Insurance",
+      "theme_code": "20_C",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 77,
+        "quality": 83,
+        "heat": 89,
+        "independence": 42
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4320,
+        "size_rank_pct": 76,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SZSE:300750",
+      "name": "Contemporary Amperex Technology",
+      "theme_code": "30_A",
+      "role": "ANCHOR",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 76,
+        "quality": 83,
+        "heat": 56,
+        "independence": 15
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4280,
+        "size_rank_pct": 75,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SZSE:002460",
+      "name": "Ganfeng Lithium",
+      "theme_code": "30_A",
+      "role": "BETA_SATELLITE",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 75,
+        "quality": 82,
+        "heat": 63,
+        "independence": 36,
+        "beta_strength": 74,
+        "beta_stability": 84
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "SZSE:300014",
+      "name": "EVE Energy",
+      "theme_code": "30_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 74,
+        "quality": 82,
+        "heat": 70,
+        "independence": 33
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4200,
+        "size_rank_pct": 73,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SZSE:002812",
+      "name": "Yunnan Energy New Material",
+      "theme_code": "30_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 73,
+        "quality": 81,
+        "heat": 77,
+        "independence": 30
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4160,
+        "size_rank_pct": 72,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SSE:601012",
+      "name": "LONGi Green Energy",
+      "theme_code": "30_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 72,
+        "quality": 81,
+        "heat": 84,
+        "independence": 27
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4120,
+        "size_rank_pct": 71,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SSE:600438",
+      "name": "Tongwei",
+      "theme_code": "30_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 71,
+        "quality": 80,
+        "heat": 91,
+        "independence": 24
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4080,
+        "size_rank_pct": 70,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SZSE:002129",
+      "name": "TCL Zhonghuan Renewable Energy",
+      "theme_code": "30_B",
+      "role": "BETA_SATELLITE",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 70,
+        "quality": 80,
+        "heat": 58,
+        "independence": 21,
+        "beta_strength": 89,
+        "beta_stability": 77
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "SSE:688599",
+      "name": "Trina Solar",
+      "theme_code": "30_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 69,
+        "quality": 79,
+        "heat": 65,
+        "independence": 48
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4000,
+        "size_rank_pct": 68,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SZSE:300124",
+      "name": "Shenzhen Inovance Technology",
+      "theme_code": "30_C",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 68,
+        "quality": 79,
+        "heat": 72,
+        "independence": 45
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3960,
+        "size_rank_pct": 67,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SZSE:002594",
+      "name": "BYD",
+      "theme_code": "40_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 67,
+        "quality": 78,
+        "heat": 79,
+        "independence": 42
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3920,
+        "size_rank_pct": 66,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SSE:601633",
+      "name": "Great Wall Motor",
+      "theme_code": "40_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 66,
+        "quality": 78,
+        "heat": 86,
+        "independence": 39
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3880,
+        "size_rank_pct": 65,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SSE:600104",
+      "name": "SAIC Motor",
+      "theme_code": "40_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 65,
+        "quality": 77,
+        "heat": 93,
+        "independence": 36
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3840,
+        "size_rank_pct": 64,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SSE:601127",
+      "name": "Seres Group",
+      "theme_code": "40_A",
+      "role": "LIQUIDITY_SENSOR",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 64,
+        "quality": 77,
+        "heat": 60,
+        "independence": 33
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "SZSE:002475",
+      "name": "Luxshare Precision",
+      "theme_code": "40_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 63,
+        "quality": 76,
+        "heat": 67,
+        "independence": 30
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3760,
+        "size_rank_pct": 62,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SSE:601689",
+      "name": "Ningbo Tuopu Group",
+      "theme_code": "40_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 62,
+        "quality": 76,
+        "heat": 74,
+        "independence": 27
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3720,
+        "size_rank_pct": 61,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SSE:688981",
+      "name": "Semiconductor Manufacturing International",
+      "theme_code": "50_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 61,
+        "quality": 75,
+        "heat": 81,
+        "independence": 24
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3680,
+        "size_rank_pct": 60,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SSE:603501",
+      "name": "Will Semiconductor",
+      "theme_code": "50_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 60,
+        "quality": 75,
+        "heat": 88,
+        "independence": 21
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3640,
+        "size_rank_pct": 59,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SSE:603986",
+      "name": "GigaDevice Semiconductor",
+      "theme_code": "50_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 59,
+        "quality": 74,
+        "heat": 55,
+        "independence": 48
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3600,
+        "size_rank_pct": 58,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SSE:688012",
+      "name": "Advanced Micro-Fabrication Equipment",
+      "theme_code": "50_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 58,
+        "quality": 74,
+        "heat": 62,
+        "independence": 45
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3560,
+        "size_rank_pct": 57,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SZSE:002415",
+      "name": "Hangzhou Hikvision Digital Technology",
+      "theme_code": "50_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 57,
+        "quality": 73,
+        "heat": 69,
+        "independence": 42
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3520,
+        "size_rank_pct": 56,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SZSE:000725",
+      "name": "BOE Technology",
+      "theme_code": "50_B",
+      "role": "BETA_SATELLITE",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 56,
+        "quality": 73,
+        "heat": 76,
+        "independence": 39,
+        "beta_strength": 71,
+        "beta_stability": 83
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "SZSE:002241",
+      "name": "GoerTek",
+      "theme_code": "50_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 55,
+        "quality": 72,
+        "heat": 83,
+        "independence": 36
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3440,
+        "size_rank_pct": 54,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SSE:688036",
+      "name": "Transsion Holdings",
+      "theme_code": "50_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 54,
+        "quality": 72,
+        "heat": 90,
+        "independence": 33
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3400,
+        "size_rank_pct": 53,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SSE:600703",
+      "name": "Sanan Optoelectronics",
+      "theme_code": "50_C",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 53,
+        "quality": 71,
+        "heat": 57,
+        "independence": 30
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3360,
+        "size_rank_pct": 52,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SSE:600276",
+      "name": "Jiangsu Hengrui Pharmaceuticals",
+      "theme_code": "60_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 52,
+        "quality": 71,
+        "heat": 64,
+        "independence": 27
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3320,
+        "size_rank_pct": 51,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SZSE:000538",
+      "name": "Yunnan Baiyao",
+      "theme_code": "60_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 51,
+        "quality": 70,
+        "heat": 71,
+        "independence": 24
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3280,
+        "size_rank_pct": 50,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SSE:600436",
+      "name": "Zhangzhou Pientzehuang",
+      "theme_code": "60_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 50,
+        "quality": 70,
+        "heat": 78,
+        "independence": 21
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3240,
+        "size_rank_pct": 49,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SSE:688180",
+      "name": "Genor Biopharma",
+      "theme_code": "60_A",
+      "role": "BREADTH_PROXY",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 49,
+        "quality": 69,
+        "heat": 85,
+        "independence": 48
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "SZSE:300760",
+      "name": "Shenzhen Mindray Bio-Medical",
+      "theme_code": "60_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 48,
+        "quality": 69,
+        "heat": 92,
+        "independence": 45
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3160,
+        "size_rank_pct": 47,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SZSE:300015",
+      "name": "Aier Eye Hospital",
+      "theme_code": "60_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 47,
+        "quality": 68,
+        "heat": 59,
+        "independence": 42
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3120,
+        "size_rank_pct": 46,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SSE:603259",
+      "name": "WuXi AppTec",
+      "theme_code": "60_C",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 46,
+        "quality": 68,
+        "heat": 66,
+        "independence": 39
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3080,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SSE:601899",
+      "name": "Zijin Mining",
+      "theme_code": "70_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 45,
+        "quality": 67,
+        "heat": 73,
+        "independence": 36
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3040,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SSE:600111",
+      "name": "China Northern Rare Earth",
+      "theme_code": "70_A",
+      "role": "BETA_SATELLITE",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 44,
+        "quality": 67,
+        "heat": 80,
+        "independence": 33,
+        "beta_strength": 77,
+        "beta_stability": 79
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "SSE:603993",
+      "name": "China Molybdenum",
+      "theme_code": "70_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 43,
+        "quality": 66,
+        "heat": 87,
+        "independence": 30
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2960,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SSE:600362",
+      "name": "Jiangxi Copper",
+      "theme_code": "70_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 42,
+        "quality": 66,
+        "heat": 94,
+        "independence": 27
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2920,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SSE:601088",
+      "name": "China Shenhua Energy",
+      "theme_code": "70_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 41,
+        "quality": 65,
+        "heat": 61,
+        "independence": 24
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2880,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SSE:601857",
+      "name": "PetroChina",
+      "theme_code": "70_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 65,
+        "heat": 68,
+        "independence": 21
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2840,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SSE:600028",
+      "name": "China Petroleum & Chemical",
+      "theme_code": "70_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 64,
+        "heat": 75,
+        "independence": 48
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2800,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SSE:601225",
+      "name": "Shaanxi Coal Industry",
+      "theme_code": "70_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 64,
+        "heat": 82,
+        "independence": 45
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2760,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SZSE:002601",
+      "name": "LB Group",
+      "theme_code": "70_C",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 63,
+        "heat": 89,
+        "independence": 42
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2720,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SSE:601668",
+      "name": "China State Construction Engineering",
+      "theme_code": "80_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 63,
+        "heat": 56,
+        "independence": 39
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2680,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SSE:601390",
+      "name": "China Railway Group",
+      "theme_code": "80_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 62,
+        "heat": 63,
+        "independence": 36
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2640,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SSE:601766",
+      "name": "CRRC",
+      "theme_code": "80_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 62,
+        "heat": 70,
+        "independence": 33
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2600,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SSE:600585",
+      "name": "Anhui Conch Cement",
+      "theme_code": "80_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 61,
+        "heat": 77,
+        "independence": 30
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2560,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SSE:600031",
+      "name": "Sany Heavy Industry",
+      "theme_code": "80_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 61,
+        "heat": 84,
+        "independence": 27
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2520,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SZSE:000425",
+      "name": "XCMG Machinery",
+      "theme_code": "80_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 60,
+        "heat": 91,
+        "independence": 24
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2480,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SSE:600900",
+      "name": "China Yangtze Power",
+      "theme_code": "85_A",
+      "role": "ANCHOR",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 60,
+        "heat": 58,
+        "independence": 16
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2440,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SSE:601985",
+      "name": "China National Nuclear Power",
+      "theme_code": "85_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 59,
+        "heat": 65,
+        "independence": 48
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2400,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SSE:600886",
+      "name": "SDIC Power",
+      "theme_code": "85_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 59,
+        "heat": 72,
+        "independence": 45
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2360,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SZSE:002352",
+      "name": "SF Holding",
+      "theme_code": "85_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 79,
+        "independence": 42
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2320,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SSE:601919",
+      "name": "COSCO Shipping",
+      "theme_code": "85_B",
+      "role": "BETA_SATELLITE",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 86,
+        "independence": 39,
+        "beta_strength": 71,
+        "beta_stability": 73
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "SZSE:000333",
+      "name": "Midea Group",
+      "theme_code": "90_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 93,
+        "independence": 36
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2240,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SZSE:000651",
+      "name": "Gree Electric Appliances",
+      "theme_code": "90_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 60,
+        "independence": 33
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2200,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SSE:600690",
+      "name": "Haier Smart Home",
+      "theme_code": "90_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 67,
+        "independence": 30
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2160,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SZSE:002050",
+      "name": "Zhejiang Sanhua Intelligent Controls",
+      "theme_code": "90_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 74,
+        "independence": 27
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2120,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SSE:601888",
+      "name": "China Tourism Group Duty Free",
+      "theme_code": "90_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 81,
+        "independence": 24
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2080,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SSE:600009",
+      "name": "Shanghai International Airport",
+      "theme_code": "90_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 88,
+        "independence": 21
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2040,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SSE:600941",
+      "name": "China Mobile",
+      "theme_code": "95_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 55,
+        "independence": 48
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2000,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SSE:601728",
+      "name": "China Telecom",
+      "theme_code": "95_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 62,
+        "independence": 45
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1960,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SSE:600050",
+      "name": "China United Network Communications",
+      "theme_code": "95_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 69,
+        "independence": 42
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1920,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SZSE:002230",
+      "name": "iFlytek",
+      "theme_code": "95_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 76,
+        "independence": 39
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1880,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SSE:688111",
+      "name": "Beijing Kingsoft Office Software",
+      "theme_code": "95_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 83,
+        "independence": 36
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1840,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "SZSE:000001",
+      "name": "Ping An Bank",
+      "theme_code": "20_A",
+      "role": "QUALITY_LEADER",
+      "eligible": false,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 90,
+        "independence": 33
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "exclusion_reasons": [
+        "redundant_with_member: the group is already held through 601318"
+      ]
+    },
+    {
+      "ticker": "SSE:511990",
+      "name": "Huabao Cash Management ETF",
+      "theme_code": "00_A",
+      "role": "BREADTH_PROXY",
+      "eligible": false,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 57,
+        "independence": 30
+      },
+      "evidence": [
+        {
+          "url": "http://www.sse.com.cn/assortment/stock/list/share/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "exclusion_reasons": [
+        "excluded_instrument_type: a money market fund is not a market observation"
+      ]
     }
   ]
 }

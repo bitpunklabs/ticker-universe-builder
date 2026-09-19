@@ -22,6 +22,7 @@ from universe_core import (  # noqa: E402
     read_json,
     render_markdown,
     render_txt,
+    starter_taxonomy,
     validate_ticker,
     validate_universe,
     watchlist_to_snapshot,
@@ -550,10 +551,10 @@ class AuditTests(unittest.TestCase):
             read_json(ROOT / "examples" / "us-light" / "snapshot.json"),
             load_policy(),
         )
-        self.assertEqual(
-            report["stats"]["rejections"],
-            {"duplicate_asset": 1, "redundant_with_member": 1},
-        )
+        rejections = report["stats"]["rejections"]
+        self.assertEqual(rejections["duplicate_asset"], 1)
+        self.assertEqual(rejections["redundant_with_member"], 1)
+        self.assertEqual(sum(rejections.values()), len(universe["selection_audit"]))
         self.assertIn("redundant_with_member | 1", render_markdown(universe, report))
 
 
@@ -623,6 +624,34 @@ class ImportTests(unittest.TestCase):
 class ExampleTests(unittest.TestCase):
     """The shipped examples are the first thing anyone runs; a rotted one is a broken skill."""
 
+    def test_the_committed_examples_match_their_seeds(self) -> None:
+        # The seed tables are the source of truth. If regenerating changes a committed file,
+        # someone edited the output instead of the input.
+        sys.path.insert(0, str(ROOT / "examples"))
+        import build_examples
+
+        before = {
+            path: path.read_text(encoding="utf-8")
+            for market in ("cn", "us", "crypto")
+            for path in (ROOT / "examples" / f"{market}-light").glob("*.json")
+            if path.name != "changes.json"
+        }
+        build_examples.main()
+        for path, text in before.items():
+            self.assertEqual(path.read_text(encoding="utf-8"), text, path.name)
+
+    def test_examples_draw_their_themes_from_the_starter_taxonomy(self) -> None:
+        for market in ("cn", "us", "crypto"):
+            with self.subTest(market=market):
+                published = {item["theme_code"] for item in starter_taxonomy(market)}
+                used = {
+                    item["theme_code"]
+                    for item in read_json(
+                        ROOT / "examples" / f"{market}-light" / "snapshot.json"
+                    )["candidates"]
+                }
+                self.assertLessEqual(used, published)
+
     def test_every_example_builds_and_passes(self) -> None:
         for market in ("cn", "us", "crypto"):
             folder = ROOT / "examples" / f"{market}-light"
@@ -646,7 +675,9 @@ class ExampleTests(unittest.TestCase):
         self.assertEqual(changes["base_version_hash"], universe["version_hash"])
         updated, report = apply_change_set(universe, changes, load_policy())
         self.assertTrue(report["passed"], report["errors"])
-        self.assertEqual(report["maintenance"]["added"], ["BINANCE:ETHFIUSDT.P"])
+        self.assertEqual(report["maintenance"]["added"], ["BINANCE:TRXUSDT.P"])
+        self.assertEqual(report["maintenance"]["removed"], ["BINANCE:GMXUSDT.P"])
+        self.assertEqual(report["warnings"], [])
 
 
 if __name__ == "__main__":

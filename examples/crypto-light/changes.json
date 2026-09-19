@@ -1,43 +1,48 @@
 {
   "schema_version": 1,
   "market": "crypto",
-  "as_of": "2026-09-16",
+  "as_of": "2026-10-15",
   "complete": true,
-  "base_version_hash": "97b6d17308d2",
-  "review_depth": "deep",
-  "summary": "Restaking has its own liquid leader and is no longer readable through the L1 names",
+  "base_version_hash": "1b6b96c0a7f0",
+  "review_depth": "routine",
+  "summary": "Monthly liveness and turnover refresh; one satellite retired, one payment asset added, nothing else moved",
   "sources": [
-    {"url": "https://api.binance.com/api/v3/exchangeInfo", "as_of": "2026-09-16", "kind": "exchange", "tier": 1}
+    {"url": "https://api.binance.com/api/v3/exchangeInfo", "as_of": "2026-10-15", "kind": "exchange", "tier": 1},
+    {"url": "https://data.binance.vision/", "as_of": "2026-10-15", "kind": "market_data", "tier": 2}
   ],
   "deferred": [
-    {
-      "ticker": "BINANCE:TIAUSDT.P",
-      "deferred_because": "Qualifies on liquidity but the turnover budget was spent on the restaking seat"
-    }
+    {"ticker": "BINANCE:TONUSDT.P", "deferred_because": "20_B reaches its theme cap with TRX; revisit if a payment asset drops out"}
   ],
   "ops": [
     {
-      "op": "ADD_THEME",
-      "l1_code": "13", "l1_name": "Staking",
-      "theme_code": "13_A", "theme_name": "RESTAKING",
-      "coverage_level": 1,
-      "reason": "Restaking yield is now a driver of its own; the L1 names no longer carry it",
-      "evidence": [{"url": "https://api.binance.com/api/v3/exchangeInfo", "as_of": "2026-09-16", "kind": "listing", "tier": 1}]
+      "op": "REMOVE",
+      "ticker": "BINANCE:GMXUSDT.P",
+      "reason": "Perpetual volume in the theme has consolidated elsewhere for two review cycles, so it no longer reads the breadth of 12_A",
+      "evidence": [
+        {"url": "https://data.binance.vision/", "as_of": "2026-10-15", "kind": "market_data", "tier": 2}
+      ]
     },
     {
       "op": "ADD",
+      "reason": "Carries the largest settled payment volume of any unheld asset in the theme",
+      "evidence": [
+        {"url": "https://api.binance.com/api/v3/exchangeInfo", "as_of": "2026-10-15", "kind": "listing", "tier": 1},
+        {"url": "https://data.binance.vision/", "as_of": "2026-10-15", "kind": "market_data", "tier": 2}
+      ],
       "candidate": {
-        "ticker": "BINANCE:ETHFIUSDT.P", "asset_id": "ETHFI", "name": "ether.fi Perpetual",
-        "theme_code": "13_A", "role": "THEME_LEADER", "required": false, "eligible": true,
-        "metrics": {"liquidity": 58, "quality": 55, "factor_r2": 69}
-      },
-      "reason": "Most traded restaking token with continuous sessions since listing",
-      "evidence": [{"url": "https://api.binance.com/api/v3/exchangeInfo", "as_of": "2026-09-16", "kind": "listing", "tier": 1}]
+        "ticker": "BINANCE:TRXUSDT.P",
+        "name": "TRON",
+        "theme_code": "20_B",
+        "role": "QUALITY_LEADER",
+        "eligible": true,
+        "metrics": {"liquidity": 86, "quality": 74, "heat": 61, "factor_r2": 64},
+        "quality_facts": {"listing_age_days": 2900, "size_rank_pct": 88, "adverse_flags": []}
+      }
     },
     {
       "op": "NO_CHANGE",
       "scope": "00_A",
-      "reason": "Factor set is unchanged and no candidate improves on the three anchors"
+      "reason": "Benchmarks and anchors re-verified as listed and liquid; nothing in the evidence argues for a change"
     }
   ]
 }

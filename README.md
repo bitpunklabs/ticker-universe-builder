@@ -14,6 +14,7 @@ Copy this directory into your agent's skills folder. It needs Python 3.10+ and *
 the standard library only.
 
 ```bash
+python scripts/universe.py taxonomy --market M [--profile P]
 python scripts/universe.py import   --watchlist W --market M --output snapshot.draft.json
 python scripts/universe.py measure  --prices P --benchmark B --source URL --output M [--into S]
 python scripts/universe.py build    --spec S --snapshot N --output DIR [--seed universe.json]
@@ -54,11 +55,11 @@ correct file. Operations can be checked one at a time, rejected one at a time an
 ```text
 SKILL.md              routing; read first
 references/           methodology, tiers, contracts, maintenance, sources, per-market overlays
-scripts/universe.py   the only entry point (import | measure | build | maintain | validate)
+scripts/universe.py   the only entry point (taxonomy | import | measure | build | maintain | validate)
 scripts/measure_core.py   window statistics from a local price table, stdlib only
 scripts/universe_core.py  every mutation and output invariant
-assets/               default policy (counts, quotas, turnover budgets, freshness)
-examples/             one working universe per market, rebuilt by the test suite
+assets/               default policy (counts, quotas, turnover budgets, freshness) + starter taxonomies
+examples/             one Light universe per market, generated from seeds and rebuilt by the test suite
 tests/                pytest
 ```
 

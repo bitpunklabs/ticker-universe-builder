@@ -230,6 +230,25 @@ def load_policy(path: str | Path | None = None) -> dict[str, Any]:
     return read_json(path or default_policy_path())
 
 
+def starter_taxonomy(market: str, profile: str | None = None) -> list[dict[str, Any]]:
+    """The published theme table for a market, optionally cut to one profile's coverage level.
+
+    Designing the taxonomy is the first step of a build and the one with no help in it: it needs
+    domain judgement before any ticker has been looked at, and a taxonomy invented per run is why
+    two universes of the same market turn out incomparable. This is a starting point to edit, not
+    a fixed schema — but starting from an edit is a different task from starting from nothing.
+    """
+    spec = market_spec(market)
+    path = Path(__file__).resolve().parent.parent / "assets" / "taxonomy" / f"{spec.code}.json"
+    taxonomy = normalize_taxonomy(read_json(path).get("taxonomy") or [])
+    if profile is None:
+        return taxonomy
+    if profile not in PROFILES:
+        raise UniverseError(f"profile must be one of {', '.join(PROFILES)}")
+    level = int(load_policy()["profiles"][profile]["coverage_level"])
+    return [item for item in taxonomy if item["coverage_level"] <= level]
+
+
 def canonical_hash(value: Any) -> str:
     payload = json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
     return hashlib.sha256(payload.encode("utf-8")).hexdigest()[:12]

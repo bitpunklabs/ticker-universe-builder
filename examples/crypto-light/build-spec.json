@@ -2,7 +2,7 @@
   "schema_version": 1,
   "market": "crypto",
   "profile": "light",
-  "as_of": "2026-09-16",
-  "target_count": 14,
-  "allow_outside_guidance": true
+  "as_of": "2026-09-17",
+  "target_count": 40,
+  "allow_outside_guidance": false
 }
