@@ -31,6 +31,11 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - name: the committed examples match their seeds
+        # The suite asserts this too; here it fails as a diff, which says what changed.
+        run: |
+          python examples/build_examples.py
+          git diff --exit-code examples/
       - name: build each market
         # Artifact names carry the market and the date, so the path comes back from the command
         # rather than being guessed at here.

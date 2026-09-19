@@ -633,9 +633,14 @@ class ExampleTests(unittest.TestCase):
         before = {
             path: path.read_text(encoding="utf-8")
             for market in ("cn", "us", "crypto")
-            for path in (ROOT / "examples" / f"{market}-light").glob("*.json")
+            for pattern in ("*.json", "*.md")
+            for path in (ROOT / "examples" / f"{market}-light").glob(pattern)
             if path.name != "changes.json"
         }
+        self.assertEqual(
+            sorted(path.name for path in before if path.name.endswith(".md")),
+            ["maintenance.md", "universe.md", "universe.md", "universe.md"],
+        )
         build_examples.main()
         for path, text in before.items():
             self.assertEqual(path.read_text(encoding="utf-8"), text, path.name)

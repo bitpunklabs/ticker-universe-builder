@@ -36,16 +36,28 @@ They stop there because every ticker in these files is written from knowledge ra
 an exchange listing, and the honest limit of that is well short of 180 symbols. Growing them is a
 matter of extending `seeds/*.tsv` from a real listing file, not of changing any code.
 
+## Read one without running it
+
+Each folder carries the report the build produces:
+
+| File | What it is |
+|---|---|
+| `universe.md` | The built universe — roles, metric provenance, rejection counts, every member with its reason and evidence |
+| `crypto-light/maintenance.md` | The same report after `changes.json` is applied, including the `## This review` block with turnover, additions and removals |
+
+Both are generated, not written. Committing them means a change in selection shows up as a
+reviewable diff instead of as a silently different result the next time someone runs a build.
+
 ## They are generated from seeds
 
 `seeds/{market}.tsv` holds the part that is real and hand-maintained — ticker, name, theme, role —
-and `build_examples.py` expands it into `snapshot.json`:
+and `build_examples.py` expands it into `snapshot.json`, `build-spec.json` and the reports:
 
 ```bash
 python examples/build_examples.py
 ```
 
-The test suite regenerates and compares, so editing a `snapshot.json` directly fails CI. Add a
+The test suite regenerates and compares every generated file, so editing one directly fails CI. Add a
 ticker to the TSV instead. Themes must come from `assets/taxonomy/{market}.json`, which is also
 asserted, so the examples and the starter taxonomy cannot drift apart.
 
