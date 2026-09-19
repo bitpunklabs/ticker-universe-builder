@@ -29,7 +29,7 @@ The model researches. Python decides.
 
 | The model supplies | Python owns |
 |---|---|
-| Taxonomy, roles, evidence, proposed operations | Normalization, eligibility gates, tier nesting, quotas, ordering, caps, hashing, rendering |
+| Themes, roles, evidence, judgement, proposed operations | Normalization, eligibility gates, window statistics, rule scores, tier nesting, quotas, ordering, caps, hashing, rendering |
 
 The model never writes the final watchlist. A hand-written membership list cannot be reviewed:
 twenty silently dropped names, a reordered section and a mistyped venue all look identical to a
@@ -71,12 +71,19 @@ Stated plainly, because a limit you cannot see is a defect:
   accepts the documented contract. `measure` closes the gap between that rule and a usable
   workflow — it turns a local price table into conforming declarations — but it does not fetch,
   and supplying the table is still the caller's job.
+- **Half of `quality` is still judgement**, by design — durability is not a statistic. The rule
+  half covers listing age, size percentile and adverse flags, and the two halves are recorded
+  separately so nobody has to guess which is which.
 - **No evaluation loop.** Nothing here measures whether a universe was good after the fact, so the
   guidance ranges in `references/tier-profiles.md` remain an initial calibration rather than
   something recalibrated from outcomes.
 - **The composite score is an ordinal tie-break**, deliberately. Role order carries the structural
   judgement; the weighted metric score only breaks ties inside a bucket, and nothing downstream
   should read it as a rating.
+- **The equity examples are not full size.** Crypto Light ships complete — 40 members, inside
+  its guidance range, no warnings. US and CN stop at 64 against guidance of 180 and 150, because
+  every ticker in `examples/seeds/*.tsv` is written from knowledge rather than read off an
+  exchange listing. Extending them is a TSV edit, not a code change.
 - **Three markets ship** (`cn`, `us`, `crypto`). Their rules live in one `MARKET_SPECS` table
   rather than in scattered branches, so a fourth is a registry row plus a policy row plus an
   overlay — see [references/markets/adding-a-market.md](references/markets/adding-a-market.md).
