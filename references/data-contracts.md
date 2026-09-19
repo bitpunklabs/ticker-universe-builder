@@ -198,12 +198,33 @@ The rule half is the mean of the components present, less 25 points per adverse 
 anything shorter 10 — because the difference between four and five years of listing is not
 information. `size_rank_pct` is a cross-sectional percentile within the market.
 
-`adverse_flags` is a closed vocabulary, for the same reason the exclusion codes are:
+`adverse_flags` is a closed vocabulary, for the same reason the exclusion codes are. Seven codes
+are universal, because every market states them in some form:
 
 ```text
 risk_warning   going_concern   regulatory_action   audit_qualification
 monitoring_tag restructuring   loss_making
 ```
+
+Beyond those, the vocabulary follows the market. A regime issues flags no other regime has, and
+a vocabulary wide enough to cover all of them would be too coarse to record any of them — an ST
+designation is not `risk_warning` in general, and an NT 10-K is not a thing the A-share market
+can have. So each market spec names its own, and they are accepted only in that market:
+
+| Market | Adds |
+|---|---|
+| `cn` | `special_treatment`, `share_pledge_risk`, `exchange_inquiry` |
+| `us` | `late_filing`, `listing_deficiency`, `material_weakness` |
+| `crypto` | `unlock_overhang`, `supply_concentration`, `unaudited_contract` |
+
+What the flag costs does not follow the market: every flag, universal or not, is the same 25
+points. The rule stays one rule; only the vocabulary is local. A flag belonging to another market
+is refused by name — a CN snapshot carrying `late_filing` is not a typo, it is a researcher
+reaching for the wrong regime — and no two markets may claim the same code, because then a count
+in two reports would look comparable when it is not. A declared market may name up to six of its
+own in `market_spec.quality_flags`, may not redefine a universal one, and its codes are part of
+`version_hash`. The report counts the flags it found, translated where a locale knows the code
+and printed as the bare code where it cannot.
 
 The block is optional, and needs at least one of `listing_age_days` or `size_rank_pct` — flags
 alone do not make a score. It does not replace the judged value: `metrics.quality` is still

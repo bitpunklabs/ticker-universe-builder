@@ -15,13 +15,19 @@ from universe_core import (  # noqa: E402
     AUDIT_CODES,
     EXCLUSION_CODES,
     MARKET_SPECS,
+    MARKETS,
     MEASUREMENT_BASES,
     PROFILES,
+    QUALITY_FLAG_CODES,
     ROLES,
     UniverseError,
+    _glossed,
+    adverse_flag_summary,
     apply_change_set,
     build_universe,
+    canonical_hash,
     check_taxonomy,
+    declared_market_warnings,
     default_asset_id,
     diff_universes,
     languages,
@@ -30,6 +36,7 @@ from universe_core import (  # noqa: E402
     market_spec,
     normalize_candidate,
     normalize_market_declaration,
+    quality_flag_codes,
     read_json,
     render_markdown,
     render_txt,
@@ -735,6 +742,115 @@ class DeclaredMarketTests(unittest.TestCase):
             apply_change_set(universe, changes, load_policy())
 
 
+class MarketQualityFlagTests(unittest.TestCase):
+    """What counts as an adverse flag follows the regulator; what it costs does not.
+
+    Seven flags are universal because every market states them in some form. Beyond those, a
+    vocabulary wide enough for every regime would be too coarse to record any of them: an ST
+    designation is not `risk_warning` in general, and an NT 10-K is not a concept the A-share
+    market has. So the vocabulary extends per market while the scoring rule stays one rule.
+    """
+
+    def scored(self, market: str, flags: list[str]) -> dict:
+        item = candidate("BINANCE:ARBUSDT.P", "ARB", "10_A", "THEME_LEADER")
+        item["metrics"]["quality"] = 60
+        item["quality_facts"] = {"size_rank_pct": 80, "adverse_flags": flags}
+        return normalize_candidate(
+            market, item, {entry["theme_code"]: entry for entry in taxonomy()}
+        )
+
+    def test_every_market_keeps_the_universal_flags(self) -> None:
+        for code in sorted(MARKETS):
+            self.assertLessEqual(QUALITY_FLAG_CODES, quality_flag_codes(code), code)
+
+    def test_no_two_markets_claim_the_same_market_specific_flag(self) -> None:
+        # A code that means one thing in one market and another somewhere else makes the counts
+        # in two reports look comparable when they are not.
+        seen: dict[str, str] = {}
+        for spec in MARKET_SPECS.values():
+            for code in spec.quality_flags:
+                self.assertNotIn(code, QUALITY_FLAG_CODES, code)
+                self.assertIsNone(seen.get(code), f"{code} is claimed by {seen.get(code)}")
+                seen[code] = spec.code
+
+    def test_a_market_specific_flag_is_accepted_in_its_own_market(self) -> None:
+        member = self.scored("crypto", ["unlock_overhang"])
+        # It costs exactly what a universal flag costs: the rule stays general.
+        self.assertEqual(member["quality_rule_score"], 55)
+
+    def test_a_flag_from_another_market_is_refused_and_named(self) -> None:
+        with self.assertRaisesRegex(UniverseError, "'special_treatment' belongs to cn"):
+            self.scored("crypto", ["special_treatment"])
+
+    def test_the_report_counts_the_flags_it_found(self) -> None:
+        data = snapshot()
+        data["measurement"]["quality"] = {
+            "basis": "blended",
+            "method": "listing age and size percentile",
+            "source": "https://example.com/reference",
+        }
+        for item in data["candidates"]:
+            if item["role"] != "BENCHMARK":
+                item["quality_facts"] = {
+                    "size_rank_pct": 80, "adverse_flags": ["unlock_overhang"],
+                }
+        universe, report = build_universe(spec(), data, small_policy())
+        self.assertEqual(
+            adverse_flag_summary(universe["members"]),
+            [("unlock_overhang", sum(1 for m in universe["members"] if m["quality_facts"]))],
+        )
+        self.assertIn("| unlock_overhang |", render_markdown(universe, report))
+        self.assertIn("解锁抛压 (unlock_overhang)", render_markdown(universe, report, "zh-Hans"))
+
+
+class DeclaredQualityFlagTests(unittest.TestCase):
+    """A declared market may name its own flags; it may not rename anyone else's."""
+
+    def declared(self, flags) -> dict:
+        return normalize_market_declaration(declaration(quality_flags=flags), "th")
+
+    def test_a_declared_vocabulary_reaches_the_candidate_gate(self) -> None:
+        data = declared_snapshot(spec_overrides={"quality_flags": ["sp_designation"]})
+        data["measurement"]["quality"] = {
+            "basis": "blended", "method": "size", "source": "https://example.com/reference",
+        }
+        data["candidates"][1]["quality_facts"] = {
+            "size_rank_pct": 80, "adverse_flags": ["sp_designation"],
+        }
+        universe, _ = build_universe(
+            {"schema_version": 1, "market": "th", "profile": "light"}, data, load_policy()
+        )
+        self.assertEqual(universe["market_spec"]["quality_flags"], ["sp_designation"])
+        self.assertEqual(adverse_flag_summary(universe["members"]), [("sp_designation", 1)])
+
+    def test_a_declared_market_cannot_redefine_a_universal_flag(self) -> None:
+        with self.assertRaisesRegex(UniverseError, "already universal"):
+            self.declared(["going_concern"])
+
+    def test_a_vocabulary_that_long_is_notes(self) -> None:
+        with self.assertRaisesRegex(UniverseError, "at most"):
+            self.declared([f"flag_{n}" for n in range(9)])
+
+    def test_a_flag_must_be_a_code_not_a_sentence(self) -> None:
+        with self.assertRaisesRegex(UniverseError, "must be a lowercase code"):
+            self.declared(["the auditor resigned in March"])
+
+    def test_the_declared_vocabulary_is_part_of_the_identity(self) -> None:
+        plain = normalize_market_declaration(declaration(), "th")
+        extended = self.declared(["sp_designation"])
+        self.assertNotEqual(canonical_hash(plain), canonical_hash(extended))
+
+    def test_a_declared_flag_prints_as_its_code(self) -> None:
+        # No locale can know a vocabulary invented at run time, so the fallback has to be the
+        # code itself rather than a missing key.
+        self.assertEqual(_glossed(load_lexicon("zh-Hans"), "flag", "sp_designation"),
+                         "sp_designation")
+        self.assertIn(
+            "sp_designation",
+            " ".join(declared_market_warnings(self.declared(["sp_designation"]))),
+        )
+
+
 class LocalizationTests(unittest.TestCase):
     """A universe is read by the people who trade that market, so the report follows the market.
 
@@ -759,6 +875,11 @@ class LocalizationTests(unittest.TestCase):
             | {f"profile.{name}" for name in PROFILES}
             | {f"basis.{name}" for name in MEASUREMENT_BASES}
             | {f"depth.{name}" for name in load_policy()["maintenance"]}
+            | {f"flag.{code}" for code in QUALITY_FLAG_CODES}
+            | {
+                f"flag.{code}"
+                for spec in MARKET_SPECS.values() for code in spec.quality_flags
+            }
         )
         for language in languages():
             lexicon = load_lexicon(language)
@@ -813,7 +934,7 @@ class LocalizationTests(unittest.TestCase):
     def test_no_word_means_two_things_in_one_report(self) -> None:
         # `review.depth` and `depth.deep` print on the same line. Giving both the same word makes
         # the line read "Depth: Depth", which is how the first draft of zh-Hans shipped.
-        vocabulary = {"role", "basis", "profile", "depth", "reason"}
+        vocabulary = {"role", "basis", "profile", "depth", "reason", "flag"}
         chrome = {"title", "label", "section", "column", "review", "value"}
         for language in languages():
             lexicon = load_lexicon(language)

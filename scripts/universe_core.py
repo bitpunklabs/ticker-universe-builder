@@ -88,6 +88,12 @@ class MarketSpec:
     asset_id_strip: tuple[str, ...] = ()
     # Markets driven by one factor complex have to state how redundant each member is with it.
     factor_r2_required: bool = False
+    # Adverse flags this market's regime issues and no other's does. They are added to
+    # QUALITY_FLAG_CODES, never substituted for it: the scoring rule stays general — every flag
+    # costs the same QUALITY_FLAG_PENALTY — while what counts as a flag follows the regulator.
+    # Without this the choice is a vocabulary too coarse to record an ST designation or a core
+    # that knows what an NT 10-K is, and the second is how a general tool becomes three tools.
+    quality_flags: frozenset[str] = frozenset()
     # `registered` means this row shipped with the skill and was reviewed. `declared` means a
     # snapshot supplied it at run time, which is a weaker claim and is reported as one.
     origin: str = "registered"
@@ -104,6 +110,9 @@ MARKET_SPECS: dict[str, MarketSpec] = {
             symbol_hint="six digits",
             language="zh-Hans",
             venue_in_asset_id=True,
+            quality_flags=frozenset({
+                "special_treatment", "share_pledge_risk", "exchange_inquiry",
+            }),
         ),
         MarketSpec(
             code="us",
@@ -111,6 +120,9 @@ MARKET_SPECS: dict[str, MarketSpec] = {
             venues=frozenset({"NASDAQ", "NYSE", "AMEX", "NYSEARCA", "ARCA", "CBOE", "IEX", "OTC"}),
             symbol_pattern=re.compile(r"[A-Z][A-Z0-9.\-]{0,14}"),
             symbol_hint="one to fifteen characters starting with a letter",
+            quality_flags=frozenset({
+                "late_filing", "listing_deficiency", "material_weakness",
+            }),
         ),
         MarketSpec(
             code="crypto",
@@ -120,6 +132,9 @@ MARKET_SPECS: dict[str, MarketSpec] = {
             symbol_hint="a USDT-quoted spot or perpetual symbol",
             asset_id_strip=(".P", "USDT"),
             factor_r2_required=True,
+            quality_flags=frozenset({
+                "unlock_overhang", "supply_concentration", "unaudited_contract",
+            }),
         ),
     )
 }
@@ -132,7 +147,8 @@ MARKETS = frozenset(MARKET_SPECS)
 # researched, evidence-backed, recorded, and visibly marked as researched rather than reviewed.
 DECLARED_SPEC_FIELDS = frozenset({
     "code", "label", "language", "venues", "symbol_pattern", "symbol_hint",
-    "venue_in_asset_id", "asset_id_strip", "factor_r2_required", "guidance", "evidence",
+    "venue_in_asset_id", "asset_id_strip", "factor_r2_required", "quality_flags",
+    "guidance", "evidence",
 })
 MARKET_CODE_RE = re.compile(r"[a-z][a-z0-9_]{1,15}")
 VENUE_RE = re.compile(r"[A-Z][A-Z0-9_.\-]{1,15}")
@@ -173,7 +189,8 @@ MEASUREMENT_BASES = {"measured", "judged", "blended"}
 QUALITY_RULE_WEIGHT = 0.5
 QUALITY_FLAG_PENALTY = 25
 # Closed vocabulary, same reasoning as the exclusion codes: a flag that can be counted is worth
-# more than a sentence that cannot.
+# more than a sentence that cannot. These seven are the ones every market states in some form,
+# which is why they live here; the ones only one regulator issues live on that market's spec.
 QUALITY_FLAG_CODES = {
     "risk_warning",
     "going_concern",
@@ -184,6 +201,10 @@ QUALITY_FLAG_CODES = {
     "loss_making",
 }
 QUALITY_FACT_FIELDS = ("listing_age_days", "size_rank_pct", "adverse_flags")
+QUALITY_FLAG_RE = re.compile(r"[a-z][a-z0-9_]{2,31}")
+# A market with a dozen flags of its own has stopped keeping a vocabulary and started keeping
+# notes. The cap is what forces the researcher to name the few that change a decision.
+MAX_MARKET_QUALITY_FLAGS = 6
 # Survival is the one quality signal every market states the same way. The bands are coarse on
 # purpose: the difference between four and five years of listing is not information.
 LISTING_AGE_BANDS = ((1825, 100), (1095, 85), (730, 70), (365, 50), (180, 30))
@@ -498,6 +519,22 @@ def normalize_market_declaration(raw: Any, market: str) -> dict[str, Any]:
             f"Available: {', '.join(languages())}"
         )
     strip = [str(item).strip().upper() for item in raw.get("asset_id_strip") or []]
+    flags = sorted({str(item).strip().lower() for item in raw.get("quality_flags") or []})
+    if len(flags) > MAX_MARKET_QUALITY_FLAGS:
+        raise UniverseError(
+            f"market_spec: at most {MAX_MARKET_QUALITY_FLAGS} quality_flags; "
+            "a longer list is notes, not a vocabulary"
+        )
+    for flag in flags:
+        if not QUALITY_FLAG_RE.fullmatch(flag):
+            raise UniverseError(f"market_spec: quality flag {flag!r} must be a lowercase code")
+        if flag in QUALITY_FLAG_CODES:
+            # Redeclaring a universal code is how one market quietly gives it a second meaning,
+            # and the counts in every report stop being comparable across markets.
+            raise UniverseError(
+                f"market_spec: quality flag {flag!r} is already universal; declare only the "
+                "ones this market's regime issues and no other's does"
+            )
     # Size guidance is not optional for a declared market. The deeper tiers are defined relative
     # to the shallower ones, so a build with no stated Light size has no way to reach Medium
     # except by inventing one — and an invented range reports nothing when a universe is wrong.
@@ -529,6 +566,7 @@ def normalize_market_declaration(raw: Any, market: str) -> dict[str, Any]:
         "venue_in_asset_id": bool(raw.get("venue_in_asset_id", False)),
         "asset_id_strip": strip,
         "factor_r2_required": bool(raw.get("factor_r2_required", False)),
+        "quality_flags": flags,
         "guidance": clean_guidance,
         "evidence": evidence,
     }
@@ -545,6 +583,7 @@ def spec_from_declaration(declaration: dict[str, Any]) -> MarketSpec:
         venue_in_asset_id=declaration["venue_in_asset_id"],
         asset_id_strip=tuple(declaration["asset_id_strip"]),
         factor_r2_required=declaration["factor_r2_required"],
+        quality_flags=frozenset(declaration.get("quality_flags") or ()),
         origin="declared",
     )
 
@@ -583,11 +622,18 @@ def declared_market_warnings(declaration: dict[str, Any] | None) -> list[str]:
     """
     if not declaration:
         return []
-    return [
+    warnings = [
         f"market {declaration['code']} is not registered; its venues "
         f"({', '.join(declaration['venues'])}), symbol shape and size guidance were declared in "
         "the snapshot and have not been reviewed by this skill"
     ]
+    if declaration.get("quality_flags"):
+        warnings.append(
+            "market_spec declares the adverse flags "
+            f"{', '.join(declaration['quality_flags'])}; they cost the same as any other flag "
+            "and no locale translates them, so they print as codes"
+        )
+    return warnings
 
 
 def split_ticker(ticker: str) -> tuple[str, str]:
@@ -784,7 +830,14 @@ def normalize_measurement(
     return dict(sorted(declared.items()))
 
 
-def normalize_quality_facts(raw: Any, ticker: str) -> dict[str, Any] | None:
+def quality_flag_codes(rules: Any = None) -> frozenset[str]:
+    """The adverse flags this market can record: the universal ones plus its own."""
+    if rules is None:
+        return frozenset(QUALITY_FLAG_CODES)
+    return frozenset(QUALITY_FLAG_CODES) | _spec(rules).quality_flags
+
+
+def normalize_quality_facts(raw: Any, ticker: str, rules: Any = None) -> dict[str, Any] | None:
     """Checkable inputs to `quality`, or None when the candidate offers none.
 
     Every field here is something a person can look up and disagree with by citing a source,
@@ -809,12 +862,22 @@ def normalize_quality_facts(raw: Any, ticker: str) -> dict[str, Any] | None:
     flags = raw.get("adverse_flags") or []
     if not isinstance(flags, list):
         raise UniverseError(f"{ticker}: adverse_flags must be a list")
+    known = quality_flag_codes(rules)
     codes = sorted({str(flag).strip() for flag in flags if str(flag).strip()})
     for code in codes:
-        if code not in QUALITY_FLAG_CODES:
+        if code not in known:
+            # A flag another market issues is named separately, because a CN snapshot carrying
+            # `late_filing` is not a typo — it is a researcher reaching for the wrong regime.
+            elsewhere = sorted(
+                spec.code for spec in MARKET_SPECS.values() if code in spec.quality_flags
+            )
+            hint = (
+                f"; {code!r} belongs to {', '.join(elsewhere)}"
+                if elsewhere else ""
+            )
             raise UniverseError(
-                f"{ticker}: unknown adverse flag {code!r}; "
-                f"known: {', '.join(sorted(QUALITY_FLAG_CODES))}"
+                f"{ticker}: unknown adverse flag {code!r}{hint}; "
+                f"known: {', '.join(sorted(known))}"
             )
     facts["adverse_flags"] = codes
     if "listing_age_days" not in facts and "size_rank_pct" not in facts:
@@ -925,7 +988,7 @@ def normalize_candidate(
     asset_id = str(raw.get("asset_id") or default_asset_id(market, ticker)).strip().upper()
     if not asset_id:
         raise UniverseError(f"{ticker}: asset_id is empty")
-    quality_facts = normalize_quality_facts(raw.get("quality_facts"), ticker)
+    quality_facts = normalize_quality_facts(raw.get("quality_facts"), ticker, spec)
     rule_score = quality_rule_score(quality_facts)
     if quality_facts is not None and metrics["quality"] is None:
         raise UniverseError(
@@ -1441,6 +1504,20 @@ def audit_summary(selection_audit: list[dict[str, Any]]) -> list[tuple[str, int]
     return sorted(counts.items(), key=lambda pair: (-pair[1], pair[0]))
 
 
+def adverse_flag_summary(members: list[dict[str, Any]]) -> list[tuple[str, int]]:
+    """Count adverse flags across the members, largest first.
+
+    The flags are the most consequential checkable fact in the file — each one costs a quarter of
+    the rule half of `quality` — and until now they were only visible by reading the JSON. A
+    count is also the only way a reader sees that a market-specific vocabulary was used at all.
+    """
+    counts: Counter[str] = Counter()
+    for item in members:
+        for flag in (item.get("quality_facts") or {}).get("adverse_flags") or []:
+            counts[str(flag)] += 1
+    return sorted(counts.items(), key=lambda pair: (-pair[1], pair[0]))
+
+
 def render_txt(universe: dict[str, Any]) -> str:
     taxonomy = {item["theme_code"]: item for item in universe["taxonomy"]}
     grouped: dict[str, list[dict[str, Any]]] = defaultdict(list)
@@ -1654,6 +1731,16 @@ def render_markdown(
                     total=len(universe["members"]),
                 ),
             ])
+        flags = adverse_flag_summary(universe["members"])
+        if flags:
+            lines.extend([
+                "",
+                f"| {lex['column.flag']} | {lex['column.count']} |",
+                "|---|---:|",
+            ])
+            lines.extend(
+                f"| {_glossed(lex, 'flag', code)} | {count} |" for code, count in flags
+            )
     rejections = audit_summary(universe.get("selection_audit") or [])
     if rejections:
         # The detail stays in universe.json. What belongs in a document a person reads is the

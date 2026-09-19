@@ -13,6 +13,7 @@ Every market-specific rule lives in one row of `MARKET_SPECS` in `scripts/univer
 | `asset_id_strip` | Suffixes removed to reach economic identity (a perpetual and its spot pair) |
 | `factor_r2_required` | Whether every non-anchor member must state its redundancy with the market factor |
 | `language` | Which locale the `.md` report is written in unless the caller overrides it |
+| `quality_flags` | Adverse flags this market's regime issues and no other's does |
 
 ## Two ways in, and when each is right
 
@@ -37,7 +38,7 @@ enough that leaving its venue list to be re-researched every session is the larg
 first does not block on us; the second does not depend on the agent getting it right twice.
 
 Both build under identical general logic. The only thing that differs is who vouches for those
-six fields, and the report never lets a reader confuse the two.
+seven fields, and the report never lets a reader confuse the two.
 
 A new *registered* market is five additions and no edits to existing logic:
 
@@ -52,6 +53,14 @@ A new *registered* market is five additions and no edits to existing logic:
    rules, the exclusions that market requires, and where its primary sources live.
 5. One worked example under `examples/`, so the market is exercised by CI rather than merely
    declared.
+
+Plus, if the market's regulator issues flags the universal seven cannot express, a
+`quality_flags` set on the row and a `flag.<code>` entry in every locale. Three tests decide
+whether a flag belongs there: does this regime issue it as a discrete, lookupable status; does
+recording it as `risk_warning` or `regulatory_action` lose something that would change a
+selection; and is the code meaningless in every other market. A flag that fails the third is a
+universal code that has not been added yet — add it to `QUALITY_FLAG_CODES` instead, where it is
+comparable across markets, rather than to two market specs where it silently is not.
 
 ## Report language
 
@@ -71,7 +80,9 @@ English for the same reason: they name policy fields and code paths, and `.valid
 carries the identical text.
 
 Adding a language is one JSON file with the same keys as `en.json`. `zh-Hans`, `zh-Hant` and `en`
-ship.
+ship. One vocabulary is deliberately outside this: a `quality_flags` code a snapshot declared at
+run time has no key in any locale, because no lexicon can carry a vocabulary invented after it
+shipped. Those print as the bare code, and the build warns that they will.
 
 ### Writing a locale
 
@@ -129,7 +140,9 @@ with a domestic answer: Indian exchange filings and listing documents are publis
 ## What the registry does not decide
 
 Roles, buckets, score weights, coverage levels, turnover budgets and evidence tiers are market
-independent on purpose. A market that appears to need its own role vocabulary is usually a market
+independent on purpose. So is what an adverse flag *costs*: a market names its own flags and
+every one of them is worth the same 25 points, because a market that could also set the penalty
+could make its members score however it liked. A market that appears to need its own role vocabulary is usually a market
 whose overlay has not yet been written carefully enough; reach for a new role only after the
 overlay makes the case in prose.
 
@@ -139,6 +152,6 @@ Not implemented. Recorded so the shape of the work is visible rather than guesse
 
 | Market | Venues | Symbol | Identity | Language | Notes |
 |---|---|---|---|---|---|
-| `hk` | `HKEX` | four or five digits | venue-free | `zh-Hant` | Southbound-eligible subset is a taxonomy question, not a venue one |
+| `hk` | `HKEX` | four or five digits | venue-free | `zh-Hant` | Southbound-eligible subset is a taxonomy question, not a venue one; `gem_board` is the flag it needs |
 | `jp` | `TSE` | four digits, sometimes with a letter | venue-free | `ja` | Prime / Standard / Growth sections belong in the overlay's eligibility rules |
 | `eu` | `XETR`, `EURONEXT`, `LSE`, `SIX` | alphabetic, venue-dependent | venue-bearing | `en` | One company lists in several places; without venue in the identity, cross-listings collapse into one member |
