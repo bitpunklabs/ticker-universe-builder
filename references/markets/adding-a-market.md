@@ -14,7 +14,28 @@ Every market-specific rule lives in one row of `MARKET_SPECS` in `scripts/univer
 | `factor_r2_required` | Whether every non-anchor member must state its redundancy with the market factor |
 | `language` | Which locale the `.md` report is written in unless the caller overrides it |
 
-A new market is five additions and no edits to existing logic:
+## Two ways in, and when each is right
+
+A market outside the three is not forbidden. It has two routes, and they answer different
+questions:
+
+| | **Declared** | **Registered** |
+|---|---|---|
+| Where the rules live | `market_spec` in the snapshot | a row in `MARKET_SPECS` |
+| Who wrote them | whoever built this universe, at run time | this repository, reviewed |
+| What it costs | research, with evidence | a pull request |
+| What ships | nothing | a policy row, a starter taxonomy, an overlay, an example |
+| What the report says | `Market rules: declared`, on every run | nothing; silence is the reviewed case |
+
+Declaring is the answer for a market nobody here has looked at — a smaller exchange, a market one
+user cares about, a market being tried out. Registering is the answer once a market is used often
+enough that leaving its venue list to be re-researched every session is the larger risk. The
+first does not block on us; the second does not depend on the agent getting it right twice.
+
+Both build under identical general logic. The only thing that differs is who vouches for those
+six fields, and the report never lets a reader confuse the two.
+
+A new *registered* market is five additions and no edits to existing logic:
 
 1. A `MarketSpec` row in `MARKET_SPECS`.
 2. A `markets.<code>` block in `assets/default-policy.json` with Light, Medium and Heavy counts.

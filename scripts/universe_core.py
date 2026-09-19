@@ -88,6 +88,9 @@ class MarketSpec:
     asset_id_strip: tuple[str, ...] = ()
     # Markets driven by one factor complex have to state how redundant each member is with it.
     factor_r2_required: bool = False
+    # `registered` means this row shipped with the skill and was reviewed. `declared` means a
+    # snapshot supplied it at run time, which is a weaker claim and is reported as one.
+    origin: str = "registered"
 
 
 MARKET_SPECS: dict[str, MarketSpec] = {
@@ -121,6 +124,21 @@ MARKET_SPECS: dict[str, MarketSpec] = {
     )
 }
 MARKETS = frozenset(MARKET_SPECS)
+
+# A market this skill has not reviewed is not a market the user may not observe. The general
+# logic — roles, quotas, evidence tiers, measurement, turnover budgets, hashing — is the same
+# everywhere; what a registry row adds is the handful of facts that are true of one market and
+# of no other. Those are facts, so a snapshot can carry them the way it carries any other fact:
+# researched, evidence-backed, recorded, and visibly marked as researched rather than reviewed.
+DECLARED_SPEC_FIELDS = frozenset({
+    "code", "label", "language", "venues", "symbol_pattern", "symbol_hint",
+    "venue_in_asset_id", "asset_id_strip", "factor_r2_required", "guidance", "evidence",
+})
+MARKET_CODE_RE = re.compile(r"[a-z][a-z0-9_]{1,15}")
+VENUE_RE = re.compile(r"[A-Z][A-Z0-9_.\-]{1,15}")
+# A symbol is at most a few characters, so a pattern long enough to be pathological is a pattern
+# that is wrong. The cap is a guard rail, not a security boundary.
+MAX_SYMBOL_PATTERN = 120
 
 
 SCORE_WEIGHTS = {
@@ -285,6 +303,9 @@ def universe_hash(universe: dict[str, Any]) -> str:
     """Hash membership and taxonomy, not run metadata or review history."""
     canonical = {
         "market": universe.get("market"),
+        # Two universes built under different identity rules are not the same universe, so a
+        # declared spec is part of what the hash protects rather than run metadata beside it.
+        "market_spec": universe.get("market_spec"),
         "profile": universe.get("profile"),
         "taxonomy": universe.get("taxonomy") or [],
         "members": [
@@ -304,8 +325,165 @@ def universe_hash(universe: dict[str, Any]) -> str:
 def market_spec(market: str) -> MarketSpec:
     spec = MARKET_SPECS.get(str(market).strip().lower())
     if spec is None:
-        raise UniverseError(f"unsupported market {market!r}; known: {', '.join(sorted(MARKETS))}")
+        raise UniverseError(
+            f"unsupported market {market!r}; registered: {', '.join(sorted(MARKETS))}. "
+            "An unregistered market is buildable by declaring market_spec in the snapshot — "
+            "see references/markets/adding-a-market.md"
+        )
     return spec
+
+
+def normalize_market_declaration(raw: Any, market: str) -> dict[str, Any]:
+    """Check a snapshot-supplied market spec as hard as any other researched fact.
+
+    This is the surface where invention is cheapest: a venue code and a symbol shape are easier
+    to make up than a ticker and, unlike a ticker, a wrong one silently changes what counts as
+    the same asset for every member at once. So it needs strong evidence, it is recorded in the
+    universe rather than being resolved again next round, and it is covered by `version_hash` —
+    two universes built under different identity rules are not the same universe.
+    """
+    if market in MARKET_SPECS:
+        raise UniverseError(
+            f"market {market!r} is registered; its rules are not snapshot-supplied"
+        )
+    if not isinstance(raw, dict):
+        raise UniverseError(
+            f"unsupported market {market!r}; registered: {', '.join(sorted(MARKETS))}. "
+            "To build it anyway, declare market_spec in the snapshot — "
+            "see references/markets/adding-a-market.md"
+        )
+    unknown = sorted(set(raw) - DECLARED_SPEC_FIELDS)
+    if unknown:
+        raise UniverseError(f"market_spec: unknown fields: {', '.join(unknown)}")
+    code = str(raw.get("code", "")).strip().lower()
+    if not MARKET_CODE_RE.fullmatch(code):
+        raise UniverseError(f"market_spec: code {code!r} must be 2-16 lowercase letters or digits")
+    if code != str(market).strip().lower():
+        raise UniverseError(f"market_spec code {code!r} does not match the snapshot market")
+    label = str(raw.get("label", "")).strip()
+    if not label:
+        raise UniverseError("market_spec: label is required")
+    venues = sorted({str(item).strip().upper() for item in raw.get("venues") or []})
+    if not venues:
+        raise UniverseError("market_spec: at least one venue is required")
+    for venue in venues:
+        if not VENUE_RE.fullmatch(venue):
+            raise UniverseError(f"market_spec: {venue!r} is not a TradingView venue code")
+    pattern = str(raw.get("symbol_pattern", ""))
+    if not pattern or len(pattern) > MAX_SYMBOL_PATTERN:
+        raise UniverseError(
+            f"market_spec: symbol_pattern is required and at most {MAX_SYMBOL_PATTERN} characters"
+        )
+    if ":" in pattern:
+        raise UniverseError("market_spec: symbol_pattern matches the symbol, not the venue prefix")
+    try:
+        compiled = re.compile(pattern)
+    except re.error as exc:
+        raise UniverseError(
+            f"market_spec: symbol_pattern is not a regular expression: {exc}"
+        ) from exc
+    if compiled.fullmatch(""):
+        raise UniverseError("market_spec: symbol_pattern must not match an empty symbol")
+    hint = str(raw.get("symbol_hint", "")).strip()
+    if not hint:
+        raise UniverseError("market_spec: symbol_hint is required; it is the error a user reads")
+    language = str(raw.get("language") or "en").strip()
+    if language not in languages():
+        raise UniverseError(
+            f"market_spec: no locale for {language!r}; ship one or omit the field to use en. "
+            f"Available: {', '.join(languages())}"
+        )
+    strip = [str(item).strip().upper() for item in raw.get("asset_id_strip") or []]
+    # Size guidance is not optional for a declared market. The deeper tiers are defined relative
+    # to the shallower ones, so a build with no stated Light size has no way to reach Medium
+    # except by inventing one — and an invented range reports nothing when a universe is wrong.
+    guidance = raw.get("guidance")
+    if not isinstance(guidance, dict) or set(guidance) != set(PROFILES):
+        raise UniverseError(
+            "market_spec: guidance must carry " + ", ".join(PROFILES) +
+            " (same shape as assets/default-policy.json markets.<code>)"
+        )
+    clean_guidance: dict[str, dict[str, int]] = {}
+    for profile in PROFILES:
+        row = guidance[profile]
+        if not isinstance(row, dict) or set(row) != {"min", "target", "max"}:
+            raise UniverseError(f"market_spec: guidance.{profile} needs min, target and max")
+        values = {key: int(row[key]) for key in ("min", "target", "max")}
+        if not 0 < values["min"] <= values["target"] <= values["max"]:
+            raise UniverseError(f"market_spec: guidance.{profile} must be 0 < min <= target <= max")
+        clean_guidance[profile] = values
+    subject = f"market_spec {code}"
+    evidence = validate_evidence(raw.get("evidence") or [], subject)
+    require_strong_evidence(evidence, subject)
+    return {
+        "code": code,
+        "label": label,
+        "language": language,
+        "venues": venues,
+        "symbol_pattern": pattern,
+        "symbol_hint": hint,
+        "venue_in_asset_id": bool(raw.get("venue_in_asset_id", False)),
+        "asset_id_strip": strip,
+        "factor_r2_required": bool(raw.get("factor_r2_required", False)),
+        "guidance": clean_guidance,
+        "evidence": evidence,
+    }
+
+
+def spec_from_declaration(declaration: dict[str, Any]) -> MarketSpec:
+    return MarketSpec(
+        code=declaration["code"],
+        label=declaration["label"],
+        venues=frozenset(declaration["venues"]),
+        symbol_pattern=re.compile(declaration["symbol_pattern"]),
+        symbol_hint=declaration["symbol_hint"],
+        language=declaration["language"],
+        venue_in_asset_id=declaration["venue_in_asset_id"],
+        asset_id_strip=tuple(declaration["asset_id_strip"]),
+        factor_r2_required=declaration["factor_r2_required"],
+        origin="declared",
+    )
+
+
+def resolve_market(market: str, declaration: Any = None) -> tuple[MarketSpec, dict | None]:
+    """The registry row for a registered market, the snapshot's own for anything else."""
+    if str(market).strip().lower() in MARKET_SPECS and not declaration:
+        return market_spec(market), None
+    clean = normalize_market_declaration(declaration, str(market).strip().lower())
+    return spec_from_declaration(clean), clean
+
+
+def _spec(value: str | MarketSpec) -> MarketSpec:
+    return value if isinstance(value, MarketSpec) else market_spec(value)
+
+
+def market_guidance(
+    market: str, policy: dict[str, Any], declaration: dict[str, Any] | None
+) -> dict[str, Any]:
+    """Size guidance from the shipped policy, or from the declaration for a market it omits."""
+    if declaration:
+        return declaration["guidance"]
+    guidance = (policy.get("markets") or {}).get(market)
+    if not guidance:
+        raise UniverseError(f"policy carries no size guidance for market {market!r}")
+    return guidance
+
+
+def declared_market_warnings(declaration: dict[str, Any] | None) -> list[str]:
+    """Say, every time, that these rules were researched rather than reviewed.
+
+    A declared market builds under exactly the same invariants as a registered one — that is the
+    point of keeping the general logic general. What it does not carry is a second pair of eyes
+    on the venue list and the symbol shape, and a report that did not say so would be claiming
+    more than it knows.
+    """
+    if not declaration:
+        return []
+    return [
+        f"market {declaration['code']} is not registered; its venues "
+        f"({', '.join(declaration['venues'])}), symbol shape and size guidance were declared in "
+        "the snapshot and have not been reviewed by this skill"
+    ]
 
 
 def split_ticker(ticker: str) -> tuple[str, str]:
@@ -318,17 +496,17 @@ def split_ticker(ticker: str) -> tuple[str, str]:
     return venue, symbol
 
 
-def default_asset_id(market: str, ticker: str) -> str:
-    spec = market_spec(market)
+def default_asset_id(market: str | MarketSpec, ticker: str) -> str:
+    spec = _spec(market)
     venue, symbol = split_ticker(ticker)
     for suffix in spec.asset_id_strip:
         symbol = symbol.removesuffix(suffix)
     return f"{venue}:{symbol}" if spec.venue_in_asset_id else symbol
 
 
-def validate_ticker(market: str, ticker: str) -> list[str]:
+def validate_ticker(market: str | MarketSpec, ticker: str) -> list[str]:
     try:
-        spec = market_spec(market)
+        spec = _spec(market)
         venue, symbol = split_ticker(ticker)
     except UniverseError as exc:
         return [str(exc)]
@@ -576,7 +754,9 @@ def metrics_in_use(candidates: list[dict[str, Any]]) -> set[str]:
 
 
 def normalize_candidate(
-    market: str, raw: dict[str, Any], taxonomy_by_code: dict[str, dict[str, Any]]
+    market: str | MarketSpec,
+    raw: dict[str, Any],
+    taxonomy_by_code: dict[str, dict[str, Any]],
 ) -> dict[str, Any]:
     ticker = str(raw.get("ticker", "")).strip().upper()
     ticker_errors = validate_ticker(market, ticker)
@@ -622,7 +802,7 @@ def normalize_candidate(
         raise UniverseError(f"{ticker}: ineligible candidate requires exclusion_reasons")
     if eligible and metrics["liquidity"] is None and role not in {"BENCHMARK", "ANCHOR"}:
         raise UniverseError(f"{ticker}: non-anchor candidate requires a liquidity score")
-    spec = market_spec(market)
+    spec = _spec(market)
     if eligible and spec.factor_r2_required and role not in FACTOR_EXEMPT_ROLES:
         if metrics["factor_r2"] is None:
             raise UniverseError(
@@ -674,7 +854,10 @@ def normalize_candidate(
 
 
 def normalize_snapshot(snapshot: dict[str, Any]) -> dict[str, Any]:
-    market = market_spec(snapshot.get("market", "")).code
+    rules, declaration = resolve_market(
+        snapshot.get("market", ""), snapshot.get("market_spec")
+    )
+    market = rules.code
     if snapshot.get("schema_version") != 1:
         raise UniverseError("snapshot schema_version must be 1")
     if snapshot.get("complete") is not True:
@@ -687,7 +870,7 @@ def normalize_snapshot(snapshot: dict[str, Any]) -> dict[str, Any]:
         raise UniverseError("snapshot taxonomy is empty")
     taxonomy_by_code = {item["theme_code"]: item for item in taxonomy}
     candidates = [
-        normalize_candidate(market, item, taxonomy_by_code)
+        normalize_candidate(rules, item, taxonomy_by_code)
         for item in snapshot.get("candidates") or []
     ]
     seen_tickers: set[str] = set()
@@ -707,6 +890,7 @@ def normalize_snapshot(snapshot: dict[str, Any]) -> dict[str, Any]:
     return {
         "schema_version": 1,
         "market": market,
+        "market_spec": declaration,
         "as_of": str(snapshot["as_of"]),
         "complete": True,
         "sources": deepcopy(sources),
@@ -875,14 +1059,14 @@ def build_universe(
         raise UniverseError("build spec schema_version must be 1")
     market = str(spec.get("market", "")).lower()
     profile = str(spec.get("profile", "")).lower()
-    market_spec(market)
     if profile not in PROFILES:
         raise UniverseError(f"build spec profile must be one of {', '.join(PROFILES)}")
     snapshot = normalize_snapshot(snapshot_raw)
     if snapshot["market"] != market:
         raise UniverseError("build spec and snapshot markets differ")
+    declaration = snapshot["market_spec"]
 
-    market_policy = policy["markets"][market]
+    market_policy = market_guidance(market, policy, declaration)
     final_guide = market_policy[profile]
     target = int(spec.get("target_count") or final_guide["target"])
     hard_cap = min(int(spec.get("hard_ticker_cap", 1000)), 1000)
@@ -896,7 +1080,7 @@ def build_universe(
                 f"{final_guide['min']}..{final_guide['max']}"
             )
 
-    warnings: list[str] = staleness_warnings(
+    warnings: list[str] = declared_market_warnings(declaration) + staleness_warnings(
         snapshot["as_of"],
         [("snapshot", snapshot["sources"])]
         + [(item["ticker"], item["evidence"]) for item in snapshot["candidates"]],
@@ -981,6 +1165,7 @@ def build_universe(
     universe_base = {
         "schema_version": 1,
         "market": market,
+        "market_spec": declaration,
         "profile": profile,
         "as_of": str(spec.get("as_of") or snapshot["as_of"]),
         "source_as_of": snapshot["as_of"],
@@ -1014,10 +1199,18 @@ def validate_universe(
     warnings: list[str] = []
     market = str(universe.get("market", "")).lower()
     profile = str(universe.get("profile", "")).lower()
-    if market not in MARKETS:
-        errors.append("invalid market")
+    declaration = universe.get("market_spec")
+    rules: MarketSpec | None = None
+    try:
+        # Re-resolved from the record rather than from the registry, so a stored universe of an
+        # unregistered market still validates — and so an edited declaration is caught here as
+        # well as by the hash.
+        rules, declaration = resolve_market(market, declaration)
+    except UniverseError as exc:
+        errors.append(str(exc))
     if profile not in PROFILES:
         errors.append("invalid profile")
+    warnings.extend(declared_market_warnings(declaration))
     try:
         taxonomy = normalize_taxonomy(universe.get("taxonomy") or [])
     except UniverseError as exc:
@@ -1030,7 +1223,7 @@ def validate_universe(
     normalized: list[dict[str, Any]] = []
     for index, raw in enumerate(members):
         try:
-            item = normalize_candidate(market, raw, taxonomy_by_code)
+            item = normalize_candidate(rules or market, raw, taxonomy_by_code)
         except UniverseError as exc:
             errors.append(f"member #{index}: {exc}")
             continue
@@ -1043,7 +1236,7 @@ def validate_universe(
         seen_tickers.add(item["ticker"])
         seen_assets.add(item["asset_id"])
         normalized.append(item)
-    if market in MARKETS and profile in PROFILES:
+    if rules is not None and profile in PROFILES:
         level = policy["profiles"][profile]["coverage_level"]
         required_themes = {
             item["theme_code"] for item in taxonomy if item["coverage_level"] <= level
@@ -1081,7 +1274,7 @@ def validate_universe(
                 f"quality rests on judgement alone for all {len(normalized)} members; "
                 "no candidate carries quality_facts"
             )
-    if market in MARKETS and profile in PROFILES and normalized:
+    if rules is not None and profile in PROFILES and normalized:
         # Quotas steer the build; nothing re-checked them afterwards, so a maintenance round could
         # walk a pool from 5% tactical to 30% one evidence-backed op at a time and never be told.
         targets = policy["profiles"][profile]["bucket_targets"]
@@ -1101,8 +1294,8 @@ def validate_universe(
         errors.append(f"ticker count exceeds {hard_ticker_cap}")
     if token_count > tradingview_token_cap:
         errors.append(f"TradingView token count exceeds {tradingview_token_cap}")
-    if market in MARKETS and profile in PROFILES:
-        guide = policy["markets"][market][profile]
+    if rules is not None and profile in PROFILES:
+        guide = market_guidance(market, policy, declaration)[profile]
         if len(normalized) < int(guide["min"]):
             warnings.append(
                 f"member count {len(normalized)} is below "
@@ -1253,9 +1446,16 @@ def watchlist_to_snapshot(text: str, market: str, as_of: str) -> dict[str, Any]:
     }
 
 
-def report_language(market: str) -> str:
-    """The default report language for a market; English for anything unregistered."""
-    spec = MARKET_SPECS.get(str(market).strip().lower())
+def report_language(universe: dict[str, Any] | str) -> str:
+    """The report language a universe defaults to: its declared one, or its registry row's."""
+    if isinstance(universe, dict):
+        declared = (universe.get("market_spec") or {}).get("language")
+        if declared:
+            return str(declared)
+        market = str(universe.get("market", ""))
+    else:
+        market = universe
+    spec = MARKET_SPECS.get(market.strip().lower())
     return spec.language if spec else "en"
 
 
@@ -1272,15 +1472,23 @@ def _glossed(lexicon: dict[str, str], domain: str, code: str) -> str:
 def render_markdown(
     universe: dict[str, Any], report: dict[str, Any], language: str | None = None
 ) -> str:
-    lex = load_lexicon(language or report_language(universe["market"]))
+    lex = load_lexicon(language or report_language(universe))
     taxonomy = {item["theme_code"]: item for item in universe["taxonomy"]}
     per_theme = Counter(member["theme_code"] for member in universe["members"])
     limits = universe.get("limits", {})
     profile = universe["profile"]
     colon = lex["punct.colon"]
+    declaration = universe.get("market_spec")
+    # Only ever shown when the rules were declared rather than reviewed. The presence of the line
+    # is the signal; printing "registered" on every other report would bury it.
+    declared_line = [
+        f"- {lex['label.market_rules']}{colon}{_glossed(lex, 'origin', 'declared')} · "
+        f"{declaration['label']} · {', '.join(declaration['venues'])}"
+    ] if declaration else []
     lines = [
         "# " + lex["title"].format(market=universe["market"].upper()),
         "",
+        *declared_line,
         f"- {lex['label.profile']}{colon}{lex.get('profile.' + profile, profile)}",
         f"- {lex['label.facts_as_of']}{colon}{universe['source_as_of']}",
         f"- {lex['label.version']}{colon}`{universe['version_hash']}`",
@@ -1463,6 +1671,11 @@ def apply_change_set(
         raise UniverseError("changes schema_version must be 1")
     if changes.get("market") != universe.get("market"):
         raise UniverseError("changes and universe markets differ")
+    if changes.get("market_spec"):
+        # The rules a universe was built under are part of its identity. A review that wanted
+        # different ones is a new universe, not a change set against this one.
+        raise UniverseError("a change set cannot redeclare market_spec; rebuild instead")
+    rules, _ = resolve_market(universe["market"], universe.get("market_spec"))
     if changes.get("base_version_hash") != universe.get("version_hash"):
         raise UniverseError("stale change set: base_version_hash does not match")
     if changes.get("complete") is not True:
@@ -1558,9 +1771,7 @@ def apply_change_set(
         elif name in {"ADD", "REPLACE"}:
             candidate_input = deepcopy(op.get("candidate") or {})
             candidate_input["evidence"] = deepcopy(evidence)
-            candidate = normalize_candidate(
-                universe["market"], candidate_input, taxonomy_by_code
-            )
+            candidate = normalize_candidate(rules, candidate_input, taxonomy_by_code)
             if not candidate["eligible"]:
                 raise UniverseError(f"op #{original_index}: candidate is not eligible")
             candidate["reason"] = reason or candidate["reason"]

@@ -72,6 +72,11 @@ reported rather than dropped.
    candidates that need those metrics do not belong in the universe yet.
 5. Cite current sources for listing status, venue, liquidity and every non-obvious admission. If
    an essential fact cannot be verified, exclude the candidate or mark the snapshot incomplete.
+   For a market outside `cn`, `us` and `crypto`, also research its rules and declare them in the
+   snapshot's `market_spec` — venues, symbol shape, identity rule and size guidance, with tier 1
+   or tier 2 evidence. Everything else about the build is unchanged. See
+   [references/data-contracts.md](references/data-contracts.md#market_spec); do not guess a venue
+   code or a symbol format, and say in your answer that the rules were declared, not reviewed.
 6. Run:
 
    ```bash

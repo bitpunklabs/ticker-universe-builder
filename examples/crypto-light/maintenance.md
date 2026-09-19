@@ -6,7 +6,7 @@
 
 - Profile: Light
 - Facts as of: 2026-10-15
-- Version: `07be97c42c1a`
+- Version: `ebccb0a456de`
 - Tickers: 40
 - Themes: 13
 - TradingView tokens: 53 / 1000

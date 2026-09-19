@@ -3,7 +3,7 @@
   "market": "crypto",
   "as_of": "2026-10-15",
   "complete": true,
-  "base_version_hash": "1b6b96c0a7f0",
+  "base_version_hash": "daa97c991763",
   "review_depth": "routine",
   "summary": "Monthly liveness and turnover refresh; one satellite retired, one payment asset added, nothing else moved",
   "sources": [

@@ -84,10 +84,12 @@ Stated plainly, because a limit you cannot see is a defect:
   its guidance range, no warnings. US and CN stop at 64 against guidance of 180 and 150, because
   every ticker in `examples/seeds/*.tsv` is written from knowledge rather than read off an
   exchange listing. Extending them is a TSV edit, not a code change.
-- **Three markets ship** (`cn`, `us`, `crypto`). Their rules live in one `MARKET_SPECS` table
-  rather than in scattered branches, so a fourth is a registry row plus a policy row plus an
-  overlay — see [references/markets/adding-a-market.md](references/markets/adding-a-market.md).
-  It is still a code change, and no unexercised market is shipped on speculation.
+- **Three markets ship reviewed rules** (`cn`, `us`, `crypto`), in one `MARKET_SPECS` table
+  rather than in scattered branches. Any other market builds by declaring the same handful of
+  facts in the snapshot, under the same evidence gate as everything else — recorded, hashed, and
+  reported as declared rather than reviewed on every run. A fourth *registered* market is still a
+  code change, and no unexercised market overlay is shipped on speculation. See
+  [references/markets/adding-a-market.md](references/markets/adding-a-market.md).
 - **Three locales ship** (`en`, `zh-Hans`, `zh-Hant`), and the report is written in the market's
   own language by default. Only the chrome is translated; validation diagnostics stay English
   because they name policy fields and code paths. The language of every above-scale market is

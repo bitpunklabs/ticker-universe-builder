@@ -79,6 +79,52 @@ saves the transcription, not the work. Tickers that do not match the named marke
 }
 ```
 
+### market_spec
+
+Only for a market this skill does not register. `cn`, `us` and `crypto` carry reviewed rules and
+refuse a declaration; anything else is buildable by researching the same handful of facts a
+registry row would have held:
+
+```json
+"market_spec": {
+  "code": "th",
+  "label": "Thailand SET",
+  "language": "en",
+  "venues": ["SET"],
+  "symbol_pattern": "[A-Z][A-Z0-9\\-]{0,9}",
+  "symbol_hint": "one to ten characters starting with a letter",
+  "venue_in_asset_id": false,
+  "asset_id_strip": [],
+  "factor_r2_required": false,
+  "guidance": {
+    "light":  {"min": 40, "target": 60,  "max": 90},
+    "medium": {"min": 80, "target": 110, "max": 150},
+    "heavy":  {"min": 140, "target": 190, "max": 260}
+  },
+  "evidence": [{"url": "https://www.set.or.th/...", "as_of": "2026-09-17", "tier": 1}]
+}
+```
+
+Nothing else about the build changes — roles, quotas, coverage levels, evidence tiers, the
+measurement rules, turnover budgets and hashing are the same as for a registered market. This
+block is the *only* thing a market gets to decide for itself, which is why it is checked like any
+other researched fact:
+
+- **Strong evidence is required.** A venue code and a symbol shape are easier to invent than a
+  ticker, and a wrong one changes what counts as the same asset for every member at once.
+- **`guidance` is not optional.** The deeper tiers are defined relative to the shallower ones, so
+  a build with no stated Light size would have to invent one — and an invented range reports
+  nothing when a universe comes out the wrong size. Use `assets/default-policy.json` as the shape.
+- **`language` must have a locale.** Omit it for English rather than naming a language this skill
+  cannot write.
+- **It is recorded and hashed.** The universe carries the declaration, `validate` re-resolves the
+  rules from that record rather than from the registry, and `version_hash` covers it — two
+  universes built under different identity rules are not the same universe. A change set may not
+  redeclare it; different rules mean a rebuild.
+- **Every report says so.** A build and every later validation both warn that the rules were
+  declared rather than reviewed, and `.md` carries a `Market rules: declared` line that a
+  registered market never prints.
+
 ### measurement
 
 Every metric that appears on any candidate needs a declaration, and a metric with no declaration

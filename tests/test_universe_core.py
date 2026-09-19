@@ -27,6 +27,7 @@ from universe_core import (  # noqa: E402
     load_policy,
     market_spec,
     normalize_candidate,
+    normalize_market_declaration,
     read_json,
     render_markdown,
     render_txt,
@@ -465,6 +466,145 @@ class MarketRegistryTests(unittest.TestCase):
 # A comma between two Chinese characters is an ASCII comma only by accident, and it is the most
 # common way a translated page reads as machine output. Latin runs keep their own punctuation.
 _ASCII_NEXT_TO_CJK = re.compile(r"[\u3400-\u9fff][,;:!?]|[,;:!?][\u3400-\u9fff]")
+
+
+def declaration(**overrides) -> dict:
+    value = {
+        "code": "th",
+        "label": "Thailand SET",
+        "venues": ["SET"],
+        "symbol_pattern": r"[A-Z][A-Z0-9\-]{0,9}",
+        "symbol_hint": "one to ten characters starting with a letter",
+        "guidance": {
+            "light": {"min": 1, "target": 2, "max": 4},
+            "medium": {"min": 2, "target": 3, "max": 6},
+            "heavy": {"min": 3, "target": 4, "max": 8},
+        },
+        "evidence": evidence(),
+    }
+    value.update(overrides)
+    return value
+
+
+def declared_snapshot(**overrides) -> dict:
+    value = snapshot()
+    value["market"] = "th"
+    value["market_spec"] = declaration(**overrides.pop("spec_overrides", {}))
+    value["candidates"] = [
+        candidate("SET:PTT", "PTT", "00_A", "BENCHMARK", required=True),
+        candidate("SET:AOT", "AOT", "10_A", "THEME_LEADER"),
+        candidate("SET:CPALL", "CPALL", "11_A", "INDEPENDENT_SENSOR"),
+        candidate("SET:KBANK", "KBANK", "12_A", "BETA_SATELLITE"),
+    ]
+    value.update(overrides)
+    return value
+
+
+class DeclaredMarketTests(unittest.TestCase):
+    """A market this skill has not reviewed is still a market a user may observe.
+
+    The general logic does not change for it — roles, quotas, evidence tiers, measurement,
+    turnover budgets and hashing are the same everywhere. What a snapshot supplies is the handful
+    of facts a registry row would have carried, under the same gates as any other researched
+    fact: strong evidence, recorded in the universe, covered by the hash, and reported as
+    researched rather than reviewed.
+    """
+
+    def build(self, **overrides):
+        return build_universe(
+            {"schema_version": 1, "market": "th", "profile": "light"},
+            declared_snapshot(**overrides),
+            load_policy(),
+        )
+
+    def test_an_unregistered_market_without_a_declaration_names_the_way_in(self) -> None:
+        raw = declared_snapshot()
+        del raw["market_spec"]
+        with self.assertRaisesRegex(UniverseError, "declare market_spec in the snapshot"):
+            build_universe({"schema_version": 1, "market": "th", "profile": "light"},
+                           raw, load_policy())
+
+    def test_a_registered_market_cannot_be_redeclared(self) -> None:
+        # Otherwise a snapshot could loosen the symbol rule that rejected its own candidates.
+        raw = snapshot()
+        raw["market_spec"] = declaration(code="crypto")
+        with self.assertRaisesRegex(UniverseError, "is registered"):
+            build_universe(spec(), raw, small_policy())
+
+    def test_a_declared_market_builds_under_the_same_invariants(self) -> None:
+        universe, report = self.build()
+        self.assertTrue(report["passed"])
+        self.assertEqual(universe["market_spec"]["label"], "Thailand SET")
+        self.assertEqual(universe["members"][0]["ticker"], "SET:PTT")
+        self.assertTrue(validate_universe(universe, load_policy())["passed"])
+
+    def test_the_report_always_says_the_rules_were_not_reviewed(self) -> None:
+        universe, report = self.build()
+        self.assertTrue(any("is not registered" in item for item in report["warnings"]))
+        self.assertIn("Market rules: declared", render_markdown(universe, report))
+        # And it survives a round trip through a stored universe, not only the build that made it.
+        again = validate_universe(universe, load_policy())
+        self.assertTrue(any("is not registered" in item for item in again["warnings"]))
+
+    def test_the_declared_identity_rule_actually_applies(self) -> None:
+        # Left to the default rule, so the declaration is what decides whether two venues
+        # carrying one symbol are one asset or two.
+        def without_asset_ids(**overrides):
+            raw = declared_snapshot(**overrides)
+            for item in raw["candidates"]:
+                del item["asset_id"]
+            return build_universe({"schema_version": 1, "market": "th", "profile": "light"},
+                                  raw, load_policy())[0]
+
+        self.assertEqual(without_asset_ids()["members"][0]["asset_id"], "PTT")
+        venued = without_asset_ids(spec_overrides={"venue_in_asset_id": True})
+        self.assertEqual(venued["members"][0]["asset_id"], "SET:PTT")
+
+    def test_the_declared_symbol_shape_is_enforced(self) -> None:
+        raw = declared_snapshot()
+        raw["candidates"][1]["ticker"] = "SET:0001"
+        raw["candidates"][1]["asset_id"] = "0001"
+        with self.assertRaisesRegex(UniverseError, "one to ten characters"):
+            build_universe({"schema_version": 1, "market": "th", "profile": "light"},
+                           raw, load_policy())
+
+    def test_editing_the_stored_rules_breaks_the_hash(self) -> None:
+        universe, _ = self.build()
+        tampered = copy.deepcopy(universe)
+        tampered["market_spec"]["venues"] = ["SET", "NASDAQ"]
+        report = validate_universe(tampered, load_policy())
+        self.assertFalse(report["passed"])
+        self.assertTrue(any("version_hash" in item for item in report["errors"]))
+
+    def test_narrative_alone_cannot_declare_a_market(self) -> None:
+        with self.assertRaisesRegex(UniverseError, "tier 1 or tier 2"):
+            normalize_market_declaration(declaration(evidence=evidence(tier=3)), "th")
+
+    def test_size_guidance_is_not_optional(self) -> None:
+        raw = declaration()
+        del raw["guidance"]
+        with self.assertRaisesRegex(UniverseError, "guidance must carry"):
+            normalize_market_declaration(raw, "th")
+
+    def test_a_language_with_no_locale_is_named(self) -> None:
+        with self.assertRaisesRegex(UniverseError, "no locale for 'th'"):
+            normalize_market_declaration(declaration(language="th"), "th")
+
+    def test_a_declared_language_writes_the_report(self) -> None:
+        universe, report = self.build(spec_overrides={"language": "zh-Hant"})
+        self.assertIn("## 成員", render_markdown(universe, report))
+
+    def test_an_unknown_field_is_refused_rather_than_ignored(self) -> None:
+        with self.assertRaisesRegex(UniverseError, "unknown fields: lot_size"):
+            normalize_market_declaration(declaration(lot_size=100), "th")
+
+    def test_a_change_set_cannot_redeclare_the_rules(self) -> None:
+        universe, _ = self.build()
+        changes = change_set(universe, [{"op": "NO_CHANGE", "scope": "00_A", "reason": "fresh"}])
+        changes["market"] = "th"
+        changes["market_spec"] = declaration()
+        with self.assertRaisesRegex(UniverseError, "cannot redeclare market_spec"):
+            apply_change_set(universe, changes, load_policy())
 
 
 class LocalizationTests(unittest.TestCase):
