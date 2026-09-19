@@ -46,6 +46,14 @@ jobs:
             python scripts/universe.py validate "$universe" > /dev/null
             echo "$universe" > "/tmp/$market.path"
           done
+      - name: read a watchlist back in and reach the same tickers
+        run: |
+          watchlist=$(python -c \
+            "import json,sys; print(json.load(open(sys.argv[1]))['artifacts']['watchlist'])" \
+            /tmp/crypto.result.json)
+          python scripts/universe.py import --watchlist "$watchlist" --market crypto \
+            --output /tmp/crypto.draft.json
+          python scripts/universe.py taxonomy --market crypto --profile light > /dev/null
       - name: apply the example change set
         run: |
           python scripts/universe.py maintain \
