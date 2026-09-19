@@ -16,11 +16,11 @@ import shutil
 import tempfile
 from collections import Counter, defaultdict
 from copy import deepcopy
+from dataclasses import dataclass
 from datetime import date
 from pathlib import Path
 from typing import Any
 
-MARKETS = {"cn", "us", "crypto"}
 PROFILES = ("light", "medium", "heavy")
 PROFILE_INDEX = {name: index for index, name in enumerate(PROFILES)}
 ROLES = {
@@ -56,6 +56,68 @@ ROLE_ORDER = {
     "LIQUIDITY_SENSOR": 400,
     "NEW_LISTING": 300,
 }
+# Roles whose members are admitted for structural reasons rather than for carrying independent
+# information, so the factor-redundancy statistic is not asked of them.
+FACTOR_EXEMPT_ROLES = frozenset({"BENCHMARK", "ANCHOR", "NEW_LISTING"})
+
+
+@dataclass(frozen=True)
+class MarketSpec:
+    """Everything that is true of one market and of no other.
+
+    Every market-specific rule lives in a row of this table, so adding a market is a registry
+    entry plus a policy entry plus an overlay document — not an edit spread across the validator,
+    the identity rule and the candidate gate, where a fourth market would have gone unchecked in
+    two of the three.
+    """
+
+    code: str
+    label: str
+    venues: frozenset[str]
+    symbol_pattern: re.Pattern[str]
+    symbol_hint: str
+    # Whether two venues listing the same symbol are the same economic asset. CN dual listings
+    # are distinct instruments; a US symbol is the company wherever it prints.
+    venue_in_asset_id: bool = False
+    # Suffixes stripped in order to reach the economic identity: a perpetual and its spot pair
+    # are one information source, so BTCUSDT.P and BTCUSDT both reduce to BTC.
+    asset_id_strip: tuple[str, ...] = ()
+    # Markets driven by one factor complex have to state how redundant each member is with it.
+    factor_r2_required: bool = False
+
+
+MARKET_SPECS: dict[str, MarketSpec] = {
+    spec.code: spec
+    for spec in (
+        MarketSpec(
+            code="cn",
+            label="China A-shares",
+            venues=frozenset({"SSE", "SZSE", "BSE"}),
+            symbol_pattern=re.compile(r"\d{6}"),
+            symbol_hint="six digits",
+            venue_in_asset_id=True,
+        ),
+        MarketSpec(
+            code="us",
+            label="US equities and ETFs",
+            venues=frozenset({"NASDAQ", "NYSE", "AMEX", "NYSEARCA", "ARCA", "CBOE", "IEX", "OTC"}),
+            symbol_pattern=re.compile(r"[A-Z][A-Z0-9.\-]{0,14}"),
+            symbol_hint="one to fifteen characters starting with a letter",
+        ),
+        MarketSpec(
+            code="crypto",
+            label="Crypto spot and perpetuals",
+            venues=frozenset({"BINANCE"}),
+            symbol_pattern=re.compile(r"[A-Z0-9]{2,15}USDT(\.P)?"),
+            symbol_hint="a USDT-quoted spot or perpetual symbol",
+            asset_id_strip=(".P", "USDT"),
+            factor_r2_required=True,
+        ),
+    )
+}
+MARKETS = frozenset(MARKET_SPECS)
+
+
 SCORE_WEIGHTS = {
     "core": {"liquidity": 0.35, "quality": 0.4, "independence": 0.15, "heat": 0.1},
     "satellite": {"liquidity": 0.25, "quality": 0.2, "independence": 0.4, "heat": 0.15},
@@ -67,8 +129,6 @@ BETA_SCORE_WEIGHTS = {
     "beta_stability": 0.25,
     "heat": 0.15,
 }
-US_VENUES = {"NASDAQ", "NYSE", "AMEX", "NYSEARCA", "ARCA", "CBOE", "IEX", "OTC"}
-CN_VENUES = {"SSE", "SZSE", "BSE"}
 
 METRIC_FIELDS = (
     "liquidity",
@@ -123,8 +183,6 @@ BUCKET_DRIFT_TOLERANCE = 0.10
 STRONG_EVIDENCE_TIERS = {1, 2}
 
 _THEME_RE = re.compile(r"^\d{2}_[A-Z]$")
-_CN_TICKER_RE = re.compile(r"^\d{6}$")
-_US_TICKER_RE = re.compile(r"^[A-Z][A-Z0-9.\-]{0,14}$")
 
 
 class UniverseError(ValueError):
@@ -174,6 +232,13 @@ def universe_hash(universe: dict[str, Any]) -> str:
     return canonical_hash(canonical)
 
 
+def market_spec(market: str) -> MarketSpec:
+    spec = MARKET_SPECS.get(str(market).strip().lower())
+    if spec is None:
+        raise UniverseError(f"unsupported market {market!r}; known: {', '.join(sorted(MARKETS))}")
+    return spec
+
+
 def split_ticker(ticker: str) -> tuple[str, str]:
     value = str(ticker).strip().upper()
     if ":" not in value:
@@ -185,37 +250,27 @@ def split_ticker(ticker: str) -> tuple[str, str]:
 
 
 def default_asset_id(market: str, ticker: str) -> str:
+    spec = market_spec(market)
     venue, symbol = split_ticker(ticker)
-    if market == "crypto":
-        symbol = symbol.removesuffix(".P")
-        return symbol.removesuffix("USDT")
-    if market == "cn":
-        return f"{venue}:{symbol}"
-    return symbol
+    for suffix in spec.asset_id_strip:
+        symbol = symbol.removesuffix(suffix)
+    return f"{venue}:{symbol}" if spec.venue_in_asset_id else symbol
 
 
 def validate_ticker(market: str, ticker: str) -> list[str]:
-    errors: list[str] = []
     try:
+        spec = market_spec(market)
         venue, symbol = split_ticker(ticker)
     except UniverseError as exc:
         return [str(exc)]
-    if market == "cn":
-        if venue not in CN_VENUES:
-            errors.append(f"{ticker}: unsupported CN venue")
-        if not _CN_TICKER_RE.fullmatch(symbol):
-            errors.append(f"{ticker}: CN symbol must be six digits")
-    elif market == "us":
-        if venue not in US_VENUES:
-            errors.append(f"{ticker}: unsupported US venue")
-        if not _US_TICKER_RE.fullmatch(symbol):
-            errors.append(f"{ticker}: invalid US symbol")
-    elif market == "crypto":
-        if venue != "BINANCE":
-            errors.append(f"{ticker}: Crypto V1 requires BINANCE venue")
-        base = symbol.removesuffix(".P")
-        if not base.endswith("USDT") or len(base) <= 4:
-            errors.append(f"{ticker}: Crypto V1 requires a USDT spot or perpetual symbol")
+    errors: list[str] = []
+    if venue not in spec.venues:
+        errors.append(
+            f"{ticker}: unsupported {spec.code} venue; "
+            f"expected one of {', '.join(sorted(spec.venues))}"
+        )
+    if not spec.symbol_pattern.fullmatch(symbol):
+        errors.append(f"{ticker}: {spec.code} symbol must be {spec.symbol_hint}")
     return errors
 
 
@@ -413,9 +468,12 @@ def normalize_candidate(
         raise UniverseError(f"{ticker}: ineligible candidate requires exclusion_reasons")
     if eligible and metrics["liquidity"] is None and role not in {"BENCHMARK", "ANCHOR"}:
         raise UniverseError(f"{ticker}: non-anchor candidate requires a liquidity score")
-    if eligible and market == "crypto" and role not in {"BENCHMARK", "ANCHOR", "NEW_LISTING"}:
+    spec = market_spec(market)
+    if eligible and spec.factor_r2_required and role not in FACTOR_EXEMPT_ROLES:
         if metrics["factor_r2"] is None:
-            raise UniverseError(f"{ticker}: established Crypto candidates require factor_r2")
+            raise UniverseError(
+                f"{ticker}: established {spec.code} candidates require factor_r2"
+            )
     if eligible and role == "INDEPENDENT_SENSOR" and (
         metrics["independence"] is None or metrics["independence"] < 50
     ):
@@ -448,9 +506,7 @@ def normalize_candidate(
 
 
 def normalize_snapshot(snapshot: dict[str, Any]) -> dict[str, Any]:
-    market = str(snapshot.get("market", "")).lower()
-    if market not in MARKETS:
-        raise UniverseError(f"snapshot market must be one of {sorted(MARKETS)}")
+    market = market_spec(snapshot.get("market", "")).code
     if snapshot.get("schema_version") != 1:
         raise UniverseError("snapshot schema_version must be 1")
     if snapshot.get("complete") is not True:
@@ -647,8 +703,9 @@ def build_universe(
         raise UniverseError("build spec schema_version must be 1")
     market = str(spec.get("market", "")).lower()
     profile = str(spec.get("profile", "")).lower()
-    if market not in MARKETS or profile not in PROFILES:
-        raise UniverseError("build spec needs market=cn|us|crypto and profile=light|medium|heavy")
+    market_spec(market)
+    if profile not in PROFILES:
+        raise UniverseError(f"build spec profile must be one of {', '.join(PROFILES)}")
     snapshot = normalize_snapshot(snapshot_raw)
     if snapshot["market"] != market:
         raise UniverseError("build spec and snapshot markets differ")

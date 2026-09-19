@@ -68,8 +68,10 @@ Stated plainly, because a limit you cannot see is a defect:
 - **The composite score is an ordinal tie-break**, deliberately. Role order carries the structural
   judgement; the weighted metric score only breaks ties inside a bucket, and nothing downstream
   should read it as a rating.
-- **Three markets are hardcoded** (`cn`, `us`, `crypto`) along with their venue rules. A fourth
-  market is a code change, not a policy change.
+- **Three markets ship** (`cn`, `us`, `crypto`). Their rules live in one `MARKET_SPECS` table
+  rather than in scattered branches, so a fourth is a registry row plus a policy row plus an
+  overlay — see [references/markets/adding-a-market.md](references/markets/adding-a-market.md).
+  It is still a code change, and no unexercised market is shipped on speculation.
 
 ## Not investment advice
 

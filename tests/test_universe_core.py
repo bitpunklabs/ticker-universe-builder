@@ -11,13 +11,17 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
 from universe_core import (  # noqa: E402
+    MARKET_SPECS,
     UniverseError,
     apply_change_set,
     build_universe,
+    default_asset_id,
     load_policy,
+    market_spec,
     read_json,
     render_markdown,
     render_txt,
+    validate_ticker,
     validate_universe,
     write_artifacts,
 )
@@ -363,6 +367,34 @@ class MaintenanceTests(unittest.TestCase):
         report = validate_universe(altered, self.policy)
         self.assertFalse(report["passed"])
         self.assertIn("version_hash does not match universe content", report["errors"])
+
+
+class MarketRegistryTests(unittest.TestCase):
+    """Market rules live in one table so a fourth market cannot be half-added."""
+
+    def test_every_registered_market_has_a_policy_row(self) -> None:
+        policy = load_policy()
+        self.assertEqual(set(MARKET_SPECS), set(policy["markets"]))
+        for code in MARKET_SPECS:
+            self.assertEqual(set(policy["markets"][code]), {"light", "medium", "heavy"})
+
+    def test_unknown_market_is_named_not_silently_dropped(self) -> None:
+        with self.assertRaisesRegex(UniverseError, "unsupported market 'hk'"):
+            market_spec("hk")
+
+    def test_identity_follows_the_registry(self) -> None:
+        # Venue is part of the asset only where two venues really are two instruments.
+        self.assertEqual(default_asset_id("cn", "SSE:600519"), "SSE:600519")
+        self.assertEqual(default_asset_id("us", "NASDAQ:AAPL"), "AAPL")
+        self.assertEqual(default_asset_id("crypto", "BINANCE:BTCUSDT.P"), "BTC")
+        self.assertEqual(default_asset_id("crypto", "BINANCE:BTCUSDT"), "BTC")
+
+    def test_symbol_shape_is_enforced_per_market(self) -> None:
+        self.assertTrue(validate_ticker("cn", "SSE:60051"))
+        self.assertTrue(validate_ticker("cn", "NASDAQ:600519"))
+        self.assertTrue(validate_ticker("crypto", "BINANCE:BTCUSDC"))
+        self.assertFalse(validate_ticker("crypto", "BINANCE:BTCUSDT.P"))
+        self.assertFalse(validate_ticker("us", "NYSEARCA:BRK.B"))
 
 
 class AuditTests(unittest.TestCase):

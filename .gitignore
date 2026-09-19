@@ -15,3 +15,5 @@ venv/
 
 # Build output written by scripts/universe.py --output
 output/
+
+tracker.md
