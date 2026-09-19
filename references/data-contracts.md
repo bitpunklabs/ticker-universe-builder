@@ -217,7 +217,12 @@ tier 2 evidence item. Market narrative alone cannot admit or remove anything.
 
 ## Output
 
-`universe.json` is the record: spec limits, policy hash, sources, measurement, taxonomy, members,
-the selection audit and the review history. `version_hash` covers membership and taxonomy only, so
-re-running with fresher metrics does not churn the version. The other three artifacts —
-`validation.json`, `universe.md`, `universe.txt` — are derived from it and are never edited by hand.
+Four files, all stemmed `{market}-{profile}-{as_of}` — `crypto-light-2026-09-17.json`,
+`.validation.json`, `.md`, `.txt`. The watchlist leaves its directory as soon as it is useful, so
+the name has to say which universe and when without the directory around it. The command prints
+every path it wrote under `artifacts`; read them from there instead of reconstructing them.
+
+The `.json` is the record: spec limits, policy hash, sources, measurement, taxonomy, members, the
+selection audit and the review history. `version_hash` covers membership and taxonomy only, so
+re-running with fresher metrics does not churn the version. The other three are derived from it
+and are never edited by hand.

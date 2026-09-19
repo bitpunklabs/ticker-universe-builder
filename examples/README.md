@@ -10,6 +10,8 @@ python scripts/universe.py build \
   --output /tmp/crypto-light
 ```
 
+It writes `crypto-light-2026-09-16.{json,md,txt,validation.json}` and prints all four paths.
+
 | Example | Shows |
 |---|---|
 | `crypto-light/` | Spot/perpetual merging via `asset_id`, the BTC/ETH/SOL factor measurement, a tactical `LIQUIDITY_SENSOR`, and a `changes.json` that adds a theme and its first member in one round |

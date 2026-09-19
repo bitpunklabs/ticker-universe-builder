@@ -1193,16 +1193,34 @@ def _write_atomic(output: str | Path, files: dict[str, str]) -> Path:
     return destination
 
 
+def artifact_stem(universe: dict[str, Any]) -> str:
+    """`crypto-light-2026-09-17`.
+
+    The watchlist leaves this directory the moment it is useful — it gets imported, mailed,
+    dropped in a downloads folder next to last quarter's. A file called `universe.txt` says
+    nothing about which universe or when; the name has to carry that on its own.
+    """
+    return f"{universe['market']}-{universe['profile']}-{universe['as_of']}"
+
+
 def write_artifacts(
     universe: dict[str, Any], report: dict[str, Any], output: str | Path
-) -> Path:
+) -> dict[str, Path]:
+    stem = artifact_stem(universe)
     files = {
-        "universe.json": json.dumps(universe, ensure_ascii=False, indent=2) + "\n",
-        "validation.json": json.dumps(report, ensure_ascii=False, indent=2) + "\n",
-        "universe.txt": render_txt(universe),
-        "universe.md": render_markdown(universe, report),
+        f"{stem}.json": json.dumps(universe, ensure_ascii=False, indent=2) + "\n",
+        f"{stem}.validation.json": json.dumps(report, ensure_ascii=False, indent=2) + "\n",
+        f"{stem}.txt": render_txt(universe),
+        f"{stem}.md": render_markdown(universe, report),
     }
-    return _write_atomic(output, files)
+    destination = _write_atomic(output, files)
+    return {
+        "directory": destination,
+        "universe": destination / f"{stem}.json",
+        "validation": destination / f"{stem}.validation.json",
+        "watchlist": destination / f"{stem}.txt",
+        "markdown": destination / f"{stem}.md",
+    }
 
 
 def apply_change_set(

@@ -63,16 +63,16 @@ def build(args: argparse.Namespace) -> int:
         load_policy(args.policy),
         read_json(args.seed) if args.seed else None,
     )
-    output = write_artifacts(universe, report, args.output)
-    return _ok(universe, report, output, report["stats"])
+    artifacts = write_artifacts(universe, report, args.output)
+    return _ok(universe, report, artifacts, report["stats"])
 
 
 def maintain(args: argparse.Namespace) -> int:
     universe, report = apply_change_set(
         read_json(args.universe), read_json(args.changes), load_policy(args.policy)
     )
-    output = write_artifacts(universe, report, args.output)
-    return _ok(universe, report, output, report["maintenance"])
+    artifacts = write_artifacts(universe, report, args.output)
+    return _ok(universe, report, artifacts, report["maintenance"])
 
 
 def validate(args: argparse.Namespace) -> int:
@@ -81,10 +81,11 @@ def validate(args: argparse.Namespace) -> int:
     return 0 if report["passed"] else 2
 
 
-def _ok(universe: dict, report: dict, output: Path, detail: dict) -> int:
+def _ok(universe: dict, report: dict, artifacts: dict[str, Path], detail: dict) -> int:
     print(json.dumps({
         "status": "passed",
-        "output": str(output),
+        "output": str(artifacts["directory"]),
+        "artifacts": {name: str(path) for name, path in artifacts.items() if name != "directory"},
         "version_hash": universe["version_hash"],
         "warnings": report["warnings"],
         **detail,

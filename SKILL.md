@@ -57,9 +57,10 @@ If the market or the depth is missing, ask only for the missing choice. Default 
      --output output
    ```
 
-6. Run `python scripts/universe.py validate output/universe.json` even though the builder
+6. The command prints the path of every artifact it wrote; they are named
+   `{market}-{profile}-{as_of}`. Run `validate` on the `universe` path even though the builder
    validates before writing. Never present an output that fails.
-7. Return the human-readable `universe.md` and the TradingView-importable `universe.txt`.
+7. Return the human-readable `.md` and the TradingView-importable `.txt`.
 
 To widen an existing universe to a deeper tier, pass it as `--seed output/universe.json` instead
 of rebuilding. Upgrading a tier is an extension; a rebuild churns a universe whose entire purpose

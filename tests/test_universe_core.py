@@ -178,11 +178,22 @@ class BuildTests(unittest.TestCase):
         self.assertIn("BINANCE:BTCUSDT.P", text)
         with tempfile.TemporaryDirectory() as root:
             output = Path(root) / "output"
-            write_artifacts(universe, report, output)
-            self.assertTrue((output / "universe.md").is_file())
-            self.assertTrue((output / "universe.txt").is_file())
+            artifacts = write_artifacts(universe, report, output)
+            # The watchlist is the artifact that leaves the directory, so its name carries the
+            # market, the depth and the date on its own.
+            self.assertEqual(artifacts["watchlist"].name, "crypto-light-2026-09-09.txt")
+            self.assertEqual(artifacts["markdown"].name, "crypto-light-2026-09-09.md")
             self.assertEqual(
-                json.loads((output / "universe.json").read_text())["version_hash"],
+                sorted(path.name for path in output.iterdir()),
+                [
+                    "crypto-light-2026-09-09.json",
+                    "crypto-light-2026-09-09.md",
+                    "crypto-light-2026-09-09.txt",
+                    "crypto-light-2026-09-09.validation.json",
+                ],
+            )
+            self.assertEqual(
+                json.loads(artifacts["universe"].read_text())["version_hash"],
                 universe["version_hash"],
             )
 
