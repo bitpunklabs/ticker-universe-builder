@@ -67,3 +67,9 @@ the note exists.
 Not a data layer. It does not fetch, does not know about providers, does not clean, and takes no
 view on what the numbers mean. Fetching prices is outside this skill; turning a local table into
 declarations that survive the validator is inside it.
+
+## Afterwards
+
+The same price table format is what [evaluation.md](evaluation.md) reads to measure a universe against
+the window it lived through. `measure` fills a snapshot in; `evaluate` checks what the numbers
+turned out to be worth.

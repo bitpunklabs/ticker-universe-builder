@@ -7,6 +7,7 @@
     python scripts/universe.py build    --spec S --snapshot N --output DIR [--seed universe.json]
     python scripts/universe.py maintain --universe U --changes C --output DIR
     python scripts/universe.py diff     before.json after.json
+    python scripts/universe.py evaluate --universe U --prices P [--benchmark B]
     python scripts/universe.py validate universe.json
 
 Exit code 0 means the artifacts were written and validation passed. Exit code 2 means nothing was
@@ -23,6 +24,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+import evaluate_core  # noqa: E402
 import measure_core  # noqa: E402
 from universe_core import (  # noqa: E402
     UniverseError,
@@ -126,6 +128,28 @@ def maintain(args: argparse.Namespace) -> int:
     return _ok(universe, report, artifacts, report["maintenance"])
 
 
+def evaluate(args: argparse.Namespace) -> int:
+    report = evaluate_core.evaluate(
+        universe=read_json(args.universe),
+        prices=args.prices,
+        benchmarks=args.benchmark,
+        top=args.top,
+    )
+    payload = json.dumps(report, ensure_ascii=False, indent=2) + "\n"
+    if args.output:
+        Path(args.output).write_text(payload, encoding="utf-8")
+        print(json.dumps({
+            "status": "evaluated",
+            "output": args.output,
+            "window": report["window"],
+            "survival": report["survival"]["rate"],
+            "coverage": {k: v["rate"] for k, v in report["coverage"]["top"].items()},
+        }, ensure_ascii=False))
+    else:
+        print(payload, end="")
+    return 0
+
+
 def diff(args: argparse.Namespace) -> int:
     report = diff_universes(read_json(args.before), read_json(args.after))
     print(json.dumps(report, ensure_ascii=False, indent=2))
@@ -218,6 +242,22 @@ def parser() -> argparse.ArgumentParser:
     review.add_argument("--language", help=_LANGUAGE_HELP)
     review.set_defaults(handler=maintain)
 
+    after = sub.add_parser(
+        "evaluate", help="measure a universe against what the window actually did"
+    )
+    after.add_argument("--universe", required=True, help="the universe.json being evaluated")
+    after.add_argument(
+        "--prices", required=True,
+        help="CSV of date,ticker,close covering the window, ideally wider than the universe",
+    )
+    after.add_argument(
+        "--benchmark", action="append", default=[],
+        help="factor leg for the independence check; repeat for a basket",
+    )
+    after.add_argument("--top", type=int, help="single cut for coverage (default: 10, 25, 50)")
+    after.add_argument("--output", help="write to a file instead of stdout")
+    after.set_defaults(handler=evaluate)
+
     compare = sub.add_parser("diff", help="compare two universe.json files")
     compare.add_argument("before", help="the earlier universe.json")
     compare.add_argument("after", help="the later universe.json")
@@ -233,7 +273,7 @@ def main(argv: list[str] | None = None) -> int:
     args = parser().parse_args(argv)
     try:
         return args.handler(args)
-    except (UniverseError, measure_core.MeasureError) as exc:
+    except (UniverseError, measure_core.MeasureError, evaluate_core.EvaluateError) as exc:
         print(f"{args.command} failed: {exc}", file=sys.stderr)
         return 2
 

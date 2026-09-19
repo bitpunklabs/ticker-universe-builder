@@ -94,6 +94,33 @@ jobs:
           assert diff["market_spec"] == "unchanged"
           EOF
 
+      - name: evaluate the built universe against a synthetic window
+        # Deterministic straight-line prices: the point is that every section computes and the
+        # coverage pool is wider than the universe, not that the numbers mean anything.
+        run: |
+          python - <<'EOF'
+          import json
+          universe = json.load(open(open("/tmp/crypto.path").read().strip()))
+          tickers = [m["ticker"] for m in universe["members"]]
+          tickers += [a["ticker"] for a in universe["selection_audit"]]
+          rows = ["date,ticker,close"]
+          for index, ticker in enumerate(sorted(set(tickers))):
+              for day in range(30):
+                  close = 100.0 * (1.0 + (index % 11 - 5) / 100 * day / 29)
+                  rows.append(f"2026-10-{day + 1:02d},{ticker},{close:.4f}")
+          open("/tmp/window.csv", "w").write("\n".join(rows) + "\n")
+          EOF
+          python scripts/universe.py evaluate \
+            --universe "$(cat /tmp/crypto.path)" --prices /tmp/window.csv \
+            --benchmark BINANCE:BTCUSDT.P --output /tmp/evaluation.json
+          python - <<'EOF'
+          import json
+          report = json.load(open("/tmp/evaluation.json"))
+          assert report["survival"]["rate"] == 1.0, report["survival"]
+          assert report["coverage"]["member_share_of_pool"] < 1.0, report["coverage"]
+          assert report["independence"]["compared"] > 0, report["independence"]
+          EOF
+
   lint:
     runs-on: ubuntu-latest
     steps:

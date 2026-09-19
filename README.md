@@ -55,8 +55,10 @@ correct file. Operations can be checked one at a time, rejected one at a time an
 ```text
 SKILL.md              routing; read first
 references/           methodology, tiers, contracts, maintenance, sources, per-market overlays
-scripts/universe.py   the only entry point (taxonomy | import | measure | build | maintain | diff | validate)
+scripts/universe.py   the only entry point
+                      (taxonomy | import | measure | build | maintain | diff | evaluate | validate)
 scripts/measure_core.py   window statistics from a local price table, stdlib only
+scripts/evaluate_core.py  post-hoc measurement of a universe against its window, stdlib only
 scripts/universe_core.py  every mutation and output invariant
 assets/               default policy (counts, quotas, turnover budgets, freshness), starter taxonomies, locales
 examples/             one Light universe per market, generated from seeds and rebuilt by the test suite
@@ -74,9 +76,12 @@ Stated plainly, because a limit you cannot see is a defect:
 - **Half of `quality` is still judgement**, by design — durability is not a statistic. The rule
   half covers listing age, size percentile and adverse flags, and the two halves are recorded
   separately so nobody has to guess which is which.
-- **No evaluation loop.** Nothing here measures whether a universe was good after the fact, so the
-  guidance ranges in `references/tier-profiles.md` remain an initial calibration rather than
-  something recalibrated from outcomes.
+- **The constants are still guesses, but they are now checkable.** `evaluate` measures a
+  universe against the window it lived through — survival, coverage of the largest moves, the
+  cost of each exclusion code, per-theme volatility, per-metric rank correlation, declared
+  independence against realised. Nothing in this repository has yet been recalibrated from it:
+  one window is one draw, and the numbers in `assets/default-policy.json` are the same judged
+  ones they always were.
 - **The composite score is an ordinal tie-break**, deliberately. Role order carries the structural
   judgement; the weighted metric score only breaks ties inside a bucket, and nothing downstream
   should read it as a rating.

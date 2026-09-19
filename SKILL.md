@@ -24,6 +24,7 @@ does, and the shipped examples are known to build.
 4. Read [references/data-contracts.md](references/data-contracts.md) before writing any JSON.
 5. Follow [references/source-policy.md](references/source-policy.md) for evidence and provider use.
 6. Read [references/measurement.md](references/measurement.md) before filling in any metric.
+7. To check a universe after the fact, read [references/evaluation.md](references/evaluation.md).
 
 If the market or the depth is missing, ask only for the missing choice. Default the depth to
 `medium` when the user asks for a generally useful universe without naming one.
@@ -103,6 +104,12 @@ reported rather than dropped.
    in the market's own language — Simplified Chinese for CN, English for US and Crypto — so
    write the snapshot's names, themes, reasons and methods in that language too. `--language`
    overrides it; nothing else about the build changes.
+
+If you have a price table covering the window after a universe was built, run
+`evaluate --universe U --prices P` before proposing the next set of changes. It reports whether
+the instrument saw the largest moves, which exclusion code cost the most, and which metric
+ordered anything — see [references/evaluation.md](references/evaluation.md). It is not a
+backtest and never reports what the universe "returned".
 
 To compare two universes — two sessions, two months, two people — run
 `diff before.json after.json`. It leads with `market_spec`, because for a declared market two
