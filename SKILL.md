@@ -23,6 +23,7 @@ does, and the shipped examples are known to build.
 3. For an existing universe, also read [references/maintenance.md](references/maintenance.md).
 4. Read [references/data-contracts.md](references/data-contracts.md) before writing any JSON.
 5. Follow [references/source-policy.md](references/source-policy.md) for evidence and provider use.
+6. Read [references/measurement.md](references/measurement.md) before filling in any metric.
 
 If the market or the depth is missing, ask only for the missing choice. Default the depth to
 `medium` when the user asks for a generally useful universe without naming one.
@@ -35,7 +36,16 @@ If the market or the depth is missing, ask only for the missing choice. Default 
    never pass a claim to the scripts hidden inside prose.
 3. Declare in `measurement` how each metric was produced. A window-dependent statistic —
    liquidity, `factor_r2`, `beta_strength`, `beta_stability` — must be computed, not estimated,
-   and the builder refuses to accept it as judgement.
+   and the builder refuses to accept it as judgement. If you have a table of daily bars, compute
+   them instead of arguing with the gate:
+
+   ```bash
+   python scripts/universe.py measure --prices prices.csv --benchmark BINANCE:BTCUSDT.P \
+     --source https://data.binance.vision/ --into snapshot.json --output snapshot.measured.json
+   ```
+
+   See [references/measurement.md](references/measurement.md). If you have no price table, the
+   candidates that need those metrics do not belong in the universe yet.
 4. Cite current sources for listing status, venue, liquidity and every non-obvious admission. If
    an essential fact cannot be verified, exclude the candidate or mark the snapshot incomplete.
 5. Run:

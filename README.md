@@ -14,6 +14,7 @@ Copy this directory into your agent's skills folder. It needs Python 3.10+ and *
 the standard library only.
 
 ```bash
+python scripts/universe.py measure  --prices P --benchmark B --source URL --output M [--into S]
 python scripts/universe.py build    --spec S --snapshot N --output DIR [--seed universe.json]
 python scripts/universe.py maintain --universe U --changes C --output DIR
 python scripts/universe.py validate universe.json
@@ -38,7 +39,7 @@ correct file. Operations can be checked one at a time, rejected one at a time an
   every rejected candidate.
 - **Measured, not asserted.** Window-dependent statistics (liquidity, `factor_r2`, beta strength
   and stability) must declare their method, window and source. They cannot be submitted as
-  judgement.
+  judgement — and `measure` computes them from a price table so the rule has a way to be kept.
 - **Low turnover.** Per-depth turnover budgets, hysteresis, flip-flop warnings and a `deferred`
   queue that the next round inherits.
 - **Fail closed.** Incomplete facts, stale versions, missing evidence or a failed structural check
@@ -49,7 +50,8 @@ correct file. Operations can be checked one at a time, rejected one at a time an
 ```text
 SKILL.md              routing; read first
 references/           methodology, tiers, contracts, maintenance, sources, per-market overlays
-scripts/universe.py   the only entry point (build | maintain | validate)
+scripts/universe.py   the only entry point (measure | build | maintain | validate)
+scripts/measure_core.py   window statistics from a local price table, stdlib only
 scripts/universe_core.py  every mutation and output invariant
 assets/               default policy (counts, quotas, turnover budgets, freshness)
 examples/             one working universe per market, rebuilt by the test suite
@@ -61,7 +63,9 @@ tests/                pytest
 Stated plainly, because a limit you cannot see is a defect:
 
 - **No network layer.** The snapshot is the boundary. Whatever fetches the facts, this skill only
-  accepts the documented contract.
+  accepts the documented contract. `measure` closes the gap between that rule and a usable
+  workflow — it turns a local price table into conforming declarations — but it does not fetch,
+  and supplying the table is still the caller's job.
 - **No evaluation loop.** Nothing here measures whether a universe was good after the fact, so the
   guidance ranges in `references/tier-profiles.md` remain an initial calibration rather than
   something recalibrated from outcomes.
