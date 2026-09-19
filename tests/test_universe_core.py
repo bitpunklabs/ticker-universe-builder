@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import copy
 import json
+import re
 import sys
 import tempfile
 import unittest
@@ -461,6 +462,11 @@ class MarketRegistryTests(unittest.TestCase):
         self.assertFalse(validate_ticker("us", "NYSEARCA:BRK.B"))
 
 
+# A comma between two Chinese characters is an ASCII comma only by accident, and it is the most
+# common way a translated page reads as machine output. Latin runs keep their own punctuation.
+_ASCII_NEXT_TO_CJK = re.compile(r"[\u3400-\u9fff][,;:!?]|[,;:!?][\u3400-\u9fff]")
+
+
 class LocalizationTests(unittest.TestCase):
     """A universe is read by the people who trade that market, so the report follows the market.
 
@@ -518,6 +524,58 @@ class LocalizationTests(unittest.TestCase):
     def test_an_unknown_language_is_named_not_silently_ignored(self) -> None:
         with self.assertRaisesRegex(UniverseError, "unknown language 'de'"):
             load_lexicon("de")
+
+    # The three checks below are the ones proofreading keeps missing. A translation that is
+    # merely wrong is caught by reading it; a translation that is ASCII-punctuated, that collides
+    # with a label somewhere else in the report, or that drifts between the two Chinese locales
+    # reads fine in isolation and only looks wrong in the rendered page.
+
+    def test_cjk_text_uses_cjk_punctuation(self) -> None:
+        for language in languages():
+            for key, value in sorted(load_lexicon(language).items()):
+                self.assertIsNone(
+                    _ASCII_NEXT_TO_CJK.search(value),
+                    f"{language} {key}: ASCII punctuation beside CJK in {value!r}",
+                )
+        # The example is the demonstration, so it is held to the same standard as the chrome.
+        chinese = (ROOT / "examples" / "cn-light" / "universe.md").read_text(encoding="utf-8")
+        for line in chinese.splitlines():
+            self.assertIsNone(_ASCII_NEXT_TO_CJK.search(line), line)
+
+    def test_no_word_means_two_things_in_one_report(self) -> None:
+        # `review.depth` and `depth.deep` print on the same line. Giving both the same word makes
+        # the line read "Depth: Depth", which is how the first draft of zh-Hans shipped.
+        vocabulary = {"role", "basis", "profile", "depth", "reason"}
+        chrome = {"title", "label", "section", "column", "review", "value"}
+        for language in languages():
+            lexicon = load_lexicon(language)
+            words: dict[str, str] = {}
+            for key, value in sorted(lexicon.items()):
+                if not value or key.split(".")[0] not in vocabulary:
+                    continue
+                self.assertNotIn(key, words.get(value, ""))
+                self.assertIsNone(words.get(value), f"{language}: {key} reuses {value!r}")
+                words[value] = key
+            labels = {
+                value for key, value in lexicon.items()
+                if value and key.split(".")[0] in chrome
+            }
+            self.assertEqual(set(words) & labels, set(), language)
+
+    def test_the_two_chinese_locales_stay_one_translation(self) -> None:
+        # zh-Hant is maintained as a character-level conversion of zh-Hans, not as an independent
+        # translation, so that one term cannot become two. Length parity is the cheap proxy: it
+        # caught NEW_LISTING rendered as 次新 in one locale and 新上市 in the other. A regional
+        # term that genuinely changes length goes in the exemption set, deliberately and visibly.
+        exempt: set[str] = set()
+        hans, hant = load_lexicon("zh-Hans"), load_lexicon("zh-Hant")
+        for key in sorted(hans):
+            if key == "language" or key in exempt:
+                continue
+            self.assertEqual(
+                len(hans[key]), len(hant[key]),
+                f"{key}: {hans[key]!r} and {hant[key]!r} are not the same term",
+            )
 
 
 class QualityTests(unittest.TestCase):

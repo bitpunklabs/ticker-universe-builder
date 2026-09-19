@@ -90,9 +90,9 @@ METHOD_TEXT = {
     },
     "zh-Hans": {
         "liquidity": "30 日日均成交额的截面分位",
-        "quality": "上市时长与规模分位,叠加对经营持续性的判断",
-        "heat": "成交额跃升,须以交易所数据确认,单日波动不算",
-        "beta_strength": "对 {factor} 的 OLS beta 绝对值,beta 为 2.0 记 100",
+        "quality": "上市时长与规模分位，叠加对经营持续性的判断",
+        "heat": "成交额跃升，须以交易所数据确认，单日波动不算",
+        "beta_strength": "对 {factor} 的 OLS beta 绝对值，beta 为 2.0 记 100",
         "beta_stability": "beta 估计在窗口前后两半之间的一致程度",
         "factor_r2": "日收益对 {factor} 的 OLS 回归",
         "independence_derived": "由 builder 从 100 - factor_r2 推得",
@@ -218,8 +218,8 @@ PREAMBLE = {
 
 """,
     "zh-Hans": """> 由 `python examples/build_examples.py` 从 `examples/seeds/{market}.tsv` 生成。
-> 这是一次 build 写出的 `.md` 产物,提交进仓库是为了不运行任何东西也能读到它。
-> 其中所有指标数值都只作示意 — 见 [README.md](../README.md)。
+> 这是一次 build 写出的 `.md` 产物，提交进仓库是为了不运行任何东西也能读到它。
+> 其中所有指标数值都只作示意——见 [README.md](../README.md)。
 
 """,
 }

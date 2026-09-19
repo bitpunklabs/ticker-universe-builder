@@ -46,6 +46,30 @@ carries the identical text.
 Adding a language is one JSON file with the same keys as `en.json`. `zh-Hans`, `zh-Hant` and `en`
 ship.
 
+### Writing a locale
+
+A wrong word is caught by reading the file. The failures that survive a careful read are the ones
+that only look wrong in the rendered page, so `LocalizationTests` checks for those four directly:
+
+| Rule | Why it is a test and not a habit |
+|---|---|
+| Every key present, every closed vocabulary covered | Adding a role or an exclusion code without a word for it would print a bare code into a translated report |
+| CJK text uses CJK punctuation | An ASCII comma between two Chinese characters is the single clearest tell that a page was generated rather than written. `punct.colon` is part of the lexicon for the same reason |
+| No word means two things in one report | `review.depth` and `depth.deep` print on one line; giving both `深度` renders "深度：深度", which is how the first draft shipped |
+| `zh-Hant` stays a conversion of `zh-Hans` | Maintained as two independent translations, one term becomes two — `NEW_LISTING` was `次新` in one and `新上市` in the other. Length parity is the proxy; a regional term that changes length goes in the test's exemption set, visibly |
+
+Two more rules the tests cannot check, so they are written here:
+
+- **Translate the register, not the words.** `profile.light/medium/heavy` are `精简档 / 标准档 /
+  完整档` — one axis, three points. The first draft mixed three axes (`轻量 / 标准 / 完整`) and
+  read like three unrelated settings.
+- **Watch for terms the market already owns.** `turnover` here is the share of members replaced
+  in a review, and `换手` in a Chinese market report means trading turnover — a word already
+  spoken for by `liquidity`. It is `成分变动`.
+
+The example is held to the same standard as the chrome: `cn-light/universe.md` is checked line by
+line, because an example that reads like machine output teaches the agent to write machine output.
+
 ## The classification
 
 Deciding a market's language after the fact means two A-share universes built a month apart read

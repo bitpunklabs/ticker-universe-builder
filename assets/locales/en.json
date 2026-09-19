@@ -1,6 +1,7 @@
 {
   "language": "en",
   "title": "{market} Ticker Universe",
+  "punct.colon": ": ",
   "label.profile": "Profile",
   "label.facts_as_of": "Facts as of",
   "label.version": "Version",

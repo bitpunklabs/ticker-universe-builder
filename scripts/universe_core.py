@@ -1277,18 +1277,19 @@ def render_markdown(
     per_theme = Counter(member["theme_code"] for member in universe["members"])
     limits = universe.get("limits", {})
     profile = universe["profile"]
+    colon = lex["punct.colon"]
     lines = [
         "# " + lex["title"].format(market=universe["market"].upper()),
         "",
-        f"- {lex['label.profile']}: {lex.get('profile.' + profile, profile)}",
-        f"- {lex['label.facts_as_of']}: {universe['source_as_of']}",
-        f"- {lex['label.version']}: `{universe['version_hash']}`",
-        f"- {lex['label.tickers']}: {report['stats']['tickers']}",
-        f"- {lex['label.themes']}: {report['stats']['themes']}",
-        f"- {lex['label.tv_tokens']}: {report['stats']['tradingview_tokens']} / "
+        f"- {lex['label.profile']}{colon}{lex.get('profile.' + profile, profile)}",
+        f"- {lex['label.facts_as_of']}{colon}{universe['source_as_of']}",
+        f"- {lex['label.version']}{colon}`{universe['version_hash']}`",
+        f"- {lex['label.tickers']}{colon}{report['stats']['tickers']}",
+        f"- {lex['label.themes']}{colon}{report['stats']['themes']}",
+        f"- {lex['label.tv_tokens']}{colon}{report['stats']['tradingview_tokens']} / "
         f"{limits.get('tradingview_token_cap', 1000)}",
-        f"- {lex['label.rejected']}: {len(universe.get('selection_audit', []))}",
-        f"- {lex['label.validation']}: "
+        f"- {lex['label.rejected']}{colon}{len(universe.get('selection_audit', []))}",
+        f"- {lex['label.validation']}{colon}"
         f"{lex['value.pass'] if report['passed'] else lex['value.fail']}",
         "",
         f"## {lex['section.roles']}",
@@ -1370,11 +1371,13 @@ def render_markdown(
             "",
             f"## {lex['section.review']}",
             "",
-            f"- {lex['review.depth']}: {lex.get('depth.' + depth, depth)}",
-            f"- {lex['review.turnover']}: {maintenance['turnover']:.1%}",
-            f"- {lex['review.added']}: {', '.join(maintenance['added']) or lex['value.none']}",
-            f"- {lex['review.removed']}: {', '.join(maintenance['removed']) or lex['value.none']}",
-            f"- {lex['review.deferred']}: {len(maintenance['deferred'])}",
+            f"- {lex['review.depth']}{colon}{lex.get('depth.' + depth, depth)}",
+            f"- {lex['review.turnover']}{colon}{maintenance['turnover']:.1%}",
+            f"- {lex['review.added']}{colon}"
+            f"{', '.join(maintenance['added']) or lex['value.none']}",
+            f"- {lex['review.removed']}{colon}"
+            f"{', '.join(maintenance['removed']) or lex['value.none']}",
+            f"- {lex['review.deferred']}{colon}{len(maintenance['deferred'])}",
         ])
     lines.extend([
         "",

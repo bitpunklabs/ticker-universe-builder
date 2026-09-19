@@ -26,16 +26,16 @@
     },
     "quality": {
       "basis": "blended",
-      "method": "上市时长与规模分位,叠加对经营持续性的判断",
+      "method": "上市时长与规模分位，叠加对经营持续性的判断",
       "source": "http://www.sse.com.cn/assortment/stock/list/share/"
     },
     "heat": {
       "basis": "judged",
-      "method": "成交额跃升,须以交易所数据确认,单日波动不算"
+      "method": "成交额跃升，须以交易所数据确认，单日波动不算"
     },
     "beta_strength": {
       "basis": "measured",
-      "method": "对 SSE:510300 的 OLS beta 绝对值,beta 为 2.0 记 100",
+      "method": "对 SSE:510300 的 OLS beta 绝对值，beta 为 2.0 记 100",
       "window": "180d",
       "source": "http://www.sse.com.cn/market/stockdata/overview/"
     },
