@@ -9,6 +9,7 @@
 - Version: `e0ee146af293`
 - Tickers: 40
 - Themes: 15
+- Theme cap: 4
 - TradingView tokens: 55 / 1000
 - Rejected or unselected candidates: 18
 - Validation: PASS

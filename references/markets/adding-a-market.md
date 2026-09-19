@@ -144,7 +144,10 @@ with a domestic answer: Indian exchange filings and listing documents are publis
 ## What the registry does not decide
 
 Roles, buckets, score weights, coverage levels, turnover budgets and evidence tiers are market
-independent on purpose. So is what an adverse flag *costs*: a market names its own flags and
+independent on purpose. So is the theme cap — not as a fixed count, which only looks
+market-independent, but as a share: the tier sets a ceiling and the build tightens it to about
+half again a theme's fair share, so a market never needs a cap of its own. So is what an adverse
+flag *costs*: a market names its own flags and
 every one of them is worth the same 25 points, because a market that could also set the penalty
 could make its members score however it liked. A market that appears to need its own role vocabulary is usually a market
 whose overlay has not yet been written carefully enough; reach for a new role only after the

@@ -10,6 +10,10 @@ capacity = themes reachable at this coverage level x theme_cap
 target   ~ two thirds of capacity
 ```
 
+Those two lines are one statement seen from either end. Sizing a target at two thirds of
+capacity is the same as capping a theme at half again its fair share — and the builder enforces
+it from the second direction, so it holds per build rather than only per policy edit.
+
 Two thirds, not all of it, because a target equal to capacity means every theme is forced to
 exactly `theme_cap` members and the selector has no choice left to make — the ranking stops
 mattering and the universe is just the seed list. Two thirds leaves the cap binding where a
@@ -47,11 +51,49 @@ recalibrated from real data yet; see the limits section of the README.
 
 ## Coverage and role quotas
 
-| Tier | Coverage | core target | satellite cap | tactical cap | `theme_cap` |
+| Tier | Coverage | core target | satellite cap | tactical cap | `theme_cap` ceiling |
 |---|---|---:|---:|---:|---:|
 | Light | Core structure and core themes | 80% | 15% | 5% | 4 |
 | Medium | All major sectors and major second-level themes | 65% | 25% | 10% | 8 |
 | Heavy | Qualified broad, cold and emerging themes | 50% | 35% | 15% | 15 |
+
+### The cap in force is a share, not the number in the table
+
+The policy number is a **ceiling** — the most any one theme may hold at that depth, in any
+market. The cap a build actually runs with is the tighter of that and half again a theme's fair
+share:
+
+```text
+cap = min(ceiling, round(1.5 x target / themes)), never below 2
+```
+
+This exists because a fixed count is not market-independent, it only looks it. At a flat 4 / 8 /
+15, one crypto theme could hold 10–12% of its universe while one equity theme could hold 2.5–5%,
+purely because the targets differ by an order of magnitude. Same number, three times the
+concentration. Expressed as a share, every tier of every market now sits at 1.4–1.6x fair share,
+and the three cells that were out of line tightened on their own:
+
+| Market | Tier | Ceiling | In force |
+|---|---|---:|---:|
+| CN | Heavy | 15 | 14 |
+| Crypto | Medium | 8 | 6 |
+| Crypto | Heavy | 15 | 8 |
+
+Three properties make this safe to derive rather than configure:
+
+- **A richer table tightens its own cap.** Split a theme in two and each half may hold less,
+  which is what a cap is supposed to mean and what a fixed count cannot express.
+- **The feasibility check survives.** If the cap were purely derived, `themes x cap` would always
+  be 1.5x the target and `taxonomy --check` could never report an impossible table. The ceiling
+  is what keeps that check alive: a thin table hits the ceiling, and the ceiling is independent
+  of the target.
+- **No market gets its own cap.** A per-market cap is the kind of knob that turns one general
+  tool into three specialised ones; a market that appears to need one has a theme table that is
+  too coarse, and the share form says so by tightening instead of by asking.
+
+The cap in force is printed in the report header and recomputed during validation from what the
+universe itself records — not from the current policy file, so a later policy edit cannot
+retroactively fail a universe that was built correctly.
 
 ### What `theme_cap` actually does
 
@@ -68,9 +110,9 @@ the name that actually adds information.
 
 Three consequences worth knowing:
 
-- **The cap scales with the tier, not with the market.** Four, eight, fifteen — going deeper into
-  a market means both more themes and more names per theme. A market does not get its own cap;
-  a market that appears to need one has a theme table that is too coarse.
+- **The ceiling scales with the tier, not with the market.** Four, eight, fifteen — going deeper
+  into a market means both more themes and more names per theme. What varies per market is how
+  far below that ceiling the share rule lands.
 - **The cap and the target are one constraint, not two.** `themes x cap` is a hard ceiling on the
   universe, so a table too thin for its target cannot be fixed by raising the target. Run
   `taxonomy --check` before researching anything; it does this arithmetic for you.

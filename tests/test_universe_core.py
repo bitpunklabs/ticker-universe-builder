@@ -42,6 +42,8 @@ from universe_core import (  # noqa: E402
     render_txt,
     report_language,
     starter_taxonomy,
+    theme_cap_for,
+    universe_hash,
     validate_ticker,
     validate_universe,
     watchlist_to_snapshot,
@@ -534,6 +536,65 @@ def declared_snapshot(**overrides) -> dict:
     ]
     value.update(overrides)
     return value
+
+
+class ThemeCapTests(unittest.TestCase):
+    """A cap is a share of the universe, not a count that happens to be written as one.
+
+    Holding 4 / 8 / 15 fixed across markets read as market-independence and was not: the
+    denominators differ by an order of magnitude, so one crypto theme could take 10-12% of its
+    universe while one equity theme could take 2.5-5%. The policy number is the tier's ceiling;
+    what a build runs with is the tighter of that and half again a theme's fair share.
+    """
+
+    def test_the_ceiling_is_never_exceeded(self) -> None:
+        self.assertEqual(theme_cap_for(target=1000, themes=2, ceiling=4), 4)
+
+    def test_a_theme_can_always_hold_a_leader_and_a_challenger(self) -> None:
+        # One member per theme is a list of themes, not a universe.
+        self.assertEqual(theme_cap_for(target=10, themes=40, ceiling=8), 2)
+
+    def test_a_richer_table_tightens_the_cap_by_itself(self) -> None:
+        loose = theme_cap_for(target=120, themes=20, ceiling=15)
+        tight = theme_cap_for(target=120, themes=60, ceiling=15)
+        self.assertEqual((loose, tight), (9, 3))
+
+    def test_every_shipped_tier_caps_a_theme_at_about_its_fair_share(self) -> None:
+        # The invariant that was silently broken. 1.5x by construction, with room for rounding
+        # and for the ceiling biting in a thin table.
+        policy = load_policy()
+        for code in sorted(MARKETS):
+            taxonomy = starter_taxonomy(code)
+            for name, profile in policy["profiles"].items():
+                with self.subTest(market=code, profile=name):
+                    level = int(profile["coverage_level"])
+                    themes = sum(
+                        1 for item in taxonomy if int(item["coverage_level"]) <= level
+                    )
+                    target = int(policy["markets"][code][name]["target"])
+                    cap = theme_cap_for(target, themes, profile["theme_cap"])
+                    self.assertLessEqual(cap, int(profile["theme_cap"]))
+                    self.assertLessEqual(cap / (target / themes), 1.7)
+                    self.assertGreaterEqual(cap / (target / themes), 1.2)
+
+    def test_the_cap_in_force_is_the_one_validation_enforces(self) -> None:
+        # Not the policy ceiling: a universe under a tightened cap must fail on the tighter one.
+        folder = ROOT / "examples" / "crypto-light"
+        universe, report = build_universe(
+            read_json(folder / "build-spec.json"),
+            read_json(folder / "snapshot.json"),
+            load_policy(),
+        )
+        self.assertEqual(report["stats"]["theme_cap"], 4)
+        crowded = copy.deepcopy(universe)
+        theme = crowded["members"][-1]["theme_code"]
+        for item in crowded["members"][:5]:
+            item["theme_code"] = theme
+        crowded["version_hash"] = universe_hash(crowded)
+        self.assertIn(
+            "theme caps exceeded",
+            " ".join(validate_universe(crowded, load_policy())["errors"]),
+        )
 
 
 class DiffTests(unittest.TestCase):

@@ -7,6 +7,7 @@
   "label.version": "版本",
   "label.tickers": "标的数",
   "label.themes": "主题数",
+  "label.theme_cap": "每主题上限",
   "label.tv_tokens": "TradingView 条目",
   "label.rejected": "落选或被排除的候选",
   "label.validation": "校验",

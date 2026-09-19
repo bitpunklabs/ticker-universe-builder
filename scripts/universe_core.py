@@ -245,6 +245,17 @@ OP_ORDER = {
     "REMOVE_THEME": 5,
     "NO_CHANGE": 6,
 }
+# A theme cap is a share, not a count. The number in the policy is the tier's ceiling — the most
+# any one theme may hold at that depth, whatever the market — and the cap actually in force is the
+# tighter of that and half again a theme's fair share of the universe. Holding the count fixed
+# across markets looked market-independent and was not: at 4/8/15 one crypto theme could take 10%
+# to 12% of its universe while one equity theme could take 2.5% to 5%, because the denominators
+# differ by an order of magnitude. This is the same statement as sizing a target at two thirds of
+# capacity, enforced per build instead of asked of whoever edits the policy file.
+THEME_CAP_FAIR_SHARE = 1.5
+# One member per theme is a list of themes, not a universe: a theme has to be able to hold a
+# leader and a challenger before its slots say anything.
+MIN_THEME_CAP = 2
 # How far a bucket may sit above its profile target before the drift is reported.
 BUCKET_DRIFT_TOLERANCE = 0.10
 STRONG_EVIDENCE_TIERS = {1, 2}
@@ -344,7 +355,10 @@ def check_taxonomy(
             int(guidance[name]["target"]) if guidance else None
         )
         stats["capacity"][name] = {
-            "themes": reachable, "max_members": reachable * cap, "target": want,
+            "themes": reachable,
+            "max_members": reachable * cap,
+            "target": want,
+            "theme_cap": theme_cap_for(want, reachable, cap) if want else cap,
         }
         if want is None:
             continue
@@ -376,6 +390,20 @@ def check_taxonomy(
         "warnings": sorted(set(warnings)),
         "stats": stats,
     }
+
+
+def theme_cap_for(target: int, themes: int, ceiling: int) -> int:
+    """The most members one theme may hold in this build.
+
+    Never above the tier's ceiling, never below two, and otherwise half again what the theme
+    would hold if the universe were spread evenly. A richer taxonomy therefore tightens the cap
+    on its own, which is what keeps the cap doing its job in a market whose table outgrew it.
+    """
+    ceiling = int(ceiling)
+    if themes <= 0:
+        return ceiling
+    fair = int(THEME_CAP_FAIR_SHARE * int(target) / int(themes) + 0.5)
+    return max(MIN_THEME_CAP, min(ceiling, fair))
 
 
 def locales_path() -> Path:
@@ -1118,10 +1146,10 @@ def _select_stage(
     seed: list[dict[str, Any]],
 ) -> tuple[list[dict[str, Any]], list[str]]:
     coverage_level = int(profile_policy["coverage_level"])
-    theme_cap = int(profile_policy["theme_cap"])
     allowed_themes = [
         item for item in taxonomy if int(item["coverage_level"]) <= coverage_level
     ]
+    theme_cap = theme_cap_for(target, len(allowed_themes), profile_policy["theme_cap"])
     allowed_codes = {item["theme_code"] for item in allowed_themes}
     eligible = [
         candidate for candidate in candidates
@@ -1403,6 +1431,7 @@ def validate_universe(
         seen_tickers.add(item["ticker"])
         seen_assets.add(item["asset_id"])
         normalized.append(item)
+    theme_cap: int | None = None
     if rules is not None and profile in PROFILES:
         level = policy["profiles"][profile]["coverage_level"]
         required_themes = {
@@ -1418,7 +1447,13 @@ def validate_universe(
         })
         if disallowed:
             errors.append("themes exceed profile coverage level: " + ", ".join(disallowed))
-        theme_cap = int(policy["profiles"][profile]["theme_cap"])
+        # Recomputed from what the universe records rather than read from the policy, so a
+        # later policy edit cannot retroactively fail a universe that was built correctly.
+        theme_cap = theme_cap_for(
+            int((universe.get("limits") or {}).get("target_count") or len(normalized)),
+            sum(1 for item in taxonomy if int(item["coverage_level"]) <= level),
+            policy["profiles"][profile]["theme_cap"],
+        )
         over = {
             code: count
             for code, count in Counter(item["theme_code"] for item in normalized).items()
@@ -1483,6 +1518,7 @@ def validate_universe(
         "stats": {
             "tickers": len(normalized),
             "themes": len({item["theme_code"] for item in normalized}),
+            "theme_cap": theme_cap,
             "tradingview_tokens": token_count,
             "roles": dict(sorted(Counter(item["role"] for item in normalized).items())),
             "buckets": dict(sorted(Counter(candidate_bucket(item) for item in normalized).items())),
@@ -1675,6 +1711,11 @@ def render_markdown(
         f"- {lex['label.version']}{colon}`{universe['version_hash']}`",
         f"- {lex['label.tickers']}{colon}{report['stats']['tickers']}",
         f"- {lex['label.themes']}{colon}{report['stats']['themes']}",
+        # The cap in force decides what got in, so a reader who cannot see it cannot tell a
+        # universe that spread itself from one whose theme table simply had nothing more to give.
+        *([
+            f"- {lex['label.theme_cap']}{colon}{report['stats']['theme_cap']}"
+        ] if report["stats"].get("theme_cap") else []),
         f"- {lex['label.tv_tokens']}{colon}{report['stats']['tradingview_tokens']} / "
         f"{limits.get('tradingview_token_cap', 1000)}",
         f"- {lex['label.rejected']}{colon}{len(universe.get('selection_audit', []))}",

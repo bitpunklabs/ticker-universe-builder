@@ -126,6 +126,8 @@ registry row would have held:
 
 Size the guidance the way the shipped markets are sized: the band is the target ±25%, and the
 target is about two thirds of what the theme table can hold (`reachable themes x theme_cap`).
+`theme_cap` is a ceiling; the cap a build runs with is the tighter of it and half again a theme's
+fair share, and it is printed in the report header.
 Run `taxonomy --check --market <code> --target <n>` against the table before researching a single
 candidate — a target the taxonomy cannot reach is the one build failure that costs a whole
 research session. See [tier-profiles.md](tier-profiles.md).
