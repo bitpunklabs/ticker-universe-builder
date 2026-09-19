@@ -6,6 +6,7 @@
     python scripts/universe.py measure  --prices P --benchmark B --source URL --output M
     python scripts/universe.py build    --spec S --snapshot N --output DIR [--seed universe.json]
     python scripts/universe.py maintain --universe U --changes C --output DIR
+    python scripts/universe.py diff     before.json after.json
     python scripts/universe.py validate universe.json
 
 Exit code 0 means the artifacts were written and validation passed. Exit code 2 means nothing was
@@ -28,6 +29,7 @@ from universe_core import (  # noqa: E402
     apply_change_set,
     build_universe,
     check_taxonomy,
+    diff_universes,
     load_policy,
     read_json,
     starter_taxonomy,
@@ -124,6 +126,12 @@ def maintain(args: argparse.Namespace) -> int:
     return _ok(universe, report, artifacts, report["maintenance"])
 
 
+def diff(args: argparse.Namespace) -> int:
+    report = diff_universes(read_json(args.before), read_json(args.after))
+    print(json.dumps(report, ensure_ascii=False, indent=2))
+    return 0
+
+
 def validate(args: argparse.Namespace) -> int:
     report = validate_universe(read_json(args.universe), load_policy(args.policy))
     print(json.dumps(report, ensure_ascii=False, indent=2))
@@ -209,6 +217,11 @@ def parser() -> argparse.ArgumentParser:
     review.add_argument("--output", required=True, help="new, empty output directory")
     review.add_argument("--language", help=_LANGUAGE_HELP)
     review.set_defaults(handler=maintain)
+
+    compare = sub.add_parser("diff", help="compare two universe.json files")
+    compare.add_argument("before", help="the earlier universe.json")
+    compare.add_argument("after", help="the later universe.json")
+    compare.set_defaults(handler=diff)
 
     check = sub.add_parser("validate", help="validate a standalone universe.json")
     check.add_argument("universe", help="universe.json")

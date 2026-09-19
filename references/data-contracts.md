@@ -306,6 +306,22 @@ selection audit and the review history. `version_hash` covers membership and tax
 re-running with fresher metrics does not churn the version. The other three are derived from it
 and are never edited by hand.
 
+## Comparing two universes
+
+`diff before.json after.json` answers the question a maintenance report cannot: not "what did
+this review change" but "are these two the same instrument at all". Two universes of one market
+built in different sessions, months apart, or by two people.
+
+`market_spec` comes first in the output on purpose. For a declared market the venue list and the
+symbol shape were researched at run time, so a session that researched them differently did not
+build a later version of the same universe — it built something incomparable, and every other
+line of the diff would be misleading.
+
+`identical` is about the instrument: membership, themes, roles and the declared rules. Metric
+drift is reported separately and does not make two universes different, because metrics move on
+every refresh and that is the design working rather than the universe changing. Only the largest
+twenty moves are listed; the tail of a 250-member drift list is noise.
+
 The `.md` is written in the market's own language, because a universe is read by the people who
 trade that market: CN is Simplified Chinese, US and Crypto are English, and `--language` overrides
 it per run. Only the report's chrome is translated — headings, labels and the closed

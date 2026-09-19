@@ -55,7 +55,7 @@ correct file. Operations can be checked one at a time, rejected one at a time an
 ```text
 SKILL.md              routing; read first
 references/           methodology, tiers, contracts, maintenance, sources, per-market overlays
-scripts/universe.py   the only entry point (taxonomy | import | measure | build | maintain | validate)
+scripts/universe.py   the only entry point (taxonomy | import | measure | build | maintain | diff | validate)
 scripts/measure_core.py   window statistics from a local price table, stdlib only
 scripts/universe_core.py  every mutation and output invariant
 assets/               default policy (counts, quotas, turnover budgets, freshness), starter taxonomies, locales

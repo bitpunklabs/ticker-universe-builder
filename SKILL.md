@@ -104,6 +104,10 @@ reported rather than dropped.
    write the snapshot's names, themes, reasons and methods in that language too. `--language`
    overrides it; nothing else about the build changes.
 
+To compare two universes — two sessions, two months, two people — run
+`diff before.json after.json`. It leads with `market_spec`, because for a declared market two
+sessions that researched the venue list differently did not build two versions of one universe.
+
 To change the depth of an existing universe, pass it as `--seed` instead of rebuilding. Widening
 keeps every incumbent and fills the rest; narrowing reselects inside the incumbents against the
 smaller target. A rebuild at the new depth churns a universe whose entire purpose is low turnover.

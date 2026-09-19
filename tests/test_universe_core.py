@@ -23,6 +23,7 @@ from universe_core import (  # noqa: E402
     build_universe,
     check_taxonomy,
     default_asset_id,
+    diff_universes,
     languages,
     load_lexicon,
     load_policy,
@@ -499,6 +500,68 @@ def declared_snapshot(**overrides) -> dict:
     ]
     value.update(overrides)
     return value
+
+
+class DiffTests(unittest.TestCase):
+    """`maintain` reports one review. This answers what a review cannot."""
+
+    def setUp(self) -> None:
+        self.universe, _ = build_universe(spec("medium"), snapshot(), small_policy())
+
+    def test_a_universe_against_itself_is_identical(self) -> None:
+        report = diff_universes(self.universe, copy.deepcopy(self.universe))
+        self.assertTrue(report["identical"])
+        self.assertEqual(report["turnover"], 0.0)
+        self.assertEqual(report["market_spec"], "unchanged")
+
+    def test_a_review_and_a_diff_of_it_agree_on_turnover(self) -> None:
+        # Two definitions of turnover that drift apart would be worse than one, so they are
+        # checked against each other on the shipped example rather than asserted separately.
+        folder = ROOT / "examples" / "crypto-light"
+        policy = load_policy()
+        built, _ = build_universe(
+            read_json(folder / "build-spec.json"), read_json(folder / "snapshot.json"), policy
+        )
+        reviewed, report = apply_change_set(built, read_json(folder / "changes.json"), policy)
+        compared = diff_universes(built, reviewed)
+        self.assertEqual(compared["added"], ["BINANCE:TRXUSDT.P"])
+        self.assertEqual(compared["removed"], ["BINANCE:GMXUSDT.P"])
+        self.assertAlmostEqual(compared["turnover"], report["maintenance"]["turnover"], places=4)
+
+    def test_a_role_change_and_a_theme_move_are_named(self) -> None:
+        later = copy.deepcopy(self.universe)
+        later["members"][0]["role"] = "QUALITY_LEADER"
+        later["members"][1]["theme_code"] = "11_A"
+        report = diff_universes(self.universe, later)
+        self.assertEqual(report["rerolled"][0]["after"], "QUALITY_LEADER")
+        self.assertEqual(report["moved"][0]["after"], "11_A")
+        self.assertFalse(report["identical"])
+
+    def test_declared_rules_that_drifted_between_sessions_come_first(self) -> None:
+        # The failure this exists to catch: two sessions researched one market's venue list
+        # differently, so the two universes were never comparable to begin with.
+        built, _ = build_universe(
+            {"schema_version": 1, "market": "th", "profile": "light"},
+            declared_snapshot(), load_policy(),
+        )
+        other, _ = build_universe(
+            {"schema_version": 1, "market": "th", "profile": "light"},
+            declared_snapshot(spec_overrides={"venues": ["SET", "MAI"]}), load_policy(),
+        )
+        report = diff_universes(built, other)
+        self.assertNotEqual(report["market_spec"], "unchanged")
+        self.assertEqual(report["market_spec"]["after"]["venues"], ["MAI", "SET"])
+
+    def test_metric_drift_is_ranked_and_capped(self) -> None:
+        later = copy.deepcopy(self.universe)
+        later["members"][0]["metrics"]["liquidity"] = 40
+        later["members"][1]["metrics"]["quality"] = 69
+        report = diff_universes(self.universe, later)
+        self.assertEqual(report["metric_drift"]["fields"], 2)
+        self.assertEqual(report["metric_drift"]["largest"][0]["metric"], "liquidity")
+        self.assertEqual(report["metric_drift"]["largest"][0]["delta"], -50.0)
+        # Metrics move on every refresh; that alone is not a change to the instrument.
+        self.assertTrue(report["identical"])
 
 
 class TaxonomyCheckTests(unittest.TestCase):

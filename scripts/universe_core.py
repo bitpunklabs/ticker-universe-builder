@@ -1762,6 +1762,106 @@ def write_artifacts(
     }
 
 
+DRIFT_REPORT_LIMIT = 20
+
+
+def diff_universes(before: dict[str, Any], after: dict[str, Any]) -> dict[str, Any]:
+    """What changed between two universes, whoever produced them.
+
+    `maintain` reports the turnover of one review. This answers the question a review cannot:
+    two universes of the same market built in different sessions, months apart, or by two people
+    — did they converge? For a declared market that is not a nicety, because the venue list and
+    the symbol shape were researched at run time and a session that researched them differently
+    built something that is not comparable at all. That comparison comes first in the output for
+    exactly that reason.
+    """
+    def members(universe: dict[str, Any]) -> dict[str, dict[str, Any]]:
+        return {str(item["ticker"]): item for item in universe.get("members") or []}
+
+    def themes(universe: dict[str, Any]) -> dict[str, str]:
+        return {
+            str(item["theme_code"]): str(item["theme_name"])
+            for item in universe.get("taxonomy") or []
+        }
+
+    old_members, new_members = members(before), members(after)
+    old_themes, new_themes = themes(before), themes(after)
+    shared = sorted(set(old_members) & set(new_members))
+    added = sorted(set(new_members) - set(old_members))
+    removed = sorted(set(old_members) - set(new_members))
+
+    header: dict[str, Any] = {}
+    for field in ("market", "profile", "as_of", "source_as_of", "policy_version", "version_hash"):
+        if before.get(field) != after.get(field):
+            header[field] = {"before": before.get(field), "after": after.get(field)}
+
+    # Two universes built under different identity rules are not two versions of one universe.
+    rules = "unchanged"
+    if before.get("market_spec") != after.get("market_spec"):
+        rules = {"before": before.get("market_spec"), "after": after.get("market_spec")}
+
+    drift: list[dict[str, Any]] = []
+    for ticker in shared:
+        old_metrics = old_members[ticker].get("metrics") or {}
+        new_metrics = new_members[ticker].get("metrics") or {}
+        for metric in sorted(set(old_metrics) | set(new_metrics)):
+            was, now = old_metrics.get(metric), new_metrics.get(metric)
+            if was == now or was is None or now is None:
+                continue
+            drift.append({
+                "ticker": ticker, "metric": metric,
+                "before": was, "after": now, "delta": round(float(now) - float(was), 1),
+            })
+    drift.sort(key=lambda item: (-abs(item["delta"]), item["ticker"], item["metric"]))
+
+    return {
+        "identical": not (
+            header or rules != "unchanged" or added or removed
+            or old_themes != new_themes
+            or any(old_members[t]["theme_code"] != new_members[t]["theme_code"] for t in shared)
+            or any(old_members[t]["role"] != new_members[t]["role"] for t in shared)
+        ),
+        "market_spec": rules,
+        "header": header,
+        "turnover": round((len(added) + len(removed)) / max(len(old_members), 1), 4),
+        "added": added,
+        "removed": removed,
+        "moved": [
+            {
+                "ticker": ticker,
+                "before": old_members[ticker]["theme_code"],
+                "after": new_members[ticker]["theme_code"],
+            }
+            for ticker in shared
+            if old_members[ticker]["theme_code"] != new_members[ticker]["theme_code"]
+        ],
+        "rerolled": [
+            {
+                "ticker": ticker,
+                "before": old_members[ticker]["role"],
+                "after": new_members[ticker]["role"],
+            }
+            for ticker in shared
+            if old_members[ticker]["role"] != new_members[ticker]["role"]
+        ],
+        "themes": {
+            "added": sorted(set(new_themes) - set(old_themes)),
+            "removed": sorted(set(old_themes) - set(new_themes)),
+            "renamed": [
+                {"theme_code": code, "before": old_themes[code], "after": new_themes[code]}
+                for code in sorted(set(old_themes) & set(new_themes))
+                if old_themes[code] != new_themes[code]
+            ],
+        },
+        "metric_drift": {
+            "fields": len(drift),
+            # A full drift list on a 250-member universe is not something anyone reads, and the
+            # tail of it is noise. The largest moves are the ones worth a question.
+            "largest": drift[:DRIFT_REPORT_LIMIT],
+        },
+    }
+
+
 def apply_change_set(
     universe_raw: dict[str, Any],
     changes: dict[str, Any],

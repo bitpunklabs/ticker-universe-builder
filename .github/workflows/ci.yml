@@ -81,6 +81,19 @@ jobs:
             --changes examples/crypto-light/changes.json \
             --output /tmp/crypto-v2
 
+      - name: diff the reviewed universe against the one it came from
+        run: |
+          reviewed=$(ls /tmp/crypto-v2/crypto-light-*.json | grep -v validation)
+          python scripts/universe.py diff "$(cat /tmp/crypto.path)" "$reviewed" \
+            > /tmp/crypto.diff.json
+          python - <<'EOF'
+          import json
+          diff = json.load(open("/tmp/crypto.diff.json"))
+          assert diff["added"] == ["BINANCE:TRXUSDT.P"], diff["added"]
+          assert diff["removed"] == ["BINANCE:GMXUSDT.P"], diff["removed"]
+          assert diff["market_spec"] == "unchanged"
+          EOF
+
   lint:
     runs-on: ubuntu-latest
     steps:
