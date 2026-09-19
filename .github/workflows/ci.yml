@@ -1,0 +1,58 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    # The skill claims to run on a plain checkout with no dependencies, so the job installs
+    # nothing before running the suite. If that claim ever stops being true, this fails.
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: pip install pytest
+      - run: python -m pytest tests -q
+
+  build-the-examples:
+    # The suite already rebuilds every example in-process. This runs them the way a user does,
+    # through the CLI, so a broken entry point cannot pass while the library still works.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: build each market
+        run: |
+          for market in cn us crypto; do
+            python scripts/universe.py build \
+              --spec "examples/$market-light/build-spec.json" \
+              --snapshot "examples/$market-light/snapshot.json" \
+              --output "/tmp/$market"
+            python scripts/universe.py validate "/tmp/$market/universe.json" > /dev/null
+          done
+      - name: apply the example change set
+        run: |
+          python scripts/universe.py maintain \
+            --universe /tmp/crypto/universe.json \
+            --changes examples/crypto-light/changes.json \
+            --output /tmp/crypto-v2
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install ruff
+      - run: ruff check .
