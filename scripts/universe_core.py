@@ -863,8 +863,22 @@ def validate_universe(
             "tradingview_tokens": token_count,
             "roles": dict(sorted(Counter(item["role"] for item in normalized).items())),
             "buckets": dict(sorted(Counter(candidate_bucket(item) for item in normalized).items())),
+            "rejections": dict(audit_summary(universe.get("selection_audit") or [])),
         },
     }
+
+
+def audit_summary(selection_audit: list[dict[str, Any]]) -> list[tuple[str, int]]:
+    """Count rejections by code, largest first.
+
+    This is the payoff of the closed vocabulary: free text cannot be counted, and a count is what
+    turns "some candidates were dropped" into a statement about where the universe is constrained.
+    """
+    counts: Counter[str] = Counter()
+    for item in selection_audit:
+        for reason in item.get("reasons") or []:
+            counts[str(reason).split(":", 1)[0].strip()] += 1
+    return sorted(counts.items(), key=lambda pair: (-pair[1], pair[0]))
 
 
 def render_txt(universe: dict[str, Any]) -> str:
@@ -914,6 +928,19 @@ def render_markdown(universe: dict[str, Any], report: dict[str, Any]) -> str:
             lines.append(
                 f"| {field} | {entry['basis']} | {entry['method']} | {entry.get('window', '—')} |"
             )
+    rejections = audit_summary(universe.get("selection_audit") or [])
+    if rejections:
+        # The detail stays in universe.json. What belongs in a document a person reads is the
+        # shape of the rejections: a universe losing most of its candidates to unverifiable facts
+        # has a research problem, and one losing them to theme caps has a budget problem.
+        lines.extend([
+            "",
+            "## Why candidates did not make it",
+            "",
+            "| Reason | Count |",
+            "|---|---:|",
+        ])
+        lines.extend(f"| {code} | {count} |" for code, count in rejections)
     if report["warnings"]:
         lines.extend(["", "## Warnings", ""])
         lines.extend(f"- {warning}" for warning in report["warnings"])

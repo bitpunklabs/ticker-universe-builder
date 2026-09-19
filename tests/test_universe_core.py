@@ -16,6 +16,7 @@ from universe_core import (  # noqa: E402
     build_universe,
     load_policy,
     read_json,
+    render_markdown,
     render_txt,
     validate_universe,
     write_artifacts,
@@ -362,6 +363,20 @@ class MaintenanceTests(unittest.TestCase):
         report = validate_universe(altered, self.policy)
         self.assertFalse(report["passed"])
         self.assertIn("version_hash does not match universe content", report["errors"])
+
+
+class AuditTests(unittest.TestCase):
+    def test_rejections_are_counted_by_code(self) -> None:
+        universe, report = build_universe(
+            read_json(ROOT / "examples" / "us-light" / "build-spec.json"),
+            read_json(ROOT / "examples" / "us-light" / "snapshot.json"),
+            load_policy(),
+        )
+        self.assertEqual(
+            report["stats"]["rejections"],
+            {"duplicate_asset": 1, "redundant_with_member": 1},
+        )
+        self.assertIn("redundant_with_member | 1", render_markdown(universe, report))
 
 
 class ExampleTests(unittest.TestCase):

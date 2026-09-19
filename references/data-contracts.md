@@ -119,6 +119,11 @@ redundant_with_member unverifiable_fact       duplicate_asset        other
 The audit also carries reasons the builder writes itself: `outside_profile_coverage`,
 `not_selected_under_budget_or_theme_cap`, `removed_by_maintenance`.
 
+Counting these is the point of the closed vocabulary, so `universe.md` and the CLI's JSON line
+both report rejections by code. A universe losing most of its candidates to `unverifiable_fact`
+has a research problem; one losing them to `not_selected_under_budget_or_theme_cap` has a budget
+problem. Free text cannot tell you which.
+
 ### evidence
 
 Every item needs an `http(s)` URL, an `as_of`, and a `tier` of 1, 2 or 3 (see
