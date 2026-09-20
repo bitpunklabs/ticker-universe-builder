@@ -53,17 +53,16 @@ personal (`~/workspace/...` is fine; a client name is not).
 the theme sections visible as section headers (`00_A_CORE_ASSETS`, `10_A_L1_MAJORS`, …) and
 enough rows under two or three of them to make the structure obvious.
 
-**How to capture it:**
+**How to capture it:** the file is already in the repository — every example ships its
+watchlist, so there is nothing to build first:
 
-```bash
-python scripts/universe.py build \
-  --spec examples/crypto-light/build-spec.json \
-  --snapshot examples/crypto-light/snapshot.json \
-  --output /tmp/crypto-light
-# it prints the .txt path
+```text
+examples/crypto-light/watchlist.txt     40 members, 13 theme sections
+examples/us-light/watchlist.txt         80 members, 30 theme sections
 ```
 
-Then in TradingView: **Watchlist panel → ⋯ menu → Import list…** → pick the `.txt`. The sections
+Use the crypto one. It is the smallest, its sections fit on one screen without scrolling, and
+its tickers are venue-prefixed the way TradingView expects. Then in TradingView: **Watchlist panel → ⋯ menu → Import list…** → pick the `.txt`. The sections
 appear as collapsible headers. Collapse the ones you are not showing, screenshot the panel only
 (macOS **⇧⌘4**, then Space to snap to the window, or drag a tight rectangle around the panel).
 

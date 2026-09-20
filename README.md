@@ -101,7 +101,7 @@ A **`.md` report** in the market's own language ([CN example](examples/cn-light/
 ```
 
 A **`.txt` watchlist** TradingView imports directly, sectioned by theme, capped at 1,000 tokens
-([CN example](examples/cn-light/watchlist.txt)):
+([crypto example](examples/crypto-light/watchlist.txt)):
 
 ```text
 ###00_A_CORE_ASSETS,BINANCE:ETHUSDT.P,BINANCE:BTCUSDT.P,###10_A_L1_MAJORS,BINANCE:ADAUSDT.P,…
