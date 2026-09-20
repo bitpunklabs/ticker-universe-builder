@@ -6,6 +6,20 @@ caller.
 
 ## Unreleased
 
+### The docs caught up with the last two rounds
+
+Six documents still described a three-market skill with a theme cap. `methodology.md` listed
+theme caps as step 5 of the selection order, where apportionment now is. `adding-a-market.md`
+carried a classification table where eleven of the fourteen shipped markets were marked "to
+write", explained the theme cap as a live mechanism, and closed with sketches for `hk`, `jp` and
+`eu` — two of which ship and the third of which became `de` and `fr`, for a reason now recorded:
+a cross-border row would have to carry venue *in* the identity, and every other row strips it.
+`SKILL.md` and `AGENTS.md` told the agent three examples ship. `CONTRIBUTING.md` still described
+registering a market as three additions.
+
+`data-contracts.md` documented a `scope` field on `NO_CHANGE` that the parser has never read.
+An agent filling it in would have believed it was recorded.
+
 ### Every registered market ships an example
 
 `jp`, `hk`, `in`, `kr`, `tw`, `uk`, `de`, `fr`, `ca`, `au` and `br` join `us`, `cn` and `crypto`

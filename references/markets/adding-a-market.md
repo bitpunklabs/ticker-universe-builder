@@ -58,6 +58,12 @@ A new *registered* market is five additions and no edits to existing logic:
 4. An overlay at `references/markets/<code>.md` covering identity, what this market is, its
    adverse flags and where its primary sources live. Start from another market's; the shared
    equity material is in [equity-common.md](equity-common.md) and must not be repeated.
+5. A seed table at `examples/seeds/<code>.tsv` — ticker, name, theme, role, and a flag column
+   for the ones the research rejects. `build_examples.py` expands it into a full Light example
+   and the test suite asserts that every registered market has one, so this is now part of the
+   bar rather than a nicety. Sixty to a hundred and twenty names is the working range; the seed
+   must cover every theme the market reaches at Light, and a theme with nothing real to put in
+   it is a finding about the table, not a reason to invent a ticker.
 
 Plus a locale at `assets/locales/<language>.json` if the market's language has none yet, and, if
 the market's regulator issues flags the universal seven cannot express, a `quality_flags` set on
@@ -68,15 +74,7 @@ selection; and is the code meaningless in every other market. A flag that fails 
 universal code that has not been added yet — add it to `QUALITY_FLAG_CODES` instead, where it is
 comparable across markets, rather than to two market specs where it silently is not.
 
-5. A seed table at `examples/seeds/<code>.tsv` — ticker, name, theme, role, and a flag column
-   for the ones the research rejects. `build_examples.py` expands it into a full Light example
-   and the test suite asserts that every registered market has one, so this is now part of the
-   bar rather than a nicety. Sixty to a hundred and twenty names is the working range; the seed
-   must cover every theme the market reaches at Light, and a theme with nothing real to put in
-   it is a finding about the table, not a reason to invent a ticker.
-
-Plus the row, the breadth, the table checking clean at all three tiers, the overlay and the
-locale, each of which CI checks for every registered market.
+CI checks all five for every registered market, plus the locale.
 
 Writing the seed is also how the registry row gets tested. Two shipped symbol rules were wrong
 until a real listing hit them — `de` rejected `4GLD` and `br` rejected `B3SA3` — and neither
@@ -131,50 +129,73 @@ line, because an example that reads like machine output teaches the agent to wri
 ## The classification
 
 Deciding a market's language after the fact means two A-share universes built a month apart read
-differently. So the language is settled for the above-scale markets before any of them is
-implemented. Scope is equities and crypto; ✅ marks what ships today.
+differently. So the language is settled in the registry, before any market is implemented, and it
+is a fact about the market rather than a preference of the caller.
 
-| Market | Code | Venues | Language | Locale |
+All fourteen ship, each with an example in its own language under `examples/`:
+
+| Market | Code | Venues | Language | Symbol |
 |---|---|---|---|---|
-| United States | `us` ✅ | `NASDAQ` `NYSE` `AMEX` `NYSEARCA` `CBOE` `IEX` `OTC` | `en` | ships |
-| China A-shares | `cn` ✅ | `SSE` `SZSE` `BSE` | `zh-Hans` | ships |
-| Crypto | `crypto` ✅ | `BINANCE` | `en` | ships |
-| Japan | `jp` | `TSE` | `ja` | to write |
-| India | `in` | `NSE` `BSE` | `en` | ships |
-| Hong Kong | `hk` | `HKEX` | `zh-Hant` | ships |
-| United Kingdom | `uk` | `LSE` | `en` | ships |
-| Europe | `eu` | `XETR` `EURONEXT` `SIX` | `en` | ships |
-| Canada | `ca` | `TSX` `TSXV` | `en` | ships |
-| Saudi Arabia | `sa` | `TADAWUL` | `ar` | to write |
-| Taiwan | `tw` | `TWSE` `TPEX` | `zh-Hant` | ships |
-| Korea | `kr` | `KRX` | `ko` | to write |
-| Australia | `au` | `ASX` | `en` | ships |
-| Brazil | `br` | `BMFBOVESPA` | `pt` | to write |
-| Singapore | `sg` | `SGX` | `en` | ships |
+| United States | `us` | `NASDAQ` `NYSE` `AMEX` `ARCA` `NYSEARCA` `CBOE` `IEX` `OTC` | `en` | one to fifteen characters starting with a letter |
+| China A-shares | `cn` | `SSE` `SZSE` `BSE` | `zh-Hans` | six digits |
+| Japan | `jp` | `TSE` | `ja` | four characters: three digits then a digit or a letter |
+| Hong Kong | `hk` | `HKEX` | `zh-Hant` | one to five digits, unpadded |
+| India | `in` | `NSE` `BSE` | `en` | an alphanumeric code, ampersand and hyphen allowed |
+| Korea | `kr` | `KRX` | `ko` | six digits |
+| Taiwan | `tw` | `TWSE` `TPEX` | `zh-Hant` | four to six digits, optionally one trailing letter |
+| United Kingdom | `uk` | `LSE` | `en` | two to six characters starting with a letter |
+| Germany | `de` | `XETR` `FWB` | `de` | one to six alphanumeric characters |
+| France | `fr` | `EURONEXT` | `fr` | one to five characters starting with a letter |
+| Canada | `ca` | `TSX` `TSXV` | `en` | one to ten characters starting with a letter |
+| Australia | `au` | `ASX` | `en` | three to six characters starting with a letter |
+| Brazil | `br` | `BMFBOVESPA` | `pt-BR` | four characters starting with a letter, then one or two digits |
+| Crypto | `crypto` | `BINANCE` | `en` | a USDT-quoted spot or perpetual symbol |
 
-`eu` is the one row where the market has no single language of its own — a listing in Frankfurt,
-Paris and Zurich is read by three readerships — so it takes English as the working language of
-the cross-border market itself rather than picking one member state's. `in` is the same argument
-with a domestic answer: Indian exchange filings and listing documents are published in English.
+Two rows that an earlier draft of this table carried are worth recording as decisions rather than
+quietly dropping.
+
+**There is no `eu`.** A single European row was the plan, on the reasoning that Frankfurt, Paris
+and Zurich share a readership and could share English. Splitting it into `de` and `fr` was not a
+scope increase — it was the identity rule refusing to average. A cross-border row has to carry
+venue *in* the identity or Daimler in Frankfurt and Daimler in Paris collapse into one member;
+every other row strips the venue. One market cannot hold both rules, and a German report in
+English is a worse answer than two rows. Zurich has no row yet for the ordinary reason: nobody
+has written its taxonomy.
+
+**`sa` and `sg` are not registered.** Both were listed as above-scale and neither has a theme
+table, a locale or an example, so neither is in `MARKET_SPECS`. They build today by declaring
+themselves in the snapshot, which is the point of the declared route. Registering `sa` also
+means writing `ar.json` and the first right-to-left report the renderer has seen.
+
+Two more markets ship without an `ar`-style surprise but with a rule correction each: `de` and
+`br` are the reason the symbol column above is worth reading carefully. See the closing note.
 
 ## What the registry does not decide
 
 Roles, buckets, score weights, coverage levels, turnover budgets and evidence tiers are market
-independent on purpose. So is the theme cap — not as a fixed count, which only looks
-market-independent, but as a share: the tier sets a ceiling and the build tightens it to about
-half again a theme's fair share, so a market never needs a cap of its own. So is what an adverse
-flag *costs*: a market names its own flags and
+independent on purpose. So is the absence of a theme cap: a market says what a theme is
+*worth* to it, in the `weight` on its own table, and the apportionment turns that into seats. It
+does not get to say what a theme may hold, because a ceiling would make every theme worth the
+same in exactly the market where that is least true. So is what an adverse flag *costs*: a market names its own flags and
 every one of them is worth the same 25 points, because a market that could also set the penalty
 could make its members score however it liked. A market that appears to need its own role vocabulary is usually a market
 whose overlay has not yet been written carefully enough; reach for a new role only after the
 overlay makes the case in prose.
 
-## Sketches for the obvious next three
+## What building the last eleven actually cost
 
-Not implemented. Recorded so the shape of the work is visible rather than guessed at.
+The three sketches this section used to hold were `hk`, `jp` and `eu`. Two of them ship, and the
+third turned into `de` and `fr` for the identity reason above — which is the useful lesson: the
+part of a new market that is hard to guess is never the venue list.
 
-| Market | Venues | Symbol | Identity | Language | Notes |
-|---|---|---|---|---|---|
-| `hk` | `HKEX` | four or five digits | venue-free | `zh-Hant` | Southbound-eligible subset is a taxonomy question, not a venue one; `gem_board` is the flag it needs |
-| `jp` | `TSE` | four digits, sometimes with a letter | venue-free | `ja` | Prime / Standard / Growth sections belong in the overlay's eligibility rules |
-| `eu` | `XETR`, `EURONEXT`, `LSE`, `SIX` | alphabetic, venue-dependent | venue-bearing | `en` | One company lists in several places; without venue in the identity, cross-listings collapse into one member |
+The two wrong symbol rules are noted above. The nine wrong theme tables are the finding that
+generalises, because the tables had all been reviewed.
+
+Nine of them claimed sectors their market does not list, which matters more than an unused
+row: the breadth floor spends a seat on every reachable theme whether or not anything can fill
+it, so an empty theme is worse than no theme. Managed care left Light in `jp`, `kr`, `hk` and
+`uk`, where cover is single-payer and no insurer lists. Energy, payments and the data-centre
+theme left the German table outright. `br` raised managed care *into* Light, alone among the
+fourteen. None of that was visible from reading the tables — only from trying to fill them.
+
+This is why the seed table is item 5 on the list above and not an optional extra.

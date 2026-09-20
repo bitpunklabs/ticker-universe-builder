@@ -48,7 +48,8 @@ The builder allocates seats in this order:
 2. At least one representative for every theme the current tier must cover.
 3. Expansion by the core / satellite / tactical bucket quotas.
 4. Ranking inside a bucket by recomputable metrics and a fixed role order.
-5. Theme caps, first-level concentration and the TradingView token cap.
+5. Apportionment of the remaining seats to theme weight, then the TradingView token cap.
+   First-level concentration is measured and disclosed at this step, not capped.
 6. Content hash, validation report, Markdown and txt.
 
 Building Medium resolves the Light set first; Heavy resolves Medium first. Under one snapshot and

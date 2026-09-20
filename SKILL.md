@@ -13,10 +13,10 @@ Registered markets, each with reviewed rules, its own theme table and a report i
 language: `us`, `cn` (zh-Hans), `jp` (ja), `in`, `hk` (zh-Hant), `kr` (ko), `uk`, `tw` (zh-Hant),
 `de` (de), `fr` (fr), `ca`, `au`, `br` (pt-BR), `crypto`. Anything else builds too — see step 6.
 
-Read [examples/README.md](examples/README.md) first and open one example. The three that ship are
-`cn`, `us` and `crypto`; if you were asked about another market, read the one closest to it. One
-worked snapshot answers more questions about the input format than the contract does, and the
-shipped examples are known to build.
+Read [examples/README.md](examples/README.md) first and open the example for the market you were
+asked about — every registered market ships one, at full size and in its own language. For a
+market outside the fourteen, open the closest one. A worked snapshot answers more questions about
+the input format than the contract does, and the shipped examples are known to build.
 
 ## Route the request
 
@@ -132,7 +132,7 @@ keeps every incumbent and fills the rest; narrowing reselects inside the incumbe
 smaller target. A rebuild at the new depth churns a universe whose entire purpose is low turnover.
 
 The model proposes taxonomy, roles and evidence. Python owns normalization, eligibility gates,
-tier nesting, quotas, ordering, caps, hashing and rendering. Never hand-write the final txt.
+tier nesting, quotas, ordering, apportionment, hashing and rendering. Never hand-write the final txt.
 
 ## Maintain an existing universe
 

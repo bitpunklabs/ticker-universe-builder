@@ -12,8 +12,9 @@ Everything below is only the part `SKILL.md` assumes you already know.
   `validate`.
 - **Contracts:** [`references/data-contracts.md`](references/data-contracts.md). Read it before
   writing any JSON. Every input is a documented shape; nothing is inferred from prose.
-- **Worked inputs:** [`examples/`](examples/README.md). Three complete builds, one per market.
-  Open the one for the market you were asked about before writing a snapshot from scratch.
+- **Worked inputs:** [`examples/`](examples/README.md). Fourteen complete builds, one per
+  registered market, each in that market's own language. Open the one for the market you were
+  asked about before writing a snapshot from scratch.
 - **Tests:** `python -m pytest tests -q`.
 
 Hard boundaries, repeated here because they are the ones that matter if you read nothing else:

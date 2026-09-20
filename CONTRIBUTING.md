@@ -2,7 +2,7 @@
 
 ## The rules that are not style
 
-1. **Every change to deterministic logic ships with a test.** Selection, gating, ranking, caps,
+1. **Every change to deterministic logic ships with a test.** Selection, gating, ranking, apportionment,
    hashing, rendering, validation — if the behaviour can differ between two runs, a test pins
    which one is correct. `tests/test_universe_core.py` is the home for almost all of it.
 2. **The contract changes before the code does.** The shapes in `references/data-contracts.md`
@@ -36,11 +36,14 @@ to move with it.
 Two paths, and the cheap one is usually right. A market can be **declared** in the snapshot's
 `market_spec` — venues, symbol shape, identity rule, size guidance — with no code change at all;
 it builds under the same evidence gate as everything else and is reported as declared rather
-than reviewed. **Registering** a market puts it in `MARKET_SPECS` with reviewed rules and is a
-code change plus a test plus a starter taxonomy plus locale keys. See
+than reviewed. **Registering** a market is five additions — a `MARKET_SPECS`
+row, a breadth number, a starter taxonomy, an overlay and a seed table — plus locale keys if its
+language is new. See
 [`references/markets/adding-a-market.md`](references/markets/adding-a-market.md).
 
-Do not ship an unexercised market overlay on speculation.
+Do not ship an unexercised market overlay on speculation. The seed table is what exercises it,
+which is why it is one of the five and not a follow-up: a test asserts that the set of examples
+equals the set of registered markets, so a row added without one fails on the same commit.
 
 ## Adding a locale
 

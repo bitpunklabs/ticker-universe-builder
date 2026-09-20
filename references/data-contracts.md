@@ -315,7 +315,7 @@ Supply it when the method or the window changed.
 | `MOVE` | `ticker`, `to_theme` | Re-files a member without changing membership |
 | `ADD_THEME` | `l1_code`, `l1_name`, `theme_code`, `theme_name`, `coverage_level`, `reason`, `evidence` | Its coverage level must be reachable by the current profile |
 | `REMOVE_THEME` | `theme`, `reason`, `evidence` | Refused while the theme still holds members |
-| `NO_CHANGE` | `scope`, `reason` | A first-class result, recorded in the history |
+| `NO_CHANGE` | `reason` | A first-class result, recorded in the history |
 
 Operations are applied in a fixed order regardless of how they are listed: `ADD_THEME`, then
 `REMOVE` / `MOVE` / `REPLACE` / `ADD`, then `REMOVE_THEME`. A theme created this round can be
