@@ -18,6 +18,8 @@ There is no listed semiconductor complex, so `10_B` and `10_C` are dropped rathe
 
 NBFCs and housing finance are their own group. Treating them as banks is the mistake that makes every Indian financials universe look like five copies of one balance sheet.
 
+Megacap platforms and the AI-infrastructure group leave the table: the platform layer is mostly private here and what is listed files under IT services, while the AI build-out is observed through the power complex. A theme with nothing to put in it makes the breadth floor pick badly.
+
 ## Adverse flags
 
 This market's regime issues these, and no other market's does. They cost the same as any
@@ -32,8 +34,12 @@ universal flag; what is market-specific is the vocabulary, not the price.
 ## Size
 
 Breadth `1.0` in `assets/default-policy.json`, so the tiers are **Light 60**,
-**Medium 160**, **Heavy 400** members. The starter table reaches 30 themes at
+**Medium 160**, **Heavy 400** members. The starter table reaches 28 themes at
 Light.
+
+## Example
+
+[`examples/in-light/`](../../examples/in-light/) is a full-size Light universe for this market: the seed table it is built from, the snapshot, the report in this market's language, and the TradingView watchlist. Every metric value in it is illustrative; the tickers, themes and roles are not.
 
 ## Suggested live fields
 

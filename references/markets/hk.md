@@ -18,6 +18,8 @@ Property is split from the base's REIT theme: the developers are their own theme
 
 Macau gaming is a theme rather than a line in leisure. It is one regulatory regime, six concessions, and it moves together.
 
+Games sit at Light here and nowhere else in the Chinese-language tables: this is where the gaming majors list. Cybersecurity and managed care leave Light in the same edit — neither has a listed pure play here.
+
 ## Adverse flags
 
 This market's regime issues these, and no other market's does. They cost the same as any
@@ -32,8 +34,12 @@ universal flag; what is market-specific is the vocabulary, not the price.
 ## Size
 
 Breadth `0.9` in `assets/default-policy.json`, so the tiers are **Light 55**,
-**Medium 145**, **Heavy 360** members. The starter table reaches 33 themes at
+**Medium 145**, **Heavy 360** members. The starter table reaches 32 themes at
 Light.
+
+## Example
+
+[`examples/hk-light/`](../../examples/hk-light/) is a full-size Light universe for this market: the seed table it is built from, the snapshot, the report in this market's language, and the TradingView watchlist. Every metric value in it is illustrative; the tickers, themes and roles are not.
 
 ## Suggested live fields
 

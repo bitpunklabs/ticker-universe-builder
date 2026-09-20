@@ -49,6 +49,10 @@ the largest turnover in the entire ETF market, the tightest spreads and the best
 quality ranking puts them first — which is exactly why the exclusion has to be written down rather
 than left to whoever happens to be reviewing.
 
+## Example
+
+[`examples/cn-light/`](../../examples/cn-light/) is a full-size Light universe for this market: the seed table it is built from, the snapshot, the report in this market's language, and the TradingView watchlist. Every metric value in it is illustrative; the tickers, themes and roles are not.
+
 ## Suggested live fields
 
 - Listing, risk-warning and halt status.

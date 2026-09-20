@@ -1,0 +1,79 @@
+# ticker	name	theme	role	flags
+TSX:XIU	iShares S&P/TSX 60 Index ETF	00_A	BENCHMARK	required
+TSX:XIC	iShares Core S&P/TSX Capped Composite Index ETF	00_A	BENCHMARK	required
+TSX:XCS	iShares S&P/TSX SmallCap Index ETF	00_A	BREADTH_PROXY	required
+TSX:CSU	Constellation Software	10_D	ANCHOR
+TSX:SHOP	Shopify	10_D	THEME_LEADER
+TSX:OTEX	Open Text	10_D	QUALITY_LEADER
+TSX:DSG	Descartes Systems Group	10_D	QUALITY_LEADER
+TSX:KXS	Kinaxis	10_D	QUALITY_LEADER
+TSX:BB	BlackBerry	10_E	BETA_SATELLITE
+TSX:LSPD	Lightspeed Commerce	10_F	BETA_SATELLITE
+TSX:BIP.UN	Brookfield Infrastructure Partners	11_B	THEME_LEADER
+TSX:TRI	Thomson Reuters	20_A	THEME_LEADER
+TSX:BCE	BCE	20_B	THEME_LEADER
+TSX:T	TELUS	20_B	QUALITY_LEADER
+TSX:RCI.B	Rogers Communications	20_B	QUALITY_LEADER
+TSX:DOL	Dollarama	30_A	THEME_LEADER
+TSX:MG	Magna International	30_A	QUALITY_LEADER
+TSX:GIL	Gildan Activewear	30_A	QUALITY_LEADER
+TSX:ATD	Alimentation Couche-Tard	30_B	THEME_LEADER
+TSX:L	Loblaw Companies	30_B	THEME_LEADER
+TSX:MRU	Metro	30_B	QUALITY_LEADER
+TSX:SAP	Saputo	30_B	QUALITY_LEADER
+TSX:QSR	Restaurant Brands International	30_C	THEME_LEADER
+TSX:AC	Air Canada	30_C	LIQUIDITY_SENSOR
+TSX:RY	Royal Bank of Canada	40_A	ANCHOR
+TSX:TD	Toronto-Dominion Bank	40_A	THEME_LEADER
+TSX:BMO	Bank of Montreal	40_A	THEME_LEADER
+TSX:BNS	Bank of Nova Scotia	40_A	QUALITY_LEADER
+TSX:CM	Canadian Imperial Bank of Commerce	40_A	QUALITY_LEADER
+TSX:NA	National Bank of Canada	40_A	QUALITY_LEADER
+TSX:BN	Brookfield Corporation	40_C	ANCHOR
+TSX:X	TMX Group	40_C	THEME_LEADER
+TSX:IGM	IGM Financial	40_C	QUALITY_LEADER
+TSX:MFC	Manulife Financial	40_D	THEME_LEADER
+TSX:SLF	Sun Life Financial	40_D	THEME_LEADER
+TSX:IFC	Intact Financial	40_D	QUALITY_LEADER
+TSX:GWO	Great-West Lifeco	40_D	QUALITY_LEADER
+TSX:BHC	Bausch Health Companies	50_A	THEME_LEADER
+TSX:BBD.B	Bombardier	60_A	THEME_LEADER
+TSX:CAE	CAE	60_A	QUALITY_LEADER
+TSX:CNR	Canadian National Railway	60_B	ANCHOR
+TSX:CP	Canadian Pacific Kansas City	60_B	THEME_LEADER
+TSX:TIH	Toromont Industries	60_B	QUALITY_LEADER
+TSX:FTT	Finning International	60_B	QUALITY_LEADER
+TSX:TFII	TFI International	60_C	THEME_LEADER
+TSX:WCN	Waste Connections	60_C	QUALITY_LEADER
+TSX:CNQ	Canadian Natural Resources	70_A	ANCHOR
+TSX:SU	Suncor Energy	70_A	THEME_LEADER
+TSX:IMO	Imperial Oil	70_A	QUALITY_LEADER
+TSX:CVE	Cenovus Energy	70_A	QUALITY_LEADER
+TSX:TOU	Tourmaline Oil	70_A	QUALITY_LEADER
+TSX:ENB	Enbridge	70_B	ANCHOR
+TSX:TRP	TC Energy	70_B	THEME_LEADER
+TSX:PPL	Pembina Pipeline	70_B	QUALITY_LEADER
+TSX:KEY	Keyera	70_B	QUALITY_LEADER
+TSX:CCO	Cameco	70_D	THEME_LEADER
+TSX:NXE	NexGen Energy	70_D	BETA_SATELLITE
+TSX:NTR	Nutrien	80_A	THEME_LEADER
+TSX:CCL.B	CCL Industries	80_A	QUALITY_LEADER
+TSX:WFG	West Fraser Timber	80_A	QUALITY_LEADER
+TSX:FTS	Fortis	80_B	THEME_LEADER
+TSX:EMA	Emera	80_B	QUALITY_LEADER
+TSX:H	Hydro One	80_B	QUALITY_LEADER
+TSX:AQN	Algonquin Power & Utilities	80_B	BETA_SATELLITE
+TSX:ABX	Barrick Mining	80_C	THEME_LEADER
+TSX:AEM	Agnico Eagle Mines	80_C	THEME_LEADER
+TSX:WPM	Wheaton Precious Metals	80_C	QUALITY_LEADER
+TSX:FNV	Franco-Nevada	80_C	QUALITY_LEADER
+TSX:TECK.B	Teck Resources	80_C	QUALITY_LEADER
+TSX:K	Kinross Gold	80_C	QUALITY_LEADER
+TSX:FM	First Quantum Minerals	80_C	BETA_SATELLITE
+TSX:IMG	IAMGOLD	80_C	LIQUIDITY_SENSOR
+TSX:REI.UN	RioCan Real Estate Investment Trust	90_A	THEME_LEADER
+TSX:CAR.UN	Canadian Apartment Properties REIT	90_A	QUALITY_LEADER
+TSX:GRT.UN	Granite Real Estate Investment Trust	90_A	QUALITY_LEADER
+TSX:BITF	Bitfarms	95_A	THEME_LEADER
+TSX:BAM	Brookfield Asset Management	40_C	QUALITY_LEADER	ineligible:redundant_with_member: the manager is already observed through the parent held here
+TSX:CGL	iShares Gold Bullion ETF	00_A	BREADTH_PROXY	ineligible:excluded_instrument_type: a bullion fund is not an observation of this equity market

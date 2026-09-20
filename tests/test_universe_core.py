@@ -56,6 +56,14 @@ from universe_core import (  # noqa: E402
     write_artifacts,
 )
 
+# Every market with a committed example. Read off the directory rather than listed, so a new
+# example is covered by these tests the moment it is added.
+EXAMPLE_MARKETS = sorted(
+    path.name.removesuffix("-light")
+    for path in (ROOT / "examples").glob("*-light")
+    if path.is_dir()
+)
+
 
 def evidence(tier: int = 1, as_of: str = "2026-09-09") -> list[dict]:
     return [{"url": "https://example.com/source", "as_of": as_of, "tier": tier}]
@@ -1358,21 +1366,32 @@ class ExampleTests(unittest.TestCase):
 
         before = {
             path: path.read_text(encoding="utf-8")
-            for market in ("cn", "us", "crypto")
-            for pattern in ("*.json", "*.md")
+            for market in EXAMPLE_MARKETS
+            for pattern in ("*.json", "*.md", "*.txt")
             for path in (ROOT / "examples" / f"{market}-light").glob(pattern)
             if path.name != "changes.json"
         }
         self.assertEqual(
             sorted(path.name for path in before if path.name.endswith(".md")),
-            ["maintenance.md", "universe.md", "universe.md", "universe.md"],
+            ["maintenance.md"] + ["universe.md"] * len(EXAMPLE_MARKETS),
+        )
+        # The watchlist is committed too: it is the artifact that gets imported, and a diff in
+        # the TradingView format should be reviewable without running a build.
+        self.assertEqual(
+            len([path for path in before if path.name == "watchlist.txt"]),
+            len(EXAMPLE_MARKETS),
         )
         build_examples.main()
         for path, text in before.items():
             self.assertEqual(path.read_text(encoding="utf-8"), text, path.name)
 
+    def test_every_registered_market_ships_an_example(self) -> None:
+        # The registry is the claim; an example is the evidence. A market added without one is a
+        # row nobody has ever built against.
+        self.assertEqual(sorted(EXAMPLE_MARKETS), sorted(MARKETS))
+
     def test_examples_draw_their_themes_from_the_starter_taxonomy(self) -> None:
-        for market in ("cn", "us", "crypto"):
+        for market in EXAMPLE_MARKETS:
             with self.subTest(market=market):
                 published = {item["theme_code"] for item in starter_taxonomy(market)}
                 used = {
@@ -1384,7 +1403,7 @@ class ExampleTests(unittest.TestCase):
                 self.assertLessEqual(used, published)
 
     def test_every_example_builds_and_passes(self) -> None:
-        for market in ("cn", "us", "crypto"):
+        for market in EXAMPLE_MARKETS:
             folder = ROOT / "examples" / f"{market}-light"
             with self.subTest(market=market):
                 universe, report = build_universe(
@@ -1399,7 +1418,7 @@ class ExampleTests(unittest.TestCase):
         # An example below its own guidance teaches the wrong shape, and `allow_outside_guidance`
         # in a shipped build spec teaches that the flag is normal. Both used to be true here.
         policy = load_policy()
-        for market in ("cn", "us", "crypto"):
+        for market in EXAMPLE_MARKETS:
             folder = ROOT / "examples" / f"{market}-light"
             with self.subTest(market=market):
                 spec = read_json(folder / "build-spec.json")
@@ -1412,6 +1431,24 @@ class ExampleTests(unittest.TestCase):
                 self.assertGreaterEqual(len(universe["members"]), band["min"])
                 self.assertLessEqual(len(universe["members"]), band["max"])
                 self.assertEqual(report["warnings"], [])
+
+    def test_every_example_reads_in_its_own_market_language(self) -> None:
+        # The report language is a registry fact, not a run-time choice, and the committed
+        # example is where that either holds or quietly stops holding.
+        for market in EXAMPLE_MARKETS:
+            with self.subTest(market=market):
+                report = (ROOT / "examples" / f"{market}-light" / "universe.md").read_text(
+                    encoding="utf-8"
+                )
+                heading = next(
+                    line for line in report.splitlines() if line.startswith("# ")
+                )
+                lexicon = read_json(
+                    ROOT / "assets" / "locales" / f"{report_language(market)}.json"
+                )
+                self.assertEqual(
+                    heading, "# " + lexicon["title"].format(market=market.upper())
+                )
 
     def test_the_crypto_change_set_still_applies_to_its_own_universe(self) -> None:
         folder = ROOT / "examples" / "crypto-light"

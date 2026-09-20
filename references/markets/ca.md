@@ -18,6 +18,8 @@ Digital-asset equities keep a level-1 seat here, which they do not get in most m
 
 Technology is thin on purpose: one enterprise software theme, no semiconductors, no AI compute.
 
+Semiconductors, payments and medtech leave Light: Toronto lists no semiconductor of scale, the payments names were taken private, and the medtech that remains is microcap. What is left is banks, energy, mining and a software cluster that is genuinely world-class.
+
 ## Adverse flags
 
 This market's regime issues these, and no other market's does. They cost the same as any
@@ -32,8 +34,12 @@ universal flag; what is market-specific is the vocabulary, not the price.
 ## Size
 
 Breadth `0.75` in `assets/default-policy.json`, so the tiers are **Light 45**,
-**Medium 120**, **Heavy 300** members. The starter table reaches 28 themes at
+**Medium 120**, **Heavy 300** members. The starter table reaches 25 themes at
 Light.
+
+## Example
+
+[`examples/ca-light/`](../../examples/ca-light/) is a full-size Light universe for this market: the seed table it is built from, the snapshot, the report in this market's language, and the TradingView watchlist. Every metric value in it is illustrative; the tickers, themes and roles are not.
 
 ## Suggested live fields
 

@@ -2,17 +2,15 @@
   "schema_version": 2,
   "market": "de",
   "extends": "_equity",
-  "note": "Autos, industrial electricals, chemicals, insurance — an export-industrial index with one software giant.",
+  "note": "Autos, industrial electricals, chemicals, insurance — an export-industrial index with one software giant. Energy and payments leave the table entirely, because Frankfurt lists neither: there is no German oil major, and the payments sector did not survive Wirecard as a listed pure play. The energy transition is observed here through electrical equipment and utilities. There is no listed German data-centre operator, so the AI build-out is observed through electrical equipment and utilities rather than through a theme of its own.",
   "groups": {
     "00": "Marktindizes",
     "10": "Technologie",
-    "11": "KI-Infrastruktur",
     "20": "Kommunikation",
     "30": "Konsum",
     "40": "Finanzwerte",
     "50": "Gesundheit",
     "60": "Industrie",
-    "70": "Energie",
     "80": "Rohstoffe und Versorger",
     "90": "Immobilien"
   },
@@ -28,12 +26,17 @@
     "50_C",
     "40_F",
     "10_H",
-    "90_B"
+    "90_B",
+    "11_B",
+    "70_A",
+    "70_B",
+    "70_C"
   ],
   "level": {
     "30_E": 1,
     "80_D": 1,
-    "60_D": 1
+    "60_D": 1,
+    "40_B": 3
   },
   "weight": {
     "30_E": 3.0,
@@ -52,6 +55,6 @@
     "20_B": 0.75,
     "10_F": 1.0,
     "50_B": 1.0,
-    "70_A": 0.5
+    "40_B": 0.5
   }
 }

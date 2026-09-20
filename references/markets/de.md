@@ -8,7 +8,7 @@ is not true elsewhere.
 ## Identity
 
 - `XETR` is the venue that matters; `FWB` is accepted for lines Xetra does not carry. The same company on both is one economic asset — hold the Xetra line.
-- Symbols are one to six characters.
+- Symbols are one to six alphanumeric characters, and some open with a digit — `4GLD`, `1U1`. A rule that demanded a leading letter would reject real Xetra lines, and did until an example hit one.
 
 ## What this market is
 
@@ -17,6 +17,8 @@ Autos at 3.0 and one software company at 2.5. That is most of the index, and the
 Electrical equipment and chemicals are promoted to level 1: Siemens and BASF are primary themes here, not the support sectors they are in the shared base.
 
 Insurance is weighted at 2.0 against 1.0 in the base — Allianz and Munich Re are a reinsurance complex, and reinsurance moves on things nothing else in the index moves on.
+
+Three things the shared base carries are not here at all: energy, payments and a data-centre theme. Frankfurt lists no oil major, the payments sector did not survive Wirecard as a listed pure play, and there is no German data-centre operator — so the energy transition and the AI build-out are both observed through electrical equipment and utilities. A theme nothing can fill is worse than no theme: it turns the breadth floor into a hole.
 
 ## Adverse flags
 
@@ -32,8 +34,12 @@ universal flag; what is market-specific is the vocabulary, not the price.
 ## Size
 
 Breadth `0.75` in `assets/default-policy.json`, so the tiers are **Light 45**,
-**Medium 120**, **Heavy 300** members. The starter table reaches 29 themes at
+**Medium 120**, **Heavy 300** members. The starter table reaches 25 themes at
 Light.
+
+## Example
+
+[`examples/de-light/`](../../examples/de-light/) is a full-size Light universe for this market: the seed table it is built from, the snapshot, the report in this market's language, and the TradingView watchlist. Every metric value in it is illustrative; the tickers, themes and roles are not.
 
 ## Suggested live fields
 

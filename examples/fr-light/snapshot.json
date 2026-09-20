@@ -1,0 +1,2039 @@
+{
+  "schema_version": 1,
+  "market": "fr",
+  "as_of": "2026-09-17",
+  "complete": true,
+  "sources": [
+    {
+      "url": "https://live.euronext.com/en/markets/paris/equities/list",
+      "as_of": "2026-09-17",
+      "kind": "exchange",
+      "tier": 1
+    }
+  ],
+  "measurement": {
+    "liquidity": {
+      "basis": "measured",
+      "method": "percentile en coupe transversale du volume quotidien moyen",
+      "window": "30d",
+      "source": "https://live.euronext.com/en/markets/paris/equities/list"
+    },
+    "quality": {
+      "basis": "blended",
+      "method": "ancienneté de cotation et percentile de taille, complétés par un jugement de durabilité",
+      "source": "https://live.euronext.com/en/markets/paris/equities/list"
+    },
+    "heat": {
+      "basis": "judged",
+      "method": "saut de volume confirmé par les données de marché, jamais une séance isolée"
+    },
+    "beta_strength": {
+      "basis": "measured",
+      "method": "valeur absolue du bêta OLS contre EURONEXT:CAC ; un bêta de 2,0 vaut 100",
+      "window": "180d",
+      "source": "https://live.euronext.com/en/markets/paris/equities/list"
+    },
+    "beta_stability": {
+      "basis": "measured",
+      "method": "concordance de l'estimation du bêta entre les deux moitiés de la fenêtre",
+      "window": "180d",
+      "source": "https://live.euronext.com/en/markets/paris/equities/list"
+    },
+    "independence": {
+      "basis": "measured",
+      "method": "100 moins le R² de la régression des rendements quotidiens sur EURONEXT:CAC",
+      "window": "180d",
+      "source": "https://live.euronext.com/en/markets/paris/equities/list"
+    }
+  },
+  "taxonomy": [
+    {
+      "l1_code": "00",
+      "l1_name": "Indices de marché",
+      "theme_code": "00_A",
+      "theme_name": "BROAD_MARKET_ETF",
+      "coverage_level": 1,
+      "weight": 1.0
+    },
+    {
+      "l1_code": "00",
+      "l1_name": "Indices de marché",
+      "theme_code": "00_B",
+      "theme_name": "EQUAL_WEIGHT_AND_BREADTH",
+      "coverage_level": 2,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "00",
+      "l1_name": "Indices de marché",
+      "theme_code": "00_C",
+      "theme_name": "VOLATILITY_AND_HEDGES",
+      "coverage_level": 3,
+      "weight": 0.5
+    },
+    {
+      "l1_code": "10",
+      "l1_name": "Technologie",
+      "theme_code": "10_B",
+      "theme_name": "SEMICONDUCTORS",
+      "coverage_level": 1,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "10",
+      "l1_name": "Technologie",
+      "theme_code": "10_C",
+      "theme_name": "SEMICAP_EQUIPMENT",
+      "coverage_level": 1,
+      "weight": 1.25
+    },
+    {
+      "l1_code": "10",
+      "l1_name": "Technologie",
+      "theme_code": "10_D",
+      "theme_name": "ENTERPRISE_SOFTWARE",
+      "coverage_level": 1,
+      "weight": 1.5
+    },
+    {
+      "l1_code": "10",
+      "l1_name": "Technologie",
+      "theme_code": "10_E",
+      "theme_name": "CYBERSECURITY",
+      "coverage_level": 3,
+      "weight": 0.5
+    },
+    {
+      "l1_code": "10",
+      "l1_name": "Technologie",
+      "theme_code": "10_F",
+      "theme_name": "INTERNET_AND_ADTECH",
+      "coverage_level": 1,
+      "weight": 1.5
+    },
+    {
+      "l1_code": "10",
+      "l1_name": "Technologie",
+      "theme_code": "10_G",
+      "theme_name": "IT_SERVICES_AND_CONSULTING",
+      "coverage_level": 2,
+      "weight": 1.0
+    },
+    {
+      "l1_code": "11",
+      "l1_name": "Infrastructure IA",
+      "theme_code": "11_B",
+      "theme_name": "DATA_CENTER_AND_POWER",
+      "coverage_level": 1,
+      "weight": 1.5
+    },
+    {
+      "l1_code": "20",
+      "l1_name": "Communication",
+      "theme_code": "20_A",
+      "theme_name": "STREAMING_AND_MEDIA",
+      "coverage_level": 1,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "20",
+      "l1_name": "Communication",
+      "theme_code": "20_B",
+      "theme_name": "TELECOM",
+      "coverage_level": 1,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "20",
+      "l1_name": "Communication",
+      "theme_code": "20_C",
+      "theme_name": "GAMING_AND_INTERACTIVE",
+      "coverage_level": 3,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "20",
+      "l1_name": "Communication",
+      "theme_code": "20_D",
+      "theme_name": "ADVERTISING_AND_MARKETING",
+      "coverage_level": 3,
+      "weight": 0.5
+    },
+    {
+      "l1_code": "30",
+      "l1_name": "Consommation",
+      "theme_code": "30_A",
+      "theme_name": "DISCRETIONARY_LEADERS",
+      "coverage_level": 1,
+      "weight": 1.0
+    },
+    {
+      "l1_code": "30",
+      "l1_name": "Consommation",
+      "theme_code": "30_B",
+      "theme_name": "STAPLES",
+      "coverage_level": 1,
+      "weight": 2.0
+    },
+    {
+      "l1_code": "30",
+      "l1_name": "Consommation",
+      "theme_code": "30_C",
+      "theme_name": "RESTAURANTS_AND_TRAVEL",
+      "coverage_level": 1,
+      "weight": 1.0
+    },
+    {
+      "l1_code": "30",
+      "l1_name": "Consommation",
+      "theme_code": "30_D",
+      "theme_name": "APPAREL_AND_LUXURY",
+      "coverage_level": 1,
+      "weight": 4.0
+    },
+    {
+      "l1_code": "30",
+      "l1_name": "Consommation",
+      "theme_code": "30_E",
+      "theme_name": "AUTOS_AND_MOBILITY",
+      "coverage_level": 1,
+      "weight": 1.5
+    },
+    {
+      "l1_code": "40",
+      "l1_name": "Finance",
+      "theme_code": "40_A",
+      "theme_name": "MONEY_CENTER_BANKS",
+      "coverage_level": 1,
+      "weight": 1.75
+    },
+    {
+      "l1_code": "40",
+      "l1_name": "Finance",
+      "theme_code": "40_B",
+      "theme_name": "PAYMENTS",
+      "coverage_level": 1,
+      "weight": 1.25
+    },
+    {
+      "l1_code": "40",
+      "l1_name": "Finance",
+      "theme_code": "40_C",
+      "theme_name": "ASSET_MANAGERS_AND_EXCHANGES",
+      "coverage_level": 1,
+      "weight": 1.0
+    },
+    {
+      "l1_code": "40",
+      "l1_name": "Finance",
+      "theme_code": "40_D",
+      "theme_name": "INSURANCE",
+      "coverage_level": 1,
+      "weight": 1.0
+    },
+    {
+      "l1_code": "40",
+      "l1_name": "Finance",
+      "theme_code": "40_E",
+      "theme_name": "REGIONAL_BANKS",
+      "coverage_level": 2,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "50",
+      "l1_name": "Santé",
+      "theme_code": "50_A",
+      "theme_name": "PHARMA",
+      "coverage_level": 1,
+      "weight": 1.5
+    },
+    {
+      "l1_code": "50",
+      "l1_name": "Santé",
+      "theme_code": "50_B",
+      "theme_name": "MEDTECH_AND_DEVICES",
+      "coverage_level": 1,
+      "weight": 1.25
+    },
+    {
+      "l1_code": "50",
+      "l1_name": "Santé",
+      "theme_code": "50_D",
+      "theme_name": "BIOTECH",
+      "coverage_level": 2,
+      "weight": 1.0
+    },
+    {
+      "l1_code": "50",
+      "l1_name": "Santé",
+      "theme_code": "50_E",
+      "theme_name": "LIFE_SCIENCE_TOOLS",
+      "coverage_level": 2,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "50",
+      "l1_name": "Santé",
+      "theme_code": "50_F",
+      "theme_name": "HEALTHCARE_DISTRIBUTION",
+      "coverage_level": 3,
+      "weight": 0.5
+    },
+    {
+      "l1_code": "60",
+      "l1_name": "Industrie",
+      "theme_code": "60_A",
+      "theme_name": "AEROSPACE_AND_DEFENSE",
+      "coverage_level": 1,
+      "weight": 2.5
+    },
+    {
+      "l1_code": "60",
+      "l1_name": "Industrie",
+      "theme_code": "60_B",
+      "theme_name": "MACHINERY_AND_RAIL",
+      "coverage_level": 1,
+      "weight": 1.25
+    },
+    {
+      "l1_code": "60",
+      "l1_name": "Industrie",
+      "theme_code": "60_C",
+      "theme_name": "TRANSPORT_AND_LOGISTICS",
+      "coverage_level": 1,
+      "weight": 1.0
+    },
+    {
+      "l1_code": "60",
+      "l1_name": "Industrie",
+      "theme_code": "60_D",
+      "theme_name": "ELECTRICAL_EQUIPMENT",
+      "coverage_level": 2,
+      "weight": 1.0
+    },
+    {
+      "l1_code": "60",
+      "l1_name": "Industrie",
+      "theme_code": "60_E",
+      "theme_name": "ENGINEERING_AND_CONSTRUCTION",
+      "coverage_level": 1,
+      "weight": 1.25
+    },
+    {
+      "l1_code": "60",
+      "l1_name": "Industrie",
+      "theme_code": "60_F",
+      "theme_name": "DISTRIBUTION_AND_SUPPLY",
+      "coverage_level": 3,
+      "weight": 0.5
+    },
+    {
+      "l1_code": "70",
+      "l1_name": "Énergie",
+      "theme_code": "70_A",
+      "theme_name": "INTEGRATED_ENERGY",
+      "coverage_level": 1,
+      "weight": 1.75
+    },
+    {
+      "l1_code": "70",
+      "l1_name": "Énergie",
+      "theme_code": "70_B",
+      "theme_name": "OILFIELD_AND_MIDSTREAM",
+      "coverage_level": 1,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "70",
+      "l1_name": "Énergie",
+      "theme_code": "70_C",
+      "theme_name": "EXPLORATION_AND_PRODUCTION",
+      "coverage_level": 2,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "80",
+      "l1_name": "Matériaux et services publics",
+      "theme_code": "80_A",
+      "theme_name": "MATERIALS",
+      "coverage_level": 1,
+      "weight": 1.25
+    },
+    {
+      "l1_code": "80",
+      "l1_name": "Matériaux et services publics",
+      "theme_code": "80_B",
+      "theme_name": "UTILITIES",
+      "coverage_level": 1,
+      "weight": 1.5
+    },
+    {
+      "l1_code": "80",
+      "l1_name": "Matériaux et services publics",
+      "theme_code": "80_C",
+      "theme_name": "METALS_AND_MINING",
+      "coverage_level": 2,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "80",
+      "l1_name": "Matériaux et services publics",
+      "theme_code": "80_D",
+      "theme_name": "CHEMICALS",
+      "coverage_level": 3,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "80",
+      "l1_name": "Matériaux et services publics",
+      "theme_code": "80_E",
+      "theme_name": "WATER_AND_WASTE",
+      "coverage_level": 3,
+      "weight": 0.5
+    },
+    {
+      "l1_code": "90",
+      "l1_name": "Immobilier",
+      "theme_code": "90_A",
+      "theme_name": "REITS",
+      "coverage_level": 1,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "90",
+      "l1_name": "Immobilier",
+      "theme_code": "90_C",
+      "theme_name": "REAL_ESTATE_SERVICES",
+      "coverage_level": 3,
+      "weight": 0.5
+    }
+  ],
+  "candidates": [
+    {
+      "ticker": "EURONEXT:CAC",
+      "name": "Amundi CAC 40 UCITS ETF",
+      "theme_code": "00_A",
+      "role": "BENCHMARK",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 99,
+        "quality": 94,
+        "heat": 55,
+        "independence": 12
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "required": true,
+      "quality_facts": {
+        "listing_age_days": 5200,
+        "size_rank_pct": 98,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "EURONEXT:CW8",
+      "name": "Amundi MSCI World UCITS ETF",
+      "theme_code": "00_A",
+      "role": "BREADTH_PROXY",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 98,
+        "quality": 94,
+        "heat": 62,
+        "independence": 45
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "required": true
+    },
+    {
+      "ticker": "EURONEXT:STMPA",
+      "name": "STMicroelectronics",
+      "theme_code": "10_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 97,
+        "quality": 93,
+        "heat": 69,
+        "independence": 42
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 5120,
+        "size_rank_pct": 96,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "EURONEXT:SOI",
+      "name": "Soitec",
+      "theme_code": "10_C",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 96,
+        "quality": 93,
+        "heat": 76,
+        "independence": 39
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 5080,
+        "size_rank_pct": 95,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "EURONEXT:DSY",
+      "name": "Dassault Systèmes",
+      "theme_code": "10_D",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 95,
+        "quality": 92,
+        "heat": 83,
+        "independence": 36
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 5040,
+        "size_rank_pct": 94,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "EURONEXT:ATO",
+      "name": "Atos",
+      "theme_code": "10_D",
+      "role": "LIQUIDITY_SENSOR",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 94,
+        "quality": 92,
+        "heat": 90,
+        "independence": 33
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "EURONEXT:PUB",
+      "name": "Publicis Groupe",
+      "theme_code": "10_F",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 93,
+        "quality": 91,
+        "heat": 57,
+        "independence": 30
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4960,
+        "size_rank_pct": 92,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "EURONEXT:SU",
+      "name": "Schneider Electric",
+      "theme_code": "11_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 92,
+        "quality": 91,
+        "heat": 64,
+        "independence": 27
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4920,
+        "size_rank_pct": 91,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "EURONEXT:LR",
+      "name": "Legrand",
+      "theme_code": "11_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 91,
+        "quality": 90,
+        "heat": 71,
+        "independence": 24
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4880,
+        "size_rank_pct": 90,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "EURONEXT:VIV",
+      "name": "Vivendi",
+      "theme_code": "20_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 90,
+        "quality": 90,
+        "heat": 78,
+        "independence": 21
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4840,
+        "size_rank_pct": 89,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "EURONEXT:UBI",
+      "name": "Ubisoft Entertainment",
+      "theme_code": "20_A",
+      "role": "BETA_SATELLITE",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 89,
+        "quality": 89,
+        "heat": 85,
+        "independence": 48,
+        "beta_strength": 62,
+        "beta_stability": 78
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "EURONEXT:TFI",
+      "name": "TF1",
+      "theme_code": "20_A",
+      "role": "BETA_SATELLITE",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 88,
+        "quality": 89,
+        "heat": 92,
+        "independence": 45,
+        "beta_strength": 65,
+        "beta_stability": 83
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "EURONEXT:ORA",
+      "name": "Orange",
+      "theme_code": "20_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 87,
+        "quality": 88,
+        "heat": 59,
+        "independence": 42
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4720,
+        "size_rank_pct": 86,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "EURONEXT:FDJ",
+      "name": "La Française des Jeux",
+      "theme_code": "30_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 86,
+        "quality": 88,
+        "heat": 66,
+        "independence": 39
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4680,
+        "size_rank_pct": 85,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "EURONEXT:OR",
+      "name": "L'Oréal",
+      "theme_code": "30_B",
+      "role": "ANCHOR",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 85,
+        "quality": 87,
+        "heat": 73,
+        "independence": 16
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4640,
+        "size_rank_pct": 84,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "EURONEXT:BN",
+      "name": "Danone",
+      "theme_code": "30_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 84,
+        "quality": 87,
+        "heat": 80,
+        "independence": 33
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4600,
+        "size_rank_pct": 83,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "EURONEXT:RI",
+      "name": "Pernod Ricard",
+      "theme_code": "30_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 83,
+        "quality": 86,
+        "heat": 87,
+        "independence": 30
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4560,
+        "size_rank_pct": 82,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "EURONEXT:CA",
+      "name": "Carrefour",
+      "theme_code": "30_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 82,
+        "quality": 86,
+        "heat": 94,
+        "independence": 27
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4520,
+        "size_rank_pct": 81,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "EURONEXT:AC",
+      "name": "Accor",
+      "theme_code": "30_C",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 81,
+        "quality": 85,
+        "heat": 61,
+        "independence": 24
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4480,
+        "size_rank_pct": 80,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "EURONEXT:SW",
+      "name": "Sodexo",
+      "theme_code": "30_C",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 80,
+        "quality": 85,
+        "heat": 68,
+        "independence": 21
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4440,
+        "size_rank_pct": 79,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "EURONEXT:AF",
+      "name": "Air France-KLM",
+      "theme_code": "30_C",
+      "role": "LIQUIDITY_SENSOR",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 79,
+        "quality": 84,
+        "heat": 75,
+        "independence": 48
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "EURONEXT:MC",
+      "name": "LVMH Moët Hennessy Louis Vuitton",
+      "theme_code": "30_D",
+      "role": "ANCHOR",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 78,
+        "quality": 84,
+        "heat": 82,
+        "independence": 13
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4360,
+        "size_rank_pct": 77,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "EURONEXT:RMS",
+      "name": "Hermès International",
+      "theme_code": "30_D",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 77,
+        "quality": 83,
+        "heat": 89,
+        "independence": 42
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4320,
+        "size_rank_pct": 76,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "EURONEXT:KER",
+      "name": "Kering",
+      "theme_code": "30_D",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 76,
+        "quality": 83,
+        "heat": 56,
+        "independence": 39
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4280,
+        "size_rank_pct": 75,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "EURONEXT:EL",
+      "name": "EssilorLuxottica",
+      "theme_code": "30_D",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 75,
+        "quality": 82,
+        "heat": 63,
+        "independence": 36
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4240,
+        "size_rank_pct": 74,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "EURONEXT:STLAP",
+      "name": "Stellantis",
+      "theme_code": "30_E",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 74,
+        "quality": 82,
+        "heat": 70,
+        "independence": 33
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4200,
+        "size_rank_pct": 73,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "EURONEXT:RNO",
+      "name": "Renault",
+      "theme_code": "30_E",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 73,
+        "quality": 81,
+        "heat": 77,
+        "independence": 30
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4160,
+        "size_rank_pct": 72,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "EURONEXT:ML",
+      "name": "Michelin",
+      "theme_code": "30_E",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 72,
+        "quality": 81,
+        "heat": 84,
+        "independence": 27
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4120,
+        "size_rank_pct": 71,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "EURONEXT:FR",
+      "name": "Valeo",
+      "theme_code": "30_E",
+      "role": "BETA_SATELLITE",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 71,
+        "quality": 80,
+        "heat": 91,
+        "independence": 24,
+        "beta_strength": 86,
+        "beta_stability": 72
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "EURONEXT:BNP",
+      "name": "BNP Paribas",
+      "theme_code": "40_A",
+      "role": "ANCHOR",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 70,
+        "quality": 80,
+        "heat": 58,
+        "independence": 16
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4040,
+        "size_rank_pct": 69,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "EURONEXT:GLE",
+      "name": "Société Générale",
+      "theme_code": "40_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 69,
+        "quality": 79,
+        "heat": 65,
+        "independence": 48
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4000,
+        "size_rank_pct": 68,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "EURONEXT:ACA",
+      "name": "Crédit Agricole",
+      "theme_code": "40_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 68,
+        "quality": 79,
+        "heat": 72,
+        "independence": 45
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3960,
+        "size_rank_pct": 67,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "EURONEXT:WLN",
+      "name": "Worldline",
+      "theme_code": "40_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 67,
+        "quality": 78,
+        "heat": 79,
+        "independence": 42
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3920,
+        "size_rank_pct": 66,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "EURONEXT:EDEN",
+      "name": "Edenred",
+      "theme_code": "40_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 66,
+        "quality": 78,
+        "heat": 86,
+        "independence": 39
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3880,
+        "size_rank_pct": 65,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "EURONEXT:ENX",
+      "name": "Euronext",
+      "theme_code": "40_C",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 65,
+        "quality": 77,
+        "heat": 93,
+        "independence": 36
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3840,
+        "size_rank_pct": 64,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "EURONEXT:AMUN",
+      "name": "Amundi",
+      "theme_code": "40_C",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 64,
+        "quality": 77,
+        "heat": 60,
+        "independence": 33
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3800,
+        "size_rank_pct": 63,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "EURONEXT:CS",
+      "name": "AXA",
+      "theme_code": "40_D",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 63,
+        "quality": 76,
+        "heat": 67,
+        "independence": 30
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3760,
+        "size_rank_pct": 62,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "EURONEXT:SCR",
+      "name": "SCOR",
+      "theme_code": "40_D",
+      "role": "BETA_SATELLITE",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 62,
+        "quality": 76,
+        "heat": 74,
+        "independence": 27,
+        "beta_strength": 83,
+        "beta_stability": 85
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "EURONEXT:SAN",
+      "name": "Sanofi",
+      "theme_code": "50_A",
+      "role": "ANCHOR",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 61,
+        "quality": 75,
+        "heat": 81,
+        "independence": 15
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3680,
+        "size_rank_pct": 60,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "EURONEXT:IPN",
+      "name": "Ipsen",
+      "theme_code": "50_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 60,
+        "quality": 75,
+        "heat": 88,
+        "independence": 21
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3640,
+        "size_rank_pct": 59,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "EURONEXT:BIM",
+      "name": "bioMérieux",
+      "theme_code": "50_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 59,
+        "quality": 74,
+        "heat": 55,
+        "independence": 48
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3600,
+        "size_rank_pct": 58,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "EURONEXT:AIR",
+      "name": "Airbus",
+      "theme_code": "60_A",
+      "role": "ANCHOR",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 58,
+        "quality": 74,
+        "heat": 62,
+        "independence": 13
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3560,
+        "size_rank_pct": 57,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "EURONEXT:SAF",
+      "name": "Safran",
+      "theme_code": "60_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 57,
+        "quality": 73,
+        "heat": 69,
+        "independence": 42
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3520,
+        "size_rank_pct": 56,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "EURONEXT:HO",
+      "name": "Thales",
+      "theme_code": "60_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 56,
+        "quality": 73,
+        "heat": 76,
+        "independence": 39
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3480,
+        "size_rank_pct": 55,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "EURONEXT:ALO",
+      "name": "Alstom",
+      "theme_code": "60_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 55,
+        "quality": 72,
+        "heat": 83,
+        "independence": 36
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3440,
+        "size_rank_pct": 54,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "EURONEXT:GET",
+      "name": "Getlink",
+      "theme_code": "60_C",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 54,
+        "quality": 72,
+        "heat": 90,
+        "independence": 33
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3400,
+        "size_rank_pct": 53,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "EURONEXT:ADP",
+      "name": "Aéroports de Paris",
+      "theme_code": "60_C",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 53,
+        "quality": 71,
+        "heat": 57,
+        "independence": 30
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3360,
+        "size_rank_pct": 52,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "EURONEXT:DG",
+      "name": "Vinci",
+      "theme_code": "60_E",
+      "role": "ANCHOR",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 52,
+        "quality": 71,
+        "heat": 64,
+        "independence": 14
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3320,
+        "size_rank_pct": 51,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "EURONEXT:SGO",
+      "name": "Saint-Gobain",
+      "theme_code": "60_E",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 51,
+        "quality": 70,
+        "heat": 71,
+        "independence": 24
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3280,
+        "size_rank_pct": 50,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "EURONEXT:FGR",
+      "name": "Eiffage",
+      "theme_code": "60_E",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 50,
+        "quality": 70,
+        "heat": 78,
+        "independence": 21
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3240,
+        "size_rank_pct": 49,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "EURONEXT:BOUY",
+      "name": "Bouygues",
+      "theme_code": "60_E",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 49,
+        "quality": 69,
+        "heat": 85,
+        "independence": 48
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3200,
+        "size_rank_pct": 48,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "EURONEXT:TTE",
+      "name": "TotalEnergies",
+      "theme_code": "70_A",
+      "role": "ANCHOR",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 48,
+        "quality": 69,
+        "heat": 92,
+        "independence": 13
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3160,
+        "size_rank_pct": 47,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "EURONEXT:VK",
+      "name": "Vallourec",
+      "theme_code": "70_B",
+      "role": "BETA_SATELLITE",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 47,
+        "quality": 68,
+        "heat": 59,
+        "independence": 42,
+        "beta_strength": 68,
+        "beta_stability": 64
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "EURONEXT:TE",
+      "name": "Technip Energies",
+      "theme_code": "70_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 46,
+        "quality": 68,
+        "heat": 66,
+        "independence": 39
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3080,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "EURONEXT:AI",
+      "name": "Air Liquide",
+      "theme_code": "80_A",
+      "role": "ANCHOR",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 45,
+        "quality": 67,
+        "heat": 73,
+        "independence": 16
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3040,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "EURONEXT:AKE",
+      "name": "Arkema",
+      "theme_code": "80_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 44,
+        "quality": 67,
+        "heat": 80,
+        "independence": 33
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3000,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "EURONEXT:NK",
+      "name": "Imerys",
+      "theme_code": "80_A",
+      "role": "BETA_SATELLITE",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 43,
+        "quality": 66,
+        "heat": 87,
+        "independence": 30,
+        "beta_strength": 80,
+        "beta_stability": 84
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "EURONEXT:ENGI",
+      "name": "Engie",
+      "theme_code": "80_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 42,
+        "quality": 66,
+        "heat": 94,
+        "independence": 27
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2920,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "EURONEXT:VIE",
+      "name": "Veolia Environnement",
+      "theme_code": "80_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 41,
+        "quality": 65,
+        "heat": 61,
+        "independence": 24
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2880,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "EURONEXT:URW",
+      "name": "Unibail-Rodamco-Westfield",
+      "theme_code": "90_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 65,
+        "heat": 68,
+        "independence": 21
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2840,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "EURONEXT:GFC",
+      "name": "Gecina",
+      "theme_code": "90_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 64,
+        "heat": 75,
+        "independence": 48
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2800,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "EURONEXT:COV",
+      "name": "Covivio",
+      "theme_code": "90_A",
+      "role": "BETA_SATELLITE",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 64,
+        "heat": 82,
+        "independence": 45,
+        "beta_strength": 65,
+        "beta_stability": 77
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "EURONEXT:CDI",
+      "name": "Christian Dior",
+      "theme_code": "30_D",
+      "role": "QUALITY_LEADER",
+      "eligible": false,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 63,
+        "heat": 89,
+        "independence": 42
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "exclusion_reasons": [
+        "redundant_with_member: la holding ne porte que la participation dans LVMH, déjà détenue"
+      ]
+    },
+    {
+      "ticker": "EURONEXT:ESE",
+      "name": "BNP Paribas Easy S&P 500 UCITS ETF",
+      "theme_code": "00_A",
+      "role": "BREADTH_PROXY",
+      "eligible": false,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 63,
+        "heat": 56,
+        "independence": 39
+      },
+      "evidence": [
+        {
+          "url": "https://live.euronext.com/en/markets/paris/equities/list",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "exclusion_reasons": [
+        "excluded_instrument_type: un fonds sur un indice étranger n'observe pas ce marché"
+      ]
+    }
+  ]
+}

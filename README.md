@@ -71,8 +71,9 @@ vocabulary, theme table and report language:
 Any other market builds by declaring the same handful of facts in the snapshot, evidence-gated,
 hashed, and reported as **declared rather than reviewed** on every run.
 
-Tier sizes follow the market: one `breadth` factor scales the 60 / 160 / 400 tier bases, so US
-Light is 80 members and Brazil Light is 35. Equity markets share one theme table and state only
+Each ships a full-size Light example — [`examples/`](examples/) — in its own language. Tier sizes
+follow the market: one `breadth` factor scales the 60 / 160 / 400 tier bases, so US Light is 80
+members and Brazil Light is 35. Equity markets share one theme table and state only
 their delta — what they do not list, what nobody else lists, and the **weights** that say what
 that market is actually about. There is no per-theme cap; slots are apportioned to weight, so
 semiconductors in China (3.5) take more of the universe than property developers (0.4). See
@@ -99,7 +100,8 @@ A **`.md` report** in the market's own language ([CN example](examples/cn-light/
 | 10_A L1_MAJORS | BINANCE:ADAUSDT.P | Cardano | THEME_LEADER | … | https://api.binance.com/… |
 ```
 
-A **`.txt` watchlist** TradingView imports directly, sectioned by theme, capped at 1,000 tokens:
+A **`.txt` watchlist** TradingView imports directly, sectioned by theme, capped at 1,000 tokens
+([CN example](examples/cn-light/watchlist.txt)):
 
 ```text
 ###00_A_CORE_ASSETS,BINANCE:ETHUSDT.P,BINANCE:BTCUSDT.P,###10_A_L1_MAJORS,BINANCE:ADAUSDT.P,…
@@ -184,7 +186,7 @@ references/           methodology, tiers, contracts, maintenance, sources, per-m
 scripts/universe.py   the only entry point
 scripts/*_core.py     selection, measurement and evaluation; stdlib only
 assets/               policy, theme tables (one shared equity base + per-market deltas), locales
-examples/             three Light universes, generated from seeds and rebuilt by the test suite
+examples/             one Light universe per market, generated from seeds and rebuilt by the tests
 tests/                pytest
 ```
 
@@ -208,12 +210,11 @@ Stated plainly, because a limit you cannot see is a defect:
   concentrated and what the weights asked for, which makes a wrong weight visible, not impossible.
 - **The composite score is an ordinal tie-break**, deliberately. Role order carries the structural
   judgement; nothing downstream should read the weighted score as a rating.
-- **Three Light examples ship**, for `cn`, `us` and `crypto`. Every ticker in
-  `examples/seeds/*.tsv` is written from knowledge rather than read off an exchange listing, and
-  the honest limit of that is about a hundred names. Eleven registered markets therefore ship a
-  reviewed row, a clean theme table and an overlay with no example, and Medium and Heavy ship
-  none at all. Every metric value in the examples is illustrative; no example asserts a
-  regulatory status about a real issuer.
+- **Only Light examples ship.** All fourteen markets have one, full size and warning-free, but
+  Medium and Heavy have none: every ticker in `examples/seeds/*.tsv` is written from knowledge
+  rather than read off an exchange listing, and the honest limit of that is sixty to a hundred
+  and twenty names per market. Every metric value in the examples is illustrative; no example
+  asserts a regulatory status about a real issuer.
 - **`fr` cannot enforce its own boundary.** TradingView's `EURONEXT` venue code covers Paris,
   Amsterdam, Brussels and Lisbon alike, so the identity rule cannot tell them apart and the
   research has to. It is stated in the overlay rather than papered over.
@@ -231,7 +232,7 @@ python examples/build_examples.py && git diff --exit-code examples/
 
 CI runs the suite on Python 3.10 through 3.13 and **installs nothing beforehand** — if the
 zero-dependency claim stops being true, the job fails rather than the claim quietly rotting. A
-second job drives the CLI the way a user does: builds all three examples, validates each output,
+second job drives the CLI the way a user does: builds all fourteen examples, validates each,
 re-imports a generated watchlist, checks every registered market's starter table, applies the
 example change set, diffs the result and runs `evaluate` against a synthetic window.
 

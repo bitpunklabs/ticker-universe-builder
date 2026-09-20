@@ -2,7 +2,7 @@
   "schema_version": 2,
   "market": "kr",
   "extends": "_equity",
-  "note": "Two memory makers set the index; batteries, shipbuilding and entertainment are the rest.",
+  "note": "Two memory makers set the index; batteries, shipbuilding and entertainment are the rest. Managed care leaves Light: a single-payer system lists no insurer to observe.",
   "groups": {
     "00": "시장 벤치마크",
     "10": "테크놀로지",
@@ -32,7 +32,8 @@
     "30_E": 1,
     "80_D": 1,
     "50_D": 1,
-    "20_C": 1
+    "20_C": 1,
+    "50_C": 3
   },
   "weight": {
     "10_B": 4.0,
@@ -52,7 +53,8 @@
     "50_A": 1.0,
     "70_A": 0.75,
     "90_A": 0.5,
-    "11_A": 0.75
+    "11_A": 0.75,
+    "50_C": 0.5
   },
   "add": [
     {

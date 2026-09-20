@@ -18,6 +18,8 @@ Everything else on this table is weighted at or below 1.0 on purpose. Taiwan lis
 
 Nineteen themes from the shared base are dropped. A short table is the honest answer when a market is concentrated; padding it produces themes with one illiquid member.
 
+What leaves Light says as much as what stays. No megacap platform, no cybersecurity pure play, no media of scale, and no REIT with a following — so the property complex is represented by the developers instead. Four themes down, one added, and every remaining theme has something real to hold.
+
 ## Adverse flags
 
 This market's regime issues these, and no other market's does. They cost the same as any
@@ -32,8 +34,12 @@ universal flag; what is market-specific is the vocabulary, not the price.
 ## Size
 
 Breadth `0.8` in `assets/default-policy.json`, so the tiers are **Light 50**,
-**Medium 130**, **Heavy 320** members. The starter table reaches 30 themes at
+**Medium 130**, **Heavy 320** members. The starter table reaches 27 themes at
 Light.
+
+## Example
+
+[`examples/tw-light/`](../../examples/tw-light/) is a full-size Light universe for this market: the seed table it is built from, the snapshot, the report in this market's language, and the TradingView watchlist. Every metric value in it is illustrative; the tickers, themes and roles are not.
 
 ## Suggested live fields
 

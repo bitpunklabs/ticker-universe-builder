@@ -1,0 +1,1913 @@
+{
+  "schema_version": 1,
+  "market": "br",
+  "as_of": "2026-09-17",
+  "complete": true,
+  "sources": [
+    {
+      "url": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+      "as_of": "2026-09-17",
+      "kind": "exchange",
+      "tier": 1
+    }
+  ],
+  "measurement": {
+    "liquidity": {
+      "basis": "measured",
+      "method": "percentil transversal do volume financeiro médio diário",
+      "window": "30d",
+      "source": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/"
+    },
+    "quality": {
+      "basis": "blended",
+      "method": "tempo de listagem e percentil de tamanho, somados a um juízo de durabilidade",
+      "source": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/"
+    },
+    "heat": {
+      "basis": "judged",
+      "method": "salto de volume confirmado nos dados da bolsa, nunca um movimento de um dia"
+    },
+    "beta_strength": {
+      "basis": "measured",
+      "method": "módulo do beta OLS contra BMFBOVESPA:BOVA11; beta de 2,0 vale 100",
+      "window": "180d",
+      "source": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/"
+    },
+    "beta_stability": {
+      "basis": "measured",
+      "method": "concordância da estimativa de beta entre as duas metades da janela",
+      "window": "180d",
+      "source": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/"
+    },
+    "independence": {
+      "basis": "measured",
+      "method": "100 menos o R² dos retornos diários regredidos sobre BMFBOVESPA:BOVA11",
+      "window": "180d",
+      "source": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/"
+    }
+  },
+  "taxonomy": [
+    {
+      "l1_code": "00",
+      "l1_name": "Índices de mercado",
+      "theme_code": "00_A",
+      "theme_name": "BROAD_MARKET_ETF",
+      "coverage_level": 1,
+      "weight": 1.0
+    },
+    {
+      "l1_code": "00",
+      "l1_name": "Índices de mercado",
+      "theme_code": "00_B",
+      "theme_name": "EQUAL_WEIGHT_AND_BREADTH",
+      "coverage_level": 2,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "00",
+      "l1_name": "Índices de mercado",
+      "theme_code": "00_C",
+      "theme_name": "VOLATILITY_AND_HEDGES",
+      "coverage_level": 3,
+      "weight": 0.5
+    },
+    {
+      "l1_code": "10",
+      "l1_name": "Tecnologia",
+      "theme_code": "10_D",
+      "theme_name": "ENTERPRISE_SOFTWARE",
+      "coverage_level": 1,
+      "weight": 0.5
+    },
+    {
+      "l1_code": "10",
+      "l1_name": "Tecnologia",
+      "theme_code": "10_F",
+      "theme_name": "INTERNET_AND_ADTECH",
+      "coverage_level": 1,
+      "weight": 0.5
+    },
+    {
+      "l1_code": "10",
+      "l1_name": "Tecnologia",
+      "theme_code": "10_G",
+      "theme_name": "IT_SERVICES_AND_CONSULTING",
+      "coverage_level": 2,
+      "weight": 0.5
+    },
+    {
+      "l1_code": "15",
+      "l1_name": "Agronegócio",
+      "theme_code": "15_A",
+      "theme_name": "AGRIBUSINESS",
+      "coverage_level": 1,
+      "weight": 2.0
+    },
+    {
+      "l1_code": "15",
+      "l1_name": "Agronegócio",
+      "theme_code": "15_B",
+      "theme_name": "PULP_AND_PAPER",
+      "coverage_level": 2,
+      "weight": 1.0
+    },
+    {
+      "l1_code": "20",
+      "l1_name": "Comunicação",
+      "theme_code": "20_A",
+      "theme_name": "STREAMING_AND_MEDIA",
+      "coverage_level": 3,
+      "weight": 0.5
+    },
+    {
+      "l1_code": "20",
+      "l1_name": "Comunicação",
+      "theme_code": "20_B",
+      "theme_name": "TELECOM",
+      "coverage_level": 1,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "30",
+      "l1_name": "Consumo",
+      "theme_code": "30_A",
+      "theme_name": "DISCRETIONARY_LEADERS",
+      "coverage_level": 1,
+      "weight": 1.5
+    },
+    {
+      "l1_code": "30",
+      "l1_name": "Consumo",
+      "theme_code": "30_B",
+      "theme_name": "STAPLES",
+      "coverage_level": 1,
+      "weight": 2.5
+    },
+    {
+      "l1_code": "30",
+      "l1_name": "Consumo",
+      "theme_code": "30_C",
+      "theme_name": "RESTAURANTS_AND_TRAVEL",
+      "coverage_level": 1,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "30",
+      "l1_name": "Consumo",
+      "theme_code": "30_E",
+      "theme_name": "AUTOS_AND_MOBILITY",
+      "coverage_level": 2,
+      "weight": 1.0
+    },
+    {
+      "l1_code": "40",
+      "l1_name": "Financeiro",
+      "theme_code": "40_A",
+      "theme_name": "MONEY_CENTER_BANKS",
+      "coverage_level": 1,
+      "weight": 3.0
+    },
+    {
+      "l1_code": "40",
+      "l1_name": "Financeiro",
+      "theme_code": "40_B",
+      "theme_name": "PAYMENTS",
+      "coverage_level": 3,
+      "weight": 0.5
+    },
+    {
+      "l1_code": "40",
+      "l1_name": "Financeiro",
+      "theme_code": "40_C",
+      "theme_name": "ASSET_MANAGERS_AND_EXCHANGES",
+      "coverage_level": 1,
+      "weight": 1.25
+    },
+    {
+      "l1_code": "40",
+      "l1_name": "Financeiro",
+      "theme_code": "40_D",
+      "theme_name": "INSURANCE",
+      "coverage_level": 1,
+      "weight": 1.0
+    },
+    {
+      "l1_code": "40",
+      "l1_name": "Financeiro",
+      "theme_code": "40_E",
+      "theme_name": "REGIONAL_BANKS",
+      "coverage_level": 2,
+      "weight": 0.5
+    },
+    {
+      "l1_code": "50",
+      "l1_name": "Saúde",
+      "theme_code": "50_A",
+      "theme_name": "PHARMA",
+      "coverage_level": 1,
+      "weight": 1.0
+    },
+    {
+      "l1_code": "50",
+      "l1_name": "Saúde",
+      "theme_code": "50_B",
+      "theme_name": "MEDTECH_AND_DEVICES",
+      "coverage_level": 3,
+      "weight": 0.5
+    },
+    {
+      "l1_code": "50",
+      "l1_name": "Saúde",
+      "theme_code": "50_C",
+      "theme_name": "MANAGED_CARE",
+      "coverage_level": 1,
+      "weight": 1.0
+    },
+    {
+      "l1_code": "50",
+      "l1_name": "Saúde",
+      "theme_code": "50_D",
+      "theme_name": "BIOTECH",
+      "coverage_level": 2,
+      "weight": 0.5
+    },
+    {
+      "l1_code": "60",
+      "l1_name": "Industrial",
+      "theme_code": "60_A",
+      "theme_name": "AEROSPACE_AND_DEFENSE",
+      "coverage_level": 1,
+      "weight": 0.25
+    },
+    {
+      "l1_code": "60",
+      "l1_name": "Industrial",
+      "theme_code": "60_B",
+      "theme_name": "MACHINERY_AND_RAIL",
+      "coverage_level": 1,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "60",
+      "l1_name": "Industrial",
+      "theme_code": "60_C",
+      "theme_name": "TRANSPORT_AND_LOGISTICS",
+      "coverage_level": 1,
+      "weight": 1.5
+    },
+    {
+      "l1_code": "60",
+      "l1_name": "Industrial",
+      "theme_code": "60_E",
+      "theme_name": "ENGINEERING_AND_CONSTRUCTION",
+      "coverage_level": 3,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "70",
+      "l1_name": "Energia",
+      "theme_code": "70_A",
+      "theme_name": "INTEGRATED_ENERGY",
+      "coverage_level": 1,
+      "weight": 3.0
+    },
+    {
+      "l1_code": "70",
+      "l1_name": "Energia",
+      "theme_code": "70_B",
+      "theme_name": "OILFIELD_AND_MIDSTREAM",
+      "coverage_level": 1,
+      "weight": 1.0
+    },
+    {
+      "l1_code": "70",
+      "l1_name": "Energia",
+      "theme_code": "70_C",
+      "theme_name": "EXPLORATION_AND_PRODUCTION",
+      "coverage_level": 1,
+      "weight": 1.0
+    },
+    {
+      "l1_code": "80",
+      "l1_name": "Materiais e utilidades",
+      "theme_code": "80_A",
+      "theme_name": "MATERIALS",
+      "coverage_level": 1,
+      "weight": 1.0
+    },
+    {
+      "l1_code": "80",
+      "l1_name": "Materiais e utilidades",
+      "theme_code": "80_B",
+      "theme_name": "UTILITIES",
+      "coverage_level": 1,
+      "weight": 2.0
+    },
+    {
+      "l1_code": "80",
+      "l1_name": "Materiais e utilidades",
+      "theme_code": "80_C",
+      "theme_name": "METALS_AND_MINING",
+      "coverage_level": 1,
+      "weight": 3.5
+    },
+    {
+      "l1_code": "80",
+      "l1_name": "Materiais e utilidades",
+      "theme_code": "80_D",
+      "theme_name": "CHEMICALS",
+      "coverage_level": 3,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "90",
+      "l1_name": "Imóveis",
+      "theme_code": "90_A",
+      "theme_name": "REITS",
+      "coverage_level": 1,
+      "weight": 0.75
+    }
+  ],
+  "candidates": [
+    {
+      "ticker": "BMFBOVESPA:BOVA11",
+      "name": "iShares Ibovespa Fundo de Índice",
+      "theme_code": "00_A",
+      "role": "BENCHMARK",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 99,
+        "quality": 94,
+        "heat": 55,
+        "independence": 12
+      },
+      "evidence": [
+        {
+          "url": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "required": true,
+      "quality_facts": {
+        "listing_age_days": 5200,
+        "size_rank_pct": 98,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BMFBOVESPA:SMAL11",
+      "name": "iShares BM&FBOVESPA Small Cap",
+      "theme_code": "00_A",
+      "role": "BREADTH_PROXY",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 98,
+        "quality": 94,
+        "heat": 62,
+        "independence": 45
+      },
+      "evidence": [
+        {
+          "url": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "required": true
+    },
+    {
+      "ticker": "BMFBOVESPA:TOTS3",
+      "name": "Totvs",
+      "theme_code": "10_D",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 97,
+        "quality": 93,
+        "heat": 69,
+        "independence": 42
+      },
+      "evidence": [
+        {
+          "url": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 5120,
+        "size_rank_pct": 96,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BMFBOVESPA:MGLU3",
+      "name": "Magazine Luiza",
+      "theme_code": "10_F",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 96,
+        "quality": 93,
+        "heat": 76,
+        "independence": 39
+      },
+      "evidence": [
+        {
+          "url": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 5080,
+        "size_rank_pct": 95,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BMFBOVESPA:LWSA3",
+      "name": "Locaweb Serviços de Internet",
+      "theme_code": "10_F",
+      "role": "BETA_SATELLITE",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 95,
+        "quality": 92,
+        "heat": 83,
+        "independence": 36,
+        "beta_strength": 74,
+        "beta_stability": 80
+      },
+      "evidence": [
+        {
+          "url": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "BMFBOVESPA:JBSS3",
+      "name": "JBS",
+      "theme_code": "15_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 94,
+        "quality": 92,
+        "heat": 90,
+        "independence": 33
+      },
+      "evidence": [
+        {
+          "url": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 5000,
+        "size_rank_pct": 93,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BMFBOVESPA:SLCE3",
+      "name": "SLC Agrícola",
+      "theme_code": "15_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 93,
+        "quality": 91,
+        "heat": 57,
+        "independence": 30
+      },
+      "evidence": [
+        {
+          "url": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4960,
+        "size_rank_pct": 92,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BMFBOVESPA:SMTO3",
+      "name": "São Martinho",
+      "theme_code": "15_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 92,
+        "quality": 91,
+        "heat": 64,
+        "independence": 27
+      },
+      "evidence": [
+        {
+          "url": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4920,
+        "size_rank_pct": 91,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BMFBOVESPA:AGRO3",
+      "name": "BrasilAgro",
+      "theme_code": "15_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 91,
+        "quality": 90,
+        "heat": 71,
+        "independence": 24
+      },
+      "evidence": [
+        {
+          "url": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4880,
+        "size_rank_pct": 90,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BMFBOVESPA:VIVT3",
+      "name": "Telefônica Brasil",
+      "theme_code": "20_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 90,
+        "quality": 90,
+        "heat": 78,
+        "independence": 21
+      },
+      "evidence": [
+        {
+          "url": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4840,
+        "size_rank_pct": 89,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BMFBOVESPA:TIMS3",
+      "name": "TIM",
+      "theme_code": "20_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 89,
+        "quality": 89,
+        "heat": 85,
+        "independence": 48
+      },
+      "evidence": [
+        {
+          "url": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4800,
+        "size_rank_pct": 88,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BMFBOVESPA:LREN3",
+      "name": "Lojas Renner",
+      "theme_code": "30_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 88,
+        "quality": 89,
+        "heat": 92,
+        "independence": 45
+      },
+      "evidence": [
+        {
+          "url": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4760,
+        "size_rank_pct": 87,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BMFBOVESPA:VIVA3",
+      "name": "Vivara Participações",
+      "theme_code": "30_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 87,
+        "quality": 88,
+        "heat": 59,
+        "independence": 42
+      },
+      "evidence": [
+        {
+          "url": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4720,
+        "size_rank_pct": 86,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BMFBOVESPA:PETZ3",
+      "name": "Petz",
+      "theme_code": "30_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 86,
+        "quality": 88,
+        "heat": 66,
+        "independence": 39
+      },
+      "evidence": [
+        {
+          "url": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4680,
+        "size_rank_pct": 85,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BMFBOVESPA:ABEV3",
+      "name": "Ambev",
+      "theme_code": "30_B",
+      "role": "ANCHOR",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 85,
+        "quality": 87,
+        "heat": 73,
+        "independence": 16
+      },
+      "evidence": [
+        {
+          "url": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4640,
+        "size_rank_pct": 84,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BMFBOVESPA:ASAI3",
+      "name": "Sendas Distribuidora",
+      "theme_code": "30_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 84,
+        "quality": 87,
+        "heat": 80,
+        "independence": 33
+      },
+      "evidence": [
+        {
+          "url": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4600,
+        "size_rank_pct": 83,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BMFBOVESPA:BRFS3",
+      "name": "BRF",
+      "theme_code": "30_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 83,
+        "quality": 86,
+        "heat": 87,
+        "independence": 30
+      },
+      "evidence": [
+        {
+          "url": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4560,
+        "size_rank_pct": 82,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BMFBOVESPA:NTCO3",
+      "name": "Natura",
+      "theme_code": "30_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 82,
+        "quality": 86,
+        "heat": 94,
+        "independence": 27
+      },
+      "evidence": [
+        {
+          "url": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4520,
+        "size_rank_pct": 81,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BMFBOVESPA:PCAR3",
+      "name": "Companhia Brasileira de Distribuição",
+      "theme_code": "30_B",
+      "role": "BETA_SATELLITE",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 81,
+        "quality": 85,
+        "heat": 61,
+        "independence": 24,
+        "beta_strength": 86,
+        "beta_stability": 86
+      },
+      "evidence": [
+        {
+          "url": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "BMFBOVESPA:CVCB3",
+      "name": "CVC Brasil",
+      "theme_code": "30_C",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 80,
+        "quality": 85,
+        "heat": 68,
+        "independence": 21
+      },
+      "evidence": [
+        {
+          "url": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4440,
+        "size_rank_pct": 79,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BMFBOVESPA:AZUL4",
+      "name": "Azul",
+      "theme_code": "30_C",
+      "role": "LIQUIDITY_SENSOR",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 79,
+        "quality": 84,
+        "heat": 75,
+        "independence": 48
+      },
+      "evidence": [
+        {
+          "url": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "BMFBOVESPA:ITUB4",
+      "name": "Itaú Unibanco",
+      "theme_code": "40_A",
+      "role": "ANCHOR",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 78,
+        "quality": 84,
+        "heat": 82,
+        "independence": 13
+      },
+      "evidence": [
+        {
+          "url": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4360,
+        "size_rank_pct": 77,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BMFBOVESPA:BBDC4",
+      "name": "Banco Bradesco",
+      "theme_code": "40_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 77,
+        "quality": 83,
+        "heat": 89,
+        "independence": 42
+      },
+      "evidence": [
+        {
+          "url": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4320,
+        "size_rank_pct": 76,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BMFBOVESPA:BBAS3",
+      "name": "Banco do Brasil",
+      "theme_code": "40_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 76,
+        "quality": 83,
+        "heat": 56,
+        "independence": 39
+      },
+      "evidence": [
+        {
+          "url": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4280,
+        "size_rank_pct": 75,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BMFBOVESPA:SANB11",
+      "name": "Banco Santander Brasil",
+      "theme_code": "40_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 75,
+        "quality": 82,
+        "heat": 63,
+        "independence": 36
+      },
+      "evidence": [
+        {
+          "url": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4240,
+        "size_rank_pct": 74,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BMFBOVESPA:B3SA3",
+      "name": "B3 Brasil Bolsa Balcão",
+      "theme_code": "40_C",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 74,
+        "quality": 82,
+        "heat": 70,
+        "independence": 33
+      },
+      "evidence": [
+        {
+          "url": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4200,
+        "size_rank_pct": 73,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BMFBOVESPA:BPAC11",
+      "name": "Banco BTG Pactual",
+      "theme_code": "40_C",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 73,
+        "quality": 81,
+        "heat": 77,
+        "independence": 30
+      },
+      "evidence": [
+        {
+          "url": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4160,
+        "size_rank_pct": 72,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BMFBOVESPA:BBSE3",
+      "name": "BB Seguridade",
+      "theme_code": "40_D",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 72,
+        "quality": 81,
+        "heat": 84,
+        "independence": 27
+      },
+      "evidence": [
+        {
+          "url": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4120,
+        "size_rank_pct": 71,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BMFBOVESPA:PSSA3",
+      "name": "Porto Seguro",
+      "theme_code": "40_D",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 71,
+        "quality": 80,
+        "heat": 91,
+        "independence": 24
+      },
+      "evidence": [
+        {
+          "url": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4080,
+        "size_rank_pct": 70,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BMFBOVESPA:HYPE3",
+      "name": "Hypera",
+      "theme_code": "50_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 70,
+        "quality": 80,
+        "heat": 58,
+        "independence": 21
+      },
+      "evidence": [
+        {
+          "url": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4040,
+        "size_rank_pct": 69,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BMFBOVESPA:BLAU3",
+      "name": "Blau Farmacêutica",
+      "theme_code": "50_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 69,
+        "quality": 79,
+        "heat": 65,
+        "independence": 48
+      },
+      "evidence": [
+        {
+          "url": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4000,
+        "size_rank_pct": 68,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BMFBOVESPA:RDOR3",
+      "name": "Rede D'Or São Luiz",
+      "theme_code": "50_C",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 68,
+        "quality": 79,
+        "heat": 72,
+        "independence": 45
+      },
+      "evidence": [
+        {
+          "url": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3960,
+        "size_rank_pct": 67,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BMFBOVESPA:HAPV3",
+      "name": "Hapvida Participações",
+      "theme_code": "50_C",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 67,
+        "quality": 78,
+        "heat": 79,
+        "independence": 42
+      },
+      "evidence": [
+        {
+          "url": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3920,
+        "size_rank_pct": 66,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BMFBOVESPA:FLRY3",
+      "name": "Fleury",
+      "theme_code": "50_C",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 66,
+        "quality": 78,
+        "heat": 86,
+        "independence": 39
+      },
+      "evidence": [
+        {
+          "url": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3880,
+        "size_rank_pct": 65,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BMFBOVESPA:EMBR3",
+      "name": "Embraer",
+      "theme_code": "60_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 65,
+        "quality": 77,
+        "heat": 93,
+        "independence": 36
+      },
+      "evidence": [
+        {
+          "url": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3840,
+        "size_rank_pct": 64,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BMFBOVESPA:WEGE3",
+      "name": "WEG",
+      "theme_code": "60_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 64,
+        "quality": 77,
+        "heat": 60,
+        "independence": 33
+      },
+      "evidence": [
+        {
+          "url": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3800,
+        "size_rank_pct": 63,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BMFBOVESPA:KEPL3",
+      "name": "Kepler Weber",
+      "theme_code": "60_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 63,
+        "quality": 76,
+        "heat": 67,
+        "independence": 30
+      },
+      "evidence": [
+        {
+          "url": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3760,
+        "size_rank_pct": 62,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BMFBOVESPA:RAIL3",
+      "name": "Rumo",
+      "theme_code": "60_C",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 62,
+        "quality": 76,
+        "heat": 74,
+        "independence": 27
+      },
+      "evidence": [
+        {
+          "url": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3720,
+        "size_rank_pct": 61,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BMFBOVESPA:STBP3",
+      "name": "Santos Brasil",
+      "theme_code": "60_C",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 61,
+        "quality": 75,
+        "heat": 81,
+        "independence": 24
+      },
+      "evidence": [
+        {
+          "url": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3680,
+        "size_rank_pct": 60,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BMFBOVESPA:PETR4",
+      "name": "Petróleo Brasileiro PN",
+      "theme_code": "70_A",
+      "role": "ANCHOR",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 60,
+        "quality": 75,
+        "heat": 88,
+        "independence": 16
+      },
+      "evidence": [
+        {
+          "url": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3640,
+        "size_rank_pct": 59,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BMFBOVESPA:UGPA3",
+      "name": "Ultrapar Participações",
+      "theme_code": "70_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 59,
+        "quality": 74,
+        "heat": 55,
+        "independence": 48
+      },
+      "evidence": [
+        {
+          "url": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3600,
+        "size_rank_pct": 58,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BMFBOVESPA:VBBR3",
+      "name": "Vibra Energia",
+      "theme_code": "70_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 58,
+        "quality": 74,
+        "heat": 62,
+        "independence": 45
+      },
+      "evidence": [
+        {
+          "url": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3560,
+        "size_rank_pct": 57,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BMFBOVESPA:PRIO3",
+      "name": "PRIO",
+      "theme_code": "70_C",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 57,
+        "quality": 73,
+        "heat": 69,
+        "independence": 42
+      },
+      "evidence": [
+        {
+          "url": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3520,
+        "size_rank_pct": 56,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BMFBOVESPA:RECV3",
+      "name": "PetroRecôncavo",
+      "theme_code": "70_C",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 56,
+        "quality": 73,
+        "heat": 76,
+        "independence": 39
+      },
+      "evidence": [
+        {
+          "url": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3480,
+        "size_rank_pct": 55,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BMFBOVESPA:SUZB3",
+      "name": "Suzano",
+      "theme_code": "80_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 55,
+        "quality": 72,
+        "heat": 83,
+        "independence": 36
+      },
+      "evidence": [
+        {
+          "url": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3440,
+        "size_rank_pct": 54,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BMFBOVESPA:KLBN11",
+      "name": "Klabin",
+      "theme_code": "80_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 54,
+        "quality": 72,
+        "heat": 90,
+        "independence": 33
+      },
+      "evidence": [
+        {
+          "url": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3400,
+        "size_rank_pct": 53,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BMFBOVESPA:BRKM5",
+      "name": "Braskem",
+      "theme_code": "80_A",
+      "role": "BETA_SATELLITE",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 53,
+        "quality": 71,
+        "heat": 57,
+        "independence": 30,
+        "beta_strength": 80,
+        "beta_stability": 66
+      },
+      "evidence": [
+        {
+          "url": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "BMFBOVESPA:ELET3",
+      "name": "Centrais Elétricas Brasileiras",
+      "theme_code": "80_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 52,
+        "quality": 71,
+        "heat": 64,
+        "independence": 27
+      },
+      "evidence": [
+        {
+          "url": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3320,
+        "size_rank_pct": 51,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BMFBOVESPA:EQTL3",
+      "name": "Equatorial Energia",
+      "theme_code": "80_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 51,
+        "quality": 70,
+        "heat": 71,
+        "independence": 24
+      },
+      "evidence": [
+        {
+          "url": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3280,
+        "size_rank_pct": 50,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BMFBOVESPA:SBSP3",
+      "name": "Companhia de Saneamento Básico de São Paulo",
+      "theme_code": "80_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 50,
+        "quality": 70,
+        "heat": 78,
+        "independence": 21
+      },
+      "evidence": [
+        {
+          "url": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3240,
+        "size_rank_pct": 49,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BMFBOVESPA:CPLE6",
+      "name": "Copel",
+      "theme_code": "80_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 49,
+        "quality": 69,
+        "heat": 85,
+        "independence": 48
+      },
+      "evidence": [
+        {
+          "url": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3200,
+        "size_rank_pct": 48,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BMFBOVESPA:ENGI11",
+      "name": "Energisa",
+      "theme_code": "80_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 48,
+        "quality": 69,
+        "heat": 92,
+        "independence": 45
+      },
+      "evidence": [
+        {
+          "url": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3160,
+        "size_rank_pct": 47,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BMFBOVESPA:CMIG4",
+      "name": "Cemig",
+      "theme_code": "80_B",
+      "role": "BETA_SATELLITE",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 47,
+        "quality": 68,
+        "heat": 59,
+        "independence": 42,
+        "beta_strength": 68,
+        "beta_stability": 64
+      },
+      "evidence": [
+        {
+          "url": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "BMFBOVESPA:VALE3",
+      "name": "Vale",
+      "theme_code": "80_C",
+      "role": "ANCHOR",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 46,
+        "quality": 68,
+        "heat": 66,
+        "independence": 15
+      },
+      "evidence": [
+        {
+          "url": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3080,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BMFBOVESPA:GGBR4",
+      "name": "Gerdau",
+      "theme_code": "80_C",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 45,
+        "quality": 67,
+        "heat": 73,
+        "independence": 36
+      },
+      "evidence": [
+        {
+          "url": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3040,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BMFBOVESPA:CMIN3",
+      "name": "CSN Mineração",
+      "theme_code": "80_C",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 44,
+        "quality": 67,
+        "heat": 80,
+        "independence": 33
+      },
+      "evidence": [
+        {
+          "url": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3000,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BMFBOVESPA:CSNA3",
+      "name": "Companhia Siderúrgica Nacional",
+      "theme_code": "80_C",
+      "role": "BETA_SATELLITE",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 43,
+        "quality": 66,
+        "heat": 87,
+        "independence": 30,
+        "beta_strength": 80,
+        "beta_stability": 84
+      },
+      "evidence": [
+        {
+          "url": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "BMFBOVESPA:USIM5",
+      "name": "Usiminas",
+      "theme_code": "80_C",
+      "role": "LIQUIDITY_SENSOR",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 42,
+        "quality": 66,
+        "heat": 94,
+        "independence": 27
+      },
+      "evidence": [
+        {
+          "url": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "BMFBOVESPA:MULT3",
+      "name": "Multiplan Empreendimentos Imobiliários",
+      "theme_code": "90_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 41,
+        "quality": 65,
+        "heat": 61,
+        "independence": 24
+      },
+      "evidence": [
+        {
+          "url": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2880,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BMFBOVESPA:IGTI11",
+      "name": "Iguatemi",
+      "theme_code": "90_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 65,
+        "heat": 68,
+        "independence": 21
+      },
+      "evidence": [
+        {
+          "url": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2840,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "BMFBOVESPA:PETR3",
+      "name": "Petróleo Brasileiro ON",
+      "theme_code": "70_A",
+      "role": "THEME_LEADER",
+      "eligible": false,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 64,
+        "heat": 75,
+        "independence": 48
+      },
+      "evidence": [
+        {
+          "url": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "exclusion_reasons": [
+        "duplicate_asset: a linha PN já ocupa a vaga desta empresa"
+      ]
+    },
+    {
+      "ticker": "BMFBOVESPA:GOLD11",
+      "name": "Trend Ouro Fundo de Índice",
+      "theme_code": "00_A",
+      "role": "BREADTH_PROXY",
+      "eligible": false,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 64,
+        "heat": 82,
+        "independence": 45
+      },
+      "evidence": [
+        {
+          "url": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "exclusion_reasons": [
+        "excluded_instrument_type: um fundo de ouro não observa este mercado de ações"
+      ]
+    }
+  ]
+}

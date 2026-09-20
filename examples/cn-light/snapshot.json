@@ -15,6 +15,12 @@
       "as_of": "2026-09-17",
       "kind": "exchange",
       "tier": 1
+    },
+    {
+      "url": "http://www.sse.com.cn/market/stockdata/overview/",
+      "as_of": "2026-09-17",
+      "kind": "market_data",
+      "tier": 2
     }
   ],
   "measurement": {

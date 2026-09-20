@@ -18,6 +18,8 @@ The trading houses have no analogue anywhere else in the table, so they are thei
 
 Games and interactive sits at coverage level 1 here and level 3 in the base.
 
+Managed care leaves Light entirely: a single-payer system lists no insurer to observe, and the theme would have held a hole. The mixed-use developers get a theme of their own instead — Mitsui Fudosan and Mitsubishi Estate are not REITs and filing them as one loses what they are.
+
 ## Adverse flags
 
 This market's regime issues these, and no other market's does. They cost the same as any
@@ -34,6 +36,10 @@ universal flag; what is market-specific is the vocabulary, not the price.
 Breadth `1.05` in `assets/default-policy.json`, so the tiers are **Light 65**,
 **Medium 170**, **Heavy 420** members. The starter table reaches 34 themes at
 Light.
+
+## Example
+
+[`examples/jp-light/`](../../examples/jp-light/) is a full-size Light universe for this market: the seed table it is built from, the snapshot, the report in this market's language, and the TradingView watchlist. Every metric value in it is illustrative; the tickers, themes and roles are not.
 
 ## Suggested live fields
 

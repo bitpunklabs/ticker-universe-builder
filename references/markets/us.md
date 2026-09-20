@@ -42,6 +42,10 @@ from here.
 | `listing_deficiency` | An exchange deficiency notice: price, market value, float or governance |
 | `material_weakness` | A disclosed material weakness in internal control over financial reporting |
 
+## Example
+
+[`examples/us-light/`](../../examples/us-light/) is a full-size Light universe for this market: the seed table it is built from, the snapshot, the report in this market's language, and the TradingView watchlist. Every metric value in it is illustrative; the tickers, themes and roles are not.
+
 ## Suggested live fields
 
 - Listing and quote status, 20 / 60-day dollar turnover.

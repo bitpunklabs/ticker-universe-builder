@@ -2,7 +2,7 @@
   "schema_version": 2,
   "market": "uk",
   "extends": "_equity",
-  "note": "Miners, oil majors, pharma and staples listed in London but earning abroad; plus the investment trusts.",
+  "note": "Miners, oil majors, pharma and staples listed in London but earning abroad; plus the investment trusts. Semiconductors are weighted down to what London actually lists rather than to what the sector is worth globally, and managed care leaves Light — the NHS is not a listed sector.",
   "drop": [
     "10_A",
     "10_C",
@@ -17,7 +17,8 @@
   ],
   "level": {
     "80_C": 1,
-    "30_D": 1
+    "30_D": 1,
+    "50_C": 3
   },
   "weight": {
     "50_A": 2.5,
@@ -36,7 +37,9 @@
     "10_E": 0.5,
     "30_A": 1.0,
     "80_B": 1.0,
-    "60_C": 1.0
+    "60_C": 1.0,
+    "50_C": 0.5,
+    "10_B": 0.5
   },
   "add": [
     {

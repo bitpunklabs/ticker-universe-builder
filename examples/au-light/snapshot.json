@@ -1,0 +1,2290 @@
+{
+  "schema_version": 1,
+  "market": "au",
+  "as_of": "2026-09-17",
+  "complete": true,
+  "sources": [
+    {
+      "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+      "as_of": "2026-09-17",
+      "kind": "exchange",
+      "tier": 1
+    },
+    {
+      "url": "https://www.asx.com.au/markets/trade-our-cash-market/market-statistics",
+      "as_of": "2026-09-17",
+      "kind": "market_data",
+      "tier": 2
+    }
+  ],
+  "measurement": {
+    "liquidity": {
+      "basis": "measured",
+      "method": "cross-sectional percentile of mean daily turnover",
+      "window": "30d",
+      "source": "https://www.asx.com.au/markets/trade-our-cash-market/market-statistics"
+    },
+    "quality": {
+      "basis": "blended",
+      "method": "listing age and size percentile against a judged durability read",
+      "source": "https://www.asx.com.au/markets/trade-our-cash-market/directory"
+    },
+    "heat": {
+      "basis": "judged",
+      "method": "turnover jump confirmed against exchange data, never a single-day move"
+    },
+    "beta_strength": {
+      "basis": "measured",
+      "method": "absolute OLS beta against ASX:STW, beta 2.0 reads 100",
+      "window": "180d",
+      "source": "https://www.asx.com.au/markets/trade-our-cash-market/market-statistics"
+    },
+    "beta_stability": {
+      "basis": "measured",
+      "method": "agreement of the beta estimate across the two halves of the window",
+      "window": "180d",
+      "source": "https://www.asx.com.au/markets/trade-our-cash-market/market-statistics"
+    },
+    "independence": {
+      "basis": "measured",
+      "method": "100 - the OLS R-squared of daily returns on ASX:STW",
+      "window": "180d",
+      "source": "https://www.asx.com.au/markets/trade-our-cash-market/market-statistics"
+    }
+  },
+  "taxonomy": [
+    {
+      "l1_code": "00",
+      "l1_name": "Market Benchmarks",
+      "theme_code": "00_A",
+      "theme_name": "BROAD_MARKET_ETF",
+      "coverage_level": 1,
+      "weight": 1.0
+    },
+    {
+      "l1_code": "00",
+      "l1_name": "Market Benchmarks",
+      "theme_code": "00_B",
+      "theme_name": "EQUAL_WEIGHT_AND_BREADTH",
+      "coverage_level": 2,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "00",
+      "l1_name": "Market Benchmarks",
+      "theme_code": "00_C",
+      "theme_name": "VOLATILITY_AND_HEDGES",
+      "coverage_level": 3,
+      "weight": 0.5
+    },
+    {
+      "l1_code": "10",
+      "l1_name": "Technology",
+      "theme_code": "10_B",
+      "theme_name": "SEMICONDUCTORS",
+      "coverage_level": 3,
+      "weight": 0.25
+    },
+    {
+      "l1_code": "10",
+      "l1_name": "Technology",
+      "theme_code": "10_D",
+      "theme_name": "ENTERPRISE_SOFTWARE",
+      "coverage_level": 1,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "10",
+      "l1_name": "Technology",
+      "theme_code": "10_E",
+      "theme_name": "CYBERSECURITY",
+      "coverage_level": 3,
+      "weight": 0.5
+    },
+    {
+      "l1_code": "10",
+      "l1_name": "Technology",
+      "theme_code": "10_F",
+      "theme_name": "INTERNET_AND_ADTECH",
+      "coverage_level": 1,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "10",
+      "l1_name": "Technology",
+      "theme_code": "10_G",
+      "theme_name": "IT_SERVICES_AND_CONSULTING",
+      "coverage_level": 2,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "20",
+      "l1_name": "Communication",
+      "theme_code": "20_A",
+      "theme_name": "STREAMING_AND_MEDIA",
+      "coverage_level": 1,
+      "weight": 1.0
+    },
+    {
+      "l1_code": "20",
+      "l1_name": "Communication",
+      "theme_code": "20_B",
+      "theme_name": "TELECOM",
+      "coverage_level": 1,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "20",
+      "l1_name": "Communication",
+      "theme_code": "20_C",
+      "theme_name": "GAMING_AND_INTERACTIVE",
+      "coverage_level": 3,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "30",
+      "l1_name": "Consumer",
+      "theme_code": "30_A",
+      "theme_name": "DISCRETIONARY_LEADERS",
+      "coverage_level": 1,
+      "weight": 1.5
+    },
+    {
+      "l1_code": "30",
+      "l1_name": "Consumer",
+      "theme_code": "30_B",
+      "theme_name": "STAPLES",
+      "coverage_level": 1,
+      "weight": 1.5
+    },
+    {
+      "l1_code": "30",
+      "l1_name": "Consumer",
+      "theme_code": "30_C",
+      "theme_name": "RESTAURANTS_AND_TRAVEL",
+      "coverage_level": 1,
+      "weight": 1.0
+    },
+    {
+      "l1_code": "30",
+      "l1_name": "Consumer",
+      "theme_code": "30_E",
+      "theme_name": "AUTOS_AND_MOBILITY",
+      "coverage_level": 2,
+      "weight": 1.0
+    },
+    {
+      "l1_code": "30",
+      "l1_name": "Consumer",
+      "theme_code": "30_F",
+      "theme_name": "HOMEBUILDERS",
+      "coverage_level": 3,
+      "weight": 0.5
+    },
+    {
+      "l1_code": "30",
+      "l1_name": "Consumer",
+      "theme_code": "30_G",
+      "theme_name": "LEISURE_AND_LODGING",
+      "coverage_level": 3,
+      "weight": 0.5
+    },
+    {
+      "l1_code": "40",
+      "l1_name": "Financials",
+      "theme_code": "40_A",
+      "theme_name": "MONEY_CENTER_BANKS",
+      "coverage_level": 1,
+      "weight": 3.0
+    },
+    {
+      "l1_code": "40",
+      "l1_name": "Financials",
+      "theme_code": "40_B",
+      "theme_name": "PAYMENTS",
+      "coverage_level": 1,
+      "weight": 1.25
+    },
+    {
+      "l1_code": "40",
+      "l1_name": "Financials",
+      "theme_code": "40_C",
+      "theme_name": "ASSET_MANAGERS_AND_EXCHANGES",
+      "coverage_level": 1,
+      "weight": 1.25
+    },
+    {
+      "l1_code": "40",
+      "l1_name": "Financials",
+      "theme_code": "40_D",
+      "theme_name": "INSURANCE",
+      "coverage_level": 1,
+      "weight": 1.0
+    },
+    {
+      "l1_code": "40",
+      "l1_name": "Financials",
+      "theme_code": "40_E",
+      "theme_name": "REGIONAL_BANKS",
+      "coverage_level": 2,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "40",
+      "l1_name": "Financials",
+      "theme_code": "40_F",
+      "theme_name": "FINTECH_LENDERS",
+      "coverage_level": 3,
+      "weight": 0.5
+    },
+    {
+      "l1_code": "50",
+      "l1_name": "Healthcare",
+      "theme_code": "50_A",
+      "theme_name": "PHARMA",
+      "coverage_level": 1,
+      "weight": 1.75
+    },
+    {
+      "l1_code": "50",
+      "l1_name": "Healthcare",
+      "theme_code": "50_B",
+      "theme_name": "MEDTECH_AND_DEVICES",
+      "coverage_level": 1,
+      "weight": 1.5
+    },
+    {
+      "l1_code": "50",
+      "l1_name": "Healthcare",
+      "theme_code": "50_D",
+      "theme_name": "BIOTECH",
+      "coverage_level": 2,
+      "weight": 0.5
+    },
+    {
+      "l1_code": "50",
+      "l1_name": "Healthcare",
+      "theme_code": "50_E",
+      "theme_name": "LIFE_SCIENCE_TOOLS",
+      "coverage_level": 2,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "60",
+      "l1_name": "Industrials",
+      "theme_code": "60_A",
+      "theme_name": "AEROSPACE_AND_DEFENSE",
+      "coverage_level": 1,
+      "weight": 0.25
+    },
+    {
+      "l1_code": "60",
+      "l1_name": "Industrials",
+      "theme_code": "60_B",
+      "theme_name": "MACHINERY_AND_RAIL",
+      "coverage_level": 1,
+      "weight": 1.25
+    },
+    {
+      "l1_code": "60",
+      "l1_name": "Industrials",
+      "theme_code": "60_C",
+      "theme_name": "TRANSPORT_AND_LOGISTICS",
+      "coverage_level": 1,
+      "weight": 1.0
+    },
+    {
+      "l1_code": "60",
+      "l1_name": "Industrials",
+      "theme_code": "60_D",
+      "theme_name": "ELECTRICAL_EQUIPMENT",
+      "coverage_level": 2,
+      "weight": 1.0
+    },
+    {
+      "l1_code": "60",
+      "l1_name": "Industrials",
+      "theme_code": "60_E",
+      "theme_name": "ENGINEERING_AND_CONSTRUCTION",
+      "coverage_level": 3,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "70",
+      "l1_name": "Energy",
+      "theme_code": "70_A",
+      "theme_name": "INTEGRATED_ENERGY",
+      "coverage_level": 1,
+      "weight": 1.25
+    },
+    {
+      "l1_code": "70",
+      "l1_name": "Energy",
+      "theme_code": "70_B",
+      "theme_name": "OILFIELD_AND_MIDSTREAM",
+      "coverage_level": 1,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "70",
+      "l1_name": "Energy",
+      "theme_code": "70_C",
+      "theme_name": "EXPLORATION_AND_PRODUCTION",
+      "coverage_level": 2,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "70",
+      "l1_name": "Energy",
+      "theme_code": "70_D",
+      "theme_name": "COAL_AND_URANIUM",
+      "coverage_level": 1,
+      "weight": 1.0
+    },
+    {
+      "l1_code": "80",
+      "l1_name": "Materials and Utilities",
+      "theme_code": "80_A",
+      "theme_name": "MATERIALS",
+      "coverage_level": 1,
+      "weight": 1.0
+    },
+    {
+      "l1_code": "80",
+      "l1_name": "Materials and Utilities",
+      "theme_code": "80_B",
+      "theme_name": "UTILITIES",
+      "coverage_level": 1,
+      "weight": 1.0
+    },
+    {
+      "l1_code": "80",
+      "l1_name": "Materials and Utilities",
+      "theme_code": "80_C",
+      "theme_name": "METALS_AND_MINING",
+      "coverage_level": 1,
+      "weight": 4.0
+    },
+    {
+      "l1_code": "80",
+      "l1_name": "Materials and Utilities",
+      "theme_code": "80_D",
+      "theme_name": "CHEMICALS",
+      "coverage_level": 3,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "80",
+      "l1_name": "Materials and Utilities",
+      "theme_code": "80_E",
+      "theme_name": "WATER_AND_WASTE",
+      "coverage_level": 3,
+      "weight": 0.5
+    },
+    {
+      "l1_code": "90",
+      "l1_name": "Real Estate",
+      "theme_code": "90_A",
+      "theme_name": "REITS",
+      "coverage_level": 1,
+      "weight": 1.5
+    },
+    {
+      "l1_code": "90",
+      "l1_name": "Real Estate",
+      "theme_code": "90_B",
+      "theme_name": "DATA_AND_TOWER_REITS",
+      "coverage_level": 2,
+      "weight": 0.5
+    }
+  ],
+  "candidates": [
+    {
+      "ticker": "ASX:STW",
+      "name": "SPDR S&P/ASX 200 Fund",
+      "theme_code": "00_A",
+      "role": "BENCHMARK",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 99,
+        "quality": 94,
+        "heat": 55,
+        "independence": 12
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "required": true,
+      "quality_facts": {
+        "listing_age_days": 5200,
+        "size_rank_pct": 98,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "ASX:IOZ",
+      "name": "iShares Core S&P/ASX 200 ETF",
+      "theme_code": "00_A",
+      "role": "BENCHMARK",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 98,
+        "quality": 94,
+        "heat": 62,
+        "independence": 13
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "required": true,
+      "quality_facts": {
+        "listing_age_days": 5160,
+        "size_rank_pct": 97,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "ASX:VSO",
+      "name": "Vanguard MSCI Australian Small Companies Index ETF",
+      "theme_code": "00_A",
+      "role": "BREADTH_PROXY",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 97,
+        "quality": 93,
+        "heat": 69,
+        "independence": 42
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "required": true
+    },
+    {
+      "ticker": "ASX:WTC",
+      "name": "WiseTech Global",
+      "theme_code": "10_D",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 96,
+        "quality": 93,
+        "heat": 76,
+        "independence": 39
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 5080,
+        "size_rank_pct": 95,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "ASX:XRO",
+      "name": "Xero",
+      "theme_code": "10_D",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 95,
+        "quality": 92,
+        "heat": 83,
+        "independence": 36
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 5040,
+        "size_rank_pct": 94,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "ASX:TNE",
+      "name": "TechnologyOne",
+      "theme_code": "10_D",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 94,
+        "quality": 92,
+        "heat": 90,
+        "independence": 33
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 5000,
+        "size_rank_pct": 93,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "ASX:REA",
+      "name": "REA Group",
+      "theme_code": "10_F",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 93,
+        "quality": 91,
+        "heat": 57,
+        "independence": 30
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4960,
+        "size_rank_pct": 92,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "ASX:CAR",
+      "name": "CAR Group",
+      "theme_code": "10_F",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 92,
+        "quality": 91,
+        "heat": 64,
+        "independence": 27
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4920,
+        "size_rank_pct": 91,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "ASX:SEK",
+      "name": "Seek",
+      "theme_code": "10_F",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 91,
+        "quality": 90,
+        "heat": 71,
+        "independence": 24
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4880,
+        "size_rank_pct": 90,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "ASX:NEC",
+      "name": "Nine Entertainment",
+      "theme_code": "20_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 90,
+        "quality": 90,
+        "heat": 78,
+        "independence": 21
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4840,
+        "size_rank_pct": 89,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "ASX:TLS",
+      "name": "Telstra Group",
+      "theme_code": "20_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 89,
+        "quality": 89,
+        "heat": 85,
+        "independence": 48
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4800,
+        "size_rank_pct": 88,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "ASX:TPG",
+      "name": "TPG Telecom",
+      "theme_code": "20_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 88,
+        "quality": 89,
+        "heat": 92,
+        "independence": 45
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4760,
+        "size_rank_pct": 87,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "ASX:WES",
+      "name": "Wesfarmers",
+      "theme_code": "30_A",
+      "role": "ANCHOR",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 87,
+        "quality": 88,
+        "heat": 59,
+        "independence": 14
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4720,
+        "size_rank_pct": 86,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "ASX:JBH",
+      "name": "JB Hi-Fi",
+      "theme_code": "30_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 86,
+        "quality": 88,
+        "heat": 66,
+        "independence": 39
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4680,
+        "size_rank_pct": 85,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "ASX:LOV",
+      "name": "Lovisa Holdings",
+      "theme_code": "30_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 85,
+        "quality": 87,
+        "heat": 73,
+        "independence": 36
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4640,
+        "size_rank_pct": 84,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "ASX:HVN",
+      "name": "Harvey Norman Holdings",
+      "theme_code": "30_A",
+      "role": "BETA_SATELLITE",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 84,
+        "quality": 87,
+        "heat": 80,
+        "independence": 33,
+        "beta_strength": 77,
+        "beta_stability": 71
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "ASX:WOW",
+      "name": "Woolworths Group",
+      "theme_code": "30_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 83,
+        "quality": 86,
+        "heat": 87,
+        "independence": 30
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4560,
+        "size_rank_pct": 82,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "ASX:COL",
+      "name": "Coles Group",
+      "theme_code": "30_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 82,
+        "quality": 86,
+        "heat": 94,
+        "independence": 27
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4520,
+        "size_rank_pct": 81,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "ASX:TWE",
+      "name": "Treasury Wine Estates",
+      "theme_code": "30_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 81,
+        "quality": 85,
+        "heat": 61,
+        "independence": 24
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4480,
+        "size_rank_pct": 80,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "ASX:A2M",
+      "name": "The a2 Milk Company",
+      "theme_code": "30_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 80,
+        "quality": 85,
+        "heat": 68,
+        "independence": 21
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4440,
+        "size_rank_pct": 79,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "ASX:ALL",
+      "name": "Aristocrat Leisure",
+      "theme_code": "30_C",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 79,
+        "quality": 84,
+        "heat": 75,
+        "independence": 48
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4400,
+        "size_rank_pct": 78,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "ASX:QAN",
+      "name": "Qantas Airways",
+      "theme_code": "30_C",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 78,
+        "quality": 84,
+        "heat": 82,
+        "independence": 45
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4360,
+        "size_rank_pct": 77,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "ASX:FLT",
+      "name": "Flight Centre Travel Group",
+      "theme_code": "30_C",
+      "role": "BETA_SATELLITE",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 77,
+        "quality": 83,
+        "heat": 89,
+        "independence": 42,
+        "beta_strength": 68,
+        "beta_stability": 74
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "ASX:CBA",
+      "name": "Commonwealth Bank of Australia",
+      "theme_code": "40_A",
+      "role": "ANCHOR",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 76,
+        "quality": 83,
+        "heat": 56,
+        "independence": 15
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4280,
+        "size_rank_pct": 75,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "ASX:NAB",
+      "name": "National Australia Bank",
+      "theme_code": "40_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 75,
+        "quality": 82,
+        "heat": 63,
+        "independence": 36
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4240,
+        "size_rank_pct": 74,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "ASX:WBC",
+      "name": "Westpac Banking Corporation",
+      "theme_code": "40_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 74,
+        "quality": 82,
+        "heat": 70,
+        "independence": 33
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4200,
+        "size_rank_pct": 73,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "ASX:ANZ",
+      "name": "ANZ Group Holdings",
+      "theme_code": "40_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 73,
+        "quality": 81,
+        "heat": 77,
+        "independence": 30
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4160,
+        "size_rank_pct": 72,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "ASX:TYR",
+      "name": "Tyro Payments",
+      "theme_code": "40_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 72,
+        "quality": 81,
+        "heat": 84,
+        "independence": 27
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4120,
+        "size_rank_pct": 71,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "ASX:ZIP",
+      "name": "Zip Co",
+      "theme_code": "40_B",
+      "role": "BETA_SATELLITE",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 71,
+        "quality": 80,
+        "heat": 91,
+        "independence": 24,
+        "beta_strength": 86,
+        "beta_stability": 72
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "ASX:MQG",
+      "name": "Macquarie Group",
+      "theme_code": "40_C",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 70,
+        "quality": 80,
+        "heat": 58,
+        "independence": 21
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4040,
+        "size_rank_pct": 69,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "ASX:ASX",
+      "name": "ASX Limited",
+      "theme_code": "40_C",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 69,
+        "quality": 79,
+        "heat": 65,
+        "independence": 48
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4000,
+        "size_rank_pct": 68,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "ASX:MFG",
+      "name": "Magellan Financial Group",
+      "theme_code": "40_C",
+      "role": "BETA_SATELLITE",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 68,
+        "quality": 79,
+        "heat": 72,
+        "independence": 45,
+        "beta_strength": 65,
+        "beta_stability": 87
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "ASX:QBE",
+      "name": "QBE Insurance Group",
+      "theme_code": "40_D",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 67,
+        "quality": 78,
+        "heat": 79,
+        "independence": 42
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3920,
+        "size_rank_pct": 66,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "ASX:SUN",
+      "name": "Suncorp Group",
+      "theme_code": "40_D",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 66,
+        "quality": 78,
+        "heat": 86,
+        "independence": 39
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3880,
+        "size_rank_pct": 65,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "ASX:IAG",
+      "name": "Insurance Australia Group",
+      "theme_code": "40_D",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 65,
+        "quality": 77,
+        "heat": 93,
+        "independence": 36
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3840,
+        "size_rank_pct": 64,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "ASX:CSL",
+      "name": "CSL",
+      "theme_code": "50_A",
+      "role": "ANCHOR",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 64,
+        "quality": 77,
+        "heat": 60,
+        "independence": 12
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3800,
+        "size_rank_pct": 63,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "ASX:SIG",
+      "name": "Sigma Healthcare",
+      "theme_code": "50_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 63,
+        "quality": 76,
+        "heat": 67,
+        "independence": 30
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3760,
+        "size_rank_pct": 62,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "ASX:COH",
+      "name": "Cochlear",
+      "theme_code": "50_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 62,
+        "quality": 76,
+        "heat": 74,
+        "independence": 27
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3720,
+        "size_rank_pct": 61,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "ASX:RMD",
+      "name": "ResMed",
+      "theme_code": "50_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 61,
+        "quality": 75,
+        "heat": 81,
+        "independence": 24
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3680,
+        "size_rank_pct": 60,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "ASX:PME",
+      "name": "Pro Medicus",
+      "theme_code": "50_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 60,
+        "quality": 75,
+        "heat": 88,
+        "independence": 21
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3640,
+        "size_rank_pct": 59,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "ASX:SHL",
+      "name": "Sonic Healthcare",
+      "theme_code": "50_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 59,
+        "quality": 74,
+        "heat": 55,
+        "independence": 48
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3600,
+        "size_rank_pct": 58,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "ASX:ASB",
+      "name": "Austal",
+      "theme_code": "60_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 58,
+        "quality": 74,
+        "heat": 62,
+        "independence": 45
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3560,
+        "size_rank_pct": 57,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "ASX:SVW",
+      "name": "Seven Group Holdings",
+      "theme_code": "60_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 57,
+        "quality": 73,
+        "heat": 69,
+        "independence": 42
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3520,
+        "size_rank_pct": 56,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "ASX:ALQ",
+      "name": "ALS",
+      "theme_code": "60_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 56,
+        "quality": 73,
+        "heat": 76,
+        "independence": 39
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3480,
+        "size_rank_pct": 55,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "ASX:MND",
+      "name": "Monadelphous Group",
+      "theme_code": "60_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 55,
+        "quality": 72,
+        "heat": 83,
+        "independence": 36
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3440,
+        "size_rank_pct": 54,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "ASX:TCL",
+      "name": "Transurban Group",
+      "theme_code": "60_C",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 54,
+        "quality": 72,
+        "heat": 90,
+        "independence": 33
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3400,
+        "size_rank_pct": 53,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "ASX:BXB",
+      "name": "Brambles",
+      "theme_code": "60_C",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 53,
+        "quality": 71,
+        "heat": 57,
+        "independence": 30
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3360,
+        "size_rank_pct": 52,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "ASX:QUB",
+      "name": "Qube Holdings",
+      "theme_code": "60_C",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 52,
+        "quality": 71,
+        "heat": 64,
+        "independence": 27
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3320,
+        "size_rank_pct": 51,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "ASX:WDS",
+      "name": "Woodside Energy Group",
+      "theme_code": "70_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 51,
+        "quality": 70,
+        "heat": 71,
+        "independence": 24
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3280,
+        "size_rank_pct": 50,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "ASX:STO",
+      "name": "Santos",
+      "theme_code": "70_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 50,
+        "quality": 70,
+        "heat": 78,
+        "independence": 21
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3240,
+        "size_rank_pct": 49,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "ASX:APA",
+      "name": "APA Group",
+      "theme_code": "70_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 49,
+        "quality": 69,
+        "heat": 85,
+        "independence": 48
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3200,
+        "size_rank_pct": 48,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "ASX:WHC",
+      "name": "Whitehaven Coal",
+      "theme_code": "70_D",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 48,
+        "quality": 69,
+        "heat": 92,
+        "independence": 45
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3160,
+        "size_rank_pct": 47,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "ASX:NHC",
+      "name": "New Hope Corporation",
+      "theme_code": "70_D",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 47,
+        "quality": 68,
+        "heat": 59,
+        "independence": 42
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3120,
+        "size_rank_pct": 46,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "ASX:PDN",
+      "name": "Paladin Energy",
+      "theme_code": "70_D",
+      "role": "BETA_SATELLITE",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 46,
+        "quality": 68,
+        "heat": 66,
+        "independence": 39,
+        "beta_strength": 71,
+        "beta_stability": 69
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "ASX:JHX",
+      "name": "James Hardie Industries",
+      "theme_code": "80_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 45,
+        "quality": 67,
+        "heat": 73,
+        "independence": 36
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3040,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "ASX:AMC",
+      "name": "Amcor",
+      "theme_code": "80_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 44,
+        "quality": 67,
+        "heat": 80,
+        "independence": 33
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3000,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "ASX:ORI",
+      "name": "Orica",
+      "theme_code": "80_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 43,
+        "quality": 66,
+        "heat": 87,
+        "independence": 30
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2960,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "ASX:ORG",
+      "name": "Origin Energy",
+      "theme_code": "80_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 42,
+        "quality": 66,
+        "heat": 94,
+        "independence": 27
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2920,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "ASX:AGL",
+      "name": "AGL Energy",
+      "theme_code": "80_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 41,
+        "quality": 65,
+        "heat": 61,
+        "independence": 24
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2880,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "ASX:BHP",
+      "name": "BHP Group",
+      "theme_code": "80_C",
+      "role": "ANCHOR",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 65,
+        "heat": 68,
+        "independence": 16
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2840,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "ASX:RIO",
+      "name": "Rio Tinto",
+      "theme_code": "80_C",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 64,
+        "heat": 75,
+        "independence": 48
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2800,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "ASX:FMG",
+      "name": "Fortescue",
+      "theme_code": "80_C",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 64,
+        "heat": 82,
+        "independence": 45
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2760,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "ASX:NST",
+      "name": "Northern Star Resources",
+      "theme_code": "80_C",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 63,
+        "heat": 89,
+        "independence": 42
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2720,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "ASX:S32",
+      "name": "South32",
+      "theme_code": "80_C",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 63,
+        "heat": 56,
+        "independence": 39
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2680,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "ASX:EVN",
+      "name": "Evolution Mining",
+      "theme_code": "80_C",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 62,
+        "heat": 63,
+        "independence": 36
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2640,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "ASX:IGO",
+      "name": "IGO",
+      "theme_code": "80_C",
+      "role": "BETA_SATELLITE",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 62,
+        "heat": 70,
+        "independence": 33,
+        "beta_strength": 77,
+        "beta_stability": 65
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "ASX:PLS",
+      "name": "Pilbara Minerals",
+      "theme_code": "80_C",
+      "role": "LIQUIDITY_SENSOR",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 61,
+        "heat": 77,
+        "independence": 30
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "ASX:MIN",
+      "name": "Mineral Resources",
+      "theme_code": "80_C",
+      "role": "LIQUIDITY_SENSOR",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 61,
+        "heat": 84,
+        "independence": 27
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "ASX:GMG",
+      "name": "Goodman Group",
+      "theme_code": "90_A",
+      "role": "ANCHOR",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 60,
+        "heat": 91,
+        "independence": 15
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2480,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "ASX:SCG",
+      "name": "Scentre Group",
+      "theme_code": "90_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 60,
+        "heat": 58,
+        "independence": 21
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2440,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "ASX:SGP",
+      "name": "Stockland",
+      "theme_code": "90_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 59,
+        "heat": 65,
+        "independence": 48
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2400,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "ASX:VCX",
+      "name": "Vicinity Centres",
+      "theme_code": "90_A",
+      "role": "BETA_SATELLITE",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 59,
+        "heat": 72,
+        "independence": 45,
+        "beta_strength": 65,
+        "beta_stability": 63
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "ASX:GOLD",
+      "name": "Global X Physical Gold",
+      "theme_code": "00_A",
+      "role": "BREADTH_PROXY",
+      "eligible": false,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 79,
+        "independence": 42
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "exclusion_reasons": [
+        "excluded_instrument_type: a bullion fund is not an observation of this equity market"
+      ]
+    },
+    {
+      "ticker": "ASX:VAS",
+      "name": "Vanguard Australian Shares Index ETF",
+      "theme_code": "00_A",
+      "role": "BENCHMARK",
+      "eligible": false,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 86,
+        "independence": 15
+      },
+      "evidence": [
+        {
+          "url": "https://www.asx.com.au/markets/trade-our-cash-market/directory",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "exclusion_reasons": [
+        "redundant_with_member: the same broad index is already held twice over"
+      ]
+    }
+  ]
+}

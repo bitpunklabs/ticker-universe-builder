@@ -1,0 +1,3074 @@
+{
+  "schema_version": 1,
+  "market": "in",
+  "as_of": "2026-09-17",
+  "complete": true,
+  "sources": [
+    {
+      "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+      "as_of": "2026-09-17",
+      "kind": "exchange",
+      "tier": 1
+    },
+    {
+      "url": "https://www.bseindia.com/corporates/List_Scrips.html",
+      "as_of": "2026-09-17",
+      "kind": "exchange",
+      "tier": 1
+    },
+    {
+      "url": "https://www.nseindia.com/reports/daily-reports-equities",
+      "as_of": "2026-09-17",
+      "kind": "market_data",
+      "tier": 2
+    }
+  ],
+  "measurement": {
+    "liquidity": {
+      "basis": "measured",
+      "method": "cross-sectional percentile of mean daily turnover",
+      "window": "30d",
+      "source": "https://www.nseindia.com/reports/daily-reports-equities"
+    },
+    "quality": {
+      "basis": "blended",
+      "method": "listing age and size percentile against a judged durability read",
+      "source": "https://www.nseindia.com/market-data/securities-available-for-trading"
+    },
+    "heat": {
+      "basis": "judged",
+      "method": "turnover jump confirmed against exchange data, never a single-day move"
+    },
+    "beta_strength": {
+      "basis": "measured",
+      "method": "absolute OLS beta against NSE:NIFTYBEES, beta 2.0 reads 100",
+      "window": "180d",
+      "source": "https://www.nseindia.com/reports/daily-reports-equities"
+    },
+    "beta_stability": {
+      "basis": "measured",
+      "method": "agreement of the beta estimate across the two halves of the window",
+      "window": "180d",
+      "source": "https://www.nseindia.com/reports/daily-reports-equities"
+    },
+    "independence": {
+      "basis": "measured",
+      "method": "100 - the OLS R-squared of daily returns on NSE:NIFTYBEES",
+      "window": "180d",
+      "source": "https://www.nseindia.com/reports/daily-reports-equities"
+    }
+  },
+  "taxonomy": [
+    {
+      "l1_code": "00",
+      "l1_name": "Market Benchmarks",
+      "theme_code": "00_A",
+      "theme_name": "BROAD_MARKET_ETF",
+      "coverage_level": 1,
+      "weight": 1.0
+    },
+    {
+      "l1_code": "00",
+      "l1_name": "Market Benchmarks",
+      "theme_code": "00_B",
+      "theme_name": "EQUAL_WEIGHT_AND_BREADTH",
+      "coverage_level": 2,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "00",
+      "l1_name": "Market Benchmarks",
+      "theme_code": "00_C",
+      "theme_name": "VOLATILITY_AND_HEDGES",
+      "coverage_level": 3,
+      "weight": 0.5
+    },
+    {
+      "l1_code": "10",
+      "l1_name": "Technology",
+      "theme_code": "10_A",
+      "theme_name": "MEGACAP_PLATFORMS",
+      "coverage_level": 3,
+      "weight": 0.5
+    },
+    {
+      "l1_code": "10",
+      "l1_name": "Technology",
+      "theme_code": "10_D",
+      "theme_name": "ENTERPRISE_SOFTWARE",
+      "coverage_level": 1,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "10",
+      "l1_name": "Technology",
+      "theme_code": "10_F",
+      "theme_name": "INTERNET_AND_ADTECH",
+      "coverage_level": 1,
+      "weight": 1.5
+    },
+    {
+      "l1_code": "10",
+      "l1_name": "Technology",
+      "theme_code": "10_G",
+      "theme_name": "IT_SERVICES_AND_CONSULTING",
+      "coverage_level": 1,
+      "weight": 3.0
+    },
+    {
+      "l1_code": "10",
+      "l1_name": "Technology",
+      "theme_code": "10_H",
+      "theme_name": "HARDWARE_AND_NETWORKING",
+      "coverage_level": 3,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "20",
+      "l1_name": "Communication",
+      "theme_code": "20_A",
+      "theme_name": "STREAMING_AND_MEDIA",
+      "coverage_level": 1,
+      "weight": 1.0
+    },
+    {
+      "l1_code": "20",
+      "l1_name": "Communication",
+      "theme_code": "20_B",
+      "theme_name": "TELECOM",
+      "coverage_level": 1,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "20",
+      "l1_name": "Communication",
+      "theme_code": "20_C",
+      "theme_name": "GAMING_AND_INTERACTIVE",
+      "coverage_level": 3,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "20",
+      "l1_name": "Communication",
+      "theme_code": "20_D",
+      "theme_name": "ADVERTISING_AND_MARKETING",
+      "coverage_level": 3,
+      "weight": 0.5
+    },
+    {
+      "l1_code": "30",
+      "l1_name": "Consumer",
+      "theme_code": "30_A",
+      "theme_name": "DISCRETIONARY_LEADERS",
+      "coverage_level": 1,
+      "weight": 1.25
+    },
+    {
+      "l1_code": "30",
+      "l1_name": "Consumer",
+      "theme_code": "30_B",
+      "theme_name": "STAPLES",
+      "coverage_level": 1,
+      "weight": 2.0
+    },
+    {
+      "l1_code": "30",
+      "l1_name": "Consumer",
+      "theme_code": "30_C",
+      "theme_name": "RESTAURANTS_AND_TRAVEL",
+      "coverage_level": 1,
+      "weight": 1.0
+    },
+    {
+      "l1_code": "30",
+      "l1_name": "Consumer",
+      "theme_code": "30_D",
+      "theme_name": "APPAREL_AND_LUXURY",
+      "coverage_level": 2,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "30",
+      "l1_name": "Consumer",
+      "theme_code": "30_E",
+      "theme_name": "AUTOS_AND_MOBILITY",
+      "coverage_level": 1,
+      "weight": 2.0
+    },
+    {
+      "l1_code": "30",
+      "l1_name": "Consumer",
+      "theme_code": "30_F",
+      "theme_name": "HOMEBUILDERS",
+      "coverage_level": 3,
+      "weight": 0.5
+    },
+    {
+      "l1_code": "30",
+      "l1_name": "Consumer",
+      "theme_code": "30_G",
+      "theme_name": "LEISURE_AND_LODGING",
+      "coverage_level": 3,
+      "weight": 0.5
+    },
+    {
+      "l1_code": "40",
+      "l1_name": "Financials",
+      "theme_code": "40_A",
+      "theme_name": "MONEY_CENTER_BANKS",
+      "coverage_level": 1,
+      "weight": 3.0
+    },
+    {
+      "l1_code": "40",
+      "l1_name": "Financials",
+      "theme_code": "40_B",
+      "theme_name": "PAYMENTS",
+      "coverage_level": 1,
+      "weight": 1.25
+    },
+    {
+      "l1_code": "40",
+      "l1_name": "Financials",
+      "theme_code": "40_C",
+      "theme_name": "ASSET_MANAGERS_AND_EXCHANGES",
+      "coverage_level": 1,
+      "weight": 1.0
+    },
+    {
+      "l1_code": "40",
+      "l1_name": "Financials",
+      "theme_code": "40_D",
+      "theme_name": "INSURANCE",
+      "coverage_level": 1,
+      "weight": 1.25
+    },
+    {
+      "l1_code": "40",
+      "l1_name": "Financials",
+      "theme_code": "40_E",
+      "theme_name": "REGIONAL_BANKS",
+      "coverage_level": 2,
+      "weight": 1.25
+    },
+    {
+      "l1_code": "45",
+      "l1_name": "Non-Bank Finance",
+      "theme_code": "45_A",
+      "theme_name": "NBFC_AND_HOUSING_FINANCE",
+      "coverage_level": 1,
+      "weight": 1.5
+    },
+    {
+      "l1_code": "45",
+      "l1_name": "Non-Bank Finance",
+      "theme_code": "45_B",
+      "theme_name": "MICROFINANCE_AND_SMALL_FINANCE",
+      "coverage_level": 3,
+      "weight": 0.5
+    },
+    {
+      "l1_code": "50",
+      "l1_name": "Healthcare",
+      "theme_code": "50_A",
+      "theme_name": "PHARMA",
+      "coverage_level": 1,
+      "weight": 2.5
+    },
+    {
+      "l1_code": "50",
+      "l1_name": "Healthcare",
+      "theme_code": "50_B",
+      "theme_name": "MEDTECH_AND_DEVICES",
+      "coverage_level": 1,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "50",
+      "l1_name": "Healthcare",
+      "theme_code": "50_C",
+      "theme_name": "MANAGED_CARE",
+      "coverage_level": 1,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "50",
+      "l1_name": "Healthcare",
+      "theme_code": "50_D",
+      "theme_name": "BIOTECH",
+      "coverage_level": 1,
+      "weight": 1.0
+    },
+    {
+      "l1_code": "50",
+      "l1_name": "Healthcare",
+      "theme_code": "50_E",
+      "theme_name": "LIFE_SCIENCE_TOOLS",
+      "coverage_level": 2,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "50",
+      "l1_name": "Healthcare",
+      "theme_code": "50_F",
+      "theme_name": "HEALTHCARE_DISTRIBUTION",
+      "coverage_level": 3,
+      "weight": 0.5
+    },
+    {
+      "l1_code": "60",
+      "l1_name": "Industrials",
+      "theme_code": "60_A",
+      "theme_name": "AEROSPACE_AND_DEFENSE",
+      "coverage_level": 1,
+      "weight": 1.25
+    },
+    {
+      "l1_code": "60",
+      "l1_name": "Industrials",
+      "theme_code": "60_B",
+      "theme_name": "MACHINERY_AND_RAIL",
+      "coverage_level": 1,
+      "weight": 1.25
+    },
+    {
+      "l1_code": "60",
+      "l1_name": "Industrials",
+      "theme_code": "60_C",
+      "theme_name": "TRANSPORT_AND_LOGISTICS",
+      "coverage_level": 1,
+      "weight": 1.0
+    },
+    {
+      "l1_code": "60",
+      "l1_name": "Industrials",
+      "theme_code": "60_D",
+      "theme_name": "ELECTRICAL_EQUIPMENT",
+      "coverage_level": 2,
+      "weight": 1.0
+    },
+    {
+      "l1_code": "60",
+      "l1_name": "Industrials",
+      "theme_code": "60_E",
+      "theme_name": "ENGINEERING_AND_CONSTRUCTION",
+      "coverage_level": 1,
+      "weight": 1.5
+    },
+    {
+      "l1_code": "60",
+      "l1_name": "Industrials",
+      "theme_code": "60_F",
+      "theme_name": "DISTRIBUTION_AND_SUPPLY",
+      "coverage_level": 3,
+      "weight": 0.5
+    },
+    {
+      "l1_code": "70",
+      "l1_name": "Energy",
+      "theme_code": "70_A",
+      "theme_name": "INTEGRATED_ENERGY",
+      "coverage_level": 1,
+      "weight": 2.0
+    },
+    {
+      "l1_code": "70",
+      "l1_name": "Energy",
+      "theme_code": "70_B",
+      "theme_name": "OILFIELD_AND_MIDSTREAM",
+      "coverage_level": 1,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "70",
+      "l1_name": "Energy",
+      "theme_code": "70_C",
+      "theme_name": "EXPLORATION_AND_PRODUCTION",
+      "coverage_level": 2,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "80",
+      "l1_name": "Materials and Utilities",
+      "theme_code": "80_A",
+      "theme_name": "MATERIALS",
+      "coverage_level": 1,
+      "weight": 1.5
+    },
+    {
+      "l1_code": "80",
+      "l1_name": "Materials and Utilities",
+      "theme_code": "80_B",
+      "theme_name": "UTILITIES",
+      "coverage_level": 1,
+      "weight": 1.25
+    },
+    {
+      "l1_code": "80",
+      "l1_name": "Materials and Utilities",
+      "theme_code": "80_C",
+      "theme_name": "METALS_AND_MINING",
+      "coverage_level": 2,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "80",
+      "l1_name": "Materials and Utilities",
+      "theme_code": "80_D",
+      "theme_name": "CHEMICALS",
+      "coverage_level": 3,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "80",
+      "l1_name": "Materials and Utilities",
+      "theme_code": "80_E",
+      "theme_name": "WATER_AND_WASTE",
+      "coverage_level": 3,
+      "weight": 0.5
+    },
+    {
+      "l1_code": "90",
+      "l1_name": "Real Estate",
+      "theme_code": "90_A",
+      "theme_name": "REITS",
+      "coverage_level": 1,
+      "weight": 0.5
+    },
+    {
+      "l1_code": "90",
+      "l1_name": "Real Estate",
+      "theme_code": "90_C",
+      "theme_name": "REAL_ESTATE_SERVICES",
+      "coverage_level": 3,
+      "weight": 0.5
+    }
+  ],
+  "candidates": [
+    {
+      "ticker": "NSE:NIFTYBEES",
+      "name": "Nippon India ETF Nifty 50 BeES",
+      "theme_code": "00_A",
+      "role": "BENCHMARK",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 99,
+        "quality": 94,
+        "heat": 55,
+        "independence": 12
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "required": true,
+      "quality_facts": {
+        "listing_age_days": 5200,
+        "size_rank_pct": 98,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:BANKBEES",
+      "name": "Nippon India ETF Nifty Bank BeES",
+      "theme_code": "00_A",
+      "role": "BREADTH_PROXY",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 98,
+        "quality": 94,
+        "heat": 62,
+        "independence": 45
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "required": true
+    },
+    {
+      "ticker": "NSE:JUNIORBEES",
+      "name": "Nippon India ETF Nifty Next 50 Junior BeES",
+      "theme_code": "00_A",
+      "role": "BREADTH_PROXY",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 97,
+        "quality": 93,
+        "heat": 69,
+        "independence": 42
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "required": true
+    },
+    {
+      "ticker": "NSE:OFSS",
+      "name": "Oracle Financial Services Software",
+      "theme_code": "10_D",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 96,
+        "quality": 93,
+        "heat": 76,
+        "independence": 39
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 5080,
+        "size_rank_pct": 95,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:NEWGEN",
+      "name": "Newgen Software Technologies",
+      "theme_code": "10_D",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 95,
+        "quality": 92,
+        "heat": 83,
+        "independence": 36
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 5040,
+        "size_rank_pct": 94,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:NAUKRI",
+      "name": "Info Edge India",
+      "theme_code": "10_F",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 94,
+        "quality": 92,
+        "heat": 90,
+        "independence": 33
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 5000,
+        "size_rank_pct": 93,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:POLICYBZR",
+      "name": "PB Fintech",
+      "theme_code": "10_F",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 93,
+        "quality": 91,
+        "heat": 57,
+        "independence": 30
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4960,
+        "size_rank_pct": 92,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:NYKAA",
+      "name": "FSN E-Commerce Ventures",
+      "theme_code": "10_F",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 92,
+        "quality": 91,
+        "heat": 64,
+        "independence": 27
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4920,
+        "size_rank_pct": 91,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:SWIGGY",
+      "name": "Swiggy",
+      "theme_code": "10_F",
+      "role": "NEW_LISTING",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 91,
+        "quality": 90,
+        "heat": 71,
+        "independence": 15
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "NSE:TCS",
+      "name": "Tata Consultancy Services",
+      "theme_code": "10_G",
+      "role": "ANCHOR",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 90,
+        "quality": 90,
+        "heat": 78,
+        "independence": 16
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4840,
+        "size_rank_pct": 89,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:INFY",
+      "name": "Infosys",
+      "theme_code": "10_G",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 89,
+        "quality": 89,
+        "heat": 85,
+        "independence": 48
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4800,
+        "size_rank_pct": 88,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:HCLTECH",
+      "name": "HCL Technologies",
+      "theme_code": "10_G",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 88,
+        "quality": 89,
+        "heat": 92,
+        "independence": 45
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4760,
+        "size_rank_pct": 87,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:WIPRO",
+      "name": "Wipro",
+      "theme_code": "10_G",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 87,
+        "quality": 88,
+        "heat": 59,
+        "independence": 42
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4720,
+        "size_rank_pct": 86,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:TECHM",
+      "name": "Tech Mahindra",
+      "theme_code": "10_G",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 86,
+        "quality": 88,
+        "heat": 66,
+        "independence": 39
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4680,
+        "size_rank_pct": 85,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:LTIM",
+      "name": "LTIMindtree",
+      "theme_code": "10_G",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 85,
+        "quality": 87,
+        "heat": 73,
+        "independence": 36
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4640,
+        "size_rank_pct": 84,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:PERSISTENT",
+      "name": "Persistent Systems",
+      "theme_code": "10_G",
+      "role": "BETA_SATELLITE",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 84,
+        "quality": 87,
+        "heat": 80,
+        "independence": 33,
+        "beta_strength": 77,
+        "beta_stability": 71
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "NSE:ZEEL",
+      "name": "Zee Entertainment Enterprises",
+      "theme_code": "20_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 83,
+        "quality": 86,
+        "heat": 87,
+        "independence": 30
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4560,
+        "size_rank_pct": 82,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:SUNTV",
+      "name": "Sun TV Network",
+      "theme_code": "20_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 82,
+        "quality": 86,
+        "heat": 94,
+        "independence": 27
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4520,
+        "size_rank_pct": 81,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:PVRINOX",
+      "name": "PVR INOX",
+      "theme_code": "20_A",
+      "role": "BETA_SATELLITE",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 81,
+        "quality": 85,
+        "heat": 61,
+        "independence": 24,
+        "beta_strength": 86,
+        "beta_stability": 86
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "NSE:BHARTIARTL",
+      "name": "Bharti Airtel",
+      "theme_code": "20_B",
+      "role": "ANCHOR",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 80,
+        "quality": 85,
+        "heat": 68,
+        "independence": 16
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4440,
+        "size_rank_pct": 79,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:INDUSTOWER",
+      "name": "Indus Towers",
+      "theme_code": "20_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 79,
+        "quality": 84,
+        "heat": 75,
+        "independence": 48
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4400,
+        "size_rank_pct": 78,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:IDEA",
+      "name": "Vodafone Idea",
+      "theme_code": "20_B",
+      "role": "LIQUIDITY_SENSOR",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 78,
+        "quality": 84,
+        "heat": 82,
+        "independence": 45
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "NSE:TITAN",
+      "name": "Titan Company",
+      "theme_code": "30_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 77,
+        "quality": 83,
+        "heat": 89,
+        "independence": 42
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4320,
+        "size_rank_pct": 76,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:DMART",
+      "name": "Avenue Supermarts",
+      "theme_code": "30_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 76,
+        "quality": 83,
+        "heat": 56,
+        "independence": 39
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4280,
+        "size_rank_pct": 75,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:TRENT",
+      "name": "Trent",
+      "theme_code": "30_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 75,
+        "quality": 82,
+        "heat": 63,
+        "independence": 36
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4240,
+        "size_rank_pct": 74,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:ASIANPAINT",
+      "name": "Asian Paints",
+      "theme_code": "30_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 74,
+        "quality": 82,
+        "heat": 70,
+        "independence": 33
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4200,
+        "size_rank_pct": 73,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:HINDUNILVR",
+      "name": "Hindustan Unilever",
+      "theme_code": "30_B",
+      "role": "ANCHOR",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 73,
+        "quality": 81,
+        "heat": 77,
+        "independence": 13
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4160,
+        "size_rank_pct": 72,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:ITC",
+      "name": "ITC",
+      "theme_code": "30_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 72,
+        "quality": 81,
+        "heat": 84,
+        "independence": 27
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4120,
+        "size_rank_pct": 71,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:NESTLEIND",
+      "name": "Nestle India",
+      "theme_code": "30_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 71,
+        "quality": 80,
+        "heat": 91,
+        "independence": 24
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4080,
+        "size_rank_pct": 70,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:BRITANNIA",
+      "name": "Britannia Industries",
+      "theme_code": "30_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 70,
+        "quality": 80,
+        "heat": 58,
+        "independence": 21
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4040,
+        "size_rank_pct": 69,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:DABUR",
+      "name": "Dabur India",
+      "theme_code": "30_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 69,
+        "quality": 79,
+        "heat": 65,
+        "independence": 48
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4000,
+        "size_rank_pct": 68,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:GODREJCP",
+      "name": "Godrej Consumer Products",
+      "theme_code": "30_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 68,
+        "quality": 79,
+        "heat": 72,
+        "independence": 45
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3960,
+        "size_rank_pct": 67,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:INDIGO",
+      "name": "InterGlobe Aviation",
+      "theme_code": "30_C",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 67,
+        "quality": 78,
+        "heat": 79,
+        "independence": 42
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3920,
+        "size_rank_pct": 66,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:IRCTC",
+      "name": "Indian Railway Catering and Tourism",
+      "theme_code": "30_C",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 66,
+        "quality": 78,
+        "heat": 86,
+        "independence": 39
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3880,
+        "size_rank_pct": 65,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:JUBLFOOD",
+      "name": "Jubilant FoodWorks",
+      "theme_code": "30_C",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 65,
+        "quality": 77,
+        "heat": 93,
+        "independence": 36
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3840,
+        "size_rank_pct": 64,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:MARUTI",
+      "name": "Maruti Suzuki India",
+      "theme_code": "30_E",
+      "role": "ANCHOR",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 64,
+        "quality": 77,
+        "heat": 60,
+        "independence": 12
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3800,
+        "size_rank_pct": 63,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:M&M",
+      "name": "Mahindra & Mahindra",
+      "theme_code": "30_E",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 63,
+        "quality": 76,
+        "heat": 67,
+        "independence": 30
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3760,
+        "size_rank_pct": 62,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:TATAMOTORS",
+      "name": "Tata Motors",
+      "theme_code": "30_E",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 62,
+        "quality": 76,
+        "heat": 74,
+        "independence": 27
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3720,
+        "size_rank_pct": 61,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:BAJAJ-AUTO",
+      "name": "Bajaj Auto",
+      "theme_code": "30_E",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 61,
+        "quality": 75,
+        "heat": 81,
+        "independence": 24
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3680,
+        "size_rank_pct": 60,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:EICHERMOT",
+      "name": "Eicher Motors",
+      "theme_code": "30_E",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 60,
+        "quality": 75,
+        "heat": 88,
+        "independence": 21
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3640,
+        "size_rank_pct": 59,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:HEROMOTOCO",
+      "name": "Hero MotoCorp",
+      "theme_code": "30_E",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 59,
+        "quality": 74,
+        "heat": 55,
+        "independence": 48
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3600,
+        "size_rank_pct": 58,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:TVSMOTOR",
+      "name": "TVS Motor Company",
+      "theme_code": "30_E",
+      "role": "BETA_SATELLITE",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 58,
+        "quality": 74,
+        "heat": 62,
+        "independence": 45,
+        "beta_strength": 65,
+        "beta_stability": 73
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "NSE:HDFCBANK",
+      "name": "HDFC Bank",
+      "theme_code": "40_A",
+      "role": "ANCHOR",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 57,
+        "quality": 73,
+        "heat": 69,
+        "independence": 14
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3520,
+        "size_rank_pct": 56,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:ICICIBANK",
+      "name": "ICICI Bank",
+      "theme_code": "40_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 56,
+        "quality": 73,
+        "heat": 76,
+        "independence": 39
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3480,
+        "size_rank_pct": 55,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:SBIN",
+      "name": "State Bank of India",
+      "theme_code": "40_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 55,
+        "quality": 72,
+        "heat": 83,
+        "independence": 36
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3440,
+        "size_rank_pct": 54,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:KOTAKBANK",
+      "name": "Kotak Mahindra Bank",
+      "theme_code": "40_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 54,
+        "quality": 72,
+        "heat": 90,
+        "independence": 33
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3400,
+        "size_rank_pct": 53,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:AXISBANK",
+      "name": "Axis Bank",
+      "theme_code": "40_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 53,
+        "quality": 71,
+        "heat": 57,
+        "independence": 30
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3360,
+        "size_rank_pct": 52,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:BANKBARODA",
+      "name": "Bank of Baroda",
+      "theme_code": "40_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 52,
+        "quality": 71,
+        "heat": 64,
+        "independence": 27
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3320,
+        "size_rank_pct": 51,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:INDUSINDBK",
+      "name": "IndusInd Bank",
+      "theme_code": "40_A",
+      "role": "BETA_SATELLITE",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 51,
+        "quality": 70,
+        "heat": 71,
+        "independence": 24,
+        "beta_strength": 86,
+        "beta_stability": 76
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "NSE:CANBK",
+      "name": "Canara Bank",
+      "theme_code": "40_A",
+      "role": "BETA_SATELLITE",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 50,
+        "quality": 70,
+        "heat": 78,
+        "independence": 21,
+        "beta_strength": 89,
+        "beta_stability": 81
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "NSE:YESBANK",
+      "name": "Yes Bank",
+      "theme_code": "40_A",
+      "role": "LIQUIDITY_SENSOR",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 49,
+        "quality": 69,
+        "heat": 85,
+        "independence": 48
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "NSE:PAYTM",
+      "name": "One 97 Communications",
+      "theme_code": "40_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 48,
+        "quality": 69,
+        "heat": 92,
+        "independence": 45
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3160,
+        "size_rank_pct": 47,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:BSE",
+      "name": "BSE",
+      "theme_code": "40_C",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 47,
+        "quality": 68,
+        "heat": 59,
+        "independence": 42
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3120,
+        "size_rank_pct": 46,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:HDFCAMC",
+      "name": "HDFC Asset Management Company",
+      "theme_code": "40_C",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 46,
+        "quality": 68,
+        "heat": 66,
+        "independence": 39
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3080,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:MCX",
+      "name": "Multi Commodity Exchange of India",
+      "theme_code": "40_C",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 45,
+        "quality": 67,
+        "heat": 73,
+        "independence": 36
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3040,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:SBILIFE",
+      "name": "SBI Life Insurance Company",
+      "theme_code": "40_D",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 44,
+        "quality": 67,
+        "heat": 80,
+        "independence": 33
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3000,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:HDFCLIFE",
+      "name": "HDFC Life Insurance Company",
+      "theme_code": "40_D",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 43,
+        "quality": 66,
+        "heat": 87,
+        "independence": 30
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2960,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:ICICIGI",
+      "name": "ICICI Lombard General Insurance",
+      "theme_code": "40_D",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 42,
+        "quality": 66,
+        "heat": 94,
+        "independence": 27
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2920,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:BAJFINANCE",
+      "name": "Bajaj Finance",
+      "theme_code": "45_A",
+      "role": "ANCHOR",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 41,
+        "quality": 65,
+        "heat": 61,
+        "independence": 15
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2880,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:CHOLAFIN",
+      "name": "Cholamandalam Investment and Finance",
+      "theme_code": "45_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 65,
+        "heat": 68,
+        "independence": 21
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2840,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:SHRIRAMFIN",
+      "name": "Shriram Finance",
+      "theme_code": "45_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 64,
+        "heat": 75,
+        "independence": 48
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2800,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:LICHSGFIN",
+      "name": "LIC Housing Finance",
+      "theme_code": "45_A",
+      "role": "BETA_SATELLITE",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 64,
+        "heat": 82,
+        "independence": 45,
+        "beta_strength": 65,
+        "beta_stability": 77
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "NSE:SUNPHARMA",
+      "name": "Sun Pharmaceutical Industries",
+      "theme_code": "50_A",
+      "role": "ANCHOR",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 63,
+        "heat": 89,
+        "independence": 14
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2720,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:CIPLA",
+      "name": "Cipla",
+      "theme_code": "50_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 63,
+        "heat": 56,
+        "independence": 39
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2680,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:DRREDDY",
+      "name": "Dr Reddys Laboratories",
+      "theme_code": "50_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 62,
+        "heat": 63,
+        "independence": 36
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2640,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:DIVISLAB",
+      "name": "Divis Laboratories",
+      "theme_code": "50_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 62,
+        "heat": 70,
+        "independence": 33
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2600,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:LUPIN",
+      "name": "Lupin",
+      "theme_code": "50_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 61,
+        "heat": 77,
+        "independence": 30
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2560,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:TORNTPHARM",
+      "name": "Torrent Pharmaceuticals",
+      "theme_code": "50_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 61,
+        "heat": 84,
+        "independence": 27
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2520,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:AUROPHARMA",
+      "name": "Aurobindo Pharma",
+      "theme_code": "50_A",
+      "role": "BETA_SATELLITE",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 60,
+        "heat": 91,
+        "independence": 24,
+        "beta_strength": 86,
+        "beta_stability": 80
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "NSE:POLYMED",
+      "name": "Poly Medicure",
+      "theme_code": "50_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 60,
+        "heat": 58,
+        "independence": 21
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2440,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:APOLLOHOSP",
+      "name": "Apollo Hospitals Enterprise",
+      "theme_code": "50_C",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 59,
+        "heat": 65,
+        "independence": 48
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2400,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:MAXHEALTH",
+      "name": "Max Healthcare Institute",
+      "theme_code": "50_C",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 59,
+        "heat": 72,
+        "independence": 45
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2360,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:BIOCON",
+      "name": "Biocon",
+      "theme_code": "50_D",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 79,
+        "independence": 42
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2320,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:HAL",
+      "name": "Hindustan Aeronautics",
+      "theme_code": "60_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 86,
+        "independence": 39
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2280,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:BEL",
+      "name": "Bharat Electronics",
+      "theme_code": "60_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 93,
+        "independence": 36
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2240,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:BDL",
+      "name": "Bharat Dynamics",
+      "theme_code": "60_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 60,
+        "independence": 33
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2200,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:SIEMENS",
+      "name": "Siemens India",
+      "theme_code": "60_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 67,
+        "independence": 30
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2160,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:ABB",
+      "name": "ABB India",
+      "theme_code": "60_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 74,
+        "independence": 27
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2120,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:CUMMINSIND",
+      "name": "Cummins India",
+      "theme_code": "60_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 81,
+        "independence": 24
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2080,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:BHEL",
+      "name": "Bharat Heavy Electricals",
+      "theme_code": "60_B",
+      "role": "BETA_SATELLITE",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 88,
+        "independence": 21,
+        "beta_strength": 89,
+        "beta_stability": 71
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "NSE:ADANIPORTS",
+      "name": "Adani Ports and Special Economic Zone",
+      "theme_code": "60_C",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 55,
+        "independence": 48
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2000,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:CONCOR",
+      "name": "Container Corporation of India",
+      "theme_code": "60_C",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 62,
+        "independence": 45
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1960,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:LT",
+      "name": "Larsen & Toubro",
+      "theme_code": "60_E",
+      "role": "ANCHOR",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 69,
+        "independence": 14
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1920,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:RVNL",
+      "name": "Rail Vikas Nigam",
+      "theme_code": "60_E",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 76,
+        "independence": 39
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1880,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:RELIANCE",
+      "name": "Reliance Industries",
+      "theme_code": "70_A",
+      "role": "ANCHOR",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 83,
+        "independence": 16
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1840,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:ONGC",
+      "name": "Oil and Natural Gas Corporation",
+      "theme_code": "70_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 90,
+        "independence": 33
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1800,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:IOC",
+      "name": "Indian Oil Corporation",
+      "theme_code": "70_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 57,
+        "independence": 30
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1760,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:BPCL",
+      "name": "Bharat Petroleum Corporation",
+      "theme_code": "70_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 64,
+        "independence": 27
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1720,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:GAIL",
+      "name": "GAIL India",
+      "theme_code": "70_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 71,
+        "independence": 24
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1680,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:OIL",
+      "name": "Oil India",
+      "theme_code": "70_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 78,
+        "independence": 21
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1640,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:ULTRACEMCO",
+      "name": "UltraTech Cement",
+      "theme_code": "80_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 85,
+        "independence": 48
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1600,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:TATASTEEL",
+      "name": "Tata Steel",
+      "theme_code": "80_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 92,
+        "independence": 45
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1560,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:COALINDIA",
+      "name": "Coal India",
+      "theme_code": "80_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 59,
+        "independence": 42
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1520,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:JSWSTEEL",
+      "name": "JSW Steel",
+      "theme_code": "80_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 66,
+        "independence": 39
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1480,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:HINDALCO",
+      "name": "Hindalco Industries",
+      "theme_code": "80_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 73,
+        "independence": 36
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1440,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:GRASIM",
+      "name": "Grasim Industries",
+      "theme_code": "80_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 80,
+        "independence": 33
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1400,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:SHREECEM",
+      "name": "Shree Cement",
+      "theme_code": "80_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 87,
+        "independence": 30
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1360,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:NTPC",
+      "name": "NTPC",
+      "theme_code": "80_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 94,
+        "independence": 27
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1320,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:POWERGRID",
+      "name": "Power Grid Corporation of India",
+      "theme_code": "80_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 61,
+        "independence": 24
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1280,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:TATAPOWER",
+      "name": "Tata Power Company",
+      "theme_code": "80_B",
+      "role": "BETA_SATELLITE",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 68,
+        "independence": 21,
+        "beta_strength": 89,
+        "beta_stability": 75
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "NSE:EMBASSY",
+      "name": "Embassy Office Parks REIT",
+      "theme_code": "90_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 75,
+        "independence": 48
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1200,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "NSE:GOLDBEES",
+      "name": "Nippon India ETF Gold BeES",
+      "theme_code": "00_A",
+      "role": "BREADTH_PROXY",
+      "eligible": false,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 82,
+        "independence": 45
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "exclusion_reasons": [
+        "excluded_instrument_type: a gold trust is not an observation of this equity market"
+      ]
+    },
+    {
+      "ticker": "NSE:LIQUIDBEES",
+      "name": "Nippon India ETF Nifty 1D Rate Liquid BeES",
+      "theme_code": "00_A",
+      "role": "BREADTH_PROXY",
+      "eligible": false,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 89,
+        "independence": 42
+      },
+      "evidence": [
+        {
+          "url": "https://www.nseindia.com/market-data/securities-available-for-trading",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "exclusion_reasons": [
+        "excluded_instrument_type: a cash-management fund observes nothing"
+      ]
+    }
+  ]
+}

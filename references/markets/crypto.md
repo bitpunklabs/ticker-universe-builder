@@ -61,3 +61,7 @@ Any regression-based gate requires history, so maintaining "by measurement" alon
 toward old tokens. A recently listed asset is admitted on standards that do not depend on history —
 tradability, continuous sessions, order-book depth, ecosystem role, a dated event — and enters the
 tactical budget as `NEW_LISTING`, not by loosening the retention rules for everyone else.
+
+## Example
+
+[`examples/crypto-light/`](../../examples/crypto-light/) is a full-size Light universe for this market: the seed table it is built from, the snapshot, the report in this market's language, and the TradingView watchlist. Every metric value in it is illustrative; the tickers, themes and roles are not.

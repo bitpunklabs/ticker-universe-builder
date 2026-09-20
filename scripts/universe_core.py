@@ -204,8 +204,10 @@ MARKET_SPECS: dict[str, MarketSpec] = {
             code="de",
             label="Germany equities",
             venues=frozenset({"XETR", "FWB"}),
-            symbol_pattern=re.compile(r"[A-Z][A-Z0-9]{0,5}"),
-            symbol_hint="one to six characters starting with a letter",
+            # Xetra codes may open with a digit -- 4GLD, 1U1 -- so the shape is alphanumeric
+            # rather than letter-led. Found by a real listing, not by reading the rule.
+            symbol_pattern=re.compile(r"[A-Z0-9][A-Z0-9]{0,5}"),
+            symbol_hint="one to six alphanumeric characters",
             language="de",
             quality_flags=frozenset({
                 "squeeze_out", "delisting_offer", "prime_standard_breach",
@@ -246,8 +248,10 @@ MARKET_SPECS: dict[str, MarketSpec] = {
             code="br",
             label="Brazil equities",
             venues=frozenset({"BMFBOVESPA"}),
-            symbol_pattern=re.compile(r"[A-Z]{4}\d{1,2}"),
-            symbol_hint="four letters then one or two digits",
+            # Four characters then the class digits. The four are usually letters but need not
+            # be -- B3SA3 is the exchange itself -- so only the first character is pinned.
+            symbol_pattern=re.compile(r"[A-Z][A-Z0-9]{3}\d{1,2}"),
+            symbol_hint="four characters starting with a letter, then one or two digits",
             language="pt-BR",
             quality_flags=frozenset({
                 "judicial_recovery", "cvm_inquiry", "segment_downgrade",

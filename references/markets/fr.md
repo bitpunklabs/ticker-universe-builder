@@ -18,6 +18,8 @@ Aerospace and defence at 2.5 is the second theme, and construction-concession is
 
 No megacap platform theme and no AI compute theme. They are dropped.
 
+Autos come up to Light. Paris lists Stellantis, Renault, Michelin and Valeo, and treating the sector as German-only would leave four of the larger CAC names unobserved. Cybersecurity leaves Light in the same edit: the listed French cyber names are growth-market microcaps.
+
 ## Adverse flags
 
 This market's regime issues these, and no other market's does. They cost the same as any
@@ -34,6 +36,10 @@ universal flag; what is market-specific is the vocabulary, not the price.
 Breadth `0.75` in `assets/default-policy.json`, so the tiers are **Light 45**,
 **Medium 120**, **Heavy 300** members. The starter table reaches 28 themes at
 Light.
+
+## Example
+
+[`examples/fr-light/`](../../examples/fr-light/) is a full-size Light universe for this market: the seed table it is built from, the snapshot, the report in this market's language, and the TradingView watchlist. Every metric value in it is illustrative; the tickers, themes and roles are not.
 
 ## Suggested live fields
 

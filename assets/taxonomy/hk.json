@@ -2,7 +2,7 @@
   "schema_version": 2,
   "market": "hk",
   "extends": "_equity",
-  "note": "A China-platform and financials market with a property complex the base has no room for.",
+  "note": "A China-platform and financials market with a property complex the base has no room for. Games sit at Light — this is where the Chinese gaming majors list — while cybersecurity and managed care drop out of it, because neither has a listed pure play here.",
   "groups": {
     "00": "市場基準",
     "10": "科技",
@@ -28,7 +28,10 @@
   ],
   "level": {
     "50_D": 1,
-    "30_E": 1
+    "30_E": 1,
+    "10_E": 3,
+    "50_C": 3,
+    "20_C": 1
   },
   "weight": {
     "10_F": 3.0,
@@ -47,7 +50,9 @@
     "11_B": 0.75,
     "50_A": 1.0,
     "60_A": 0.25,
-    "95_A": 0.5
+    "95_A": 0.5,
+    "20_C": 1.5,
+    "50_C": 0.5
   },
   "add": [
     {

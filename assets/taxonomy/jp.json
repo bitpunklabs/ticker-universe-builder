@@ -2,7 +2,7 @@
   "schema_version": 2,
   "market": "jp",
   "extends": "_equity",
-  "note": "Autos, machinery and semicap carry this market; the trading houses have no analogue elsewhere.",
+  "note": "Autos, machinery and semicap carry this market; the trading houses have no analogue elsewhere. Managed care drops out of Light — a single-payer system lists nothing to observe — and the mixed-use developers get their own theme.",
   "groups": {
     "00": "市場ベンチマーク",
     "10": "テクノロジー",
@@ -27,7 +27,9 @@
   "level": {
     "30_E": 1,
     "20_C": 1,
-    "10_G": 1
+    "10_G": 1,
+    "50_C": 3,
+    "90_D": 1
   },
   "weight": {
     "30_E": 3.0,
@@ -65,6 +67,14 @@
       "theme_name": "WHOLESALE_AND_DISTRIBUTION",
       "coverage_level": 3,
       "weight": 0.5
+    },
+    {
+      "l1_code": "90",
+      "l1_name": "不動産",
+      "theme_code": "90_D",
+      "theme_name": "PROPERTY_DEVELOPERS",
+      "coverage_level": 1,
+      "weight": 1.25
     }
   ]
 }

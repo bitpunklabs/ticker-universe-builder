@@ -1,0 +1,2827 @@
+{
+  "schema_version": 1,
+  "market": "kr",
+  "as_of": "2026-09-17",
+  "complete": true,
+  "sources": [
+    {
+      "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+      "as_of": "2026-09-17",
+      "kind": "exchange",
+      "tier": 1
+    },
+    {
+      "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201020101",
+      "as_of": "2026-09-17",
+      "kind": "market_data",
+      "tier": 2
+    }
+  ],
+  "measurement": {
+    "liquidity": {
+      "basis": "measured",
+      "method": "30일 일평균 거래대금의 횡단면 백분위",
+      "window": "30d",
+      "source": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201020101"
+    },
+    "quality": {
+      "basis": "blended",
+      "method": "상장 기간과 규모 백분위에 사업 지속성 판단을 더한 값",
+      "source": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201"
+    },
+    "heat": {
+      "basis": "judged",
+      "method": "거래대금 급증. 거래소 데이터로 확인된 것만 인정하며 하루 변동은 제외"
+    },
+    "beta_strength": {
+      "basis": "measured",
+      "method": "KRX:069500 대비 OLS 베타의 절댓값. 베타 2.0을 100으로 본다",
+      "window": "180d",
+      "source": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201020101"
+    },
+    "beta_stability": {
+      "basis": "measured",
+      "method": "구간을 전반과 후반으로 나눴을 때 베타 추정치의 일치 정도",
+      "window": "180d",
+      "source": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201020101"
+    },
+    "independence": {
+      "basis": "measured",
+      "method": "일간 수익률을 KRX:069500에 회귀한 결정계수를 100에서 뺀 값",
+      "window": "180d",
+      "source": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201020101"
+    }
+  },
+  "taxonomy": [
+    {
+      "l1_code": "00",
+      "l1_name": "시장 벤치마크",
+      "theme_code": "00_A",
+      "theme_name": "BROAD_MARKET_ETF",
+      "coverage_level": 1,
+      "weight": 1.0
+    },
+    {
+      "l1_code": "00",
+      "l1_name": "시장 벤치마크",
+      "theme_code": "00_B",
+      "theme_name": "EQUAL_WEIGHT_AND_BREADTH",
+      "coverage_level": 2,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "00",
+      "l1_name": "시장 벤치마크",
+      "theme_code": "00_C",
+      "theme_name": "VOLATILITY_AND_HEDGES",
+      "coverage_level": 3,
+      "weight": 0.5
+    },
+    {
+      "l1_code": "10",
+      "l1_name": "테크놀로지",
+      "theme_code": "10_A",
+      "theme_name": "MEGACAP_PLATFORMS",
+      "coverage_level": 1,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "10",
+      "l1_name": "테크놀로지",
+      "theme_code": "10_B",
+      "theme_name": "SEMICONDUCTORS",
+      "coverage_level": 1,
+      "weight": 4.0
+    },
+    {
+      "l1_code": "10",
+      "l1_name": "테크놀로지",
+      "theme_code": "10_C",
+      "theme_name": "SEMICAP_EQUIPMENT",
+      "coverage_level": 1,
+      "weight": 1.25
+    },
+    {
+      "l1_code": "10",
+      "l1_name": "테크놀로지",
+      "theme_code": "10_D",
+      "theme_name": "ENTERPRISE_SOFTWARE",
+      "coverage_level": 1,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "10",
+      "l1_name": "테크놀로지",
+      "theme_code": "10_E",
+      "theme_name": "CYBERSECURITY",
+      "coverage_level": 1,
+      "weight": 1.0
+    },
+    {
+      "l1_code": "10",
+      "l1_name": "테크놀로지",
+      "theme_code": "10_F",
+      "theme_name": "INTERNET_AND_ADTECH",
+      "coverage_level": 1,
+      "weight": 1.5
+    },
+    {
+      "l1_code": "10",
+      "l1_name": "테크놀로지",
+      "theme_code": "10_H",
+      "theme_name": "HARDWARE_AND_NETWORKING",
+      "coverage_level": 3,
+      "weight": 1.25
+    },
+    {
+      "l1_code": "11",
+      "l1_name": "AI 인프라",
+      "theme_code": "11_A",
+      "theme_name": "AI_COMPUTE",
+      "coverage_level": 1,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "11",
+      "l1_name": "AI 인프라",
+      "theme_code": "11_B",
+      "theme_name": "DATA_CENTER_AND_POWER",
+      "coverage_level": 1,
+      "weight": 1.5
+    },
+    {
+      "l1_code": "20",
+      "l1_name": "커뮤니케이션",
+      "theme_code": "20_A",
+      "theme_name": "STREAMING_AND_MEDIA",
+      "coverage_level": 1,
+      "weight": 1.0
+    },
+    {
+      "l1_code": "20",
+      "l1_name": "커뮤니케이션",
+      "theme_code": "20_B",
+      "theme_name": "TELECOM",
+      "coverage_level": 1,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "20",
+      "l1_name": "커뮤니케이션",
+      "theme_code": "20_C",
+      "theme_name": "GAMING_AND_INTERACTIVE",
+      "coverage_level": 1,
+      "weight": 1.25
+    },
+    {
+      "l1_code": "20",
+      "l1_name": "커뮤니케이션",
+      "theme_code": "20_D",
+      "theme_name": "ADVERTISING_AND_MARKETING",
+      "coverage_level": 3,
+      "weight": 0.5
+    },
+    {
+      "l1_code": "20",
+      "l1_name": "커뮤니케이션",
+      "theme_code": "20_E",
+      "theme_name": "ENTERTAINMENT_AND_MUSIC",
+      "coverage_level": 1,
+      "weight": 1.0
+    },
+    {
+      "l1_code": "30",
+      "l1_name": "소비재",
+      "theme_code": "30_A",
+      "theme_name": "DISCRETIONARY_LEADERS",
+      "coverage_level": 1,
+      "weight": 1.5
+    },
+    {
+      "l1_code": "30",
+      "l1_name": "소비재",
+      "theme_code": "30_B",
+      "theme_name": "STAPLES",
+      "coverage_level": 1,
+      "weight": 1.0
+    },
+    {
+      "l1_code": "30",
+      "l1_name": "소비재",
+      "theme_code": "30_C",
+      "theme_name": "RESTAURANTS_AND_TRAVEL",
+      "coverage_level": 1,
+      "weight": 1.0
+    },
+    {
+      "l1_code": "30",
+      "l1_name": "소비재",
+      "theme_code": "30_D",
+      "theme_name": "APPAREL_AND_LUXURY",
+      "coverage_level": 2,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "30",
+      "l1_name": "소비재",
+      "theme_code": "30_E",
+      "theme_name": "AUTOS_AND_MOBILITY",
+      "coverage_level": 1,
+      "weight": 2.0
+    },
+    {
+      "l1_code": "35",
+      "l1_name": "조선·중공업",
+      "theme_code": "35_A",
+      "theme_name": "SHIPBUILDING",
+      "coverage_level": 1,
+      "weight": 1.25
+    },
+    {
+      "l1_code": "35",
+      "l1_name": "조선·중공업",
+      "theme_code": "35_B",
+      "theme_name": "DEFENSE_AND_HEAVY",
+      "coverage_level": 2,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "40",
+      "l1_name": "금융",
+      "theme_code": "40_A",
+      "theme_name": "MONEY_CENTER_BANKS",
+      "coverage_level": 1,
+      "weight": 1.5
+    },
+    {
+      "l1_code": "40",
+      "l1_name": "금융",
+      "theme_code": "40_B",
+      "theme_name": "PAYMENTS",
+      "coverage_level": 1,
+      "weight": 1.25
+    },
+    {
+      "l1_code": "40",
+      "l1_name": "금융",
+      "theme_code": "40_C",
+      "theme_name": "ASSET_MANAGERS_AND_EXCHANGES",
+      "coverage_level": 1,
+      "weight": 1.0
+    },
+    {
+      "l1_code": "40",
+      "l1_name": "금융",
+      "theme_code": "40_D",
+      "theme_name": "INSURANCE",
+      "coverage_level": 1,
+      "weight": 1.0
+    },
+    {
+      "l1_code": "40",
+      "l1_name": "금융",
+      "theme_code": "40_E",
+      "theme_name": "REGIONAL_BANKS",
+      "coverage_level": 2,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "40",
+      "l1_name": "금융",
+      "theme_code": "40_F",
+      "theme_name": "FINTECH_LENDERS",
+      "coverage_level": 3,
+      "weight": 0.5
+    },
+    {
+      "l1_code": "50",
+      "l1_name": "헬스케어",
+      "theme_code": "50_A",
+      "theme_name": "PHARMA",
+      "coverage_level": 1,
+      "weight": 1.0
+    },
+    {
+      "l1_code": "50",
+      "l1_name": "헬스케어",
+      "theme_code": "50_B",
+      "theme_name": "MEDTECH_AND_DEVICES",
+      "coverage_level": 1,
+      "weight": 1.25
+    },
+    {
+      "l1_code": "50",
+      "l1_name": "헬스케어",
+      "theme_code": "50_C",
+      "theme_name": "MANAGED_CARE",
+      "coverage_level": 3,
+      "weight": 0.5
+    },
+    {
+      "l1_code": "50",
+      "l1_name": "헬스케어",
+      "theme_code": "50_D",
+      "theme_name": "BIOTECH",
+      "coverage_level": 1,
+      "weight": 1.5
+    },
+    {
+      "l1_code": "50",
+      "l1_name": "헬스케어",
+      "theme_code": "50_E",
+      "theme_name": "LIFE_SCIENCE_TOOLS",
+      "coverage_level": 2,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "50",
+      "l1_name": "헬스케어",
+      "theme_code": "50_F",
+      "theme_name": "HEALTHCARE_DISTRIBUTION",
+      "coverage_level": 3,
+      "weight": 0.5
+    },
+    {
+      "l1_code": "60",
+      "l1_name": "산업재",
+      "theme_code": "60_A",
+      "theme_name": "AEROSPACE_AND_DEFENSE",
+      "coverage_level": 1,
+      "weight": 1.25
+    },
+    {
+      "l1_code": "60",
+      "l1_name": "산업재",
+      "theme_code": "60_B",
+      "theme_name": "MACHINERY_AND_RAIL",
+      "coverage_level": 1,
+      "weight": 1.0
+    },
+    {
+      "l1_code": "60",
+      "l1_name": "산업재",
+      "theme_code": "60_C",
+      "theme_name": "TRANSPORT_AND_LOGISTICS",
+      "coverage_level": 1,
+      "weight": 1.0
+    },
+    {
+      "l1_code": "60",
+      "l1_name": "산업재",
+      "theme_code": "60_D",
+      "theme_name": "ELECTRICAL_EQUIPMENT",
+      "coverage_level": 2,
+      "weight": 1.0
+    },
+    {
+      "l1_code": "60",
+      "l1_name": "산업재",
+      "theme_code": "60_E",
+      "theme_name": "ENGINEERING_AND_CONSTRUCTION",
+      "coverage_level": 3,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "60",
+      "l1_name": "산업재",
+      "theme_code": "60_F",
+      "theme_name": "DISTRIBUTION_AND_SUPPLY",
+      "coverage_level": 3,
+      "weight": 0.5
+    },
+    {
+      "l1_code": "70",
+      "l1_name": "에너지",
+      "theme_code": "70_A",
+      "theme_name": "INTEGRATED_ENERGY",
+      "coverage_level": 1,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "70",
+      "l1_name": "에너지",
+      "theme_code": "70_B",
+      "theme_name": "OILFIELD_AND_MIDSTREAM",
+      "coverage_level": 1,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "70",
+      "l1_name": "에너지",
+      "theme_code": "70_C",
+      "theme_name": "EXPLORATION_AND_PRODUCTION",
+      "coverage_level": 2,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "80",
+      "l1_name": "소재·유틸리티",
+      "theme_code": "80_A",
+      "theme_name": "MATERIALS",
+      "coverage_level": 1,
+      "weight": 1.0
+    },
+    {
+      "l1_code": "80",
+      "l1_name": "소재·유틸리티",
+      "theme_code": "80_B",
+      "theme_name": "UTILITIES",
+      "coverage_level": 1,
+      "weight": 1.0
+    },
+    {
+      "l1_code": "80",
+      "l1_name": "소재·유틸리티",
+      "theme_code": "80_C",
+      "theme_name": "METALS_AND_MINING",
+      "coverage_level": 2,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "80",
+      "l1_name": "소재·유틸리티",
+      "theme_code": "80_D",
+      "theme_name": "CHEMICALS",
+      "coverage_level": 1,
+      "weight": 1.5
+    },
+    {
+      "l1_code": "80",
+      "l1_name": "소재·유틸리티",
+      "theme_code": "80_E",
+      "theme_name": "WATER_AND_WASTE",
+      "coverage_level": 3,
+      "weight": 0.5
+    },
+    {
+      "l1_code": "80",
+      "l1_name": "소재·유틸리티",
+      "theme_code": "80_F",
+      "theme_name": "BATTERY_CHAIN",
+      "coverage_level": 1,
+      "weight": 2.0
+    },
+    {
+      "l1_code": "90",
+      "l1_name": "부동산",
+      "theme_code": "90_A",
+      "theme_name": "REITS",
+      "coverage_level": 1,
+      "weight": 0.5
+    }
+  ],
+  "candidates": [
+    {
+      "ticker": "KRX:069500",
+      "name": "KODEX 200",
+      "theme_code": "00_A",
+      "role": "BENCHMARK",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 99,
+        "quality": 94,
+        "heat": 55,
+        "independence": 12
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "required": true,
+      "quality_facts": {
+        "listing_age_days": 5200,
+        "size_rank_pct": 98,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:102110",
+      "name": "TIGER 200",
+      "theme_code": "00_A",
+      "role": "BENCHMARK",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 98,
+        "quality": 94,
+        "heat": 62,
+        "independence": 13
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "required": true,
+      "quality_facts": {
+        "listing_age_days": 5160,
+        "size_rank_pct": 97,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:229200",
+      "name": "KODEX 코스닥150",
+      "theme_code": "00_A",
+      "role": "BREADTH_PROXY",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 97,
+        "quality": 93,
+        "heat": 69,
+        "independence": 42
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "required": true
+    },
+    {
+      "ticker": "KRX:035420",
+      "name": "NAVER",
+      "theme_code": "10_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 96,
+        "quality": 93,
+        "heat": 76,
+        "independence": 39
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 5080,
+        "size_rank_pct": 95,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:005930",
+      "name": "삼성전자",
+      "theme_code": "10_B",
+      "role": "ANCHOR",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 95,
+        "quality": 92,
+        "heat": 83,
+        "independence": 16
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 5040,
+        "size_rank_pct": 94,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:000660",
+      "name": "SK하이닉스",
+      "theme_code": "10_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 94,
+        "quality": 92,
+        "heat": 90,
+        "independence": 33
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 5000,
+        "size_rank_pct": 93,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:000990",
+      "name": "DB하이텍",
+      "theme_code": "10_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 93,
+        "quality": 91,
+        "heat": 57,
+        "independence": 30
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4960,
+        "size_rank_pct": 92,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:042700",
+      "name": "한미반도체",
+      "theme_code": "10_C",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 92,
+        "quality": 91,
+        "heat": 64,
+        "independence": 27
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4920,
+        "size_rank_pct": 91,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:240810",
+      "name": "원익IPS",
+      "theme_code": "10_C",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 91,
+        "quality": 90,
+        "heat": 71,
+        "independence": 24
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4880,
+        "size_rank_pct": 90,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:058470",
+      "name": "리노공업",
+      "theme_code": "10_C",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 90,
+        "quality": 90,
+        "heat": 78,
+        "independence": 21
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4840,
+        "size_rank_pct": 89,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:039030",
+      "name": "이오테크닉스",
+      "theme_code": "10_C",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 89,
+        "quality": 89,
+        "heat": 85,
+        "independence": 48
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4800,
+        "size_rank_pct": 88,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:012510",
+      "name": "더존비즈온",
+      "theme_code": "10_D",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 88,
+        "quality": 89,
+        "heat": 92,
+        "independence": 45
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4760,
+        "size_rank_pct": 87,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:053800",
+      "name": "안랩",
+      "theme_code": "10_E",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 87,
+        "quality": 88,
+        "heat": 59,
+        "independence": 42
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4720,
+        "size_rank_pct": 86,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:035720",
+      "name": "카카오",
+      "theme_code": "10_F",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 86,
+        "quality": 88,
+        "heat": 66,
+        "independence": 39
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4680,
+        "size_rank_pct": 85,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:089600",
+      "name": "나스미디어",
+      "theme_code": "10_F",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 85,
+        "quality": 87,
+        "heat": 73,
+        "independence": 36
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4640,
+        "size_rank_pct": 84,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:007660",
+      "name": "이수페타시스",
+      "theme_code": "11_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 84,
+        "quality": 87,
+        "heat": 80,
+        "independence": 33
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4600,
+        "size_rank_pct": 83,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:034020",
+      "name": "두산에너빌리티",
+      "theme_code": "11_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 83,
+        "quality": 86,
+        "heat": 87,
+        "independence": 30
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4560,
+        "size_rank_pct": 82,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:298040",
+      "name": "효성중공업",
+      "theme_code": "11_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 82,
+        "quality": 86,
+        "heat": 94,
+        "independence": 27
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4520,
+        "size_rank_pct": 81,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:035760",
+      "name": "CJ ENM",
+      "theme_code": "20_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 81,
+        "quality": 85,
+        "heat": 61,
+        "independence": 24
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4480,
+        "size_rank_pct": 80,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:253450",
+      "name": "스튜디오드래곤",
+      "theme_code": "20_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 80,
+        "quality": 85,
+        "heat": 68,
+        "independence": 21
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4440,
+        "size_rank_pct": 79,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:017670",
+      "name": "SK텔레콤",
+      "theme_code": "20_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 79,
+        "quality": 84,
+        "heat": 75,
+        "independence": 48
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4400,
+        "size_rank_pct": 78,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:030200",
+      "name": "KT",
+      "theme_code": "20_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 78,
+        "quality": 84,
+        "heat": 82,
+        "independence": 45
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4360,
+        "size_rank_pct": 77,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:032640",
+      "name": "LG유플러스",
+      "theme_code": "20_B",
+      "role": "BETA_SATELLITE",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 77,
+        "quality": 83,
+        "heat": 89,
+        "independence": 42,
+        "beta_strength": 68,
+        "beta_stability": 74
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "KRX:259960",
+      "name": "크래프톤",
+      "theme_code": "20_C",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 76,
+        "quality": 83,
+        "heat": 56,
+        "independence": 39
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4280,
+        "size_rank_pct": 75,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:036570",
+      "name": "엔씨소프트",
+      "theme_code": "20_C",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 75,
+        "quality": 82,
+        "heat": 63,
+        "independence": 36
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4240,
+        "size_rank_pct": 74,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:251270",
+      "name": "넷마블",
+      "theme_code": "20_C",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 74,
+        "quality": 82,
+        "heat": 70,
+        "independence": 33
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4200,
+        "size_rank_pct": 73,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:263750",
+      "name": "펄어비스",
+      "theme_code": "20_C",
+      "role": "BETA_SATELLITE",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 73,
+        "quality": 81,
+        "heat": 77,
+        "independence": 30,
+        "beta_strength": 80,
+        "beta_stability": 62
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "KRX:352820",
+      "name": "하이브",
+      "theme_code": "20_E",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 72,
+        "quality": 81,
+        "heat": 84,
+        "independence": 27
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4120,
+        "size_rank_pct": 71,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:035900",
+      "name": "JYP Ent.",
+      "theme_code": "20_E",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 71,
+        "quality": 80,
+        "heat": 91,
+        "independence": 24
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4080,
+        "size_rank_pct": 70,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:041510",
+      "name": "에스엠",
+      "theme_code": "20_E",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 70,
+        "quality": 80,
+        "heat": 58,
+        "independence": 21
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4040,
+        "size_rank_pct": 69,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:122870",
+      "name": "와이지엔터테인먼트",
+      "theme_code": "20_E",
+      "role": "BETA_SATELLITE",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 69,
+        "quality": 79,
+        "heat": 65,
+        "independence": 48,
+        "beta_strength": 62,
+        "beta_stability": 82
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "KRX:090430",
+      "name": "아모레퍼시픽",
+      "theme_code": "30_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 68,
+        "quality": 79,
+        "heat": 72,
+        "independence": 45
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3960,
+        "size_rank_pct": 67,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:004170",
+      "name": "신세계",
+      "theme_code": "30_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 67,
+        "quality": 78,
+        "heat": 79,
+        "independence": 42
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3920,
+        "size_rank_pct": 66,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:051900",
+      "name": "LG생활건강",
+      "theme_code": "30_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 66,
+        "quality": 78,
+        "heat": 86,
+        "independence": 39
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3880,
+        "size_rank_pct": 65,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:097950",
+      "name": "CJ제일제당",
+      "theme_code": "30_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 65,
+        "quality": 77,
+        "heat": 93,
+        "independence": 36
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3840,
+        "size_rank_pct": 64,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:033780",
+      "name": "KT&G",
+      "theme_code": "30_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 64,
+        "quality": 77,
+        "heat": 60,
+        "independence": 33
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3800,
+        "size_rank_pct": 63,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:271560",
+      "name": "오리온",
+      "theme_code": "30_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 63,
+        "quality": 76,
+        "heat": 67,
+        "independence": 30
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3760,
+        "size_rank_pct": 62,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:008770",
+      "name": "호텔신라",
+      "theme_code": "30_C",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 62,
+        "quality": 76,
+        "heat": 74,
+        "independence": 27
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3720,
+        "size_rank_pct": 61,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:003490",
+      "name": "대한항공",
+      "theme_code": "30_C",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 61,
+        "quality": 75,
+        "heat": 81,
+        "independence": 24
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3680,
+        "size_rank_pct": 60,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:005380",
+      "name": "현대차",
+      "theme_code": "30_E",
+      "role": "ANCHOR",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 60,
+        "quality": 75,
+        "heat": 88,
+        "independence": 16
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3640,
+        "size_rank_pct": 59,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:000270",
+      "name": "기아",
+      "theme_code": "30_E",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 59,
+        "quality": 74,
+        "heat": 55,
+        "independence": 48
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3600,
+        "size_rank_pct": 58,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:012330",
+      "name": "현대모비스",
+      "theme_code": "30_E",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 58,
+        "quality": 74,
+        "heat": 62,
+        "independence": 45
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3560,
+        "size_rank_pct": 57,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:018880",
+      "name": "한온시스템",
+      "theme_code": "30_E",
+      "role": "BETA_SATELLITE",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 57,
+        "quality": 73,
+        "heat": 69,
+        "independence": 42,
+        "beta_strength": 68,
+        "beta_stability": 78
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "KRX:009540",
+      "name": "HD한국조선해양",
+      "theme_code": "35_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 56,
+        "quality": 73,
+        "heat": 76,
+        "independence": 39
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3480,
+        "size_rank_pct": 55,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:042660",
+      "name": "한화오션",
+      "theme_code": "35_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 55,
+        "quality": 72,
+        "heat": 83,
+        "independence": 36
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3440,
+        "size_rank_pct": 54,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:010140",
+      "name": "삼성중공업",
+      "theme_code": "35_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 54,
+        "quality": 72,
+        "heat": 90,
+        "independence": 33
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3400,
+        "size_rank_pct": 53,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:329180",
+      "name": "HD현대중공업",
+      "theme_code": "35_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 53,
+        "quality": 71,
+        "heat": 57,
+        "independence": 30
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3360,
+        "size_rank_pct": 52,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:105560",
+      "name": "KB금융",
+      "theme_code": "40_A",
+      "role": "ANCHOR",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 52,
+        "quality": 71,
+        "heat": 64,
+        "independence": 14
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3320,
+        "size_rank_pct": 51,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:055550",
+      "name": "신한지주",
+      "theme_code": "40_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 51,
+        "quality": 70,
+        "heat": 71,
+        "independence": 24
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3280,
+        "size_rank_pct": 50,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:086790",
+      "name": "하나금융지주",
+      "theme_code": "40_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 50,
+        "quality": 70,
+        "heat": 78,
+        "independence": 21
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3240,
+        "size_rank_pct": 49,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:316140",
+      "name": "우리금융지주",
+      "theme_code": "40_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 49,
+        "quality": 69,
+        "heat": 85,
+        "independence": 48
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3200,
+        "size_rank_pct": 48,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:377300",
+      "name": "카카오페이",
+      "theme_code": "40_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 48,
+        "quality": 69,
+        "heat": 92,
+        "independence": 45
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3160,
+        "size_rank_pct": 47,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:006800",
+      "name": "미래에셋증권",
+      "theme_code": "40_C",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 47,
+        "quality": 68,
+        "heat": 59,
+        "independence": 42
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3120,
+        "size_rank_pct": 46,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:016360",
+      "name": "삼성증권",
+      "theme_code": "40_C",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 46,
+        "quality": 68,
+        "heat": 66,
+        "independence": 39
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3080,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:071050",
+      "name": "한국금융지주",
+      "theme_code": "40_C",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 45,
+        "quality": 67,
+        "heat": 73,
+        "independence": 36
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3040,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:032830",
+      "name": "삼성생명",
+      "theme_code": "40_D",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 44,
+        "quality": 67,
+        "heat": 80,
+        "independence": 33
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3000,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:000810",
+      "name": "삼성화재",
+      "theme_code": "40_D",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 43,
+        "quality": 66,
+        "heat": 87,
+        "independence": 30
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2960,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:005830",
+      "name": "DB손해보험",
+      "theme_code": "40_D",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 42,
+        "quality": 66,
+        "heat": 94,
+        "independence": 27
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2920,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:000100",
+      "name": "유한양행",
+      "theme_code": "50_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 41,
+        "quality": 65,
+        "heat": 61,
+        "independence": 24
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2880,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:128940",
+      "name": "한미약품",
+      "theme_code": "50_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 65,
+        "heat": 68,
+        "independence": 21
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2840,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:069620",
+      "name": "대웅제약",
+      "theme_code": "50_A",
+      "role": "BETA_SATELLITE",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 64,
+        "heat": 75,
+        "independence": 48,
+        "beta_strength": 62,
+        "beta_stability": 72
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "KRX:328130",
+      "name": "루닛",
+      "theme_code": "50_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 64,
+        "heat": 82,
+        "independence": 45
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2760,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:214150",
+      "name": "클래시스",
+      "theme_code": "50_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 63,
+        "heat": 89,
+        "independence": 42
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2720,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:207940",
+      "name": "삼성바이오로직스",
+      "theme_code": "50_D",
+      "role": "ANCHOR",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 63,
+        "heat": 56,
+        "independence": 15
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2680,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:068270",
+      "name": "셀트리온",
+      "theme_code": "50_D",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 62,
+        "heat": 63,
+        "independence": 36
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2640,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:196170",
+      "name": "알테오젠",
+      "theme_code": "50_D",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 62,
+        "heat": 70,
+        "independence": 33
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2600,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:012450",
+      "name": "한화에어로스페이스",
+      "theme_code": "60_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 61,
+        "heat": 77,
+        "independence": 30
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2560,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:047810",
+      "name": "한국항공우주",
+      "theme_code": "60_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 61,
+        "heat": 84,
+        "independence": 27
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2520,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:079550",
+      "name": "LIG넥스원",
+      "theme_code": "60_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 60,
+        "heat": 91,
+        "independence": 24
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2480,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:241560",
+      "name": "두산밥캣",
+      "theme_code": "60_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 60,
+        "heat": 58,
+        "independence": 21
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2440,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:042670",
+      "name": "HD현대인프라코어",
+      "theme_code": "60_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 59,
+        "heat": 65,
+        "independence": 48
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2400,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:454910",
+      "name": "두산로보틱스",
+      "theme_code": "60_B",
+      "role": "NEW_LISTING",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 59,
+        "heat": 72,
+        "independence": 13
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "KRX:000120",
+      "name": "CJ대한통운",
+      "theme_code": "60_C",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 79,
+        "independence": 42
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2320,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:028670",
+      "name": "팬오션",
+      "theme_code": "60_C",
+      "role": "BETA_SATELLITE",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 86,
+        "independence": 39,
+        "beta_strength": 71,
+        "beta_stability": 73
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "KRX:011200",
+      "name": "HMM",
+      "theme_code": "60_C",
+      "role": "LIQUIDITY_SENSOR",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 93,
+        "independence": 36
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "KRX:010950",
+      "name": "S-Oil",
+      "theme_code": "70_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 60,
+        "independence": 33
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2200,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:078930",
+      "name": "GS",
+      "theme_code": "70_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 67,
+        "independence": 30
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2160,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:036460",
+      "name": "한국가스공사",
+      "theme_code": "70_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 74,
+        "independence": 27
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2120,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:005490",
+      "name": "POSCO홀딩스",
+      "theme_code": "80_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 81,
+        "independence": 24
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2080,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:010130",
+      "name": "고려아연",
+      "theme_code": "80_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 88,
+        "independence": 21
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2040,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:004020",
+      "name": "현대제철",
+      "theme_code": "80_A",
+      "role": "BETA_SATELLITE",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 55,
+        "independence": 48,
+        "beta_strength": 62,
+        "beta_stability": 76
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "KRX:015760",
+      "name": "한국전력",
+      "theme_code": "80_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 62,
+        "independence": 45
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1960,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:051910",
+      "name": "LG화학",
+      "theme_code": "80_D",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 69,
+        "independence": 42
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1920,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:011780",
+      "name": "금호석유",
+      "theme_code": "80_D",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 76,
+        "independence": 39
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1880,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:011170",
+      "name": "롯데케미칼",
+      "theme_code": "80_D",
+      "role": "BETA_SATELLITE",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 83,
+        "independence": 36,
+        "beta_strength": 74,
+        "beta_stability": 64
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "KRX:373220",
+      "name": "LG에너지솔루션",
+      "theme_code": "80_F",
+      "role": "ANCHOR",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 90,
+        "independence": 12
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1800,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:006400",
+      "name": "삼성SDI",
+      "theme_code": "80_F",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 57,
+        "independence": 30
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1760,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:247540",
+      "name": "에코프로비엠",
+      "theme_code": "80_F",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 64,
+        "independence": 27
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1720,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:003670",
+      "name": "포스코퓨처엠",
+      "theme_code": "80_F",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 71,
+        "independence": 24
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1680,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:330590",
+      "name": "롯데리츠",
+      "theme_code": "90_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 78,
+        "independence": 21
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1640,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "KRX:122630",
+      "name": "KODEX 레버리지",
+      "theme_code": "00_A",
+      "role": "BREADTH_PROXY",
+      "eligible": false,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 85,
+        "independence": 48
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "exclusion_reasons": [
+        "excluded_instrument_type: 레버리지 ETF는 시장에 대한 관측이 아니다"
+      ]
+    },
+    {
+      "ticker": "KRX:005935",
+      "name": "삼성전자우",
+      "theme_code": "10_B",
+      "role": "QUALITY_LEADER",
+      "eligible": false,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 92,
+        "independence": 45
+      },
+      "evidence": [
+        {
+          "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "exclusion_reasons": [
+        "duplicate_asset: 보통주가 이미 같은 기업을 담고 있다"
+      ]
+    }
+  ]
+}

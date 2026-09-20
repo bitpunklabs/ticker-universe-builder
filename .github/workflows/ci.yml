@@ -37,10 +37,13 @@ jobs:
           python examples/build_examples.py
           git diff --exit-code examples/
       - name: build each market
+        # Every market with an example, read off the examples directory rather than listed here.
         # Artifact names carry the market and the date, so the path comes back from the command
         # rather than being guessed at here.
         run: |
-          for market in cn us crypto; do
+          markets=$(ls -d examples/*-light | sed 's|examples/||; s|-light||' | tr '\n' ' ')
+          echo "building: $markets"
+          for market in $markets; do
             python scripts/universe.py build \
               --spec "examples/$market-light/build-spec.json" \
               --snapshot "examples/$market-light/snapshot.json" \
@@ -78,6 +81,9 @@ jobs:
         run: |
           grep -q '^# CN 标的池' "$(dirname "$(cat /tmp/cn.path)")"/cn-light-*.md
           grep -q '^# US Ticker Universe' "$(dirname "$(cat /tmp/us.path)")"/us-light-*.md
+          grep -q '^# JP 銘柄ユニバース' "$(dirname "$(cat /tmp/jp.path)")"/jp-light-*.md
+          grep -q '^# KR 종목 유니버스' "$(dirname "$(cat /tmp/kr.path)")"/kr-light-*.md
+          grep -q '^# Universo de tickers BR' "$(dirname "$(cat /tmp/br.path)")"/br-light-*.md
           python scripts/universe.py build --language en \
             --spec examples/cn-light/build-spec.json \
             --snapshot examples/cn-light/snapshot.json --output /tmp/cn-en > /dev/null

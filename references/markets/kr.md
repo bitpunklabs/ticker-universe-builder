@@ -18,6 +18,8 @@ The battery chain is its own theme under materials rather than being filed with 
 
 Entertainment and music is a level-1 theme. The listed agencies are a real export sector here and nowhere else in the table.
 
+Managed care leaves Light: national health insurance means there is no listed insurer to observe. Everything else in this table is unusually dense — thirty-five themes reachable at Light against a target of fifty-five, so the breadth floor spends most of the universe and the weights work on what is left.
+
 ## Adverse flags
 
 This market's regime issues these, and no other market's does. They cost the same as any
@@ -32,8 +34,12 @@ universal flag; what is market-specific is the vocabulary, not the price.
 ## Size
 
 Breadth `0.9` in `assets/default-policy.json`, so the tiers are **Light 55**,
-**Medium 145**, **Heavy 360** members. The starter table reaches 36 themes at
+**Medium 145**, **Heavy 360** members. The starter table reaches 35 themes at
 Light.
+
+## Example
+
+[`examples/kr-light/`](../../examples/kr-light/) is a full-size Light universe for this market: the seed table it is built from, the snapshot, the report in this market's language, and the TradingView watchlist. Every metric value in it is illustrative; the tickers, themes and roles are not.
 
 ## Suggested live fields
 

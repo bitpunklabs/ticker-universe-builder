@@ -6,6 +6,31 @@ caller.
 
 ## Unreleased
 
+### Every registered market ships an example
+
+`jp`, `hk`, `in`, `kr`, `tw`, `uk`, `de`, `fr`, `ca`, `au` and `br` join `us`, `cn` and `crypto`
+under `examples/`: a seed table of real listings, a snapshot, a full-size Light universe at that
+market's own target, and a report in that market's language. A test asserts the set of examples
+equals the set of registered markets, so a row added without one fails on the same commit.
+
+The examples now commit their **TradingView watchlist** as well. It is the artifact that actually
+leaves the repository, and it should be readable and diffable without running a build.
+
+Two symbol rules were wrong and are now fixed, both found by a real listing rather than by
+reading the rule: `de` required a leading letter and rejected `4GLD`, and `br` required four
+letters and rejected `B3SA3`.
+
+Nine theme tables moved with them. A theme with nothing listed in it is worse than no theme,
+because the breadth floor spends a slot on it anyway: managed care leaves Light in Japan, Korea,
+Hong Kong and the UK, where health cover is single-payer; energy, payments and the data-centre
+theme leave the German table entirely; megacap platforms leave the Indian one; Taiwan loses four
+themes and gains property developers; Brazil raises managed care *into* Light, which no other
+table does. Each change is recorded in the market's taxonomy note and its overlay.
+
+`examples/build_examples.py` no longer carries a table of targets. Each example builds at the
+target its market's `breadth` produces, so a policy change moves the examples and a stale number
+cannot survive in the generator.
+
 ### Fourteen markets, each reporting in its own language
 
 `us`, `cn` and `crypto` are joined by `jp`, `hk`, `in`, `kr`, `tw`, `uk`, `de`, `fr`, `ca`, `au`

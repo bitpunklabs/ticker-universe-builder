@@ -2,7 +2,7 @@
   "schema_version": 2,
   "market": "fr",
   "extends": "_equity",
-  "note": "Luxury is the market. Aerospace, energy, banks and the concession builders are the rest.",
+  "note": "Luxury is the market. Aerospace, energy, banks and the concession builders are the rest. Autos come up to Light — the OEMs and their suppliers are a Paris sector, not a German one only — and cybersecurity drops out of it, because the listed French cyber names are growth-market microcaps.",
   "groups": {
     "00": "Indices de marché",
     "10": "Technologie",
@@ -32,7 +32,9 @@
   ],
   "level": {
     "30_D": 1,
-    "60_E": 1
+    "60_E": 1,
+    "30_E": 1,
+    "10_E": 3
   },
   "weight": {
     "30_D": 4.0,
@@ -52,6 +54,8 @@
     "20_A": 0.75,
     "20_B": 0.75,
     "90_A": 0.75,
-    "10_B": 0.75
+    "10_B": 0.75,
+    "30_E": 1.5,
+    "10_E": 0.5
   }
 }

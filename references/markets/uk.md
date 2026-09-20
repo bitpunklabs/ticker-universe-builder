@@ -19,6 +19,8 @@ There is no megacap platform theme and no AI infrastructure. They are dropped, n
 
 Closed-end investment trusts are their own group. They are a large, liquid part of this market with no equivalent anywhere else in the table, and they are gauges rather than operating companies.
 
+Semiconductors are weighted to what London actually lists rather than to what the sector is worth globally — Arm is in New York, and pretending otherwise would hand a heavy weight to a theme with one mid-cap in it. Managed care leaves Light: the NHS is not a listed sector.
+
 ## Adverse flags
 
 This market's regime issues these, and no other market's does. They cost the same as any
@@ -33,8 +35,12 @@ universal flag; what is market-specific is the vocabulary, not the price.
 ## Size
 
 Breadth `0.85` in `assets/default-policy.json`, so the tiers are **Light 50**,
-**Medium 135**, **Heavy 340** members. The starter table reaches 28 themes at
+**Medium 135**, **Heavy 340** members. The starter table reaches 27 themes at
 Light.
+
+## Example
+
+[`examples/uk-light/`](../../examples/uk-light/) is a full-size Light universe for this market: the seed table it is built from, the snapshot, the report in this market's language, and the TradingView watchlist. Every metric value in it is illustrative; the tickers, themes and roles are not.
 
 ## Suggested live fields
 

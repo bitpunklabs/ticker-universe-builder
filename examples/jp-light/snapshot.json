@@ -1,0 +1,3562 @@
+{
+  "schema_version": 1,
+  "market": "jp",
+  "as_of": "2026-09-17",
+  "complete": true,
+  "sources": [
+    {
+      "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+      "as_of": "2026-09-17",
+      "kind": "exchange",
+      "tier": 1
+    },
+    {
+      "url": "https://www.jpx.co.jp/markets/statistics-equities/daily/index.html",
+      "as_of": "2026-09-17",
+      "kind": "market_data",
+      "tier": 2
+    }
+  ],
+  "measurement": {
+    "liquidity": {
+      "basis": "measured",
+      "method": "30 日平均売買代金のクロスセクション分位",
+      "window": "30d",
+      "source": "https://www.jpx.co.jp/markets/statistics-equities/daily/index.html"
+    },
+    "quality": {
+      "basis": "blended",
+      "method": "上場年数と規模分位に、事業継続性の判断を重ねたもの",
+      "source": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html"
+    },
+    "heat": {
+      "basis": "judged",
+      "method": "売買代金の急増。取引所データで確認したもののみ、単日の変動は数えない"
+    },
+    "beta_strength": {
+      "basis": "measured",
+      "method": "TSE:1306 に対する OLS ベータの絶対値。ベータ 2.0 を 100 とする",
+      "window": "180d",
+      "source": "https://www.jpx.co.jp/markets/statistics-equities/daily/index.html"
+    },
+    "beta_stability": {
+      "basis": "measured",
+      "method": "期間を前後半に割ったときのベータ推定値の一致度",
+      "window": "180d",
+      "source": "https://www.jpx.co.jp/markets/statistics-equities/daily/index.html"
+    },
+    "independence": {
+      "basis": "measured",
+      "method": "日次リターンを TSE:1306 に回帰した決定係数を 100 から引いたもの",
+      "window": "180d",
+      "source": "https://www.jpx.co.jp/markets/statistics-equities/daily/index.html"
+    }
+  },
+  "taxonomy": [
+    {
+      "l1_code": "00",
+      "l1_name": "市場ベンチマーク",
+      "theme_code": "00_A",
+      "theme_name": "BROAD_MARKET_ETF",
+      "coverage_level": 1,
+      "weight": 1.0
+    },
+    {
+      "l1_code": "00",
+      "l1_name": "市場ベンチマーク",
+      "theme_code": "00_B",
+      "theme_name": "EQUAL_WEIGHT_AND_BREADTH",
+      "coverage_level": 2,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "00",
+      "l1_name": "市場ベンチマーク",
+      "theme_code": "00_C",
+      "theme_name": "VOLATILITY_AND_HEDGES",
+      "coverage_level": 3,
+      "weight": 0.5
+    },
+    {
+      "l1_code": "10",
+      "l1_name": "テクノロジー",
+      "theme_code": "10_A",
+      "theme_name": "MEGACAP_PLATFORMS",
+      "coverage_level": 1,
+      "weight": 1.0
+    },
+    {
+      "l1_code": "10",
+      "l1_name": "テクノロジー",
+      "theme_code": "10_B",
+      "theme_name": "SEMICONDUCTORS",
+      "coverage_level": 1,
+      "weight": 2.0
+    },
+    {
+      "l1_code": "10",
+      "l1_name": "テクノロジー",
+      "theme_code": "10_C",
+      "theme_name": "SEMICAP_EQUIPMENT",
+      "coverage_level": 1,
+      "weight": 2.5
+    },
+    {
+      "l1_code": "10",
+      "l1_name": "テクノロジー",
+      "theme_code": "10_D",
+      "theme_name": "ENTERPRISE_SOFTWARE",
+      "coverage_level": 1,
+      "weight": 1.0
+    },
+    {
+      "l1_code": "10",
+      "l1_name": "テクノロジー",
+      "theme_code": "10_E",
+      "theme_name": "CYBERSECURITY",
+      "coverage_level": 1,
+      "weight": 0.5
+    },
+    {
+      "l1_code": "10",
+      "l1_name": "テクノロジー",
+      "theme_code": "10_F",
+      "theme_name": "INTERNET_AND_ADTECH",
+      "coverage_level": 1,
+      "weight": 1.0
+    },
+    {
+      "l1_code": "10",
+      "l1_name": "テクノロジー",
+      "theme_code": "10_G",
+      "theme_name": "IT_SERVICES_AND_CONSULTING",
+      "coverage_level": 1,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "10",
+      "l1_name": "テクノロジー",
+      "theme_code": "10_H",
+      "theme_name": "HARDWARE_AND_NETWORKING",
+      "coverage_level": 3,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "11",
+      "l1_name": "AIインフラ",
+      "theme_code": "11_A",
+      "theme_name": "AI_COMPUTE",
+      "coverage_level": 1,
+      "weight": 1.0
+    },
+    {
+      "l1_code": "11",
+      "l1_name": "AIインフラ",
+      "theme_code": "11_B",
+      "theme_name": "DATA_CENTER_AND_POWER",
+      "coverage_level": 1,
+      "weight": 1.0
+    },
+    {
+      "l1_code": "20",
+      "l1_name": "通信・メディア",
+      "theme_code": "20_A",
+      "theme_name": "STREAMING_AND_MEDIA",
+      "coverage_level": 1,
+      "weight": 1.0
+    },
+    {
+      "l1_code": "20",
+      "l1_name": "通信・メディア",
+      "theme_code": "20_B",
+      "theme_name": "TELECOM",
+      "coverage_level": 1,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "20",
+      "l1_name": "通信・メディア",
+      "theme_code": "20_C",
+      "theme_name": "GAMING_AND_INTERACTIVE",
+      "coverage_level": 1,
+      "weight": 1.25
+    },
+    {
+      "l1_code": "20",
+      "l1_name": "通信・メディア",
+      "theme_code": "20_D",
+      "theme_name": "ADVERTISING_AND_MARKETING",
+      "coverage_level": 3,
+      "weight": 0.5
+    },
+    {
+      "l1_code": "30",
+      "l1_name": "消費",
+      "theme_code": "30_A",
+      "theme_name": "DISCRETIONARY_LEADERS",
+      "coverage_level": 1,
+      "weight": 1.5
+    },
+    {
+      "l1_code": "30",
+      "l1_name": "消費",
+      "theme_code": "30_B",
+      "theme_name": "STAPLES",
+      "coverage_level": 1,
+      "weight": 1.25
+    },
+    {
+      "l1_code": "30",
+      "l1_name": "消費",
+      "theme_code": "30_C",
+      "theme_name": "RESTAURANTS_AND_TRAVEL",
+      "coverage_level": 1,
+      "weight": 1.0
+    },
+    {
+      "l1_code": "30",
+      "l1_name": "消費",
+      "theme_code": "30_D",
+      "theme_name": "APPAREL_AND_LUXURY",
+      "coverage_level": 2,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "30",
+      "l1_name": "消費",
+      "theme_code": "30_E",
+      "theme_name": "AUTOS_AND_MOBILITY",
+      "coverage_level": 1,
+      "weight": 3.0
+    },
+    {
+      "l1_code": "30",
+      "l1_name": "消費",
+      "theme_code": "30_G",
+      "theme_name": "LEISURE_AND_LODGING",
+      "coverage_level": 3,
+      "weight": 0.5
+    },
+    {
+      "l1_code": "40",
+      "l1_name": "金融",
+      "theme_code": "40_A",
+      "theme_name": "MONEY_CENTER_BANKS",
+      "coverage_level": 1,
+      "weight": 1.75
+    },
+    {
+      "l1_code": "40",
+      "l1_name": "金融",
+      "theme_code": "40_B",
+      "theme_name": "PAYMENTS",
+      "coverage_level": 1,
+      "weight": 1.25
+    },
+    {
+      "l1_code": "40",
+      "l1_name": "金融",
+      "theme_code": "40_C",
+      "theme_name": "ASSET_MANAGERS_AND_EXCHANGES",
+      "coverage_level": 1,
+      "weight": 1.0
+    },
+    {
+      "l1_code": "40",
+      "l1_name": "金融",
+      "theme_code": "40_D",
+      "theme_name": "INSURANCE",
+      "coverage_level": 1,
+      "weight": 1.25
+    },
+    {
+      "l1_code": "40",
+      "l1_name": "金融",
+      "theme_code": "40_E",
+      "theme_name": "REGIONAL_BANKS",
+      "coverage_level": 2,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "50",
+      "l1_name": "ヘルスケア",
+      "theme_code": "50_A",
+      "theme_name": "PHARMA",
+      "coverage_level": 1,
+      "weight": 1.5
+    },
+    {
+      "l1_code": "50",
+      "l1_name": "ヘルスケア",
+      "theme_code": "50_B",
+      "theme_name": "MEDTECH_AND_DEVICES",
+      "coverage_level": 1,
+      "weight": 1.25
+    },
+    {
+      "l1_code": "50",
+      "l1_name": "ヘルスケア",
+      "theme_code": "50_C",
+      "theme_name": "MANAGED_CARE",
+      "coverage_level": 3,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "50",
+      "l1_name": "ヘルスケア",
+      "theme_code": "50_D",
+      "theme_name": "BIOTECH",
+      "coverage_level": 2,
+      "weight": 1.0
+    },
+    {
+      "l1_code": "50",
+      "l1_name": "ヘルスケア",
+      "theme_code": "50_E",
+      "theme_name": "LIFE_SCIENCE_TOOLS",
+      "coverage_level": 2,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "50",
+      "l1_name": "ヘルスケア",
+      "theme_code": "50_F",
+      "theme_name": "HEALTHCARE_DISTRIBUTION",
+      "coverage_level": 3,
+      "weight": 0.5
+    },
+    {
+      "l1_code": "60",
+      "l1_name": "資本財",
+      "theme_code": "60_A",
+      "theme_name": "AEROSPACE_AND_DEFENSE",
+      "coverage_level": 1,
+      "weight": 1.25
+    },
+    {
+      "l1_code": "60",
+      "l1_name": "資本財",
+      "theme_code": "60_B",
+      "theme_name": "MACHINERY_AND_RAIL",
+      "coverage_level": 1,
+      "weight": 2.0
+    },
+    {
+      "l1_code": "60",
+      "l1_name": "資本財",
+      "theme_code": "60_C",
+      "theme_name": "TRANSPORT_AND_LOGISTICS",
+      "coverage_level": 1,
+      "weight": 1.0
+    },
+    {
+      "l1_code": "60",
+      "l1_name": "資本財",
+      "theme_code": "60_D",
+      "theme_name": "ELECTRICAL_EQUIPMENT",
+      "coverage_level": 2,
+      "weight": 1.5
+    },
+    {
+      "l1_code": "60",
+      "l1_name": "資本財",
+      "theme_code": "60_E",
+      "theme_name": "ENGINEERING_AND_CONSTRUCTION",
+      "coverage_level": 3,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "60",
+      "l1_name": "資本財",
+      "theme_code": "60_F",
+      "theme_name": "DISTRIBUTION_AND_SUPPLY",
+      "coverage_level": 3,
+      "weight": 0.5
+    },
+    {
+      "l1_code": "65",
+      "l1_name": "商社",
+      "theme_code": "65_A",
+      "theme_name": "TRADING_HOUSES",
+      "coverage_level": 1,
+      "weight": 2.0
+    },
+    {
+      "l1_code": "65",
+      "l1_name": "商社",
+      "theme_code": "65_B",
+      "theme_name": "WHOLESALE_AND_DISTRIBUTION",
+      "coverage_level": 3,
+      "weight": 0.5
+    },
+    {
+      "l1_code": "70",
+      "l1_name": "エネルギー",
+      "theme_code": "70_A",
+      "theme_name": "INTEGRATED_ENERGY",
+      "coverage_level": 1,
+      "weight": 1.25
+    },
+    {
+      "l1_code": "70",
+      "l1_name": "エネルギー",
+      "theme_code": "70_B",
+      "theme_name": "OILFIELD_AND_MIDSTREAM",
+      "coverage_level": 1,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "70",
+      "l1_name": "エネルギー",
+      "theme_code": "70_C",
+      "theme_name": "EXPLORATION_AND_PRODUCTION",
+      "coverage_level": 2,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "70",
+      "l1_name": "エネルギー",
+      "theme_code": "70_D",
+      "theme_name": "COAL_AND_URANIUM",
+      "coverage_level": 3,
+      "weight": 0.5
+    },
+    {
+      "l1_code": "80",
+      "l1_name": "素材・公益",
+      "theme_code": "80_A",
+      "theme_name": "MATERIALS",
+      "coverage_level": 1,
+      "weight": 1.0
+    },
+    {
+      "l1_code": "80",
+      "l1_name": "素材・公益",
+      "theme_code": "80_B",
+      "theme_name": "UTILITIES",
+      "coverage_level": 1,
+      "weight": 1.0
+    },
+    {
+      "l1_code": "80",
+      "l1_name": "素材・公益",
+      "theme_code": "80_C",
+      "theme_name": "METALS_AND_MINING",
+      "coverage_level": 2,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "80",
+      "l1_name": "素材・公益",
+      "theme_code": "80_D",
+      "theme_name": "CHEMICALS",
+      "coverage_level": 3,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "80",
+      "l1_name": "素材・公益",
+      "theme_code": "80_E",
+      "theme_name": "WATER_AND_WASTE",
+      "coverage_level": 3,
+      "weight": 0.5
+    },
+    {
+      "l1_code": "90",
+      "l1_name": "不動産",
+      "theme_code": "90_A",
+      "theme_name": "REITS",
+      "coverage_level": 1,
+      "weight": 0.75
+    },
+    {
+      "l1_code": "90",
+      "l1_name": "不動産",
+      "theme_code": "90_B",
+      "theme_name": "DATA_AND_TOWER_REITS",
+      "coverage_level": 2,
+      "weight": 0.5
+    },
+    {
+      "l1_code": "90",
+      "l1_name": "不動産",
+      "theme_code": "90_C",
+      "theme_name": "REAL_ESTATE_SERVICES",
+      "coverage_level": 3,
+      "weight": 0.5
+    },
+    {
+      "l1_code": "90",
+      "l1_name": "不動産",
+      "theme_code": "90_D",
+      "theme_name": "PROPERTY_DEVELOPERS",
+      "coverage_level": 1,
+      "weight": 1.25
+    },
+    {
+      "l1_code": "95",
+      "l1_name": "デジタル資産",
+      "theme_code": "95_A",
+      "theme_name": "DIGITAL_ASSET_EQUITIES",
+      "coverage_level": 1,
+      "weight": 0.25
+    }
+  ],
+  "candidates": [
+    {
+      "ticker": "TSE:1306",
+      "name": "NEXT FUNDS TOPIX連動型上場投信",
+      "theme_code": "00_A",
+      "role": "BENCHMARK",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 99,
+        "quality": 94,
+        "heat": 55,
+        "independence": 12
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "required": true,
+      "quality_facts": {
+        "listing_age_days": 5200,
+        "size_rank_pct": 98,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:1321",
+      "name": "NEXT FUNDS 日経225連動型上場投信",
+      "theme_code": "00_A",
+      "role": "BENCHMARK",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 98,
+        "quality": 94,
+        "heat": 62,
+        "independence": 13
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "required": true,
+      "quality_facts": {
+        "listing_age_days": 5160,
+        "size_rank_pct": 97,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:1475",
+      "name": "iシェアーズ・コア TOPIX ETF",
+      "theme_code": "00_A",
+      "role": "BREADTH_PROXY",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 97,
+        "quality": 93,
+        "heat": 69,
+        "independence": 42
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "required": true
+    },
+    {
+      "ticker": "TSE:9984",
+      "name": "ソフトバンクグループ",
+      "theme_code": "10_A",
+      "role": "ANCHOR",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 96,
+        "quality": 93,
+        "heat": 76,
+        "independence": 15
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 5080,
+        "size_rank_pct": 95,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:4689",
+      "name": "LINEヤフー",
+      "theme_code": "10_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 95,
+        "quality": 92,
+        "heat": 83,
+        "independence": 36
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 5040,
+        "size_rank_pct": 94,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:6723",
+      "name": "ルネサスエレクトロニクス",
+      "theme_code": "10_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 94,
+        "quality": 92,
+        "heat": 90,
+        "independence": 33
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 5000,
+        "size_rank_pct": 93,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:6963",
+      "name": "ローム",
+      "theme_code": "10_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 93,
+        "quality": 91,
+        "heat": 57,
+        "independence": 30
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4960,
+        "size_rank_pct": 92,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:4062",
+      "name": "イビデン",
+      "theme_code": "10_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 92,
+        "quality": 91,
+        "heat": 64,
+        "independence": 27
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4920,
+        "size_rank_pct": 91,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:285A",
+      "name": "キオクシアホールディングス",
+      "theme_code": "10_B",
+      "role": "NEW_LISTING",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 91,
+        "quality": 90,
+        "heat": 71,
+        "independence": 15
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "TSE:8035",
+      "name": "東京エレクトロン",
+      "theme_code": "10_C",
+      "role": "ANCHOR",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 90,
+        "quality": 90,
+        "heat": 78,
+        "independence": 16
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4840,
+        "size_rank_pct": 89,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:6857",
+      "name": "アドバンテスト",
+      "theme_code": "10_C",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 89,
+        "quality": 89,
+        "heat": 85,
+        "independence": 48
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4800,
+        "size_rank_pct": 88,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:6920",
+      "name": "レーザーテック",
+      "theme_code": "10_C",
+      "role": "LIQUIDITY_SENSOR",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 88,
+        "quality": 89,
+        "heat": 92,
+        "independence": 45
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "TSE:6146",
+      "name": "ディスコ",
+      "theme_code": "10_C",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 87,
+        "quality": 88,
+        "heat": 59,
+        "independence": 42
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4720,
+        "size_rank_pct": 86,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:7735",
+      "name": "SCREENホールディングス",
+      "theme_code": "10_C",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 86,
+        "quality": 88,
+        "heat": 66,
+        "independence": 39
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4680,
+        "size_rank_pct": 85,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:4684",
+      "name": "オービック",
+      "theme_code": "10_D",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 85,
+        "quality": 87,
+        "heat": 73,
+        "independence": 36
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4640,
+        "size_rank_pct": 84,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:4478",
+      "name": "freee",
+      "theme_code": "10_D",
+      "role": "NEW_LISTING",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 84,
+        "quality": 87,
+        "heat": 80,
+        "independence": 12
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "TSE:4704",
+      "name": "トレンドマイクロ",
+      "theme_code": "10_E",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 83,
+        "quality": 86,
+        "heat": 87,
+        "independence": 30
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4560,
+        "size_rank_pct": 82,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:4755",
+      "name": "楽天グループ",
+      "theme_code": "10_F",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 82,
+        "quality": 86,
+        "heat": 94,
+        "independence": 27
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4520,
+        "size_rank_pct": 81,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:4751",
+      "name": "サイバーエージェント",
+      "theme_code": "10_F",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 81,
+        "quality": 85,
+        "heat": 61,
+        "independence": 24
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4480,
+        "size_rank_pct": 80,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:2371",
+      "name": "カカクコム",
+      "theme_code": "10_F",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 80,
+        "quality": 85,
+        "heat": 68,
+        "independence": 21
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4440,
+        "size_rank_pct": 79,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:4385",
+      "name": "メルカリ",
+      "theme_code": "10_F",
+      "role": "BETA_SATELLITE",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 79,
+        "quality": 84,
+        "heat": 75,
+        "independence": 48,
+        "beta_strength": 62,
+        "beta_stability": 64
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "TSE:4307",
+      "name": "野村総合研究所",
+      "theme_code": "10_G",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 78,
+        "quality": 84,
+        "heat": 82,
+        "independence": 45
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4360,
+        "size_rank_pct": 77,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:9613",
+      "name": "NTTデータグループ",
+      "theme_code": "10_G",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 77,
+        "quality": 83,
+        "heat": 89,
+        "independence": 42
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4320,
+        "size_rank_pct": 76,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:3626",
+      "name": "TIS",
+      "theme_code": "10_G",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 76,
+        "quality": 83,
+        "heat": 56,
+        "independence": 39
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4280,
+        "size_rank_pct": 75,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:3778",
+      "name": "さくらインターネット",
+      "theme_code": "11_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 75,
+        "quality": 82,
+        "heat": 63,
+        "independence": 36
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4240,
+        "size_rank_pct": 74,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:6702",
+      "name": "富士通",
+      "theme_code": "11_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 74,
+        "quality": 82,
+        "heat": 70,
+        "independence": 33
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4200,
+        "size_rank_pct": 73,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:6701",
+      "name": "NEC",
+      "theme_code": "11_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 73,
+        "quality": 81,
+        "heat": 77,
+        "independence": 30
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4160,
+        "size_rank_pct": 72,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:4485",
+      "name": "JTOWER",
+      "theme_code": "11_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 72,
+        "quality": 81,
+        "heat": 84,
+        "independence": 27
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4120,
+        "size_rank_pct": 71,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:9602",
+      "name": "東宝",
+      "theme_code": "20_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 71,
+        "quality": 80,
+        "heat": 91,
+        "independence": 24
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4080,
+        "size_rank_pct": 70,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:4676",
+      "name": "フジ・メディア・ホールディングス",
+      "theme_code": "20_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 70,
+        "quality": 80,
+        "heat": 58,
+        "independence": 21
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 4040,
+        "size_rank_pct": 69,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:9401",
+      "name": "TBSホールディングス",
+      "theme_code": "20_A",
+      "role": "BETA_SATELLITE",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 69,
+        "quality": 79,
+        "heat": 65,
+        "independence": 48,
+        "beta_strength": 62,
+        "beta_stability": 82
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "TSE:9432",
+      "name": "日本電信電話",
+      "theme_code": "20_B",
+      "role": "ANCHOR",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 68,
+        "quality": 79,
+        "heat": 72,
+        "independence": 13
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3960,
+        "size_rank_pct": 67,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:9433",
+      "name": "KDDI",
+      "theme_code": "20_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 67,
+        "quality": 78,
+        "heat": 79,
+        "independence": 42
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3920,
+        "size_rank_pct": 66,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:9434",
+      "name": "ソフトバンク",
+      "theme_code": "20_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 66,
+        "quality": 78,
+        "heat": 86,
+        "independence": 39
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3880,
+        "size_rank_pct": 65,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:7974",
+      "name": "任天堂",
+      "theme_code": "20_C",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 65,
+        "quality": 77,
+        "heat": 93,
+        "independence": 36
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3840,
+        "size_rank_pct": 64,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:6758",
+      "name": "ソニーグループ",
+      "theme_code": "20_C",
+      "role": "ANCHOR",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 64,
+        "quality": 77,
+        "heat": 60,
+        "independence": 12
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3800,
+        "size_rank_pct": 63,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:7832",
+      "name": "バンダイナムコホールディングス",
+      "theme_code": "20_C",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 63,
+        "quality": 76,
+        "heat": 67,
+        "independence": 30
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3760,
+        "size_rank_pct": 62,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:9766",
+      "name": "コナミグループ",
+      "theme_code": "20_C",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 62,
+        "quality": 76,
+        "heat": 74,
+        "independence": 27
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3720,
+        "size_rank_pct": 61,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:9697",
+      "name": "カプコン",
+      "theme_code": "20_C",
+      "role": "BETA_SATELLITE",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 61,
+        "quality": 75,
+        "heat": 81,
+        "independence": 24,
+        "beta_strength": 86,
+        "beta_stability": 90
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "TSE:9983",
+      "name": "ファーストリテイリング",
+      "theme_code": "30_A",
+      "role": "ANCHOR",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 60,
+        "quality": 75,
+        "heat": 88,
+        "independence": 16
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3640,
+        "size_rank_pct": 59,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:4911",
+      "name": "資生堂",
+      "theme_code": "30_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 59,
+        "quality": 74,
+        "heat": 55,
+        "independence": 48
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3600,
+        "size_rank_pct": 58,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:7453",
+      "name": "良品計画",
+      "theme_code": "30_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 58,
+        "quality": 74,
+        "heat": 62,
+        "independence": 45
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3560,
+        "size_rank_pct": 57,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:9843",
+      "name": "ニトリホールディングス",
+      "theme_code": "30_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 57,
+        "quality": 73,
+        "heat": 69,
+        "independence": 42
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3520,
+        "size_rank_pct": 56,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:7936",
+      "name": "アシックス",
+      "theme_code": "30_A",
+      "role": "BETA_SATELLITE",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 56,
+        "quality": 73,
+        "heat": 76,
+        "independence": 39,
+        "beta_strength": 71,
+        "beta_stability": 83
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "TSE:2914",
+      "name": "日本たばこ産業",
+      "theme_code": "30_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 55,
+        "quality": 72,
+        "heat": 83,
+        "independence": 36
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3440,
+        "size_rank_pct": 54,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:8113",
+      "name": "ユニ・チャーム",
+      "theme_code": "30_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 54,
+        "quality": 72,
+        "heat": 90,
+        "independence": 33
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3400,
+        "size_rank_pct": 53,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:2502",
+      "name": "アサヒグループホールディングス",
+      "theme_code": "30_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 53,
+        "quality": 71,
+        "heat": 57,
+        "independence": 30
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3360,
+        "size_rank_pct": 52,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:2801",
+      "name": "キッコーマン",
+      "theme_code": "30_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 52,
+        "quality": 71,
+        "heat": 64,
+        "independence": 27
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3320,
+        "size_rank_pct": 51,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:3382",
+      "name": "セブン&アイ・ホールディングス",
+      "theme_code": "30_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 51,
+        "quality": 70,
+        "heat": 71,
+        "independence": 24
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3280,
+        "size_rank_pct": 50,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:7550",
+      "name": "ゼンショーホールディングス",
+      "theme_code": "30_C",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 50,
+        "quality": 70,
+        "heat": 78,
+        "independence": 21
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3240,
+        "size_rank_pct": 49,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:3197",
+      "name": "すかいらーくホールディングス",
+      "theme_code": "30_C",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 49,
+        "quality": 69,
+        "heat": 85,
+        "independence": 48
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3200,
+        "size_rank_pct": 48,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:9202",
+      "name": "ANAホールディングス",
+      "theme_code": "30_C",
+      "role": "BETA_SATELLITE",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 48,
+        "quality": 69,
+        "heat": 92,
+        "independence": 45,
+        "beta_strength": 65,
+        "beta_stability": 91
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "TSE:7203",
+      "name": "トヨタ自動車",
+      "theme_code": "30_E",
+      "role": "ANCHOR",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 47,
+        "quality": 68,
+        "heat": 59,
+        "independence": 14
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3120,
+        "size_rank_pct": 46,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:7267",
+      "name": "ホンダ",
+      "theme_code": "30_E",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 46,
+        "quality": 68,
+        "heat": 66,
+        "independence": 39
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3080,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:6902",
+      "name": "デンソー",
+      "theme_code": "30_E",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 45,
+        "quality": 67,
+        "heat": 73,
+        "independence": 36
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3040,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:7269",
+      "name": "スズキ",
+      "theme_code": "30_E",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 44,
+        "quality": 67,
+        "heat": 80,
+        "independence": 33
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 3000,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:7259",
+      "name": "アイシン",
+      "theme_code": "30_E",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 43,
+        "quality": 66,
+        "heat": 87,
+        "independence": 30
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2960,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:7272",
+      "name": "ヤマハ発動機",
+      "theme_code": "30_E",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 42,
+        "quality": 66,
+        "heat": 94,
+        "independence": 27
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2920,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:7201",
+      "name": "日産自動車",
+      "theme_code": "30_E",
+      "role": "BETA_SATELLITE",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 41,
+        "quality": 65,
+        "heat": 61,
+        "independence": 24,
+        "beta_strength": 86,
+        "beta_stability": 62
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "TSE:8306",
+      "name": "三菱UFJフィナンシャル・グループ",
+      "theme_code": "40_A",
+      "role": "ANCHOR",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 65,
+        "heat": 68,
+        "independence": 16
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2840,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:8316",
+      "name": "三井住友フィナンシャルグループ",
+      "theme_code": "40_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 64,
+        "heat": 75,
+        "independence": 48
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2800,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:8411",
+      "name": "みずほフィナンシャルグループ",
+      "theme_code": "40_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 64,
+        "heat": 82,
+        "independence": 45
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2760,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:7182",
+      "name": "ゆうちょ銀行",
+      "theme_code": "40_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 63,
+        "heat": 89,
+        "independence": 42
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2720,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:3769",
+      "name": "GMOペイメントゲートウェイ",
+      "theme_code": "40_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 63,
+        "heat": 56,
+        "independence": 39
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2680,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:8604",
+      "name": "野村ホールディングス",
+      "theme_code": "40_C",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 62,
+        "heat": 63,
+        "independence": 36
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2640,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:8697",
+      "name": "日本取引所グループ",
+      "theme_code": "40_C",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 62,
+        "heat": 70,
+        "independence": 33
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2600,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:8601",
+      "name": "大和証券グループ本社",
+      "theme_code": "40_C",
+      "role": "BETA_SATELLITE",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 61,
+        "heat": 77,
+        "independence": 30,
+        "beta_strength": 80,
+        "beta_stability": 70
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "TSE:8766",
+      "name": "東京海上ホールディングス",
+      "theme_code": "40_D",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 61,
+        "heat": 84,
+        "independence": 27
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2520,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:8725",
+      "name": "MS&ADインシュアランスグループホールディングス",
+      "theme_code": "40_D",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 60,
+        "heat": 91,
+        "independence": 24
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2480,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:8630",
+      "name": "SOMPOホールディングス",
+      "theme_code": "40_D",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 60,
+        "heat": 58,
+        "independence": 21
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2440,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:8750",
+      "name": "第一生命ホールディングス",
+      "theme_code": "40_D",
+      "role": "BETA_SATELLITE",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 59,
+        "heat": 65,
+        "independence": 48,
+        "beta_strength": 62,
+        "beta_stability": 90
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "TSE:4568",
+      "name": "第一三共",
+      "theme_code": "50_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 59,
+        "heat": 72,
+        "independence": 45
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2360,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:4502",
+      "name": "武田薬品工業",
+      "theme_code": "50_A",
+      "role": "ANCHOR",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 79,
+        "independence": 14
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2320,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:4519",
+      "name": "中外製薬",
+      "theme_code": "50_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 86,
+        "independence": 39
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2280,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:4503",
+      "name": "アステラス製薬",
+      "theme_code": "50_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 93,
+        "independence": 36
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2240,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:4523",
+      "name": "エーザイ",
+      "theme_code": "50_A",
+      "role": "BETA_SATELLITE",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 60,
+        "independence": 33,
+        "beta_strength": 77,
+        "beta_stability": 83
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "TSE:7733",
+      "name": "オリンパス",
+      "theme_code": "50_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 67,
+        "independence": 30
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2160,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:4543",
+      "name": "テルモ",
+      "theme_code": "50_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 74,
+        "independence": 27
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2120,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:7741",
+      "name": "HOYA",
+      "theme_code": "50_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 81,
+        "independence": 24
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2080,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:7011",
+      "name": "三菱重工業",
+      "theme_code": "60_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 88,
+        "independence": 21
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2040,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:7012",
+      "name": "川崎重工業",
+      "theme_code": "60_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 55,
+        "independence": 48
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 2000,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:7013",
+      "name": "IHI",
+      "theme_code": "60_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 62,
+        "independence": 45
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1960,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:6301",
+      "name": "コマツ",
+      "theme_code": "60_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 69,
+        "independence": 42
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1920,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:6954",
+      "name": "ファナック",
+      "theme_code": "60_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 76,
+        "independence": 39
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1880,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:6367",
+      "name": "ダイキン工業",
+      "theme_code": "60_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 83,
+        "independence": 36
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1840,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:6273",
+      "name": "SMC",
+      "theme_code": "60_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 90,
+        "independence": 33
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1800,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:6326",
+      "name": "クボタ",
+      "theme_code": "60_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 57,
+        "independence": 30
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1760,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:9020",
+      "name": "東日本旅客鉄道",
+      "theme_code": "60_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 64,
+        "independence": 27
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1720,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:6506",
+      "name": "安川電機",
+      "theme_code": "60_B",
+      "role": "BETA_SATELLITE",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 71,
+        "independence": 24,
+        "beta_strength": 86,
+        "beta_stability": 84
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "TSE:9022",
+      "name": "東海旅客鉄道",
+      "theme_code": "60_B",
+      "role": "BETA_SATELLITE",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 78,
+        "independence": 21,
+        "beta_strength": 89,
+        "beta_stability": 89
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "TSE:9101",
+      "name": "日本郵船",
+      "theme_code": "60_C",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 85,
+        "independence": 48
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1600,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:9104",
+      "name": "商船三井",
+      "theme_code": "60_C",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 92,
+        "independence": 45
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1560,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:9064",
+      "name": "ヤマトホールディングス",
+      "theme_code": "60_C",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 59,
+        "independence": 42
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1520,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:9107",
+      "name": "川崎汽船",
+      "theme_code": "60_C",
+      "role": "BETA_SATELLITE",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 66,
+        "independence": 39,
+        "beta_strength": 71,
+        "beta_stability": 77
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "TSE:8058",
+      "name": "三菱商事",
+      "theme_code": "65_A",
+      "role": "ANCHOR",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 73,
+        "independence": 16
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1440,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:8031",
+      "name": "三井物産",
+      "theme_code": "65_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 80,
+        "independence": 33
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1400,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:8001",
+      "name": "伊藤忠商事",
+      "theme_code": "65_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 87,
+        "independence": 30
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1360,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:8053",
+      "name": "住友商事",
+      "theme_code": "65_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 94,
+        "independence": 27
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1320,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:8002",
+      "name": "丸紅",
+      "theme_code": "65_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 61,
+        "independence": 24
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1280,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:5020",
+      "name": "ENEOSホールディングス",
+      "theme_code": "70_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 68,
+        "independence": 21
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1240,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:1605",
+      "name": "INPEX",
+      "theme_code": "70_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 75,
+        "independence": 48
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1200,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:5019",
+      "name": "出光興産",
+      "theme_code": "70_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 82,
+        "independence": 45
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1160,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:6269",
+      "name": "三井海洋開発",
+      "theme_code": "70_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 89,
+        "independence": 42
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1120,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:4063",
+      "name": "信越化学工業",
+      "theme_code": "80_A",
+      "role": "ANCHOR",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 56,
+        "independence": 15
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1080,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:5401",
+      "name": "日本製鉄",
+      "theme_code": "80_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 63,
+        "independence": 36
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1040,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:3407",
+      "name": "旭化成",
+      "theme_code": "80_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 70,
+        "independence": 33
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 1000,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:4183",
+      "name": "三井化学",
+      "theme_code": "80_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 77,
+        "independence": 30
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 960,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:4005",
+      "name": "住友化学",
+      "theme_code": "80_A",
+      "role": "BETA_SATELLITE",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 84,
+        "independence": 27,
+        "beta_strength": 83,
+        "beta_stability": 83
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "TSE:9503",
+      "name": "関西電力",
+      "theme_code": "80_B",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 91,
+        "independence": 24
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 880,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:9513",
+      "name": "電源開発",
+      "theme_code": "80_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 58,
+        "independence": 21
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 840,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:9531",
+      "name": "東京瓦斯",
+      "theme_code": "80_B",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 65,
+        "independence": 48
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 800,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:9501",
+      "name": "東京電力ホールディングス",
+      "theme_code": "80_B",
+      "role": "LIQUIDITY_SENSOR",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 72,
+        "independence": 45
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "ticker": "TSE:8951",
+      "name": "日本ビルファンド投資法人",
+      "theme_code": "90_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 79,
+        "independence": 42
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 720,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:3283",
+      "name": "日本プロロジスリート投資法人",
+      "theme_code": "90_A",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 86,
+        "independence": 39
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 680,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:8801",
+      "name": "三井不動産",
+      "theme_code": "90_D",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 93,
+        "independence": 36
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 640,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:8802",
+      "name": "三菱地所",
+      "theme_code": "90_D",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 60,
+        "independence": 33
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 600,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:8830",
+      "name": "住友不動産",
+      "theme_code": "90_D",
+      "role": "QUALITY_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 67,
+        "independence": 30
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 560,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:8698",
+      "name": "マネックスグループ",
+      "theme_code": "95_A",
+      "role": "THEME_LEADER",
+      "eligible": true,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 74,
+        "independence": 27
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "quality_facts": {
+        "listing_age_days": 520,
+        "size_rank_pct": 45,
+        "adverse_flags": []
+      }
+    },
+    {
+      "ticker": "TSE:1330",
+      "name": "上場インデックスファンド225",
+      "theme_code": "00_A",
+      "role": "BREADTH_PROXY",
+      "eligible": false,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 81,
+        "independence": 24
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "exclusion_reasons": [
+        "redundant_with_member: 日経225 の枠は 1321 がすでに埋めている"
+      ]
+    },
+    {
+      "ticker": "TSE:1540",
+      "name": "純金上場信託",
+      "theme_code": "00_A",
+      "role": "BREADTH_PROXY",
+      "eligible": false,
+      "metrics": {
+        "liquidity": 40,
+        "quality": 58,
+        "heat": 88,
+        "independence": 21
+      },
+      "evidence": [
+        {
+          "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+          "as_of": "2026-09-17",
+          "kind": "listing",
+          "tier": 1
+        }
+      ],
+      "exclusion_reasons": [
+        "excluded_instrument_type: 現物金の信託は株式市場の観測ではない"
+      ]
+    }
+  ]
+}

@@ -41,7 +41,7 @@ first does not block on us; the second does not depend on the agent getting it r
 Both build under identical general logic. The only thing that differs is who vouches for those
 seven fields, and the report never lets a reader confuse the two.
 
-A new *registered* market is four additions and no edits to existing logic:
+A new *registered* market is five additions and no edits to existing logic:
 
 1. A `MarketSpec` row in `MARKET_SPECS`.
 2. A `markets.<code>.breadth` number in `assets/default-policy.json`. One number, not nine: the
@@ -68,11 +68,19 @@ selection; and is the code meaningless in every other market. A flag that fails 
 universal code that has not been added yet — add it to `QUALITY_FLAG_CODES` instead, where it is
 comparable across markets, rather than to two market specs where it silently is not.
 
-A worked example under `examples/` is welcome but is not part of the bar, and deliberately so:
-an example needs a hundred verified tickers, and holding a market registration hostage to that
-is how fourteen markets would have stayed at three. What CI does check for every registered
-market is the row, the breadth, the table checking clean at all three tiers, the overlay file
-and the locale.
+5. A seed table at `examples/seeds/<code>.tsv` — ticker, name, theme, role, and a flag column
+   for the ones the research rejects. `build_examples.py` expands it into a full Light example
+   and the test suite asserts that every registered market has one, so this is now part of the
+   bar rather than a nicety. Sixty to a hundred and twenty names is the working range; the seed
+   must cover every theme the market reaches at Light, and a theme with nothing real to put in
+   it is a finding about the table, not a reason to invent a ticker.
+
+Plus the row, the breadth, the table checking clean at all three tiers, the overlay and the
+locale, each of which CI checks for every registered market.
+
+Writing the seed is also how the registry row gets tested. Two shipped symbol rules were wrong
+until a real listing hit them — `de` rejected `4GLD` and `br` rejected `B3SA3` — and neither
+would have surfaced from reading the rule.
 
 ## Report language
 

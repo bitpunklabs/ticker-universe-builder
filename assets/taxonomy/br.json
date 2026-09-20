@@ -2,7 +2,7 @@
   "schema_version": 2,
   "market": "br",
   "extends": "_equity",
-  "note": "Commodities, banks and protein. A short table because the listed market is short.",
+  "note": "Commodities, banks and protein. A short table because the listed market is short. Managed care comes up to Light — private health here is listed and large — while media, payments and medtech leave it, the payments names having gone private or listed in New York.",
   "groups": {
     "00": "Índices de mercado",
     "10": "Tecnologia",
@@ -30,7 +30,6 @@
     "30_D",
     "30_F",
     "30_G",
-    "50_C",
     "50_E",
     "50_F",
     "60_F",
@@ -45,7 +44,11 @@
   ],
   "level": {
     "80_C": 1,
-    "70_C": 1
+    "70_C": 1,
+    "20_A": 3,
+    "40_B": 3,
+    "50_B": 3,
+    "50_C": 1
   },
   "weight": {
     "80_C": 3.5,
@@ -73,7 +76,9 @@
     "40_E": 0.5,
     "50_B": 0.5,
     "50_D": 0.5,
-    "10_G": 0.5
+    "10_G": 0.5,
+    "40_B": 0.5,
+    "50_C": 1.0
   },
   "add": [
     {

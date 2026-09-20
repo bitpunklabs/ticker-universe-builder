@@ -18,6 +18,8 @@ Medtech at 1.5 is the one theme that outgrew both — CSL, Cochlear and ResMed a
 
 REITs at 1.5 rather than the base's 0.75: the listed property trusts are a large and liquid part of this index.
 
+Semiconductors and cybersecurity leave Light: neither has a listed pure play here, and the technology that is listed is software and marketplaces. Mining at 4.0 is the point of this table, and the example shows it holding about a sixth of the universe.
+
 ## Adverse flags
 
 This market's regime issues these, and no other market's does. They cost the same as any
@@ -32,8 +34,12 @@ universal flag; what is market-specific is the vocabulary, not the price.
 ## Size
 
 Breadth `0.7` in `assets/default-policy.json`, so the tiers are **Light 40**,
-**Medium 110**, **Heavy 280** members. The starter table reaches 26 themes at
+**Medium 110**, **Heavy 280** members. The starter table reaches 24 themes at
 Light.
+
+## Example
+
+[`examples/au-light/`](../../examples/au-light/) is a full-size Light universe for this market: the seed table it is built from, the snapshot, the report in this market's language, and the TradingView watchlist. Every metric value in it is illustrative; the tickers, themes and roles are not.
 
 ## Suggested live fields
 
