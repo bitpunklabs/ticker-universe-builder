@@ -7,7 +7,9 @@
    which one is correct. `tests/test_universe_core.py` is the home for almost all of it.
 2. **The contract changes before the code does.** The shapes in `references/data-contracts.md`
    are agreed first, then implemented. A field that exists in the parser and not in the contract
-   is a bug in both.
+   is a bug in both. A change large enough to need an argument gets a note in
+   [`docs/design/`](docs/design/) first — `references/` describes what ships, so a plan does not
+   belong there.
 3. **The validator is never weakened to make an output pass.** If a real universe fails, either
    the universe is wrong or the rule is wrong — say which, in the commit message.
 4. **No dependencies.** Standard library only, and CI proves it by installing nothing before
