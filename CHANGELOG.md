@@ -1,10 +1,40 @@
 # Changelog
 
-Notable changes to the skill's behaviour and contracts. Not released on a version schedule — a
-universe carries its own `policy_hash` and content hash, which is the version that matters to a
-caller.
+Notable changes to the skill's behaviour and contracts.
 
-## Unreleased
+**Two version numbers live here, and they answer different questions.** The **skill** is
+versioned with semver in `SKILL.md`, because a registry has to know when a new one exists and a
+git tag has to point at the commit it was cut from. A **universe** carries its own `policy_hash`
+and content hash, because a caller comparing two files needs to know whether they are the same
+instrument — a question no release number can answer. The first does not date the second: a
+universe built under 0.1.0 stays valid when 0.2.0 ships, and its hashes are what say so.
+
+Each released heading below matches a `version:` in `SKILL.md`, a git tag of the same name, and
+a ClawHub publish.
+
+## 0.1.0 — 2026-09-21
+
+First public release. Fourteen markets, each with reviewed rules, its own theme table, a
+full-size Light example and a report in its own language.
+
+Why 0.1.0 and not 1.0.0: the contracts are frozen and tested, but nobody outside this repository
+has driven the CLI yet. Semver's promise is about what happens next, and claiming 1.0 stability
+before a single outside caller has exercised it would be the kind of unearned claim the rest of
+these documents refuse to make.
+
+### A version number, and a much shorter description
+
+`SKILL.md` carries `version: 0.1.0`, `metadata.openclaw.homepage` and an emoji, so a registry
+listing has something to show. `CONTRIBUTING.md` has the release order — bump, head the
+changelog, test, commit, tag, publish — and a test fails if the frontmatter version and the
+newest changelog heading disagree.
+
+The description went from 564 characters to 151. OpenClaw omits a long description rather than
+truncating it, so brevity is functional there and a test pins the ceiling. The cost is real and
+worth stating plainly: the old text named all fourteen markets, and that list is what routed
+"build me a Japan ticker universe" to this skill without the asker using the repository's words.
+The short text keeps `ticker universe`, `watchlist`, `TradingView` and `markets`. If routing
+turns out to suffer, that is the first thing to look at, not the last.
 
 ### Release preparation
 

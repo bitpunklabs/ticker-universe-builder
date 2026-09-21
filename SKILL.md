@@ -1,8 +1,13 @@
 ---
 name: ticker-universe-builder
-description: Build a new or maintain an existing ticker universe at Light, Medium, or Heavy depth for any of fourteen registered markets (US, China A-shares, Japan, India, Hong Kong, Korea, UK, Taiwan, Germany, France, Canada, Australia, Brazil, Crypto) or any other market the snapshot declares. Use when the user wants an auditable market universe or ticker pool, sector and theme coverage, leader and satellite selection, a universe review, or TradingView-importable watchlist files. Do not use for stock tips, portfolio construction, order instructions, or trade execution.
+description: Build and maintain auditable, evidence-gated ticker universes for fourteen markets at three depths, exported as TradingView watchlists. Not stock tips.
+version: 0.1.0
 allowed-tools: Read, Write, Bash, WebSearch, WebFetch
 homepage: https://github.com/bitpunklabs/ticker-universe-builder
+metadata:
+  openclaw:
+    emoji: "📋"
+    homepage: https://github.com/bitpunklabs/ticker-universe-builder
 ---
 
 # Ticker Universe Builder

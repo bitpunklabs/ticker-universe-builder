@@ -337,6 +337,12 @@ selection audit and the review history. `version_hash` covers membership and tax
 re-running with fresher metrics does not churn the version. The other three are derived from it
 and are never edited by hand.
 
+`version_hash` is not the skill's release number and does not move with it. The skill is
+versioned in `SKILL.md` so a registry and a git tag have something to point at; a universe is
+versioned by its own content so two files can be compared. Upgrading the skill does not
+invalidate a universe built under an older one — `policy_hash` records which policy produced it,
+and `diff` is what answers whether two universes are the same instrument.
+
 ## Comparing two universes
 
 `diff before.json after.json` answers the question a maintenance report cannot: not "what did

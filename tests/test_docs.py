@@ -92,5 +92,38 @@ class ReadmeMediaTests(unittest.TestCase):
                 self.assertIn(f"]({Path('docs/media') / slot})", commented)
 
 
+class VersionTests(unittest.TestCase):
+    """The skill's version is published to a registry, tagged in git and headed in the changelog.
+
+    Three places, one number. Nothing in the repository can check the git tag -- a tag is cut
+    after the commit that sets the version -- so the two that are checkable are pinned here and
+    the tag is the release step that reads them.
+    """
+
+    SEMVER = re.compile(r"^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$")
+
+    def skill_version(self) -> str:
+        text = (ROOT / "SKILL.md").read_text(encoding="utf-8")
+        match = re.search(r"^version: (.+)$", text.split("---")[1], re.M)
+        self.assertIsNotNone(match, "SKILL.md frontmatter has no version")
+        return match.group(1).strip()
+
+    def test_the_skill_version_is_semver(self) -> None:
+        self.assertRegex(self.skill_version(), self.SEMVER)
+
+    def test_the_newest_changelog_heading_is_the_skill_version(self) -> None:
+        changelog = (ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
+        headings = re.findall(r"^## (\S+)", changelog, re.M)
+        self.assertTrue(headings, "CHANGELOG.md has no version headings")
+        self.assertEqual(headings[0], self.skill_version())
+
+    def test_the_description_stays_short_enough_to_be_shown(self) -> None:
+        """OpenClaw omits a long description rather than truncating it, so length is a feature."""
+        text = (ROOT / "SKILL.md").read_text(encoding="utf-8")
+        description = re.search(r"^description: (.+)$", text.split("---")[1], re.M)
+        self.assertIsNotNone(description)
+        self.assertLessEqual(len(description.group(1).strip()), 160)
+
+
 if __name__ == "__main__":
     unittest.main()

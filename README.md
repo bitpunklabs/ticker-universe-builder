@@ -121,6 +121,8 @@ other three were never written.
 
 No dependencies. Python 3.10+ and the standard library.
 
+Releases are semver-tagged; `--branch v0.1.0` pins one, and `main` is always the newest.
+
 ```bash
 # Claude Code — all projects
 git clone https://github.com/bitpunklabs/ticker-universe-builder.git \
@@ -131,8 +133,9 @@ git clone https://github.com/bitpunklabs/ticker-universe-builder.git \
   .claude/skills/ticker-universe-builder
 ```
 
-For **claude.ai**, zip the repository and upload it under Settings → Capabilities → Skills; the
-zip must carry `SKILL.md` at its top level. For the **Agent SDK or API**, mount the directory into
+For **OpenClaw**, `clawhub install @bitpunklabs/ticker-universe-builder`, or clone into
+`~/.openclaw/workspace/skills/`. For **claude.ai**, zip the repository and upload it under
+Settings → Capabilities → Skills; the zip must carry `SKILL.md` at its top level. For the **Agent SDK or API**, mount the directory into
 the agent's skills path. For **any other agent**, [`AGENTS.md`](AGENTS.md) is the routing and the
 scripts are plain Python with no host-specific assumptions.
 

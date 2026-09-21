@@ -45,6 +45,29 @@ Do not ship an unexercised market overlay on speculation. The seed table is what
 which is why it is one of the five and not a follow-up: a test asserts that the set of examples
 equals the set of registered markets, so a row added without one fails on the same commit.
 
+## Cutting a release
+
+The skill's version lives in `SKILL.md` frontmatter and is semver. Three places carry it and a
+test pins two of them together; the third is the tag, which is why the order below matters.
+
+```bash
+# 1. bump SKILL.md  version: X.Y.Z
+# 2. head the changelog  ## X.Y.Z — YYYY-MM-DD
+python -m pytest tests -q          # VersionTests fails if 1 and 2 disagree
+git commit -am "Release X.Y.Z" && git push
+git tag vX.Y.Z && git push origin vX.Y.Z
+clawhub skill publish . --version X.Y.Z --dry-run   # read it, then run it without --dry-run
+```
+
+What counts as which digit is decided by what a *caller* has to change, not by how much work it
+was. A new market, a new locale, a new theme table: minor. A changed artifact shape, a removed
+field, a renamed exclusion code, a policy default that moves an existing universe off its
+target: major. A wrong symbol rule, a wrong theme table, a doc that describes a skill that no
+longer exists: patch.
+
+Regenerating the examples is not by itself a release. They move whenever selection, ordering,
+rendering or hashing moves, and that change is already the thing being versioned.
+
 ## Adding a locale
 
 `assets/locales/*.json` are flat key-value files and must stay key-for-key identical; a test
