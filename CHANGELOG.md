@@ -6,6 +6,17 @@ caller.
 
 ## Unreleased
 
+### Release preparation
+
+Both README media slots are GIFs and both are commented out until the files exist: the skill
+building a US Medium universe, and that watchlist being imported into TradingView. The capture
+instructions carry a constraint that is easy to hit mid-recording — US Medium targets 215 members
+with a floor of 160, and the shipped US seed holds 101, so a Medium demo needs a real research
+pass first or a Light universe instead.
+
+`uv.lock` is gone. It was three lines, locked nothing — there is no `[project]` table — and
+asserted `requires-python >= 3.13` against a README and a CI matrix that both say 3.10.
+
 ### The docs caught up with the last two rounds
 
 Six documents still described a three-market skill with a theme cap. `methodology.md` listed

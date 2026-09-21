@@ -10,7 +10,7 @@ renders them as TradingView-importable watchlists.
 
 <!-- MEDIA PLACEHOLDER 1 of 2 — drop docs/media/demo.gif in place, then delete these two
      comment lines so the image below renders. Recording instructions: docs/media/README.md
-![The skill building a Light crypto universe, end to end](docs/media/demo.gif)
+![The skill building a Medium US universe in OpenClaw, end to end](docs/media/demo.gif)
 -->
 
 A ticker universe is an observation instrument, not a recommendation list. This skill exists to
@@ -107,9 +107,9 @@ A **`.txt` watchlist** TradingView imports directly, sectioned by theme, capped 
 ###00_A_CORE_ASSETS,BINANCE:ETHUSDT.P,BINANCE:BTCUSDT.P,###10_A_L1_MAJORS,BINANCE:ADAUSDT.P,…
 ```
 
-<!-- MEDIA PLACEHOLDER 2 of 2 — drop docs/media/watchlist-in-tradingview.png in place, then
+<!-- MEDIA PLACEHOLDER 2 of 2 — drop docs/media/watchlist-import.gif in place, then
      delete these two comment lines. Capture instructions: docs/media/README.md
-![The generated watchlist after import into TradingView](docs/media/watchlist-in-tradingview.png)
+![Importing a generated watchlist into TradingView](docs/media/watchlist-import.gif)
 -->
 
 A **`.json` universe** — the version of record, carrying every member, every rejected candidate

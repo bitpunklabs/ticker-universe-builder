@@ -77,7 +77,7 @@ class ReadmeMediaTests(unittest.TestCase):
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
         instructions = (ROOT / "docs" / "media" / "README.md").read_text(encoding="utf-8")
         slots = re.findall(r"docs/media/([\w.-]+\.(?:gif|png|jpg|svg))", readme)
-        self.assertEqual(sorted(set(slots)), ["demo.gif", "watchlist-in-tradingview.png"])
+        self.assertEqual(sorted(set(slots)), ["demo.gif", "watchlist-import.gif"])
         for slot in set(slots):
             with self.subTest(slot=slot):
                 self.assertIn(slot, instructions)
