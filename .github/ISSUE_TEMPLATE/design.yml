@@ -1,0 +1,25 @@
+name: Design question or proposal
+description: Something the skill refuses to do, or a mechanism you think is wrong
+labels: ["design"]
+body:
+  - type: markdown
+    attributes:
+      value: >-
+        Several refusals are deliberate and documented: no rank or grade on a signal, no
+        cross-market merge, no allocation, no trade execution, no per-theme cap. Arguing against
+        one is welcome — `references/tier-profiles.md` and `references/methodology.md` carry the
+        reasoning, so start from what they claim rather than from what the code does.
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What should change
+    validations:
+      required: true
+  - type: textarea
+    id: cost
+    attributes:
+      label: What a caller would have to change
+      description: >-
+        Artifact shape, a field, an exclusion code, a policy default that moves an existing
+        universe off its target — these decide whether it is a major release or a minor one, and
+        thinking about it here saves a round trip.

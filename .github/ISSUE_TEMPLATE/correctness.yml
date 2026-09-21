@@ -1,0 +1,48 @@
+name: Wrong fact
+description: A ticker, venue, symbol rule, listing state or theme table that does not match reality
+labels: ["correctness"]
+body:
+  - type: markdown
+    attributes:
+      value: >-
+        This is the defect class that matters most here, and the one the maintainer cannot find
+        alone — two shipped symbol rules were wrong until a real listing hit them. A report with
+        the real listing in it is worth more than a paragraph of description.
+  - type: input
+    id: market
+    attributes:
+      label: Market
+      placeholder: "jp"
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What is wrong
+      options:
+        - A symbol the market lists is rejected, or one it does not list is accepted
+        - A theme table claims a sector this market does not list
+        - A theme this market does list is missing from the table
+        - A ticker, name, venue or listing state in a shipped example
+        - Something else factual
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: The listing
+      description: >-
+        A link to the exchange, the regulator or the venue's own symbol list. Not a screenshot of
+        a chart, and not a data vendor's copy of one — this project holds itself to the primary
+        source and the report should too.
+      placeholder: "https://www.jpx.co.jp/..."
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: What you ran and what happened
+      render: shell
+      placeholder: |
+        $ python scripts/universe.py build --spec spec.json --snapshot snapshot.json --output out
+        UniverseError: 4GLD: de symbol must start with a letter

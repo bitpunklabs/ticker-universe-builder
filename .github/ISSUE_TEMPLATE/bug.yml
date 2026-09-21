@@ -1,0 +1,41 @@
+name: Bug
+description: A crash, a wrong artifact, or behaviour that contradicts the documented contract
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: >-
+        If the documented contract and the code disagree, say which one you think is wrong.
+        A field in the parser that is not in `references/data-contracts.md` is a bug in both.
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened, and what the contract says should have happened
+      description: Quote the line from `references/` you are holding it to, if there is one.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Exact commands and input
+      description: >-
+        Attach the snapshot or spec if you can share it. A shipped example that reproduces it is
+        ideal — `examples/` holds one build per market and they are known to work.
+      render: shell
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: "`version:` from SKILL.md, or the commit."
+      placeholder: "0.1.0"
+    validations:
+      required: true
+  - type: input
+    id: python
+    attributes:
+      label: Python
+      placeholder: "3.11.9"
+    validations:
+      required: true

@@ -253,4 +253,10 @@ as a solicitation to buy or sell anything.
 
 ## License
 
-MIT. See [LICENSE](LICENSE).
+MIT — see [LICENSE](LICENSE).
+
+Published to the OpenClaw registry under **MIT-0**, which is MIT without the attribution
+requirement. ClawHub carries no licence field and distributes listings on those terms, so saying
+so here is more honest than letting the two disagree quietly. Cloning from GitHub gets you MIT;
+installing from ClawHub gets you MIT-0. Both are this repository, offered by its author under
+both terms, and MIT-0 asks strictly less of you.

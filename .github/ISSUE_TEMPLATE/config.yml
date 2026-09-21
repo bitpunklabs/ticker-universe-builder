@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: My market is not one of the fourteen
+    url: https://github.com/bitpunklabs/ticker-universe-builder/blob/main/references/markets/adding-a-market.md
+    about: >-
+      You do not need us for this. Any market builds today by declaring its venues, symbol shape,
+      identity rule and one breadth factor in the snapshot — no code change, same evidence gate,
+      reported as declared rather than reviewed. Open an issue only if you want it registered.
+  - name: Security report
+    url: https://github.com/bitpunklabs/ticker-universe-builder/security
+    about: Report privately through GitHub Security, not as a public issue.

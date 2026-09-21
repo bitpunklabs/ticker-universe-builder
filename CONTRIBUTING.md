@@ -59,6 +59,30 @@ git tag vX.Y.Z && git push origin vX.Y.Z
 clawhub skill publish . --version X.Y.Z --dry-run   # read it, then run it without --dry-run
 ```
 
+### The listing text
+
+GitHub's description and topics are set in the web UI and are therefore the one thing about a
+release that no test can see. They are kept here so a change to them is reviewable:
+
+**Description**
+
+```text
+An agent skill that builds and maintains auditable ticker universes for fourteen markets — every
+member carrying a role, a reason and dated evidence — and renders them as TradingView watchlists.
+An observation instrument, not investment advice.
+```
+
+**Topics**
+
+```text
+claude-skill  agent-skills  anthropic  openclaw  clawhub  skill  tradingview  watchlist
+stock-market  equities  crypto  market-data  finance  python  zero-dependency
+```
+
+Nothing here claims a capability the skill refuses to have. `portfolio`, `trading-bot`,
+`signals` and `stock-picker` are all topics this project would rank well under and all four
+would be a lie, so they are not in the list and should not be added because traffic is slow.
+
 What counts as which digit is decided by what a *caller* has to change, not by how much work it
 was. A new market, a new locale, a new theme table: minor. A changed artifact shape, a removed
 field, a renamed exclusion code, a policy default that moves an existing universe off its
@@ -76,6 +100,15 @@ they name policy fields and code paths, and a translated field name cannot be gr
 
 Translations are held to reading as native prose, not to being literally correct. A phrase that
 a domain reader would never say is a defect even if every word maps.
+
+## Licensing
+
+This repository is MIT. Its OpenClaw registry listing is **MIT-0** — MIT without the attribution
+requirement — because ClawHub has no licence field and distributes on those terms.
+
+By contributing you agree your work may go out under both. That is not boilerplate: dual-stating
+it only works while everyone who wrote a line agrees, and quietly relicensing someone else's
+contribution later is the failure mode this paragraph exists to prevent.
 
 ## Style
 

@@ -22,6 +22,18 @@ has driven the CLI yet. Semver's promise is about what happens next, and claimin
 before a single outside caller has exercised it would be the kind of unearned claim the rest of
 these documents refuse to make.
 
+### Community files, and a licence stated twice on purpose
+
+`SECURITY.md`, issue templates and a PR template. The security document states a verified threat
+model rather than a padded one: no sockets, no credentials, no subprocesses, no `eval` or
+`pickle`; untrusted JSON parsed as data and validated against the contract; prose from a
+third-party snapshot reaching a report the agent reads back; an output directory that refuses to
+overwrite. It also says what is not a security issue.
+
+The repository is MIT. The OpenClaw registry listing is **MIT-0**, because ClawHub carries no
+licence field and distributes on those terms. Both are stated — in the README for users, in
+CONTRIBUTING for contributors — rather than left to disagree quietly.
+
 ### A version number, and a much shorter description
 
 `SKILL.md` carries `version: 0.1.0`, `metadata.openclaw.homepage` and an emoji, so a registry
