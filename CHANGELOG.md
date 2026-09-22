@@ -87,7 +87,9 @@ reports no stability rather than a stale one.
 the benchmark basket. Nothing compared two members to each other, so the breadth floor could
 guarantee that every theme was represented while two seats quietly watched the same hill. The new
 `redundancy` section reports the most correlated pairs over the window, with their themes beside
-them. It reports and never gates — two names in one sector move together because that is what a
+them, and names the members it could not rank at all — too little history to share the window's
+grid, or no variation in it, which makes a correlation undefined rather than zero. It reports
+and never gates — two names in one sector move together because that is what a
 sector is, and the reader is better placed to judge the pair than a threshold would be.
 
 Design note: [`docs/design/0.2.0-what-a-number-carries.md`](docs/design/0.2.0-what-a-number-carries.md),
