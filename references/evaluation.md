@@ -54,7 +54,9 @@ beside every coverage number.
   0.97 in the window. The breadth floor already spends more than half a Light universe, so a
   seat bought twice is the most expensive mistake available here and the hardest to see by eye.
   A member whose history covers less than half the window is set aside and named rather than
-  allowed to shorten the shared grid for every other pair.
+  allowed to shorten the shared grid for every other pair, and so is one that never moved at all
+  — its correlation with anything is undefined rather than zero, and a sensor printing a flat
+  line is the one thing `survival` counts as alive and nothing else would mention.
 - **One window is one draw.** A threshold moved on a single evaluation has been fitted to one
   quarter. Two or three windows, in the same direction, is a finding.
 - The output is JSON, not a localised report. It is an input to the next build rather than a

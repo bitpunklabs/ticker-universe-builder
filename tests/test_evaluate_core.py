@@ -237,6 +237,16 @@ class RedundancyTests(unittest.TestCase):
         self.assertEqual(report["redundancy"]["compared"], 2)
         self.assertGreaterEqual(report["redundancy"]["observations"], DAYS - 2)
 
+    def test_a_member_that_never_moved_is_named_not_dropped(self) -> None:
+        # Its correlation with anything is undefined, not zero, so it cannot join a pair. A
+        # flat sensor is worth naming on its own — nothing else in the report would say so.
+        series = {"A:ONE": ramp(0.1), "A:TWO": ramp(0.2), "A:FLAT": [100.0] * DAYS}
+        members = [member("A:ONE"), member("A:TWO"), member("A:FLAT")]
+        with tempfile.TemporaryDirectory() as root:
+            report = evaluate(universe=universe(members), prices=prices(series, Path(root)))
+        self.assertEqual(report["redundancy"]["no_variation"], ["A:FLAT"])
+        self.assertEqual(report["redundancy"]["compared"], 2)
+
     def test_a_universe_with_one_observable_member_says_so(self) -> None:
         with tempfile.TemporaryDirectory() as root:
             report = evaluate(

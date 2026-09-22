@@ -361,6 +361,7 @@ def _redundancy(members: list[dict], stats: dict[str, dict]) -> dict[str, Any]:
     # Standardised once per member, so a correlation is a dot product and a Heavy universe does
     # not turn one command into a coffee break.
     unit: dict[str, list[float]] = {}
+    flat: list[str] = []
     for item in kept:
         series = stats[item["ticker"]]["daily"]
         values = [series[day] for day in grid]
@@ -368,6 +369,12 @@ def _redundancy(members: list[dict], stats: dict[str, dict]) -> dict[str, Any]:
         norm = math.sqrt(sum((value - mean) ** 2 for value in values))
         if norm > 0:
             unit[item["ticker"]] = [(value - mean) / norm for value in values]
+        else:
+            # A member that did not move has no correlation with anything — the statistic is
+            # undefined, not zero. Naming it matters more than the pair it cannot form: a
+            # sensor printing a flat line is a dead sensor, and nothing else in the report
+            # would say so.
+            flat.append(item["ticker"])
     theme = {item["ticker"]: item["theme_code"] for item in kept}
     role = {item["ticker"]: item["role"] for item in kept}
     tickers = sorted(unit)
@@ -389,6 +396,7 @@ def _redundancy(members: list[dict], stats: dict[str, dict]) -> dict[str, Any]:
         "observations": len(grid),
         "pairs": len(pairs),
         "short_history": short,
+        "no_variation": sorted(flat),
         "median_correlation": _round(_median(values)),
         "above_high": sum(1 for value in values if value >= HIGH_CORRELATION),
         "high_correlation": HIGH_CORRELATION,

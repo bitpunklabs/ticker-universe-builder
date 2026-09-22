@@ -133,6 +133,12 @@ jobs:
           assert report["survival"]["rate"] == 1.0, report["survival"]
           assert report["coverage"]["member_share_of_pool"] < 1.0, report["coverage"]
           assert report["independence"]["compared"] > 0, report["independence"]
+          # Every pair is computed, and the members this window cannot rank are named rather
+          # than quietly missing from the count.
+          red = report["redundancy"]
+          assert red["pairs"] == red["compared"] * (red["compared"] - 1) // 2, red
+          assert red["compared"] + len(red["no_variation"]) + len(red["short_history"]) \
+              == report["survival"]["observed"], red
           EOF
 
   lint:
