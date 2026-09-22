@@ -39,6 +39,7 @@ beside every coverage number.
 | `themes` | realised volatility per theme and its share of the total | the theme weights, and whether the taxonomy put its slots where the market moved |
 | `metrics` | Spearman rank correlation of each metric against the realised move and against realised volatility | `SCORE_WEIGHTS` |
 | `independence` | declared `independence` against `100 - R²` from an OLS on the benchmark basket | `BETA_FULL_SCALE` and the `INDEPENDENT_SENSOR >= 50` gate |
+| `redundancy` | correlation between every pair of members over the window, most correlated first | the theme table and the seats themselves: two members on the same hill are one observation post bought twice |
 
 ## Reading it honestly
 
@@ -47,6 +48,13 @@ beside every coverage number.
   where a flat number is a question.
 - **Fewer than eight scored members produces `null`, not a number.** A rank correlation over four
   points is noise with a decimal point on it.
+- **A correlated pair is a question, not a verdict.** `redundancy` reports and never gates.
+  Two names in one sector move together because that is what a sector is, and both can belong.
+  What the section is for is the pair that no one intended: two themes apart on the table and
+  0.97 in the window. The breadth floor already spends more than half a Light universe, so a
+  seat bought twice is the most expensive mistake available here and the hardest to see by eye.
+  A member whose history covers less than half the window is set aside and named rather than
+  allowed to shorten the shared grid for every other pair.
 - **One window is one draw.** A threshold moved on a single evaluation has been fitted to one
   quarter. Two or three windows, in the same direction, is a finding.
 - The output is JSON, not a localised report. It is an input to the next build rather than a

@@ -6,9 +6,10 @@
 
 - 檔位：精簡檔
 - 事實截至：2026-09-17
-- 版本：`214b07f14109`
+- 版本：`c5004ec33935`
 - 標的數：50
 - 主題數：27
+- 抗擾動穩定性：0.94 · 47 / 50 · ±1%
 - 最大主題：10_H · 7 · 14% · 權重應得 5
 - TradingView 條目：77 / 1000
 - 落選或被排除的候選：22
@@ -20,10 +21,10 @@
 |---|---:|
 | 錨點 (ANCHOR) | 4 |
 | 基準 (BENCHMARK) | 2 |
-| 貝塔衛星 (BETA_SATELLITE) | 6 |
+| 貝塔衛星 (BETA_SATELLITE) | 7 |
 | 廣度代理 (BREADTH_PROXY) | 1 |
 | 流動性觀測 (LIQUIDITY_SENSOR) | 2 |
-| 質量龍頭 (QUALITY_LEADER) | 7 |
+| 質量龍頭 (QUALITY_LEADER) | 6 |
 | 主題龍頭 (THEME_LEADER) | 28 |
 
 ## 主題覆蓋
@@ -43,12 +44,12 @@
 | 10_H | 半導體與電子 | HARDWARE_AND_NETWORKING | 1 | 7 |
 | 10_I | 半導體與電子 | IC_DESIGN | 1 | 4 |
 | 11_A | AI基礎建設 | AI_COMPUTE | 1 | 2 |
-| 11_B | AI基礎建設 | DATA_CENTER_AND_POWER | 1 | 3 |
+| 11_B | AI基礎建設 | DATA_CENTER_AND_POWER | 1 | 2 |
 | 20_A | 通訊 | STREAMING_AND_MEDIA | 3 | 0 |
 | 20_B | 通訊 | TELECOM | 1 | 1 |
 | 30_A | 消費 | DISCRETIONARY_LEADERS | 1 | 1 |
 | 30_B | 消費 | STAPLES | 1 | 1 |
-| 30_C | 消費 | RESTAURANTS_AND_TRAVEL | 1 | 1 |
+| 30_C | 消費 | RESTAURANTS_AND_TRAVEL | 1 | 2 |
 | 30_E | 消費 | AUTOS_AND_MOBILITY | 2 | 0 |
 | 40_A | 金融 | MONEY_CENTER_BANKS | 1 | 2 |
 | 40_B | 金融 | PAYMENTS | 1 | 1 |
@@ -82,7 +83,7 @@
 | liquidity | 實測 (measured) | 30 日日均成交額的截面分位 | 30d |
 | quality | 規則與判斷混合 (blended) | 上市時長與規模分位，疊加對經營延續性的判斷 | — |
 
-全部 50 個成員中有 41 個的 quality 由規則與判斷各佔 50% 和 50%。規則的一半讀取上市時長、規模分位與不利標記；判斷的一半是任何統計量都覆蓋不到的部分。
+全部 50 個成員中有 40 個的 quality 由規則與判斷各佔 50% 和 50%。規則的一半讀取上市時長、規模分位與不利標記；判斷的一半是任何統計量都覆蓋不到的部分。
 
 ## 候選未能入選的原因
 
@@ -123,11 +124,11 @@
 | 11_A AI_COMPUTE | TWSE:3324 | 雙鴻 | 貝塔衛星 (BETA_SATELLITE) |  | https://www.twse.com.tw/zh/listed/profile/company.html |
 | 11_B DATA_CENTER_AND_POWER | TWSE:1519 | 華城 | 主題龍頭 (THEME_LEADER) |  | https://www.twse.com.tw/zh/listed/profile/company.html |
 | 11_B DATA_CENTER_AND_POWER | TWSE:1513 | 中興電 | 質量龍頭 (QUALITY_LEADER) |  | https://www.twse.com.tw/zh/listed/profile/company.html |
-| 11_B DATA_CENTER_AND_POWER | TWSE:1503 | 士電 | 質量龍頭 (QUALITY_LEADER) |  | https://www.twse.com.tw/zh/listed/profile/company.html |
 | 20_B TELECOM | TWSE:2412 | 中華電 | 錨點 (ANCHOR) |  | https://www.twse.com.tw/zh/listed/profile/company.html |
 | 30_A DISCRETIONARY_LEADERS | TWSE:9910 | 豐泰 | 主題龍頭 (THEME_LEADER) |  | https://www.twse.com.tw/zh/listed/profile/company.html |
 | 30_B STAPLES | TWSE:1216 | 統一 | 主題龍頭 (THEME_LEADER) |  | https://www.twse.com.tw/zh/listed/profile/company.html |
 | 30_C RESTAURANTS_AND_TRAVEL | TWSE:2707 | 晶華酒店 | 主題龍頭 (THEME_LEADER) |  | https://www.twse.com.tw/zh/listed/profile/company.html |
+| 30_C RESTAURANTS_AND_TRAVEL | TWSE:2610 | 華航 | 貝塔衛星 (BETA_SATELLITE) |  | https://www.twse.com.tw/zh/listed/profile/company.html |
 | 40_A MONEY_CENTER_BANKS | TWSE:2891 | 中信金 | 主題龍頭 (THEME_LEADER) |  | https://www.twse.com.tw/zh/listed/profile/company.html |
 | 40_A MONEY_CENTER_BANKS | TWSE:2881 | 富邦金 | 主題龍頭 (THEME_LEADER) |  | https://www.twse.com.tw/zh/listed/profile/company.html |
 | 40_B PAYMENTS | TPEX:6763 | 綠界科技 | 主題龍頭 (THEME_LEADER) |  | https://www.twse.com.tw/zh/listed/profile/company.html |

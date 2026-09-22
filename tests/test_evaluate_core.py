@@ -187,5 +187,65 @@ class ThemeTests(unittest.TestCase):
         )
 
 
+class RedundancyTests(unittest.TestCase):
+    def test_the_pair_moving_together_is_named_first(self) -> None:
+        # Two names on the same hill and one that is genuinely somewhere else. Nothing here is
+        # a gate: the report has to make the pair visible, and the reader decides.
+        twin = [100.0 + (index % 2) * 10 for index in range(DAYS)]
+        series = {
+            "A:ONE": twin,
+            "A:TWO": [value * 3 for value in twin],
+            "A:OTHER": ramp(0.2),
+        }
+        members = [member("A:ONE"), member("A:TWO", theme="10_A"), member("A:OTHER")]
+        with tempfile.TemporaryDirectory() as root:
+            report = evaluate(universe=universe(members), prices=prices(series, Path(root)))
+        top = report["redundancy"]["most_correlated"][0]
+        self.assertEqual(top["pair"], ["A:ONE", "A:TWO"])
+        self.assertGreater(top["correlation"], 0.99)
+        self.assertFalse(top["same_theme"])
+        self.assertEqual(report["redundancy"]["compared"], 3)
+        self.assertEqual(report["redundancy"]["pairs"], 3)
+
+    def test_nothing_is_gated_on_the_correlation(self) -> None:
+        # The section counts what sits above the line and never acts on it. If this ever grows
+        # an error or a warning, the skill has quietly started constraining what it discloses.
+        twin = [100.0 + (index % 2) * 10 for index in range(DAYS)]
+        series = {"A:ONE": twin, "A:TWO": [value * 3 for value in twin]}
+        with tempfile.TemporaryDirectory() as root:
+            report = evaluate(
+                universe=universe([member("A:ONE"), member("A:TWO")]),
+                prices=prices(series, Path(root)),
+            )
+        self.assertEqual(report["redundancy"]["above_high"], 1)
+        self.assertNotIn("errors", report["redundancy"])
+        self.assertNotIn("warnings", report["redundancy"])
+
+    def test_one_short_history_does_not_shorten_the_window_for_everyone(self) -> None:
+        # A new listing has half a window. Joining it to the shared grid would silently turn
+        # every correlation in the report into a fifteen-day statistic, so it is set aside and
+        # named instead.
+        series = {
+            "A:ONE": ramp(0.1),
+            "A:TWO": ramp(0.2),
+            "A:NEW": ramp(0.3, days=12),
+        }
+        members = [member("A:ONE"), member("A:TWO"), member("A:NEW")]
+        with tempfile.TemporaryDirectory() as root:
+            report = evaluate(universe=universe(members), prices=prices(series, Path(root)))
+        self.assertEqual(report["redundancy"]["short_history"], ["A:NEW"])
+        self.assertEqual(report["redundancy"]["compared"], 2)
+        self.assertGreaterEqual(report["redundancy"]["observations"], DAYS - 2)
+
+    def test_a_universe_with_one_observable_member_says_so(self) -> None:
+        with tempfile.TemporaryDirectory() as root:
+            report = evaluate(
+                universe=universe([member("A:ONE"), member("A:GONE")]),
+                prices=prices({"A:ONE": ramp(0.1)}, Path(root)),
+            )
+        self.assertEqual(report["redundancy"]["compared"], 0)
+        self.assertIn("two members", report["redundancy"]["note"])
+
+
 if __name__ == "__main__":
     unittest.main()

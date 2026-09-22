@@ -46,7 +46,8 @@ The builder allocates seats in this order:
 
 1. Eligible benchmarks and anchors marked `required=true`.
 2. At least one representative for every theme the current tier must cover.
-3. Expansion by the core / satellite / tactical bucket quotas.
+3. Expansion by the core / satellite / tactical bucket quotas, apportioned by largest
+   remainder so the seats add up to the target rather than rounding into core.
 4. Ranking inside a bucket by recomputable metrics and a fixed role order. A candidate is
    scored against the full weight of its bucket's fields, so a field it did not bring costs what
    that field weighs. Scoring only what is present would reward the absence, and this skill
@@ -55,6 +56,18 @@ The builder allocates seats in this order:
 5. Apportionment of the remaining seats to theme weight, then the TradingView token cap.
    First-level concentration is measured and disclosed at this step, not capped.
 6. Content hash, validation report, Markdown and txt.
+
+The build then runs the whole order twice more on a bench whose measured metrics have been
+nudged by ±1%, and reports what share of the membership all three runs agree on. A pool sold on
+low turnover should be able to say how much of itself survives its own numbers being slightly
+wrong, and the answer is a measurement rather than an assurance. The direction of the nudge is
+drawn per ticker from a hash: shifting every number the same way would rescale the scores and
+reorder nothing, and drawing it from a random number generator would make the reported number
+unreproducible. Judged fields are not nudged — a judgement is not an estimate with an error bar.
+
+It is a build-time number. Answering it needs the candidates that lost, and a stored universe
+keeps only the members, so `validate` on a file reports no stability at all rather than a stale
+one.
 
 Building Medium resolves the Light set first; Heavy resolves Medium first. Under one snapshot and
 one policy, `Light ⊆ Medium ⊆ Heavy` therefore holds. Across snapshots it holds only if the

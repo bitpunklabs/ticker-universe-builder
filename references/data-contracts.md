@@ -50,6 +50,16 @@ it can produce the universe being asked for, before any candidate is researched:
 | **warning** | an `l1_code` group first appearing at level 2 or 3, invisible to a Light universe |
 | **warning** | a non-ASCII `theme_name`; it becomes a `###00_A_NAME` section header in the TradingView export, so the local-language label belongs in `l1_name` |
 | **warning** | themes plus tickers over the 1000-token cap |
+| **warning** | the breadth floor taking more than 75% of the target, leaving weight almost nothing to order |
+
+`stats.capacity[profile].floor_share` reports that last number on every run, warning or not. The
+breadth floor gives every reachable theme a seat before weight is consulted at all, and across the
+fourteen reviewed tables it takes 38–66% of a Light universe — Brazil spends 23 of 35 seats before
+a single weight is read. That is not a defect; it is what makes the instrument a survey rather
+than a shortlist. But an author about to spend an afternoon tuning `weight` should be able to see
+how much of the budget weight still reaches, and this is the command they run before the research
+starts. The warning fires only past 75%, because a warning that fires on ten of fourteen correct
+tables is the fastest way to teach someone to stop reading warnings.
 
 Exit 0 with warnings, 2 with errors. Every shipped starter table passes clean — no errors and no
 warnings — at every tier of its own market, and a test asserts it. A starter is still a starting
@@ -346,6 +356,13 @@ The `.json` is the record: spec limits, policy hash, sources, measurement, taxon
 selection audit and the review history. `version_hash` covers membership and taxonomy only, so
 re-running with fresher metrics does not churn the version. The other three are derived from it
 and are never edited by hand.
+
+The `.validation.json` carries `stats.stability` on a build and omits it on a re-validation:
+`{shift, draws, survived, of, share}` — how much of the membership two independently perturbed
+re-runs agree on. Answering it needs the whole bench, including the candidates that lost, and the
+universe file keeps only the members and the codes the rest were turned down under. So `validate`
+on a stored file reports no stability rather than a stale one, and a reader has to treat the field
+as absent, not as zero.
 
 `version_hash` is not the skill's release number and does not move with it. The skill is
 versioned in `SKILL.md` so a registry and a git tag have something to point at; a universe is

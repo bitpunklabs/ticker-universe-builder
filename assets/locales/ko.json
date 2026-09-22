@@ -7,6 +7,7 @@
   "label.version": "버전",
   "label.tickers": "종목 수",
   "label.themes": "테마 수",
+  "label.stability": "안정도",
   "label.largest_theme": "최대 테마",
   "label.partially_scored": "점수 항목 누락",
   "label.weighted_share": "가중 기준",

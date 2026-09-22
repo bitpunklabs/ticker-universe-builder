@@ -7,9 +7,10 @@
 
 - Profundidade: Enxuto
 - Fatos apurados em: 2026-09-17
-- Versão: `5240f6c69f8d`
+- Versão: `8dd01f54afeb`
 - Ativos: 35
 - Temas: 23
+- Estabilidade: 0.97 · 34 / 35 · ±1%
 - Maior tema: 80_C · 5 · 14% · participação ponderada 4
 - Entradas no TradingView: 58 / 1000
 - Candidatos descartados ou não selecionados: 27
@@ -23,9 +24,9 @@
 | Referência (BENCHMARK) | 1 |
 | Satélite beta (BETA_SATELLITE) | 4 |
 | Proxy de amplitude (BREADTH_PROXY) | 1 |
-| Sensor de liquidez (LIQUIDITY_SENSOR) | 1 |
+| Sensor de liquidez (LIQUIDITY_SENSOR) | 2 |
 | Líder de qualidade (QUALITY_LEADER) | 1 |
-| Líder do tema (THEME_LEADER) | 23 |
+| Líder do tema (THEME_LEADER) | 22 |
 
 ## Cobertura temática
 
@@ -43,9 +44,9 @@
 | 20_B | Comunicação | TELECOM | 1 | 1 |
 | 30_A | Consumo | DISCRETIONARY_LEADERS | 1 | 1 |
 | 30_B | Consumo | STAPLES | 1 | 3 |
-| 30_C | Consumo | RESTAURANTS_AND_TRAVEL | 1 | 1 |
+| 30_C | Consumo | RESTAURANTS_AND_TRAVEL | 1 | 2 |
 | 30_E | Consumo | AUTOS_AND_MOBILITY | 2 | 0 |
-| 40_A | Financeiro | MONEY_CENTER_BANKS | 1 | 3 |
+| 40_A | Financeiro | MONEY_CENTER_BANKS | 1 | 2 |
 | 40_B | Financeiro | PAYMENTS | 3 | 0 |
 | 40_C | Financeiro | ASSET_MANAGERS_AND_EXCHANGES | 1 | 1 |
 | 40_D | Financeiro | INSURANCE | 1 | 1 |
@@ -78,7 +79,7 @@
 | liquidity | medido (measured) | percentil transversal do volume financeiro médio diário | 30d |
 | quality | misto (blended) | tempo de listagem e percentil de tamanho, somados a um juízo de durabilidade | — |
 
-Em 29 de 35 componentes, quality combina 50% de regra e 50% de julgamento. A metade regrada lê tempo de listagem, percentil de tamanho e sinais desfavoráveis; a metade julgada é o que nenhuma estatística cobre.
+Em 28 de 35 componentes, quality combina 50% de regra e 50% de julgamento. A metade regrada lê tempo de listagem, percentil de tamanho e sinais desfavoráveis; a metade julgada é o que nenhuma estatística cobre.
 
 ## Por que candidatos ficaram de fora
 
@@ -104,9 +105,9 @@ Em 29 de 35 componentes, quality combina 50% de regra e 50% de julgamento. A met
 | 30_B STAPLES | BMFBOVESPA:ASAI3 | Sendas Distribuidora | Líder do tema (THEME_LEADER) |  | https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/ |
 | 30_B STAPLES | BMFBOVESPA:PCAR3 | Companhia Brasileira de Distribuição | Satélite beta (BETA_SATELLITE) |  | https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/ |
 | 30_C RESTAURANTS_AND_TRAVEL | BMFBOVESPA:CVCB3 | CVC Brasil | Líder do tema (THEME_LEADER) |  | https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/ |
+| 30_C RESTAURANTS_AND_TRAVEL | BMFBOVESPA:AZUL4 | Azul | Sensor de liquidez (LIQUIDITY_SENSOR) |  | https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/ |
 | 40_A MONEY_CENTER_BANKS | BMFBOVESPA:ITUB4 | Itaú Unibanco | Âncora (ANCHOR) |  | https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/ |
 | 40_A MONEY_CENTER_BANKS | BMFBOVESPA:BBDC4 | Banco Bradesco | Líder do tema (THEME_LEADER) |  | https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/ |
-| 40_A MONEY_CENTER_BANKS | BMFBOVESPA:BBAS3 | Banco do Brasil | Líder do tema (THEME_LEADER) |  | https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/ |
 | 40_C ASSET_MANAGERS_AND_EXCHANGES | BMFBOVESPA:B3SA3 | B3 Brasil Bolsa Balcão | Líder do tema (THEME_LEADER) |  | https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/ |
 | 40_D INSURANCE | BMFBOVESPA:BBSE3 | BB Seguridade | Líder do tema (THEME_LEADER) |  | https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/ |
 | 50_A PHARMA | BMFBOVESPA:HYPE3 | Hypera | Líder do tema (THEME_LEADER) |  | https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/ |

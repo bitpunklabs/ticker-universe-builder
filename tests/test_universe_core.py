@@ -18,13 +18,17 @@ from universe_core import (  # noqa: E402
     EXCLUSION_CODES,
     MARKET_SPECS,
     MARKETS,
+    MEASURED_ONLY_METRICS,
     MEASUREMENT_BASES,
     PROFILES,
     QUALITY_FLAG_CODES,
     ROLES,
     SCORE_WEIGHTS,
+    STABILITY_SHIFT,
+    THEME_DRIFT_FLOOR,
     UniverseError,
     _glossed,
+    _jitter,
     adverse_flag_summary,
     apply_change_set,
     build_universe,
@@ -35,6 +39,7 @@ from universe_core import (  # noqa: E402
     diff_universes,
     expected_members,
     languages,
+    largest_remainder,
     load_lexicon,
     load_policy,
     market_guidance,
@@ -42,6 +47,7 @@ from universe_core import (  # noqa: E402
     metric_score,
     normalize_candidate,
     normalize_market_declaration,
+    normalize_snapshot,
     normalize_taxonomy,
     quality_flag_codes,
     read_json,
@@ -363,6 +369,61 @@ class PopulationTests(unittest.TestCase):
                 raw["measurement"]["liquidity"]["population"] = value
                 with self.assertRaisesRegex(UniverseError, "positive whole number"):
                     build_universe(spec(), raw, small_policy())
+
+
+class ApportionmentTests(unittest.TestCase):
+    def test_the_seats_add_up_to_the_target(self) -> None:
+        # Flooring loses up to one seat per bucket and the fill pass hands every one of them to
+        # core, which is the largest bench and sorts first. That is a standing transfer, not
+        # rounding noise.
+        shares = load_policy()["profiles"]["light"]["bucket_targets"]
+        for target in range(1, 401):
+            with self.subTest(target=target):
+                self.assertEqual(sum(largest_remainder(target, shares).values()), target)
+
+    def test_the_leftover_seat_goes_to_the_largest_remainder(self) -> None:
+        # br Light: 35 seats at .8/.15/.05 entitles tactical to 1.75 and flooring gives it 1.
+        seats = largest_remainder(35, {"core": 0.8, "satellite": 0.15, "tactical": 0.05})
+        self.assertEqual(seats, {"core": 28, "satellite": 5, "tactical": 2})
+
+    def test_a_tie_is_broken_by_name_not_by_dict_order(self) -> None:
+        # Two buckets with the same remainder decide a real seat, so the answer cannot depend
+        # on which order the policy file happened to list them in.
+        forward = largest_remainder(3, {"alpha": 0.5, "beta": 0.5})
+        backward = largest_remainder(3, {"beta": 0.5, "alpha": 0.5})
+        self.assertEqual(forward, backward)
+        self.assertEqual(forward["alpha"], 2)
+
+
+class FloorCostTests(unittest.TestCase):
+    def test_the_check_reports_what_the_breadth_floor_costs(self) -> None:
+        # Always disclosed, because an author tuning `weight` is entitled to know how much of
+        # the budget weight still reaches. The fourteen shipped tables spend 38-66% of Light
+        # on the floor, so this is a number, not an exception.
+        result = check_taxonomy(starter_taxonomy("br"), "br", profile="light")
+        capacity = result["stats"]["capacity"]["light"]
+        self.assertEqual(
+            capacity["floor_share"],
+            round(capacity["themes"] / capacity["target"], 2),
+        )
+        self.assertGreater(capacity["floor_share"], 0.5)
+        self.assertTrue(result["passed"])
+
+    def test_a_table_whose_weights_barely_apply_is_warned_about(self) -> None:
+        # Nineteen themes against twenty seats: the floor takes 95% and `weight` orders one
+        # seat. Legal, and not something to discover after the research is done.
+        table = [
+            {"l1_code": f"{index:02d}", "l1_name": f"Group {index}",
+             "theme_code": f"{index:02d}_A", "theme_name": f"Theme {index}",
+             "coverage_level": 1}
+            for index in range(19)
+        ]
+        result = check_taxonomy(table, "crypto", target=20, profile="light")
+        self.assertTrue(result["passed"])
+        self.assertTrue(
+            any("breadth floor spends 19 of 20" in text for text in result["warnings"]),
+            result["warnings"],
+        )
 
 
 class EvidenceTests(unittest.TestCase):
@@ -780,6 +841,125 @@ class ThemeWeightTests(unittest.TestCase):
         crowded["version_hash"] = universe_hash(crowded)
         report = validate_universe(crowded, load_policy())
         self.assertIn("weighted share", " ".join(report["warnings"]))
+
+    def test_required_seats_are_not_counted_against_a_weighted_share(self) -> None:
+        # A benchmark is in the universe because the market spec names it, not because its
+        # theme won a slot. Counting it against the theme's apportioned expectation compares an
+        # assigned seat to an earned one, and since every market's required seats sit in its
+        # benchmark theme, it skews the same theme the same way everywhere.
+        folder = ROOT / "examples" / "kr-light"
+        universe, _ = build_universe(
+            read_json(folder / "build-spec.json"),
+            read_json(folder / "snapshot.json"),
+            load_policy(),
+        )
+        theme = Counter(
+            item["theme_code"] for item in universe["members"] if item.get("required")
+        ).most_common(1)[0][0]
+        stuffed = copy.deepcopy(universe)
+        for item in stuffed["members"]:
+            if item["theme_code"] != theme and not item.get("required"):
+                item["required"] = True
+                item["theme_code"] = theme
+                break
+        stuffed["version_hash"] = universe_hash(stuffed)
+        report = validate_universe(stuffed, load_policy())
+        # The theme now holds more members than the table asked for, but every one of the extra
+        # seats was required, so there is nothing for maintenance to have drifted.
+        self.assertNotIn(theme, " ".join(report["warnings"]))
+
+    def test_the_drift_floor_is_low_enough_to_see_a_light_universe(self) -> None:
+        # A Light universe is small, so its themes expect small numbers — br's 60_A is weighted
+        # to a quarter of a member. A theme holding three of those is more than ten times its
+        # share, and the old floor of 5 made it invisible in the tier most people build. The
+        # floor could only come down once required seats left the comparison; before that it was
+        # the only thing keeping the benchmark themes from false-positiving everywhere.
+        folder = ROOT / "examples" / "br-light"
+        universe, _ = build_universe(
+            read_json(folder / "build-spec.json"),
+            read_json(folder / "snapshot.json"),
+            load_policy(),
+        )
+        crowded = copy.deepcopy(universe)
+        thin = min(
+            Counter(item["theme_code"] for item in crowded["members"]).items(),
+            key=lambda row: row[1],
+        )[0]
+        moved = 0
+        for item in crowded["members"]:
+            if item["theme_code"] != thin and not item.get("required") and moved < 2:
+                item["theme_code"] = thin
+                moved += 1
+        crowded["version_hash"] = universe_hash(crowded)
+        held = Counter(item["theme_code"] for item in crowded["members"])[thin]
+        self.assertEqual(held, THEME_DRIFT_FLOOR)
+        self.assertLess(held, 5, "the point of the change is that this is now visible")
+        self.assertIn(thin, " ".join(validate_universe(crowded, load_policy())["warnings"]))
+
+
+class StabilityTests(unittest.TestCase):
+    """The instrument is sold on low turnover. This is the only thing that measures it."""
+
+    def build(self, market: str = "crypto"):
+        folder = ROOT / "examples" / f"{market}-light"
+        return build_universe(
+            read_json(folder / "build-spec.json"),
+            read_json(folder / "snapshot.json"),
+            load_policy(),
+        )
+
+    def test_a_build_reports_how_much_of_itself_survives_a_nudge(self) -> None:
+        _, report = self.build()
+        stability = report["stats"]["stability"]
+        self.assertEqual(stability["of"], report["stats"]["tickers"])
+        self.assertLessEqual(stability["survived"], stability["of"])
+        self.assertAlmostEqual(
+            stability["share"], stability["survived"] / stability["of"], places=3
+        )
+        self.assertEqual(stability["shift"], STABILITY_SHIFT)
+
+    def test_the_number_is_the_same_on_every_machine(self) -> None:
+        # Drawn from a digest rather than an RNG, because a build reporting a different number
+        # each run would be a fact nobody could check — which is the thing this release is about.
+        first = self.build()[1]["stats"]["stability"]
+        second = self.build()[1]["stats"]["stability"]
+        self.assertEqual(first, second)
+
+    def test_a_uniform_shift_would_have_measured_nothing(self) -> None:
+        # The draw has to be per ticker. `metric_score` is linear, so nudging every number the
+        # same way rescales every score and reorders nothing — the number would read 1.00 on any
+        # input, which is worse than not reporting it.
+        candidates = read_json(ROOT / "examples" / "crypto-light" / "snapshot.json")["candidates"]
+        normalized = normalize_snapshot(
+            read_json(ROOT / "examples" / "crypto-light" / "snapshot.json")
+        )["candidates"]
+        self.assertEqual(len(candidates), len(normalized))
+        signs = set()
+        for draw in (0, 1):
+            shaken = _jitter(normalized, draw)
+            for before, after in zip(normalized, shaken, strict=True):
+                for field in MEASURED_ONLY_METRICS:
+                    was, now = before["metrics"].get(field), after["metrics"].get(field)
+                    if was:
+                        signs.add(now > was)
+        self.assertEqual(signs, {True, False})
+
+    def test_a_judged_field_is_left_alone(self) -> None:
+        # A judgement is not an estimate with an error bar. Nudging one would ask how sensitive
+        # the pool is to the author's opinion, which a ±1% shift cannot answer.
+        normalized = normalize_snapshot(
+            read_json(ROOT / "examples" / "crypto-light" / "snapshot.json")
+        )["candidates"]
+        for before, after in zip(normalized, _jitter(normalized, 0), strict=True):
+            self.assertEqual(before["metrics"].get("quality"), after["metrics"].get("quality"))
+            self.assertEqual(before["quality_score"], after["quality_score"])
+
+    def test_stability_is_absent_when_a_stored_universe_is_revalidated(self) -> None:
+        # It needs the bench, and a universe file keeps only the members. Reporting a stale or
+        # invented number there would be worse than reporting none.
+        universe, _ = self.build()
+        self.assertNotIn("stability", validate_universe(universe, load_policy())["stats"])
+        self.assertNotIn("stability", universe)
 
 
 class DiffTests(unittest.TestCase):

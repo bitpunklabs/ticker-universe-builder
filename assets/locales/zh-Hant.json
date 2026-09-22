@@ -7,6 +7,7 @@
   "label.version": "版本",
   "label.tickers": "標的數",
   "label.themes": "主題數",
+  "label.stability": "抗擾動穩定性",
   "label.largest_theme": "最大主題",
   "label.partially_scored": "評分欄位不全",
   "label.weighted_share": "權重應得",

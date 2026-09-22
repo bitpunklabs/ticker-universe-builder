@@ -6,10 +6,11 @@
 
 - 深度：簡易
 - 事実の基準日：2026-09-17
-- バージョン：`d3b0c82f38c1`
+- バージョン：`74ac875eb462`
 - 銘柄数：65
 - テーマ数：34
-- 最大テーマ：30_E · 5 · 8% · ウェイト換算 5
+- 安定度：0.95 · 62 / 65 · ±1%
+- 最大テーマ：30_E · 5 · 8% · ウェイト換算 4
 - TradingView 項目数：99 / 1000
 - 不採用・見送りの候補：55
 - 検証：合格
@@ -20,11 +21,11 @@
 |---|---:|
 | アンカー (ANCHOR) | 10 |
 | ベンチマーク (BENCHMARK) | 2 |
-| ベータ・サテライト (BETA_SATELLITE) | 8 |
+| ベータ・サテライト (BETA_SATELLITE) | 9 |
 | 広がりの代理 (BREADTH_PROXY) | 1 |
 | 流動性観測 (LIQUIDITY_SENSOR) | 2 |
 | 新規上場 (NEW_LISTING) | 1 |
-| 質の主導銘柄 (QUALITY_LEADER) | 10 |
+| 質の主導銘柄 (QUALITY_LEADER) | 9 |
 | テーマ主導銘柄 (THEME_LEADER) | 31 |
 
 ## テーマの網羅
@@ -48,7 +49,7 @@
 | 20_B | 通信・メディア | TELECOM | 1 | 1 |
 | 20_C | 通信・メディア | GAMING_AND_INTERACTIVE | 1 | 2 |
 | 20_D | 通信・メディア | ADVERTISING_AND_MARKETING | 3 | 0 |
-| 30_A | 消費 | DISCRETIONARY_LEADERS | 1 | 2 |
+| 30_A | 消費 | DISCRETIONARY_LEADERS | 1 | 3 |
 | 30_B | 消費 | STAPLES | 1 | 2 |
 | 30_C | 消費 | RESTAURANTS_AND_TRAVEL | 1 | 2 |
 | 30_D | 消費 | APPAREL_AND_LUXURY | 2 | 0 |
@@ -85,7 +86,7 @@
 | 90_A | 不動産 | REITS | 1 | 1 |
 | 90_B | 不動産 | DATA_AND_TOWER_REITS | 2 | 0 |
 | 90_C | 不動産 | REAL_ESTATE_SERVICES | 3 | 0 |
-| 90_D | 不動産 | PROPERTY_DEVELOPERS | 1 | 2 |
+| 90_D | 不動産 | PROPERTY_DEVELOPERS | 1 | 1 |
 | 95_A | デジタル資産 | DIGITAL_ASSET_EQUITIES | 1 | 1 |
 
 ## 指標の算出方法
@@ -99,7 +100,7 @@
 | liquidity | 実測 (measured) | 30 日平均売買代金のクロスセクション分位 | 30d |
 | quality | ルールと判断の混合 (blended) | 上場年数と規模分位に、事業継続性の判断を重ねたもの | — |
 
-全 65 銘柄のうち 53 銘柄で、quality はルール 50%、判断 50% の配分です。ルール側は上場からの年数、規模の分位、不利な指定を読み、判断側はどの統計にも表れない部分です。
+全 65 銘柄のうち 52 銘柄で、quality はルール 50%、判断 50% の配分です。ルール側は上場からの年数、規模の分位、不利な指定を読み、判断側はどの統計にも表れない部分です。
 
 ## 候補が入らなかった理由
 
@@ -138,6 +139,7 @@
 | 20_C GAMING_AND_INTERACTIVE | TSE:7974 | 任天堂 | テーマ主導銘柄 (THEME_LEADER) |  | https://www.jpx.co.jp/markets/statistics-equities/misc/01.html |
 | 30_A DISCRETIONARY_LEADERS | TSE:9983 | ファーストリテイリング | アンカー (ANCHOR) |  | https://www.jpx.co.jp/markets/statistics-equities/misc/01.html |
 | 30_A DISCRETIONARY_LEADERS | TSE:4911 | 資生堂 | 質の主導銘柄 (QUALITY_LEADER) |  | https://www.jpx.co.jp/markets/statistics-equities/misc/01.html |
+| 30_A DISCRETIONARY_LEADERS | TSE:7936 | アシックス | ベータ・サテライト (BETA_SATELLITE) |  | https://www.jpx.co.jp/markets/statistics-equities/misc/01.html |
 | 30_B STAPLES | TSE:2914 | 日本たばこ産業 | テーマ主導銘柄 (THEME_LEADER) |  | https://www.jpx.co.jp/markets/statistics-equities/misc/01.html |
 | 30_B STAPLES | TSE:3382 | セブン&アイ・ホールディングス | テーマ主導銘柄 (THEME_LEADER) |  | https://www.jpx.co.jp/markets/statistics-equities/misc/01.html |
 | 30_C RESTAURANTS_AND_TRAVEL | TSE:7550 | ゼンショーホールディングス | テーマ主導銘柄 (THEME_LEADER) |  | https://www.jpx.co.jp/markets/statistics-equities/misc/01.html |
@@ -176,5 +178,4 @@
 | 80_B UTILITIES | TSE:9501 | 東京電力ホールディングス | 流動性観測 (LIQUIDITY_SENSOR) |  | https://www.jpx.co.jp/markets/statistics-equities/misc/01.html |
 | 90_A REITS | TSE:8951 | 日本ビルファンド投資法人 | テーマ主導銘柄 (THEME_LEADER) |  | https://www.jpx.co.jp/markets/statistics-equities/misc/01.html |
 | 90_D PROPERTY_DEVELOPERS | TSE:8801 | 三井不動産 | テーマ主導銘柄 (THEME_LEADER) |  | https://www.jpx.co.jp/markets/statistics-equities/misc/01.html |
-| 90_D PROPERTY_DEVELOPERS | TSE:8830 | 住友不動産 | 質の主導銘柄 (QUALITY_LEADER) |  | https://www.jpx.co.jp/markets/statistics-equities/misc/01.html |
 | 95_A DIGITAL_ASSET_EQUITIES | TSE:8698 | マネックスグループ | テーマ主導銘柄 (THEME_LEADER) |  | https://www.jpx.co.jp/markets/statistics-equities/misc/01.html |

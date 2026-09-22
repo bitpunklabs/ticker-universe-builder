@@ -29,10 +29,10 @@ Every member now records `scored_on` — `{"present": n, "of": m}` — because `
 fields and `0.62` from two are not the same claim. The build report prints the count of
 partially scored members, and prints it only when it is not zero.
 
-Membership did not move in any of the fourteen shipped examples, which is worth stating rather
-than dressing up: every candidate with a gap was already losing on the fields it did bring. The
-unit tests pin the behaviour; the examples happened not to hold the pathological case anywhere
-it was contested.
+This fix moved no membership in the fourteen shipped examples, which is worth stating rather than
+dressing up: every candidate with a gap was already losing on the fields it did bring. The unit
+tests pin the behaviour; the examples happened not to hold the pathological case anywhere it was
+contested. The seats that did change hands in this release changed for the rounding fix below.
 
 ### A percentile names the population it ranked against
 
@@ -42,7 +42,56 @@ and twenty names — 0.9 against a hundred researched names may be 0.4 against t
 from the price table, and a declaration that omits it builds and warns. This does not make a
 narrow bench acceptable. It makes it visible.
 
-Design note: [`docs/design/0.2.0-what-a-number-carries.md`](docs/design/0.2.0-what-a-number-carries.md).
+### Three quantities the build knew and never said
+
+**What the breadth floor costs.** Every reachable theme takes a seat before weight is consulted,
+which across the fourteen reviewed tables is 38–66% of a Light universe — Brazil spends 23 of its
+35 seats before a single weight is read. `taxonomy --check` now reports `floor_share` on every
+run, and warns only past 75%, where the table's weights have almost nothing left to order.
+
+**The seat lost to rounding.** Bucket quotas were floored, and the pass that picked up the
+leftovers handed them to `core` every time — the largest bench, sorted first — so the rounding
+loss was a standing transfer rather than noise. Quotas are now apportioned by largest remainder,
+the same discipline the themes already get from Sainte-Laguë. At a Light target of 35, tactical
+is entitled to 1.75 seats and gets 2.
+
+This is the change that moved the shipped universes. Nine of the fourteen markets gain an
+entitlement, and four had a candidate to spend it on: br, fr, jp and tw each hand one seat from a
+core member to the satellite or tactical member the bucket had been owed. One seat each, in the
+direction the quota always intended.
+
+**Drift measured against the wrong population.** A required benchmark never went through
+apportionment, so counting it against a theme's weighted share compared an assigned seat to an
+earned one — and since every market's required seats sit in its benchmark themes, the comparison
+was skewed the same way in all fourteen. Required seats now leave both sides. With them out, the
+reporting floor could come down from five members to three, which is where it becomes useful: at
+Light most themes expect one to five members, so a floor of five left a theme at four times its
+share invisible in the tier most people build.
+
+### A build says how much of itself survives its own numbers being wrong
+
+`build` reruns the entire selection twice on a bench whose measured metrics have been nudged by
+±1%, and reports the share of members all three runs agree on. A pool whose stated purpose is low
+turnover had no measurement of its own churn.
+
+The industry answer is a buffer — a higher bar to enter than to stay. It may well be right here
+later, but it is a constraint, and a constraint hides the quantity it acts on. Measure first, and
+let a real number argue for it. Across the fourteen markets at Light the number lands between
+**0.90 and 1.00**, median 0.97; uk gives up five of fifty seats to a 1% nudge and kr and fr give
+up none. Build-time only: it needs the candidates that lost, so `validate` on a stored universe
+reports no stability rather than a stale one.
+
+### `evaluate` can finally see a pair
+
+`factor_r2` measures a member against the factor complex and `independence` measures it against
+the benchmark basket. Nothing compared two members to each other, so the breadth floor could
+guarantee that every theme was represented while two seats quietly watched the same hill. The new
+`redundancy` section reports the most correlated pairs over the window, with their themes beside
+them. It reports and never gates — two names in one sector move together because that is what a
+sector is, and the reader is better placed to judge the pair than a threshold would be.
+
+Design note: [`docs/design/0.2.0-what-a-number-carries.md`](docs/design/0.2.0-what-a-number-carries.md),
+including the two places the implementation came back different from the design.
 
 ## 0.1.0 — 2026-09-21
 

@@ -66,6 +66,12 @@ Quotas are targets, not filling instructions. With no qualified satellite, the s
 core; with no candidate clearing the hard gates, the universe is allowed to sit below its lower
 bound. Liveness, venue, turnover and evidence requirements are never relaxed to reach a number.
 
+The percentages are turned into whole seats by **largest remainder**, the same discipline the
+themes get from Sainte-Laguë. Flooring each share instead would drop up to one seat per bucket,
+and the pass that picks the leftovers up hands every one of them to core — core is the largest
+bench and sorts first — so the rounding loss would be a standing transfer to the biggest bucket
+rather than noise. At a Light target of 35, tactical is entitled to 1.75 seats and gets 2.
+
 A bucket that ends up more than ten points above its target is reported as a warning — on a build
 that means the qualified core ran out, and on a review it means the universe has been drifting one
 evidence-backed operation at a time.
@@ -113,9 +119,18 @@ to hand-pick the universe, which is what roles and buckets are for. `taxonomy --
 any theme weighted to hold more than 15% of the universe — not as an error, because that may be
 exactly right, but because it should be deliberate.
 
-Validation is a disclosure too. A theme holding five or more members and more than 2.5x its
+Validation is a disclosure too. A theme holding three or more members and more than 2.5x its
 weighted share is reported, because a build apportions but maintenance does not: a pool can walk
 a long way into one theme, one evidence-backed operation at a time, and nothing else would say so.
+
+Both sides of that comparison count only **apportioned** seats. A required benchmark is in the
+universe because the market spec names it, not because its theme won a slot, so counting it
+against a weighted share compares an assigned seat to an earned one. Every market carries two or
+three required seats and they all sit in its benchmark themes, so leaving them in skewed the same
+theme in the same direction in all fourteen — Korea's `00_A` holds three against an expectation
+of one, and two of the three are required. The floor of three only became usable once they were
+out; at five, a Light universe (where most themes expect one to five members) could hold a theme
+at four times its share and say nothing.
 
 ## Coverage levels
 

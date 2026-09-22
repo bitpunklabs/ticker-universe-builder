@@ -9,6 +9,7 @@
 - Version: `c5d92dab8d2c`
 - Tickers: 50
 - Themes: 27
+- Stability: 0.90 · 45 / 50 · ±1%
 - Largest theme: 80_C · 5 · 10% · weighted share 4
 - TradingView tokens: 77 / 1000
 - Rejected or unselected candidates: 36

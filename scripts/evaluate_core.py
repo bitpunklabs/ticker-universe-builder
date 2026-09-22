@@ -19,6 +19,7 @@ happened. Every section below is tied to one constant it would recalibrate:
 | `themes` | the theme `weight`s — whether the taxonomy is weighted where the moves were |
 | `metrics` | `SCORE_WEIGHTS` — which metric actually ordered anything |
 | `independence` | the declared factor redundancy against the realised one |
+| `redundancy` | whether two members turned out to be the same observation post |
 
 Reads the same CSV `measure` does. Standard library only.
 """
@@ -40,6 +41,15 @@ MIN_OBSERVATIONS = 10
 TOP_N = (10, 25, 50)
 # Below this many scored members a rank correlation is noise dressed as a finding.
 MIN_FOR_CORRELATION = 8
+# A member whose history covers less than this share of the window cannot join the pairwise
+# grid without shortening it for everyone, so it is named and set aside instead.
+MIN_HISTORY_SHARE = 0.5
+# How many of the most correlated pairs to print. Long enough to show a cluster, short enough
+# that a reader looks at all of it.
+REDUNDANT_PAIRS = 15
+# Not a threshold anything is judged against — nothing here gates. It is the line above which
+# the count of pairs is worth putting in the summary beside the median.
+HIGH_CORRELATION = 0.9
 ANNUALISATION = 252
 
 
@@ -312,6 +322,80 @@ def _independence(
     }
 
 
+def _redundancy(members: list[dict], stats: dict[str, dict]) -> dict[str, Any]:
+    """Which two members turned out to be the same observation post.
+
+    `factor_r2` measures a member against the factor complex and `independence` measures it
+    against the benchmark basket. Neither compares two members to each other, so the one error
+    this instrument cannot see is the one it can least afford: the breadth floor already spends
+    over half the budget, and a duplicated hill costs a seat that no other theme can get back.
+
+    Disclosure, not a gate. Two names can be highly correlated and both belong — one market
+    moving one way is what a sector is — and a reader with the pair in front of them is far
+    better placed to judge that than a threshold would be.
+    """
+    observed = [item for item in members if item["ticker"] in stats]
+    if len(observed) < 2:
+        return {"compared": 0, "note": "fewer than two members are observable in this window"}
+    union: set[str] = set()
+    for item in observed:
+        union |= set(stats[item["ticker"]]["daily"])
+    # One newly listed member would otherwise cut the shared grid down to its own short history
+    # and make every correlation in the report a different, weaker statistic.
+    kept = [
+        item for item in observed
+        if len(stats[item["ticker"]]["daily"]) >= MIN_HISTORY_SHARE * len(union)
+    ]
+    short = sorted(
+        item["ticker"] for item in observed
+        if len(stats[item["ticker"]]["daily"]) < MIN_HISTORY_SHARE * len(union)
+    )
+    grid = sorted(set.intersection(*(set(stats[item["ticker"]]["daily"]) for item in kept))) \
+        if len(kept) >= 2 else []
+    if len(grid) < MIN_OBSERVATIONS:
+        return {
+            "compared": 0,
+            "short_history": short,
+            "note": f"members share fewer than {MIN_OBSERVATIONS} dates; no pair is comparable",
+        }
+    # Standardised once per member, so a correlation is a dot product and a Heavy universe does
+    # not turn one command into a coffee break.
+    unit: dict[str, list[float]] = {}
+    for item in kept:
+        series = stats[item["ticker"]]["daily"]
+        values = [series[day] for day in grid]
+        mean = _mean(values)
+        norm = math.sqrt(sum((value - mean) ** 2 for value in values))
+        if norm > 0:
+            unit[item["ticker"]] = [(value - mean) / norm for value in values]
+    theme = {item["ticker"]: item["theme_code"] for item in kept}
+    role = {item["ticker"]: item["role"] for item in kept}
+    tickers = sorted(unit)
+    pairs = []
+    for index, left in enumerate(tickers):
+        for right in tickers[index + 1:]:
+            correlation = sum(a * b for a, b in zip(unit[left], unit[right], strict=True))
+            pairs.append({
+                "pair": [left, right],
+                "correlation": _round(correlation),
+                "themes": [theme[left], theme[right]],
+                "same_theme": theme[left] == theme[right],
+                "roles": [role[left], role[right]],
+            })
+    pairs.sort(key=lambda row: (-row["correlation"], row["pair"]))
+    values = [row["correlation"] for row in pairs]
+    return {
+        "compared": len(tickers),
+        "observations": len(grid),
+        "pairs": len(pairs),
+        "short_history": short,
+        "median_correlation": _round(_median(values)),
+        "above_high": sum(1 for value in values if value >= HIGH_CORRELATION),
+        "high_correlation": HIGH_CORRELATION,
+        "most_correlated": pairs[:REDUNDANT_PAIRS],
+    }
+
+
 def evaluate(
     *,
     universe: dict[str, Any],
@@ -349,4 +433,5 @@ def evaluate(
         "themes": _themes(members, stats),
         "metrics": _metrics(members, stats),
         "independence": _independence(members, stats, benchmarks or [], series),
+        "redundancy": _redundancy(members, stats),
     }

@@ -9,6 +9,7 @@
 - Version: `5d81fc4fb461`
 - Titel: 45
 - Themen: 25
+- Stabilität: 0.98 · 44 / 45 · ±1%
 - Größtes Thema: 30_E · 4 · 9% · gewichteter Anteil 4
 - TradingView-Einträge: 70 / 1000
 - Abgelehnte oder nicht ausgewählte Kandidaten: 29

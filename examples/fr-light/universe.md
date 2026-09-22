@@ -7,10 +7,11 @@
 
 - Profondeur : Léger
 - Faits arrêtés au : 2026-09-17
-- Version : `abd764fdb840`
+- Version : `80aa66787f2e`
 - Titres : 45
 - Thèmes : 28
-- Thème le plus large : 30_D · 4 · 9% · part pondérée 5
+- Stabilité : 1.00 · 45 / 45 · ±1%
+- Thème le plus large : 30_D · 4 · 9% · part pondérée 4
 - Entrées TradingView : 73 / 1000
 - Candidats écartés ou non retenus : 19
 - Validation : CONFORME
@@ -21,11 +22,11 @@
 |---|---:|
 | Ancrage (ANCHOR) | 8 |
 | Référence (BENCHMARK) | 1 |
-| Satellite bêta (BETA_SATELLITE) | 5 |
+| Satellite bêta (BETA_SATELLITE) | 6 |
 | Indicateur de largeur (BREADTH_PROXY) | 1 |
 | Capteur de liquidité (LIQUIDITY_SENSOR) | 2 |
 | Chef de file qualité (QUALITY_LEADER) | 2 |
-| Chef de file thématique (THEME_LEADER) | 26 |
+| Chef de file thématique (THEME_LEADER) | 25 |
 
 ## Couverture thématique
 
@@ -67,10 +68,10 @@
 | 60_E | Industrie | ENGINEERING_AND_CONSTRUCTION | 1 | 1 |
 | 60_F | Industrie | DISTRIBUTION_AND_SUPPLY | 3 | 0 |
 | 70_A | Énergie | INTEGRATED_ENERGY | 1 | 1 |
-| 70_B | Énergie | OILFIELD_AND_MIDSTREAM | 1 | 1 |
+| 70_B | Énergie | OILFIELD_AND_MIDSTREAM | 1 | 2 |
 | 70_C | Énergie | EXPLORATION_AND_PRODUCTION | 2 | 0 |
 | 80_A | Matériaux et services publics | MATERIALS | 1 | 2 |
-| 80_B | Matériaux et services publics | UTILITIES | 1 | 2 |
+| 80_B | Matériaux et services publics | UTILITIES | 1 | 1 |
 | 80_C | Matériaux et services publics | METALS_AND_MINING | 2 | 0 |
 | 80_D | Matériaux et services publics | CHEMICALS | 3 | 0 |
 | 80_E | Matériaux et services publics | WATER_AND_WASTE | 3 | 0 |
@@ -88,7 +89,7 @@
 | liquidity | mesuré (measured) | percentile en coupe transversale du volume quotidien moyen | 30d |
 | quality | mixte (blended) | ancienneté de cotation et percentile de taille, complétés par un jugement de durabilité | — |
 
-Pour 37 composants sur 45, quality combine 50% de règle et 50% de jugement. La moitié réglée lit l'ancienneté de cotation, le percentile de taille et les signaux défavorables ; la moitié jugée est ce qu'aucune statistique ne couvre.
+Pour 36 composants sur 45, quality combine 50% de règle et 50% de jugement. La moitié réglée lit l'ancienneté de cotation, le percentile de taille et les signaux défavorables ; la moitié jugée est ce qu'aucune statistique ne couvre.
 
 ## Pourquoi des candidats n'ont pas été retenus
 
@@ -141,9 +142,9 @@ Pour 37 composants sur 45, quality combine 50% de règle et 50% de jugement. La 
 | 60_E ENGINEERING_AND_CONSTRUCTION | EURONEXT:DG | Vinci | Ancrage (ANCHOR) |  | https://live.euronext.com/en/markets/paris/equities/list |
 | 70_A INTEGRATED_ENERGY | EURONEXT:TTE | TotalEnergies | Ancrage (ANCHOR) |  | https://live.euronext.com/en/markets/paris/equities/list |
 | 70_B OILFIELD_AND_MIDSTREAM | EURONEXT:TE | Technip Energies | Chef de file qualité (QUALITY_LEADER) |  | https://live.euronext.com/en/markets/paris/equities/list |
+| 70_B OILFIELD_AND_MIDSTREAM | EURONEXT:VK | Vallourec | Satellite bêta (BETA_SATELLITE) |  | https://live.euronext.com/en/markets/paris/equities/list |
 | 80_A MATERIALS | EURONEXT:AI | Air Liquide | Ancrage (ANCHOR) |  | https://live.euronext.com/en/markets/paris/equities/list |
 | 80_A MATERIALS | EURONEXT:NK | Imerys | Satellite bêta (BETA_SATELLITE) |  | https://live.euronext.com/en/markets/paris/equities/list |
 | 80_B UTILITIES | EURONEXT:ENGI | Engie | Chef de file thématique (THEME_LEADER) |  | https://live.euronext.com/en/markets/paris/equities/list |
-| 80_B UTILITIES | EURONEXT:VIE | Veolia Environnement | Chef de file thématique (THEME_LEADER) |  | https://live.euronext.com/en/markets/paris/equities/list |
 | 90_A REITS | EURONEXT:URW | Unibail-Rodamco-Westfield | Chef de file thématique (THEME_LEADER) |  | https://live.euronext.com/en/markets/paris/equities/list |
 | 90_A REITS | EURONEXT:COV | Covivio | Satellite bêta (BETA_SATELLITE) |  | https://live.euronext.com/en/markets/paris/equities/list |

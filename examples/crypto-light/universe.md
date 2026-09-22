@@ -9,7 +9,8 @@
 - Version: `1af6a641bdb9`
 - Tickers: 40
 - Themes: 15
-- Largest theme: 10_A · 4 · 10% · weighted share 5
+- Stability: 1.00 · 40 / 40 · ±1%
+- Largest theme: 10_A · 4 · 10% · weighted share 4
 - TradingView tokens: 55 / 1000
 - Rejected or unselected candidates: 17
 - Validation: PASS

@@ -388,13 +388,29 @@ MAX_THEME_WEIGHT = 4.0
 # One theme holding more than this share of a universe is not an error — it may be exactly what
 # the market looks like — but it is worth saying out loud, in the report and in the taxonomy check.
 THEME_CONCENTRATION_NOTICE = 0.15
+# Past this share of the target spent on the breadth floor, a table's weights order so little of
+# the universe that saying so is worth an author's attention. The reviewed tables sit at 38-66%.
+FLOOR_COST_NOTICE = 0.75
 # What counts as a pool that walked away from its own table. Deliberately loose: a build hands
 # unfilled slots to whichever theme still has candidates, so the honest reading of a busy theme
 # is usually that its neighbours were thin, not that anything is wrong.
 THEME_DRIFT_RATIO = 2.5
-THEME_DRIFT_FLOOR = 5
+# A floor, because a ratio alone would fire on a theme holding two against an expectation of
+# nought-point-seven, which is rounding, not drift. It sat at 5 while required seats were still
+# counted against apportioned expectation — it was the only thing stopping that error from
+# surfacing. With required seats out of the comparison it can come down to where it is useful:
+# at Light most themes expect one to five members, so a floor of 5 made a theme at four times
+# its share invisible in the tier most people build.
+THEME_DRIFT_FLOOR = 3
 # How far a bucket may sit above its profile target before the drift is reported.
 BUCKET_DRIFT_TOLERANCE = 0.10
+# Shake the ruler. Every measured number is an estimate, and the question index construction asks
+# first is how much of the membership survives the estimate being slightly wrong. Nudge each
+# measured metric by this much, in a direction drawn per ticker so the shift is a perturbation
+# and not a rescaling, and report how many members come back. Two draws, because one draw that
+# happens to flatter the pool is an anecdote.
+STABILITY_SHIFT = 0.01
+STABILITY_DRAWS = 2
 STRONG_EVIDENCE_TIERS = {1, 2}
 
 _THEME_RE = re.compile(r"^\d{2}_[A-Z]$")
@@ -498,6 +514,13 @@ def check_taxonomy(
         stats["capacity"][name] = {
             "themes": reachable,
             "target": want,
+            # What the breadth floor costs: every reachable theme takes a seat before weight is
+            # consulted, so this share of the universe is settled by the table's shape and only
+            # the rest is ordered by its weights. Not a defect — it is what makes the instrument
+            # a survey rather than a shortlist — but an author about to tune `weight` should see
+            # how much of the budget weight still reaches, and this is the command they run
+            # before any research starts.
+            "floor_share": round(reachable / want, 2) if want else None,
             "weight_total": round(sum(theme_weight(item) for item in in_level), 3),
             "expected": {
                 code: round(share, 1)
@@ -512,6 +535,19 @@ def check_taxonomy(
             errors.append(
                 f"{name}: {reachable} themes against a target of {want}; every theme must "
                 "hold a member, so widen the target or raise some themes' coverage_level"
+            )
+        elif reachable > FLOOR_COST_NOTICE * want:
+            # Disclosed always (`floor_share` above), warned about only here. The design called
+            # for a warning at half the target, but the fourteen reviewed tables spend 38-66%
+            # of Light on the floor — a warning that fires on ten of fourteen correct inputs is
+            # a miscalibrated threshold, and the fastest way to teach an author to stop reading
+            # warnings. The number is the disclosure; this is the point past which weight has
+            # almost nothing left to order.
+            warnings.append(
+                f"{name}: the breadth floor spends {reachable} of {want} seats "
+                f"({reachable / want:.0%}) giving every theme its first member, leaving "
+                f"{want - reachable} for weight to order; the table's weights barely apply "
+                "at this target"
             )
         for code, share in sorted(expected_members(in_level, want).items()):
             if share / want > THEME_CONCENTRATION_NOTICE:
@@ -551,6 +587,27 @@ def theme_priority(weight: float, held: int) -> float:
     slots the way a quota would.
     """
     return float(weight) / float(2 * int(held) + 1)
+
+
+def largest_remainder(target: int, shares: dict[str, Any]) -> dict[str, int]:
+    """Hand out whole seats so that the parts add up to the whole.
+
+    Flooring each share drops up to one seat per bucket, and the fill pass that picks them up
+    gives them to `core` every time — core is 80% of the bench and sorts first — so the rounding
+    loss is not noise, it is a standing transfer to the largest bucket. Nine of the fourteen
+    markets lose a seat this way at Light. Largest remainder gives each leftover seat to the
+    bucket with the most seat left over, which is the same discipline the themes already get
+    from Sainte-Laguë: one apportionment method, used at both levels.
+    """
+    exact = {bucket: target * float(share) for bucket, share in shares.items()}
+    seats = {bucket: math.floor(value) for bucket, value in exact.items()}
+    # Sorted by remainder, then by name, so a tie between two buckets resolves the same way on
+    # every machine — this decides a real seat.
+    order = sorted(exact, key=lambda bucket: (-(exact[bucket] - seats[bucket]), bucket))
+    leftover = max(0, min(target - sum(seats.values()), len(order)))
+    for bucket in order[:leftover]:
+        seats[bucket] += 1
+    return seats
 
 
 def expected_members(taxonomy: list[dict[str, Any]], target: int) -> dict[str, float]:
@@ -1511,10 +1568,7 @@ def _select_stage(
             f"target is {target}"
         )
 
-    bucket_targets = profile_policy["bucket_targets"]
-    quotas = {
-        bucket: math.floor(target * float(share)) for bucket, share in bucket_targets.items()
-    }
+    quotas = largest_remainder(target, profile_policy["bucket_targets"])
     bucket_counts = Counter(candidate_bucket(item) for item in selected)
 
     def next_in(theme_code: str, respect_quota: bool) -> dict[str, Any] | None:
@@ -1529,8 +1583,8 @@ def _select_stage(
 
     # Two passes over the same apportionment. The first respects the bucket quotas, so the
     # core/satellite/tactical shape of the tier is what steers which candidate a theme offers;
-    # the second fills whatever the floors left over — quotas are floors of a fraction, so they
-    # rarely add to exactly the target — and by then the shape is already set.
+    # the second fills what the first could not place, since a quota is an entitlement and not
+    # a promise that the bench can meet it. By then the shape is already set.
     for respect_quota in (True, False):
         while len(selected) < target:
             best_key: tuple[Any, ...] | None = None
@@ -1558,6 +1612,36 @@ def _select_stage(
             "eligibility was not relaxed"
         )
     return selected, warnings
+
+
+def _jitter(candidates: list[dict[str, Any]], draw: int) -> list[dict[str, Any]]:
+    """The same bench with every measured number nudged, to see whether the seats move.
+
+    The direction is drawn per ticker and per field from a hash, which matters more than it
+    looks: shifting every number the same way is a rescaling, and `metric_score` is linear, so
+    a uniform shift reorders nothing and would report perfect stability on any input. Real
+    measurement error is independent per number, so the draw is too — and taken from a digest
+    rather than an RNG, so the number a build reports is the number it reports on any machine,
+    in any order, forever.
+
+    Judged fields are left alone. A judgement is not an estimate with an error bar, and nudging
+    one would measure how sensitive the pool is to the author's opinion, which is a different
+    question and not one a ±1% shift can ask.
+    """
+    shifted = []
+    for candidate in candidates:
+        metrics = dict(candidate["metrics"])
+        for field in sorted(MEASURED_ONLY_METRICS & set(metrics)):
+            value = metrics[field]
+            if value is None:
+                continue
+            seed = f"{draw}:{candidate['asset_id']}:{field}".encode()
+            sign = 1 if hashlib.sha256(seed).digest()[0] & 1 else -1
+            # Metrics are 0..100, the range `_score_value` enforces, and a nudge may not walk
+            # a value out of it.
+            metrics[field] = min(100.0, max(0.0, float(value) * (1 + sign * STABILITY_SHIFT)))
+        shifted.append({**candidate, "metrics": metrics})
+    return shifted
 
 
 def _seed_members(
@@ -1649,29 +1733,62 @@ def build_universe(
     # Without a seed the tiers are built in order so that Light ⊆ Medium ⊆ Heavy holds inside one
     # run. A seed already is one of the tiers, so only the final stage is left to resolve.
     stages = (profile,) if incumbents else PROFILES[: PROFILE_INDEX[profile] + 1]
-    for stage in stages:
-        guide = market_policy[stage]
-        stage_target = target if stage == profile else int(guide["target"])
-        stage_theme_count = sum(
-            1 for item in snapshot["taxonomy"]
-            if item["coverage_level"] <= policy["profiles"][stage]["coverage_level"]
-        )
-        stage_effective = min(stage_target, token_cap - stage_theme_count, hard_cap)
-        if stage_effective <= 0:
-            raise UniverseError(f"{stage}: TradingView token cap leaves no ticker slots")
-        if stage_effective < stage_target:
-            warnings.append(
-                f"{stage}: target reduced from {stage_target} to {stage_effective} by token cap"
+
+    def run_stages(
+        stage_pool: list[dict[str, Any]], record: list[str] | None
+    ) -> list[dict[str, Any]]:
+        """One full pass of the tier ladder. Run again on a nudged bench to measure stability.
+
+        `record` collects the warnings on the real pass and is None on a rehearsal, because a
+        perturbed run's warnings are about a universe nobody is being shipped.
+        """
+        held = list(seed_members)
+        for stage in stages:
+            guide = market_policy[stage]
+            stage_target = target if stage == profile else int(guide["target"])
+            stage_theme_count = sum(
+                1 for item in snapshot["taxonomy"]
+                if item["coverage_level"] <= policy["profiles"][stage]["coverage_level"]
             )
-        selected, stage_warnings = _select_stage(
-            candidates=pool,
-            taxonomy=snapshot["taxonomy"],
-            profile=stage,
-            target=stage_effective,
-            profile_policy=policy["profiles"][stage],
-            seed=selected,
-        )
-        warnings.extend(stage_warnings)
+            stage_effective = min(stage_target, token_cap - stage_theme_count, hard_cap)
+            if stage_effective <= 0:
+                raise UniverseError(f"{stage}: TradingView token cap leaves no ticker slots")
+            if record is not None and stage_effective < stage_target:
+                record.append(
+                    f"{stage}: target reduced from {stage_target} to {stage_effective} "
+                    "by token cap"
+                )
+            held, stage_warnings = _select_stage(
+                candidates=stage_pool,
+                taxonomy=snapshot["taxonomy"],
+                profile=stage,
+                target=stage_effective,
+                profile_policy=policy["profiles"][stage],
+                seed=held,
+            )
+            if record is not None:
+                record.extend(stage_warnings)
+        return held
+
+    seed_members = selected
+    selected = run_stages(pool, warnings)
+    survivors = set(item["asset_id"] for item in selected)
+    for draw in range(STABILITY_DRAWS):
+        try:
+            shaken = run_stages(_jitter(pool, draw), None)
+        except UniverseError:
+            # A perturbed bench that cannot fill the universe says nothing about the one that
+            # can, and it is not a reason to fail a build that already passed.
+            survivors = set()
+            break
+        survivors &= {item["asset_id"] for item in shaken}
+    stability = {
+        "shift": STABILITY_SHIFT,
+        "draws": STABILITY_DRAWS,
+        "survived": len(survivors),
+        "of": len(selected),
+        "share": round(len(survivors) / len(selected), 4) if selected else None,
+    }
 
     selected.sort(key=lambda item: (item["theme_code"], rank_key(item)))
     selected_assets = {item["asset_id"] for item in selected}
@@ -1725,6 +1842,11 @@ def build_universe(
     universe = {**universe_base}
     universe["version_hash"] = universe_hash(universe)
     report = validate_universe(universe, policy)
+    # Build-time only, and deliberately not part of the universe. Answering it needs the whole
+    # bench — the candidates that lost, with their metrics — and a stored universe keeps only
+    # the members and the reasons the rest were turned down. `validate` on a file therefore
+    # cannot recompute it, and every reader of the report has to treat it as absent.
+    report["stats"]["stability"] = stability
     report["warnings"] = sorted(set(report["warnings"] + warnings))
     if not report["passed"]:
         raise UniverseError("built universe failed validation: " + "; ".join(report["errors"]))
@@ -1798,7 +1920,18 @@ def validate_universe(
         # shape, so a pool can walk a long way from its table without anyone being told.
         counts = Counter(item["theme_code"] for item in normalized)
         in_level = [item for item in taxonomy if int(item["coverage_level"]) <= level]
-        expected = expected_members(in_level, len(normalized))
+        # Required seats never went through apportionment. A benchmark is in the universe
+        # because the market spec names it, not because its theme won a slot, so counting it
+        # against the theme's weighted share compares a seat that was assigned to a seat that
+        # was earned. Every market carries two or three of them and they all sit in benchmark
+        # themes, so left in they skew the same theme in the same direction everywhere — Korea's
+        # 00_A holds three against an expectation of one, and two of the three are required.
+        # Out of both sides, and the remaining comparison is apportioned against apportioned.
+        required_counts = Counter(
+            item["theme_code"] for item in normalized if item.get("required")
+        )
+        apportioned = len(normalized) - sum(required_counts.values())
+        expected = expected_members(in_level, apportioned)
         top = counts.most_common(1)
         if top:
             code, held = top[0]
@@ -1806,17 +1939,24 @@ def validate_universe(
                 "theme_code": code,
                 "members": held,
                 "share": round(held / len(normalized), 4) if normalized else 0.0,
-                "expected": round(expected.get(code, 0.0), 1),
+                # Stated on the same basis as `members`, so the two are readable side by side:
+                # what the weights asked for, plus the seats the spec spent before weighing.
+                "expected": round(expected.get(code, 0.0) + required_counts[code], 1),
             }
         for code, held in sorted(counts.items()):
             want = expected.get(code)
+            earned = held - required_counts[code]
             # Generous on purpose. A build already apportions to weight, and a theme whose
             # neighbours ran out of eligible candidates legitimately absorbs their slots — that
             # is the behaviour a cap could not produce. What this catches is the other thing:
             # a pool that maintenance walked into one theme, one evidence-backed op at a time.
-            if want and held >= THEME_DRIFT_FLOOR and held > THEME_DRIFT_RATIO * want:
+            if want and earned >= THEME_DRIFT_FLOOR and earned > THEME_DRIFT_RATIO * want:
+                held_note = (
+                    f"{earned} apportioned members (of {held})"
+                    if required_counts[code] else f"{earned} members"
+                )
                 warnings.append(
-                    f"{code} holds {held} members against a weighted share of {want:.0f}; "
+                    f"{code} holds {held_note} against a weighted share of {want:.0f}; "
                     "either the weight in the taxonomy is stale or maintenance drifted"
                 )
     try:
@@ -2075,6 +2215,14 @@ def render_markdown(
         f"- {lex['label.version']}{colon}`{universe['version_hash']}`",
         f"- {lex['label.tickers']}{colon}{report['stats']['tickers']}",
         f"- {lex['label.themes']}{colon}{report['stats']['themes']}",
+        # Absent when a stored universe is re-validated rather than built — the bench it needs
+        # is not in the file — so the line goes where it can simply not appear.
+        *([
+            f"- {lex['label.stability']}{colon}"
+            f"{report['stats']['stability']['share']:.2f} · "
+            f"{report['stats']['stability']['survived']} / {report['stats']['stability']['of']} · "
+            f"±{report['stats']['stability']['shift']:.0%}"
+        ] if (report["stats"].get("stability") or {}).get("share") is not None else []),
         # Only when it happened. A line reading "0" on every clean build teaches a reader to
         # stop reading the lines.
         *([
