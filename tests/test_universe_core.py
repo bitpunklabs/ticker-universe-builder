@@ -14,6 +14,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 
 from universe_core import (  # noqa: E402
     AUDIT_CODES,
+    BETA_SCORE_WEIGHTS,
     EXCLUSION_CODES,
     MARKET_SPECS,
     MARKETS,
@@ -21,6 +22,7 @@ from universe_core import (  # noqa: E402
     PROFILES,
     QUALITY_FLAG_CODES,
     ROLES,
+    SCORE_WEIGHTS,
     UniverseError,
     _glossed,
     adverse_flag_summary,
@@ -37,6 +39,7 @@ from universe_core import (  # noqa: E402
     load_policy,
     market_guidance,
     market_spec,
+    metric_score,
     normalize_candidate,
     normalize_market_declaration,
     normalize_taxonomy,
@@ -45,6 +48,7 @@ from universe_core import (  # noqa: E402
     render_markdown,
     render_txt,
     report_language,
+    score_coverage,
     starter_taxonomy,
     theme_priority,
     theme_weight,
@@ -268,6 +272,97 @@ class MeasurementTests(unittest.TestCase):
     def test_declaration_survives_into_the_universe(self) -> None:
         universe, _ = build_universe(spec(), snapshot(), small_policy())
         self.assertEqual(universe["measurement"]["liquidity"]["window"], "30d")
+
+
+class ScoreTests(unittest.TestCase):
+    """A score must not improve because a field is missing.
+
+    Renormalizing over the present fields made absence free and then profitable: the candidate
+    that brought one strong number outranked the one that brought four honest ones. And the
+    absence is manufactured by a rule this repository is proud of -- a ticker with no usable
+    volume gets no liquidity score rather than a guessed one -- so the two rules were paying
+    each other's costs.
+    """
+
+    def leader(self, **metrics: float) -> dict[str, object]:
+        quality = metrics.pop("quality", None)
+        return {
+            "role": "THEME_LEADER",
+            "metrics": dict(metrics),
+            "quality_score": quality,
+        }
+
+    def test_every_score_table_sums_to_one(self) -> None:
+        """The denominator is the whole table, so the table has to mean something."""
+        for name, weights in (*SCORE_WEIGHTS.items(), ("beta", BETA_SCORE_WEIGHTS)):
+            with self.subTest(table=name):
+                self.assertAlmostEqual(sum(weights.values()), 1.0)
+
+    def test_four_honest_numbers_beat_one_strong_one(self) -> None:
+        thin = self.leader(liquidity=0.95)
+        whole = self.leader(liquidity=0.90, quality=0.85, independence=0.80, heat=0.75)
+        self.assertLess(metric_score(thin), metric_score(whole))
+
+    def test_an_absent_field_costs_exactly_what_it_weighs(self) -> None:
+        full = self.leader(liquidity=1.0, quality=1.0, independence=1.0, heat=1.0)
+        self.assertAlmostEqual(metric_score(full), 1.0)
+        without_quality = self.leader(liquidity=1.0, independence=1.0, heat=1.0)
+        self.assertAlmostEqual(
+            metric_score(without_quality), 1.0 - SCORE_WEIGHTS["core"]["quality"]
+        )
+
+    def test_a_candidate_with_nothing_measured_scores_zero(self) -> None:
+        self.assertEqual(metric_score(self.leader()), 0.0)
+
+    def test_coverage_counts_the_fields_the_bucket_scores_on(self) -> None:
+        self.assertEqual(
+            score_coverage(self.leader(liquidity=0.9, heat=0.5)), {"present": 2, "of": 4}
+        )
+
+    def test_every_candidate_records_its_coverage(self) -> None:
+        universe, _ = build_universe(spec(), snapshot(), small_policy())
+        for member in universe["members"]:
+            with self.subTest(ticker=member["ticker"]):
+                self.assertIn("scored_on", member)
+                self.assertLessEqual(member["scored_on"]["present"], member["scored_on"]["of"])
+
+    def test_a_partial_score_is_reported_only_when_it_happened(self) -> None:
+        universe, report = build_universe(spec(), snapshot(), small_policy())
+        self.assertEqual(
+            report["stats"]["partially_scored"],
+            sum(
+                1
+                for member in universe["members"]
+                if member["scored_on"]["present"] < member["scored_on"]["of"]
+            ),
+        )
+
+
+class PopulationTests(unittest.TestCase):
+    """A percentile is a claim about a population, so it has to name one."""
+
+    def test_a_cross_sectional_metric_without_a_population_warns(self) -> None:
+        raw = snapshot()
+        raw["measurement"]["liquidity"].pop("population", None)
+        _, report = build_universe(spec(), raw, small_policy())
+        self.assertTrue(
+            any("no population" in warning for warning in report["warnings"]), report["warnings"]
+        )
+
+    def test_a_declared_population_survives_and_silences_the_warning(self) -> None:
+        raw = snapshot()
+        raw["measurement"]["liquidity"]["population"] = 412
+        universe, report = build_universe(spec(), raw, small_policy())
+        self.assertEqual(universe["measurement"]["liquidity"]["population"], 412)
+        self.assertFalse([w for w in report["warnings"] if "no population" in w])
+
+    def test_a_population_that_is_not_a_count_is_refused(self) -> None:
+        for value in (0, -3, 1.5, "412", True):
+            with self.subTest(value=value):
+                raw = snapshot()
+                raw["measurement"]["liquidity"]["population"] = value
+                with self.assertRaisesRegex(UniverseError, "positive whole number"):
+                    build_universe(spec(), raw, small_policy())
 
 
 class EvidenceTests(unittest.TestCase):

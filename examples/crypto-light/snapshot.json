@@ -22,7 +22,8 @@
       "basis": "measured",
       "method": "cross-sectional percentile of mean daily turnover",
       "window": "30d",
-      "source": "https://data.binance.vision/"
+      "source": "https://data.binance.vision/",
+      "population": 57
     },
     "quality": {
       "basis": "blended",

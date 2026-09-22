@@ -219,7 +219,7 @@ METHOD_TEXT = {
 }
 
 
-def measurement(market: str) -> dict:
+def measurement(market: str, population: int) -> dict:
     source = MARKET_DATA[market]
     factor = FACTOR_LABEL[market]
     text = {
@@ -232,6 +232,8 @@ def measurement(market: str) -> dict:
             "method": text["liquidity"],
             "window": "30d",
             "source": source,
+            # The bench the percentile was taken against -- here, the seed itself.
+            "population": population,
         },
         "quality": {
             "basis": "blended",
@@ -426,7 +428,7 @@ def build(market: str) -> dict:
         "as_of": AS_OF,
         "complete": True,
         "sources": sources(market),
-        "measurement": measurement(market),
+        "measurement": measurement(market, len(rows)),
         "taxonomy": taxonomy,
         "candidates": [candidate(market, row, index) for index, row in enumerate(rows)],
     }

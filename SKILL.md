@@ -1,7 +1,7 @@
 ---
 name: ticker-universe-builder
 description: Build and maintain auditable, evidence-gated ticker universes for fourteen markets at three depths, exported as TradingView watchlists. Not stock tips.
-version: 0.1.0
+version: 0.2.0
 allowed-tools: Read, Write, Bash, WebSearch, WebFetch
 homepage: https://github.com/bitpunklabs/ticker-universe-builder
 metadata:

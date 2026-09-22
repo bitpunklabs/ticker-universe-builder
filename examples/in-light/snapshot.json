@@ -28,7 +28,8 @@
       "basis": "measured",
       "method": "cross-sectional percentile of mean daily turnover",
       "window": "30d",
-      "source": "https://www.nseindia.com/reports/daily-reports-equities"
+      "source": "https://www.nseindia.com/reports/daily-reports-equities",
+      "population": 103
     },
     "quality": {
       "basis": "blended",

@@ -28,7 +28,8 @@
       "basis": "measured",
       "method": "cross-sectional percentile of mean daily turnover",
       "window": "30d",
-      "source": "https://www.tsx.com/trading/market-data"
+      "source": "https://www.tsx.com/trading/market-data",
+      "population": 78
     },
     "quality": {
       "basis": "blended",

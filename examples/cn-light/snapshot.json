@@ -28,7 +28,8 @@
       "basis": "measured",
       "method": "30 日日均成交额的截面分位",
       "window": "30d",
-      "source": "http://www.sse.com.cn/market/stockdata/overview/"
+      "source": "http://www.sse.com.cn/market/stockdata/overview/",
+      "population": 101
     },
     "quality": {
       "basis": "blended",

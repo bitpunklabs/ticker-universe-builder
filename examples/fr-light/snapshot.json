@@ -16,7 +16,8 @@
       "basis": "measured",
       "method": "percentile en coupe transversale du volume quotidien moyen",
       "window": "30d",
-      "source": "https://live.euronext.com/en/markets/paris/equities/list"
+      "source": "https://live.euronext.com/en/markets/paris/equities/list",
+      "population": 64
     },
     "quality": {
       "basis": "blended",

@@ -22,7 +22,8 @@
       "basis": "measured",
       "method": "cross-sectional percentile of mean daily turnover",
       "window": "30d",
-      "source": "https://www.nasdaq.com/market-activity/stocks/screener"
+      "source": "https://www.nasdaq.com/market-activity/stocks/screener",
+      "population": 101
     },
     "quality": {
       "basis": "blended",

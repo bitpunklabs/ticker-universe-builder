@@ -28,7 +28,8 @@
       "basis": "measured",
       "method": "30 日日均成交額的截面分位",
       "window": "30d",
-      "source": "https://www.twse.com.tw/zh/trading/historical/fmtqik.html"
+      "source": "https://www.twse.com.tw/zh/trading/historical/fmtqik.html",
+      "population": 72
     },
     "quality": {
       "basis": "blended",

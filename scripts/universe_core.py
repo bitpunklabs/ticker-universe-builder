@@ -302,6 +302,11 @@ METRIC_FIELDS = (
 # Window-dependent statistics. A model cannot know these without computing them, so the snapshot
 # has to say which window and which source produced them; declaring them as judgement is refused.
 MEASURED_ONLY_METRICS = {"liquidity", "factor_r2", "beta_strength", "beta_stability"}
+# Metrics that are a rank rather than a level. A percentile is a statement about a population,
+# and the population here is whatever bench got researched -- sixty to a hundred and twenty
+# names in a seed. 0.9 against a hundred researched names may be 0.4 against the market, so the
+# declaration has to say what it was ranked against or the number is not comparable to anything.
+CROSS_SECTIONAL_METRICS = {"liquidity"}
 # `quality` is the heaviest weight in the core bucket and the least checkable thing in the file.
 # It stays a judgement — durability is not a statistic — but where checkable facts exist they
 # carry half of it, so the score cannot drift on opinion alone.
@@ -1114,11 +1119,28 @@ def normalize_measurement(
             if not window:
                 raise UniverseError(f"measurement {field}: measured metrics need a window")
             item["window"] = window
+        if "population" in entry:
+            population = entry["population"]
+            if not isinstance(population, int) or isinstance(population, bool) or population < 1:
+                raise UniverseError(
+                    f"measurement {field}: population must be a positive whole number of tickers"
+                )
+            item["population"] = population
         declared[field] = item
     missing = sorted(used_fields - set(declared))
     if missing:
         raise UniverseError("metrics used without a measurement declaration: " + ", ".join(missing))
     return dict(sorted(declared.items()))
+
+
+def measurement_warnings(measurement: dict[str, dict[str, Any]]) -> list[str]:
+    """A rank without its population is a number nobody can compare to another universe's."""
+    return [
+        f"measurement {field}: a cross-sectional percentile with no population; "
+        "state how many tickers it was ranked against"
+        for field in sorted(CROSS_SECTIONAL_METRICS & set(measurement))
+        if "population" not in measurement[field]
+    ]
 
 
 def quality_flag_codes(rules: Any = None) -> frozenset[str]:
@@ -1291,7 +1313,7 @@ def normalize_candidate(
         QUALITY_RULE_WEIGHT * rule_score + (1 - QUALITY_RULE_WEIGHT) * float(metrics["quality"]), 1
     )
     taxonomy = taxonomy_by_code[theme_code]
-    return {
+    candidate = {
         "ticker": ticker,
         "asset_id": asset_id,
         "name": str(raw.get("name", "")).strip() or asset_id,
@@ -1309,6 +1331,8 @@ def normalize_candidate(
         "reason": str(raw.get("reason", "")).strip(),
         "tags": sorted({str(tag).strip() for tag in raw.get("tags", []) if str(tag).strip()}),
     }
+    candidate["scored_on"] = score_coverage(candidate)
+    return candidate
 
 
 def normalize_snapshot(snapshot: dict[str, Any]) -> dict[str, Any]:
@@ -1362,20 +1386,54 @@ def candidate_bucket(candidate: dict[str, Any]) -> str:
     return BUCKET_BY_ROLE[candidate["role"]]
 
 
-def metric_score(candidate: dict[str, Any]) -> float:
-    bucket = candidate_bucket(candidate)
+def _score_inputs(candidate: dict[str, Any]) -> tuple[dict[str, float], dict[str, float]]:
+    """The weights this candidate is judged on, and the values it actually brought to them."""
     values = dict(candidate["metrics"])
     if candidate.get("quality_score") is not None:
         values["quality"] = candidate["quality_score"]
-    weights = BETA_SCORE_WEIGHTS if candidate["role"] == "BETA_SATELLITE" else SCORE_WEIGHTS[bucket]
-    weighted = [
-        (float(values[field]), weight)
+    weights = (
+        BETA_SCORE_WEIGHTS
+        if candidate["role"] == "BETA_SATELLITE"
+        else SCORE_WEIGHTS[candidate_bucket(candidate)]
+    )
+    return weights, values
+
+
+def metric_score(candidate: dict[str, Any]) -> float:
+    """Score against the full denominator, so an absent field costs exactly what it weighs.
+
+    Renormalizing over the fields that happen to be present rewards silence: a candidate
+    carrying only `liquidity` at 0.95 would beat one carrying 0.90 / 0.85 / 0.80 / 0.75 across
+    all four. And the silence is manufactured on purpose -- measurement.md requires that a
+    ticker with no usable volume gets no liquidity score rather than a guessed one -- so the
+    honesty rule was feeding the scoring rule exactly the input it paid for. A metric nobody
+    measured does not earn a seat here, and it does not get out of the way either.
+    """
+    weights, values = _score_inputs(candidate)
+    earned = sum(
+        float(values[field]) * weight
         for field, weight in weights.items()
         if values.get(field) is not None
-    ]
-    if not weighted:
-        return 0.0
-    return sum(value * weight for value, weight in weighted) / sum(weight for _, weight in weighted)
+    )
+    return earned / sum(weights.values())
+
+
+def score_coverage(candidate: dict[str, Any]) -> dict[str, int]:
+    """How many of the fields this candidate was scored on carried a value.
+
+    A bare score cannot be read without it: 0.62 from four fields and 0.62 from two are not the
+    same claim, and only the second one is partly a statement about missing research.
+    """
+    weights, values = _score_inputs(candidate)
+    return {
+        "present": sum(1 for field in weights if values.get(field) is not None),
+        "of": len(weights),
+    }
+
+
+def _is_partially_scored(candidate: dict[str, Any]) -> bool:
+    coverage = score_coverage(candidate)
+    return coverage["present"] < coverage["of"]
 
 
 def rank_key(candidate: dict[str, Any]) -> tuple[float, float, str]:
@@ -1558,11 +1616,15 @@ def build_universe(
                 f"{final_guide['min']}..{final_guide['max']}"
             )
 
-    warnings: list[str] = declared_market_warnings(declaration) + staleness_warnings(
-        snapshot["as_of"],
-        [("snapshot", snapshot["sources"])]
-        + [(item["ticker"], item["evidence"]) for item in snapshot["candidates"]],
-        policy,
+    warnings: list[str] = (
+        declared_market_warnings(declaration)
+        + measurement_warnings(snapshot["measurement"])
+        + staleness_warnings(
+            snapshot["as_of"],
+            [("snapshot", snapshot["sources"])]
+            + [(item["ticker"], item["evidence"]) for item in snapshot["candidates"]],
+            policy,
+        )
     )
     incumbents = _seed_members(snapshot, previous)
     seed_profile = str(previous.get("profile", "")).lower() if previous else ""
@@ -1814,6 +1876,12 @@ def validate_universe(
         "stats": {
             "tickers": len(normalized),
             "themes": len({item["theme_code"] for item in normalized}),
+            # Members that earned a seat on an incomplete score. Not an error -- a metric may be
+            # unmeasurable for good reasons -- but a reader deciding how much to trust the
+            # ordering should not have to open the JSON to find out.
+            "partially_scored": sum(
+                1 for item in normalized if _is_partially_scored(item)
+            ),
             "concentration": concentration,
             "tradingview_tokens": token_count,
             "roles": dict(sorted(Counter(item["role"] for item in normalized).items())),
@@ -2007,6 +2075,12 @@ def render_markdown(
         f"- {lex['label.version']}{colon}`{universe['version_hash']}`",
         f"- {lex['label.tickers']}{colon}{report['stats']['tickers']}",
         f"- {lex['label.themes']}{colon}{report['stats']['themes']}",
+        # Only when it happened. A line reading "0" on every clean build teaches a reader to
+        # stop reading the lines.
+        *([
+            f"- {lex['label.partially_scored']}{colon}"
+            f"{report['stats']['partially_scored']} / {report['stats']['tickers']}"
+        ] if report["stats"].get("partially_scored") else []),
         # Where the universe concentrated, beside what its own table asked for. Nothing caps a
         # theme any more, so this line is how a reader tells a market that really is one theme
         # deep from a taxonomy whose weights were never revisited.

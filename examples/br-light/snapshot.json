@@ -16,7 +16,8 @@
       "basis": "measured",
       "method": "percentil transversal do volume financeiro médio diário",
       "window": "30d",
-      "source": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/"
+      "source": "https://www.b3.com.br/en_us/market-data-and-indices/data-services/market-data/historical-data/equities/",
+      "population": 62
     },
     "quality": {
       "basis": "blended",

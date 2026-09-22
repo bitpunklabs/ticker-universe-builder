@@ -22,7 +22,8 @@
       "basis": "measured",
       "method": "30 日日均成交額的截面分位",
       "window": "30d",
-      "source": "https://www.hkex.com.hk/Market-Data/Statistics/Consolidated-Reports"
+      "source": "https://www.hkex.com.hk/Market-Data/Statistics/Consolidated-Reports",
+      "population": 95
     },
     "quality": {
       "basis": "blended",

@@ -8,6 +8,7 @@
   "label.tickers": "종목 수",
   "label.themes": "테마 수",
   "label.largest_theme": "최대 테마",
+  "label.partially_scored": "점수 항목 누락",
   "label.weighted_share": "가중 기준",
   "label.tv_tokens": "TradingView 항목 수",
   "label.rejected": "탈락하거나 제외된 후보",

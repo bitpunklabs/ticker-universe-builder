@@ -188,6 +188,16 @@ Role-specific requirements the builder enforces:
 | established Crypto members | `factor_r2` |
 
 `null` means not measurable. It is not a bad score, and it must not be replaced by a low one.
+It is also not free: a member is scored against the **full** weight of its bucket's fields, so an
+absent field costs exactly what it weighs. Renormalizing over the fields that happen to be
+present would make silence profitable — a candidate carrying only `liquidity 0.95` would outrank
+one carrying `0.90 / 0.85 / 0.80 / 0.75` — and the silence is manufactured by the rule above,
+which forbids replacing an unmeasurable number with a guess.
+
+Every member therefore records `scored_on`, `{"present": n, "of": m}`: how many of its bucket's
+weighted fields carried a value. `0.62` from four fields and `0.62` from two are not the same
+claim, and only the second is partly a statement about missing research. The build report counts
+the members scored on fewer than all their fields, and prints the count only when it is not zero.
 
 ### quality_facts
 

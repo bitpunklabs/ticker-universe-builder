@@ -12,6 +12,38 @@ universe built under 0.1.0 stays valid when 0.2.0 ships, and its hashes are what
 Each released heading below matches a `version:` in `SKILL.md`, a git tag of the same name, and
 a ClawHub publish.
 
+## 0.2.0 — unreleased
+
+### A score no longer improves because a field is missing
+
+`metric_score` renormalised over whichever weighted fields were present, so the denominator
+shrank with the data and absence paid: a candidate carrying only `liquidity 0.95` outranked one
+carrying `0.90 / 0.85 / 0.80 / 0.75` across all four. Scoring is now against the full weight of
+the bucket's fields, so an absent field costs exactly what it weighs.
+
+The absence was manufactured. `measurement.md` requires that a ticker with no usable volume
+"gets no liquidity score rather than a guessed one" — the honesty rule was feeding the scoring
+rule precisely the input it paid for. Two rules, each right alone, pulling against each other.
+
+Every member now records `scored_on` — `{"present": n, "of": m}` — because `0.62` from four
+fields and `0.62` from two are not the same claim. The build report prints the count of
+partially scored members, and prints it only when it is not zero.
+
+Membership did not move in any of the fourteen shipped examples, which is worth stating rather
+than dressing up: every candidate with a gap was already losing on the fields it did bring. The
+unit tests pin the behaviour; the examples happened not to hold the pathological case anywhere
+it was contested.
+
+### A percentile names the population it ranked against
+
+`liquidity` is a rank over whichever bench got researched, and a seed holds sixty to a hundred
+and twenty names — 0.9 against a hundred researched names may be 0.4 against the market. A
+`measured` declaration of a cross-sectional metric now carries `population`; `measure` writes it
+from the price table, and a declaration that omits it builds and warns. This does not make a
+narrow bench acceptable. It makes it visible.
+
+Design note: [`docs/design/0.2.0-what-a-number-carries.md`](docs/design/0.2.0-what-a-number-carries.md).
+
 ## 0.1.0 — 2026-09-21
 
 First public release. Fourteen markets, each with reviewed rules, its own theme table, a

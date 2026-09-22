@@ -52,10 +52,13 @@ equals the set of registered markets, so a row added without one fails on the sa
 The skill's version lives in `SKILL.md` frontmatter and is semver. Three places carry it and a
 test pins two of them together; the third is the tag, which is why the order below matters.
 
+The version is bumped by the **first** change of a cycle, not at the end: a test ties
+`SKILL.md` to the newest changelog heading, so the two move together or neither does, and
+`## X.Y.Z — unreleased` carries the cycle until the tag dates it.
+
 ```bash
-# 1. bump SKILL.md  version: X.Y.Z
-# 2. head the changelog  ## X.Y.Z — YYYY-MM-DD
-python -m pytest tests -q          # VersionTests fails if 1 and 2 disagree
+# 1. SKILL.md already says X.Y.Z; date the changelog heading  ## X.Y.Z — YYYY-MM-DD
+python -m pytest tests -q          # VersionTests fails if the two disagree
 git commit -am "Release X.Y.Z" && git push
 git tag vX.Y.Z && git push origin vX.Y.Z
 clawhub skill publish . --version X.Y.Z --dry-run   # read it, then run it without --dry-run

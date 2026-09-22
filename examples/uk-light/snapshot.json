@@ -22,7 +22,8 @@
       "basis": "measured",
       "method": "cross-sectional percentile of mean daily turnover",
       "window": "30d",
-      "source": "https://www.londonstockexchange.com/reports?tab=trade-statistics"
+      "source": "https://www.londonstockexchange.com/reports?tab=trade-statistics",
+      "population": 86
     },
     "quality": {
       "basis": "blended",

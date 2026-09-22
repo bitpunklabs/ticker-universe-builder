@@ -8,6 +8,7 @@
   "label.tickers": "標的數",
   "label.themes": "主題數",
   "label.largest_theme": "最大主題",
+  "label.partially_scored": "評分欄位不全",
   "label.weighted_share": "權重應得",
   "label.tv_tokens": "TradingView 條目",
   "label.rejected": "落選或被排除的候選",

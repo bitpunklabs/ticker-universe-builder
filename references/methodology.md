@@ -47,7 +47,11 @@ The builder allocates seats in this order:
 1. Eligible benchmarks and anchors marked `required=true`.
 2. At least one representative for every theme the current tier must cover.
 3. Expansion by the core / satellite / tactical bucket quotas.
-4. Ranking inside a bucket by recomputable metrics and a fixed role order.
+4. Ranking inside a bucket by recomputable metrics and a fixed role order. A candidate is
+   scored against the full weight of its bucket's fields, so a field it did not bring costs what
+   that field weighs. Scoring only what is present would reward the absence, and this skill
+   manufactures absences on purpose — an unmeasurable statistic is left `null` rather than
+   guessed. A metric nobody measured does not earn a seat and does not get out of the way.
 5. Apportionment of the remaining seats to theme weight, then the TradingView token cap.
    First-level concentration is measured and disclosed at this step, not capped.
 6. Content hash, validation report, Markdown and txt.

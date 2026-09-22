@@ -226,17 +226,19 @@ def measure(
         "schema_version": 1,
         "as_of": as_of or latest,
         "benchmark": sorted(ticker.strip().upper() for ticker in benchmarks),
-        "measurement": declarations(label, source, window, liquidity_window),
+        "measurement": declarations(label, source, window, liquidity_window, len(liquidity)),
         "metrics": metrics,
         "notes": sorted(set(notes)),
     }
 
 
 def declarations(
-    label: str, source: str, window: int, liquidity_window: int
-) -> dict[str, dict[str, str]]:
+    label: str, source: str, window: int, liquidity_window: int, population: int
+) -> dict[str, dict[str, Any]]:
     span = f"{window}d"
     return {
+        # `population` is what the percentile was taken against. Without it a rank is not
+        # comparable to the same rank in another universe of the same market.
         "liquidity": {
             "basis": "measured",
             "method": (
@@ -245,6 +247,7 @@ def declarations(
             ),
             "window": f"{liquidity_window}d",
             "source": source,
+            "population": population,
         },
         "factor_r2": {
             "basis": "measured",

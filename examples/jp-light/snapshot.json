@@ -22,7 +22,8 @@
       "basis": "measured",
       "method": "30 日平均売買代金のクロスセクション分位",
       "window": "30d",
-      "source": "https://www.jpx.co.jp/markets/statistics-equities/daily/index.html"
+      "source": "https://www.jpx.co.jp/markets/statistics-equities/daily/index.html",
+      "population": 120
     },
     "quality": {
       "basis": "blended",

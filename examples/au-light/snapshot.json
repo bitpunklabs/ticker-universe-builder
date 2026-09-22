@@ -22,7 +22,8 @@
       "basis": "measured",
       "method": "cross-sectional percentile of mean daily turnover",
       "window": "30d",
-      "source": "https://www.asx.com.au/markets/trade-our-cash-market/market-statistics"
+      "source": "https://www.asx.com.au/markets/trade-our-cash-market/market-statistics",
+      "population": 74
     },
     "quality": {
       "basis": "blended",

@@ -8,6 +8,7 @@
   "label.tickers": "銘柄数",
   "label.themes": "テーマ数",
   "label.largest_theme": "最大テーマ",
+  "label.partially_scored": "スコア項目に欠落",
   "label.weighted_share": "ウェイト換算",
   "label.tv_tokens": "TradingView 項目数",
   "label.rejected": "不採用・見送りの候補",

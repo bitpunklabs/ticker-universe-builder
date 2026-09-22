@@ -22,7 +22,8 @@
       "basis": "measured",
       "method": "30일 일평균 거래대금의 횡단면 백분위",
       "window": "30d",
-      "source": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201020101"
+      "source": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201020101",
+      "population": 92
     },
     "quality": {
       "basis": "blended",

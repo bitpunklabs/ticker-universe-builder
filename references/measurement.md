@@ -34,10 +34,25 @@ takes the http(s) URL of the provider and lands in every declaration the command
 
 | Metric | Definition |
 |---|---|
-| `liquidity` | Cross-sectional percentile of mean daily turnover over `--liquidity-window` sessions |
+| `liquidity` | Cross-sectional percentile of mean daily turnover over `--liquidity-window` sessions, against `population` tickers |
 | `factor_r2` | R² of an OLS of daily returns on the benchmark basket over `--window` sessions |
 | `beta_strength` | Absolute OLS beta, scaled so beta 2.0 reads 100 |
 | `beta_stability` | Agreement of the beta estimate across the two halves of the window |
+
+## A percentile has to name its population
+
+`liquidity` is a rank, not a level, so it is a statement about a group — and the group is
+whichever bench got researched. A seed holds sixty to a hundred and twenty names, and a candidate
+at 0.9 against a hundred researched names may be 0.4 against its market. The number is precise
+about its method and says nothing about its population, which makes two universes of one market
+look comparable when they are not.
+
+So a `measured` declaration of a cross-sectional metric carries `population`: the count of
+distinct tickers the percentile was taken against. `measure` writes it from the price table.
+A hand-written declaration that omits it builds, and warns.
+
+This does not make a narrow bench acceptable. It makes it visible, which is the only honest
+thing a number can do about the sample it came from.
 
 `--benchmark` repeats to form an equal-weighted factor basket, which is what "the BTC/ETH/SOL
 factor" means in the Crypto overlay. Liquidity is a percentile because the score has to be
