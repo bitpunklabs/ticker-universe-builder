@@ -9,10 +9,12 @@ and content hash, because a caller comparing two files needs to know whether the
 instrument — a question no release number can answer. The first does not date the second: a
 universe built under 0.1.0 stays valid when 0.2.0 ships, and its hashes are what say so.
 
-Each released heading below matches a `version:` in `SKILL.md`, a git tag of the same name, and
-a ClawHub publish.
+Each released heading below matches a `version:` in `SKILL.md` and a git tag of the same name.
+0.2.0 is the first one to also be a ClawHub listing: 0.1.0 was tagged here and never published
+there, and backfilling a listing for a release nobody could install would be tidier than it is
+true.
 
-## 0.2.0 — unreleased
+## 0.2.0 — 2026-09-22
 
 ### A score no longer improves because a field is missing
 
