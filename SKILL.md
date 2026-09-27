@@ -1,7 +1,7 @@
 ---
 name: ticker-universe-builder
 description: Build and maintain auditable, evidence-gated ticker universes for fourteen markets at three depths, exported as TradingView watchlists. Not stock tips.
-version: 0.2.0
+version: 0.3.0
 allowed-tools: Read, Write, Bash, WebSearch, WebFetch
 homepage: https://github.com/bitpunklabs/ticker-universe-builder
 metadata:
@@ -117,11 +117,14 @@ reported rather than dropped.
 8. The command prints the path of every artifact it wrote; they are named
    `{market}-{profile}-{as_of}`. Run `validate` on the `universe` path even though the builder
    validates before writing. Never present an output that fails.
-9. Return the human-readable `.md` and the TradingView-importable `.txt`. The `.md` is written
-   in the market's own language — Japanese for `jp`, Korean for `kr`, Traditional Chinese for
-   `hk` and `tw`, Portuguese for `br`, and so on — so write the snapshot's names, themes,
-   reasons and methods in that language too. `--language` overrides it; nothing else about the
-   build changes.
+9. Return the human-readable `.md` reports and the TradingView-importable `.txt`. There are two
+   reports wherever the market does not already read in English — `{stem}.ja.md` and
+   `{stem}.en.md` for `jp`, and likewise Korean for `kr`, Traditional Chinese for `hk` and `tw`,
+   Portuguese for `br` — because a universe is read both by the people who trade that market and
+   by someone allocating across several. Write the snapshot's names, themes, reasons and methods
+   in the market's language; only the report's chrome is translated, so the English report
+   carries those fields exactly as the snapshot wrote them. `--language` names the companion
+   report, not the only one: English is always written. Nothing else about the build changes.
 
 If you have a price table covering the window after a universe was built, run
 `evaluate --universe U --prices P` before proposing the next set of changes. It reports whether

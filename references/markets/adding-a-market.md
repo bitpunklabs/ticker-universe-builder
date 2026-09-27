@@ -123,8 +123,10 @@ Two more rules the tests cannot check, so they are written here:
   in a review, and `换手` in a Chinese market report means trading turnover — a word already
   spoken for by `liquidity`. It is `成分变动`.
 
-The example is held to the same standard as the chrome: `cn-light/universe.md` is checked line by
-line, because an example that reads like machine output teaches the agent to write machine output.
+The example is held to the same standard as the chrome: `cn-light/universe.zh-Hans.md` is checked
+line by line, because an example that reads like machine output teaches the agent to write machine
+output. A new market ships two example reports, its own and English, exactly as a build writes
+two.
 
 ## The classification
 

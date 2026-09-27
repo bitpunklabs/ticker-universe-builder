@@ -21,6 +21,7 @@ import json
 import sys
 from datetime import date
 from pathlib import Path
+from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
@@ -162,11 +163,20 @@ def validate(args: argparse.Namespace) -> int:
     return 0 if report["passed"] else 2
 
 
-def _ok(universe: dict, report: dict, artifacts: dict[str, Path], detail: dict) -> int:
+def _paths(value: Any) -> Any:
+    """Paths as strings, one level deep: `reports` is a language → path map, the rest are paths."""
+    if isinstance(value, dict):
+        return {key: str(path) for key, path in value.items()}
+    return str(value)
+
+
+def _ok(universe: dict, report: dict, artifacts: dict[str, Any], detail: dict) -> int:
     print(json.dumps({
         "status": "passed",
         "output": str(artifacts["directory"]),
-        "artifacts": {name: str(path) for name, path in artifacts.items() if name != "directory"},
+        "artifacts": {
+            name: _paths(value) for name, value in artifacts.items() if name != "directory"
+        },
         "version_hash": universe["version_hash"],
         "warnings": report["warnings"],
         **detail,
@@ -175,8 +185,9 @@ def _ok(universe: dict, report: dict, artifacts: dict[str, Path], detail: dict) 
 
 
 _LANGUAGE_HELP = (
-    "language for the .md report; defaults to the market's own "
-    "(cn is zh-Hans, us and crypto are en)"
+    "the market-language report to write beside the English one; defaults to the market's own "
+    "(cn is zh-Hans, us and crypto are en). English is always written — a universe is read "
+    "both by the people who trade that market and by someone allocating across several"
 )
 
 

@@ -2180,6 +2180,26 @@ def report_language(universe: dict[str, Any] | str) -> str:
     return spec.language if spec else "en"
 
 
+def report_languages(
+    universe: dict[str, Any] | str, language: str | None = None
+) -> tuple[str, ...]:
+    """Every language this universe's report is written in: its own, and English beside it.
+
+    English is not a fallback here, it is a second reader. A jp universe is read by the people
+    who trade Tokyo, and also by someone allocating across six markets who reads none of their
+    six languages — and a ticker universe is exactly the artifact that reader needs, because the
+    reasons and the evidence are the whole point of it. Writing only the market's language served
+    the first reader and handed the second a table of headings they cannot parse.
+
+    So both, always, and the language goes in the filename rather than only one of them getting
+    a suffix. Asymmetric naming would mean "where is the English report" has two answers — the
+    plain `.md` in five markets and the suffixed one in nine — which is the question this is
+    supposed to stop anyone asking.
+    """
+    primary = language or report_language(universe)
+    return (primary,) if primary == "en" else (primary, "en")
+
+
 def _glossed(lexicon: dict[str, str], domain: str, code: str) -> str:
     """`BENCHMARK` in English, `基准 (BENCHMARK)` in Chinese.
 
@@ -2398,19 +2418,23 @@ def write_artifacts(
     language: str | None = None,
 ) -> dict[str, Path]:
     stem = artifact_stem(universe)
+    written = report_languages(universe, language)
     files = {
         f"{stem}.json": json.dumps(universe, ensure_ascii=False, indent=2) + "\n",
         f"{stem}.validation.json": json.dumps(report, ensure_ascii=False, indent=2) + "\n",
         f"{stem}.txt": render_txt(universe),
-        f"{stem}.md": render_markdown(universe, report, language),
     }
+    for code in written:
+        files[f"{stem}.{code}.md"] = render_markdown(universe, report, code)
     destination = _write_atomic(output, files)
     return {
         "directory": destination,
         "universe": destination / f"{stem}.json",
         "validation": destination / f"{stem}.validation.json",
         "watchlist": destination / f"{stem}.txt",
-        "markdown": destination / f"{stem}.md",
+        # Keyed by language, so a caller that wants the English one asks for it by name instead
+        # of reconstructing a filename.
+        "reports": {code: destination / f"{stem}.{code}.md" for code in written},
     }
 
 

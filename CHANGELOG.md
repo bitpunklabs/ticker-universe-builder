@@ -14,6 +14,35 @@ Each released heading below matches a `version:` in `SKILL.md` and a git tag of 
 there, and backfilling a listing for a release nobody could install would be tidier than it is
 true.
 
+## 0.3.0 — unreleased
+
+### Every market reports in English too, not only in its own language
+
+A universe was written in the language of the market it covers, and only that: `jp` in Japanese,
+`kr` in Korean, `br` in Portuguese. That served the people trading Tokyo and left everyone else
+holding a file whose headings they could not read — including the reader this artifact suits
+best, the one allocating across six markets who reads none of their six languages. The reasons
+and the evidence are the whole point of the report, and a table of untranslatable chrome is
+exactly what withholds them.
+
+So a build now writes one report per language: the market's own, and English beside it. A market
+that already reads in English gets one file rather than the same file twice.
+
+**The report filename carries its language, always.** `{stem}.en.md`, `{stem}.ja.md`. Adding a
+suffix only to the new file would have left "where is the English report" with two answers — the
+plain `.md` in five markets and the suffixed one in nine — which is the question this change
+exists to settle. One answer, in all fourteen.
+
+`--language` now names the companion report rather than replacing English: `--language ja` on a
+`cn` universe writes Japanese *and* English.
+
+**Breaking, for a caller that reads the CLI's JSON.** `artifacts.markdown` — one path — is now
+`artifacts.reports`, a language → path map. Nothing about the universe, its hashes or the
+watchlist changes; a universe built under 0.2.0 stays valid and compares clean.
+
+The committed examples move with it: every `examples/<market>-light/` now carries
+`universe.en.md`, and the nine non-English markets carry their own beside it.
+
 ## 0.2.0 — 2026-09-22
 
 ### A score no longer improves because a field is missing

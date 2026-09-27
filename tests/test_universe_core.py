@@ -54,6 +54,7 @@ from universe_core import (  # noqa: E402
     render_markdown,
     render_txt,
     report_language,
+    report_languages,
     score_coverage,
     starter_taxonomy,
     theme_priority,
@@ -228,16 +229,43 @@ class BuildTests(unittest.TestCase):
             # The watchlist is the artifact that leaves the directory, so its name carries the
             # market, the depth and the date on its own.
             self.assertEqual(artifacts["watchlist"].name, "crypto-light-2026-09-09.txt")
-            self.assertEqual(artifacts["markdown"].name, "crypto-light-2026-09-09.md")
+            # Crypto reads in English, so English is the only report — the second file exists
+            # when there is a second language, not for the sake of symmetry.
+            self.assertEqual(
+                {code: path.name for code, path in artifacts["reports"].items()},
+                {"en": "crypto-light-2026-09-09.en.md"},
+            )
             self.assertEqual(
                 sorted(path.name for path in output.iterdir()),
                 [
+                    "crypto-light-2026-09-09.en.md",
                     "crypto-light-2026-09-09.json",
-                    "crypto-light-2026-09-09.md",
                     "crypto-light-2026-09-09.txt",
                     "crypto-light-2026-09-09.validation.json",
                 ],
             )
+
+    def test_a_non_english_market_gets_both_reports(self) -> None:
+        # The whole point: someone allocating across six markets reads none of their six
+        # languages, and the report is where the reasons and the evidence are.
+        universe, report = build_universe(spec(), snapshot(), small_policy())
+        universe["market"] = "cn"
+        with tempfile.TemporaryDirectory() as root:
+            output = Path(root) / "output"
+            artifacts = write_artifacts(universe, report, output)
+            self.assertEqual(sorted(artifacts["reports"]), ["en", "zh-Hans"])
+            self.assertIn("## Members", artifacts["reports"]["en"].read_text(encoding="utf-8"))
+            self.assertIn(
+                "## 成员", artifacts["reports"]["zh-Hans"].read_text(encoding="utf-8")
+            )
+
+    def test_the_language_flag_names_the_companion_not_the_only_report(self) -> None:
+        # `--language ja` on a cn market asks for Japanese beside English, not instead of it.
+        universe, report = build_universe(spec(), snapshot(), small_policy())
+        universe["market"] = "cn"
+        with tempfile.TemporaryDirectory() as root:
+            artifacts = write_artifacts(universe, report, Path(root) / "output", "ja")
+            self.assertEqual(sorted(artifacts["reports"]), ["en", "ja"])
             self.assertEqual(
                 json.loads(artifacts["universe"].read_text())["version_hash"],
                 universe["version_hash"],
@@ -1388,8 +1416,10 @@ class LocalizationTests(unittest.TestCase):
         self.assertEqual(report_language("th"), "en")
 
     def test_a_market_report_is_written_in_its_own_language(self) -> None:
-        chinese = (ROOT / "examples" / "cn-light" / "universe.md").read_text(encoding="utf-8")
-        english = (ROOT / "examples" / "us-light" / "universe.md").read_text(encoding="utf-8")
+        chinese = (ROOT / "examples" / "cn-light" / "universe.zh-Hans.md").read_text(
+            encoding="utf-8"
+        )
+        english = (ROOT / "examples" / "us-light" / "universe.en.md").read_text(encoding="utf-8")
         self.assertIn("# CN 标的池", chinese)
         self.assertIn("## 成员", chinese)
         self.assertNotIn("## Members", chinese)
@@ -1422,7 +1452,9 @@ class LocalizationTests(unittest.TestCase):
                     f"{language} {key}: ASCII punctuation beside CJK in {value!r}",
                 )
         # The example is the demonstration, so it is held to the same standard as the chrome.
-        chinese = (ROOT / "examples" / "cn-light" / "universe.md").read_text(encoding="utf-8")
+        chinese = (ROOT / "examples" / "cn-light" / "universe.zh-Hans.md").read_text(
+            encoding="utf-8"
+        )
         for line in chinese.splitlines():
             self.assertIsNone(_ASCII_NEXT_TO_CJK.search(line), line)
 
@@ -1646,9 +1678,23 @@ class ExampleTests(unittest.TestCase):
             for path in (ROOT / "examples" / f"{market}-light").glob(pattern)
             if path.name != "changes.json"
         }
+        # One report per language per example, named `universe.<language>.md` exactly as a build
+        # names its own. Every market has an English one; nine of the fourteen have a second.
+        expected = sorted(
+            [f"maintenance.{code}.md" for code in report_languages("crypto")]
+            + [
+                f"universe.{code}.md"
+                for market in EXAMPLE_MARKETS
+                for code in report_languages(market)
+            ]
+        )
         self.assertEqual(
-            sorted(path.name for path in before if path.name.endswith(".md")),
-            ["maintenance.md"] + ["universe.md"] * len(EXAMPLE_MARKETS),
+            sorted(path.name for path in before if path.name.endswith(".md")), expected
+        )
+        self.assertEqual(
+            len([name for name in expected if name.endswith(".en.md")]),
+            len(EXAMPLE_MARKETS) + 1,
+            "every market's example has to carry an English report",
         )
         # The watchlist is committed too: it is the artifact that gets imported, and a diff in
         # the TradingView format should be reviewable without running a build.
@@ -1707,23 +1753,24 @@ class ExampleTests(unittest.TestCase):
                 self.assertLessEqual(len(universe["members"]), band["max"])
                 self.assertEqual(report["warnings"], [])
 
-    def test_every_example_reads_in_its_own_market_language(self) -> None:
+    def test_every_example_reads_in_its_own_market_language_and_in_english(self) -> None:
         # The report language is a registry fact, not a run-time choice, and the committed
-        # example is where that either holds or quietly stops holding.
+        # example is where that either holds or quietly stops holding. Both files are checked:
+        # an English report that was quietly rendered from the market's lexicon would look fine
+        # to anyone who cannot read the market's language, which is exactly its reader.
         for market in EXAMPLE_MARKETS:
-            with self.subTest(market=market):
-                report = (ROOT / "examples" / f"{market}-light" / "universe.md").read_text(
-                    encoding="utf-8"
-                )
-                heading = next(
-                    line for line in report.splitlines() if line.startswith("# ")
-                )
-                lexicon = read_json(
-                    ROOT / "assets" / "locales" / f"{report_language(market)}.json"
-                )
-                self.assertEqual(
-                    heading, "# " + lexicon["title"].format(market=market.upper())
-                )
+            for code in report_languages(market):
+                with self.subTest(market=market, language=code):
+                    path = ROOT / "examples" / f"{market}-light" / f"universe.{code}.md"
+                    heading = next(
+                        line
+                        for line in path.read_text(encoding="utf-8").splitlines()
+                        if line.startswith("# ")
+                    )
+                    lexicon = read_json(ROOT / "assets" / "locales" / f"{code}.json")
+                    self.assertEqual(
+                        heading, "# " + lexicon["title"].format(market=market.upper())
+                    )
 
     def test_the_crypto_change_set_still_applies_to_its_own_universe(self) -> None:
         folder = ROOT / "examples" / "crypto-light"

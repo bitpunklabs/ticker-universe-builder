@@ -61,9 +61,9 @@ Each folder carries the report the build produces:
 
 | File | What it is |
 |---|---|
-| `universe.md` | The built universe — roles, metric provenance, rejection counts, every member with its reason and evidence |
+| `universe.<language>.md` | The built universe — roles, metric provenance, rejection counts, every member with its reason and evidence. One file per language a build writes: `universe.en.md` in every market, plus the market's own where that is not English |
 | `watchlist.txt` | The TradingView import file, sectioned by theme. This is the artifact that leaves the repository, so it is committed and diffable rather than only produced |
-| `crypto-light/maintenance.md` | The same report after `changes.json` is applied, including the `## This review` block with turnover, additions and removals |
+| `crypto-light/maintenance.en.md` | The same report after `changes.json` is applied, including the `## This review` block with turnover, additions and removals |
 
 Both are generated, not written. Committing them means a change in selection shows up as a
 reviewable diff instead of as a silently different result the next time someone runs a build.

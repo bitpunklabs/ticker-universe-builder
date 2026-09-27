@@ -34,6 +34,7 @@ from universe_core import (  # noqa: E402
     render_markdown,
     render_txt,
     report_language,
+    report_languages,
     starter_taxonomy,
 )
 
@@ -377,19 +378,32 @@ SEED_NOTE = {
 }
 
 
+def write_reports(
+    stem: str, universe: dict, report: dict, market: str, folder: Path
+) -> None:
+    """One report file per language a build would write, named the way a build names them.
+
+    Both languages are committed rather than only the market's own. An example exists to be read
+    without running anything, and half the people reading `examples/jp-light/` cannot read
+    Japanese — which is the same reason a build writes both.
+    """
+    for code in report_languages(market):
+        preamble = SEED_NOTE[code].format(market=market)
+        (folder / f"{stem}.{code}.md").write_text(
+            preamble + render_markdown(universe, report, code), encoding="utf-8"
+        )
+
+
 def render(market: str, snapshot: dict, spec: dict, folder: Path) -> dict:
-    """Build the example and commit the report it produces.
+    """Build the example and commit the reports it produces.
 
     The Markdown is the artifact a person actually reads, and leaving it out of the repository
     meant the only way to see what an example produces was to run it. Committing it also means a
     change in selection shows up as a reviewable diff rather than as a silently different result.
     """
     policy = load_policy()
-    preamble = SEED_NOTE[report_language(market)].format(market=market)
     universe, report = build_universe(spec, snapshot, policy)
-    (folder / "universe.md").write_text(
-        preamble + render_markdown(universe, report), encoding="utf-8"
-    )
+    write_reports("universe", universe, report, market, folder)
     # The watchlist is the artifact that leaves the repository — it gets imported. Committing it
     # beside the report means the TradingView import format can be read, and diffed, without
     # running a build.
@@ -403,9 +417,7 @@ def render(market: str, snapshot: dict, spec: dict, folder: Path) -> dict:
                 f"rebuilt universe is {universe['version_hash']}; update base_version_hash"
             )
         reviewed, review_report = apply_change_set(universe, changes, policy)
-        (folder / "maintenance.md").write_text(
-            preamble + render_markdown(reviewed, review_report), encoding="utf-8"
-        )
+        write_reports("maintenance", reviewed, review_report, market, folder)
     return universe
 
 

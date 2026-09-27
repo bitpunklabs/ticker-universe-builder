@@ -285,7 +285,7 @@ redundant_with_member unverifiable_fact       duplicate_asset        other
 The audit also carries reasons the builder writes itself: `outside_profile_coverage`,
 `not_selected_under_budget`, `removed_by_maintenance`.
 
-Counting these is the point of the closed vocabulary, so `universe.md` and the CLI's JSON line
+Counting these is the point of the closed vocabulary, so the `.md` reports and the CLI's JSON line
 both report rejections by code. A universe losing most of its candidates to `unverifiable_fact`
 has a research problem; one losing them to `not_selected_under_budget` has a budget
 problem. Free text cannot tell you which.
@@ -347,10 +347,14 @@ tier 2 evidence item. Market narrative alone cannot admit or remove anything.
 
 ## Output
 
-Four files, all stemmed `{market}-{profile}-{as_of}` — `crypto-light-2026-09-17.json`,
-`.validation.json`, `.md`, `.txt`. The watchlist leaves its directory as soon as it is useful, so
-the name has to say which universe and when without the directory around it. The command prints
-every path it wrote under `artifacts`; read them from there instead of reconstructing them.
+All stemmed `{market}-{profile}-{as_of}` — `crypto-light-2026-09-17.json`, `.validation.json`,
+`.txt`, and one `.md` per report language: `.en.md` always, plus `.zh-Hans.md`, `.ja.md` and so
+on where the market reads in something else. The watchlist leaves its directory as soon as it is
+useful, so the name has to say which universe and when without the directory around it; the
+reports carry their language for the same reason, and carry it even when there is only one, so
+that `{stem}.en.md` is where the English report lives in all fourteen markets rather than in nine
+of them. The command prints every path it wrote under `artifacts`, with the reports keyed by
+language under `artifacts.reports`; read them from there instead of reconstructing them.
 
 The `.json` is the record: spec limits, policy hash, sources, measurement, taxonomy, members, the
 selection audit and the review history. `version_hash` covers membership and taxonomy only, so
@@ -387,8 +391,12 @@ every refresh and that is the design working rather than the universe changing. 
 twenty moves are listed; the tail of a 250-member drift list is noise.
 
 The `.md` is written in the market's own language, because a universe is read by the people who
-trade that market: CN is Simplified Chinese, US and Crypto are English, and `--language` overrides
-it per run. Only the report's chrome is translated — headings, labels and the closed
+trade that market: CN is Simplified Chinese, US and Crypto are English. It is written in English
+too, because a universe is also read by someone allocating across several markets who reads none
+of their languages — the reasons and the evidence are the point of the file, and a table of
+headings they cannot parse withholds exactly that. So both, always; `--language` names the
+companion rather than replacing English, and a market that already reads in English gets one file
+rather than the same file twice. Only the report's chrome is translated — headings, labels and the closed
 vocabularies, printed as `基准 (BENCHMARK)` so the code a reader greps for survives the
 translation. Everything else is the content this file carries: `name`, `l1_name`, `reason` and
 `method` appear exactly as the snapshot wrote them, so write them in the market's language.

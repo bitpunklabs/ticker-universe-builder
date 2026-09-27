@@ -81,9 +81,14 @@ semiconductors in China (3.5) take more of the universe than property developers
 
 ## What you get
 
-Four artifacts per build, named `{market}-{profile}-{as_of}`.
+Four artifacts per build, named `{market}-{profile}-{as_of}`, plus one report per language.
 
-A **`.md` report** in the market's own language ([CN example](examples/cn-light/universe.md)):
+A **`.md` report**, written twice: once in the market's own language and once in English, as
+`{stem}.zh-Hans.md` and `{stem}.en.md` ([CN example](examples/cn-light/universe.zh-Hans.md), and
+[the same universe in English](examples/cn-light/universe.en.md)). A universe is read both by the
+people who trade that market and by someone allocating across several who reads none of their
+languages, and the reasons and the evidence are the whole point of the file. English markets get
+the one file:
 
 ```markdown
 # CRYPTO Ticker Universe
