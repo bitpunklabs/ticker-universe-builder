@@ -1,0 +1,39 @@
+{
+  "passed": true,
+  "errors": [],
+  "warnings": [],
+  "stats": {
+    "tickers": 145,
+    "themes": 94,
+    "partially_scored": 145,
+    "concentration": {
+      "theme_code": "36_A",
+      "members": 5,
+      "share": 0.0345,
+      "expected": 3.6
+    },
+    "tradingview_tokens": 239,
+    "roles": {
+      "BENCHMARK": 2,
+      "BETA_SATELLITE": 2,
+      "BREADTH_PROXY": 2,
+      "INDEPENDENT_SENSOR": 46,
+      "THEME_LEADER": 93
+    },
+    "buckets": {
+      "core": 95,
+      "satellite": 50
+    },
+    "rejections": {
+      "not_selected_under_budget": 289,
+      "outside_profile_coverage": 44
+    },
+    "stability": {
+      "shift": 0.01,
+      "draws": 2,
+      "survived": 144,
+      "of": 145,
+      "share": 0.9931
+    }
+  }
+}

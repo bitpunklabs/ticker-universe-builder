@@ -104,5 +104,6 @@
   "flag.shell_activity_concern": "殼股活動關注",
   "flag.disposition_stock": "處置股票",
   "flag.altered_trading_method": "變更交易方法",
-  "flag.full_delivery": "全額交割"
+  "flag.full_delivery": "全額交割",
+  "profile.extreme": "Extreme（極廣）"
 }

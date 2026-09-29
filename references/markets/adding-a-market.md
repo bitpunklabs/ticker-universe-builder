@@ -45,7 +45,7 @@ A new *registered* market is five additions and no edits to existing logic:
 
 1. A `MarketSpec` row in `MARKET_SPECS`.
 2. A `markets.<code>.breadth` number in `assets/default-policy.json`. One number, not nine: the
-   tier bases are 60 / 160 / 400 and breadth scales them. `MarketRegistryTests` fails until it
+   tier bases are 60 / 160 / 400 / 580 and breadth scales them. `MarketRegistryTests` fails until it
    exists, which is the point — a market with no size would build universes of an arbitrary size
    and report nothing. Place it against the markets already in the table rather than deriving it
    from market capitalisation; it is a claim about how many names a reader can tell apart.
@@ -54,16 +54,16 @@ A new *registered* market is five additions and no edits to existing logic:
    `add` what nobody else lists, `groups` to put the group labels in the market's own language,
    `level` to move a theme between tiers, and `weight` to say what this market is actually about.
    Eleven of the shipped tables are under fifty lines because of this. `taxonomy --check` has to
-   pass clean — errors *and* warnings — for all three profiles, which is also a test.
+   pass clean — errors *and* warnings — for all four profiles, which is also a test.
 4. An overlay at `references/markets/<code>.md` covering identity, what this market is, its
    adverse flags and where its primary sources live. Start from another market's; the shared
    equity material is in [equity-common.md](equity-common.md) and must not be repeated.
-5. A seed table at `examples/seeds/<code>.tsv` — ticker, name, theme, role, and a flag column
-   for the ones the research rejects. `build_examples.py` expands it into a full Light example
-   and the test suite asserts that every registered market has one, so this is now part of the
-   bar rather than a nicety. Sixty to a hundred and twenty names is the working range; the seed
-   must cover every theme the market reaches at Light, and a theme with nothing real to put in
-   it is a finding about the table, not a reason to invent a ticker.
+5. A researched snapshot exercising the new rules, with dated listing checks, real measurements
+   and a reproducible build test. Use the Medium inputs in `examples/` as the contract reference;
+   do not generate illustrative scores. Empty required themes are findings about the taxonomy,
+   never reasons to invent tickers. Publishing a new example is a separate scope choice; version
+   0.4 ships seven examples while keeping fourteen registered markets.
+
 
 Plus a locale at `assets/locales/<language>.json` if the market's language has none yet, and, if
 the market's regulator issues flags the universal seven cannot express, a `quality_flags` set on
@@ -74,9 +74,10 @@ selection; and is the code meaningless in every other market. A flag that fails 
 universal code that has not been added yet — add it to `QUALITY_FLAG_CODES` instead, where it is
 comparable across markets, rather than to two market specs where it silently is not.
 
-CI checks all five for every registered market, plus the locale.
+CI checks the registry, sizing, starter taxonomy and locale for all registered markets.
+The seven shipped examples additionally receive full offline build and CLI checks.
 
-Writing the seed is also how the registry row gets tested. Two shipped symbol rules were wrong
+Writing the research snapshot is also how the registry row gets tested. Two shipped symbol rules were wrong
 until a real listing hit them — `de` rejected `4GLD` and `br` rejected `B3SA3` — and neither
 would have surfaced from reading the rule.
 
@@ -123,7 +124,7 @@ Two more rules the tests cannot check, so they are written here:
   in a review, and `换手` in a Chinese market report means trading turnover — a word already
   spoken for by `liquidity`. It is `成分变动`.
 
-The example is held to the same standard as the chrome: `cn-light/universe.zh-Hans.md` is checked
+The example is held to the same standard as the chrome: `cn-medium/universe.zh-Hans.md` is checked
 line by line, because an example that reads like machine output teaches the agent to write machine
 output. A new market ships two example reports, its own and English, exactly as a build writes
 two.
@@ -200,4 +201,4 @@ it, so an empty theme is worse than no theme. Managed care left Light in `jp`, `
 theme left the German table outright. `br` raised managed care *into* Light, alone among the
 fourteen. None of that was visible from reading the tables — only from trying to fill them.
 
-This is why the seed table is item 5 on the list above and not an optional extra.
+This is why the researched snapshot is item 5 on the list above and not an optional extra.

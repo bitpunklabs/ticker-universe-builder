@@ -3,7 +3,8 @@
   "tiers": {
     "light": 60,
     "medium": 160,
-    "heavy": 400
+    "heavy": 400,
+    "extreme": 580
   },
   "guidance_band": 0.25,
   "markets": {
@@ -74,6 +75,15 @@
         "satellite": 0.35,
         "tactical": 0.15
       }
+    },
+    "extreme": {
+      "coverage_level": 3,
+      "bucket_targets": {
+        "core": 0.35,
+        "satellite": 0.5,
+        "tactical": 0.15
+      },
+      "incremental_beta_share": 0.7
     }
   },
   "maintenance": {

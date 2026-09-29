@@ -1,10 +1,10 @@
 ---
 name: ticker-universe-builder
-description: Build and maintain auditable, evidence-gated ticker universes for fourteen markets at three depths, exported as TradingView watchlists. Not stock tips.
-version: 0.3.0
+description: Build and maintain auditable, evidence-gated ticker universes for fourteen markets at four depths, exported as TradingView watchlists. Not stock tips.
 allowed-tools: Read, Write, Bash, WebSearch, WebFetch
-homepage: https://github.com/bitpunklabs/ticker-universe-builder
 metadata:
+  version: 0.4.0
+  homepage: https://github.com/bitpunklabs/ticker-universe-builder
   openclaw:
     emoji: "📋"
     homepage: https://github.com/bitpunklabs/ticker-universe-builder
@@ -20,9 +20,11 @@ language: `us`, `cn` (zh-Hans), `jp` (ja), `in`, `hk` (zh-Hant), `kr` (ko), `uk`
 `de` (de), `fr` (fr), `ca`, `au`, `br` (pt-BR), `crypto`. Anything else builds too — see step 6.
 
 Read [examples/README.md](examples/README.md) first and open the example for the market you were
-asked about — every registered market ships one, at full size and in its own language. For a
-market outside the fourteen, open the closest one. A worked snapshot answers more questions about
+asked about — Medium examples ship for us, jp, cn, kr, hk, uk and crypto. For another
+market, open the closest example and its own market overlay. A worked snapshot answers more questions about
 the input format than the contract does, and the shipped examples are known to build.
+Read the example README, build spec and report summary first. Inspect relevant candidate rows
+programmatically; do not load an entire multi-megabyte research snapshot into model context.
 
 ## Route the request
 
@@ -84,7 +86,15 @@ reported rather than dropped.
    It reports a table that cannot produce the universe you asked for — more themes than the
    target can hold, a group invisible at this depth, a theme weighted to be more than 15% of the
    universe, a `theme_name` that will not survive a TradingView import.
-4. Research the eligible universe against that taxonomy. Record facts in `snapshot.json`;
+4. Optionally fetch a dated research bench with `fetch` before researching admissions:
+
+   ```bash
+   python scripts/universe.py fetch --market cn --prices-until 2026-09-28 --limit 1250 --output temp/cn
+   ```
+
+   See [references/providers.md](references/providers.md). Fetch is optional and never chooses
+   membership. Inspect the manifest, rejected histories and raw receipts; provider classification
+   is a starting point, not issuer due diligence. Research the eligible universe against the taxonomy. Record facts in `snapshot.json`;
    never pass a claim to the scripts hidden inside prose.
 5. Declare in `measurement` how each metric was produced. A window-dependent statistic —
    liquidity, `factor_r2`, `beta_strength`, `beta_stability` — must be computed, not estimated,
@@ -98,7 +108,8 @@ reported rather than dropped.
 
    See [references/measurement.md](references/measurement.md). If you have no price table, the
    candidates that need those metrics do not belong in the universe yet.
-6. Cite current sources for listing status, venue, liquidity and every non-obvious admission. If
+6. Supply a dated active `listing` check, admission `reason`, strong evidence and per-ticker
+   `measurement_record`. Cite current sources for listing status, venue, liquidity and every non-obvious admission. If
    an essential fact cannot be verified, exclude the candidate or mark the snapshot incomplete.
    For a market outside the fourteen, also research its rules and declare them in the snapshot's
    `market_spec` — venues, symbol shape, identity rule and one `breadth` factor sizing the tiers,
@@ -163,7 +174,7 @@ tier nesting, quotas, ordering, apportionment, hashing and rendering. Never hand
    warnings, additions, removals, turnover and deferred candidates in the Markdown result.
 
 A verdict must come with an operation. Judging a theme obsolete or missing and writing it down as
-a note for a later round is how a universe rots: use `ADD_THEME`, `REMOVE_THEME`, `MOVE` and
+a note for a later round is how a universe rots: use `ADD_THEME`, `UPDATE_THEME`, `REMOVE_THEME`, `REFRESH`, `MOVE` and
 `REPLACE` in the same round, or record the candidate in `deferred` so the next round inherits it.
 
 ## Non-negotiable boundaries
@@ -171,7 +182,8 @@ a note for a later round is how a universe rots: use `ADD_THEME`, `REMOVE_THEME`
 - Never invent a ticker, venue, listing state, liquidity number, theme relationship or source.
 - Never select a name solely because it is popular or recently rose.
 - Preserve benchmarks and anchors before adding satellites.
-- Heavy means broader independent observation, not relaxed quality or an arbitrary long tail.
+- Heavy means broader independent observation. Extreme adds about 45% more seats, retaining Heavy
+  and preferring qualified beta for 70% of additions. Neither profile relaxes fact or metric gates.
 - Weight a theme for what it is to that market, not for what it is to you. The range is 0.25 to
   4.0 and a build reports the theme that ended up largest, so a lopsided table shows.
 - No return guarantees, allocations, order instructions or trade execution. This skill produces

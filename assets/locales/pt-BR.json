@@ -92,5 +92,6 @@
   "flag.loss_making": "prejuízo no período",
   "flag.judicial_recovery": "recuperação judicial",
   "flag.cvm_inquiry": "ofício da CVM",
-  "flag.segment_downgrade": "rebaixamento de segmento"
+  "flag.segment_downgrade": "rebaixamento de segmento",
+  "profile.extreme": "Extreme"
 }

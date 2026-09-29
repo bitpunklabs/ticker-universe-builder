@@ -1,0 +1,41 @@
+{
+  "passed": true,
+  "errors": [],
+  "warnings": [
+    "satellite bucket holds 61% of the pool against a 25% target"
+  ],
+  "stats": {
+    "tickers": 210,
+    "themes": 79,
+    "partially_scored": 210,
+    "concentration": {
+      "theme_code": "11_A",
+      "members": 6,
+      "share": 0.0286,
+      "expected": 3.6
+    },
+    "tradingview_tokens": 289,
+    "roles": {
+      "BENCHMARK": 3,
+      "BETA_SATELLITE": 23,
+      "BREADTH_PROXY": 16,
+      "INDEPENDENT_SENSOR": 90,
+      "THEME_LEADER": 78
+    },
+    "buckets": {
+      "core": 81,
+      "satellite": 129
+    },
+    "rejections": {
+      "outside_profile_coverage": 876,
+      "not_selected_under_budget": 255
+    },
+    "stability": {
+      "shift": 0.01,
+      "draws": 2,
+      "survived": 207,
+      "of": 210,
+      "share": 0.9857
+    }
+  }
+}

@@ -27,6 +27,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import evaluate_core  # noqa: E402
 import measure_core  # noqa: E402
+import provider_core  # noqa: E402
 from universe_core import (  # noqa: E402
     UniverseError,
     apply_change_set,
@@ -93,6 +94,8 @@ def measure(args: argparse.Namespace) -> int:
         window=args.window,
         liquidity_window=args.liquidity_window,
         as_of=args.as_of,
+        benchmark_map=read_json(args.benchmark_map) if args.benchmark_map else None,
+        factor_model=args.factor_model,
     )
     payload = bundle
     if args.into:
@@ -108,6 +111,22 @@ def measure(args: argparse.Namespace) -> int:
         "notes": bundle["notes"],
     }, ensure_ascii=False))
     return 0
+
+
+def fetch(args: argparse.Namespace) -> int:
+    included = set()
+    if args.include_watchlist:
+        from universe_core import parse_watchlist
+        included = {t for _, tickers in parse_watchlist(
+            Path(args.include_watchlist).read_text(encoding="utf-8")) for t in tickers}
+    manifest = provider_core.fetch(
+        market=args.market, output=args.output, cutoff=args.prices_until,
+        limit=args.limit, workers=args.workers, include=included,
+    )
+    print(json.dumps({"status": "fetched" if manifest["complete"] else "partial",
+                      "output": args.output, "received": manifest["received"],
+                      "requested": manifest["requested"]}))
+    return 0 if manifest["complete"] else 2
 
 
 def build(args: argparse.Namespace) -> int:
@@ -222,10 +241,12 @@ def parser() -> argparse.ArgumentParser:
     stats = sub.add_parser("measure", help="compute the window statistics from a price table")
     stats.add_argument("--prices", required=True, help="CSV of date,ticker,close[,volume|turnover]")
     stats.add_argument(
-        "--benchmark", required=True, action="append",
+        "--benchmark", default=[], action="append",
         help="factor leg; repeat for an equal-weighted basket",
     )
     stats.add_argument("--source", required=True, help="http(s) URL the price table came from")
+    stats.add_argument("--benchmark-map", help="per-theme gauges and optional fund comparisons")
+    stats.add_argument("--factor-model", choices=("basket", "multivariate"), default="basket")
     stats.add_argument("--window", type=int, default=180, help="factor window in sessions")
     stats.add_argument(
         "--liquidity-window", type=int, default=30, help="turnover window in sessions"
@@ -234,6 +255,15 @@ def parser() -> argparse.ArgumentParser:
     stats.add_argument("--into", help="snapshot.json to fold the metrics into")
     stats.add_argument("--output", required=True, help="file to write")
     stats.set_defaults(handler=measure)
+
+    network = sub.add_parser("fetch", help="optional public-data adapter; never selects members")
+    network.add_argument("--market", required=True)
+    network.add_argument("--prices-until", required=True, help="last completed session date")
+    network.add_argument("--limit", type=int, default=500, help="size of the price research bench")
+    network.add_argument("--workers", type=int, default=6)
+    network.add_argument("--include-watchlist", help="also research these existing members")
+    network.add_argument("--output", required=True)
+    network.set_defaults(handler=fetch)
 
     new = sub.add_parser("build", help="build a universe from a researched snapshot")
     new.add_argument("--spec", required=True, help="build-spec.json")
@@ -284,7 +314,8 @@ def main(argv: list[str] | None = None) -> int:
     args = parser().parse_args(argv)
     try:
         return args.handler(args)
-    except (UniverseError, measure_core.MeasureError, evaluate_core.EvaluateError) as exc:
+    except (UniverseError, measure_core.MeasureError, evaluate_core.EvaluateError,
+            provider_core.ProviderError) as exc:
         print(f"{args.command} failed: {exc}", file=sys.stderr)
         return 2
 

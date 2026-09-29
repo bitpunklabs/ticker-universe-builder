@@ -104,5 +104,6 @@
   "flag.shell_activity_concern": "壳股活动关注",
   "flag.disposition_stock": "处置股票",
   "flag.altered_trading_method": "变更交易方法",
-  "flag.full_delivery": "全额交割"
+  "flag.full_delivery": "全额交割",
+  "profile.extreme": "Extreme（极广）"
 }

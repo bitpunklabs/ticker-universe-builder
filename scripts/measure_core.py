@@ -14,8 +14,11 @@ takes no view on what the numbers mean — that stays with the snapshot the agen
 from __future__ import annotations
 
 import csv
+import hashlib
 import math
+from bisect import bisect_left, bisect_right
 from collections import defaultdict
+from datetime import date
 from pathlib import Path
 from typing import Any
 
@@ -30,9 +33,19 @@ class MeasureError(ValueError):
     pass
 
 
-def read_bars(path: str | Path) -> dict[str, list[tuple[str, float, float | None]]]:
+def read_bars(
+    path: str | Path, *, as_of: str | None = None, after: str | None = None
+) -> dict[str, list[tuple[str, float, float | None]]]:
     """Read `date,ticker,close[,volume][,turnover]` into per-ticker series sorted by date."""
     series: dict[str, list[tuple[str, float, float | None]]] = defaultdict(list)
+    seen: set[tuple[str, str]] = set()
+    for bound in (as_of, after):
+        if bound is not None:
+            try:
+                if date.fromisoformat(bound).isoformat() != bound:
+                    raise ValueError("noncanonical date")
+            except ValueError as exc:
+                raise MeasureError(f"invalid date boundary {bound!r}") from exc
     try:
         with Path(path).open(newline="", encoding="utf-8") as handle:
             reader = csv.DictReader(handle)
@@ -43,15 +56,33 @@ def read_bars(path: str | Path) -> dict[str, list[tuple[str, float, float | None
                 ticker = str(row["ticker"]).strip().upper()
                 if not ticker:
                     continue
+                day = str(row["date"]).strip()
+                try:
+                    if date.fromisoformat(day).isoformat() != day:
+                        raise ValueError("noncanonical date")
+                except ValueError as exc:
+                    raise MeasureError(f"{path}:{line}: date must be ISO YYYY-MM-DD") from exc
+                if (as_of and day > as_of) or (after and day <= after):
+                    continue
+                if (ticker, day) in seen:
+                    raise MeasureError(f"{path}:{line}: duplicate ticker/date {ticker} {day}")
+                seen.add((ticker, day))
                 try:
                     close = float(row["close"])
                 except (TypeError, ValueError) as exc:
                     raise MeasureError(f"{path}:{line}: close is not a number") from exc
-                turnover = _optional_float(row.get("turnover"))
-                if turnover is None:
+                if not math.isfinite(close) or close <= 0:
+                    raise MeasureError(f"{path}:{line}: close must be finite and positive")
+                try:
+                    turnover = _optional_float(row.get("turnover"))
                     volume = _optional_float(row.get("volume"))
+                except MeasureError as exc:
+                    raise MeasureError(f"{path}:{line}: {exc}") from exc
+                if turnover is None:
                     turnover = None if volume is None else close * volume
-                series[ticker].append((str(row["date"]).strip(), close, turnover))
+                if turnover is not None and (not math.isfinite(turnover) or turnover < 0):
+                    raise MeasureError(f"{path}:{line}: turnover must be finite and nonnegative")
+                series[ticker].append((day, close, turnover))
     except OSError as exc:
         raise MeasureError(f"cannot read price table {path}: {exc}") from exc
     if not series:
@@ -66,8 +97,8 @@ def _optional_float(value: Any) -> float | None:
         return None
     try:
         return float(value)
-    except (TypeError, ValueError):
-        return None
+    except (TypeError, ValueError) as exc:
+        raise MeasureError("nonblank turnover/volume must be numeric") from exc
 
 
 def returns(rows: list[tuple[str, float, float | None]]) -> dict[str, float]:
@@ -120,7 +151,7 @@ def _score(value: float) -> int:
 def beta_scores(
     own: dict[str, float], factor: dict[str, float], window: int
 ) -> tuple[int | None, int | None]:
-    """Strength is scaled |beta|; stability is the agreement of the two half-window estimates.
+    """Strength is scaled positive beta; stability compares the two half-window estimates.
 
     Stability asks whether the relationship held, not whether it was strong. A satellite whose
     beta halves between the first and second half of the window is not a stable read on the
@@ -132,7 +163,7 @@ def beta_scores(
     fit = ols([own[day] for day in days], [factor[day] for day in days])
     if fit is None:
         return None, None
-    strength = _score(abs(fit[0]) / BETA_FULL_SCALE * 100)
+    strength = _score(fit[0] / BETA_FULL_SCALE * 100)
     half = len(days) // 2
     halves = []
     for chunk in (days[:half], days[half:]):
@@ -172,8 +203,8 @@ def liquidity_scores(
     total = len(ordered)
     scores: dict[str, int] = {}
     for ticker, value in averages.items():
-        below = sum(1 for other in ordered if other < value)
-        ties = sum(1 for other in ordered if math.isclose(other, value))
+        below = bisect_left(ordered, value)
+        ties = bisect_right(ordered, value) - below
         if total == 1:
             scores[ticker] = 100
             continue
@@ -189,45 +220,93 @@ def measure(
     window: int = 180,
     liquidity_window: int = 30,
     as_of: str | None = None,
+    benchmark_map: dict | None = None,
+    factor_model: str = "basket",
 ) -> dict[str, Any]:
+    from theme_metrics import fund_comparisons, multi_fit, resolve_gauges
+
     if not source.startswith(("http://", "https://")):
         raise MeasureError("source must be the http(s) URL the price table came from")
-    if not benchmarks:
-        raise MeasureError("at least one benchmark leg is required")
+    if not benchmarks and not benchmark_map:
+        raise MeasureError("at least one benchmark leg or a benchmark map is required")
     if window < MIN_OBSERVATIONS or liquidity_window < 1:
         raise MeasureError(f"window must be at least {MIN_OBSERVATIONS} sessions")
-    series = read_bars(prices)
-    factor = factor_returns(series, benchmarks)
+    if factor_model not in ("basket", "multivariate"):
+        raise MeasureError("factor_model must be basket or multivariate")
+    if benchmark_map and factor_model != "basket":
+        raise MeasureError("theme maps already declare their factor model; use basket")
+    series = read_bars(prices, as_of=as_of)
+    fallback = factor_returns(series, benchmarks) if benchmarks else {}
+    gauges, theme_checks = resolve_gauges(series, benchmark_map) if benchmark_map else ({}, {})
     liquidity, notes = liquidity_scores(series, liquidity_window)
     latest = max(day for rows in series.values() for day, _, _ in rows)
-
-    metrics: dict[str, dict[str, int | None]] = {}
+    digest = hashlib.sha256(Path(prices).read_bytes()).hexdigest()
+    metrics, records = {}, {}
     for ticker, rows in sorted(series.items()):
         own = returns(rows)
+        gauge = gauges.get(ticker)
+        # An unfit or absent theme gauge never falls back to a broad index.
+        factor = (gauge or {}).get("returns", {}) if benchmark_map else fallback
+        legs = (gauge or {}).get("legs", []) if benchmark_map else benchmarks
         days = sorted(set(own) & set(factor))[-window:]
-        fit = ols([own[day] for day in days], [factor[day] for day in days]) if (
-            len(days) >= MIN_OBSERVATIONS
-        ) else None
-        if fit is None and len(days) < MIN_OBSERVATIONS:
+        fit = (
+            ols([own[d] for d in days], [factor[d] for d in days])
+            if (len(days) >= MIN_OBSERVATIONS)
+            else None
+        )
+        r2 = None if fit is None else fit[1]
+        model = (gauge or {}).get("mode", factor_model)
+        if factor_model == "multivariate" and not benchmark_map and days:
+            fit_many = multi_fit(
+                [own[d] for d in days], [[returns(series[t])[d] for d in days] for t in benchmarks]
+            )
+            r2 = None if fit_many is None else fit_many[1]
+        if fit is None or r2 is None:
             notes.append(
-                f"{ticker}: no factor statistics, {len(days)} sessions overlap the benchmark "
-                f"(minimum {MIN_OBSERVATIONS})"
+                f"{ticker}: no factor statistics, {len(days)} sessions overlap a usable gauge"
             )
         strength, stability = beta_scores(own, factor, window)
-        entry: dict[str, int | None] = {
+        entry = {
             "liquidity": liquidity.get(ticker),
-            "factor_r2": None if fit is None else _score(fit[1] * 100),
-            "beta_strength": strength,
-            "beta_stability": stability,
+            "factor_r2": None if r2 is None else _score(r2 * 100),
+            "beta_strength": strength if r2 is not None else None,
+            "beta_stability": stability if r2 is not None else None,
         }
-        metrics[ticker] = {name: value for name, value in entry.items() if value is not None}
-    label = " + ".join(sorted(ticker.strip().upper() for ticker in benchmarks))
+        metrics[ticker] = {key: value for key, value in entry.items() if value is not None}
+        records[ticker] = {
+            "as_of": as_of or latest,
+            "source": source,
+            "data_sha256": digest,
+            "first_session": rows[0][0],
+            "last_session": rows[-1][0],
+            "observations": len(days),
+            "liquidity_observations": sum(r[2] is not None for r in rows[-liquidity_window:]),
+            "benchmarks": legs,
+            "factor_model": model,
+            "theme": (gauge or {}).get("theme"),
+            "gauge_fit": (gauge or {}).get("fit"),
+        }
+    label = (
+        "per-ticker theme gauge (measurement_record)" if benchmark_map else " + ".join(benchmarks)
+    )
+    declared = declarations(label, source, window, liquidity_window, len(liquidity))
+    if factor_model == "multivariate":
+        declared["factor_r2"]["method"] = "multivariate OLS with intercept on " + label
     return {
         "schema_version": 1,
         "as_of": as_of or latest,
-        "benchmark": sorted(ticker.strip().upper() for ticker in benchmarks),
-        "measurement": declarations(label, source, window, liquidity_window, len(liquidity)),
+        "benchmark": benchmarks,
+        "measurement": declared,
         "metrics": metrics,
+        "records": records,
+        "coverage": {
+            "price_tickers": len(series),
+            "liquidity_tickers": len(liquidity),
+            "factor_tickers": sum("factor_r2" in row for row in metrics.values()),
+            "data_sha256": digest,
+        },
+        "theme_checks": theme_checks,
+        "fund_comparisons": fund_comparisons(series, benchmark_map) if benchmark_map else [],
         "notes": sorted(set(notes)),
     }
 
@@ -264,7 +343,7 @@ def declarations(
         "beta_strength": {
             "basis": "measured",
             "method": (
-                f"absolute OLS beta against {label}, scaled so beta {BETA_FULL_SCALE} reads 100"
+                f"positive OLS beta against {label}, scaled so beta {BETA_FULL_SCALE} reads 100"
             ),
             "window": span,
             "source": source,
@@ -282,49 +361,45 @@ MEASURED_KEYS = ("liquidity", "factor_r2", "beta_strength", "beta_stability")
 
 
 def merge_into_snapshot(snapshot: dict[str, Any], bundle: dict[str, Any]) -> dict[str, Any]:
-    """Fold measured metrics into a researched snapshot without touching judged ones.
-
-    A candidate the price table does not cover keeps whatever it had and is named in `notes`. The
-    alternative — quietly leaving the field empty — is how a universe ends up half measured with
-    nothing saying which half.
-    """
+    """Replace measured fields atomically; an uncovered refresh never launders old values."""
     merged = dict(snapshot)
     metrics_by_ticker = bundle.get("metrics") or {}
-    candidates = []
-    uncovered: list[str] = []
+    candidates, uncovered = [], []
     for raw in snapshot.get("candidates") or []:
         candidate = dict(raw)
         ticker = str(candidate.get("ticker", "")).strip().upper()
-        measured = metrics_by_ticker.get(ticker)
+        measured = metrics_by_ticker.get(ticker) or {}
+        metrics = {
+            key: value
+            for key, value in (candidate.get("metrics") or {}).items()
+            if key not in (*MEASURED_KEYS, "independence")
+        }
+        metrics.update(measured)
+        candidate["metrics"] = metrics
+        candidate["measurement_record"] = (bundle.get("records") or {}).get(ticker)
         if not measured:
             uncovered.append(ticker)
-            candidates.append(candidate)
-            continue
-        metrics = dict(candidate.get("metrics") or {})
-        for key in MEASURED_KEYS:
-            if key in measured:
-                metrics[key] = measured[key]
-        metrics.pop("independence", None)
-        candidate["metrics"] = metrics
         candidates.append(candidate)
     merged["candidates"] = candidates
-    declared = dict(snapshot.get("measurement") or {})
-    for key, entry in (bundle.get("measurement") or {}).items():
-        declared[key] = entry
-    used = {
-        field
-        for candidate in candidates
-        for field, value in (candidate.get("metrics") or {}).items()
-        if value is not None
+    declared = {
+        key: value
+        for key, value in (snapshot.get("measurement") or {}).items()
+        if key not in (*MEASURED_KEYS, "independence")
     }
-    if any("factor_r2" in (item.get("metrics") or {}) for item in candidates):
-        used.add("independence")
-    merged["measurement"] = {
-        key: value for key, value in declared.items() if key in used or key == "independence"
+    declared.update(bundle.get("measurement") or {})
+    merged["measurement"] = declared
+    merged["measurement_audit"] = {
+        "as_of": bundle.get("as_of"),
+        "theme_checks": bundle.get("theme_checks") or {},
+        "fund_comparisons": bundle.get("fund_comparisons") or [],
     }
-    merged["notes"] = sorted(set(
-        list(snapshot.get("notes") or [])
-        + list(bundle.get("notes") or [])
-        + [f"{ticker}: not covered by the price table" for ticker in uncovered]
-    ))
+    merged["coverage"] = dict(bundle.get("coverage") or {}, uncovered_candidates=uncovered)
+    merged["notes"] = sorted(
+        set(list(snapshot.get("notes") or []) + list(bundle.get("notes") or []))
+        | {f"{ticker}: not covered by the price table" for ticker in uncovered}
+    )
+    # Keep a researched as_of; measured data after it is refused by the builder.
+    # Eligible uncovered members make the research incomplete, rather than silently surviving.
+    if any(c.get("eligible") and c["ticker"] in uncovered for c in candidates):
+        merged["complete"] = False
     return merged

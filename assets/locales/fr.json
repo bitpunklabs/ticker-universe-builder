@@ -92,5 +92,6 @@
   "flag.loss_making": "perte sur la période",
   "flag.tender_offer_period": "période d'offre publique",
   "flag.amf_injunction": "injonction de l'AMF",
-  "flag.transfer_to_growth": "transfert vers Euronext Growth"
+  "flag.transfer_to_growth": "transfert vers Euronext Growth",
+  "profile.extreme": "Extreme"
 }

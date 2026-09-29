@@ -137,6 +137,9 @@ class MergeTests(unittest.TestCase):
                 {
                     "ticker": ticker, "name": ticker, "theme_code": "00_A", "role": role,
                     "eligible": True, "metrics": {"quality": 90},
+                    "reason": "Synthetic test fixture",
+                    "listing": {"status": "active", "as_of": "2026-09-17",
+                                "source": "https://api.binance.com/api/v3/exchangeInfo"},
                     "evidence": [{
                         "url": "https://api.binance.com/api/v3/exchangeInfo",
                         "as_of": "2026-09-17", "tier": 1,
@@ -190,7 +193,7 @@ class MergeTests(unittest.TestCase):
         self.assertIn("BINANCE:XRPUSDT.P: not covered by the price table", merged["notes"])
         # Silence would be worse than the failure: the build still refuses it for the metric it
         # never received.
-        with self.assertRaisesRegex(Exception, "liquidity score|factor_r2"):
+        with self.assertRaisesRegex(Exception, "snapshot is incomplete"):
             build_universe(self.spec, merged, load_policy())
 
 

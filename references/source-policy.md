@@ -30,7 +30,8 @@ visible, because the failure mode is a live claim resting on a stale page.
   the data terms first.
 - Do not redistribute restricted history, paid data, or cached data you have no right to cache.
 
-This skill deliberately ships no network layer. The snapshot **is** the boundary: whatever fetches
+Optional adapters are documented in [providers.md](providers.md). They only fetch observed facts
+and bars; they do not assign roles or select members. The snapshot **is** the boundary: whoever fetches
 the facts, the contract in [data-contracts.md](data-contracts.md) is what the builder accepts.
 
 ## Market defaults

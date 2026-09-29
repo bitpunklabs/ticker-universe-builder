@@ -1,17 +1,17 @@
-# Light / Medium / Heavy
+# Light / Medium / Heavy / Extreme
 
 ## How the counts are set
 
 A tier is a **depth of observation**, and it costs a different number of tickers in different
 markets. The same depth needs more names where more distinguishable, separately-moving stock
-lists — so a market states one number, its **breadth**, and the three targets follow:
+lists — so a market states one number, its **breadth**, and the four targets follow:
 
 ```text
 target = tier base x market breadth, rounded to five
 band   = target +/- 25%, rounded to ten
 ```
 
-The tier bases are **60 / 160 / 400** and live in `assets/default-policy.json` under `tiers`.
+The tier bases are **60 / 160 / 400 / 580** and live in `assets/default-policy.json` under `tiers`.
 Breadth lives beside each market under `markets.<code>.breadth`, and it is the only size number
 a market carries. Nine numbers per market was nine chances to be inconsistent and no way to tell
 which of the nine was deliberate; one number is a claim about the market that can be argued with.
@@ -23,22 +23,22 @@ headers are counted.
 
 ## The registered markets
 
-| Market | | Breadth | Light | Medium | Heavy |
-|---|---|---:|---:|---:|---:|
-| `us` | US equities and ETFs | 1.35 | 80 | 215 | 540 |
-| `cn` | China A-shares | 1.3 | 80 | 210 | 520 |
-| `jp` | Japan equities | 1.05 | 65 | 170 | 420 |
-| `in` | India equities | 1.0 | 60 | 160 | 400 |
-| `hk` | Hong Kong equities | 0.9 | 55 | 145 | 360 |
-| `kr` | Korea equities | 0.9 | 55 | 145 | 360 |
-| `uk` | UK equities | 0.85 | 50 | 135 | 340 |
-| `tw` | Taiwan equities | 0.8 | 50 | 130 | 320 |
-| `de` | Germany equities | 0.75 | 45 | 120 | 300 |
-| `fr` | Euronext Paris equities | 0.75 | 45 | 120 | 300 |
-| `ca` | Canada equities | 0.75 | 45 | 120 | 300 |
-| `au` | Australia equities | 0.7 | 40 | 110 | 280 |
-| `crypto` | Crypto spot and perpetuals | 0.65 | 40 | 105 | 260 |
-| `br` | Brazil equities | 0.55 | 35 | 90 | 220 |
+| Market | | Breadth | Light | Medium | Heavy | Extreme |
+|---|---|---:|---:|---:|---:|---:|
+| `us` | US equities and ETFs | 1.35 | 80 | 215 | 540 | 785 |
+| `cn` | China A-shares | 1.3 | 80 | 210 | 520 | 755 |
+| `jp` | Japan equities | 1.05 | 65 | 170 | 420 | 610 |
+| `in` | India equities | 1.0 | 60 | 160 | 400 | 580 |
+| `hk` | Hong Kong equities | 0.9 | 55 | 145 | 360 | 520 |
+| `kr` | Korea equities | 0.9 | 55 | 145 | 360 | 520 |
+| `uk` | UK equities | 0.85 | 50 | 135 | 340 | 495 |
+| `tw` | Taiwan equities | 0.8 | 50 | 130 | 320 | 465 |
+| `de` | Germany equities | 0.75 | 45 | 120 | 300 | 435 |
+| `fr` | Euronext Paris equities | 0.75 | 45 | 120 | 300 | 435 |
+| `ca` | Canada equities | 0.75 | 45 | 120 | 300 | 435 |
+| `au` | Australia equities | 0.7 | 40 | 110 | 280 | 405 |
+| `crypto` | Crypto spot and perpetuals | 0.65 | 40 | 105 | 260 | 375 |
+| `br` | Brazil equities | 0.55 | 35 | 90 | 220 | 320 |
 
 Breadth is not market capitalisation. It is roughly: how many names this market lists that a
 reader could tell apart, sustain a position in, and would be worse off not watching. The US and
@@ -56,11 +56,12 @@ here has been recalibrated from real data yet; see the limits section of the REA
 
 ## Coverage and role quotas
 
-| Tier | Coverage | core target | satellite cap | tactical cap |
+| Tier | Coverage | core target | satellite target | tactical target |
 |---|---|---:|---:|---:|
 | Light | Core structure and core themes | 80% | 15% | 5% |
 | Medium | All major sectors and major second-level themes | 65% | 25% | 10% |
 | Heavy | Qualified broad, cold and emerging themes | 50% | 35% | 15% |
+| Extreme | Same themes; deeper beta observation | 35% | 50% | 15% |
 
 Quotas are targets, not filling instructions. With no qualified satellite, the seats return to
 core; with no candidate clearing the hard gates, the universe is allowed to sit below its lower
@@ -149,3 +150,14 @@ at all.
 Inside a theme, members are still ordered by role and metrics. What Heavy adds should mostly be
 independent sensors, supply-chain breadth, high beta, liquidity and new-listing observation — not
 more names sharing a driver the universe already holds.
+
+## Extreme expansion
+
+The 580 base targets about 45% more names than Heavy (market rounding gives 40–50%).
+Light ⊆ Medium ⊆ Heavy ⊆ Extreme inside a build; use `--seed` to retain a prior Heavy explicitly.
+Extreme uses coverage level 3, so a fourth taxonomy depth is unnecessary. After coverage and
+required members, it preferentially spends 70% of incremental seats on `BETA_SATELLITE`:
+R² >= 30, positive beta strength >= 55 (beta >= 1.1), stability >= 50. All need real measurement
+records. Remaining seats follow normal apportionment. An insufficient beta bench produces a
+warning, not relaxed thresholds. Targets remain subject to tickers + headers <= 1,000.
+The percentage is a policy preference, not a promise that every market has that much usable beta.

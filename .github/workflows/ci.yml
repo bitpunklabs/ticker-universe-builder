@@ -7,8 +7,8 @@ on:
 
 jobs:
   test:
-    # The skill claims to run on a plain checkout with no dependencies, so the job installs
-    # nothing before running the suite. If that claim ever stops being true, this fails.
+    # The runtime uses only the standard library. The job installs
+    # only pytest for the suite; no runtime dependencies.
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -31,7 +31,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: the committed examples match their seeds
+      - name: the committed examples match their inputs
         # The suite asserts this too; here it fails as a diff, which says what changed.
         run: |
           python examples/build_examples.py
@@ -41,12 +41,12 @@ jobs:
         # Artifact names carry the market and the date, so the path comes back from the command
         # rather than being guessed at here.
         run: |
-          markets=$(ls -d examples/*-light | sed 's|examples/||; s|-light||' | tr '\n' ' ')
+          markets=$(ls -d examples/*-medium | sed 's|examples/||; s|-medium||' | tr '\n' ' ')
           echo "building: $markets"
           for market in $markets; do
             python scripts/universe.py build \
-              --spec "examples/$market-light/build-spec.json" \
-              --snapshot "examples/$market-light/snapshot.json" \
+              --spec "examples/$market-medium/build-spec.json" \
+              --snapshot "examples/$market-medium/snapshot.json" \
               --output "/tmp/$market" > "/tmp/$market.result.json"
             universe=$(python -c \
               "import json,sys; print(json.load(open(sys.argv[1]))['artifacts']['universe'])" \
@@ -72,7 +72,7 @@ jobs:
           echo "checking: $markets"
           for market in $markets; do
             python scripts/universe.py taxonomy --market "$market" --output "/tmp/$market.tax.json"
-            for profile in light medium heavy; do
+            for profile in light medium heavy extreme; do
               python scripts/universe.py taxonomy --check "/tmp/$market.tax.json" \
                 --market "$market" --profile "$profile" > /dev/null
             done
@@ -82,41 +82,40 @@ jobs:
         # one is what someone allocating across six markets reads, and it is the half that used
         # not to exist.
         run: |
-          grep -q '^# CN 标的池' "$(dirname "$(cat /tmp/cn.path)")"/cn-light-*.zh-Hans.md
-          grep -q '^# JP 銘柄ユニバース' "$(dirname "$(cat /tmp/jp.path)")"/jp-light-*.ja.md
-          grep -q '^# KR 종목 유니버스' "$(dirname "$(cat /tmp/kr.path)")"/kr-light-*.ko.md
-          grep -q '^# Universo de tickers BR' "$(dirname "$(cat /tmp/br.path)")"/br-light-*.pt-BR.md
-          for market in cn us jp kr br crypto; do
+          grep -q '^# CN 标的池' "$(dirname "$(cat /tmp/cn.path)")"/cn-medium-*.zh-Hans.md
+          grep -q '^# JP 銘柄ユニバース' "$(dirname "$(cat /tmp/jp.path)")"/jp-medium-*.ja.md
+          grep -q '^# KR 종목 유니버스' "$(dirname "$(cat /tmp/kr.path)")"/kr-medium-*.ko.md
+          for market in cn us jp kr hk uk crypto; do
             path="$(dirname "$(cat /tmp/$market.path)")"
-            grep -q '^# .* Ticker Universe' "$path"/$market-light-*.en.md \
+            grep -q '^# .* Ticker Universe' "$path"/$market-medium-*.en.md \
               || { echo "$market: no English report"; exit 1; }
           done
           # A market that already reads in English gets one report, not the same file twice.
-          test "$(ls "$(dirname "$(cat /tmp/us.path)")"/us-light-*.md | wc -l)" -eq 1
-          test "$(ls "$(dirname "$(cat /tmp/cn.path)")"/cn-light-*.md | wc -l)" -eq 2
+          test "$(ls "$(dirname "$(cat /tmp/us.path)")"/us-medium-*.md | wc -l)" -eq 1
+          test "$(ls "$(dirname "$(cat /tmp/cn.path)")"/cn-medium-*.md | wc -l)" -eq 2
           python scripts/universe.py build --language ja \
-            --spec examples/cn-light/build-spec.json \
-            --snapshot examples/cn-light/snapshot.json --output /tmp/cn-ja > /dev/null
+            --spec examples/cn-medium/build-spec.json \
+            --snapshot examples/cn-medium/snapshot.json --output /tmp/cn-ja > /dev/null
           # --language names the companion; English is written either way.
-          grep -q '^# CN 銘柄ユニバース' /tmp/cn-ja/cn-light-*.ja.md
-          grep -q '^# CN Ticker Universe' /tmp/cn-ja/cn-light-*.en.md
+          grep -q '^# CN 銘柄ユニバース' /tmp/cn-ja/cn-medium-*.ja.md
+          grep -q '^# CN Ticker Universe' /tmp/cn-ja/cn-medium-*.en.md
       - name: apply the example change set
         run: |
           python scripts/universe.py maintain \
             --universe "$(cat /tmp/crypto.path)" \
-            --changes examples/crypto-light/changes.json \
+            --changes examples/crypto-medium/changes.json \
             --output /tmp/crypto-v2
 
       - name: diff the reviewed universe against the one it came from
         run: |
-          reviewed=$(ls /tmp/crypto-v2/crypto-light-*.json | grep -v validation)
+          reviewed=$(ls /tmp/crypto-v2/crypto-medium-*.json | grep -v validation)
           python scripts/universe.py diff "$(cat /tmp/crypto.path)" "$reviewed" \
             > /tmp/crypto.diff.json
           python - <<'EOF'
           import json
           diff = json.load(open("/tmp/crypto.diff.json"))
-          assert diff["added"] == ["BINANCE:TRXUSDT.P"], diff["added"]
-          assert diff["removed"] == ["BINANCE:GMXUSDT.P"], diff["removed"]
+          assert diff["added"] == [], diff["added"]
+          assert diff["removed"] == [], diff["removed"]
           assert diff["market_spec"] == "unchanged"
           EOF
 

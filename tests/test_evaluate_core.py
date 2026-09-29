@@ -37,7 +37,7 @@ def member(ticker: str, theme: str = "00_A", role: str = "THEME_LEADER", **metri
 
 def universe(members: list[dict], audit: list[dict] | None = None) -> dict:
     return {
-        "market": "crypto", "profile": "light", "version_hash": "abc123", "as_of": "2026-09-01",
+        "market": "crypto", "profile": "light", "version_hash": "abc123", "as_of": "2026-08-31",
         "members": members, "selection_audit": audit or [],
     }
 

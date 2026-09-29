@@ -14,6 +14,19 @@ Each released heading below matches a `version:` in `SKILL.md` and a git tag of 
 there, and backfilling a listing for a release nobody could install would be tidier than it is
 true.
 
+## 0.4.0 — 2026-09-29
+
+- Added Extreme: approximately 45% above Heavy, nested membership and a 70% incremental beta
+  preference; deterministic R², positive beta and stability gates remain mandatory.
+- Added dated active-listing checks, strong admission evidence, required reasons, per-ticker
+  measurement provenance, CN venue/prefix checks and a whole-record content hash.
+- Added theme gauge fit checks, leave-one-out peer baskets, joint factor OLS and two-horizon
+  fund/basket diagnostics. Measurement refresh clears stale values; evaluation uses forward bars.
+- Added optional standard-library public-data adapters and fact/theme maintenance operations.
+- Replaced all fourteen illustrative Light examples with seven real-data Medium examples:
+  US, Japan, China, Korea, Hong Kong, UK and crypto. Raw receipts stay outside shipped examples;
+  limitations, partial scores and warnings are explicit. Tests rebuild snapshots offline.
+
 ## 0.3.0 — unreleased
 
 ### Every market reports in English too, not only in its own language

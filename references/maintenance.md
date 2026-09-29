@@ -53,6 +53,13 @@ not to fixing a known defect.
 - High-value candidates that did not fit this round's budget go into `deferred`.
 - When there is not enough information gain, `NO_CHANGE` is the correct result.
 
+The first three hysteresis bullets are research policy, not a numerical state machine in Python.
+The script enforces turnover budgets and the recorded flip-flop warning.
+
+`REFRESH` updates verified facts without membership churn; `UPDATE_THEME` updates a theme
+weight/name. Both require reason and strong evidence. Supply `base_content_hash` alongside
+`base_version_hash` so a proposal cannot apply over another fact-only refresh.
+
 ## Review checklist
 
 - Is every existing member still live, tradable and on the right venue?

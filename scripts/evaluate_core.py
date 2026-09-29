@@ -414,7 +414,13 @@ def evaluate(
     members = universe.get("members") or []
     if not members:
         raise EvaluateError("universe has no members to evaluate")
-    series = measure_core.read_bars(prices)
+    # Evaluation is forward observation. In-sample bars must not leak into its outcome window.
+    if not universe.get("as_of"):
+        raise EvaluateError("universe as_of is required for forward evaluation")
+    try:
+        series = measure_core.read_bars(prices, after=universe["as_of"])
+    except measure_core.MeasureError as exc:
+        raise EvaluateError(f"no usable forward price table: {exc}") from exc
     stats = window_stats(series)
     if not stats:
         raise EvaluateError(

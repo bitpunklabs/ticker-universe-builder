@@ -104,8 +104,8 @@ class VersionTests(unittest.TestCase):
 
     def skill_version(self) -> str:
         text = (ROOT / "SKILL.md").read_text(encoding="utf-8")
-        match = re.search(r"^version: (.+)$", text.split("---")[1], re.M)
-        self.assertIsNotNone(match, "SKILL.md frontmatter has no version")
+        match = re.search(r"^  version: (.+)$", text.split("---")[1], re.M)
+        self.assertIsNotNone(match, "SKILL.md frontmatter metadata has no version")
         return match.group(1).strip()
 
     def test_the_skill_version_is_semver(self) -> None:

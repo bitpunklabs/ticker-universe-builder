@@ -64,4 +64,6 @@ tactical budget as `NEW_LISTING`, not by loosening the retention rules for every
 
 ## Example
 
-[`examples/crypto-light/`](../../examples/crypto-light/) is a full-size Light universe for this market: the seed table it is built from, the snapshot, the report in this market's language, and the TradingView watchlist. Every metric value in it is illustrative; the tickers, themes and roles are not.
+[`examples/crypto-medium/`](../../examples/crypto-medium/) contains a full-size Medium
+research snapshot, measured statistics, dated listing evidence, reports and script-generated watchlist.
+Read [the scope and limitations](../../examples/README.md) before reusing it.

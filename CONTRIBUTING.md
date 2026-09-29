@@ -26,11 +26,11 @@ python examples/build_examples.py && git diff --exit-code examples/
 ```
 
 The third one matters more than it looks. The examples are generated from
-`examples/seeds/*.tsv`, and any change to selection, ordering, rendering or hashing rewrites
+the dated `examples/*-medium/snapshot.json` inputs, and any change to selection, ordering, rendering or hashing rewrites
 them. A diff there is not noise — it is the change you just made, shown as its effect on a real
 universe. Read it before committing it, and commit it in the same commit as the code.
 
-If the hash changed, `examples/crypto-light/changes.json` carries a `base_version_hash` that has
+If the hash changed, `examples/crypto-medium/changes.json` carries a `base_version_hash` that has
 to move with it.
 
 ## Adding a market
@@ -39,17 +39,17 @@ Two paths, and the cheap one is usually right. A market can be **declared** in t
 `market_spec` — venues, symbol shape, identity rule, size guidance — with no code change at all;
 it builds under the same evidence gate as everything else and is reported as declared rather
 than reviewed. **Registering** a market is five additions — a `MARKET_SPECS`
-row, a breadth number, a starter taxonomy, an overlay and a seed table — plus locale keys if its
+row, a breadth number, a starter taxonomy, an overlay and a researched snapshot — plus locale keys if its
 language is new. See
 [`references/markets/adding-a-market.md`](references/markets/adding-a-market.md).
 
-Do not ship an unexercised market overlay on speculation. The seed table is what exercises it,
-which is why it is one of the five and not a follow-up: a test asserts that the set of examples
-equals the set of registered markets, so a row added without one fails on the same commit.
+Do not ship an unexercised market overlay on speculation. Add a reproducible researched fixture
+that exercises its rules and verify all four profiles. The published examples are deliberately
+limited to seven markets in 0.4; registry coverage and example coverage are separate test contracts.
 
 ## Cutting a release
 
-The skill's version lives in `SKILL.md` frontmatter and is semver. Three places carry it and a
+The skill's version lives in `SKILL.md` frontmatter `metadata.version` and is semver. Three places carry it and a
 test pins two of them together; the third is the tag, which is why the order below matters.
 
 The version is bumped by the **first** change of a cycle, not at the end: a test ties

@@ -34,6 +34,7 @@ from universe_core import (  # noqa: E402
     build_universe,
     canonical_hash,
     check_taxonomy,
+    content_hash,
     declared_market_warnings,
     default_asset_id,
     diff_universes,
@@ -70,8 +71,8 @@ from universe_core import (  # noqa: E402
 # Every market with a committed example. Read off the directory rather than listed, so a new
 # example is covered by these tests the moment it is added.
 EXAMPLE_MARKETS = sorted(
-    path.name.removesuffix("-light")
-    for path in (ROOT / "examples").glob("*-light")
+    path.name.removesuffix("-medium")
+    for path in (ROOT / "examples").glob("*-medium")
     if path.is_dir()
 )
 
@@ -145,6 +146,13 @@ def candidate(
         "metrics": metrics,
         "evidence": evidence(),
         "reason": "fixture",
+        "listing": {"status": "active", "as_of": "2026-09-09", "source": "https://example.com/source"},
+        "measurement_record": {
+            "as_of": "2026-09-09", "first_session": "2026-01-01", "last_session": "2026-09-09",
+            "source": "https://example.com/data", "data_sha256": "0" * 64,
+            "observations": 180, "liquidity_observations": 30,
+            "benchmarks": ["BINANCE:BTCUSDT.P"], "factor_model": "basket",
+        },
     }
 
 
@@ -182,7 +190,7 @@ def snapshot() -> dict:
 def small_policy() -> dict:
     value = copy.deepcopy(load_policy())
     # A two-name universe: small enough that every selection rule is visible in one diff.
-    value["tiers"] = {"light": 2, "medium": 3, "heavy": 4}
+    value["tiers"] = {"light": 2, "medium": 3, "heavy": 4, "extreme": 6}
     value["markets"]["crypto"] = {"breadth": 1.0}
     value["guidance_band"] = 0.0
     return value
@@ -583,7 +591,14 @@ class MaintenanceTests(unittest.TestCase):
             self.universe,
             [{
                 "op": "REMOVE", "ticker": "BINANCE:BTCUSDT.P",
-                "reason": "fixture", "evidence": evidence(),
+                "reason": "fixture",
+        "listing": {"status": "active", "as_of": "2026-09-09", "source": "https://example.com/source"},
+        "measurement_record": {
+            "as_of": "2026-09-09", "first_session": "2026-01-01", "last_session": "2026-09-09",
+            "source": "https://example.com/data", "data_sha256": "0" * 64,
+            "observations": 180, "liquidity_observations": 30,
+            "benchmarks": ["BINANCE:BTCUSDT.P"], "factor_model": "basket",
+        }, "evidence": evidence(),
             }],
             review_depth="event",
         )
@@ -681,7 +696,7 @@ class MarketRegistryTests(unittest.TestCase):
     def test_a_market_can_be_sized_without_the_policy_file(self) -> None:
         band = tier_guidance(1.0, load_policy())
         self.assertEqual(
-            [band[name]["target"] for name in PROFILES], [60, 160, 400]
+            [band[name]["target"] for name in PROFILES], [60, 160, 400, 580]
         )
 
     def test_every_starter_table_can_reach_its_own_target(self) -> None:
@@ -746,6 +761,7 @@ def declaration(**overrides) -> dict:
             "light": {"min": 1, "target": 2, "max": 4},
             "medium": {"min": 2, "target": 3, "max": 6},
             "heavy": {"min": 3, "target": 4, "max": 8},
+            "extreme": {"min": 4, "target": 6, "max": 10},
         },
         "evidence": evidence(),
     }
@@ -806,7 +822,7 @@ class ThemeWeightTests(unittest.TestCase):
 
     def test_a_heavier_theme_takes_more_of_the_universe(self) -> None:
         # The end-to-end statement: same candidates, same target, one weight changed.
-        folder = ROOT / "examples" / "crypto-light"
+        folder = ROOT / "examples" / "crypto-medium"
         snapshot = read_json(folder / "snapshot.json")
         policy = load_policy()
 
@@ -823,7 +839,7 @@ class ThemeWeightTests(unittest.TestCase):
     def test_a_theme_with_no_bench_left_costs_the_universe_nothing(self) -> None:
         # The property a cap could never have: slots the theme cannot fill flow to the next
         # theme in line instead of being held open or spent on relaxing eligibility.
-        folder = ROOT / "examples" / "crypto-light"
+        folder = ROOT / "examples" / "crypto-medium"
         data = read_json(folder / "snapshot.json")
         for item in data["taxonomy"]:
             if item["theme_code"] == "60_A":
@@ -840,7 +856,7 @@ class ThemeWeightTests(unittest.TestCase):
         self.assertEqual(len(universe["members"]), universe["limits"]["target_count"])
 
     def test_the_report_says_where_the_universe_concentrated(self) -> None:
-        folder = ROOT / "examples" / "crypto-light"
+        folder = ROOT / "examples" / "crypto-medium"
         universe, report = build_universe(
             read_json(folder / "build-spec.json"),
             read_json(folder / "snapshot.json"),
@@ -856,7 +872,7 @@ class ThemeWeightTests(unittest.TestCase):
     def test_drift_away_from_the_table_is_reported(self) -> None:
         # Nothing caps a theme, so the check that replaces the cap is a disclosure: a pool that
         # walked far from what its own weights asked for says so.
-        folder = ROOT / "examples" / "crypto-light"
+        folder = ROOT / "examples" / "crypto-medium"
         universe, _ = build_universe(
             read_json(folder / "build-spec.json"),
             read_json(folder / "snapshot.json"),
@@ -875,7 +891,7 @@ class ThemeWeightTests(unittest.TestCase):
         # theme won a slot. Counting it against the theme's apportioned expectation compares an
         # assigned seat to an earned one, and since every market's required seats sit in its
         # benchmark theme, it skews the same theme the same way everywhere.
-        folder = ROOT / "examples" / "kr-light"
+        folder = ROOT / "examples" / "kr-medium"
         universe, _ = build_universe(
             read_json(folder / "build-spec.json"),
             read_json(folder / "snapshot.json"),
@@ -897,39 +913,35 @@ class ThemeWeightTests(unittest.TestCase):
         self.assertNotIn(theme, " ".join(report["warnings"]))
 
     def test_the_drift_floor_is_low_enough_to_see_a_light_universe(self) -> None:
-        # A Light universe is small, so its themes expect small numbers — br's 60_A is weighted
-        # to a quarter of a member. A theme holding three of those is more than ten times its
-        # share, and the old floor of 5 made it invisible in the tier most people build. The
-        # floor could only come down once required seats left the comparison; before that it was
-        # the only thing keeping the benchmark themes from false-positiving everywhere.
-        folder = ROOT / "examples" / "br-light"
-        universe, _ = build_universe(
-            read_json(folder / "build-spec.json"),
-            read_json(folder / "snapshot.json"),
-            load_policy(),
-        )
+        # A deliberately small synthetic universe exercises drift without depending on a
+        # particular market example. Three apportioned seats must trigger the floor of three.
+        raw = snapshot()
+        raw["taxonomy"] = taxonomy()[:2]
+        raw["taxonomy"][0]["weight"] = 4
+        raw["taxonomy"][1]["weight"] = .25
+        raw["candidates"] = [candidate(f"BINANCE:T{i}USDT.P", f"T{i}",
+                                     "00_A" if i < 18 else "10_A", "THEME_LEADER")
+                             for i in range(20)]
+        universe, _ = build_universe(dict(spec(), target_count=20, allow_outside_guidance=True),
+                                    raw, load_policy())
         crowded = copy.deepcopy(universe)
-        thin = min(
-            Counter(item["theme_code"] for item in crowded["members"]).items(),
-            key=lambda row: row[1],
-        )[0]
-        moved = 0
-        for item in crowded["members"]:
-            if item["theme_code"] != thin and not item.get("required") and moved < 2:
-                item["theme_code"] = thin
-                moved += 1
+        next(m for m in crowded["members"] if m["theme_code"] == "00_A")["theme_code"] = "10_A"
         crowded["version_hash"] = universe_hash(crowded)
-        held = Counter(item["theme_code"] for item in crowded["members"])[thin]
+        crowded["content_hash"] = content_hash(crowded)
+        held = Counter(item["theme_code"] for item in crowded["members"])["10_A"]
         self.assertEqual(held, THEME_DRIFT_FLOOR)
-        self.assertLess(held, 5, "the point of the change is that this is now visible")
-        self.assertIn(thin, " ".join(validate_universe(crowded, load_policy())["warnings"]))
+        self.assertLess(held, 5)
+        report = validate_universe(crowded, load_policy())
+        self.assertTrue(report["passed"], report["errors"])
+        self.assertIn("10_A", " ".join(report["warnings"]))
+
 
 
 class StabilityTests(unittest.TestCase):
     """The instrument is sold on low turnover. This is the only thing that measures it."""
 
     def build(self, market: str = "crypto"):
-        folder = ROOT / "examples" / f"{market}-light"
+        folder = ROOT / "examples" / f"{market}-medium"
         return build_universe(
             read_json(folder / "build-spec.json"),
             read_json(folder / "snapshot.json"),
@@ -957,9 +969,9 @@ class StabilityTests(unittest.TestCase):
         # The draw has to be per ticker. `metric_score` is linear, so nudging every number the
         # same way rescales every score and reorders nothing — the number would read 1.00 on any
         # input, which is worse than not reporting it.
-        candidates = read_json(ROOT / "examples" / "crypto-light" / "snapshot.json")["candidates"]
+        candidates = read_json(ROOT / "examples" / "crypto-medium" / "snapshot.json")["candidates"]
         normalized = normalize_snapshot(
-            read_json(ROOT / "examples" / "crypto-light" / "snapshot.json")
+            read_json(ROOT / "examples" / "crypto-medium" / "snapshot.json")
         )["candidates"]
         self.assertEqual(len(candidates), len(normalized))
         signs = set()
@@ -976,7 +988,7 @@ class StabilityTests(unittest.TestCase):
         # A judgement is not an estimate with an error bar. Nudging one would ask how sensitive
         # the pool is to the author's opinion, which a ±1% shift cannot answer.
         normalized = normalize_snapshot(
-            read_json(ROOT / "examples" / "crypto-light" / "snapshot.json")
+            read_json(ROOT / "examples" / "crypto-medium" / "snapshot.json")
         )["candidates"]
         for before, after in zip(normalized, _jitter(normalized, 0), strict=True):
             self.assertEqual(before["metrics"].get("quality"), after["metrics"].get("quality"))
@@ -1005,15 +1017,15 @@ class DiffTests(unittest.TestCase):
     def test_a_review_and_a_diff_of_it_agree_on_turnover(self) -> None:
         # Two definitions of turnover that drift apart would be worse than one, so they are
         # checked against each other on the shipped example rather than asserted separately.
-        folder = ROOT / "examples" / "crypto-light"
+        folder = ROOT / "examples" / "crypto-medium"
         policy = load_policy()
         built, _ = build_universe(
             read_json(folder / "build-spec.json"), read_json(folder / "snapshot.json"), policy
         )
         reviewed, report = apply_change_set(built, read_json(folder / "changes.json"), policy)
         compared = diff_universes(built, reviewed)
-        self.assertEqual(compared["added"], ["BINANCE:TRXUSDT.P"])
-        self.assertEqual(compared["removed"], ["BINANCE:GMXUSDT.P"])
+        self.assertEqual(compared["added"], [])
+        self.assertEqual(compared["removed"], [])
         self.assertAlmostEqual(compared["turnover"], report["maintenance"]["turnover"], places=4)
 
     def test_a_role_change_and_a_theme_move_are_named(self) -> None:
@@ -1048,8 +1060,8 @@ class DiffTests(unittest.TestCase):
         self.assertEqual(report["metric_drift"]["fields"], 2)
         self.assertEqual(report["metric_drift"]["largest"][0]["metric"], "liquidity")
         self.assertEqual(report["metric_drift"]["largest"][0]["delta"], -50.0)
-        # Metrics move on every refresh; that alone is not a change to the instrument.
-        self.assertTrue(report["identical"])
+        # Fact-only refreshes preserve membership but are not identical records.
+        self.assertFalse(report["identical"])
 
 
 class TaxonomyCheckTests(unittest.TestCase):
@@ -1416,10 +1428,10 @@ class LocalizationTests(unittest.TestCase):
         self.assertEqual(report_language("th"), "en")
 
     def test_a_market_report_is_written_in_its_own_language(self) -> None:
-        chinese = (ROOT / "examples" / "cn-light" / "universe.zh-Hans.md").read_text(
+        chinese = (ROOT / "examples" / "cn-medium" / "universe.zh-Hans.md").read_text(
             encoding="utf-8"
         )
-        english = (ROOT / "examples" / "us-light" / "universe.en.md").read_text(encoding="utf-8")
+        english = (ROOT / "examples" / "us-medium" / "universe.en.md").read_text(encoding="utf-8")
         self.assertIn("# CN 标的池", chinese)
         self.assertIn("## 成员", chinese)
         self.assertNotIn("## Members", chinese)
@@ -1452,7 +1464,7 @@ class LocalizationTests(unittest.TestCase):
                     f"{language} {key}: ASCII punctuation beside CJK in {value!r}",
                 )
         # The example is the demonstration, so it is held to the same standard as the chrome.
-        chinese = (ROOT / "examples" / "cn-light" / "universe.zh-Hans.md").read_text(
+        chinese = (ROOT / "examples" / "cn-medium" / "universe.zh-Hans.md").read_text(
             encoding="utf-8"
         )
         for line in chinese.splitlines():
@@ -1587,16 +1599,19 @@ class QualityTests(unittest.TestCase):
 
 class AuditTests(unittest.TestCase):
     def test_rejections_are_counted_by_code(self) -> None:
-        universe, report = build_universe(
-            read_json(ROOT / "examples" / "us-light" / "build-spec.json"),
-            read_json(ROOT / "examples" / "us-light" / "snapshot.json"),
-            load_policy(),
-        )
+        raw = snapshot()
+        for ticker, asset, code in [("BINANCE:ADAUSDT.P", "ADA", "duplicate_asset"),
+                                     ("BINANCE:XRPUSDT.P", "XRP", "redundant_with_member")]:
+            item = candidate(ticker, asset, "10_A", "BREADTH_PROXY")
+            item.update(eligible=False, exclusion_reasons=[code + ": synthetic audit case"])
+            raw["candidates"].append(item)
+        universe, report = build_universe(spec(), raw, small_policy())
         rejections = report["stats"]["rejections"]
         self.assertEqual(rejections["duplicate_asset"], 1)
         self.assertEqual(rejections["redundant_with_member"], 1)
         self.assertEqual(sum(rejections.values()), len(universe["selection_audit"]))
         self.assertIn("redundant_with_member | 1", render_markdown(universe, report))
+
 
 
 class ImportTests(unittest.TestCase):
@@ -1643,8 +1658,8 @@ class ImportTests(unittest.TestCase):
 
     def test_our_own_watchlist_round_trips(self) -> None:
         universe, _ = build_universe(
-            read_json(ROOT / "examples" / "crypto-light" / "build-spec.json"),
-            read_json(ROOT / "examples" / "crypto-light" / "snapshot.json"),
+            read_json(ROOT / "examples" / "crypto-medium" / "build-spec.json"),
+            read_json(ROOT / "examples" / "crypto-medium" / "snapshot.json"),
             load_policy(),
         )
         draft = self.draft(render_txt(universe), market="crypto")
@@ -1665,8 +1680,8 @@ class ImportTests(unittest.TestCase):
 class ExampleTests(unittest.TestCase):
     """The shipped examples are the first thing anyone runs; a rotted one is a broken skill."""
 
-    def test_the_committed_examples_match_their_seeds(self) -> None:
-        # The seed tables are the source of truth. If regenerating changes a committed file,
+    def test_the_committed_examples_rebuild_from_researched_inputs(self) -> None:
+        # The researched snapshots are the source of truth. If rebuilding changes a committed file,
         # someone edited the output instead of the input.
         sys.path.insert(0, str(ROOT / "examples"))
         import build_examples
@@ -1675,7 +1690,7 @@ class ExampleTests(unittest.TestCase):
             path: path.read_text(encoding="utf-8")
             for market in EXAMPLE_MARKETS
             for pattern in ("*.json", "*.md", "*.txt")
-            for path in (ROOT / "examples" / f"{market}-light").glob(pattern)
+            for path in (ROOT / "examples" / f"{market}-medium").glob(pattern)
             if path.name != "changes.json"
         }
         # One report per language per example, named `universe.<language>.md` exactly as a build
@@ -1706,26 +1721,28 @@ class ExampleTests(unittest.TestCase):
         for path, text in before.items():
             self.assertEqual(path.read_text(encoding="utf-8"), text, path.name)
 
-    def test_every_registered_market_ships_an_example(self) -> None:
-        # The registry is the claim; an example is the evidence. A market added without one is a
-        # row nobody has ever built against.
-        self.assertEqual(sorted(EXAMPLE_MARKETS), sorted(MARKETS))
+    def test_exactly_the_seven_requested_markets_ship_examples(self) -> None:
+        # Example scope is independent of the fourteen-market registry.
+        self.assertEqual(
+            sorted(EXAMPLE_MARKETS), sorted(("us", "jp", "cn", "kr", "hk", "uk", "crypto"))
+        )
 
-    def test_examples_draw_their_themes_from_the_starter_taxonomy(self) -> None:
+    def test_examples_use_their_declared_researched_taxonomy(self) -> None:
         for market in EXAMPLE_MARKETS:
             with self.subTest(market=market):
-                published = {item["theme_code"] for item in starter_taxonomy(market)}
+                raw = read_json(ROOT / "examples" / f"{market}-medium" / "snapshot.json")
+                published = {item["theme_code"] for item in raw["taxonomy"]}
                 used = {
                     item["theme_code"]
                     for item in read_json(
-                        ROOT / "examples" / f"{market}-light" / "snapshot.json"
+                        ROOT / "examples" / f"{market}-medium" / "snapshot.json"
                     )["candidates"]
                 }
                 self.assertLessEqual(used, published)
 
     def test_every_example_builds_and_passes(self) -> None:
         for market in EXAMPLE_MARKETS:
-            folder = ROOT / "examples" / f"{market}-light"
+            folder = ROOT / "examples" / f"{market}-medium"
             with self.subTest(market=market):
                 universe, report = build_universe(
                     read_json(folder / "build-spec.json"),
@@ -1740,18 +1757,20 @@ class ExampleTests(unittest.TestCase):
         # in a shipped build spec teaches that the flag is normal. Both used to be true here.
         policy = load_policy()
         for market in EXAMPLE_MARKETS:
-            folder = ROOT / "examples" / f"{market}-light"
+            folder = ROOT / "examples" / f"{market}-medium"
             with self.subTest(market=market):
                 spec = read_json(folder / "build-spec.json")
                 self.assertNotIn("allow_outside_guidance", spec)
                 universe, report = build_universe(
                     spec, read_json(folder / "snapshot.json"), policy
                 )
-                band = market_guidance(market, policy, None)["light"]
+                band = market_guidance(market, policy, None)["medium"]
                 self.assertEqual(len(universe["members"]), band["target"])
                 self.assertGreaterEqual(len(universe["members"]), band["min"])
                 self.assertLessEqual(len(universe["members"]), band["max"])
-                self.assertEqual(report["warnings"], [])
+                self.assertTrue(all(
+                    m["measurement_record"]["data_sha256"] for m in universe["members"]
+                ))
 
     def test_every_example_reads_in_its_own_market_language_and_in_english(self) -> None:
         # The report language is a registry fact, not a run-time choice, and the committed
@@ -1761,7 +1780,7 @@ class ExampleTests(unittest.TestCase):
         for market in EXAMPLE_MARKETS:
             for code in report_languages(market):
                 with self.subTest(market=market, language=code):
-                    path = ROOT / "examples" / f"{market}-light" / f"universe.{code}.md"
+                    path = ROOT / "examples" / f"{market}-medium" / f"universe.{code}.md"
                     heading = next(
                         line
                         for line in path.read_text(encoding="utf-8").splitlines()
@@ -1773,7 +1792,7 @@ class ExampleTests(unittest.TestCase):
                     )
 
     def test_the_crypto_change_set_still_applies_to_its_own_universe(self) -> None:
-        folder = ROOT / "examples" / "crypto-light"
+        folder = ROOT / "examples" / "crypto-medium"
         universe, _ = build_universe(
             read_json(folder / "build-spec.json"),
             read_json(folder / "snapshot.json"),
@@ -1783,9 +1802,9 @@ class ExampleTests(unittest.TestCase):
         self.assertEqual(changes["base_version_hash"], universe["version_hash"])
         updated, report = apply_change_set(universe, changes, load_policy())
         self.assertTrue(report["passed"], report["errors"])
-        self.assertEqual(report["maintenance"]["added"], ["BINANCE:TRXUSDT.P"])
-        self.assertEqual(report["maintenance"]["removed"], ["BINANCE:GMXUSDT.P"])
-        self.assertEqual(report["warnings"], [])
+        self.assertEqual(report["maintenance"]["added"], [])
+        self.assertEqual(report["maintenance"]["removed"], [])
+        self.assertEqual(updated["members"], universe["members"])
 
 
 if __name__ == "__main__":

@@ -2,6 +2,40 @@
 
 Three inputs, one output record. Every file is a JSON object with `schema_version: 1`.
 
+## Research integrity (0.4)
+
+Eligible measured candidates require a valid per-ticker `measurement_record`.
+Eligible candidates require a non-empty `reason`, tier 1/2 evidence, and `listing` with
+`status: "active"`, an ISO `as_of`, and an http(s) `source` also present in their strong evidence.
+An active quotation is evidence of tradability at the stated date, not proof of financial quality.
+Listing checks expire after 30 calendar days; observations dated after the snapshot are refused.
+Ineligible candidates may omit listing facts but must retain their exclusion code and evidence.
+
+`independence` is measured-only and must be derived from `factor_r2`. A `BETA_SATELLITE` needs
+`factor_r2 >= 30`, `beta_strength >= 55` (positive beta >= 1.1) and `beta_stability >= 50`.
+These starting thresholds are disclosed constants, not empirically universal guarantees.
+
+`measure` writes per-ticker `measurement_record`: as-of date, source, input SHA-256, actual
+first/last observation dates, factor legs/model and observation counts. It clears old measured
+values on refresh, including values the replacement table cannot supply. Missing required data
+marks the merged snapshot incomplete; notes and coverage persist into the universe/report.
+`measurement_audit` preserves dated theme fit/fund diagnostics through merge and build.
+Snapshot measurement declarations describe common units; ticker records identify distinct gauges.
+`content_hash` covers the complete output record separately from membership `version_hash`;
+both hashes are required when validating a stored universe. Version 0.3 snapshots need listing
+checks, reasons and measurement records before rebuilding; declared market guidance needs four tiers.
+
+Profiles are `light`, `medium`, `heavy`, `extreme`. Extreme targets 1.45 times Heavy, rounded to
+five; it inherits Heavy and preferentially fills 70% of new slots with qualified beta satellites.
+No gate is relaxed if the bench cannot meet that preference. Coverage levels remain 1/2/3;
+Extreme observes the Heavy taxonomy more deeply. The 1,000-token file limit still applies.
+
+Maintenance also accepts `UPDATE_THEME` (`theme`, `weight` and/or `theme_name`, reason, evidence)
+and `REFRESH` (`ticker`, complete `candidate`, reason, evidence). REFRESH preserves ticker,
+asset identity, theme, role and required status and records a fact refresh without membership churn.
+ADD_THEME accepts weight. Hysteresis is a research requirement; the script guarantees turnover
+limits and flip-flop disclosure, not an unimplemented two-snapshot decision rule.
+
 ## build-spec.json
 
 ```json
@@ -103,6 +137,12 @@ point to edit, but it is not one that ships needing repairs.
       "required": true,
       "eligible": true,
       "exclusion_reasons": [],
+      "reason": "Core benchmark with an active contract check",
+      "listing": {"status": "active", "as_of": "2026-09-16", "source": "https://..."},
+      "measurement_record": {"as_of": "2026-09-16", "source": "https://...",
+        "data_sha256": "<64 hexadecimal characters from the input file>",
+        "first_session": "2026-08-01", "last_session": "2026-09-16",
+        "liquidity_observations": 30, "observations": 0, "benchmarks": []},
       "metrics": {"liquidity": 100, "quality": 95},
       "evidence": [{"url": "https://...", "as_of": "2026-09-16", "kind": "listing", "tier": 1}]
     }
@@ -132,7 +172,7 @@ registry row would have held:
 }
 ```
 
-Size it the way every registered market is sized: one `breadth` factor scaling the 60 / 160 / 400
+Size it the way every registered market is sized: one `breadth` factor scaling the 60 / 160 / 400 / 580
 tier bases, rounded to five, with the band at ±25%. Breadth is roughly how many names this market
 lists that a reader could tell apart, sustain a position in, and would be worse off not watching
 — see the table in [tier-profiles.md](tier-profiles.md) for where the registered markets sit, and

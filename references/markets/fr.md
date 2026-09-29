@@ -39,7 +39,8 @@ Light.
 
 ## Example
 
-[`examples/fr-light/`](../../examples/fr-light/) is a full-size Light universe for this market: the seed table it is built from, the snapshot, the report in this market's language, and the TradingView watchlist. Every metric value in it is illustrative; the tickers, themes and roles are not.
+No dedicated example ships for this market in 0.4. Use the closest
+[worked Medium example](../../examples/README.md), then research this market under the overlay above.
 
 ## Suggested live fields
 

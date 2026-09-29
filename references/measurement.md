@@ -1,90 +1,89 @@
 # Measuring the window statistics
 
-Four metrics cannot be submitted as judgement — `liquidity`, `factor_r2`, `beta_strength` and
-`beta_stability`. A model that has not run the computation does not have the number, and a
-filled-in guess is indistinguishable from a measured one once it is in the file.
-
-That rule is only honest if there is a legal way to satisfy it. `measure` is that way.
+`liquidity`, `factor_r2`, `beta_strength`, `beta_stability` and derived `independence` cannot be
+judgement scores. Each eligible measured candidate requires a dated `measurement_record`, input
+SHA-256 and source. This is reproducible provenance, not proof against fabricated inputs.
 
 ```bash
-python scripts/universe.py measure \
-  --prices prices.csv \
-  --benchmark BINANCE:BTCUSDT.P --benchmark BINANCE:ETHUSDT.P \
-  --source https://data.binance.vision/ \
-  --window 180 --liquidity-window 30 \
-  --into snapshot.json \
-  --output snapshot.measured.json
+python scripts/universe.py measure --prices prices.csv \
+  --benchmark BINANCE:BTCUSDT.P --benchmark BINANCE:ETHUSDT.P --benchmark BINANCE:SOLUSDT.P \
+  --factor-model multivariate --as-of 2026-09-29 \
+  --source https://api.binance.com/ --window 180 --liquidity-window 30 \
+  --into snapshot.json --output snapshot.measured.json
 ```
 
-## What it reads
+## Input and time boundary
 
-A CSV of daily bars. Long format, one row per ticker per session:
+CSV columns: `date,ticker,close[,turnover][,volume]`, one ticker/session per row. Dates must be ISO;
+duplicates, nonpositive/nonfinite closes and negative/nonfinite turnover fail. `close` should be
+consistently adjusted; turnover should be actual notional, or a disclosed raw-close × volume proxy.
+Missing turnover produces no liquidity value. `--as-of` cuts off later bars before computation.
+A market percentile needs one currency and a disclosed population; never mix currencies as levels.
 
-```text
-date,ticker,close,turnover
-2026-09-15,BINANCE:BTCUSDT.P,62140.0,18400000000
-```
+The optional [fetch adapter](providers.md) supplies this shape. `measure` itself remains offline.
 
-`date`, `ticker` and `close` are required. Turnover comes from a `turnover` column if present,
-otherwise from `close` × `volume`; without either, the ticker gets no liquidity score rather than
-a low one. Where the file came from is not the same as where the data came from, so `--source`
-takes the http(s) URL of the provider and lands in every declaration the command writes.
-
-## What it computes
+## Statistics
 
 | Metric | Definition |
 |---|---|
-| `liquidity` | Cross-sectional percentile of mean daily turnover over `--liquidity-window` sessions, against `population` tickers |
-| `factor_r2` | R² of an OLS of daily returns on the benchmark basket over `--window` sessions |
-| `beta_strength` | Absolute OLS beta, scaled so beta 2.0 reads 100 |
-| `beta_stability` | Agreement of the beta estimate across the two halves of the window |
+| liquidity | Percentile of mean daily turnover over the latest 30 sessions, with ties averaged; population disclosed |
+| factor_r2 | OLS R² over the last 180 overlapping daily returns, scaled to 0–100 |
+| independence | Exactly 100 − factor_r2, derived by the builder |
+| beta_strength | Positive OLS beta scaled so beta 2.0 = 100; negative beta scores zero |
+| beta_stability | Agreement of beta across the two halves of the same factor window |
 
-## A percentile has to name its population
+At least 30 overlapping returns are required. No overlap/constant gauge produces no factor score.
+`--benchmark` repeats for an equal-weight daily-rebalanced basket. `--factor-model multivariate`
+fits R² jointly on the individual legs with an intercept; beta strength/stability still describe
+the equal-weight basket. Singular factor matrices produce no score. Crypto should declare its
+actual core anchors as factor legs. These models are different and the record states which ran.
 
-`liquidity` is a rank, not a level, so it is a statement about a group — and the group is
-whichever bench got researched. A seed holds sixty to a hundred and twenty names, and a candidate
-at 0.9 against a hundred researched names may be 0.4 against its market. The number is precise
-about its method and says nothing about its population, which makes two universes of one market
-look comparable when they are not.
+## Equity theme gauges
 
-So a `measured` declaration of a cross-sectional metric carries `population`: the count of
-distinct tickers the percentile was taken against. `measure` writes it from the price table.
-A hand-written declaration that omits it builds, and warns.
+Use a researched map rather than silently substituting a broad index:
 
-This does not make a narrow bench acceptable. It makes it visible, which is the only honest
-thing a number can do about the sample it came from.
+```json
+{
+  "schema_version": 1,
+  "themes": {
+    "11_A": {"members": ["NASDAQ:NVDA", "NASDAQ:AMD"], "benchmarks": ["AMEX:SOXX"]},
+    "12_A": {"members": ["NASDAQ:MSFT", "NYSE:ORCL", "NASDAQ:ADBE"], "mode": "peer_basket"}
+  },
+  "funds": [{"ticker": "AMEX:SOXX", "themes": ["11_A"]}]
+}
+```
 
-`--benchmark` repeats to form an equal-weighted factor basket, which is what "the BTC/ETH/SOL
-factor" means in the Crypto overlay. Liquidity is a percentile because the score has to be
-comparable inside one market and is meaningless across markets.
+```bash
+python scripts/universe.py measure --prices prices.csv --benchmark-map benchmark-map.json \
+  --as-of 2026-09-29 --source https://query1.finance.yahoo.com/ --output metrics.json
+```
 
-Stability is a separate question from strength on purpose: a satellite whose beta halves between
-the first and second half of the window is not a stable read on the factor, however large either
-estimate was.
+An explicit gauge must correlate positively (>=0.30) with the theme basket over up to 252 common
+returns. An unfit/missing gauge yields no factor statistics; the reason stays in `theme_checks`.
+An internal `peer_basket` excludes the ticker being regressed and requires at least two other
+measurable peers. It uses the actual common calendar. A source-industry basket can be a coarse
+proxy: classification and gauge fit are separate research questions. Singleton industries may
+remain breadth/size observations, but cannot claim unmeasured independence or beta.
 
-A series with fewer than 30 sessions overlapping the benchmark gets no factor statistics and one
-line in `notes` saying so. Nothing is estimated to fill the gap.
+Optional `funds` diagnostics compare the equal-weight theme basket with the ETF on full 252- and
+495-return windows. Reproduction needs correlation >=0.90 and positive compounded excess on
+both; `robust` additionally drops the largest compounded contributor and repeats those checks.
+Missing full horizons produce `measured=false`, never a shortened horizon presented as two years.
+These diagnostics do not remove a fund automatically: coverage, investability and research still
+matter. A daily-rebalanced frictionless basket is a comparison instrument, not a strategy return.
 
-## What it writes
+## Outputs and refresh
 
-Without `--into`, a bundle: `metrics` keyed by ticker plus the `measurement` declarations.
+A bundle carries `measurement`, per-ticker `metrics`/`records`, `coverage`, `theme_checks`,
+`fund_comparisons` and `notes`. Records name actual first/last bars, factor observation counts,
+liquidity counts, gauge legs/model, cutoff, source and hash of the input file (including any rows
+later excluded by the cutoff). Store the original table locally to reproduce the calculation.
 
-With `--into`, the same bundle folded into a researched snapshot, written to `--output` — never
-back over the input, because the snapshot is the agent's work and this command only contributes
-four of its fields. Judged metrics are left exactly as they were. `independence` is dropped from
-the candidates because the builder derives it from `factor_r2`, so the two cannot contradict each
-other. Any candidate the price table does not cover is listed in `notes`, and the build will
-still refuse it for the metric it never received — which is the correct outcome, and the reason
-the note exists.
+`--into` replaces every measured field and declaration. Missing replacement data clears stale
+scores rather than retaining them under a new method label. Eligible uncovered candidates mark
+the snapshot incomplete; required role metrics still gate the build. Judged fields remain as
+submitted. `measurement_audit` preserves dated theme/fund diagnostics. Coverage and notes persist into the universe; reports expose limitations and partial
+scores. Manual/external measurements must provide equivalent records.
 
-## What it is not
-
-Not a data layer. It does not fetch, does not know about providers, does not clean, and takes no
-view on what the numbers mean. Fetching prices is outside this skill; turning a local table into
-declarations that survive the validator is inside it.
-
-## Afterwards
-
-The same price table format is what [evaluation.md](evaluation.md) reads to measure a universe against
-the window it lived through. `measure` fills a snapshot in; `evaluate` checks what the numbers
-turned out to be worth.
+`evaluate` uses the same CSV shape **after** the universe's as-of date. Measurements used to build
+a universe cannot validate its future coverage.

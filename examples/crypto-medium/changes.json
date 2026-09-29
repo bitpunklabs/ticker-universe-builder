@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "market": "crypto",
+  "as_of": "2026-09-29",
+  "complete": true,
+  "base_version_hash": "9448c7e93933",
+  "base_content_hash": "99435ab35270",
+  "review_depth": "routine",
+  "sources": [
+    {
+      "url": "https://fapi.binance.com/fapi/v1/exchangeInfo",
+      "as_of": "2026-09-29",
+      "tier": 1,
+      "kind": "listing"
+    },
+    {
+      "url": "https://www.binance.com/bapi/asset/v2/public/asset-service/product/get-products",
+      "as_of": "2026-09-29",
+      "tier": 1,
+      "kind": "product_classification"
+    },
+    {
+      "url": "https://api.binance.com/api/v3/exchangeInfo",
+      "as_of": "2026-09-29",
+      "tier": 1,
+      "kind": "listing"
+    },
+    {
+      "url": "https://api.binance.com/",
+      "as_of": "2026-09-29",
+      "tier": 1,
+      "kind": "daily_prices"
+    }
+  ],
+  "ops": [
+    {
+      "op": "NO_CHANGE",
+      "reason": "Same-date review demonstration; no new evidence justifies churn."
+    }
+  ]
+}

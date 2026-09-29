@@ -41,7 +41,7 @@ model researches and proposes; Python normalizes, gates, ranks, apportions, hash
 - *"Widen my Light crypto universe to Medium without churning the incumbents."*
 - *"Evaluate the universe I built in July against the last 60 days of prices."*
 
-Name the market and the depth (`light` / `medium` / `heavy`). Skip the depth and it defaults to
+Name the market and the depth (`light` / `medium` / `heavy` / `extreme`). Skip the depth and it defaults to
 Medium; skip the market and you will be asked for that and nothing else.
 
 It declines stock tips, position sizing, allocations, entries and exits.
@@ -71,8 +71,8 @@ vocabulary, theme table and report language:
 Any other market builds by declaring the same handful of facts in the snapshot, evidence-gated,
 hashed, and reported as **declared rather than reviewed** on every run.
 
-Each ships a full-size Light example — [`examples/`](examples/) — in its own language. Tier sizes
-follow the market: one `breadth` factor scales the 60 / 160 / 400 tier bases, so US Light is 80
+Seven markets ship full-size, dated Medium research examples — [`examples/`](examples/README.md). Tier sizes
+follow the market: one `breadth` factor scales the 60 / 160 / 400 / 580 tier bases, so US Light is 80
 members and Brazil Light is 35. Equity markets share one theme table and state only
 their delta — what they do not list, what nobody else lists, and the **weights** that say what
 that market is actually about. There is no per-theme cap; slots are apportioned to weight, so
@@ -84,8 +84,8 @@ semiconductors in China (3.5) take more of the universe than property developers
 Four artifacts per build, named `{market}-{profile}-{as_of}`, plus one report per language.
 
 A **`.md` report**, written twice: once in the market's own language and once in English, as
-`{stem}.zh-Hans.md` and `{stem}.en.md` ([CN example](examples/cn-light/universe.zh-Hans.md), and
-[the same universe in English](examples/cn-light/universe.en.md)). A universe is read both by the
+`{stem}.zh-Hans.md` and `{stem}.en.md` ([CN example](examples/cn-medium/universe.zh-Hans.md), and
+[the same universe in English](examples/cn-medium/universe.en.md)). A universe is read both by the
 people who trade that market and by someone allocating across several who reads none of their
 languages, and the reasons and the evidence are the whole point of the file. English markets get
 the one file:
@@ -93,11 +93,11 @@ the one file:
 ```markdown
 # CRYPTO Ticker Universe
 
-- Profile: Light
-- Facts as of: 2026-09-17
-- Tickers: 40
-- Themes: 15
-- Largest theme: 10_A · 4 · 10% · weighted share 5
+- Profile: Medium
+- Facts as of: 2026-09-29
+- Tickers: 105
+- Themes: 13
+- Partially scored: 105 / 105
 - Validation: PASS
 
 | Theme | Ticker | Name | Role | Reason | Evidence |
@@ -106,7 +106,7 @@ the one file:
 ```
 
 A **`.txt` watchlist** TradingView imports directly, sectioned by theme, capped at 1,000 tokens
-([crypto example](examples/crypto-light/watchlist.txt)):
+([crypto example](examples/crypto-medium/watchlist.txt)):
 
 ```text
 ###00_A_CORE_ASSETS,BINANCE:ETHUSDT.P,BINANCE:BTCUSDT.P,###10_A_L1_MAJORS,BINANCE:ADAUSDT.P,…
@@ -165,19 +165,20 @@ at a time and reversed; a finished list cannot.
 - **Judgement, bounded.** `quality` is half rule and half model opinion wherever checkable facts
   exist — listing age, size percentile, a closed list of adverse flags — and the halves stay
   separately recorded.
-- **Low turnover.** Per-depth turnover budgets, hysteresis, flip-flop warnings, and a `deferred`
+- **Low turnover.** Per-depth turnover budgets, flip-flop warnings, and a `deferred`
   queue the next round inherits.
 - **Fail closed.** Incomplete facts, stale versions, missing evidence or a failed structural check
   produce nothing at all.
 
 ## The command surface
 
-One entry point, eight subcommands, in the order a real session uses them.
+One entry point, nine subcommands, in the order a real session uses them.
 
 | Command | What it is for |
 |---|---|
 | `taxonomy --market M [--profile P]` | Print the starter theme table to edit, or `--check` one before researching against it |
 | `import --watchlist W --market M` | Turn a TradingView export into a snapshot draft instead of retyping it |
+| `fetch --market M --prices-until D --output O` | Optional public listings/history adapter; writes receipts and coverage, never membership |
 | `measure --prices P --benchmark B` | Compute the window statistics the builder refuses to accept as judgement |
 | `build --spec S --snapshot N` | Select, rank, apportion, validate and write the four artifacts |
 | `validate universe.json` | Re-run the structural verdict on any universe file |
@@ -194,7 +195,7 @@ references/           methodology, tiers, contracts, maintenance, sources, per-m
 scripts/universe.py   the only entry point
 scripts/*_core.py     selection, measurement and evaluation; stdlib only
 assets/               policy, theme tables (one shared equity base + per-market deltas), locales
-examples/             one Light universe per market, generated from seeds and rebuilt by the tests
+examples/             seven researched Medium universes, rebuilt offline from dated snapshots
 tests/                pytest
 ```
 
@@ -205,8 +206,9 @@ tests/                pytest
 
 Stated plainly, because a limit you cannot see is a defect:
 
-- **No network layer.** The snapshot is the boundary. `measure` turns a local price table into
-  conforming declarations, but it does not fetch, and supplying the table is the caller's job.
+- **Optional data adapters.** Public TradingView/Yahoo and Binance adapters write raw receipts.
+  Endpoints can fail or change; incomplete requests are disclosed. Build and measure remain offline.
+  See [provider scope](references/providers.md). A verified quote is not regulatory due diligence.
 - **Half of `quality` is still judgement**, by design — durability is not a statistic. The rule
   half covers listing age, size percentile and adverse flags, recorded separately.
 - **The constants are still guesses, but they are now checkable.** `evaluate` measures a universe
@@ -218,11 +220,13 @@ Stated plainly, because a limit you cannot see is a defect:
   concentrated and what the weights asked for, which makes a wrong weight visible, not impossible.
 - **The composite score is an ordinal tie-break**, deliberately. Role order carries the structural
   judgement; nothing downstream should read the weighted score as a rating.
-- **Only Light examples ship.** All fourteen markets have one, full size and warning-free, but
-  Medium and Heavy have none: every ticker in `examples/seeds/*.tsv` is written from knowledge
-  rather than read off an exchange listing, and the honest limit of that is sixty to a hundred
-  and twenty names per market. Every metric value in the examples is illustrative; no example
-  asserts a regulatory status about a real issuer.
+- **Seven Medium examples ship**, using observed listings and real measured prices. They are dated
+  research subsets, not exhaustive market screens or quality ratings. Partial scores and warnings
+  remain visible. CN preserves legacy driver labels; that inheritance is not fresh business diligence.
+- **Hysteresis remains a research policy.** Python enforces turnover and warns on flip-flops; it
+  does not implement a numerical two-snapshot entry/exit state machine.
+- **Integrity is not authenticity.** Hashes and structured measurement records catch drift and
+  missing provenance; they cannot prove that a dishonest input author computed the supplied number.
 - **`fr` cannot enforce its own boundary.** TradingView's `EURONEXT` venue code covers Paris,
   Amsterdam, Brussels and Lisbon alike, so the identity rule cannot tell them apart and the
   research has to. It is stated in the overlay rather than papered over.
@@ -238,9 +242,8 @@ ruff check .                  # lint
 python examples/build_examples.py && git diff --exit-code examples/
 ```
 
-CI runs the suite on Python 3.10 through 3.13 and **installs nothing beforehand** — if the
-zero-dependency claim stops being true, the job fails rather than the claim quietly rotting. A
-second job drives the CLI the way a user does: builds all fourteen examples, validates each,
+CI runs the suite on Python 3.10 through 3.13 with pytest; runtime scripts use only the standard
+library. A second job drives the CLI: builds all seven examples, validates each,
 re-imports a generated watchlist, checks every registered market's starter table, applies the
 example change set, diffs the result and runs `evaluate` against a synthetic window.
 

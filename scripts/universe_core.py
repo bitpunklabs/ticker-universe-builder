@@ -21,7 +21,7 @@ from datetime import date
 from pathlib import Path
 from typing import Any
 
-PROFILES = ("light", "medium", "heavy")
+PROFILES = ("light", "medium", "heavy", "extreme")
 PROFILE_INDEX = {name: index for index, name in enumerate(PROFILES)}
 ROLES = {
     "BENCHMARK",
@@ -301,7 +301,9 @@ METRIC_FIELDS = (
 )
 # Window-dependent statistics. A model cannot know these without computing them, so the snapshot
 # has to say which window and which source produced them; declaring them as judgement is refused.
-MEASURED_ONLY_METRICS = {"liquidity", "factor_r2", "beta_strength", "beta_stability"}
+MEASURED_ONLY_METRICS = {
+    "liquidity", "factor_r2", "independence", "beta_strength", "beta_stability",
+}
 # Metrics that are a rank rather than a level. A percentile is a statement about a population,
 # and the population here is whatever bench got researched -- sixty to a hundred and twenty
 # names in a seed. 0.9 against a hundred researched names may be 0.4 against the market, so the
@@ -359,15 +361,17 @@ AUDIT_CODES = {
     "not_in_seed_universe",
 }
 DECISION_OPS = {"ADD", "REMOVE", "REPLACE"}
-THEME_OPS = {"ADD_THEME", "REMOVE_THEME"}
+THEME_OPS = {"ADD_THEME", "REMOVE_THEME", "UPDATE_THEME"}
 # Theme structure is resolved before membership, so a MOVE or ADD can target a theme this same
 # round created, and a theme can only be retired once its members have been placed elsewhere.
 OP_ORDER = {
     "ADD_THEME": 0,
+    "UPDATE_THEME": 0,
     "REMOVE": 1,
     "MOVE": 2,
     "REPLACE": 3,
     "ADD": 4,
+    "REFRESH": 4,
     "REMOVE_THEME": 5,
     "NO_CHANGE": 6,
 }
@@ -762,6 +766,11 @@ def universe_hash(universe: dict[str, Any]) -> str:
     return canonical_hash(canonical)
 
 
+def content_hash(universe: dict[str, Any]) -> str:
+    """Fact/provenance integrity, separate from the stable membership version."""
+    return canonical_hash({k: v for k, v in universe.items() if k != "content_hash"})
+
+
 def market_spec(market: str) -> MarketSpec:
     spec = MARKET_SPECS.get(str(market).strip().lower())
     if spec is None:
@@ -1011,6 +1020,14 @@ def validate_ticker(market: str | MarketSpec, ticker: str) -> list[str]:
         )
     if not spec.symbol_pattern.fullmatch(symbol):
         errors.append(f"{ticker}: {spec.code} symbol must be {spec.symbol_hint}")
+    elif spec.code == "cn":
+        matches = {
+            "SSE": symbol.startswith(("5", "6", "9", "000")),
+            "SZSE": symbol.startswith(("0", "1", "2", "3")),
+            "BSE": symbol.startswith(("4", "8", "92")),
+        }
+        if venue in matches and not matches[venue]:
+            errors.append(f"{ticker}: venue does not match the CN code range")
     return errors
 
 
@@ -1076,9 +1093,9 @@ def validate_evidence(evidence: Any, subject: str) -> list[dict[str, Any]]:
         url = str(item.get("url", "")) if isinstance(item, dict) else ""
         if not url.startswith(("http://", "https://")):
             raise UniverseError(f"{subject}: every evidence item needs an http(s) URL")
-        if not item.get("as_of"):
-            raise UniverseError(f"{subject}: every evidence item needs as_of")
-        if item.get("tier") not in (1, 2, 3):
+        if _parse_date(item.get("as_of")) is None:
+            raise UniverseError(f"{subject}: every evidence item needs an ISO as_of date")
+        if type(item.get("tier")) is not int or item["tier"] not in (1, 2, 3):
             raise UniverseError(f"{subject}: every evidence item needs tier 1, 2, or 3")
     return deepcopy(evidence)
 
@@ -1091,7 +1108,8 @@ def require_strong_evidence(evidence: list[dict[str, Any]], subject: str) -> Non
 
 def _parse_date(value: Any) -> date | None:
     try:
-        return date.fromisoformat(str(value)[:10])
+        parsed = date.fromisoformat(value)
+        return parsed if parsed.isoformat() == value else None
     except (TypeError, ValueError):
         return None
 
@@ -1325,6 +1343,8 @@ def normalize_candidate(
             )
         metrics["independence"] = derived_independence
     eligible = bool(raw.get("eligible", False))
+    if not isinstance(raw.get("eligible", False), bool):
+        raise UniverseError(f"{ticker}: eligible must be a boolean")
     exclusion_reasons = [
         str(item).strip() for item in raw.get("exclusion_reasons", []) if str(item).strip()
     ]
@@ -1353,8 +1373,31 @@ def normalize_candidate(
         metrics["beta_strength"] is None or metrics["beta_stability"] is None
     ):
         raise UniverseError(f"{ticker}: BETA_SATELLITE requires beta_strength and beta_stability")
+    if eligible and metrics["independence"] is not None and metrics["factor_r2"] is None:
+        raise UniverseError(f"{ticker}: independence requires measured factor_r2")
+    if eligible and role == "BETA_SATELLITE" and (
+        metrics["factor_r2"] is None or metrics["factor_r2"] < 30
+        or metrics["beta_strength"] < 55 or metrics["beta_stability"] < 50
+    ):
+        raise UniverseError(
+            f"{ticker}: BETA_SATELLITE requires R2 >= 30, positive beta strength >= 55 "
+            "and stability >= 50"
+        )
     if eligible and role in {"LIQUIDITY_SENSOR", "NEW_LISTING"} and metrics["heat"] is None:
         raise UniverseError(f"{ticker}: tactical roles require a heat score")
+    reason = str(raw.get("reason", "")).strip()
+    listing = deepcopy(raw.get("listing"))
+    if eligible:
+        require_strong_evidence(evidence, ticker)
+        if not isinstance(raw.get("reason"), str) or not reason:
+            raise UniverseError(f"{ticker}: eligible candidate requires a reason")
+        if not isinstance(listing, dict) or listing.get("status") != "active":
+            raise UniverseError(f"{ticker}: eligible candidate requires an active listing check")
+        if _parse_date(listing.get("as_of")) is None:
+            raise UniverseError(f"{ticker}: listing as_of must be an ISO date")
+        strong_urls = {item["url"] for item in evidence if item["tier"] in (1, 2)}
+        if listing.get("source") not in strong_urls:
+            raise UniverseError(f"{ticker}: listing source must be present in strong evidence")
     asset_id = str(raw.get("asset_id") or default_asset_id(market, ticker)).strip().upper()
     if not asset_id:
         raise UniverseError(f"{ticker}: asset_id is empty")
@@ -1385,7 +1428,9 @@ def normalize_candidate(
         "quality_rule_score": rule_score,
         "quality_score": quality_score,
         "evidence": evidence,
-        "reason": str(raw.get("reason", "")).strip(),
+        "reason": reason,
+        "listing": listing,
+        "measurement_record": deepcopy(raw.get("measurement_record")),
         "tags": sorted({str(tag).strip() for tag in raw.get("tags", []) if str(tag).strip()}),
     }
     candidate["scored_on"] = score_coverage(candidate)
@@ -1404,6 +1449,7 @@ def normalize_snapshot(snapshot: dict[str, Any]) -> dict[str, Any]:
     if not snapshot.get("as_of"):
         raise UniverseError("snapshot as_of is required")
     sources = validate_evidence(snapshot.get("sources") or [], "snapshot")
+    require_strong_evidence(sources, "snapshot")
     taxonomy = normalize_taxonomy(snapshot.get("taxonomy") or [])
     if not taxonomy:
         raise UniverseError("snapshot taxonomy is empty")
@@ -1412,6 +1458,15 @@ def normalize_snapshot(snapshot: dict[str, Any]) -> dict[str, Any]:
         normalize_candidate(rules, item, taxonomy_by_code)
         for item in snapshot.get("candidates") or []
     ]
+    fact_errors = candidate_date_errors(candidates, str(snapshot["as_of"]))
+    reference = _parse_date(snapshot["as_of"])
+    if reference and any(
+        _parse_date(e.get("as_of")) and _parse_date(e["as_of"]) > reference
+        for e in sources
+    ):
+        fact_errors.append("snapshot source evidence is future-dated")
+    if fact_errors:
+        raise UniverseError("; ".join(fact_errors))
     seen_tickers: set[str] = set()
     seen_assets: set[str] = set()
     for candidate in candidates:
@@ -1434,9 +1489,63 @@ def normalize_snapshot(snapshot: dict[str, Any]) -> dict[str, Any]:
         "complete": True,
         "sources": deepcopy(sources),
         "measurement": measurement,
+        "measurement_audit": deepcopy(snapshot.get("measurement_audit") or {}),
         "taxonomy": taxonomy,
         "candidates": candidates,
+        "notes": deepcopy(snapshot.get("notes") or []),
+        "coverage": deepcopy(snapshot.get("coverage") or {}),
     }
+
+
+def candidate_date_errors(candidates: list[dict], as_of: str) -> list[str]:
+    reference = _parse_date(as_of)
+    if reference is None:
+        return ["snapshot as_of must be an ISO date"]
+    errors = []
+    for item in candidates:
+        if not item.get("eligible"):
+            continue
+        checked = _parse_date((item.get("listing") or {}).get("as_of"))
+        if checked and not 0 <= (reference - checked).days <= 30:
+            errors.append(f"{item['ticker']}: listing check is future-dated or older than 30 days")
+        record = item.get("measurement_record") or {}
+        if not record and any(item["metrics"].get(k) is not None for k in MEASURED_ONLY_METRICS):
+            errors.append(f"{item['ticker']}: measured metrics require a measurement_record")
+        if record and not isinstance(record, dict):
+            errors.append(f"{item['ticker']}: measurement_record must be an object")
+            continue
+        if record:
+            if not re.fullmatch(r"[a-f0-9]{64}", str(record.get("data_sha256", ""))):
+                errors.append(f"{item['ticker']}: measurement_record needs an input SHA-256")
+            first = _parse_date(record.get("first_session"))
+            last = _parse_date(record.get("last_session"))
+            measured_at = _parse_date(record.get("as_of"))
+            if (not first or not last or not measured_at
+                    or not first <= last <= measured_at <= reference):
+                errors.append(f"{item['ticker']}: invalid measurement_record date boundaries")
+            if not str(record.get("source", "")).startswith(("http://", "https://")):
+                errors.append(f"{item['ticker']}: measurement_record requires a source URL")
+            if item["metrics"].get("liquidity") is not None and (
+                not isinstance(record.get("liquidity_observations"), int)
+                or record["liquidity_observations"] < 1
+            ):
+                errors.append(f"{item['ticker']}: liquidity record requires observations")
+            if item["metrics"].get("factor_r2") is not None and (
+                not isinstance(record.get("observations"), int)
+                or record["observations"] < 30 or not record.get("benchmarks")
+            ):
+                errors.append(
+                    f"{item['ticker']}: factor record requires 30 observations and gauge legs"
+                )
+        if any(_parse_date(e.get("as_of")) and _parse_date(e["as_of"]) > reference
+               for e in item.get("evidence", [])):
+            errors.append(f"{item['ticker']}: evidence is future-dated")
+        end = _parse_date(record.get("last_session"))
+        if end and end > reference:
+            errors.append(f"{item['ticker']}: measurement includes observations after as_of")
+        if end and (reference - end).days > 10:
+            errors.append(f"{item['ticker']}: measured quote is stale (over 10 days)")
+    return errors
 
 
 def candidate_bucket(candidate: dict[str, Any]) -> str:
@@ -1571,6 +1680,30 @@ def _select_stage(
     quotas = largest_remainder(target, profile_policy["bucket_targets"])
     bucket_counts = Counter(candidate_bucket(item) for item in selected)
 
+    # Extreme extends the inherited Heavy instrument. Spend the incremental beta budget first,
+    # across themes by the same weighted apportionment; never relabel weak candidates to fill it.
+    beta_goal = math.ceil(max(0, target - len(seed)) * float(
+        profile_policy.get("incremental_beta_share", 0)
+    )) if seed else 0
+    added_beta = 0
+    for _ in range(beta_goal):
+        choices = [c for c in eligible
+                   if c["role"] == "BETA_SATELLITE" and c["asset_id"] not in selected_assets]
+        if not choices or len(selected) >= target:
+            break
+        weights = {t["theme_code"]: theme_weight(t) for t in allowed_themes}
+        best = min(choices, key=lambda c: (
+            -theme_priority(weights[c["theme_code"]], theme_counts[c["theme_code"]]), rank_key(c),
+        ))
+        _add_candidate(selected, selected_assets, theme_counts, best)
+        bucket_counts["satellite"] += 1
+        added_beta += 1
+    if added_beta < beta_goal:
+        warnings.append(
+            f"{profile}: qualified beta additions filled {added_beta} of {beta_goal}; "
+            "remaining slots follow ordinary gates"
+        )
+
     def next_in(theme_code: str, respect_quota: bool) -> dict[str, Any] | None:
         for candidate in by_theme[theme_code]:
             if candidate["asset_id"] in selected_assets:
@@ -1632,6 +1765,8 @@ def _jitter(candidates: list[dict[str, Any]], draw: int) -> list[dict[str, Any]]
     for candidate in candidates:
         metrics = dict(candidate["metrics"])
         for field in sorted(MEASURED_ONLY_METRICS & set(metrics)):
+            if field == "independence":
+                continue
             value = metrics[field]
             if value is None:
                 continue
@@ -1640,6 +1775,8 @@ def _jitter(candidates: list[dict[str, Any]], draw: int) -> list[dict[str, Any]]
             # Metrics are 0..100, the range `_score_value` enforces, and a nudge may not walk
             # a value out of it.
             metrics[field] = min(100.0, max(0.0, float(value) * (1 + sign * STABILITY_SHIFT)))
+        if metrics.get("factor_r2") is not None:
+            metrics["independence"] = 100 - metrics["factor_r2"]
         shifted.append({**candidate, "metrics": metrics})
     return shifted
 
@@ -1684,6 +1821,8 @@ def build_universe(
     snapshot = normalize_snapshot(snapshot_raw)
     if snapshot["market"] != market:
         raise UniverseError("build spec and snapshot markets differ")
+    if spec.get("as_of") and spec["as_of"] != snapshot["as_of"]:
+        raise UniverseError("build spec as_of must match the researched snapshot")
     declaration = snapshot["market_spec"]
 
     market_policy = market_guidance(market, policy, declaration)
@@ -1730,9 +1869,13 @@ def build_universe(
             f"seeded {len(selected)} members from universe "
             f"{previous.get('version_hash')} ({seed_profile})"
         )
-    # Without a seed the tiers are built in order so that Light ⊆ Medium ⊆ Heavy holds inside one
-    # run. A seed already is one of the tiers, so only the final stage is left to resolve.
-    stages = (profile,) if incumbents else PROFILES[: PROFILE_INDEX[profile] + 1]
+    # Walk every intermediate tier when widening, including a Medium -> Extreme jump. Otherwise
+    # the beta preference would spend the Heavy budget too and nesting would depend on the route.
+    if (incumbents and seed_profile in PROFILE_INDEX
+            and PROFILE_INDEX[seed_profile] < PROFILE_INDEX[profile]):
+        stages = PROFILES[PROFILE_INDEX[seed_profile] + 1: PROFILE_INDEX[profile] + 1]
+    else:
+        stages = (profile,) if incumbents else PROFILES[: PROFILE_INDEX[profile] + 1]
 
     def run_stages(
         stage_pool: list[dict[str, Any]], record: list[str] | None
@@ -1835,12 +1978,16 @@ def build_universe(
         "taxonomy": snapshot["taxonomy"],
         "sources": snapshot["sources"],
         "measurement": snapshot["measurement"],
+        "measurement_audit": snapshot["measurement_audit"],
+        "notes": snapshot["notes"],
+        "coverage": snapshot["coverage"],
         "members": selected,
         "selection_audit": selection_audit,
         "history": [],
     }
     universe = {**universe_base}
     universe["version_hash"] = universe_hash(universe)
+    universe["content_hash"] = content_hash(universe)
     report = validate_universe(universe, policy)
     # Build-time only, and deliberately not part of the universe. Answering it needs the whole
     # bench — the candidates that lost, with their metrics — and a stored universe keeps only
@@ -1883,6 +2030,12 @@ def validate_universe(
     seen_tickers: set[str] = set()
     seen_assets: set[str] = set()
     normalized: list[dict[str, Any]] = []
+    try:
+        require_strong_evidence(
+            validate_evidence(universe.get("sources"), "universe"), "universe"
+        )
+    except UniverseError as exc:
+        errors.append(str(exc))
     for index, raw in enumerate(members):
         try:
             item = normalize_candidate(rules or market, raw, taxonomy_by_code)
@@ -1898,6 +2051,7 @@ def validate_universe(
         seen_tickers.add(item["ticker"])
         seen_assets.add(item["asset_id"])
         normalized.append(item)
+    errors.extend(candidate_date_errors(normalized, str(universe.get("source_as_of", ""))))
     concentration: dict[str, Any] | None = None
     if rules is not None and profile in PROFILES:
         level = policy["profiles"][profile]["coverage_level"]
@@ -2007,8 +2161,12 @@ def validate_universe(
                 f"{market}/{profile} guidance {guide['max']}"
             )
     expected = universe.get("version_hash")
+    if not expected or not universe.get("content_hash"):
+        errors.append("universe requires both version_hash and content_hash")
     if expected and universe_hash(universe) != expected:
         errors.append("version_hash does not match universe content")
+    if universe.get("content_hash") and content_hash(universe) != universe["content_hash"]:
+        errors.append("content_hash does not match facts or provenance")
     return {
         "passed": not errors,
         "errors": errors,
@@ -2266,6 +2424,8 @@ def render_markdown(
         f"- {lex['label.validation']}{colon}"
         f"{lex['value.pass'] if report['passed'] else lex['value.fail']}",
         "",
+        *[f"- {note}" for note in universe.get("notes", [])],
+        "",
         f"## {lex['section.roles']}",
         "",
         f"| {lex['column.role']} | {lex['column.count']} |",
@@ -2467,7 +2627,8 @@ def diff_universes(before: dict[str, Any], after: dict[str, Any]) -> dict[str, A
     removed = sorted(set(old_members) - set(new_members))
 
     header: dict[str, Any] = {}
-    for field in ("market", "profile", "as_of", "source_as_of", "policy_version", "version_hash"):
+    for field in ("market", "profile", "as_of", "source_as_of", "policy_version", "version_hash",
+                  "content_hash"):
         if before.get(field) != after.get(field):
             header[field] = {"before": before.get(field), "after": after.get(field)}
 
@@ -2493,7 +2654,9 @@ def diff_universes(before: dict[str, Any], after: dict[str, Any]) -> dict[str, A
     return {
         "identical": not (
             header or rules != "unchanged" or added or removed
-            or old_themes != new_themes
+            or old_themes != new_themes or drift
+            or before.get("taxonomy") != after.get("taxonomy")
+            or content_hash(before) != content_hash(after)
             or any(old_members[t]["theme_code"] != new_members[t]["theme_code"] for t in shared)
             or any(old_members[t]["role"] != new_members[t]["role"] for t in shared)
         ),
@@ -2558,11 +2721,15 @@ def apply_change_set(
     rules, _ = resolve_market(universe["market"], universe.get("market_spec"))
     if changes.get("base_version_hash") != universe.get("version_hash"):
         raise UniverseError("stale change set: base_version_hash does not match")
+    if (changes.get("base_content_hash")
+            and changes["base_content_hash"] != universe.get("content_hash")):
+        raise UniverseError("stale change set: base_content_hash does not match refreshed facts")
     if changes.get("complete") is not True:
         raise UniverseError("maintenance facts are incomplete; refusing to update")
     if not changes.get("as_of"):
         raise UniverseError("maintenance as_of is required")
     sources = validate_evidence(changes.get("sources") or [], "maintenance")
+    require_strong_evidence(sources, "maintenance")
     depth = str(changes.get("review_depth", ""))
     if depth not in policy["maintenance"]:
         raise UniverseError("review_depth must be routine, deep, or event")
@@ -2600,7 +2767,7 @@ def apply_change_set(
         evidence = op.get("evidence") or []
         reason = str(op.get("reason", "")).strip()
         subject = f"op #{original_index} {name}"
-        if name in DECISION_OPS | THEME_OPS:
+        if name in DECISION_OPS | THEME_OPS | {"REFRESH"}:
             if not evidence or not reason:
                 raise UniverseError(f"{subject}: requires reason and evidence")
             evidence = validate_evidence(evidence, subject)
@@ -2613,6 +2780,7 @@ def apply_change_set(
                 "theme_code": str(op.get("theme_code", "")).strip().upper(),
                 "theme_name": str(op.get("theme_name", "")).strip(),
                 "coverage_level": op.get("coverage_level"),
+                "weight": op.get("weight", DEFAULT_THEME_WEIGHT),
             }
             if theme["theme_code"] in taxonomy_by_code:
                 raise UniverseError(f"{subject}: theme {theme['theme_code']} already exists")
@@ -2623,6 +2791,23 @@ def apply_change_set(
                 )
             universe["taxonomy"] = normalize_taxonomy(universe["taxonomy"] + [theme])
             taxonomy_by_code = {item["theme_code"]: item for item in universe["taxonomy"]}
+        elif name == "UPDATE_THEME":
+            code = str(op.get("theme", "")).strip().upper()
+            if code not in taxonomy_by_code:
+                raise UniverseError(f"{subject}: unknown theme {code}")
+            changes_to_theme = {k: op[k] for k in ("weight", "theme_name") if k in op}
+            if not changes_to_theme:
+                raise UniverseError(f"{subject}: provide weight or theme_name")
+            taxonomy_by_code[code].update(changes_to_theme)
+            universe["taxonomy"] = normalize_taxonomy(list(taxonomy_by_code.values()))
+            taxonomy_by_code = {item["theme_code"]: item for item in universe["taxonomy"]}
+        elif name == "REFRESH":
+            index, old = locate(op.get("ticker", ""))
+            refreshed = normalize_candidate(rules, op.get("candidate") or {}, taxonomy_by_code)
+            keys = ("ticker", "asset_id", "theme_code", "role", "required")
+            if any(refreshed[k] != old[k] for k in keys) or not refreshed["eligible"]:
+                raise UniverseError(f"{subject}: REFRESH must preserve membership and role")
+            members[index] = refreshed
         elif name == "REMOVE_THEME":
             code = str(op.get("theme", "")).strip().upper()
             if code not in taxonomy_by_code:
@@ -2719,6 +2904,8 @@ def apply_change_set(
     universe["as_of"] = history_entry["as_of"] or universe["as_of"]
     universe["source_as_of"] = str(changes["as_of"])
     universe["sources"] = sources
+    if "measurement_audit" in changes:
+        universe["measurement_audit"] = deepcopy(changes["measurement_audit"])
     universe["measurement"] = normalize_measurement(
         changes.get("measurement") or universe.get("measurement") or {},
         metrics_in_use(members),
@@ -2731,6 +2918,7 @@ def apply_change_set(
     )
     universe.setdefault("history", []).append(history_entry)
     universe["version_hash"] = universe_hash(universe)
+    universe["content_hash"] = content_hash(universe)
     report = validate_universe(universe, policy)
     report["errors"] = report["errors"] + extra_errors
     report["warnings"] = report["warnings"] + extra_warnings

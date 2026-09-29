@@ -29,6 +29,10 @@ rejected candidates from `selection_audit`; better, the whole eligible list. A t
 members reports perfect coverage and tells you nothing, which is why `member_share_of_pool` sits
 beside every coverage number.
 
+Only bars strictly after the universe `as_of` enter evaluation. Historical input is filtered out;
+a table with no forward window is refused. A universe built today cannot claim prospective
+validation from the history used to select it. Historical same-window diagnostics are descriptive.
+
 ## What each section is for
 
 | Section | Reads | Recalibrates |
