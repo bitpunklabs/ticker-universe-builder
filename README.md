@@ -15,8 +15,8 @@ renders them as TradingView-importable watchlists.
 
 A ticker universe is an observation instrument, not a recommendation list. This skill exists to
 gate it: every member arrives with a role, a reason and dated evidence; every change is an
-operation against an exact version; and nothing is written unless the deterministic validator
-passes.
+operation against an exact version; and no universe is published unless the deterministic
+validator passes. Failed attempts keep a checkpoint so research can continue.
 
 ## The problem this solves
 
@@ -168,7 +168,9 @@ at a time and reversed; a finished list cannot.
 - **Low turnover.** Per-depth turnover budgets, flip-flop warnings, and a `deferred`
   queue the next round inherits.
 - **Fail closed.** Incomplete facts, stale versions, missing evidence or a failed structural check
-  produce nothing at all.
+  block publication. Build attempts retain their inputs and repair diagnostics. Resume with
+  `build --resume OUTPUT.run`; validated but underfilled outputs are explicitly `partial`
+  (exit 3), not complete. See [recovery](references/recovery.md).
 
 ## The command surface
 

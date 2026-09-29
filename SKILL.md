@@ -125,10 +125,16 @@ reported rather than dropped.
      --output output
    ```
 
-8. The command prints the path of every artifact it wrote; they are named
+8. A blocked or underfilled build starts a repair loop, not an immediate final error. Read
+   [references/recovery.md](references/recovery.md): preserve the checkpoint, research the
+   diagnostics, remeasure and resume. Normally allow up to three materially different repair
+   rounds within the user's scope. Stop sooner when the accessible source universe is exhausted
+   or a required external input is unavailable; explain that boundary and retain a continuation.
+   Never weaken gates or silently reduce the requested size to force completion.
+9. The command prints the path of every artifact it wrote; they are named
    `{market}-{profile}-{as_of}`. Run `validate` on the `universe` path even though the builder
    validates before writing. Never present an output that fails.
-9. Return the human-readable `.md` reports and the TradingView-importable `.txt`. There are two
+10. Return the human-readable `.md` reports and the TradingView-importable `.txt`. There are two
    reports wherever the market does not already read in English — `{stem}.ja.md` and
    `{stem}.en.md` for `jp`, and likewise Korean for `kr`, Traditional Chinese for `hk` and `tw`,
    Portuguese for `br` — because a universe is read both by the people who trade that market and

@@ -10,8 +10,8 @@
     python scripts/universe.py evaluate --universe U --prices P [--benchmark B]
     python scripts/universe.py validate universe.json
 
-Exit code 0 means the artifacts were written and validation passed. Exit code 2 means nothing was
-written: a universe that fails its own checks is never produced.
+Build exits 0 when the requested size is filled, 3 for a valid but underfilled result, and 2 for
+blocked input. Build checkpoints preserve attempts; invalid universes are never published.
 """
 
 from __future__ import annotations
@@ -28,10 +28,10 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import evaluate_core  # noqa: E402
 import measure_core  # noqa: E402
 import provider_core  # noqa: E402
+from build_run import run_build  # noqa: E402
 from universe_core import (  # noqa: E402
     UniverseError,
     apply_change_set,
-    build_universe,
     check_taxonomy,
     diff_universes,
     load_policy,
@@ -122,6 +122,7 @@ def fetch(args: argparse.Namespace) -> int:
     manifest = provider_core.fetch(
         market=args.market, output=args.output, cutoff=args.prices_until,
         limit=args.limit, workers=args.workers, include=included,
+        crypto_scope=args.crypto_scope,
     )
     print(json.dumps({"status": "fetched" if manifest["complete"] else "partial",
                       "output": args.output, "received": manifest["received"],
@@ -130,14 +131,12 @@ def fetch(args: argparse.Namespace) -> int:
 
 
 def build(args: argparse.Namespace) -> int:
-    universe, report = build_universe(
-        read_json(args.spec),
-        read_json(args.snapshot),
-        load_policy(args.policy),
-        read_json(args.seed) if args.seed else None,
+    result, code = run_build(
+        spec=args.spec, snapshot=args.snapshot, output=args.output, policy=args.policy,
+        seed=args.seed, language=args.language, run_dir=args.run_dir, resume=args.resume,
     )
-    artifacts = write_artifacts(universe, report, args.output, args.language)
-    return _ok(universe, report, artifacts, report["stats"])
+    print(json.dumps(result, ensure_ascii=False))
+    return code
 
 
 def maintain(args: argparse.Namespace) -> int:
@@ -261,14 +260,18 @@ def parser() -> argparse.ArgumentParser:
     network.add_argument("--prices-until", required=True, help="last completed session date")
     network.add_argument("--limit", type=int, default=500, help="size of the price research bench")
     network.add_argument("--workers", type=int, default=6)
+    network.add_argument("--crypto-scope", choices=("spot-linked", "all-perpetuals"),
+                         default="spot-linked", help="include classified perpetual-only assets")
     network.add_argument("--include-watchlist", help="also research these existing members")
     network.add_argument("--output", required=True)
     network.set_defaults(handler=fetch)
 
     new = sub.add_parser("build", help="build a universe from a researched snapshot")
-    new.add_argument("--spec", required=True, help="build-spec.json")
-    new.add_argument("--snapshot", required=True, help="researched snapshot.json")
-    new.add_argument("--output", required=True, help="new, empty output directory")
+    new.add_argument("--spec", help="build-spec.json")
+    new.add_argument("--snapshot", help="researched snapshot.json")
+    new.add_argument("--output", help="new, empty output directory")
+    new.add_argument("--run-dir", help="checkpoint directory (default: OUTPUT.run)")
+    new.add_argument("--resume", help="continue a checkpoint directory after repairing inputs")
     new.add_argument(
         "--seed",
         help="existing universe to widen or narrow to this profile instead of rebuilding",

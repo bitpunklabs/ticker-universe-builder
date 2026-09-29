@@ -387,6 +387,17 @@ tier 2 evidence item. Market narrative alone cannot admit or remove anything.
 
 ## Output
 
+### Build-run checkpoint
+
+The CLI's `OUTPUT.run/run.json` is `{schema_version: 1, kind: "build_run", inputs, status,
+attempts, resume_command}`. `inputs` stores absolute spec/snapshot/policy/seed/output paths and
+optional language; `attempts` holds numbered receipts with input SHA-256, archived `inputs.json`,
+UTC timestamps, status, diagnostics and output artifact paths when present. Each archived input
+contains the parsed spec/snapshot/resolved policy/seed and language, not executable instructions.
+Statuses are `running`, `needs_research`, `partial`, `complete`. A validated subset remains
+`partial` until it fills the original target. See [recovery.md](recovery.md) for continuation and
+exit codes; validation success and requested-size completion are different claims.
+
 All stemmed `{market}-{profile}-{as_of}` — `crypto-light-2026-09-17.json`, `.validation.json`,
 `.txt`, and one `.md` per report language: `.en.md` always, plus `.zh-Hans.md`, `.ja.md` and so
 on where the market reads in something else. The watchlist leaves its directory as soon as it is

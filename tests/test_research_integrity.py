@@ -413,3 +413,46 @@ def test_measurement_diagnostics_survive_merge_and_build():
     universe, _ = build_universe(spec(), merged, small_policy())
     assert universe["measurement_audit"]["theme_checks"] == bundle["theme_checks"]
     assert universe["measurement_audit"]["fund_comparisons"] == bundle["fund_comparisons"]
+
+
+@pytest.mark.parametrize('ticker', ['BINANCE:WUSDT.P', 'BINANCE:SUSDT.P', 'BINANCE:TUSDT'])
+def test_crypto_single_character_base_is_valid(ticker):
+    # Binance inventory and TradingView both carry these shapes; listing evidence is still required.
+    assert not validate_ticker('crypto', ticker)
+
+
+def test_perpetual_scope_keeps_source_exclusions_and_identity_boundary(tmp_path):
+    """Synthetic provider fixture, never reused as market evidence."""
+    def contract(base, tags, kind='COIN'):
+        return dict(baseAsset=base, quoteAsset='USDT', status='TRADING', symbol=base+'USDT',
+                    contractType='PERPETUAL', underlyingType=kind, underlyingSubType=tags)
+
+    products = [dict(b='AAA', q='USDT', st='TRADING', tags=['defi'], qv=100),
+                dict(b='BAD', q='USDT', st='TRADING', tags=['Monitoring'])]
+    perps = [contract('AAA', ['DeFi', 'Crypto']), contract('W', ['Infrastructure', 'Crypto']),
+             contract('BAD', ['DeFi', 'Crypto']), contract('1000AAA', ['DeFi', 'Crypto']),
+             contract('MACRO', ['TradFi']), contract('NOVEL', ['Alpha', 'Crypto'])]
+    calls = []
+
+    def request(url, cache, payload=None):
+        if 'get-products' in url:
+            return {'data': products}
+        if 'exchangeInfo' in url:
+            return {'symbols': perps if 'fapi' in url else perps[:1]}
+        calls.append(url)
+        end = datetime(2026, 9, 28, tzinfo=timezone.utc)
+        bars = []
+        for i in range(180):
+            stamp = int((end - timedelta(days=179-i)).timestamp() * 1000)
+            bars.append([stamp, 0, 0, 0, 100+i, 0, stamp+86399999, 2_000_000])
+        return bars
+
+    with patch.object(p, 'request_json', side_effect=request):
+        result = p.fetch_crypto(tmp_path, '2026-09-28', 1000, 1, 'all-perpetuals')
+    assert result['received'] == 2
+    rows = json.loads((tmp_path / 'listings.json').read_text())['rows']
+    assert {r['asset_id'] for r in rows} == {'AAA', 'W'}
+    new = next(r for r in rows if r['asset_id'] == 'W')
+    assert new['theme_source'] == 'https://fapi.binance.com/fapi/v1/exchangeInfo'
+    assert new['tags'] == ['Infrastructure']
+    assert len(calls) == 2

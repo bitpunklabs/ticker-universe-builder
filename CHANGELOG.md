@@ -16,6 +16,10 @@ true.
 
 ## 0.4.0 — 2026-09-29
 
+- Build checkpoints preserve failed/partial attempts and support `--resume`; unchanged inputs do
+  not waste retries. Underfilled valid results exit 3 and carry an explicit partial report label.
+- Added an opt-in official-subtype research route for perpetual-only Binance assets and corrected
+  the Crypto symbol grammar to accept verified single-character base symbols.
 - Added Extreme: approximately 45% above Heavy, nested membership and a 70% incremental beta
   preference; deterministic R², positive beta and stability gates remain mandatory.
 - Added dated active-listing checks, strong admission evidence, required reasons, per-ticker

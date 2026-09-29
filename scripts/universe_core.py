@@ -128,7 +128,7 @@ MARKET_SPECS: dict[str, MarketSpec] = {
             code="crypto",
             label="Crypto spot and perpetuals",
             venues=frozenset({"BINANCE"}),
-            symbol_pattern=re.compile(r"[A-Z0-9]{2,15}USDT(\.P)?"),
+            symbol_pattern=re.compile(r"[A-Z0-9]{1,15}USDT(\.P)?"),
             symbol_hint="a USDT-quoted spot or perpetual symbol",
             asset_id_strip=(".P", "USDT"),
             factor_r2_required=True,
@@ -2392,6 +2392,9 @@ def render_markdown(
         f"- {lex['label.facts_as_of']}{colon}{universe['source_as_of']}",
         f"- {lex['label.version']}{colon}`{universe['version_hash']}`",
         f"- {lex['label.tickers']}{colon}{report['stats']['tickers']}",
+        *([f"- PARTIAL: {len(universe['members'])} / {limits['target_count']} "
+           "— requested size is not filled; continue research before calling this complete."]
+          if len(universe['members']) < limits.get('target_count', 0) else []),
         f"- {lex['label.themes']}{colon}{report['stats']['themes']}",
         # Absent when a stored universe is re-validated rather than built — the bench it needs
         # is not in the file — so the line goes where it can simply not appear.

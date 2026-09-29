@@ -1,0 +1,125 @@
+"""Recovery must preserve gates, prior artifacts and exact attempt inputs."""
+
+import json
+import sys
+from pathlib import Path
+from unittest.mock import patch
+
+import pytest
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
+
+from build_run import run_build  # noqa: E402
+from test_universe_core import candidate, small_policy, snapshot, spec  # noqa: E402
+
+
+def write(path, data):
+    path.write_text(json.dumps(data))
+    return str(path)
+
+
+def start(tmp_path, data=None, profile="heavy"):
+    build_spec = dict(
+        spec(profile), target_count=4 if profile == "heavy" else 5, allow_outside_guidance=True
+    )
+    return dict(
+        spec=write(tmp_path / "spec.json", build_spec),
+        snapshot=write(tmp_path / "snapshot.json", data or snapshot()),
+        policy=write(tmp_path / "policy.json", small_policy()),
+        output=str(tmp_path / "output"),
+    )
+
+
+def resume(result, **changes):
+    return run_build(
+        spec=None,
+        snapshot=None,
+        output=None,
+        resume=str(Path(result["checkpoint"]).parent),
+        **changes,
+    )
+
+
+def test_missing_theme_repair_and_unchanged_retry(tmp_path):
+    data = snapshot()
+    data["candidates"].pop()
+    args = start(tmp_path, data)
+    first, code = run_build(**args)
+    assert code == 2 and first["status"] == "needs_research"
+    assert first["diagnostics"]["stages"]["heavy"]["missing_themes"] == ["12_A"]
+    assert not Path(args["output"]).exists()
+    again, code = resume(first)
+    assert code == 2 and again["number"] == 1 and again["retry_skipped"]
+    write(Path(args["snapshot"]), snapshot())
+    repaired, code = resume(first)
+    assert code == 0 and repaired["number"] == 2
+    archive = json.loads(Path(first["inputs_archive"]).read_text())
+    assert len(archive["snapshot"]["candidates"]) == 3
+    state = json.loads(Path(first["checkpoint"]).read_text())
+    assert [a["status"] for a in state["attempts"]] == ["needs_research", "complete"]
+
+
+def test_partial_can_resume_without_overwriting_valid_subset(tmp_path):
+    args = start(tmp_path, profile="extreme")
+    first, code = run_build(**args)
+    assert code == 3 and first["shortfall"] > 0
+    old_path = Path(first["artifacts"]["universe"])
+    old_bytes = old_path.read_bytes()
+    report = Path(first["artifacts"]["reports"]["en"]).read_text()
+    assert "PARTIAL:" in report
+    data = snapshot()
+    data["candidates"].append(candidate("BINANCE:AVAXUSDT.P", "AVAX", "12_A", "BETA_SATELLITE"))
+    write(Path(args["snapshot"]), data)
+    final, code = resume(first)
+    assert code == 0 and final["filled"] == final["target"]
+    assert old_path.read_bytes() == old_bytes
+    assert final["artifacts"]["universe"] != str(old_path)
+
+
+def test_invalid_facts_still_fail_after_resume(tmp_path):
+    args = start(tmp_path)
+    first, _ = run_build(**args)
+    data = snapshot()
+    del data["candidates"][0]["listing"]
+    write(Path(args["snapshot"]), data)
+    invalid, code = resume(first)
+    assert code == 2 and not invalid["validation_passed"]
+    assert "artifacts" not in invalid
+
+
+def test_success_is_idempotent(tmp_path):
+    first, code = run_build(**start(tmp_path))
+    assert code == 0
+    second, code = resume(first)
+    assert code == 0 and second["number"] == 1
+    assert second["artifacts"] == first["artifacts"]
+
+
+def test_output_conflict_can_use_new_destination(tmp_path):
+    args = start(tmp_path)
+    dest = Path(args["output"])
+    dest.mkdir()
+    (dest / "keep.txt").write_text("user data")
+    first, code = run_build(**args)
+    assert code == 2
+    final, code = run_build(
+        spec=None,
+        snapshot=None,
+        output=str(tmp_path / "new-output"),
+        resume=str(Path(first["checkpoint"]).parent),
+    )
+    assert code == 0
+    assert (dest / "keep.txt").read_text() == "user data"
+    assert final["number"] == 2
+
+
+def test_interrupted_attempt_can_retry_same_inputs(tmp_path):
+    args = start(tmp_path)
+    with patch("build_run.build_universe", side_effect=KeyboardInterrupt):
+        with pytest.raises(KeyboardInterrupt):
+            run_build(**args)
+    state_path = Path(args["output"] + ".run/run.json")
+    state = json.loads(state_path.read_text())
+    assert state["status"] == "running"
+    final, code = resume({"checkpoint": str(state_path)})
+    assert code == 0 and final["number"] == 2

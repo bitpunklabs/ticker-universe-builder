@@ -31,6 +31,15 @@ Perpetual matching uses the exact provider base asset; multiplier contracts need
 verified mapping. This is a disclosed research floor, not a universal selection threshold; new listings require a
 separate event research route. Untagged and perpetual-only assets are outside this adapter's scope.
 
+To research beyond the default spot-linked bench, use `--crypto-scope all-perpetuals --limit 1000`.
+This also admits active USDT perpetuals whose official `exchangeInfo.underlyingSubType` identifies
+an economic category. Aliases normalize DeFi, Layer-1/2, Storage, Payment and PoW to the product-tag
+vocabulary; marketing labels Alpha, Crypto and Chinese alone do not establish a theme. The
+classification source remains `exchangeInfo`, not the product endpoint. TradFi/index/cross-pair
+contracts and product exclusions remain out; possible multiplier/spot duplicates await separate
+identity verification. Identical history and liquidity gates apply. This is broader Binance
+coverage, not a complete multi-exchange digital-asset universe.
+
 Outputs:
 
 - `listings.json`: observed inventory, date, provider classification and exact TradingView ticker.

@@ -367,7 +367,8 @@ def write_fetch_result(output: Path, market: str, cutoff: str, bars: list, manif
     return manifest
 
 
-def fetch_crypto(output: Path, cutoff: str, limit: int, workers: int) -> dict:
+def fetch_crypto(output: Path, cutoff: str, limit: int, workers: int,
+                 scope: str = "spot-linked") -> dict:
     products_url = "https://www.binance.com/bapi/asset/v2/public/asset-service/product/get-products"
     spot_url = "https://api.binance.com/api/v3/exchangeInfo"
     perp_url = "https://fapi.binance.com/fapi/v1/exchangeInfo"
@@ -413,6 +414,36 @@ def fetch_crypto(output: Path, cutoff: str, limit: int, workers: int) -> dict:
         & set(r["tags"])
     ]
     candidates.sort(key=lambda r: (-float(r.get("qv") or 0), r["b"]))
+    if scope == "all-perpetuals":
+        # Exchange-provided subtype labels extend coverage without guessing protocol economics.
+        aliases = {"DeFi": "defi", "Layer-1": "Layer1_Layer2", "Layer-2": "Layer1_Layer2",
+                   "Storage": "storage-zone", "Payment": "Payments", "PoW": "mining-zone"}
+        banned = {r["b"] for r in products if r.get("etf") or
+                  {"stablecoin", "stablecoins", "bStocks", "tCommodities", "Monitoring"}
+                  & set(r.get("tags") or [])} | stable
+        by_base = {r["b"]: dict(r) for r in candidates}
+        for base, contract in sorted(perp_by_base.items()):
+            subtypes = contract.get("underlyingSubType") or []
+            possible_spot_base = base.lstrip("0123456789")
+            if base != possible_spot_base and possible_spot_base in by_base:
+                # Do not introduce a second economic identity before verifying the multiplier.
+                continue
+            if base in banned or contract.get("underlyingType") != "COIN" or (
+                {"TradFi", "Index", "Cross Pair", "USDC"} & set(subtypes)
+            ):
+                continue
+            # Marketing-only categories (Alpha/Crypto/Chinese) do not assert an economic theme.
+            tags = [aliases.get(t, t) for t in subtypes
+                    if t not in {"Alpha", "Crypto", "Chinese"}]
+            if not tags:
+                continue
+            if base not in by_base or not set(by_base[base]["tags"]) - {
+                "Seed", "HODLer", "Launchpool", "Launchpad", "innovation-zone", "",
+            }:
+                by_base[base] = {"b": base, "an": base, "tags": tags,
+                                 "_theme_source": perp_url}
+        # Preserve the liquid spot-linked research order; additional contracts are deterministic.
+        candidates = list(by_base.values())
     chosen = candidates[:limit]
     for anchor in ("BTC", "ETH", "SOL"):
         if not any(r["b"] == anchor for r in chosen):
@@ -477,7 +508,7 @@ def fetch_crypto(output: Path, cutoff: str, limit: int, workers: int) -> dict:
                     "asset_id": base,
                     "tags": product["tags"],
                     "source": listing_url,
-                    "theme_source": products_url,
+                    "theme_source": product.get("_theme_source", products_url),
                     "status": contract["status"],
                     "listing_as_of": str(date.today()),
                     "venue_choice": kind,
@@ -531,11 +562,13 @@ def fetch_crypto(output: Path, cutoff: str, limit: int, workers: int) -> dict:
                 "spot_usdt": len(spot_by_base),
                 "perp_usdt": len(perp_by_base),
                 "tagged_products": len(candidates),
+                "research_scope": scope,
             },
             "limits": [
-                "Binance product tags classify the research bench; membership is selected later.",
+                "Binance product tags or official contract subtypes classify the research bench.",
                 "Perpetual preferred only after history and $1m 30d notional floor; spot fallback.",
                 "180 effective days required for this measured example; new listings excluded.",
+                "Possible multiplier/spot pairs await identity research; not double-counted.",
             ],
         },
     )
@@ -549,6 +582,7 @@ def fetch(
     limit: int = 500,
     workers: int = 6,
     include: set[str] | None = None,
+    crypto_scope: str = "spot-linked",
 ) -> dict:
     try:
         cutoff_date = date.fromisoformat(cutoff)
@@ -562,8 +596,10 @@ def fetch(
         raise ProviderError("prices cutoff must precede today to exclude incomplete sessions")
     if limit < 1 or not 1 <= workers <= 8:
         raise ProviderError("limit must be positive; workers must be 1..8")
+    if crypto_scope not in {"spot-linked", "all-perpetuals"}:
+        raise ProviderError("crypto_scope must be spot-linked or all-perpetuals")
     if market == "crypto":
-        return fetch_crypto(root, cutoff, limit, workers)
+        return fetch_crypto(root, cutoff, limit, workers, crypto_scope)
     fetch_equities(market, root, cutoff, limit, workers, include or set())
     fetch_gauges(market, root, cutoff)
     return json.loads((root / "manifest.json").read_text(encoding="utf-8"))
