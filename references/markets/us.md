@@ -26,13 +26,19 @@ against the theme rather than the index are the same in every equity market.
 Money-market, ultra-short and cash-management funds are the ones that win every US liquidity
 ranking and carry no signal. They are excluded by instrument type — see equity-common.md.
 
-## What this market is
+## US economic map
 
-The heaviest weights in `assets/taxonomy/_equity.json` are the megacap platforms, semiconductors
-and enterprise software, with AI compute and the power that feeds it beside them. That table is
-the shared equity base, because it was abstracted from this market — so the US delta in
-`assets/taxonomy/us.json` is empty by construction, and every other market states how it differs
-from here.
+The US starter follows the legacy map: AI hardware/semiconductors, platforms, data-center
+infrastructure and software remain distinct. Payments, credit, banking, insurance and market
+infrastructure are different business models. Separate regulated utilities, merchant power,
+fuel and equipment; separate REIT operating exposures. Include eligible ADRs after identity
+research; a provider's primary-listing flag is not a reason to erase US-listed foreign exposure.
+
+Market/macro, funds and commodity-underlying observation are separate duties from company
+exposure. The standard equity adapter does not fetch all these automatically. Research the
+missing gauges explicitly; a verified listed ETF may serve a declared proxy duty, but disclose
+tracking/basis differences and do not invent an unsupported index/CFD symbol. Cash substitutes
+remain excluded; duration, currency and commodity signals require actual observable movement.
 
 ## Adverse flags
 

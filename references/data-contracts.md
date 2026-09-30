@@ -30,7 +30,8 @@ five; it inherits Heavy and preferentially fills 70% of new slots with qualified
 No gate is relaxed if the bench cannot meet that preference. Coverage levels remain 1/2/3;
 Extreme observes the Heavy taxonomy more deeply. The 1,000-token file limit still applies.
 
-Maintenance also accepts `UPDATE_THEME` (`theme`, `weight` and/or `theme_name`, reason, evidence)
+Maintenance also accepts `UPDATE_THEME` (`theme`, one or more of `weight`, `theme_name`,
+`purpose`, `representative_roles`, reason, evidence)
 and `REFRESH` (`ticker`, complete `candidate`, reason, evidence). REFRESH preserves ticker,
 asset identity, theme, role and required status and records a fact refresh without membership churn.
 ADD_THEME accepts weight. Hysteresis is a research requirement; the script guarantees turnover
@@ -101,6 +102,23 @@ point to edit, but it is not one that ships needing repairs.
 
 ## snapshot.json
 
+### Theme observation duties
+
+New research tables declare `purpose` (a non-empty sentence explaining the economic variable
+being observed) and `representative_roles` (a non-empty list drawn from `BENCHMARK`, `ANCHOR`,
+`THEME_LEADER`, `QUALITY_LEADER`). At least one eligible member with one of these roles must
+represent each reachable theme. This is an OR condition, not one seat per listed role. Build,
+validate and maintenance enforce it; satellites cannot silently take the last representative's
+place. A role declaration needs a purpose. Legacy tables may omit both and retain their old
+coverage checks, with missing duties disclosed in validation statistics/warnings.
+
+`purpose` describes a duty, not a promise about a company's business. Candidate `reason` and
+strong `evidence` must explain why that member serves it. Source classification, liquidity rank
+or low R² alone is not leadership evidence. A duty may have multiple representatives; it does
+not impose a one-leader limit. Both fields survive hashing, rendering and `ADD_THEME`.
+`UPDATE_THEME` may explicitly revise them with reason/evidence; retire an obsolete duty with
+`REMOVE_THEME`, never empty it to conceal a coverage gap.
+
 ```json
 {
   "schema_version": 1,
@@ -124,7 +142,9 @@ point to edit, but it is not one that ships needing repairs.
       "theme_code": "00_A",
       "theme_name": "CORE_ASSETS",
       "coverage_level": 1,
-      "weight": 2.5
+      "weight": 2.5,
+      "purpose": "Observe the common crypto market factors.",
+      "representative_roles": ["BENCHMARK", "ANCHOR"]
     }
   ],
   "candidates": [

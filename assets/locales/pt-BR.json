@@ -93,5 +93,7 @@
   "flag.judicial_recovery": "recuperação judicial",
   "flag.cvm_inquiry": "ofício da CVM",
   "flag.segment_downgrade": "rebaixamento de segmento",
-  "profile.extreme": "Extreme"
+  "profile.extreme": "Extreme",
+  "column.purpose": "Função de observação",
+  "column.representatives": "Papéis representativos"
 }

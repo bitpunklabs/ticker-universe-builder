@@ -58,7 +58,13 @@
       "theme_code": "65_A",
       "theme_name": "TRADING_HOUSES",
       "coverage_level": 1,
-      "weight": 2.0
+      "weight": 2.0,
+      "purpose": "Observe the business demand, pricing and competitive position represented by trading houses.",
+      "representative_roles": [
+        "ANCHOR",
+        "THEME_LEADER",
+        "QUALITY_LEADER"
+      ]
     },
     {
       "l1_code": "65",
@@ -66,7 +72,13 @@
       "theme_code": "65_B",
       "theme_name": "WHOLESALE_AND_DISTRIBUTION",
       "coverage_level": 3,
-      "weight": 0.5
+      "weight": 0.5,
+      "purpose": "Observe the business demand, pricing and competitive position represented by wholesale and distribution.",
+      "representative_roles": [
+        "ANCHOR",
+        "THEME_LEADER",
+        "QUALITY_LEADER"
+      ]
     },
     {
       "l1_code": "90",
@@ -74,7 +86,13 @@
       "theme_code": "90_D",
       "theme_name": "PROPERTY_DEVELOPERS",
       "coverage_level": 1,
-      "weight": 1.25
+      "weight": 1.25,
+      "purpose": "Observe the business demand, pricing and competitive position represented by property developers.",
+      "representative_roles": [
+        "ANCHOR",
+        "THEME_LEADER",
+        "QUALITY_LEADER"
+      ]
     }
   ]
 }

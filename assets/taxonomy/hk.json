@@ -61,7 +61,13 @@
       "theme_code": "90_D",
       "theme_name": "PROPERTY_DEVELOPERS",
       "coverage_level": 1,
-      "weight": 1.5
+      "weight": 1.5,
+      "purpose": "Observe the business demand, pricing and competitive position represented by property developers.",
+      "representative_roles": [
+        "ANCHOR",
+        "THEME_LEADER",
+        "QUALITY_LEADER"
+      ]
     },
     {
       "l1_code": "20",
@@ -69,7 +75,13 @@
       "theme_code": "20_E",
       "theme_name": "MACAU_GAMING",
       "coverage_level": 1,
-      "weight": 1.0
+      "weight": 1.0,
+      "purpose": "Observe the business demand, pricing and competitive position represented by macau gaming.",
+      "representative_roles": [
+        "ANCHOR",
+        "THEME_LEADER",
+        "QUALITY_LEADER"
+      ]
     }
   ]
 }

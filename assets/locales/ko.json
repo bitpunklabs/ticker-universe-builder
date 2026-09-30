@@ -93,5 +93,7 @@
   "flag.administrative_issue": "관리종목",
   "flag.investment_alert": "투자경고종목",
   "flag.trading_halt_review": "거래정지 심사",
-  "profile.extreme": "Extreme（최대）"
+  "profile.extreme": "Extreme（최대）",
+  "column.purpose": "관찰 목적",
+  "column.representatives": "대표 역할"
 }

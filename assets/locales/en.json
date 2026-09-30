@@ -132,5 +132,7 @@
   "flag.judicial_recovery": "judicial_recovery",
   "flag.cvm_inquiry": "cvm_inquiry",
   "flag.segment_downgrade": "segment_downgrade",
-  "profile.extreme": "Extreme"
+  "profile.extreme": "Extreme",
+  "column.purpose": "Observation duty",
+  "column.representatives": "Representative roles"
 }

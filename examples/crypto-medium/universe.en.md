@@ -65,6 +65,7 @@
 
 ## Warnings
 
+- 13 themes have no declared observation duty; legacy presence-only coverage applies
 - satellite bucket holds 86% of the pool against a 25% target
 
 ## Members

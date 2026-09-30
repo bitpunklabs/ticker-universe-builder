@@ -51,6 +51,12 @@ def diagnostics(spec: dict, snapshot: dict, policy: dict) -> dict:
                 "eligible_unique_assets": count,
                 "capacity_shortfall": max(0, target - count),
                 "missing_themes": sorted(themes - {c["theme_code"] for c in bench}),
+                "unrepresented_duties": sorted(
+                    t["theme_code"] for t in normalized["taxonomy"]
+                    if t["theme_code"] in themes and t.get("representative_roles") and not any(
+                        c["theme_code"] == t["theme_code"] and
+                        c["role"] in t["representative_roles"] for c in bench)
+                ),
                 "qualified_beta_candidates": sum(c["role"] == "BETA_SATELLITE" for c in bench),
             }
         return {

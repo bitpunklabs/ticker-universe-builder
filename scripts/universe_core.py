@@ -45,6 +45,7 @@ BUCKET_BY_ROLE = {
     "LIQUIDITY_SENSOR": "tactical",
     "NEW_LISTING": "tactical",
 }
+CORE_ROLES = frozenset(role for role, bucket in BUCKET_BY_ROLE.items() if bucket == "core")
 ROLE_ORDER = {
     "BENCHMARK": 1100,
     "ANCHOR": 1000,
@@ -1072,6 +1073,18 @@ def normalize_taxonomy(raw: list[dict[str, Any]]) -> list[dict[str, Any]]:
             "coverage_level": level,
             "weight": weight,
         })
+        if "purpose" in item:
+            if not isinstance(item["purpose"], str) or not item["purpose"].strip():
+                raise UniverseError(f"{theme_code}: purpose must be a non-empty sentence")
+            taxonomy[-1]["purpose"] = item["purpose"].strip()
+        if "representative_roles" in item:
+            roles = item["representative_roles"]
+            if (not isinstance(roles, list) or not roles
+                    or any(not isinstance(r, str) or r not in CORE_ROLES for r in roles)):
+                raise UniverseError(f"{theme_code}: representative_roles must name core roles")
+            if not taxonomy[-1].get("purpose"):
+                raise UniverseError(f"{theme_code}: representative_roles requires purpose")
+            taxonomy[-1]["representative_roles"] = sorted(set(roles))
     return sorted(taxonomy, key=lambda item: item["theme_code"])
 
 
@@ -1649,6 +1662,13 @@ def _select_stage(
         raise UniverseError(
             f"{profile}: no eligible candidate for required themes: {', '.join(missing)}"
         )
+    missing_representatives = [t["theme_code"] for t in allowed_themes
+                              if t.get("representative_roles") and not any(
+                                  c["role"] in t["representative_roles"]
+                                  for c in by_theme[t["theme_code"]])]
+    if missing_representatives:
+        raise UniverseError(f"{profile}: no qualified representative for duties: "
+                            + ", ".join(missing_representatives))
 
     selected = list(seed)
     selected_assets = {item["asset_id"] for item in selected}
@@ -1666,9 +1686,13 @@ def _select_stage(
     # before any theme holds a second, so the instrument still looks at the whole market no
     # matter how lopsided the weights are.
     for theme in allowed_themes:
-        if theme_counts[theme["theme_code"]] == 0:
+        roles = theme.get("representative_roles")
+        represented = any(c["theme_code"] == theme["theme_code"] and
+                          (not roles or c["role"] in roles) for c in selected)
+        if not represented:
             _add_candidate(
-                selected, selected_assets, theme_counts, by_theme[theme["theme_code"]][0]
+                selected, selected_assets, theme_counts,
+                next(c for c in by_theme[theme["theme_code"]] if not roles or c["role"] in roles),
             )
 
     if len(selected) > target:
@@ -2053,6 +2077,7 @@ def validate_universe(
         normalized.append(item)
     errors.extend(candidate_date_errors(normalized, str(universe.get("source_as_of", ""))))
     concentration: dict[str, Any] | None = None
+    duties = {"declared": 0, "represented": 0, "missing": [], "undeclared": []}
     if rules is not None and profile in PROFILES:
         level = policy["profiles"][profile]["coverage_level"]
         required_themes = {
@@ -2062,6 +2087,19 @@ def validate_universe(
         missing = sorted(required_themes - held_themes)
         if missing:
             errors.append("uncovered required themes: " + ", ".join(missing))
+        undeclared = [t["theme_code"] for t in taxonomy if t["theme_code"] in required_themes
+                      and not (t.get("purpose") and t.get("representative_roles"))]
+        declared = [t for t in taxonomy if t["theme_code"] in required_themes
+                    and t.get("representative_roles")]
+        missing_duties = [t["theme_code"] for t in declared if not any(
+            c["theme_code"] == t["theme_code"] and c["role"] in t["representative_roles"]
+            for c in normalized)]
+        errors.extend(f"unrepresented observation duty: {code}" for code in missing_duties)
+        duties = {"declared": len(declared), "represented": len(declared) - len(missing_duties),
+                  "missing": missing_duties, "undeclared": sorted(undeclared)}
+        if undeclared:
+            warnings.append(f"{len(undeclared)} themes have no declared observation duty; "
+                            "legacy presence-only coverage applies")
         disallowed = sorted({
             item["theme_code"] for item in normalized
             if taxonomy_by_code[item["theme_code"]]["coverage_level"] > level
@@ -2181,6 +2219,7 @@ def validate_universe(
                 1 for item in normalized if _is_partially_scored(item)
             ),
             "concentration": concentration,
+            "duties": duties,
             "tradingview_tokens": token_count,
             "roles": dict(sorted(Counter(item["role"] for item in normalized).items())),
             "buckets": dict(sorted(Counter(candidate_bucket(item) for item in normalized).items())),
@@ -2454,6 +2493,14 @@ def render_markdown(
             f"| {code} | {theme['l1_name']} | {theme['theme_name']} | "
             f"{theme['coverage_level']} | {per_theme.get(code, 0)} |"
         )
+    duties = [t for t in taxonomy.values() if t.get("purpose")]
+    if duties:
+        lines.extend(["", f"| {lex['column.theme']} | {lex['column.purpose']} | "
+                      f"{lex['column.representatives']} |", "|---|---|---|"])
+        for theme in sorted(duties, key=lambda t: t["theme_code"]):
+            purpose = theme["purpose"].replace("|", "\\|").replace("\n", " ")
+            lines.append(f"| {theme['theme_code']} | {purpose} | "
+                         f"{', '.join(theme.get('representative_roles', []))} |")
     measurement = universe.get("measurement") or {}
     if measurement:
         lines.extend([
@@ -2785,6 +2832,7 @@ def apply_change_set(
                 "coverage_level": op.get("coverage_level"),
                 "weight": op.get("weight", DEFAULT_THEME_WEIGHT),
             }
+            theme.update({k: op[k] for k in ("purpose", "representative_roles") if k in op})
             if theme["theme_code"] in taxonomy_by_code:
                 raise UniverseError(f"{subject}: theme {theme['theme_code']} already exists")
             level = theme["coverage_level"]
@@ -2798,9 +2846,12 @@ def apply_change_set(
             code = str(op.get("theme", "")).strip().upper()
             if code not in taxonomy_by_code:
                 raise UniverseError(f"{subject}: unknown theme {code}")
-            changes_to_theme = {k: op[k] for k in ("weight", "theme_name") if k in op}
+            changes_to_theme = {k: op[k] for k in (
+                "weight", "theme_name", "purpose", "representative_roles") if k in op}
             if not changes_to_theme:
-                raise UniverseError(f"{subject}: provide weight or theme_name")
+                raise UniverseError(
+                    f"{subject}: provide weight, theme_name, purpose or representative_roles"
+                )
             taxonomy_by_code[code].update(changes_to_theme)
             universe["taxonomy"] = normalize_taxonomy(list(taxonomy_by_code.values()))
             taxonomy_by_code = {item["theme_code"]: item for item in universe["taxonomy"]}

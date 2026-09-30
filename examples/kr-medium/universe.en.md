@@ -169,6 +169,10 @@
 | not_selected_under_budget | 289 |
 | outside_profile_coverage | 44 |
 
+## Warnings
+
+- 94 themes have no declared observation duty; legacy presence-only coverage applies
+
 ## Members
 
 | Theme | Ticker | Name | Role | Reason | Evidence |

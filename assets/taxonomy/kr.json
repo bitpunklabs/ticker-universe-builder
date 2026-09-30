@@ -63,7 +63,13 @@
       "theme_code": "35_A",
       "theme_name": "SHIPBUILDING",
       "coverage_level": 1,
-      "weight": 1.25
+      "weight": 1.25,
+      "purpose": "Observe the business demand, pricing and competitive position represented by shipbuilding.",
+      "representative_roles": [
+        "ANCHOR",
+        "THEME_LEADER",
+        "QUALITY_LEADER"
+      ]
     },
     {
       "l1_code": "35",
@@ -71,7 +77,13 @@
       "theme_code": "35_B",
       "theme_name": "DEFENSE_AND_HEAVY",
       "coverage_level": 2,
-      "weight": 0.75
+      "weight": 0.75,
+      "purpose": "Observe the business demand, pricing and competitive position represented by defense and heavy.",
+      "representative_roles": [
+        "ANCHOR",
+        "THEME_LEADER",
+        "QUALITY_LEADER"
+      ]
     },
     {
       "l1_code": "20",
@@ -79,7 +91,13 @@
       "theme_code": "20_E",
       "theme_name": "ENTERTAINMENT_AND_MUSIC",
       "coverage_level": 1,
-      "weight": 1.0
+      "weight": 1.0,
+      "purpose": "Observe the business demand, pricing and competitive position represented by entertainment and music.",
+      "representative_roles": [
+        "ANCHOR",
+        "THEME_LEADER",
+        "QUALITY_LEADER"
+      ]
     },
     {
       "l1_code": "80",
@@ -87,7 +105,13 @@
       "theme_code": "80_F",
       "theme_name": "BATTERY_CHAIN",
       "coverage_level": 1,
-      "weight": 2.0
+      "weight": 2.0,
+      "purpose": "Observe the business demand, pricing and competitive position represented by battery chain.",
+      "representative_roles": [
+        "ANCHOR",
+        "THEME_LEADER",
+        "QUALITY_LEADER"
+      ]
     }
   ]
 }

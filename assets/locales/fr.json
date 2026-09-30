@@ -93,5 +93,7 @@
   "flag.tender_offer_period": "période d'offre publique",
   "flag.amf_injunction": "injonction de l'AMF",
   "flag.transfer_to_growth": "transfert vers Euronext Growth",
-  "profile.extreme": "Extreme"
+  "profile.extreme": "Extreme",
+  "column.purpose": "Fonction d’observation",
+  "column.representatives": "Rôles représentatifs"
 }

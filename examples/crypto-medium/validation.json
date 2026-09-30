@@ -2,6 +2,7 @@
   "passed": true,
   "errors": [],
   "warnings": [
+    "13 themes have no declared observation duty; legacy presence-only coverage applies",
     "satellite bucket holds 86% of the pool against a 25% target"
   ],
   "stats": {
@@ -13,6 +14,26 @@
       "members": 18,
       "share": 0.1714,
       "expected": 16.0
+    },
+    "duties": {
+      "declared": 0,
+      "represented": 0,
+      "missing": [],
+      "undeclared": [
+        "00_A",
+        "10_A",
+        "11_A",
+        "12_A",
+        "13_A",
+        "14_A",
+        "15_A",
+        "16_A",
+        "17_A",
+        "18_A",
+        "19_A",
+        "20_A",
+        "23_A"
+      ]
     },
     "tradingview_tokens": 118,
     "roles": {

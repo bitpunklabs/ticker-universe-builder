@@ -70,3 +70,16 @@ weight/name. Both require reason and strong evidence. Supply `base_content_hash`
 - For Crypto: is each member still active on its Binance market with sustained turnover?
 - Do tier, theme, role and concentration still match the policy?
 - Has any bucket drifted above its target share? The validator reports this; act on it.
+
+## Preserve observation duties
+
+Read the current taxonomy's `purpose` before proposing REMOVE, REPLACE or MOVE. Explain in the
+operation reason how the remaining/new member preserves the business, supply-chain or gauge
+function. Final validation refuses a reachable theme without a member in its declared
+`representative_roles`, including after maintenance. Several complementary core representatives
+are allowed; this is a coverage floor, not a quota per role or a permanent ticker whitelist.
+
+`UPDATE_THEME` can change purpose or representative roles only as an explicit evidence-backed
+research decision. It cannot clear a duty to conceal a missing representative. Obsolete themes
+use the existing REMOVE_THEME operation after their members have been dealt with. Avoid
+recency-driven replacement; retain NO_CHANGE when incremental information is not established.

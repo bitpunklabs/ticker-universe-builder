@@ -1,19 +1,33 @@
 # Equity markets — the part that is the same everywhere
 
-Read this once, then read the one overlay for the market you were asked about. Eleven of the
-fourteen registered markets are ordinary listed-equity markets, and repeating this in eleven
-files would mean a correction landing in one of them and not the other ten.
+Read this once, then read the one overlay for the market you were asked about. Thirteen of the
+fourteen registered markets are listed-equity markets; shared principles belong here rather
+than in thirteen copies.
 
 ## Universe boundary
 
 - Common stock, plus the index and sector funds needed as gauges. Warrants, rights, units,
   preferred lines, shells and pre-revenue listings without a confirmed quote are excluded by
   default.
-- Confirm the TradingView venue, an active listing and enough turnover to trade the position the
-  universe implies — not the position the user holds. This is an observation instrument.
+- Confirm the TradingView venue, an active listing and enough turnover and price variation to read the observation reliably. This is an observation
+  instrument, not a position-sizing model.
 - Never treat two lines of one economic entity as two information sources: a dual share class, a
   local line and its ADR or GDR, a company listed on two venues of the same market. One of them
   is the member and the rest belong in the audit as `duplicate_asset`.
+
+## Shared classification and replacement rules
+
+Use the legacy economic-driver logic in every equity market. Separate durable business models,
+pricing drivers and critical supply-chain links; retain the local market's distinct structure
+(e.g. Japan trading houses, Korea shipbuilding, Hong Kong mainland/offshore exposure, UK resource
+and financial services). Generic industry classifications cannot silently replace these duties.
+Map ambiguous names from issuer disclosures. Keep one primary theme; secondary exposures belong
+in evidence/tags. Deferred candidates do not require inventing a new catch-all theme.
+
+Declare a purpose and representative roles for each theme. Protect gauges and economically
+meaningful leaders before adding residual or beta sensors. Deleting the last such representative
+requires a qualified successor or an explicit, evidence-backed retirement of the duty. Better
+recent performance or a larger cap is insufficient evidence of structural replacement.
 
 ## Funds and single names compete for the same seats
 
@@ -21,7 +35,7 @@ A sector fund covering a theme the universe already holds through several single
 low-information copy of a basket it already owns. Test it: build an equal-weighted,
 daily-rebalanced basket from the members that cover the fund's mandate and ask two questions —
 does the basket track the fund, and does it beat it over both a one-year and a two-year leg? Both
-yes means the fund is redundant. Failure to track means it is an independent factor and stays,
+yes makes the fund a redundancy candidate; confirm that no distinct observation duty is lost. Failure to track means it is an independent factor and stays,
 however redundant its holdings look on paper.
 
 Daily rebalancing is not a detail: a buy-and-hold basket silently becomes a bet on its best

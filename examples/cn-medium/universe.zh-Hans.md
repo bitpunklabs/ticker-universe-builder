@@ -250,6 +250,7 @@
 
 ## 警告
 
+- 79 themes have no declared observation duty; legacy presence-only coverage applies
 - satellite bucket holds 61% of the pool against a 25% target
 
 警告文本保留英文：它们指向配置字段与代码路径，`.validation.json` 里是同一份文本，便于逐字检索。

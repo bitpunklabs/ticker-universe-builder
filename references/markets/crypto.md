@@ -2,68 +2,75 @@
 
 ## Universe boundary
 
-V1 uses Binance as the trading boundary:
+Use active Binance USDⓈ-M USDT perpetuals, then active Binance Spot USDT pairs. Prefer the
+perpetual only when its continuous sessions and 30-day quoted turnover qualify. The same base
+asset enters once. Other venues inform research but do not widen this trading boundary.
+Exclude delisted assets, delivery-only contracts, leveraged tokens and stablecoins themselves.
+A tokenized commodity is not automatically a crypto protocol; research a scope change explicitly.
 
-1. Active USDⓈ-M USDT perpetual contracts;
-2. Active Binance Spot USDT pairs;
-3. When both exist, prefer the perpetual if it has continuous sessions and clears the 30-day
-   notional floor, otherwise the spot pair. The same base asset never enters twice.
-4. Delisted assets, delivery-only contracts, leveraged tokens, stablecoins themselves and anything
-   without confirmable continuous trading are excluded by default.
+## Economic duties before product tags
 
-Other venues can serve as theme or price evidence, but they do not widen the final ticker universe.
-That keeps venue, turnover and maintainability consistent after the user imports the file.
+Use the legacy pool's economic map: core factors; exchange ecosystems; L1, L2, privacy, Bitcoin
+ecosystem and other PoW; payments and RWA; DEX, lending, stablecoin/yield, staking and derivatives;
+oracles and interoperability; AI/identity, agents/information and DePIN; speculative risk appetite.
+The starter declares twenty duties. Every reachable duty needs a qualified structural representative.
+Do not collapse lending, DEX and yield into `DEFI`, or oracles and interoperability into `INFRA`.
+Tags discover names; they do not prove business leadership, token economics or independent return
+information. Gaming or another emerging function needs its own researched duty before admission;
+it is neither permanently banned nor parked in an OTHERS group.
 
-## Why the count is so much smaller
+BTC/ETH/SOL are common market rulers in `00_A`. BNB, UNI, AAVE and LINK illustrate different
+exchange, exchange-protocol, credit and data-service duties; their roles are researched separately,
+not determined by whichever tag bucket has the highest-turnover token. No ticker is permanently
+exempt from listing, liquidity or factual checks. Several complementary representatives may share
+a theme. Preserve existing user-supplied assignments as dated hypotheses when fresh business
+research is unavailable; do not describe them as newly verified leadership.
 
-Most altcoin returns are explained by BTC, ETH, SOL and a handful of sector factors. A highly
-correlated token with no independent event, liquidity or ecosystem role does not add enough
-information to justify a slot. Effective capacity is set by qualified high-turnover assets times
-independent drivers, not by the number of tokens in existence.
+The same research questions apply to each proposed representative:
 
-## Build order
+- What activity or demand does the protocol serve, and what does this ticker observe?
+- What does its token actually do: pay for service, secure the network, govern, or receive value?
+- What current source supports that relationship? TVL, protocol fees and token-holder revenue are
+  different facts. Missing revenue is unknown, not zero and not an invented quality score.
+- What listing, liquidity, unlock/concentration or regulatory risk could impair observation?
+- Which incumbent covers the duty if this member is removed? A low-R² token in the same broad tag
+  does not answer that question.
 
-1. Market anchors — BTC, ETH, SOL.
-2. Liquidity leaders of the core sectors.
-3. Independent sensors that still leave residual information against the three factors.
-4. High-turnover, high-beta sector satellites.
-5. Recent heat or new listings, inside a strict tactical budget.
+Risk-appetite tokens are explicitly speculative sensors, not quality leaders. A researched
+structural anchor can represent this duty without claiming utility, revenue or durable value.
+Weights reflect importance of the observed functions, not the number of tokens an API returns.
 
-Recent heat can only enter as `LIQUIDITY_SENSOR` or `NEW_LISTING`. A price move alone never makes
-a `THEME_LEADER`.
+## Admission and extension order
 
-## Liquidity and redundancy gates
+1. Verify listing, sessions and quoted turnover. Use cross-sectional 7/30-day observations and
+   disclose the actual absolute floor; neither ranking nor a single 24-hour spike is sufficient.
+   `fetch` currently screens 30-day mean turnover and history as documented in providers.md;
+   it does not perform order-book or protocol due diligence.
+2. Preserve market factors and research structural representatives across economic duties.
+3. Add complementary breadth, independently justified sensors and measured beta satellites.
+   Low R² requires an explainable additional driver; residual correlation with existing sensors
+   matters too. Without that research retain a breadth role, not an independence claim.
+4. Use Heavy/Extreme to extend those duties. Extreme retains Heavy and prefers qualified beta
+   for 70% of additions; insufficient supply remains a warning, never a reason to relabel.
+5. Recent heat/new listings belong in the tactical budget with dated event and trading evidence.
+   History insufficient for a regression is not permission to invent one.
 
-- Use cross-sectional percentiles of Binance 7-day and 30-day USDT quoted volume and notional,
-  not a fixed dollar figure that ages badly.
-- Light applies the strictest percentile gate, Medium the next; Heavy still holds a continuous-
-  trading floor.
-- Check effective trading days, zero-volume sessions, suspicious flat lines, contract and spot
-  status, and listing age.
-- Regress each member on BTC/ETH/SOL over 30 / 90 / 180 days and read beta, R² and residual
-  volatility. Take the factors from the universe's own `00_A` theme rather than hardcoding them —
-  `00_A` is the single declaration of what this market's rulers are.
-- A very high R² with no independent theme role is a downgrade; a low R² with insufficient
-  turnover is still not admissible.
-- Confirm heat with a turnover jump, open interest or a verifiable theme event — never with a
-  single day's price change.
+## Measurements and uncertainty
 
-## A note on measurement thresholds
+Measure BTC/ETH/SOL joint factor R² and beta/stability over the documented 30/90/180 windows;
+take factor symbols from the snapshot's `00_A`. Distinguish factor fit, residual volatility and
+pairwise residual overlap: none alone establishes the usefulness of a token. Check histories,
+zero-volume sessions, flat lines and spot/perpetual continuity. Confirm heat through turnover,
+open interest or a verified event, never price change alone.
 
-Do not import an R² threshold from a document without testing it against this universe. A rule
-calibrated elsewhere can easily sit above every value the market actually produces, in which case
-it never fires and the universe is governed by a rule that does nothing. Measure the distribution
-first, then set the gate.
+Do not transplant the old pool's revenue, float or residual thresholds as universal constants.
+First establish source availability, definition, window and calibration. Keep unknown economics
+and unlock checks explicit in notes/deferred research. Never convert missing facts to a passing
+score. This preserves the old pool's liquidity-first and information-density principles while
+keeping selection deterministic and research proportionate to the requested depth.
 
-## Measurement history and new tokens
+## Historical comparison example
 
-Any regression-based gate requires history, so maintaining "by measurement" alone biases a universe
-toward old tokens. A recently listed asset is admitted on standards that do not depend on history —
-tradability, continuous sessions, order-book depth, ecosystem role, a dated event — and enters the
-tactical budget as `NEW_LISTING`, not by loosening the retention rules for everyone else.
-
-## Example
-
-[`examples/crypto-medium/`](../../examples/crypto-medium/) contains a full-size Medium
-research snapshot, measured statistics, dated listing evidence, reports and script-generated watchlist.
-Read [the scope and limitations](../../examples/README.md) before reusing it.
+[`examples/crypto-medium/`](../../examples/crypto-medium/) is the dated 0.4 baseline. Its broad
+tags and mechanical roles are disclosed limitations, not the current research policy. See
+[example scope](../../examples/README.md); new builds start with the current economic-duty table.

@@ -23,6 +23,28 @@ price information would be lost? If the answer is only "it is popular", the evid
 6. **Fail closed.** Incomplete data, a stale version, missing evidence or a failed structural check
    produces no universe at all, rather than one that merely looks successful.
 
+## Economic-driver maps in every market
+
+Preserve the legacy pool's classification logic: primary business or protocol function, earnings
+or token value capture, persistent catalyst, then supply-chain/network position. A country adapts
+this logic to its own listed economy; it does not copy the US sector weights or force identical
+themes. A provider label or a passing narrative is a discovery aid, not a permanent section.
+
+Each theme declares an observation `purpose` and acceptable `representative_roles`. Market and
+sector gauges have duties distinct from operating-company exposure. A company, upstream input,
+sector basket and macro factor are not interchangeable just because prices correlate. Reuse the
+existing theme code when the duty is unchanged; revise the taxonomy explicitly when it changes.
+
+Research representatives first. Candidate `reason` explains the business variable or instrument
+function, its relation to the theme and the evidence. Market cap, turnover or a low R² alone does
+not establish leadership or information gain. Two leaders can be complementary; no one-leader
+limit exists. For each extension, explain what would be lost without it. For deletion or
+replacement, explain who retains that observation duty, or why the duty itself is obsolete.
+
+Weights reflect the importance of durable drivers and differentiated positions. Do not derive
+them from the candidate count returned by one data source. Recent performance does not justify
+retiring a cold industry, and an unfit gauge requires fixing the measurement before judging names.
+
 ## Primary roles
 
 | Role | Meaning | Bucket |
@@ -92,10 +114,13 @@ stops the build and is named either way: dropping it is the operator's decision.
 
 ## What the composite score is, and what it is not
 
-Inside a bucket, members are ordered by role first and by a weighted metric score second. That
-score is an **ordinal tie-break**, not a measurement. Two candidates separated by a couple of
-points are not meaningfully different, and nothing downstream should treat the number as a rating.
-Role order carries the structural judgement; the score only breaks ties inside it.
+Inside each bucket, role priority precedes the role-appropriate score. The score is an
+**ordinal tie-break**, not a rating or a forecast. This priority only makes sense when roles
+are researched: low R² alone is not enough to assign `INDEPENDENT_SENSOR`; identify the
+additional observed driver and check residual overlap with existing sensors. Otherwise use
+`BREADTH_PROXY` and retain the measurements without claiming independent information.
+The declared theme duties, required anchors and bucket budgets protect structure before
+extension scores act. Do not tune role labels to manufacture a preferred ordering.
 
 ## The line between fact and judgement
 

@@ -175,6 +175,12 @@
 | 名額已用盡 (not_selected_under_budget) | 267 |
 | 超出本檔的覆蓋層級 (outside_profile_coverage) | 62 |
 
+## 警告
+
+- 94 themes have no declared observation duty; legacy presence-only coverage applies
+
+警告文本保留英文：它們指向設定欄位與代碼路徑，`.validation.json` 裡是同一份文本，便於逐字檢索。
+
 ## 成員
 
 | 主題 | 代碼 | 名稱 | 角色 | 理由 | 證據 |

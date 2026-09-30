@@ -87,7 +87,13 @@
       "theme_code": "15_A",
       "theme_name": "AGRIBUSINESS",
       "coverage_level": 1,
-      "weight": 2.0
+      "weight": 2.0,
+      "purpose": "Observe the business demand, pricing and competitive position represented by agribusiness.",
+      "representative_roles": [
+        "ANCHOR",
+        "THEME_LEADER",
+        "QUALITY_LEADER"
+      ]
     },
     {
       "l1_code": "15",
@@ -95,7 +101,13 @@
       "theme_code": "15_B",
       "theme_name": "PULP_AND_PAPER",
       "coverage_level": 2,
-      "weight": 1.0
+      "weight": 1.0,
+      "purpose": "Observe the business demand, pricing and competitive position represented by pulp and paper.",
+      "representative_roles": [
+        "ANCHOR",
+        "THEME_LEADER",
+        "QUALITY_LEADER"
+      ]
     }
   ]
 }

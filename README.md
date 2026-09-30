@@ -71,13 +71,16 @@ vocabulary, theme table and report language:
 Any other market builds by declaring the same handful of facts in the snapshot, evidence-gated,
 hashed, and reported as **declared rather than reviewed** on every run.
 
-Seven markets ship full-size, dated Medium research examples — [`examples/`](examples/README.md). Tier sizes
-follow the market: one `breadth` factor scales the 60 / 160 / 400 / 580 tier bases, so US Light is 80
-members and Brazil Light is 35. Equity markets share one theme table and state only
-their delta — what they do not list, what nobody else lists, and the **weights** that say what
-that market is actually about. There is no per-theme cap; slots are apportioned to weight, so
-semiconductors in China (3.5) take more of the universe than property developers (0.4). See
-[references/tier-profiles.md](references/tier-profiles.md).
+Seven markets ship dated Medium [historical examples](examples/README.md). New research uses
+legacy economic-driver grouping: primary business, earnings/value capture, persistent catalysts
+and supply-chain position. US/CN/Crypto have dedicated maps; other equities share economic duties
+with local overlays. Each theme declares its purpose and acceptable core representatives, so
+removing the last representative fails even if satellites remain in the section.
+
+The agent researches those duties and roles; Python enforces facts, coverage, nesting and rendering.
+Market breadth scales the 60 / 160 / 400 / 580 tier bases. Theme weights express observation
+importance, not the number of candidates returned by a provider. There is no per-theme cap.
+See [tier profiles](references/tier-profiles.md) and [methodology](references/methodology.md).
 
 ## What you get
 

@@ -14,6 +14,20 @@ Each released heading below matches a `version:` in `SKILL.md` and a git tag of 
 there, and backfilling a listing for a release nobody could install would be tidier than it is
 true.
 
+## 0.5.0 — unreleased
+
+- All starter tables declare economic observation duties and acceptable core representative
+  roles. US/CN/Crypto use the legacy economic-driver maps; other equities share that methodology
+  with their own market overlays. Existing snapshots keep their embedded taxonomy.
+- Build, validation and maintenance protect the last qualified representative, including when
+  satellites still occupy the theme. Checkpoint diagnostics identify the missing duties.
+- Research now separates business-role evidence from size, liquidity, low R² and provider tags;
+  several complementary leaders may coexist. Theme weights express observation importance.
+- Crypto separates exchange, lending, DEX, yield, staking, derivatives, oracle and infrastructure
+  duties, preserves BTC/ETH/SOL factors, and distinguishes protocol use from token-holder income.
+- No new dependency, provider, role, maintenance operation or execution framework. Historical
+  examples remain dated comparison fixtures; new research must declare and review duties.
+
 ## 0.4.0 — 2026-09-29
 
 - Build checkpoints preserve failed/partial attempts and support `--resume`; unchanged inputs do

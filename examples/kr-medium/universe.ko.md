@@ -169,6 +169,12 @@
 | 정원이 모두 찼음 (not_selected_under_budget) | 289 |
 | 이 깊이의 범위 밖 (outside_profile_coverage) | 44 |
 
+## 경고
+
+- 94 themes have no declared observation duty; legacy presence-only coverage applies
+
+경고문은 영어 그대로 둡니다. 설정 항목과 코드 경로를 가리키며 `.validation.json`에도 같은 문자열이 들어가므로 그대로 검색할 수 있습니다.
+
 ## 구성 종목
 
 | 테마 | 티커 | 이름 | 역할 | 사유 | 출처 |

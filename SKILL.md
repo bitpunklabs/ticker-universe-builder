@@ -3,7 +3,7 @@ name: ticker-universe-builder
 description: Build and maintain auditable, evidence-gated ticker universes for fourteen markets at four depths, exported as TradingView watchlists. Not stock tips.
 allowed-tools: Read, Write, Bash, WebSearch, WebFetch
 metadata:
-  version: 0.4.0
+  version: 0.5.0
   homepage: https://github.com/bitpunklabs/ticker-universe-builder
   openclaw:
     emoji: "📋"
@@ -21,7 +21,9 @@ language: `us`, `cn` (zh-Hans), `jp` (ja), `in`, `hk` (zh-Hant), `kr` (ko), `uk`
 
 Read [examples/README.md](examples/README.md) first and open the example for the market you were
 asked about — Medium examples ship for us, jp, cn, kr, hk, uk and crypto. For another
-market, open the closest example and its own market overlay. A worked snapshot answers more questions about
+market, open the closest example and its own market overlay. The committed 0.4 snapshots are historical contract/regression examples, not current role or
+classification policy; use the current starter and methodology for new research.
+A worked snapshot answers more questions about
 the input format than the contract does, and the shipped examples are known to build.
 Read the example README, build spec and report summary first. Inspect relevant candidate rows
 programmatically; do not load an entire multi-megabyte research snapshot into model context.
@@ -76,6 +78,12 @@ reported rather than dropped.
    after each theme has its first member are apportioned to weight, so one number moves dozens
    of members. A weight of 3 against 1 means about three times the members. It is a starting
    point, not a schema.
+   Carry forward the user's existing economic-driver map when available. Apply the same legacy
+   principles to every market: primary business, earnings/value capture, persistent catalyst,
+   then supply-chain position. Provider sectors and product tags discover candidates; they do
+   not replace that map. Declare each theme's `purpose` and `representative_roles` (contracts).
+   Preserve market/sector gauges separately from companies. Do not generate weights from how
+   many names the provider happened to return.
 3. Check the table before researching a single candidate. This is the step that is cheapest to
    redo now and most expensive to redo later:
 
@@ -95,7 +103,12 @@ reported rather than dropped.
    See [references/providers.md](references/providers.md). Fetch is optional and never chooses
    membership. Inspect the manifest, rejected histories and raw receipts; provider classification
    is a starting point, not issuer due diligence. Research the eligible universe against the taxonomy. Record facts in `snapshot.json`;
-   never pass a claim to the scripts hidden inside prose.
+   never pass a claim to the scripts hidden inside prose. Research structural representatives
+   before extensions: size/turnover leadership alone does not establish business leadership,
+   and low R² alone does not establish useful independent information. Use candidate `reason`
+   and evidence to explain the observed variable; several complementary leaders may share a
+   theme. Unmapped candidates stay deferred, never in a permanent OTHERS or provider-industry
+   catch-all. Do not promote a candidate's role merely to satisfy a coverage constraint.
 5. Declare in `measurement` how each metric was produced. A window-dependent statistic —
    liquidity, `factor_r2`, `beta_strength`, `beta_stability` — must be computed, not estimated,
    and the builder refuses to accept it as judgement. If you have a table of daily bars, compute
@@ -133,7 +146,10 @@ reported rather than dropped.
    Never weaken gates or silently reduce the requested size to force completion.
 9. The command prints the path of every artifact it wrote; they are named
    `{market}-{profile}-{as_of}`. Run `validate` on the `universe` path even though the builder
-   validates before writing. Never present an output that fails.
+   validates before writing. Never present an output that fails. Review the content too: each
+   economic duty still has a qualified representative, gauges remain observable, and role
+   shortages are understood. A filled count with poor duty coverage is not a completed research
+   result. Core supply far below its policy target calls for role/business research, not padding.
 10. Return the human-readable `.md` reports and the TradingView-importable `.txt`. There are two
    reports wherever the market does not already read in English — `{stem}.ja.md` and
    `{stem}.en.md` for `jp`, and likewise Korean for `kr`, Traditional Chinese for `hk` and `tw`,

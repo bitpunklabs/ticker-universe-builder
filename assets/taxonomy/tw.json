@@ -87,7 +87,13 @@
       "theme_code": "10_I",
       "theme_name": "IC_DESIGN",
       "coverage_level": 1,
-      "weight": 2.0
+      "weight": 2.0,
+      "purpose": "Observe the business demand, pricing and competitive position represented by ic design.",
+      "representative_roles": [
+        "ANCHOR",
+        "THEME_LEADER",
+        "QUALITY_LEADER"
+      ]
     },
     {
       "l1_code": "90",
@@ -95,7 +101,13 @@
       "theme_code": "90_D",
       "theme_name": "PROPERTY_DEVELOPERS",
       "coverage_level": 1,
-      "weight": 0.75
+      "weight": 0.75,
+      "purpose": "Observe the business demand, pricing and competitive position represented by property developers.",
+      "representative_roles": [
+        "ANCHOR",
+        "THEME_LEADER",
+        "QUALITY_LEADER"
+      ]
     }
   ]
 }

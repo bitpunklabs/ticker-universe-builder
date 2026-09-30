@@ -93,5 +93,7 @@
   "flag.squeeze_out": "Squeeze-out",
   "flag.delisting_offer": "Delisting-Angebot",
   "flag.prime_standard_breach": "Verstoß gegen den Prime Standard",
-  "profile.extreme": "Extreme"
+  "profile.extreme": "Extreme",
+  "column.purpose": "Beobachtungszweck",
+  "column.representatives": "Repräsentative Rollen"
 }

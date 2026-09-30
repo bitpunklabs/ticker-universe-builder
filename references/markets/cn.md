@@ -33,6 +33,19 @@ theme rather than the index are the same in every equity market.
 Do not let short-term heat decide a permanent taxonomy. A policy change can raise research
 priority; it does not replace listing, turnover and industrial-relationship evidence.
 
+## CN economic map
+
+The starter preserves the legacy fine driver map: optical modules, servers/PCB, IDC, cooling and
+power; equipment, materials, fabrication, packaging and chip functions; battery materials,
+cells, equipment and storage; grid equipment versus power operations. Do not append a parallel
+provider-industry taxonomy around these existing duties. Unmapped names require business
+research into the same map, or an explicitly justified new durable theme.
+
+Keep broad/style, sector and gold/duration gauges distinct from their stocks. A listed ETF may
+stand in for an index observation only with a disclosed proxy reason. Quote activity and a clean
+name string do not complete ST, halt, inquiry or issuer-quality checks. Policy news changes
+research priority, not permanent membership without a durable industrial link.
+
 ## A size and turnover floor comes before any other judgement
 
 Below a minimum fund size and daily turnover, the instrument's own price series is too noisy to

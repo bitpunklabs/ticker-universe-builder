@@ -174,6 +174,12 @@
 |---|---:|
 | 枠を使い切った (not_selected_under_budget) | 363 |
 
+## 警告
+
+- 121 themes have no declared observation duty; legacy presence-only coverage applies
+
+警告文は英語のままです。設定項目とコードパスを指しており、`.validation.json` にも同じ文字列が入るため、そのまま検索できます。
+
 ## 構成銘柄
 
 | テーマ | ティッカー | 名称 | 役割 | 理由 | 出典 |
