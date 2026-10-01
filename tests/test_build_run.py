@@ -95,6 +95,39 @@ def test_success_is_idempotent(tmp_path):
     assert second["artifacts"] == first["artifacts"]
 
 
+def test_seeded_expansion_reports_zero_then_researched_additions(tmp_path):
+    args = start(tmp_path)
+    heavy, code = run_build(**args)
+    assert code == 0
+    write(Path(args["spec"]), dict(spec("extreme"), target_count=5, allow_outside_guidance=True))
+    args.update(seed=heavy["artifacts"]["universe"], output=str(tmp_path / "extreme"))
+    first, code = run_build(**args)
+    assert code == 3
+    assert first["expansion"] == {
+        "from_profile": "heavy", "seed_members": 4, "retained": 4, "added": 0, "removed": 0,
+    }
+    assert "not the whole market" in first["diagnostics"]["note"]
+    data = snapshot()
+    data["candidates"].append(candidate("BINANCE:AVAXUSDT.P", "AVAX", "12_A", "BETA_SATELLITE"))
+    write(Path(args["snapshot"]), data)
+    final, code = resume(first)
+    assert code == 0 and final["filled"] == 5
+    assert final["expansion"] == dict(first["expansion"], added=1)
+
+
+def test_narrowing_reports_removed_members(tmp_path):
+    args = start(tmp_path)
+    heavy, _ = run_build(**args)
+    write(Path(args["spec"]), dict(spec("light"), target_count=2, allow_outside_guidance=True))
+    final, code = run_build(
+        **dict(args, seed=heavy["artifacts"]["universe"], output=str(tmp_path / "light"))
+    )
+    assert code == 0
+    assert final["expansion"] == {
+        "from_profile": "heavy", "seed_members": 4, "retained": 2, "added": 0, "removed": 2,
+    }
+
+
 def test_output_conflict_can_use_new_destination(tmp_path):
     args = start(tmp_path)
     dest = Path(args["output"])

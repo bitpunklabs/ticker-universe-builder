@@ -95,5 +95,6 @@
   "flag.prime_standard_breach": "Verstoß gegen den Prime Standard",
   "profile.extreme": "Extreme",
   "column.purpose": "Beobachtungszweck",
-  "column.representatives": "Repräsentative Rollen"
+  "column.representatives": "Repräsentative Rollen",
+  "column.weight": "Gewicht"
 }

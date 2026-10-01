@@ -41,6 +41,12 @@ not establish leadership or information gain. Two leaders can be complementary; 
 limit exists. For each extension, explain what would be lost without it. For deletion or
 replacement, explain who retains that observation duty, or why the duty itself is obsolete.
 
+The per-theme floor is already **one qualified representative**, not two or a fixed multi-name
+quota. Additional anchors are not mandatory unless `required=true`. Keep this small coverage
+floor; use differentiated weights (0.25–4.0) and a sufficiently researched bench to give important
+themes more seats and peripheral themes fewer. No per-theme maximum exists. The report shows
+weights beside actual counts; a tiny bench can saturate and conceal every weight difference.
+
 Weights reflect the importance of durable drivers and differentiated positions. Do not derive
 them from the candidate count returned by one data source. Recent performance does not justify
 retiring a cold industry, and an unfit gauge requires fixing the measurement before judging names.

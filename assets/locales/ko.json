@@ -95,5 +95,6 @@
   "flag.trading_halt_review": "거래정지 심사",
   "profile.extreme": "Extreme（최대）",
   "column.purpose": "관찰 목적",
-  "column.representatives": "대표 역할"
+  "column.representatives": "대표 역할",
+  "column.weight": "가중치"
 }

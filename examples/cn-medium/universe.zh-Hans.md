@@ -36,200 +36,200 @@
 
 ## 主题覆盖
 
-| 编码 | 一级分类 | 主题 | 层级 | 数量 |
-|---|---|---|---:|---:|
-| 00_A | 市场基准 | CORE_GAUGES | 1 | 3 |
-| 10_A | AI算力基础设施 | OPTICAL_MODULES | 1 | 5 |
-| 10_B | AI算力基础设施 | AI_SERVERS_PCB | 2 | 3 |
-| 10_C | AI算力基础设施 | DATA_CENTRES | 2 | 2 |
-| 10_D | AI算力基础设施 | LIQUID_COOLING | 2 | 2 |
-| 10_E | AI算力基础设施 | DATACENTRE_POWER | 2 | 2 |
-| 11_A | 半导体 | SEMICONDUCTOR_EQUIPMENT | 1 | 6 |
-| 11_B | 半导体 | SEMICONDUCTOR_MATERIALS | 2 | 2 |
-| 11_C | 半导体 | FOUNDRIES | 2 | 2 |
-| 11_D | 半导体 | PACKAGING_TESTING | 2 | 2 |
-| 11_E | 半导体 | COMPUTE_CHIPS | 2 | 2 |
-| 11_F | 半导体 | MEMORY_CONTROLLERS | 2 | 2 |
-| 11_G | 半导体 | ANALOG_POWER_RF | 2 | 2 |
-| 11_H | 半导体 | IMAGE_COMMUNICATION_SOC | 2 | 2 |
-| 11_J | 半导体 | PASSIVE_COMPONENTS | 2 | 2 |
-| 12_A | 软件与数字经济 | AI_APPLICATIONS | 1 | 4 |
-| 12_B | 软件与数字经济 | ENTERPRISE_INDUSTRIAL_SOFTWARE | 2 | 2 |
-| 12_C | 软件与数字经济 | FINANCIAL_IT | 2 | 2 |
-| 12_D | 软件与数字经济 | DOMESTIC_IT_SECURITY_QUANTUM | 2 | 2 |
-| 12_F | 软件与数字经济 | MACHINE_VISION_AIOT | 2 | 3 |
-| 13_A | 机械与自动化 | ROBOT_COMPONENTS | 1 | 5 |
-| 13_B | 机械与自动化 | SERVO_MOTION_CONTROL | 2 | 2 |
-| 13_C | 机械与自动化 | ROBOT_SYSTEMS | 2 | 2 |
-| 13_D | 机械与自动化 | AUTOMATION_LASER_EQUIPMENT | 2 | 2 |
-| 13_E | 机械与自动化 | SENSORS_ACTUATORS | 2 | 2 |
-| 13_F | 机械与自动化 | CONSTRUCTION_MACHINERY | 2 | 2 |
-| 14_A | 军工与航空航天 | MILITARY_AIRCRAFT_ENGINES | 1 | 3 |
-| 14_B | 军工与航空航天 | DEFENCE_ELECTRONICS | 2 | 2 |
-| 14_C | 军工与航空航天 | SATELLITE_COMMUNICATIONS | 2 | 2 |
-| 14_E | 军工与航空航天 | DEFENCE_MATERIALS | 2 | 2 |
-| 15_A | 汽车 | AUTOMAKERS | 1 | 5 |
-| 15_B | 汽车 | SMART_AUTO_COMPONENTS | 2 | 3 |
-| 16_A | 电池与新能源 | TRACTION_BATTERIES | 1 | 4 |
-| 16_B | 电池与新能源 | BATTERY_MATERIALS | 2 | 2 |
-| 16_C | 电池与新能源 | LITHIUM_RESOURCES | 2 | 2 |
-| 16_D | 电池与新能源 | BATTERY_EQUIPMENT | 2 | 2 |
-| 16_E | 电池与新能源 | SOLAR_MANUFACTURING | 2 | 2 |
-| 16_F | 电池与新能源 | SOLAR_EQUIPMENT_MATERIALS | 2 | 2 |
-| 16_G | 电池与新能源 | INVERTERS_STORAGE | 2 | 2 |
-| 16_H | 电池与新能源 | WIND_POWER | 2 | 2 |
-| 17_A | 电网与电力 | GRID_GENERATION_EQUIPMENT | 1 | 5 |
-| 17_B | 电网与电力 | DISTRIBUTION_CHARGING_METERS | 2 | 2 |
-| 17_C | 电网与电力 | POWER_GENERATION | 2 | 3 |
-| 18_A | 医疗健康 | INNOVATIVE_DRUGS_BIO | 1 | 6 |
-| 18_B | 医疗健康 | CRO_CDMO | 2 | 2 |
-| 18_C | 医疗健康 | MEDICAL_DEVICES_AESTHETICS | 2 | 3 |
-| 18_D | 医疗健康 | MEDICAL_SERVICES_TESTING | 2 | 2 |
-| 18_E | 医疗健康 | CHINESE_MEDICINE_OTC | 2 | 2 |
-| 18_F | 医疗健康 | DIVERSIFIED_PHARMA | 2 | 2 |
-| 19_A | 金融 | BROKERS | 1 | 4 |
-| 19_B | 金融 | BANKS | 2 | 3 |
-| 19_C | 金融 | INSURANCE | 2 | 2 |
-| 20_A | 金属与材料 | GOLD_MINING | 1 | 5 |
-| 20_B | 金属与材料 | INDUSTRIAL_METALS_STEEL | 2 | 3 |
-| 20_C | 金属与材料 | RARE_EARTH_MINOR_METALS | 2 | 3 |
-| 20_D | 金属与材料 | COBALT_NICKEL_RECYCLING | 2 | 2 |
-| 20_E | 金属与材料 | ADVANCED_NONMETALS | 2 | 2 |
-| 21_A | 能源与化工 | COAL | 1 | 4 |
-| 21_B | 能源与化工 | OIL_GAS | 2 | 2 |
-| 21_C | 能源与化工 | CHEMICAL_MATERIALS | 2 | 3 |
-| 22_A | 运输与基础设施 | SHIPPING | 1 | 4 |
-| 22_B | 运输与基础设施 | SHIPBUILDING_OFFSHORE | 2 | 2 |
-| 22_D | 运输与基础设施 | RAIL_ROADS | 2 | 2 |
-| 22_E | 运输与基础设施 | CONSTRUCTION_INFRASTRUCTURE | 2 | 2 |
-| 22_F | 运输与基础设施 | TELECOM_OPERATORS | 2 | 2 |
-| 22_G | 运输与基础设施 | AIRLINES_AIRPORTS | 2 | 2 |
-| 23_A | 房地产 | REAL_ESTATE | 1 | 4 |
-| 24_A | 消费 | ALCOHOL | 1 | 5 |
-| 24_B | 消费 | FOOD_BEVERAGES | 2 | 3 |
-| 24_C | 消费 | HOME_APPLIANCES | 2 | 2 |
-| 24_D | 消费 | HOME_FURNISHINGS | 2 | 2 |
-| 24_E | 消费 | TOURISM_DUTY_FREE_HOTELS | 2 | 1 |
-| 24_F | 消费 | JEWELLERY_RETAIL | 2 | 2 |
-| 24_G | 消费 | CONSUMER_EXPORT_BRANDS | 2 | 2 |
-| 24_H | 消费 | BEAUTY_PERSONAL_CARE | 2 | 1 |
-| 25_A | 消费电子与传媒 | CONSUMER_ELECTRONICS_DISPLAYS | 1 | 4 |
-| 25_B | 消费电子与传媒 | GAMES | 2 | 2 |
-| 25_C | 消费电子与传媒 | MEDIA_ADVERTISING_EDUCATION | 2 | 2 |
-| 26_A | 农业 | AGRICULTURE | 1 | 4 |
-| 30_A | 商业服务 | MISCELLANEOUS_COMMERCIAL_SERVICES | 3 | 0 |
-| 30_B | 商业服务 | ADVERTISING_MARKETING_SERVICES | 3 | 0 |
-| 30_C | 商业服务 | COMMERCIAL_PRINTING_FORMS | 3 | 0 |
-| 30_D | 商业服务 | PERSONNEL_SERVICES | 3 | 0 |
-| 31_A | 通信 | WIRELESS_TELECOMMUNICATIONS | 3 | 0 |
-| 31_B | 通信 | MAJOR_TELECOMMUNICATIONS | 3 | 0 |
-| 32_A | 耐用消费 | HOME_FURNISHINGS | 3 | 0 |
-| 32_B | 耐用消费 | MOTOR_VEHICLES | 3 | 0 |
-| 32_C | 耐用消费 | ELECTRONICS_APPLIANCES | 3 | 0 |
-| 32_D | 耐用消费 | AUTOMOTIVE_AFTERMARKET | 3 | 0 |
-| 32_E | 耐用消费 | HOMEBUILDING | 3 | 0 |
-| 32_F | 耐用消费 | RECREATIONAL_PRODUCTS | 3 | 0 |
-| 32_G | 耐用消费 | TOOLS_HARDWARE | 3 | 0 |
-| 32_H | 耐用消费 | OTHER_CONSUMER_SPECIALTIES | 3 | 0 |
-| 33_A | 日常消费 | FOOD_SPECIALTY_CANDY | 3 | 0 |
-| 33_B | 日常消费 | APPAREL_FOOTWEAR | 3 | 0 |
-| 33_C | 日常消费 | FOOD_MEAT_FISH_DAIRY | 3 | 0 |
-| 33_D | 日常消费 | BEVERAGES_ALCOHOLIC | 3 | 0 |
-| 33_E | 日常消费 | FOOD_MAJOR_DIVERSIFIED | 3 | 0 |
-| 33_F | 日常消费 | CONSUMER_SUNDRIES | 3 | 0 |
-| 33_G | 日常消费 | HOUSEHOLD_PERSONAL_CARE | 3 | 0 |
-| 33_H | 日常消费 | BEVERAGES_NON_ALCOHOLIC | 3 | 0 |
-| 34_A | 消费服务 | PUBLISHING_BOOKS_MAGAZINES | 3 | 0 |
-| 34_B | 消费服务 | CABLE_SATELLITE_TV | 3 | 0 |
-| 34_C | 消费服务 | OTHER_CONSUMER_SERVICES | 3 | 0 |
-| 34_D | 消费服务 | MOVIES_ENTERTAINMENT | 3 | 0 |
-| 34_E | 消费服务 | HOTELS_RESORTS_CRUISE_LINES | 3 | 0 |
-| 34_F | 消费服务 | RESTAURANTS | 3 | 0 |
-| 34_G | 消费服务 | BROADCASTING | 3 | 0 |
-| 34_H | 消费服务 | PUBLISHING_NEWSPAPERS | 3 | 0 |
-| 34_I | 消费服务 | CASINOS_GAMING | 3 | 0 |
-| 35_A | 分销 | WHOLESALE_DISTRIBUTORS | 3 | 0 |
-| 35_B | 分销 | ELECTRONICS_DISTRIBUTORS | 3 | 0 |
-| 35_C | 分销 | MEDICAL_DISTRIBUTORS | 3 | 0 |
-| 35_D | 分销 | FOOD_DISTRIBUTORS | 3 | 0 |
-| 36_A | 电子科技 | SEMICONDUCTORS | 3 | 0 |
-| 36_B | 电子科技 | ELECTRONIC_COMPONENTS | 3 | 0 |
-| 36_C | 电子科技 | ELECTRONIC_PRODUCTION_EQUIPMENT | 3 | 0 |
-| 36_D | 电子科技 | ELECTRONIC_EQUIPMENT_INSTRUMENTS | 3 | 0 |
-| 36_E | 电子科技 | COMPUTER_PERIPHERALS | 3 | 0 |
-| 36_F | 电子科技 | TELECOMMUNICATIONS_EQUIPMENT | 3 | 0 |
-| 36_G | 电子科技 | AEROSPACE_DEFENSE | 3 | 0 |
-| 36_H | 电子科技 | COMPUTER_PROCESSING_HARDWARE | 3 | 0 |
-| 36_I | 电子科技 | COMPUTER_COMMUNICATIONS | 3 | 0 |
-| 37_A | 能源矿产 | COAL | 3 | 0 |
-| 37_B | 能源矿产 | INTEGRATED_OIL | 3 | 0 |
-| 37_C | 能源矿产 | OIL_GAS_PRODUCTION | 3 | 0 |
-| 37_D | 能源矿产 | OIL_REFINING_MARKETING | 3 | 0 |
-| 38_A | 金融 | MAJOR_BANKS | 3 | 0 |
-| 38_B | 金融 | REGIONAL_BANKS | 3 | 0 |
-| 38_C | 金融 | INVESTMENT_BANKS_BROKERS | 3 | 0 |
-| 38_D | 金融 | INVESTMENT_MANAGERS | 3 | 0 |
-| 38_E | 金融 | REAL_ESTATE_DEVELOPMENT | 3 | 0 |
-| 38_F | 金融 | FINANCIAL_CONGLOMERATES | 3 | 0 |
-| 38_G | 金融 | FINANCE_RENTAL_LEASING | 3 | 0 |
-| 38_H | 金融 | LIFE_HEALTH_INSURANCE | 3 | 0 |
-| 38_I | 金融 | REAL_ESTATE_INVESTMENT_TRUSTS | 3 | 0 |
-| 39_A | 医疗服务 | HOSPITAL_NURSING_MANAGEMENT | 3 | 0 |
-| 40_A | 医疗技术 | PHARMACEUTICALS_MAJOR | 3 | 0 |
-| 40_B | 医疗技术 | BIOTECHNOLOGY | 3 | 0 |
-| 40_C | 医疗技术 | MEDICAL_SPECIALTIES | 3 | 0 |
-| 40_D | 医疗技术 | PHARMACEUTICALS_OTHER | 3 | 0 |
-| 40_E | 医疗技术 | PHARMACEUTICALS_GENERIC | 3 | 0 |
-| 41_A | 工业服务 | ENGINEERING_CONSTRUCTION | 3 | 0 |
-| 41_B | 工业服务 | OILFIELD_SERVICES_EQUIPMENT | 3 | 0 |
-| 41_C | 工业服务 | ENVIRONMENTAL_SERVICES | 3 | 0 |
-| 41_D | 工业服务 | CONTRACT_DRILLING | 3 | 0 |
-| 41_E | 工业服务 | OIL_GAS_PIPELINES | 3 | 0 |
-| 42_A | 综合行业 | INVESTMENT_TRUSTS_MUTUAL_FUNDS | 3 | 0 |
-| 43_A | 金属矿产 | OTHER_METALS_MINERALS | 3 | 0 |
-| 43_B | 金属矿产 | STEEL | 3 | 0 |
-| 43_C | 金属矿产 | ALUMINUM | 3 | 0 |
-| 43_D | 金属矿产 | CONSTRUCTION_MATERIALS | 3 | 0 |
-| 43_E | 金属矿产 | PRECIOUS_METALS | 3 | 0 |
-| 43_F | 金属矿产 | FOREST_PRODUCTS | 3 | 0 |
-| 44_A | 加工工业 | CHEMICALS_SPECIALTY | 3 | 0 |
-| 44_B | 加工工业 | INDUSTRIAL_SPECIALTIES | 3 | 0 |
-| 44_C | 加工工业 | TEXTILES | 3 | 0 |
-| 44_D | 加工工业 | AGRICULTURAL_COMMODITIES_MILLING | 3 | 0 |
-| 44_E | 加工工业 | CHEMICALS_MAJOR_DIVERSIFIED | 3 | 0 |
-| 44_F | 加工工业 | CHEMICALS_AGRICULTURAL | 3 | 0 |
-| 44_G | 加工工业 | CONTAINERS_PACKAGING | 3 | 0 |
-| 44_H | 加工工业 | PULP_PAPER | 3 | 0 |
-| 45_A | 装备制造 | ELECTRICAL_PRODUCTS | 3 | 0 |
-| 45_B | 装备制造 | INDUSTRIAL_MACHINERY | 3 | 0 |
-| 45_C | 装备制造 | METAL_FABRICATION | 3 | 0 |
-| 45_D | 装备制造 | AUTO_PARTS_OEM | 3 | 0 |
-| 45_E | 装备制造 | TRUCKS_CONSTRUCTION_FARM_MACHINERY | 3 | 0 |
-| 45_F | 装备制造 | BUILDING_PRODUCTS | 3 | 0 |
-| 45_G | 装备制造 | OFFICE_EQUIPMENT_SUPPLIES | 3 | 0 |
-| 45_H | 装备制造 | MISCELLANEOUS_MANUFACTURING | 3 | 0 |
-| 45_I | 装备制造 | INDUSTRIAL_CONGLOMERATES | 3 | 0 |
-| 46_A | 零售 | DRUGSTORE_CHAINS | 3 | 0 |
-| 46_B | 零售 | DEPARTMENT_STORES | 3 | 0 |
-| 46_C | 零售 | INTERNET_RETAIL | 3 | 0 |
-| 46_D | 零售 | FOOD_RETAIL | 3 | 0 |
-| 46_E | 零售 | SPECIALTY_STORES | 3 | 0 |
-| 46_F | 零售 | APPAREL_FOOTWEAR_RETAIL | 3 | 0 |
-| 46_G | 零售 | CATALOG_SPECIALTY_DISTRIBUTION | 3 | 0 |
-| 46_H | 零售 | ELECTRONICS_APPLIANCE_STORES | 3 | 0 |
-| 47_A | 信息技术 | PACKAGED_SOFTWARE | 3 | 0 |
-| 47_B | 信息技术 | INFORMATION_TECHNOLOGY_SERVICES | 3 | 0 |
-| 47_C | 信息技术 | INTERNET_SOFTWARE_SERVICES | 3 | 0 |
-| 47_D | 信息技术 | DATA_PROCESSING_SERVICES | 3 | 0 |
-| 48_A | 交通运输 | OTHER_TRANSPORTATION | 3 | 0 |
-| 48_B | 交通运输 | AIR_FREIGHT_COURIERS | 3 | 0 |
-| 48_C | 交通运输 | AIRLINES | 3 | 0 |
-| 48_D | 交通运输 | MARINE_SHIPPING | 3 | 0 |
-| 48_E | 交通运输 | TRUCKING | 3 | 0 |
-| 49_A | 公用事业 | ELECTRIC_UTILITIES | 3 | 0 |
-| 49_B | 公用事业 | ALTERNATIVE_POWER_GENERATION | 3 | 0 |
-| 49_C | 公用事业 | GAS_DISTRIBUTORS | 3 | 0 |
-| 49_D | 公用事业 | WATER_UTILITIES | 3 | 0 |
+| 编码 | 一级分类 | 主题 | 层级 | 权重 | 数量 |
+|---|---|---|---:|---:|---:|
+| 00_A | 市场基准 | CORE_GAUGES | 1 | 0.5 | 3 |
+| 10_A | AI算力基础设施 | OPTICAL_MODULES | 1 | 1.34 | 5 |
+| 10_B | AI算力基础设施 | AI_SERVERS_PCB | 2 | 1.61 | 3 |
+| 10_C | AI算力基础设施 | DATA_CENTRES | 2 | 0.89 | 2 |
+| 10_D | AI算力基础设施 | LIQUID_COOLING | 2 | 1 | 2 |
+| 10_E | AI算力基础设施 | DATACENTRE_POWER | 2 | 1 | 2 |
+| 11_A | 半导体 | SEMICONDUCTOR_EQUIPMENT | 1 | 1.48 | 6 |
+| 11_B | 半导体 | SEMICONDUCTOR_MATERIALS | 2 | 1.1 | 2 |
+| 11_C | 半导体 | FOUNDRIES | 2 | 1.1 | 2 |
+| 11_D | 半导体 | PACKAGING_TESTING | 2 | 1 | 2 |
+| 11_E | 半导体 | COMPUTE_CHIPS | 2 | 1.18 | 2 |
+| 11_F | 半导体 | MEMORY_CONTROLLERS | 2 | 1.1 | 2 |
+| 11_G | 半导体 | ANALOG_POWER_RF | 2 | 1.1 | 2 |
+| 11_H | 半导体 | IMAGE_COMMUNICATION_SOC | 2 | 1.18 | 2 |
+| 11_J | 半导体 | PASSIVE_COMPONENTS | 2 | 1.18 | 2 |
+| 12_A | 软件与数字经济 | AI_APPLICATIONS | 1 | 1.1 | 4 |
+| 12_B | 软件与数字经济 | ENTERPRISE_INDUSTRIAL_SOFTWARE | 2 | 1 | 2 |
+| 12_C | 软件与数字经济 | FINANCIAL_IT | 2 | 1 | 2 |
+| 12_D | 软件与数字经济 | DOMESTIC_IT_SECURITY_QUANTUM | 2 | 1 | 2 |
+| 12_F | 软件与数字经济 | MACHINE_VISION_AIOT | 2 | 1.18 | 3 |
+| 13_A | 机械与自动化 | ROBOT_COMPONENTS | 1 | 1.18 | 5 |
+| 13_B | 机械与自动化 | SERVO_MOTION_CONTROL | 2 | 0.89 | 2 |
+| 13_C | 机械与自动化 | ROBOT_SYSTEMS | 2 | 0.77 | 2 |
+| 13_D | 机械与自动化 | AUTOMATION_LASER_EQUIPMENT | 2 | 1.18 | 2 |
+| 13_E | 机械与自动化 | SENSORS_ACTUATORS | 2 | 0.77 | 2 |
+| 13_F | 机械与自动化 | CONSTRUCTION_MACHINERY | 2 | 1 | 2 |
+| 14_A | 军工与航空航天 | MILITARY_AIRCRAFT_ENGINES | 1 | 0.89 | 3 |
+| 14_B | 军工与航空航天 | DEFENCE_ELECTRONICS | 2 | 1 | 2 |
+| 14_C | 军工与航空航天 | SATELLITE_COMMUNICATIONS | 2 | 1.1 | 2 |
+| 14_E | 军工与航空航天 | DEFENCE_MATERIALS | 2 | 1.1 | 2 |
+| 15_A | 汽车 | AUTOMAKERS | 1 | 1.18 | 5 |
+| 15_B | 汽车 | SMART_AUTO_COMPONENTS | 2 | 1.26 | 3 |
+| 16_A | 电池与新能源 | TRACTION_BATTERIES | 1 | 1.1 | 4 |
+| 16_B | 电池与新能源 | BATTERY_MATERIALS | 2 | 1.1 | 2 |
+| 16_C | 电池与新能源 | LITHIUM_RESOURCES | 2 | 1 | 2 |
+| 16_D | 电池与新能源 | BATTERY_EQUIPMENT | 2 | 1 | 2 |
+| 16_E | 电池与新能源 | SOLAR_MANUFACTURING | 2 | 1 | 2 |
+| 16_F | 电池与新能源 | SOLAR_EQUIPMENT_MATERIALS | 2 | 1 | 2 |
+| 16_G | 电池与新能源 | INVERTERS_STORAGE | 2 | 1.1 | 2 |
+| 16_H | 电池与新能源 | WIND_POWER | 2 | 0.89 | 2 |
+| 17_A | 电网与电力 | GRID_GENERATION_EQUIPMENT | 1 | 1.34 | 5 |
+| 17_B | 电网与电力 | DISTRIBUTION_CHARGING_METERS | 2 | 1 | 2 |
+| 17_C | 电网与电力 | POWER_GENERATION | 2 | 1.34 | 3 |
+| 18_A | 医疗健康 | INNOVATIVE_DRUGS_BIO | 1 | 1.41 | 6 |
+| 18_B | 医疗健康 | CRO_CDMO | 2 | 1 | 2 |
+| 18_C | 医疗健康 | MEDICAL_DEVICES_AESTHETICS | 2 | 1.41 | 3 |
+| 18_D | 医疗健康 | MEDICAL_SERVICES_TESTING | 2 | 0.89 | 2 |
+| 18_E | 医疗健康 | CHINESE_MEDICINE_OTC | 2 | 1 | 2 |
+| 18_F | 医疗健康 | DIVERSIFIED_PHARMA | 2 | 1 | 2 |
+| 19_A | 金融 | BROKERS | 1 | 1.1 | 4 |
+| 19_B | 金融 | BANKS | 2 | 1.26 | 3 |
+| 19_C | 金融 | INSURANCE | 2 | 1 | 2 |
+| 20_A | 金属与材料 | GOLD_MINING | 1 | 1.18 | 5 |
+| 20_B | 金属与材料 | INDUSTRIAL_METALS_STEEL | 2 | 1.41 | 3 |
+| 20_C | 金属与材料 | RARE_EARTH_MINOR_METALS | 2 | 1.26 | 3 |
+| 20_D | 金属与材料 | COBALT_NICKEL_RECYCLING | 2 | 0.89 | 2 |
+| 20_E | 金属与材料 | ADVANCED_NONMETALS | 2 | 1.1 | 2 |
+| 21_A | 能源与化工 | COAL | 1 | 1.1 | 4 |
+| 21_B | 能源与化工 | OIL_GAS | 2 | 0.89 | 2 |
+| 21_C | 能源与化工 | CHEMICAL_MATERIALS | 2 | 1.48 | 3 |
+| 22_A | 运输与基础设施 | SHIPPING | 1 | 1.1 | 4 |
+| 22_B | 运输与基础设施 | SHIPBUILDING_OFFSHORE | 2 | 1.1 | 2 |
+| 22_D | 运输与基础设施 | RAIL_ROADS | 2 | 1 | 2 |
+| 22_E | 运输与基础设施 | CONSTRUCTION_INFRASTRUCTURE | 2 | 1.1 | 2 |
+| 22_F | 运输与基础设施 | TELECOM_OPERATORS | 2 | 0.77 | 2 |
+| 22_G | 运输与基础设施 | AIRLINES_AIRPORTS | 2 | 0.89 | 2 |
+| 23_A | 房地产 | REAL_ESTATE | 1 | 1 | 4 |
+| 24_A | 消费 | ALCOHOL | 1 | 1.34 | 5 |
+| 24_B | 消费 | FOOD_BEVERAGES | 2 | 1.18 | 3 |
+| 24_C | 消费 | HOME_APPLIANCES | 2 | 1 | 2 |
+| 24_D | 消费 | HOME_FURNISHINGS | 2 | 0.77 | 2 |
+| 24_E | 消费 | TOURISM_DUTY_FREE_HOTELS | 2 | 0.63 | 1 |
+| 24_F | 消费 | JEWELLERY_RETAIL | 2 | 0.77 | 2 |
+| 24_G | 消费 | CONSUMER_EXPORT_BRANDS | 2 | 1 | 2 |
+| 24_H | 消费 | BEAUTY_PERSONAL_CARE | 2 | 0.63 | 1 |
+| 25_A | 消费电子与传媒 | CONSUMER_ELECTRONICS_DISPLAYS | 1 | 1.1 | 4 |
+| 25_B | 消费电子与传媒 | GAMES | 2 | 1 | 2 |
+| 25_C | 消费电子与传媒 | MEDIA_ADVERTISING_EDUCATION | 2 | 1.1 | 2 |
+| 26_A | 农业 | AGRICULTURE | 1 | 1 | 4 |
+| 30_A | 商业服务 | MISCELLANEOUS_COMMERCIAL_SERVICES | 3 | 1.48 | 0 |
+| 30_B | 商业服务 | ADVERTISING_MARKETING_SERVICES | 3 | 0.63 | 0 |
+| 30_C | 商业服务 | COMMERCIAL_PRINTING_FORMS | 3 | 0.77 | 0 |
+| 30_D | 商业服务 | PERSONNEL_SERVICES | 3 | 0.5 | 0 |
+| 31_A | 通信 | WIRELESS_TELECOMMUNICATIONS | 3 | 0.63 | 0 |
+| 31_B | 通信 | MAJOR_TELECOMMUNICATIONS | 3 | 0.63 | 0 |
+| 32_A | 耐用消费 | HOME_FURNISHINGS | 3 | 1 | 0 |
+| 32_B | 耐用消费 | MOTOR_VEHICLES | 3 | 1.34 | 0 |
+| 32_C | 耐用消费 | ELECTRONICS_APPLIANCES | 3 | 1.18 | 0 |
+| 32_D | 耐用消费 | AUTOMOTIVE_AFTERMARKET | 3 | 0.77 | 0 |
+| 32_E | 耐用消费 | HOMEBUILDING | 3 | 0.77 | 0 |
+| 32_F | 耐用消费 | RECREATIONAL_PRODUCTS | 3 | 0.77 | 0 |
+| 32_G | 耐用消费 | TOOLS_HARDWARE | 3 | 0.63 | 0 |
+| 32_H | 耐用消费 | OTHER_CONSUMER_SPECIALTIES | 3 | 0.5 | 0 |
+| 33_A | 日常消费 | FOOD_SPECIALTY_CANDY | 3 | 1.1 | 0 |
+| 33_B | 日常消费 | APPAREL_FOOTWEAR | 3 | 0.89 | 0 |
+| 33_C | 日常消费 | FOOD_MEAT_FISH_DAIRY | 3 | 0.77 | 0 |
+| 33_D | 日常消费 | BEVERAGES_ALCOHOLIC | 3 | 0.77 | 0 |
+| 33_E | 日常消费 | FOOD_MAJOR_DIVERSIFIED | 3 | 0.5 | 0 |
+| 33_F | 日常消费 | CONSUMER_SUNDRIES | 3 | 0.77 | 0 |
+| 33_G | 日常消费 | HOUSEHOLD_PERSONAL_CARE | 3 | 0.5 | 0 |
+| 33_H | 日常消费 | BEVERAGES_NON_ALCOHOLIC | 3 | 0.63 | 0 |
+| 34_A | 消费服务 | PUBLISHING_BOOKS_MAGAZINES | 3 | 0.89 | 0 |
+| 34_B | 消费服务 | CABLE_SATELLITE_TV | 3 | 0.77 | 0 |
+| 34_C | 消费服务 | OTHER_CONSUMER_SERVICES | 3 | 0.77 | 0 |
+| 34_D | 消费服务 | MOVIES_ENTERTAINMENT | 3 | 0.77 | 0 |
+| 34_E | 消费服务 | HOTELS_RESORTS_CRUISE_LINES | 3 | 0.63 | 0 |
+| 34_F | 消费服务 | RESTAURANTS | 3 | 0.77 | 0 |
+| 34_G | 消费服务 | BROADCASTING | 3 | 0.63 | 0 |
+| 34_H | 消费服务 | PUBLISHING_NEWSPAPERS | 3 | 0.5 | 0 |
+| 34_I | 消费服务 | CASINOS_GAMING | 3 | 0.5 | 0 |
+| 35_A | 分销 | WHOLESALE_DISTRIBUTORS | 3 | 1.26 | 0 |
+| 35_B | 分销 | ELECTRONICS_DISTRIBUTORS | 3 | 1 | 0 |
+| 35_C | 分销 | MEDICAL_DISTRIBUTORS | 3 | 0.77 | 0 |
+| 35_D | 分销 | FOOD_DISTRIBUTORS | 3 | 0.77 | 0 |
+| 36_A | 电子科技 | SEMICONDUCTORS | 3 | 3.1 | 0 |
+| 36_B | 电子科技 | ELECTRONIC_COMPONENTS | 3 | 2.65 | 0 |
+| 36_C | 电子科技 | ELECTRONIC_PRODUCTION_EQUIPMENT | 3 | 1.95 | 0 |
+| 36_D | 电子科技 | ELECTRONIC_EQUIPMENT_INSTRUMENTS | 3 | 1.61 | 0 |
+| 36_E | 电子科技 | COMPUTER_PERIPHERALS | 3 | 1.34 | 0 |
+| 36_F | 电子科技 | TELECOMMUNICATIONS_EQUIPMENT | 3 | 1.34 | 0 |
+| 36_G | 电子科技 | AEROSPACE_DEFENSE | 3 | 1.55 | 0 |
+| 36_H | 电子科技 | COMPUTER_PROCESSING_HARDWARE | 3 | 1 | 0 |
+| 36_I | 电子科技 | COMPUTER_COMMUNICATIONS | 3 | 0.63 | 0 |
+| 37_A | 能源矿产 | COAL | 3 | 1.48 | 0 |
+| 37_B | 能源矿产 | INTEGRATED_OIL | 3 | 0.77 | 0 |
+| 37_C | 能源矿产 | OIL_GAS_PRODUCTION | 3 | 0.77 | 0 |
+| 37_D | 能源矿产 | OIL_REFINING_MARKETING | 3 | 0.63 | 0 |
+| 38_A | 金融 | MAJOR_BANKS | 3 | 1.48 | 0 |
+| 38_B | 金融 | REGIONAL_BANKS | 3 | 1.79 | 0 |
+| 38_C | 金融 | INVESTMENT_BANKS_BROKERS | 3 | 2.49 | 0 |
+| 38_D | 金融 | INVESTMENT_MANAGERS | 3 | 1.48 | 0 |
+| 38_E | 金融 | REAL_ESTATE_DEVELOPMENT | 3 | 1.55 | 0 |
+| 38_F | 金融 | FINANCIAL_CONGLOMERATES | 3 | 0.77 | 0 |
+| 38_G | 金融 | FINANCE_RENTAL_LEASING | 3 | 0.77 | 0 |
+| 38_H | 金融 | LIFE_HEALTH_INSURANCE | 3 | 0.5 | 0 |
+| 38_I | 金融 | REAL_ESTATE_INVESTMENT_TRUSTS | 3 | 0.77 | 0 |
+| 39_A | 医疗服务 | HOSPITAL_NURSING_MANAGEMENT | 3 | 0.77 | 0 |
+| 40_A | 医疗技术 | PHARMACEUTICALS_MAJOR | 3 | 2.41 | 0 |
+| 40_B | 医疗技术 | BIOTECHNOLOGY | 3 | 1.55 | 0 |
+| 40_C | 医疗技术 | MEDICAL_SPECIALTIES | 3 | 1.18 | 0 |
+| 40_D | 医疗技术 | PHARMACEUTICALS_OTHER | 3 | 1 | 0 |
+| 40_E | 医疗技术 | PHARMACEUTICALS_GENERIC | 3 | 0.77 | 0 |
+| 41_A | 工业服务 | ENGINEERING_CONSTRUCTION | 3 | 1.73 | 0 |
+| 41_B | 工业服务 | OILFIELD_SERVICES_EQUIPMENT | 3 | 0.77 | 0 |
+| 41_C | 工业服务 | ENVIRONMENTAL_SERVICES | 3 | 0.77 | 0 |
+| 41_D | 工业服务 | CONTRACT_DRILLING | 3 | 0.63 | 0 |
+| 41_E | 工业服务 | OIL_GAS_PIPELINES | 3 | 0.63 | 0 |
+| 42_A | 综合行业 | INVESTMENT_TRUSTS_MUTUAL_FUNDS | 3 | 0.5 | 0 |
+| 43_A | 金属矿产 | OTHER_METALS_MINERALS | 3 | 2.61 | 0 |
+| 43_B | 金属矿产 | STEEL | 3 | 1.73 | 0 |
+| 43_C | 金属矿产 | ALUMINUM | 3 | 1.18 | 0 |
+| 43_D | 金属矿产 | CONSTRUCTION_MATERIALS | 3 | 1.1 | 0 |
+| 43_E | 金属矿产 | PRECIOUS_METALS | 3 | 0.89 | 0 |
+| 43_F | 金属矿产 | FOREST_PRODUCTS | 3 | 0.77 | 0 |
+| 44_A | 加工工业 | CHEMICALS_SPECIALTY | 3 | 2.86 | 0 |
+| 44_B | 加工工业 | INDUSTRIAL_SPECIALTIES | 3 | 1.9 | 0 |
+| 44_C | 加工工业 | TEXTILES | 3 | 1.1 | 0 |
+| 44_D | 加工工业 | AGRICULTURAL_COMMODITIES_MILLING | 3 | 1.26 | 0 |
+| 44_E | 加工工业 | CHEMICALS_MAJOR_DIVERSIFIED | 3 | 1 | 0 |
+| 44_F | 加工工业 | CHEMICALS_AGRICULTURAL | 3 | 1 | 0 |
+| 44_G | 加工工业 | CONTAINERS_PACKAGING | 3 | 0.63 | 0 |
+| 44_H | 加工工业 | PULP_PAPER | 3 | 0.77 | 0 |
+| 45_A | 装备制造 | ELECTRICAL_PRODUCTS | 3 | 2.72 | 0 |
+| 45_B | 装备制造 | INDUSTRIAL_MACHINERY | 3 | 2.57 | 0 |
+| 45_C | 装备制造 | METAL_FABRICATION | 3 | 1.79 | 0 |
+| 45_D | 装备制造 | AUTO_PARTS_OEM | 3 | 2.1 | 0 |
+| 45_E | 装备制造 | TRUCKS_CONSTRUCTION_FARM_MACHINERY | 3 | 1.34 | 0 |
+| 45_F | 装备制造 | BUILDING_PRODUCTS | 3 | 1 | 0 |
+| 45_G | 装备制造 | OFFICE_EQUIPMENT_SUPPLIES | 3 | 0.77 | 0 |
+| 45_H | 装备制造 | MISCELLANEOUS_MANUFACTURING | 3 | 0.63 | 0 |
+| 45_I | 装备制造 | INDUSTRIAL_CONGLOMERATES | 3 | 0.77 | 0 |
+| 46_A | 零售 | DRUGSTORE_CHAINS | 3 | 0.77 | 0 |
+| 46_B | 零售 | DEPARTMENT_STORES | 3 | 0.77 | 0 |
+| 46_C | 零售 | INTERNET_RETAIL | 3 | 0.77 | 0 |
+| 46_D | 零售 | FOOD_RETAIL | 3 | 0.77 | 0 |
+| 46_E | 零售 | SPECIALTY_STORES | 3 | 0.63 | 0 |
+| 46_F | 零售 | APPAREL_FOOTWEAR_RETAIL | 3 | 0.77 | 0 |
+| 46_G | 零售 | CATALOG_SPECIALTY_DISTRIBUTION | 3 | 0.5 | 0 |
+| 46_H | 零售 | ELECTRONICS_APPLIANCE_STORES | 3 | 0.5 | 0 |
+| 47_A | 信息技术 | PACKAGED_SOFTWARE | 3 | 1.79 | 0 |
+| 47_B | 信息技术 | INFORMATION_TECHNOLOGY_SERVICES | 3 | 1.1 | 0 |
+| 47_C | 信息技术 | INTERNET_SOFTWARE_SERVICES | 3 | 0.77 | 0 |
+| 47_D | 信息技术 | DATA_PROCESSING_SERVICES | 3 | 0.5 | 0 |
+| 48_A | 交通运输 | OTHER_TRANSPORTATION | 3 | 1.73 | 0 |
+| 48_B | 交通运输 | AIR_FREIGHT_COURIERS | 3 | 1.55 | 0 |
+| 48_C | 交通运输 | AIRLINES | 3 | 1 | 0 |
+| 48_D | 交通运输 | MARINE_SHIPPING | 3 | 0.89 | 0 |
+| 48_E | 交通运输 | TRUCKING | 3 | 0.77 | 0 |
+| 49_A | 公用事业 | ELECTRIC_UTILITIES | 3 | 2.32 | 0 |
+| 49_B | 公用事业 | ALTERNATIVE_POWER_GENERATION | 3 | 1 | 0 |
+| 49_C | 公用事业 | GAS_DISTRIBUTORS | 3 | 0.89 | 0 |
+| 49_D | 公用事业 | WATER_UTILITIES | 3 | 0.89 | 0 |
 
 ## 指标是怎么来的
 

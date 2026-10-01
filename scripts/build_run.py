@@ -61,7 +61,11 @@ def diagnostics(spec: dict, snapshot: dict, policy: dict) -> dict:
             }
         return {
             "stages": stages,
-            "note": "Capacity is an upper bound; seed and token limits still apply.",
+            "note": (
+                "Capacity describes only the supplied research snapshot, not the whole market. "
+                "Research unmapped inventory before declaring a source capacity ceiling; "
+                "seed and token limits still apply."
+            ),
         }
     except (UniverseError, KeyError, ValueError, TypeError) as exc:
         return {"input_error": str(exc)}
@@ -172,6 +176,16 @@ def run_build(
             for k, v in artifacts.items()
             if k != "directory"
         }
+        if payload["seed"]:
+            held = {c["asset_id"] for c in payload["seed"]["members"]}
+            chosen = {c["asset_id"] for c in universe["members"]}
+            attempt["expansion"] = {
+                "from_profile": payload["seed"]["profile"],
+                "seed_members": len(held),
+                "retained": len(held & chosen),
+                "added": len(chosen - held),
+                "removed": len(held - chosen),
+            }
         code = 0 if attempt["status"] == "complete" else 3
     except (UniverseError, OSError) as exc:
         attempt.update(status="needs_research", validation_passed=False, error=str(exc))

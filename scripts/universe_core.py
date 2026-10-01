@@ -2484,14 +2484,14 @@ def render_markdown(
         f"## {lex['section.themes']}",
         "",
         f"| {lex['column.code']} | {lex['column.group']} | {lex['column.theme']} "
-        f"| {lex['column.level']} | {lex['column.count']} |",
-        "|---|---|---|---:|---:|",
+        f"| {lex['column.level']} | {lex['column.weight']} | {lex['column.count']} |",
+        "|---|---|---|---:|---:|---:|",
     ])
     for code in sorted(taxonomy):
         theme = taxonomy[code]
         lines.append(
             f"| {code} | {theme['l1_name']} | {theme['theme_name']} | "
-            f"{theme['coverage_level']} | {per_theme.get(code, 0)} |"
+            f"{theme['coverage_level']} | {theme_weight(theme):g} | {per_theme.get(code, 0)} |"
         )
     duties = [t for t in taxonomy.values() if t.get("purpose")]
     if duties:

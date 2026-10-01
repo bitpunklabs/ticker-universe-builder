@@ -836,6 +836,25 @@ class ThemeWeightTests(unittest.TestCase):
 
         self.assertGreater(held(4.0), held(0.25))
 
+    def test_optional_anchors_do_not_create_a_multiple_member_theme_floor(self) -> None:
+        data = snapshot()
+        data["taxonomy"] = data["taxonomy"][:2]
+        data["candidates"] = []
+        for theme, weight in zip(data["taxonomy"], [0.25, 4.0], strict=True):
+            theme.update(weight=weight, purpose="Fixture duty", representative_roles=["ANCHOR"])
+            for index in range(10):
+                asset = f"FIX{theme['l1_code']}{index}"
+                data["candidates"].append(
+                    candidate(f"BINANCE:{asset}USDT.P", asset, theme["theme_code"], "ANCHOR")
+                )
+        universe, report = build_universe(
+            dict(spec("heavy"), target_count=7, allow_outside_guidance=True), data, small_policy()
+        )
+        self.assertEqual(Counter(c["theme_code"] for c in universe["members"]),
+                         {"00_A": 1, "10_A": 6})
+        rendered = render_markdown(universe, report, language="en")
+        self.assertIn("Weight", rendered)
+
     def test_a_theme_with_no_bench_left_costs_the_universe_nothing(self) -> None:
         # The property a cap could never have: slots the theme cannot fill flow to the next
         # theme in line instead of being held open or spent on relaxing eligibility.

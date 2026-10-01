@@ -35,7 +35,10 @@ The agent owns the research loop; the Python selector is deliberately offline:
    a run interrupted while `running` may retry those inputs. Completed earlier outputs are kept.
    Later artifacts go in `RUN_DIR/attempt-NNN/artifacts`, unless `--output` names a new empty path.
 4. Normally try up to three distinct repair rounds. Record what changed and why in the snapshot
-   notes. Do not run three identical failing commands. A proven source capacity ceiling, an
+   notes. Do not run three identical failing commands. A research bench smaller than the target is not a source capacity ceiling. Check fetched but
+   unmapped candidates and alternative verified sources first. When Heavy and Extreme contain
+   identical members, disclose zero expansion and continue classification research; regenerating
+   identical snapshots is not a repair round. A proven source capacity ceiling, an
    unavailable required input or the user's budget can end the loop sooner. Return a valid
    partial subset only with its actual count, requested count, missing work and checkpoint.
 

@@ -33,130 +33,130 @@
 
 ## 主題覆蓋
 
-| 編碼 | 一級分類 | 主題 | 層級 | 數量 |
-|---|---|---|---:|---:|
-| 00_A | 市場基準 | CORE_GAUGES | 1 | 3 |
-| 30_A | 商業服務 | ADVERTISING_MARKETING_SERVICES | 1 | 2 |
-| 30_B | 商業服務 | MISCELLANEOUS_COMMERCIAL_SERVICES | 2 | 1 |
-| 30_C | 商業服務 | PERSONNEL_SERVICES | 2 | 1 |
-| 30_D | 商業服務 | COMMERCIAL_PRINTING_FORMS | 3 | 0 |
-| 31_A | 通訊 | MAJOR_TELECOMMUNICATIONS | 1 | 2 |
-| 31_B | 通訊 | SPECIALTY_TELECOMMUNICATIONS | 2 | 1 |
-| 31_C | 通訊 | WIRELESS_TELECOMMUNICATIONS | 3 | 0 |
-| 32_A | 耐用消費 | MOTOR_VEHICLES | 1 | 3 |
-| 32_B | 耐用消費 | TOOLS_HARDWARE | 2 | 1 |
-| 32_C | 耐用消費 | OTHER_CONSUMER_SPECIALTIES | 2 | 1 |
-| 32_D | 耐用消費 | ELECTRONICS_APPLIANCES | 2 | 1 |
-| 32_E | 耐用消費 | HOME_FURNISHINGS | 2 | 1 |
-| 32_F | 耐用消費 | RECREATIONAL_PRODUCTS | 2 | 1 |
-| 32_G | 耐用消費 | HOMEBUILDING | 3 | 0 |
-| 32_H | 耐用消費 | AUTOMOTIVE_AFTERMARKET | 3 | 0 |
-| 33_A | 日常消費 | BEVERAGES_NON_ALCOHOLIC | 1 | 2 |
-| 33_B | 日常消費 | APPAREL_FOOTWEAR | 2 | 2 |
-| 33_C | 日常消費 | FOOD_MEAT_FISH_DAIRY | 2 | 2 |
-| 33_D | 日常消費 | BEVERAGES_ALCOHOLIC | 2 | 1 |
-| 33_E | 日常消費 | HOUSEHOLD_PERSONAL_CARE | 2 | 2 |
-| 33_F | 日常消費 | CONSUMER_SUNDRIES | 2 | 1 |
-| 33_G | 日常消費 | TOBACCO | 2 | 1 |
-| 33_H | 日常消費 | FOOD_SPECIALTY_CANDY | 2 | 1 |
-| 33_I | 日常消費 | FOOD_MAJOR_DIVERSIFIED | 2 | 1 |
-| 34_A | 消費服務 | CASINOS_GAMING | 1 | 2 |
-| 34_B | 消費服務 | OTHER_CONSUMER_SERVICES | 2 | 1 |
-| 34_C | 消費服務 | MOVIES_ENTERTAINMENT | 2 | 1 |
-| 34_D | 消費服務 | HOTELS_RESORTS_CRUISE_LINES | 2 | 2 |
-| 34_E | 消費服務 | RESTAURANTS | 2 | 1 |
-| 34_F | 消費服務 | PUBLISHING_BOOKS_MAGAZINES | 2 | 1 |
-| 34_G | 消費服務 | PUBLISHING_NEWSPAPERS | 3 | 0 |
-| 34_H | 消費服務 | BROADCASTING | 3 | 0 |
-| 34_I | 消費服務 | MEDIA_CONGLOMERATES | 3 | 0 |
-| 34_J | 消費服務 | CABLE_SATELLITE_TV | 3 | 0 |
-| 35_A | 分銷 | FOOD_DISTRIBUTORS | 1 | 2 |
-| 35_B | 分銷 | MEDICAL_DISTRIBUTORS | 2 | 1 |
-| 35_C | 分銷 | WHOLESALE_DISTRIBUTORS | 2 | 1 |
-| 35_D | 分銷 | ELECTRONICS_DISTRIBUTORS | 2 | 1 |
-| 36_A | 電子科技 | SEMICONDUCTORS | 1 | 3 |
-| 36_B | 電子科技 | TELECOMMUNICATIONS_EQUIPMENT | 2 | 1 |
-| 36_C | 電子科技 | COMPUTER_PROCESSING_HARDWARE | 2 | 1 |
-| 36_D | 電子科技 | ELECTRONIC_PRODUCTION_EQUIPMENT | 2 | 1 |
-| 36_E | 電子科技 | ELECTRONIC_COMPONENTS | 2 | 1 |
-| 36_F | 電子科技 | AEROSPACE_DEFENSE | 2 | 1 |
-| 36_G | 電子科技 | COMPUTER_COMMUNICATIONS | 2 | 1 |
-| 36_H | 電子科技 | COMPUTER_PERIPHERALS | 2 | 1 |
-| 36_I | 電子科技 | ELECTRONIC_EQUIPMENT_INSTRUMENTS | 2 | 1 |
-| 37_A | 能源礦產 | COAL | 1 | 2 |
-| 37_B | 能源礦產 | INTEGRATED_OIL | 2 | 1 |
-| 37_C | 能源礦產 | OIL_GAS_PRODUCTION | 3 | 0 |
-| 37_D | 能源礦產 | OIL_REFINING_MARKETING | 3 | 0 |
-| 38_A | 金融 | REAL_ESTATE_DEVELOPMENT | 1 | 5 |
-| 38_B | 金融 | MULTI_LINE_INSURANCE | 2 | 2 |
-| 38_C | 金融 | MAJOR_BANKS | 2 | 2 |
-| 38_D | 金融 | INVESTMENT_BANKS_BROKERS | 2 | 2 |
-| 38_E | 金融 | REGIONAL_BANKS | 2 | 2 |
-| 38_F | 金融 | PROPERTY_CASUALTY_INSURANCE | 2 | 1 |
-| 38_G | 金融 | INVESTMENT_MANAGERS | 2 | 2 |
-| 38_H | 金融 | REAL_ESTATE_INVESTMENT_TRUSTS | 2 | 1 |
-| 38_I | 金融 | FINANCE_RENTAL_LEASING | 2 | 1 |
-| 38_J | 金融 | FINANCIAL_CONGLOMERATES | 2 | 1 |
-| 38_K | 金融 | LIFE_HEALTH_INSURANCE | 3 | 0 |
-| 38_L | 金融 | INSURANCE_BROKERS_SERVICES | 3 | 0 |
-| 39_A | 醫療服務 | MEDICAL_NURSING_SERVICES | 1 | 2 |
-| 39_B | 醫療服務 | HOSPITAL_NURSING_MANAGEMENT | 3 | 0 |
-| 39_C | 醫療服務 | SERVICES_TO_THE_HEALTH_INDUSTRY | 3 | 0 |
-| 40_A | 醫療技術 | PHARMACEUTICALS_MAJOR | 1 | 4 |
-| 40_B | 醫療技術 | BIOTECHNOLOGY | 2 | 2 |
-| 40_C | 醫療技術 | MEDICAL_SPECIALTIES | 2 | 2 |
-| 40_D | 醫療技術 | PHARMACEUTICALS_OTHER | 2 | 1 |
-| 40_E | 醫療技術 | PHARMACEUTICALS_GENERIC | 2 | 1 |
-| 41_A | 工業服務 | ENGINEERING_CONSTRUCTION | 1 | 3 |
-| 41_B | 工業服務 | OIL_GAS_PIPELINES | 3 | 0 |
-| 41_C | 工業服務 | OILFIELD_SERVICES_EQUIPMENT | 3 | 0 |
-| 41_D | 工業服務 | ENVIRONMENTAL_SERVICES | 3 | 0 |
-| 41_E | 工業服務 | CONTRACT_DRILLING | 3 | 0 |
-| 42_A | 綜合行業 | MISCELLANEOUS | 1 | 1 |
-| 42_B | 綜合行業 | INVESTMENT_TRUSTS_MUTUAL_FUNDS | 3 | 0 |
-| 43_A | 金屬礦產 | PRECIOUS_METALS | 1 | 2 |
-| 43_B | 金屬礦產 | OTHER_METALS_MINERALS | 2 | 2 |
-| 43_C | 金屬礦產 | ALUMINUM | 2 | 1 |
-| 43_D | 金屬礦產 | CONSTRUCTION_MATERIALS | 2 | 1 |
-| 43_E | 金屬礦產 | STEEL | 2 | 1 |
-| 43_F | 金屬礦產 | FOREST_PRODUCTS | 3 | 0 |
-| 44_A | 加工工業 | CHEMICALS_SPECIALTY | 1 | 2 |
-| 44_B | 加工工業 | CONTAINERS_PACKAGING | 2 | 1 |
-| 44_C | 加工工業 | AGRICULTURAL_COMMODITIES_MILLING | 2 | 1 |
-| 44_D | 加工工業 | CHEMICALS_AGRICULTURAL | 2 | 1 |
-| 44_E | 加工工業 | INDUSTRIAL_SPECIALTIES | 2 | 1 |
-| 44_F | 加工工業 | CHEMICALS_MAJOR_DIVERSIFIED | 2 | 1 |
-| 44_G | 加工工業 | PULP_PAPER | 2 | 1 |
-| 44_H | 加工工業 | TEXTILES | 3 | 0 |
-| 45_A | 裝備製造 | ELECTRICAL_PRODUCTS | 1 | 3 |
-| 45_B | 裝備製造 | INDUSTRIAL_MACHINERY | 2 | 2 |
-| 45_C | 裝備製造 | TRUCKS_CONSTRUCTION_FARM_MACHINERY | 2 | 1 |
-| 45_D | 裝備製造 | AUTO_PARTS_OEM | 2 | 1 |
-| 45_E | 裝備製造 | METAL_FABRICATION | 2 | 1 |
-| 45_F | 裝備製造 | MISCELLANEOUS_MANUFACTURING | 2 | 1 |
-| 45_G | 裝備製造 | INDUSTRIAL_CONGLOMERATES | 3 | 0 |
-| 45_H | 裝備製造 | OFFICE_EQUIPMENT_SUPPLIES | 3 | 0 |
-| 45_I | 裝備製造 | BUILDING_PRODUCTS | 3 | 0 |
-| 46_A | 零售 | SPECIALTY_STORES | 1 | 2 |
-| 46_B | 零售 | FOOD_RETAIL | 2 | 1 |
-| 46_C | 零售 | DRUGSTORE_CHAINS | 2 | 1 |
-| 46_D | 零售 | APPAREL_FOOTWEAR_RETAIL | 2 | 1 |
-| 46_E | 零售 | ELECTRONICS_APPLIANCE_STORES | 3 | 0 |
-| 46_F | 零售 | DEPARTMENT_STORES | 3 | 0 |
-| 46_G | 零售 | INTERNET_RETAIL | 3 | 0 |
-| 47_A | 資訊科技 | PACKAGED_SOFTWARE | 1 | 5 |
-| 47_B | 資訊科技 | INTERNET_SOFTWARE_SERVICES | 2 | 2 |
-| 47_C | 資訊科技 | INFORMATION_TECHNOLOGY_SERVICES | 2 | 2 |
-| 47_D | 資訊科技 | DATA_PROCESSING_SERVICES | 2 | 1 |
-| 48_A | 交通運輸 | OTHER_TRANSPORTATION | 1 | 2 |
-| 48_B | 交通運輸 | MARINE_SHIPPING | 2 | 2 |
-| 48_C | 交通運輸 | AIR_FREIGHT_COURIERS | 2 | 1 |
-| 48_D | 交通運輸 | AIRLINES | 2 | 1 |
-| 48_E | 交通運輸 | TRUCKING | 3 | 0 |
-| 49_A | 公用事業 | ELECTRIC_UTILITIES | 1 | 3 |
-| 49_B | 公用事業 | GAS_DISTRIBUTORS | 2 | 2 |
-| 49_C | 公用事業 | ALTERNATIVE_POWER_GENERATION | 2 | 1 |
-| 49_D | 公用事業 | WATER_UTILITIES | 2 | 1 |
+| 編碼 | 一級分類 | 主題 | 層級 | 權重 | 數量 |
+|---|---|---|---:|---:|---:|
+| 00_A | 市場基準 | CORE_GAUGES | 1 | 0.5 | 3 |
+| 30_A | 商業服務 | ADVERTISING_MARKETING_SERVICES | 1 | 1 | 2 |
+| 30_B | 商業服務 | MISCELLANEOUS_COMMERCIAL_SERVICES | 2 | 1 | 1 |
+| 30_C | 商業服務 | PERSONNEL_SERVICES | 2 | 1 | 1 |
+| 30_D | 商業服務 | COMMERCIAL_PRINTING_FORMS | 3 | 1 | 0 |
+| 31_A | 通訊 | MAJOR_TELECOMMUNICATIONS | 1 | 1 | 2 |
+| 31_B | 通訊 | SPECIALTY_TELECOMMUNICATIONS | 2 | 1 | 1 |
+| 31_C | 通訊 | WIRELESS_TELECOMMUNICATIONS | 3 | 0.82 | 0 |
+| 32_A | 耐用消費 | MOTOR_VEHICLES | 1 | 1.53 | 3 |
+| 32_B | 耐用消費 | TOOLS_HARDWARE | 2 | 0.58 | 1 |
+| 32_C | 耐用消費 | OTHER_CONSUMER_SPECIALTIES | 2 | 1 | 1 |
+| 32_D | 耐用消費 | ELECTRONICS_APPLIANCES | 2 | 1 | 1 |
+| 32_E | 耐用消費 | HOME_FURNISHINGS | 2 | 1 | 1 |
+| 32_F | 耐用消費 | RECREATIONAL_PRODUCTS | 2 | 1 | 1 |
+| 32_G | 耐用消費 | HOMEBUILDING | 3 | 1 | 0 |
+| 32_H | 耐用消費 | AUTOMOTIVE_AFTERMARKET | 3 | 0.58 | 0 |
+| 33_A | 日常消費 | BEVERAGES_NON_ALCOHOLIC | 1 | 1.29 | 2 |
+| 33_B | 日常消費 | APPAREL_FOOTWEAR | 2 | 1.73 | 2 |
+| 33_C | 日常消費 | FOOD_MEAT_FISH_DAIRY | 2 | 1.29 | 2 |
+| 33_D | 日常消費 | BEVERAGES_ALCOHOLIC | 2 | 1 | 1 |
+| 33_E | 日常消費 | HOUSEHOLD_PERSONAL_CARE | 2 | 1.29 | 2 |
+| 33_F | 日常消費 | CONSUMER_SUNDRIES | 2 | 1 | 1 |
+| 33_G | 日常消費 | TOBACCO | 2 | 0.82 | 1 |
+| 33_H | 日常消費 | FOOD_SPECIALTY_CANDY | 2 | 1 | 1 |
+| 33_I | 日常消費 | FOOD_MAJOR_DIVERSIFIED | 2 | 1 | 1 |
+| 34_A | 消費服務 | CASINOS_GAMING | 1 | 1.15 | 2 |
+| 34_B | 消費服務 | OTHER_CONSUMER_SERVICES | 2 | 1 | 1 |
+| 34_C | 消費服務 | MOVIES_ENTERTAINMENT | 2 | 1 | 1 |
+| 34_D | 消費服務 | HOTELS_RESORTS_CRUISE_LINES | 2 | 1.15 | 2 |
+| 34_E | 消費服務 | RESTAURANTS | 2 | 1 | 1 |
+| 34_F | 消費服務 | PUBLISHING_BOOKS_MAGAZINES | 2 | 1 | 1 |
+| 34_G | 消費服務 | PUBLISHING_NEWSPAPERS | 3 | 0.82 | 0 |
+| 34_H | 消費服務 | BROADCASTING | 3 | 1 | 0 |
+| 34_I | 消費服務 | MEDIA_CONGLOMERATES | 3 | 0.58 | 0 |
+| 34_J | 消費服務 | CABLE_SATELLITE_TV | 3 | 0.58 | 0 |
+| 35_A | 分銷 | FOOD_DISTRIBUTORS | 1 | 1 | 2 |
+| 35_B | 分銷 | MEDICAL_DISTRIBUTORS | 2 | 1 | 1 |
+| 35_C | 分銷 | WHOLESALE_DISTRIBUTORS | 2 | 1 | 1 |
+| 35_D | 分銷 | ELECTRONICS_DISTRIBUTORS | 2 | 1 | 1 |
+| 36_A | 電子科技 | SEMICONDUCTORS | 1 | 1.73 | 3 |
+| 36_B | 電子科技 | TELECOMMUNICATIONS_EQUIPMENT | 2 | 1 | 1 |
+| 36_C | 電子科技 | COMPUTER_PROCESSING_HARDWARE | 2 | 1 | 1 |
+| 36_D | 電子科技 | ELECTRONIC_PRODUCTION_EQUIPMENT | 2 | 1 | 1 |
+| 36_E | 電子科技 | ELECTRONIC_COMPONENTS | 2 | 1 | 1 |
+| 36_F | 電子科技 | AEROSPACE_DEFENSE | 2 | 1 | 1 |
+| 36_G | 電子科技 | COMPUTER_COMMUNICATIONS | 2 | 0.82 | 1 |
+| 36_H | 電子科技 | COMPUTER_PERIPHERALS | 2 | 1 | 1 |
+| 36_I | 電子科技 | ELECTRONIC_EQUIPMENT_INSTRUMENTS | 2 | 1 | 1 |
+| 37_A | 能源礦產 | COAL | 1 | 1 | 2 |
+| 37_B | 能源礦產 | INTEGRATED_OIL | 2 | 1 | 1 |
+| 37_C | 能源礦產 | OIL_GAS_PRODUCTION | 3 | 1 | 0 |
+| 37_D | 能源礦產 | OIL_REFINING_MARKETING | 3 | 0.58 | 0 |
+| 38_A | 金融 | REAL_ESTATE_DEVELOPMENT | 1 | 3.16 | 5 |
+| 38_B | 金融 | MULTI_LINE_INSURANCE | 2 | 1.41 | 2 |
+| 38_C | 金融 | MAJOR_BANKS | 2 | 1.29 | 2 |
+| 38_D | 金融 | INVESTMENT_BANKS_BROKERS | 2 | 1.15 | 2 |
+| 38_E | 金融 | REGIONAL_BANKS | 2 | 1.41 | 2 |
+| 38_F | 金融 | PROPERTY_CASUALTY_INSURANCE | 2 | 0.58 | 1 |
+| 38_G | 金融 | INVESTMENT_MANAGERS | 2 | 1.15 | 2 |
+| 38_H | 金融 | REAL_ESTATE_INVESTMENT_TRUSTS | 2 | 1 | 1 |
+| 38_I | 金融 | FINANCE_RENTAL_LEASING | 2 | 1 | 1 |
+| 38_J | 金融 | FINANCIAL_CONGLOMERATES | 2 | 1 | 1 |
+| 38_K | 金融 | LIFE_HEALTH_INSURANCE | 3 | 0.58 | 0 |
+| 38_L | 金融 | INSURANCE_BROKERS_SERVICES | 3 | 0.82 | 0 |
+| 39_A | 醫療服務 | MEDICAL_NURSING_SERVICES | 1 | 1 | 2 |
+| 39_B | 醫療服務 | HOSPITAL_NURSING_MANAGEMENT | 3 | 1 | 0 |
+| 39_C | 醫療服務 | SERVICES_TO_THE_HEALTH_INDUSTRY | 3 | 0.58 | 0 |
+| 40_A | 醫療技術 | PHARMACEUTICALS_MAJOR | 1 | 2.24 | 4 |
+| 40_B | 醫療技術 | BIOTECHNOLOGY | 2 | 1.73 | 2 |
+| 40_C | 醫療技術 | MEDICAL_SPECIALTIES | 2 | 1.15 | 2 |
+| 40_D | 醫療技術 | PHARMACEUTICALS_OTHER | 2 | 1 | 1 |
+| 40_E | 醫療技術 | PHARMACEUTICALS_GENERIC | 2 | 1 | 1 |
+| 41_A | 工業服務 | ENGINEERING_CONSTRUCTION | 1 | 1.83 | 3 |
+| 41_B | 工業服務 | OIL_GAS_PIPELINES | 3 | 0.58 | 0 |
+| 41_C | 工業服務 | OILFIELD_SERVICES_EQUIPMENT | 3 | 1 | 0 |
+| 41_D | 工業服務 | ENVIRONMENTAL_SERVICES | 3 | 1 | 0 |
+| 41_E | 工業服務 | CONTRACT_DRILLING | 3 | 0.58 | 0 |
+| 42_A | 綜合行業 | MISCELLANEOUS | 1 | 0.82 | 1 |
+| 42_B | 綜合行業 | INVESTMENT_TRUSTS_MUTUAL_FUNDS | 3 | 1 | 0 |
+| 43_A | 金屬礦產 | PRECIOUS_METALS | 1 | 1.29 | 2 |
+| 43_B | 金屬礦產 | OTHER_METALS_MINERALS | 2 | 1.53 | 2 |
+| 43_C | 金屬礦產 | ALUMINUM | 2 | 1 | 1 |
+| 43_D | 金屬礦產 | CONSTRUCTION_MATERIALS | 2 | 1 | 1 |
+| 43_E | 金屬礦產 | STEEL | 2 | 1 | 1 |
+| 43_F | 金屬礦產 | FOREST_PRODUCTS | 3 | 1 | 0 |
+| 44_A | 加工工業 | CHEMICALS_SPECIALTY | 1 | 1 | 2 |
+| 44_B | 加工工業 | CONTAINERS_PACKAGING | 2 | 1 | 1 |
+| 44_C | 加工工業 | AGRICULTURAL_COMMODITIES_MILLING | 2 | 1 | 1 |
+| 44_D | 加工工業 | CHEMICALS_AGRICULTURAL | 2 | 1 | 1 |
+| 44_E | 加工工業 | INDUSTRIAL_SPECIALTIES | 2 | 1 | 1 |
+| 44_F | 加工工業 | CHEMICALS_MAJOR_DIVERSIFIED | 2 | 1 | 1 |
+| 44_G | 加工工業 | PULP_PAPER | 2 | 1 | 1 |
+| 44_H | 加工工業 | TEXTILES | 3 | 1 | 0 |
+| 45_A | 裝備製造 | ELECTRICAL_PRODUCTS | 1 | 1.53 | 3 |
+| 45_B | 裝備製造 | INDUSTRIAL_MACHINERY | 2 | 1.73 | 2 |
+| 45_C | 裝備製造 | TRUCKS_CONSTRUCTION_FARM_MACHINERY | 2 | 1 | 1 |
+| 45_D | 裝備製造 | AUTO_PARTS_OEM | 2 | 1 | 1 |
+| 45_E | 裝備製造 | METAL_FABRICATION | 2 | 1 | 1 |
+| 45_F | 裝備製造 | MISCELLANEOUS_MANUFACTURING | 2 | 1 | 1 |
+| 45_G | 裝備製造 | INDUSTRIAL_CONGLOMERATES | 3 | 1 | 0 |
+| 45_H | 裝備製造 | OFFICE_EQUIPMENT_SUPPLIES | 3 | 0.58 | 0 |
+| 45_I | 裝備製造 | BUILDING_PRODUCTS | 3 | 1 | 0 |
+| 46_A | 零售 | SPECIALTY_STORES | 1 | 1 | 2 |
+| 46_B | 零售 | FOOD_RETAIL | 2 | 1 | 1 |
+| 46_C | 零售 | DRUGSTORE_CHAINS | 2 | 1 | 1 |
+| 46_D | 零售 | APPAREL_FOOTWEAR_RETAIL | 2 | 1 | 1 |
+| 46_E | 零售 | ELECTRONICS_APPLIANCE_STORES | 3 | 1 | 0 |
+| 46_F | 零售 | DEPARTMENT_STORES | 3 | 1 | 0 |
+| 46_G | 零售 | INTERNET_RETAIL | 3 | 1 | 0 |
+| 47_A | 資訊科技 | PACKAGED_SOFTWARE | 1 | 2.77 | 5 |
+| 47_B | 資訊科技 | INTERNET_SOFTWARE_SERVICES | 2 | 1.29 | 2 |
+| 47_C | 資訊科技 | INFORMATION_TECHNOLOGY_SERVICES | 2 | 1.15 | 2 |
+| 47_D | 資訊科技 | DATA_PROCESSING_SERVICES | 2 | 1 | 1 |
+| 48_A | 交通運輸 | OTHER_TRANSPORTATION | 1 | 1.29 | 2 |
+| 48_B | 交通運輸 | MARINE_SHIPPING | 2 | 1.29 | 2 |
+| 48_C | 交通運輸 | AIR_FREIGHT_COURIERS | 2 | 1 | 1 |
+| 48_D | 交通運輸 | AIRLINES | 2 | 1 | 1 |
+| 48_E | 交通運輸 | TRUCKING | 3 | 0.82 | 0 |
+| 49_A | 公用事業 | ELECTRIC_UTILITIES | 1 | 1.53 | 3 |
+| 49_B | 公用事業 | GAS_DISTRIBUTORS | 2 | 1.41 | 2 |
+| 49_C | 公用事業 | ALTERNATIVE_POWER_GENERATION | 2 | 1 | 1 |
+| 49_D | 公用事業 | WATER_UTILITIES | 2 | 1 | 1 |
 
 ## 指標是怎麼來的
 

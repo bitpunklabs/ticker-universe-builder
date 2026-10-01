@@ -30,21 +30,21 @@
 
 ## Themes
 
-| Code | Group | Theme | Level | Count |
-|---|---|---|---:|---:|
-| 00_A | Market gauges | CORE_GAUGES | 1 | 3 |
-| 10_A | Ai | AI | 1 | 11 |
-| 11_A | Real World Assets | REAL_WORLD_ASSETS | 1 | 9 |
-| 12_A | Storage | STORAGE | 1 | 3 |
-| 13_A | Payments | PAYMENTS | 1 | 6 |
-| 14_A | Defi | DEFI | 1 | 18 |
-| 15_A | Gaming | GAMING | 1 | 9 |
-| 16_A | Nft | NFT | 1 | 6 |
-| 17_A | Meme | MEME | 1 | 9 |
-| 18_A | Fan Tokens | FAN_TOKENS | 1 | 1 |
-| 19_A | Layer1 Layer2 | LAYER1_LAYER2 | 1 | 15 |
-| 20_A | Infrastructure | INFRASTRUCTURE | 1 | 13 |
-| 23_A | Mining | MINING | 1 | 2 |
+| Code | Group | Theme | Level | Weight | Count |
+|---|---|---|---:|---:|---:|
+| 00_A | Market gauges | CORE_GAUGES | 1 | 0.5 | 3 |
+| 10_A | Ai | AI | 1 | 1.24 | 11 |
+| 11_A | Real World Assets | REAL_WORLD_ASSETS | 1 | 0.99 | 9 |
+| 12_A | Storage | STORAGE | 1 | 0.5 | 3 |
+| 13_A | Payments | PAYMENTS | 1 | 0.68 | 6 |
+| 14_A | Defi | DEFI | 1 | 1.96 | 18 |
+| 15_A | Gaming | GAMING | 1 | 1.01 | 9 |
+| 16_A | Nft | NFT | 1 | 0.63 | 6 |
+| 17_A | Meme | MEME | 1 | 1.01 | 9 |
+| 18_A | Fan Tokens | FAN_TOKENS | 1 | 0.5 | 1 |
+| 19_A | Layer1 Layer2 | LAYER1_LAYER2 | 1 | 1.62 | 15 |
+| 20_A | Infrastructure | INFRASTRUCTURE | 1 | 1.35 | 13 |
+| 23_A | Mining | MINING | 1 | 0.5 | 2 |
 
 ## How the metrics were produced
 

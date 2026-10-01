@@ -34,138 +34,138 @@
 
 ## Themes
 
-| Code | Group | Theme | Level | Count |
-|---|---|---|---:|---:|
-| 00_A | Market gauges | CORE_GAUGES | 1 | 3 |
-| 30_A | Commercial Services | MISCELLANEOUS_COMMERCIAL_SERVICES | 1 | 3 |
-| 30_B | Commercial Services | FINANCIAL_PUBLISHING_SERVICES | 2 | 1 |
-| 30_C | Commercial Services | ADVERTISING_MARKETING_SERVICES | 2 | 1 |
-| 30_D | Commercial Services | COMMERCIAL_PRINTING_FORMS | 2 | 1 |
-| 30_E | Commercial Services | PERSONNEL_SERVICES | 2 | 1 |
-| 31_A | Communications | SPECIALTY_TELECOMMUNICATIONS | 1 | 2 |
-| 31_B | Communications | WIRELESS_TELECOMMUNICATIONS | 2 | 1 |
-| 31_C | Communications | MAJOR_TELECOMMUNICATIONS | 2 | 1 |
-| 32_A | Consumer Durables | MOTOR_VEHICLES | 1 | 3 |
-| 32_B | Consumer Durables | HOMEBUILDING | 2 | 1 |
-| 32_C | Consumer Durables | TOOLS_HARDWARE | 2 | 1 |
-| 32_D | Consumer Durables | RECREATIONAL_PRODUCTS | 2 | 1 |
-| 32_E | Consumer Durables | ELECTRONICS_APPLIANCES | 2 | 1 |
-| 32_F | Consumer Durables | HOME_FURNISHINGS | 2 | 1 |
-| 32_G | Consumer Durables | AUTOMOTIVE_AFTERMARKET | 2 | 1 |
-| 32_H | Consumer Durables | OTHER_CONSUMER_SPECIALTIES | 2 | 1 |
-| 33_A | Consumer Non-Durables | HOUSEHOLD_PERSONAL_CARE | 1 | 3 |
-| 33_B | Consumer Non-Durables | BEVERAGES_NON_ALCOHOLIC | 2 | 1 |
-| 33_C | Consumer Non-Durables | TOBACCO | 2 | 1 |
-| 33_D | Consumer Non-Durables | FOOD_SPECIALTY_CANDY | 2 | 1 |
-| 33_E | Consumer Non-Durables | APPAREL_FOOTWEAR | 2 | 1 |
-| 33_F | Consumer Non-Durables | FOOD_MAJOR_DIVERSIFIED | 2 | 1 |
-| 33_G | Consumer Non-Durables | FOOD_MEAT_FISH_DAIRY | 2 | 1 |
-| 33_H | Consumer Non-Durables | BEVERAGES_ALCOHOLIC | 2 | 1 |
-| 33_I | Consumer Non-Durables | CONSUMER_SUNDRIES | 2 | 1 |
-| 34_A | Consumer Services | RESTAURANTS | 1 | 4 |
-| 34_B | Consumer Services | HOTELS_RESORTS_CRUISE_LINES | 2 | 2 |
-| 34_C | Consumer Services | MOVIES_ENTERTAINMENT | 2 | 1 |
-| 34_D | Consumer Services | CABLE_SATELLITE_TV | 2 | 1 |
-| 34_E | Consumer Services | OTHER_CONSUMER_SERVICES | 2 | 1 |
-| 34_F | Consumer Services | CASINOS_GAMING | 2 | 1 |
-| 34_G | Consumer Services | BROADCASTING | 2 | 1 |
-| 34_H | Consumer Services | PUBLISHING_NEWSPAPERS | 2 | 1 |
-| 34_I | Consumer Services | MEDIA_CONGLOMERATES | 2 | 1 |
-| 34_J | Consumer Services | PUBLISHING_BOOKS_MAGAZINES | 2 | 1 |
-| 35_A | Distribution Services | MEDICAL_DISTRIBUTORS | 1 | 2 |
-| 35_B | Distribution Services | WHOLESALE_DISTRIBUTORS | 2 | 1 |
-| 35_C | Distribution Services | FOOD_DISTRIBUTORS | 2 | 1 |
-| 35_D | Distribution Services | ELECTRONICS_DISTRIBUTORS | 2 | 1 |
-| 36_A | Electronic Technology | SEMICONDUCTORS | 1 | 6 |
-| 36_B | Electronic Technology | TELECOMMUNICATIONS_EQUIPMENT | 2 | 2 |
-| 36_C | Electronic Technology | AEROSPACE_DEFENSE | 2 | 3 |
-| 36_D | Electronic Technology | COMPUTER_PERIPHERALS | 2 | 2 |
-| 36_E | Electronic Technology | COMPUTER_PROCESSING_HARDWARE | 2 | 2 |
-| 36_F | Electronic Technology | ELECTRONIC_COMPONENTS | 2 | 1 |
-| 36_G | Electronic Technology | ELECTRONIC_PRODUCTION_EQUIPMENT | 2 | 1 |
-| 36_H | Electronic Technology | ELECTRONIC_EQUIPMENT_INSTRUMENTS | 2 | 2 |
-| 36_I | Electronic Technology | COMPUTER_COMMUNICATIONS | 2 | 1 |
-| 37_A | Energy Minerals | INTEGRATED_OIL | 1 | 4 |
-| 37_B | Energy Minerals | OIL_REFINING_MARKETING | 2 | 1 |
-| 37_C | Energy Minerals | OIL_GAS_PRODUCTION | 2 | 1 |
-| 37_D | Energy Minerals | COAL | 2 | 1 |
-| 38_A | Finance | MAJOR_BANKS | 1 | 4 |
-| 38_B | Finance | FINANCE_RENTAL_LEASING | 2 | 2 |
-| 38_C | Finance | PROPERTY_CASUALTY_INSURANCE | 2 | 2 |
-| 38_D | Finance | INVESTMENT_BANKS_BROKERS | 2 | 2 |
-| 38_E | Finance | INVESTMENT_MANAGERS | 2 | 3 |
-| 38_F | Finance | REAL_ESTATE_INVESTMENT_TRUSTS | 2 | 3 |
-| 38_G | Finance | MULTI_LINE_INSURANCE | 2 | 2 |
-| 38_H | Finance | INSURANCE_BROKERS_SERVICES | 2 | 1 |
-| 38_I | Finance | REGIONAL_BANKS | 2 | 2 |
-| 38_J | Finance | LIFE_HEALTH_INSURANCE | 2 | 1 |
-| 38_K | Finance | REAL_ESTATE_DEVELOPMENT | 2 | 1 |
-| 38_L | Finance | FINANCIAL_CONGLOMERATES | 2 | 1 |
-| 38_M | Finance | SPECIALTY_INSURANCE | 2 | 1 |
-| 38_N | Finance | SAVINGS_BANKS | 2 | 1 |
-| 39_A | Health Services | MANAGED_HEALTH_CARE | 1 | 3 |
-| 39_B | Health Services | HOSPITAL_NURSING_MANAGEMENT | 2 | 1 |
-| 39_C | Health Services | MEDICAL_NURSING_SERVICES | 2 | 1 |
-| 39_D | Health Services | SERVICES_TO_THE_HEALTH_INDUSTRY | 2 | 1 |
-| 40_A | Health Technology | PHARMACEUTICALS_MAJOR | 1 | 5 |
-| 40_B | Health Technology | MEDICAL_SPECIALTIES | 2 | 3 |
-| 40_C | Health Technology | BIOTECHNOLOGY | 2 | 2 |
-| 40_D | Health Technology | PHARMACEUTICALS_OTHER | 2 | 1 |
-| 40_E | Health Technology | PHARMACEUTICALS_GENERIC | 2 | 1 |
-| 41_A | Industrial Services | OIL_GAS_PIPELINES | 1 | 4 |
-| 41_B | Industrial Services | ENGINEERING_CONSTRUCTION | 2 | 2 |
-| 41_C | Industrial Services | ENVIRONMENTAL_SERVICES | 2 | 1 |
-| 41_D | Industrial Services | CONTRACT_DRILLING | 2 | 1 |
-| 41_E | Industrial Services | OILFIELD_SERVICES_EQUIPMENT | 2 | 1 |
-| 42_A | Miscellaneous | INVESTMENT_TRUSTS_MUTUAL_FUNDS | 1 | 2 |
-| 42_B | Miscellaneous | MISCELLANEOUS | 2 | 1 |
-| 43_A | Non-Energy Minerals | OTHER_METALS_MINERALS | 1 | 3 |
-| 43_B | Non-Energy Minerals | PRECIOUS_METALS | 2 | 1 |
-| 43_C | Non-Energy Minerals | CONSTRUCTION_MATERIALS | 2 | 1 |
-| 43_D | Non-Energy Minerals | STEEL | 2 | 1 |
-| 43_E | Non-Energy Minerals | ALUMINUM | 2 | 1 |
-| 43_F | Non-Energy Minerals | FOREST_PRODUCTS | 2 | 1 |
-| 44_A | Process Industries | CHEMICALS_SPECIALTY | 1 | 3 |
-| 44_B | Process Industries | INDUSTRIAL_SPECIALTIES | 2 | 1 |
-| 44_C | Process Industries | AGRICULTURAL_COMMODITIES_MILLING | 2 | 1 |
-| 44_D | Process Industries | CONTAINERS_PACKAGING | 2 | 1 |
-| 44_E | Process Industries | CHEMICALS_MAJOR_DIVERSIFIED | 2 | 1 |
-| 44_F | Process Industries | PULP_PAPER | 2 | 1 |
-| 44_G | Process Industries | CHEMICALS_AGRICULTURAL | 2 | 1 |
-| 44_H | Process Industries | TEXTILES | 2 | 1 |
-| 45_A | Producer Manufacturing | INDUSTRIAL_MACHINERY | 1 | 6 |
-| 45_B | Producer Manufacturing | TRUCKS_CONSTRUCTION_FARM_MACHINERY | 2 | 1 |
-| 45_C | Producer Manufacturing | ELECTRICAL_PRODUCTS | 2 | 2 |
-| 45_D | Producer Manufacturing | AUTO_PARTS_OEM | 2 | 1 |
-| 45_E | Producer Manufacturing | INDUSTRIAL_CONGLOMERATES | 2 | 1 |
-| 45_F | Producer Manufacturing | METAL_FABRICATION | 2 | 1 |
-| 45_G | Producer Manufacturing | BUILDING_PRODUCTS | 2 | 1 |
-| 45_H | Producer Manufacturing | MISCELLANEOUS_MANUFACTURING | 2 | 1 |
-| 45_I | Producer Manufacturing | OFFICE_EQUIPMENT_SUPPLIES | 2 | 1 |
-| 46_A | Retail Trade | INTERNET_RETAIL | 1 | 3 |
-| 46_B | Retail Trade | SPECIALTY_STORES | 2 | 2 |
-| 46_C | Retail Trade | HOME_IMPROVEMENT_CHAINS | 2 | 1 |
-| 46_D | Retail Trade | APPAREL_FOOTWEAR_RETAIL | 2 | 1 |
-| 46_E | Retail Trade | DRUGSTORE_CHAINS | 2 | 1 |
-| 46_F | Retail Trade | DISCOUNT_STORES | 2 | 1 |
-| 46_G | Retail Trade | FOOD_RETAIL | 2 | 1 |
-| 46_H | Retail Trade | ELECTRONICS_APPLIANCE_STORES | 2 | 1 |
-| 46_I | Retail Trade | DEPARTMENT_STORES | 2 | 1 |
-| 46_J | Retail Trade | CATALOG_SPECIALTY_DISTRIBUTION | 2 | 1 |
-| 47_A | Technology Services | PACKAGED_SOFTWARE | 1 | 9 |
-| 47_B | Technology Services | INTERNET_SOFTWARE_SERVICES | 2 | 2 |
-| 47_C | Technology Services | INFORMATION_TECHNOLOGY_SERVICES | 2 | 2 |
-| 47_D | Technology Services | DATA_PROCESSING_SERVICES | 2 | 2 |
-| 48_A | Transportation | RAILROADS | 1 | 2 |
-| 48_B | Transportation | AIR_FREIGHT_COURIERS | 2 | 2 |
-| 48_C | Transportation | OTHER_TRANSPORTATION | 2 | 1 |
-| 48_D | Transportation | AIRLINES | 2 | 1 |
-| 48_E | Transportation | TRUCKING | 2 | 1 |
-| 48_F | Transportation | MARINE_SHIPPING | 2 | 1 |
-| 49_A | Utilities | ELECTRIC_UTILITIES | 1 | 6 |
-| 49_B | Utilities | GAS_DISTRIBUTORS | 2 | 1 |
-| 49_C | Utilities | ALTERNATIVE_POWER_GENERATION | 2 | 1 |
-| 49_D | Utilities | WATER_UTILITIES | 2 | 1 |
+| Code | Group | Theme | Level | Weight | Count |
+|---|---|---|---:|---:|---:|
+| 00_A | Market gauges | CORE_GAUGES | 1 | 0.5 | 3 |
+| 30_A | Commercial Services | MISCELLANEOUS_COMMERCIAL_SERVICES | 1 | 1.53 | 3 |
+| 30_B | Commercial Services | FINANCIAL_PUBLISHING_SERVICES | 2 | 1.29 | 1 |
+| 30_C | Commercial Services | ADVERTISING_MARKETING_SERVICES | 2 | 1 | 1 |
+| 30_D | Commercial Services | COMMERCIAL_PRINTING_FORMS | 2 | 1 | 1 |
+| 30_E | Commercial Services | PERSONNEL_SERVICES | 2 | 1 | 1 |
+| 31_A | Communications | SPECIALTY_TELECOMMUNICATIONS | 1 | 1 | 2 |
+| 31_B | Communications | WIRELESS_TELECOMMUNICATIONS | 2 | 1 | 1 |
+| 31_C | Communications | MAJOR_TELECOMMUNICATIONS | 2 | 1 | 1 |
+| 32_A | Consumer Durables | MOTOR_VEHICLES | 1 | 1.15 | 3 |
+| 32_B | Consumer Durables | HOMEBUILDING | 2 | 1.15 | 1 |
+| 32_C | Consumer Durables | TOOLS_HARDWARE | 2 | 1 | 1 |
+| 32_D | Consumer Durables | RECREATIONAL_PRODUCTS | 2 | 1 | 1 |
+| 32_E | Consumer Durables | ELECTRONICS_APPLIANCES | 2 | 1 | 1 |
+| 32_F | Consumer Durables | HOME_FURNISHINGS | 2 | 1 | 1 |
+| 32_G | Consumer Durables | AUTOMOTIVE_AFTERMARKET | 2 | 1 | 1 |
+| 32_H | Consumer Durables | OTHER_CONSUMER_SPECIALTIES | 2 | 1 | 1 |
+| 33_A | Consumer Non-Durables | HOUSEHOLD_PERSONAL_CARE | 1 | 1.53 | 3 |
+| 33_B | Consumer Non-Durables | BEVERAGES_NON_ALCOHOLIC | 2 | 1.15 | 1 |
+| 33_C | Consumer Non-Durables | TOBACCO | 2 | 1 | 1 |
+| 33_D | Consumer Non-Durables | FOOD_SPECIALTY_CANDY | 2 | 1.15 | 1 |
+| 33_E | Consumer Non-Durables | APPAREL_FOOTWEAR | 2 | 1.15 | 1 |
+| 33_F | Consumer Non-Durables | FOOD_MAJOR_DIVERSIFIED | 2 | 1 | 1 |
+| 33_G | Consumer Non-Durables | FOOD_MEAT_FISH_DAIRY | 2 | 1 | 1 |
+| 33_H | Consumer Non-Durables | BEVERAGES_ALCOHOLIC | 2 | 1 | 1 |
+| 33_I | Consumer Non-Durables | CONSUMER_SUNDRIES | 2 | 1 | 1 |
+| 34_A | Consumer Services | RESTAURANTS | 1 | 1.63 | 4 |
+| 34_B | Consumer Services | HOTELS_RESORTS_CRUISE_LINES | 2 | 1.41 | 2 |
+| 34_C | Consumer Services | MOVIES_ENTERTAINMENT | 2 | 1 | 1 |
+| 34_D | Consumer Services | CABLE_SATELLITE_TV | 2 | 1 | 1 |
+| 34_E | Consumer Services | OTHER_CONSUMER_SERVICES | 2 | 1 | 1 |
+| 34_F | Consumer Services | CASINOS_GAMING | 2 | 1 | 1 |
+| 34_G | Consumer Services | BROADCASTING | 2 | 1 | 1 |
+| 34_H | Consumer Services | PUBLISHING_NEWSPAPERS | 2 | 1 | 1 |
+| 34_I | Consumer Services | MEDIA_CONGLOMERATES | 2 | 1 | 1 |
+| 34_J | Consumer Services | PUBLISHING_BOOKS_MAGAZINES | 2 | 1 | 1 |
+| 35_A | Distribution Services | MEDICAL_DISTRIBUTORS | 1 | 1 | 2 |
+| 35_B | Distribution Services | WHOLESALE_DISTRIBUTORS | 2 | 1.29 | 1 |
+| 35_C | Distribution Services | FOOD_DISTRIBUTORS | 2 | 1 | 1 |
+| 35_D | Distribution Services | ELECTRONICS_DISTRIBUTORS | 2 | 1 | 1 |
+| 36_A | Electronic Technology | SEMICONDUCTORS | 1 | 2.89 | 6 |
+| 36_B | Electronic Technology | TELECOMMUNICATIONS_EQUIPMENT | 2 | 1.41 | 2 |
+| 36_C | Electronic Technology | AEROSPACE_DEFENSE | 2 | 2.71 | 3 |
+| 36_D | Electronic Technology | COMPUTER_PERIPHERALS | 2 | 1.41 | 2 |
+| 36_E | Electronic Technology | COMPUTER_PROCESSING_HARDWARE | 2 | 1.53 | 2 |
+| 36_F | Electronic Technology | ELECTRONIC_COMPONENTS | 2 | 1 | 1 |
+| 36_G | Electronic Technology | ELECTRONIC_PRODUCTION_EQUIPMENT | 2 | 1.15 | 1 |
+| 36_H | Electronic Technology | ELECTRONIC_EQUIPMENT_INSTRUMENTS | 2 | 1.29 | 2 |
+| 36_I | Electronic Technology | COMPUTER_COMMUNICATIONS | 2 | 1 | 1 |
+| 37_A | Energy Minerals | INTEGRATED_OIL | 1 | 1.73 | 4 |
+| 37_B | Energy Minerals | OIL_REFINING_MARKETING | 2 | 1.29 | 1 |
+| 37_C | Energy Minerals | OIL_GAS_PRODUCTION | 2 | 1 | 1 |
+| 37_D | Energy Minerals | COAL | 2 | 1 | 1 |
+| 38_A | Finance | MAJOR_BANKS | 1 | 2 | 4 |
+| 38_B | Finance | FINANCE_RENTAL_LEASING | 2 | 1.91 | 2 |
+| 38_C | Finance | PROPERTY_CASUALTY_INSURANCE | 2 | 1.41 | 2 |
+| 38_D | Finance | INVESTMENT_BANKS_BROKERS | 2 | 2.08 | 2 |
+| 38_E | Finance | INVESTMENT_MANAGERS | 2 | 2.31 | 3 |
+| 38_F | Finance | REAL_ESTATE_INVESTMENT_TRUSTS | 2 | 2.71 | 3 |
+| 38_G | Finance | MULTI_LINE_INSURANCE | 2 | 1.63 | 2 |
+| 38_H | Finance | INSURANCE_BROKERS_SERVICES | 2 | 1.29 | 1 |
+| 38_I | Finance | REGIONAL_BANKS | 2 | 1.41 | 2 |
+| 38_J | Finance | LIFE_HEALTH_INSURANCE | 2 | 1 | 1 |
+| 38_K | Finance | REAL_ESTATE_DEVELOPMENT | 2 | 1 | 1 |
+| 38_L | Finance | FINANCIAL_CONGLOMERATES | 2 | 1 | 1 |
+| 38_M | Finance | SPECIALTY_INSURANCE | 2 | 1 | 1 |
+| 38_N | Finance | SAVINGS_BANKS | 2 | 1 | 1 |
+| 39_A | Health Services | MANAGED_HEALTH_CARE | 1 | 1.29 | 3 |
+| 39_B | Health Services | HOSPITAL_NURSING_MANAGEMENT | 2 | 1 | 1 |
+| 39_C | Health Services | MEDICAL_NURSING_SERVICES | 2 | 1.15 | 1 |
+| 39_D | Health Services | SERVICES_TO_THE_HEALTH_INDUSTRY | 2 | 1 | 1 |
+| 40_A | Health Technology | PHARMACEUTICALS_MAJOR | 1 | 2.31 | 5 |
+| 40_B | Health Technology | MEDICAL_SPECIALTIES | 2 | 2.83 | 3 |
+| 40_C | Health Technology | BIOTECHNOLOGY | 2 | 1.53 | 2 |
+| 40_D | Health Technology | PHARMACEUTICALS_OTHER | 2 | 1 | 1 |
+| 40_E | Health Technology | PHARMACEUTICALS_GENERIC | 2 | 1 | 1 |
+| 41_A | Industrial Services | OIL_GAS_PIPELINES | 1 | 1.83 | 4 |
+| 41_B | Industrial Services | ENGINEERING_CONSTRUCTION | 2 | 1.41 | 2 |
+| 41_C | Industrial Services | ENVIRONMENTAL_SERVICES | 2 | 1.15 | 1 |
+| 41_D | Industrial Services | CONTRACT_DRILLING | 2 | 1 | 1 |
+| 41_E | Industrial Services | OILFIELD_SERVICES_EQUIPMENT | 2 | 1 | 1 |
+| 42_A | Miscellaneous | INVESTMENT_TRUSTS_MUTUAL_FUNDS | 1 | 1 | 2 |
+| 42_B | Miscellaneous | MISCELLANEOUS | 2 | 1 | 1 |
+| 43_A | Non-Energy Minerals | OTHER_METALS_MINERALS | 1 | 1.41 | 3 |
+| 43_B | Non-Energy Minerals | PRECIOUS_METALS | 2 | 1.15 | 1 |
+| 43_C | Non-Energy Minerals | CONSTRUCTION_MATERIALS | 2 | 1.29 | 1 |
+| 43_D | Non-Energy Minerals | STEEL | 2 | 1 | 1 |
+| 43_E | Non-Energy Minerals | ALUMINUM | 2 | 1 | 1 |
+| 43_F | Non-Energy Minerals | FOREST_PRODUCTS | 2 | 1 | 1 |
+| 44_A | Process Industries | CHEMICALS_SPECIALTY | 1 | 1.41 | 3 |
+| 44_B | Process Industries | INDUSTRIAL_SPECIALTIES | 2 | 1 | 1 |
+| 44_C | Process Industries | AGRICULTURAL_COMMODITIES_MILLING | 2 | 1 | 1 |
+| 44_D | Process Industries | CONTAINERS_PACKAGING | 2 | 1 | 1 |
+| 44_E | Process Industries | CHEMICALS_MAJOR_DIVERSIFIED | 2 | 1 | 1 |
+| 44_F | Process Industries | PULP_PAPER | 2 | 1 | 1 |
+| 44_G | Process Industries | CHEMICALS_AGRICULTURAL | 2 | 1 | 1 |
+| 44_H | Process Industries | TEXTILES | 2 | 1 | 1 |
+| 45_A | Producer Manufacturing | INDUSTRIAL_MACHINERY | 1 | 2.58 | 6 |
+| 45_B | Producer Manufacturing | TRUCKS_CONSTRUCTION_FARM_MACHINERY | 2 | 1.29 | 1 |
+| 45_C | Producer Manufacturing | ELECTRICAL_PRODUCTS | 2 | 1.73 | 2 |
+| 45_D | Producer Manufacturing | AUTO_PARTS_OEM | 2 | 1 | 1 |
+| 45_E | Producer Manufacturing | INDUSTRIAL_CONGLOMERATES | 2 | 1 | 1 |
+| 45_F | Producer Manufacturing | METAL_FABRICATION | 2 | 1.15 | 1 |
+| 45_G | Producer Manufacturing | BUILDING_PRODUCTS | 2 | 1 | 1 |
+| 45_H | Producer Manufacturing | MISCELLANEOUS_MANUFACTURING | 2 | 1 | 1 |
+| 45_I | Producer Manufacturing | OFFICE_EQUIPMENT_SUPPLIES | 2 | 1 | 1 |
+| 46_A | Retail Trade | INTERNET_RETAIL | 1 | 1.15 | 3 |
+| 46_B | Retail Trade | SPECIALTY_STORES | 2 | 1.91 | 2 |
+| 46_C | Retail Trade | HOME_IMPROVEMENT_CHAINS | 2 | 1 | 1 |
+| 46_D | Retail Trade | APPAREL_FOOTWEAR_RETAIL | 2 | 1.15 | 1 |
+| 46_E | Retail Trade | DRUGSTORE_CHAINS | 2 | 1 | 1 |
+| 46_F | Retail Trade | DISCOUNT_STORES | 2 | 1 | 1 |
+| 46_G | Retail Trade | FOOD_RETAIL | 2 | 1 | 1 |
+| 46_H | Retail Trade | ELECTRONICS_APPLIANCE_STORES | 2 | 1 | 1 |
+| 46_I | Retail Trade | DEPARTMENT_STORES | 2 | 1 | 1 |
+| 46_J | Retail Trade | CATALOG_SPECIALTY_DISTRIBUTION | 2 | 0.58 | 1 |
+| 47_A | Technology Services | PACKAGED_SOFTWARE | 1 | 4 | 9 |
+| 47_B | Technology Services | INTERNET_SOFTWARE_SERVICES | 2 | 1.73 | 2 |
+| 47_C | Technology Services | INFORMATION_TECHNOLOGY_SERVICES | 2 | 1.91 | 2 |
+| 47_D | Technology Services | DATA_PROCESSING_SERVICES | 2 | 1.29 | 2 |
+| 48_A | Transportation | RAILROADS | 1 | 1 | 2 |
+| 48_B | Transportation | AIR_FREIGHT_COURIERS | 2 | 1.29 | 2 |
+| 48_C | Transportation | OTHER_TRANSPORTATION | 2 | 1 | 1 |
+| 48_D | Transportation | AIRLINES | 2 | 1.15 | 1 |
+| 48_E | Transportation | TRUCKING | 2 | 1.15 | 1 |
+| 48_F | Transportation | MARINE_SHIPPING | 2 | 1 | 1 |
+| 49_A | Utilities | ELECTRIC_UTILITIES | 1 | 2.89 | 6 |
+| 49_B | Utilities | GAS_DISTRIBUTORS | 2 | 1.29 | 1 |
+| 49_C | Utilities | ALTERNATIVE_POWER_GENERATION | 2 | 1 | 1 |
+| 49_D | Utilities | WATER_UTILITIES | 2 | 1 | 1 |
 
 ## How the metrics were produced
 

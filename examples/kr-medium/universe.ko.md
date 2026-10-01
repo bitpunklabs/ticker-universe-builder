@@ -34,123 +34,123 @@
 
 ## 테마 커버리지
 
-| 코드 | 대분류 | 테마 | 단계 | 개수 |
-|---|---|---|---:|---:|
-| 00_A | 시장 기준 | CORE_GAUGES | 1 | 2 |
-| 30_A | 상업 서비스 | MISCELLANEOUS_COMMERCIAL_SERVICES | 1 | 2 |
-| 30_B | 상업 서비스 | ADVERTISING_MARKETING_SERVICES | 2 | 1 |
-| 30_C | 상업 서비스 | FINANCIAL_PUBLISHING_SERVICES | 2 | 1 |
-| 30_D | 상업 서비스 | COMMERCIAL_PRINTING_FORMS | 3 | 0 |
-| 31_A | 통신 | MAJOR_TELECOMMUNICATIONS | 1 | 2 |
-| 31_B | 통신 | WIRELESS_TELECOMMUNICATIONS | 2 | 1 |
-| 31_C | 통신 | SPECIALTY_TELECOMMUNICATIONS | 2 | 1 |
-| 32_A | 내구 소비재 | MOTOR_VEHICLES | 1 | 2 |
-| 32_B | 내구 소비재 | ELECTRONICS_APPLIANCES | 2 | 2 |
-| 32_C | 내구 소비재 | HOMEBUILDING | 2 | 1 |
-| 32_D | 내구 소비재 | AUTOMOTIVE_AFTERMARKET | 2 | 1 |
-| 32_E | 내구 소비재 | HOME_FURNISHINGS | 2 | 1 |
-| 32_F | 내구 소비재 | RECREATIONAL_PRODUCTS | 2 | 1 |
-| 32_G | 내구 소비재 | TOOLS_HARDWARE | 2 | 1 |
-| 32_H | 내구 소비재 | OTHER_CONSUMER_SPECIALTIES | 3 | 0 |
-| 33_A | 비내구 소비재 | HOUSEHOLD_PERSONAL_CARE | 1 | 3 |
-| 33_B | 비내구 소비재 | TOBACCO | 2 | 1 |
-| 33_C | 비내구 소비재 | FOOD_SPECIALTY_CANDY | 2 | 2 |
-| 33_D | 비내구 소비재 | FOOD_MAJOR_DIVERSIFIED | 2 | 1 |
-| 33_E | 비내구 소비재 | APPAREL_FOOTWEAR | 2 | 1 |
-| 33_F | 비내구 소비재 | BEVERAGES_NON_ALCOHOLIC | 2 | 1 |
-| 33_G | 비내구 소비재 | BEVERAGES_ALCOHOLIC | 2 | 1 |
-| 33_H | 비내구 소비재 | FOOD_MEAT_FISH_DAIRY | 2 | 1 |
-| 33_I | 비내구 소비재 | CONSUMER_SUNDRIES | 3 | 0 |
-| 34_A | 소비자 서비스 | HOTELS_RESORTS_CRUISE_LINES | 1 | 2 |
-| 34_B | 소비자 서비스 | CASINOS_GAMING | 2 | 1 |
-| 34_C | 소비자 서비스 | MOVIES_ENTERTAINMENT | 2 | 1 |
-| 34_D | 소비자 서비스 | OTHER_CONSUMER_SERVICES | 2 | 1 |
-| 34_E | 소비자 서비스 | BROADCASTING | 2 | 1 |
-| 34_F | 소비자 서비스 | RESTAURANTS | 2 | 1 |
-| 34_G | 소비자 서비스 | CABLE_SATELLITE_TV | 3 | 0 |
-| 34_H | 소비자 서비스 | PUBLISHING_BOOKS_MAGAZINES | 3 | 0 |
-| 34_I | 소비자 서비스 | PUBLISHING_NEWSPAPERS | 3 | 0 |
-| 35_A | 유통 | WHOLESALE_DISTRIBUTORS | 1 | 2 |
-| 35_B | 유통 | MEDICAL_DISTRIBUTORS | 2 | 1 |
-| 35_C | 유통 | ELECTRONICS_DISTRIBUTORS | 2 | 1 |
-| 35_D | 유통 | FOOD_DISTRIBUTORS | 3 | 0 |
-| 36_A | 전자 기술 | SEMICONDUCTORS | 1 | 5 |
-| 36_B | 전자 기술 | AEROSPACE_DEFENSE | 2 | 1 |
-| 36_C | 전자 기술 | ELECTRONIC_PRODUCTION_EQUIPMENT | 2 | 2 |
-| 36_D | 전자 기술 | ELECTRONIC_COMPONENTS | 2 | 2 |
-| 36_E | 전자 기술 | ELECTRONIC_EQUIPMENT_INSTRUMENTS | 2 | 1 |
-| 36_F | 전자 기술 | TELECOMMUNICATIONS_EQUIPMENT | 2 | 1 |
-| 36_G | 전자 기술 | COMPUTER_COMMUNICATIONS | 2 | 1 |
-| 36_H | 전자 기술 | COMPUTER_PERIPHERALS | 2 | 1 |
-| 36_I | 전자 기술 | COMPUTER_PROCESSING_HARDWARE | 3 | 0 |
-| 37_A | 에너지 자원 | OIL_REFINING_MARKETING | 1 | 2 |
-| 37_B | 에너지 자원 | INTEGRATED_OIL | 2 | 1 |
-| 37_C | 에너지 자원 | COAL | 3 | 0 |
-| 38_A | 금융 | FINANCIAL_CONGLOMERATES | 1 | 2 |
-| 38_B | 금융 | MAJOR_BANKS | 2 | 2 |
-| 38_C | 금융 | REGIONAL_BANKS | 2 | 2 |
-| 38_D | 금융 | INVESTMENT_BANKS_BROKERS | 2 | 3 |
-| 38_E | 금융 | LIFE_HEALTH_INSURANCE | 2 | 1 |
-| 38_F | 금융 | PROPERTY_CASUALTY_INSURANCE | 2 | 1 |
-| 38_G | 금융 | MULTI_LINE_INSURANCE | 2 | 1 |
-| 38_H | 금융 | FINANCE_RENTAL_LEASING | 2 | 1 |
-| 38_I | 금융 | REAL_ESTATE_INVESTMENT_TRUSTS | 2 | 1 |
-| 38_J | 금융 | INVESTMENT_MANAGERS | 2 | 1 |
-| 38_K | 금융 | REAL_ESTATE_DEVELOPMENT | 2 | 1 |
-| 38_L | 금융 | INSURANCE_BROKERS_SERVICES | 3 | 0 |
-| 38_M | 금융 | SAVINGS_BANKS | 3 | 0 |
-| 39_A | 의료 서비스 | MEDICAL_NURSING_SERVICES | 1 | 2 |
-| 40_A | 의료 기술 | BIOTECHNOLOGY | 1 | 3 |
-| 40_B | 의료 기술 | PHARMACEUTICALS_MAJOR | 2 | 3 |
-| 40_C | 의료 기술 | MEDICAL_SPECIALTIES | 2 | 1 |
-| 40_D | 의료 기술 | PHARMACEUTICALS_OTHER | 2 | 1 |
-| 40_E | 의료 기술 | PHARMACEUTICALS_GENERIC | 3 | 0 |
-| 41_A | 산업 서비스 | ENGINEERING_CONSTRUCTION | 1 | 3 |
-| 41_B | 산업 서비스 | ENVIRONMENTAL_SERVICES | 2 | 1 |
-| 42_A | 기타 | MISCELLANEOUS | 1 | 2 |
-| 42_B | 기타 | INVESTMENT_TRUSTS_MUTUAL_FUNDS | 3 | 0 |
-| 43_A | 금속 자원 | STEEL | 1 | 2 |
-| 43_B | 금속 자원 | OTHER_METALS_MINERALS | 2 | 1 |
-| 43_C | 금속 자원 | CONSTRUCTION_MATERIALS | 2 | 1 |
-| 43_D | 금속 자원 | ALUMINUM | 2 | 1 |
-| 43_E | 금속 자원 | FOREST_PRODUCTS | 3 | 0 |
-| 44_A | 소재 산업 | CHEMICALS_SPECIALTY | 1 | 4 |
-| 44_B | 소재 산업 | CHEMICALS_MAJOR_DIVERSIFIED | 2 | 2 |
-| 44_C | 소재 산업 | INDUSTRIAL_SPECIALTIES | 2 | 1 |
-| 44_D | 소재 산업 | TEXTILES | 2 | 1 |
-| 44_E | 소재 산업 | CONTAINERS_PACKAGING | 2 | 1 |
-| 44_F | 소재 산업 | PULP_PAPER | 2 | 1 |
-| 44_G | 소재 산업 | AGRICULTURAL_COMMODITIES_MILLING | 2 | 1 |
-| 44_H | 소재 산업 | CHEMICALS_AGRICULTURAL | 2 | 1 |
-| 45_A | 생산 설비 | ELECTRICAL_PRODUCTS | 1 | 5 |
-| 45_B | 생산 설비 | TRUCKS_CONSTRUCTION_FARM_MACHINERY | 2 | 3 |
-| 45_C | 생산 설비 | INDUSTRIAL_MACHINERY | 2 | 3 |
-| 45_D | 생산 설비 | AUTO_PARTS_OEM | 2 | 2 |
-| 45_E | 생산 설비 | INDUSTRIAL_CONGLOMERATES | 2 | 1 |
-| 45_F | 생산 설비 | METAL_FABRICATION | 2 | 1 |
-| 45_G | 생산 설비 | BUILDING_PRODUCTS | 2 | 1 |
-| 45_H | 생산 설비 | MISCELLANEOUS_MANUFACTURING | 2 | 1 |
-| 45_I | 생산 설비 | OFFICE_EQUIPMENT_SUPPLIES | 3 | 0 |
-| 46_A | 소매 | FOOD_RETAIL | 1 | 2 |
-| 46_B | 소매 | DEPARTMENT_STORES | 2 | 1 |
-| 46_C | 소매 | SPECIALTY_STORES | 2 | 1 |
-| 46_D | 소매 | INTERNET_RETAIL | 3 | 0 |
-| 46_E | 소매 | APPAREL_FOOTWEAR_RETAIL | 3 | 0 |
-| 46_F | 소매 | ELECTRONICS_APPLIANCE_STORES | 3 | 0 |
-| 46_G | 소매 | DRUGSTORE_CHAINS | 3 | 0 |
-| 46_H | 소매 | HOME_IMPROVEMENT_CHAINS | 3 | 0 |
-| 47_A | 정보 기술 | PACKAGED_SOFTWARE | 1 | 4 |
-| 47_B | 정보 기술 | INFORMATION_TECHNOLOGY_SERVICES | 2 | 2 |
-| 47_C | 정보 기술 | INTERNET_SOFTWARE_SERVICES | 2 | 1 |
-| 47_D | 정보 기술 | DATA_PROCESSING_SERVICES | 2 | 1 |
-| 48_A | 운송 | MARINE_SHIPPING | 1 | 2 |
-| 48_B | 운송 | AIR_FREIGHT_COURIERS | 2 | 1 |
-| 48_C | 운송 | AIRLINES | 2 | 1 |
-| 48_D | 운송 | OTHER_TRANSPORTATION | 2 | 1 |
-| 48_E | 운송 | TRUCKING | 3 | 0 |
-| 49_A | 공익사업 | ELECTRIC_UTILITIES | 1 | 2 |
-| 49_B | 공익사업 | GAS_DISTRIBUTORS | 2 | 1 |
-| 49_C | 공익사업 | ALTERNATIVE_POWER_GENERATION | 2 | 1 |
+| 코드 | 대분류 | 테마 | 단계 | 가중치 | 개수 |
+|---|---|---|---:|---:|---:|
+| 00_A | 시장 기준 | CORE_GAUGES | 1 | 0.5 | 2 |
+| 30_A | 상업 서비스 | MISCELLANEOUS_COMMERCIAL_SERVICES | 1 | 1.15 | 2 |
+| 30_B | 상업 서비스 | ADVERTISING_MARKETING_SERVICES | 2 | 1 | 1 |
+| 30_C | 상업 서비스 | FINANCIAL_PUBLISHING_SERVICES | 2 | 1 | 1 |
+| 30_D | 상업 서비스 | COMMERCIAL_PRINTING_FORMS | 3 | 1 | 0 |
+| 31_A | 통신 | MAJOR_TELECOMMUNICATIONS | 1 | 1 | 2 |
+| 31_B | 통신 | WIRELESS_TELECOMMUNICATIONS | 2 | 0.82 | 1 |
+| 31_C | 통신 | SPECIALTY_TELECOMMUNICATIONS | 2 | 1 | 1 |
+| 32_A | 내구 소비재 | MOTOR_VEHICLES | 1 | 1 | 2 |
+| 32_B | 내구 소비재 | ELECTRONICS_APPLIANCES | 2 | 1.41 | 2 |
+| 32_C | 내구 소비재 | HOMEBUILDING | 2 | 1 | 1 |
+| 32_D | 내구 소비재 | AUTOMOTIVE_AFTERMARKET | 2 | 1 | 1 |
+| 32_E | 내구 소비재 | HOME_FURNISHINGS | 2 | 1 | 1 |
+| 32_F | 내구 소비재 | RECREATIONAL_PRODUCTS | 2 | 1 | 1 |
+| 32_G | 내구 소비재 | TOOLS_HARDWARE | 2 | 1 | 1 |
+| 32_H | 내구 소비재 | OTHER_CONSUMER_SPECIALTIES | 3 | 0.82 | 0 |
+| 33_A | 비내구 소비재 | HOUSEHOLD_PERSONAL_CARE | 1 | 1.63 | 3 |
+| 33_B | 비내구 소비재 | TOBACCO | 2 | 0.82 | 1 |
+| 33_C | 비내구 소비재 | FOOD_SPECIALTY_CANDY | 2 | 1.53 | 2 |
+| 33_D | 비내구 소비재 | FOOD_MAJOR_DIVERSIFIED | 2 | 1 | 1 |
+| 33_E | 비내구 소비재 | APPAREL_FOOTWEAR | 2 | 1.15 | 1 |
+| 33_F | 비내구 소비재 | BEVERAGES_NON_ALCOHOLIC | 2 | 1 | 1 |
+| 33_G | 비내구 소비재 | BEVERAGES_ALCOHOLIC | 2 | 1 | 1 |
+| 33_H | 비내구 소비재 | FOOD_MEAT_FISH_DAIRY | 2 | 1 | 1 |
+| 33_I | 비내구 소비재 | CONSUMER_SUNDRIES | 3 | 0.82 | 0 |
+| 34_A | 소비자 서비스 | HOTELS_RESORTS_CRUISE_LINES | 1 | 1 | 2 |
+| 34_B | 소비자 서비스 | CASINOS_GAMING | 2 | 1 | 1 |
+| 34_C | 소비자 서비스 | MOVIES_ENTERTAINMENT | 2 | 1 | 1 |
+| 34_D | 소비자 서비스 | OTHER_CONSUMER_SERVICES | 2 | 1 | 1 |
+| 34_E | 소비자 서비스 | BROADCASTING | 2 | 1 | 1 |
+| 34_F | 소비자 서비스 | RESTAURANTS | 2 | 1 | 1 |
+| 34_G | 소비자 서비스 | CABLE_SATELLITE_TV | 3 | 0.82 | 0 |
+| 34_H | 소비자 서비스 | PUBLISHING_BOOKS_MAGAZINES | 3 | 1 | 0 |
+| 34_I | 소비자 서비스 | PUBLISHING_NEWSPAPERS | 3 | 0.58 | 0 |
+| 35_A | 유통 | WHOLESALE_DISTRIBUTORS | 1 | 1.15 | 2 |
+| 35_B | 유통 | MEDICAL_DISTRIBUTORS | 2 | 1 | 1 |
+| 35_C | 유통 | ELECTRONICS_DISTRIBUTORS | 2 | 1 | 1 |
+| 35_D | 유통 | FOOD_DISTRIBUTORS | 3 | 1 | 0 |
+| 36_A | 전자 기술 | SEMICONDUCTORS | 1 | 2.77 | 5 |
+| 36_B | 전자 기술 | AEROSPACE_DEFENSE | 2 | 1.15 | 1 |
+| 36_C | 전자 기술 | ELECTRONIC_PRODUCTION_EQUIPMENT | 2 | 1.63 | 2 |
+| 36_D | 전자 기술 | ELECTRONIC_COMPONENTS | 2 | 1.73 | 2 |
+| 36_E | 전자 기술 | ELECTRONIC_EQUIPMENT_INSTRUMENTS | 2 | 1.15 | 1 |
+| 36_F | 전자 기술 | TELECOMMUNICATIONS_EQUIPMENT | 2 | 1 | 1 |
+| 36_G | 전자 기술 | COMPUTER_COMMUNICATIONS | 2 | 1 | 1 |
+| 36_H | 전자 기술 | COMPUTER_PERIPHERALS | 2 | 1 | 1 |
+| 36_I | 전자 기술 | COMPUTER_PROCESSING_HARDWARE | 3 | 1 | 0 |
+| 37_A | 에너지 자원 | OIL_REFINING_MARKETING | 1 | 1 | 2 |
+| 37_B | 에너지 자원 | INTEGRATED_OIL | 2 | 0.58 | 1 |
+| 37_C | 에너지 자원 | COAL | 3 | 0.58 | 0 |
+| 38_A | 금융 | FINANCIAL_CONGLOMERATES | 1 | 1.15 | 2 |
+| 38_B | 금융 | MAJOR_BANKS | 2 | 1.29 | 2 |
+| 38_C | 금융 | REGIONAL_BANKS | 2 | 1.29 | 2 |
+| 38_D | 금융 | INVESTMENT_BANKS_BROKERS | 2 | 2 | 3 |
+| 38_E | 금융 | LIFE_HEALTH_INSURANCE | 2 | 1 | 1 |
+| 38_F | 금융 | PROPERTY_CASUALTY_INSURANCE | 2 | 1 | 1 |
+| 38_G | 금융 | MULTI_LINE_INSURANCE | 2 | 1 | 1 |
+| 38_H | 금융 | FINANCE_RENTAL_LEASING | 2 | 1 | 1 |
+| 38_I | 금융 | REAL_ESTATE_INVESTMENT_TRUSTS | 2 | 1 | 1 |
+| 38_J | 금융 | INVESTMENT_MANAGERS | 2 | 1 | 1 |
+| 38_K | 금융 | REAL_ESTATE_DEVELOPMENT | 2 | 1 | 1 |
+| 38_L | 금융 | INSURANCE_BROKERS_SERVICES | 3 | 0.58 | 0 |
+| 38_M | 금융 | SAVINGS_BANKS | 3 | 0.82 | 0 |
+| 39_A | 의료 서비스 | MEDICAL_NURSING_SERVICES | 1 | 1 | 2 |
+| 40_A | 의료 기술 | BIOTECHNOLOGY | 1 | 1.63 | 3 |
+| 40_B | 의료 기술 | PHARMACEUTICALS_MAJOR | 2 | 2.58 | 3 |
+| 40_C | 의료 기술 | MEDICAL_SPECIALTIES | 2 | 1.15 | 1 |
+| 40_D | 의료 기술 | PHARMACEUTICALS_OTHER | 2 | 1 | 1 |
+| 40_E | 의료 기술 | PHARMACEUTICALS_GENERIC | 3 | 0.82 | 0 |
+| 41_A | 산업 서비스 | ENGINEERING_CONSTRUCTION | 1 | 1.63 | 3 |
+| 41_B | 산업 서비스 | ENVIRONMENTAL_SERVICES | 2 | 1 | 1 |
+| 42_A | 기타 | MISCELLANEOUS | 1 | 0.82 | 2 |
+| 42_B | 기타 | INVESTMENT_TRUSTS_MUTUAL_FUNDS | 3 | 0.82 | 0 |
+| 43_A | 금속 자원 | STEEL | 1 | 1 | 2 |
+| 43_B | 금속 자원 | OTHER_METALS_MINERALS | 2 | 1 | 1 |
+| 43_C | 금속 자원 | CONSTRUCTION_MATERIALS | 2 | 1 | 1 |
+| 43_D | 금속 자원 | ALUMINUM | 2 | 1 | 1 |
+| 43_E | 금속 자원 | FOREST_PRODUCTS | 3 | 1 | 0 |
+| 44_A | 소재 산업 | CHEMICALS_SPECIALTY | 1 | 1.91 | 4 |
+| 44_B | 소재 산업 | CHEMICALS_MAJOR_DIVERSIFIED | 2 | 1.29 | 2 |
+| 44_C | 소재 산업 | INDUSTRIAL_SPECIALTIES | 2 | 1 | 1 |
+| 44_D | 소재 산업 | TEXTILES | 2 | 1 | 1 |
+| 44_E | 소재 산업 | CONTAINERS_PACKAGING | 2 | 1 | 1 |
+| 44_F | 소재 산업 | PULP_PAPER | 2 | 1 | 1 |
+| 44_G | 소재 산업 | AGRICULTURAL_COMMODITIES_MILLING | 2 | 1 | 1 |
+| 44_H | 소재 산업 | CHEMICALS_AGRICULTURAL | 2 | 1 | 1 |
+| 45_A | 생산 설비 | ELECTRICAL_PRODUCTS | 1 | 2.77 | 5 |
+| 45_B | 생산 설비 | TRUCKS_CONSTRUCTION_FARM_MACHINERY | 2 | 2.16 | 3 |
+| 45_C | 생산 설비 | INDUSTRIAL_MACHINERY | 2 | 2.31 | 3 |
+| 45_D | 생산 설비 | AUTO_PARTS_OEM | 2 | 1.41 | 2 |
+| 45_E | 생산 설비 | INDUSTRIAL_CONGLOMERATES | 2 | 1 | 1 |
+| 45_F | 생산 설비 | METAL_FABRICATION | 2 | 1 | 1 |
+| 45_G | 생산 설비 | BUILDING_PRODUCTS | 2 | 1 | 1 |
+| 45_H | 생산 설비 | MISCELLANEOUS_MANUFACTURING | 2 | 1 | 1 |
+| 45_I | 생산 설비 | OFFICE_EQUIPMENT_SUPPLIES | 3 | 1 | 0 |
+| 46_A | 소매 | FOOD_RETAIL | 1 | 1 | 2 |
+| 46_B | 소매 | DEPARTMENT_STORES | 2 | 1.15 | 1 |
+| 46_C | 소매 | SPECIALTY_STORES | 2 | 1 | 1 |
+| 46_D | 소매 | INTERNET_RETAIL | 3 | 1 | 0 |
+| 46_E | 소매 | APPAREL_FOOTWEAR_RETAIL | 3 | 0.82 | 0 |
+| 46_F | 소매 | ELECTRONICS_APPLIANCE_STORES | 3 | 0.82 | 0 |
+| 46_G | 소매 | DRUGSTORE_CHAINS | 3 | 0.58 | 0 |
+| 46_H | 소매 | HOME_IMPROVEMENT_CHAINS | 3 | 0.58 | 0 |
+| 47_A | 정보 기술 | PACKAGED_SOFTWARE | 1 | 1.91 | 4 |
+| 47_B | 정보 기술 | INFORMATION_TECHNOLOGY_SERVICES | 2 | 1.29 | 2 |
+| 47_C | 정보 기술 | INTERNET_SOFTWARE_SERVICES | 2 | 1 | 1 |
+| 47_D | 정보 기술 | DATA_PROCESSING_SERVICES | 2 | 1 | 1 |
+| 48_A | 운송 | MARINE_SHIPPING | 1 | 1 | 2 |
+| 48_B | 운송 | AIR_FREIGHT_COURIERS | 2 | 1 | 1 |
+| 48_C | 운송 | AIRLINES | 2 | 1 | 1 |
+| 48_D | 운송 | OTHER_TRANSPORTATION | 2 | 1 | 1 |
+| 48_E | 운송 | TRUCKING | 3 | 0.82 | 0 |
+| 49_A | 공익사업 | ELECTRIC_UTILITIES | 1 | 1 | 2 |
+| 49_B | 공익사업 | GAS_DISTRIBUTORS | 2 | 1 | 1 |
+| 49_C | 공익사업 | ALTERNATIVE_POWER_GENERATION | 2 | 1 | 1 |
 
 ## 지표를 산출한 방법
 

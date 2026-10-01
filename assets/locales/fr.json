@@ -95,5 +95,6 @@
   "flag.transfer_to_growth": "transfert vers Euronext Growth",
   "profile.extreme": "Extreme",
   "column.purpose": "Fonction d’observation",
-  "column.representatives": "Rôles représentatifs"
+  "column.representatives": "Rôles représentatifs",
+  "column.weight": "Poids"
 }

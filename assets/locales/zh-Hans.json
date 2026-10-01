@@ -107,5 +107,6 @@
   "flag.full_delivery": "全额交割",
   "profile.extreme": "Extreme（极广）",
   "column.purpose": "观察职责",
-  "column.representatives": "代表角色"
+  "column.representatives": "代表角色",
+  "column.weight": "权重"
 }

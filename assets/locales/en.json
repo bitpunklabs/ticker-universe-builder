@@ -134,5 +134,6 @@
   "flag.segment_downgrade": "segment_downgrade",
   "profile.extreme": "Extreme",
   "column.purpose": "Observation duty",
-  "column.representatives": "Representative roles"
+  "column.representatives": "Representative roles",
+  "column.weight": "Weight"
 }

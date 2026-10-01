@@ -95,5 +95,6 @@
   "flag.segment_downgrade": "rebaixamento de segmento",
   "profile.extreme": "Extreme",
   "column.purpose": "Função de observação",
-  "column.representatives": "Papéis representativos"
+  "column.representatives": "Papéis representativos",
+  "column.weight": "Peso"
 }
