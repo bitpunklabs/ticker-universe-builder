@@ -78,7 +78,11 @@ reported rather than dropped.
    after each theme has its first member are apportioned to weight, so one number moves dozens
    of members. A weight of 3 against 1 means about three times the members. It is a starting
    point, not a schema.
-   Carry forward the user's existing economic-driver map when available. Apply the same legacy
+   Carry forward the user's existing economic-driver map when available, but recheck ambiguous
+   assignments against current business disclosures. Preserve the method, not inherited mistakes.
+   Separate the primary observation purpose from secondary businesses; fibre/cable is not an
+   optical module, EDA is not generic enterprise software, and oilfield service is not shipbuilding.
+   Apply the same legacy
    principles to every market: primary business, earnings/value capture, persistent catalyst,
    then supply-chain position. Provider sectors and product tags discover candidates; they do
    not replace that map. Declare each theme's `purpose` and `representative_roles` (contracts).
@@ -143,6 +147,8 @@ reported rather than dropped.
    diagnostics, remeasure and resume. Normally allow up to three materially different repair
    rounds within the user's scope. Stop sooner when the accessible source universe is exhausted
    or a required external input is unavailable; explain that boundary and retain a continuation.
+   A small mapped snapshot does not prove source exhaustion: research already-fetched unmapped
+   candidates before stopping. Identical Heavy/Extreme membership is zero expansion to repair.
    Never weaken gates or silently reduce the requested size to force completion.
 9. The command prints the path of every artifact it wrote; they are named
    `{market}-{profile}-{as_of}`. Run `validate` on the `universe` path even though the builder

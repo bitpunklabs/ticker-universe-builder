@@ -40,6 +40,16 @@ Risk-appetite tokens are explicitly speculative sensors, not quality leaders. A 
 structural anchor can represent this duty without claiming utility, revenue or durable value.
 Weights reflect importance of the observed functions, not the number of tokens an API returns.
 
+Bind protocol evidence to the project identity, not only its ticker string. For example, the
+exchange's ARC (AI Rig Complex), STRK (Starknet), and SONIC (Sonic SVM) must not inherit facts
+from Archly, Strike lending, or Sonic EVM merely because a source returns the same symbol.
+Resolve spot/perpetual aliases to one economic asset before measuring and selecting.
+[Binance identifies LUNA as the underlying of LUNA2USDT](https://www.binance.com/en/support/announcement/detail/3b7184c80d544586993045a0e6e36e57);
+these are one asset, not two observations. Gaming,
+launch services and application infrastructure have their own observation duties; do not put
+every exchange AI/RWA tag into a narrow function without business evidence. Scaling ecosystems
+include different security models: a sidechain is not an Ethereum-secured rollup.
+
 ## Admission and extension order
 
 1. Verify listing, sessions and quoted turnover. Use cross-sectional 7/30-day observations and

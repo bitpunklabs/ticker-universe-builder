@@ -34,6 +34,12 @@ infrastructure are different business models. Separate regulated utilities, merc
 fuel and equipment; separate REIT operating exposures. Include eligible ADRs after identity
 research; a provider's primary-listing flag is not a reason to erase US-listed foreign exposure.
 
+Review functional lookalikes: [UiPath](https://www.uipath.com/product) automates software
+workflows, not physical robots; [Recursion](https://www.recursion.com/pipeline) has a drug
+development pipeline, not just diagnostic tools. Separate automakers from retail, payment
+processors from card networks, and mixed storage-property exposures from pure data centers.
+Keep these as evidence-backed research decisions, not permanent ticker rules in Python.
+
 Market/macro, funds and commodity-underlying observation are separate duties from company
 exposure. The standard equity adapter does not fetch all these automatically. Research the
 missing gauges explicitly; a verified listed ETF may serve a declared proxy duty, but disclose

@@ -16,6 +16,12 @@ true.
 
 ## 0.5.0 — unreleased
 
+- Reviewed ambiguous business classifications and differentiated US/CN/Crypto observation
+  weights; added specific duties for fibre networks, communications hardware and semiconductor EDA.
+  Reports now show weight beside membership. The one-representative floor remains unchanged.
+- Recovery distinguishes supplied research capacity from source exhaustion and records actual
+  additions/retention when building from a seed. Identical depths call for research expansion.
+
 - All starter tables declare economic observation duties and acceptable core representative
   roles. US/CN/Crypto use the legacy economic-driver maps; other equities share that methodology
   with their own market overlays. Existing snapshots keep their embedded taxonomy.

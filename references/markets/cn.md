@@ -41,6 +41,21 @@ cells, equipment and storage; grid equipment versus power operations. Do not app
 provider-industry taxonomy around these existing duties. Unmapped names require business
 research into the same map, or an explicitly justified new durable theme.
 
+Check mixed businesses before inheriting a section. The October 2026 review separates optical
+fibre/network construction (`10_F`) from modules/components (`10_A`) and grid equipment
+(`17_A`); EDA/IP (`11_I`) from enterprise software; and oilfield services (`21_D`) from
+shipbuilding. Hengtong and Zhongtian can serve the fibre observation, but their substantial
+power and submarine-cable businesses must remain disclosed. A chosen observation function is
+not a claim about the largest revenue segment. Hengtong's
+[2025 financial table](https://static.cninfo.com.cn/finalpage/2026-05-16/1225310932.PDF)
+reports larger smart-grid than optical-communication revenue.
+
+Other reviewed boundaries: [Yealink](https://static.cninfo.com.cn/finalpage/2026-04-22/1225142083.PDF)
+supplies communication terminals, not general enterprise software;
+[Empyrean](https://static.cninfo.com.cn/finalpage/2026-04-28/1225217315.PDF) supplies EDA;
+[COSL](https://static.cninfo.com.cn/finalpage/2026-03-25/1225028515.PDF) supplies oilfield services.
+These are dated research examples, not permanent ticker overrides in the selector.
+
 Keep broad/style, sector and gold/duration gauges distinct from their stocks. A listed ETF may
 stand in for an index observation only with a disclosed proxy reason. Quote activity and a clean
 name string do not complete ST, halt, inquiry or issuer-quality checks. Policy news changes
