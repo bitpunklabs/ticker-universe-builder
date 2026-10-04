@@ -251,6 +251,7 @@
 ## Warnings
 
 - 79 themes have no declared observation duty; legacy presence-only coverage applies
+- Legacy artifact: structural validation is not coverage-first certification
 - satellite bucket holds 61% of the pool against a 25% target
 
 ## Members

@@ -23,7 +23,6 @@ from universe_core import (
     apply_change_set,
     build_universe,
     content_hash,
-    load_policy,
     market_guidance,
     normalize_snapshot,
     read_json,
@@ -31,6 +30,14 @@ from universe_core import (
     validate_ticker,
     validate_universe,
 )
+from universe_core import (
+    load_policy as current_policy,
+)
+
+
+def load_policy():
+    """Historical 0.4/0.5 fixtures explicitly replay their archived selection policy."""
+    return current_policy(Path(__file__).resolve().parents[1] / "examples/legacy-policy.json")
 
 
 @pytest.mark.parametrize("ticker", ["SSE:300308", "SZSE:600519", "BSE:000001"])

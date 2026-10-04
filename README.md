@@ -66,21 +66,21 @@ vocabulary, theme table and report language:
 | `ca` | Canada | TSX, TSXV | English |
 | `au` | Australia | ASX | English |
 | `br` | Brazil | BMFBOVESPA | Portuguese |
-| `crypto` | Crypto perpetuals | BINANCE | English |
+| `crypto` | Crypto spot/perpetuals | BINANCE default; declare other verified venues | English |
 
 Any other market builds by declaring the same handful of facts in the snapshot, evidence-gated,
 hashed, and reported as **declared rather than reviewed** on every run.
 
-Seven markets ship dated Medium [historical examples](examples/README.md). New research uses
-legacy economic-driver grouping: primary business, earnings/value capture, persistent catalysts
-and supply-chain position. US/CN/Crypto have dedicated maps; other equities share economic duties
-with local overlays. Each theme declares its purpose and acceptable core representatives, so
-removing the last representative fails even if satellites remain in the section.
+Seven markets ship dated Medium [historical examples](examples/README.md), explicitly replayed
+with an archived policy. New builds use a [coverage-first research plan](references/coverage-plan.md):
+stable economic branches, a reviewed leader/necessary-peer roster, parent-sector ceilings,
+instrument bindings and an auditable Core migration. See the [0.6 design review](docs/design/0.6.0-coverage-first.md).
 
-The agent researches those duties and roles; Python enforces facts, coverage, nesting and rendering.
-Market breadth scales the 60 / 160 / 400 / 580 tier bases. Theme weights express observation
-importance, not the number of candidates returned by a provider. There is no per-theme cap.
-See [tier profiles](references/tier-profiles.md) and [methodology](references/methodology.md).
+Light is leader-only. Medium covers most reviewed leaders. Heavy completes the necessary
+backbone plus at most 20% satellites; Extreme expands that same qualified Heavy with at most
+35% satellites overall. Entity budgets are ceilings: unused capacity is preferable to padding.
+Reference indices, rates and other gauges are exported separately from entity budgets in the same TXT.
+Display theme weights and news heat do not allocate economic coverage.
 
 ## What you get
 
@@ -153,7 +153,7 @@ The model researches. Python decides.
 
 | The model supplies | Python owns |
 |---|---|
-| Themes, weights, roles, evidence, judgement, proposed operations | Normalization, eligibility gates, window statistics, rule scores, tier nesting, quotas, apportionment, ordering, hashing, rendering |
+| Themes, weights, roles, evidence, judgement, proposed operations | Normalization, eligibility gates, window statistics, rule scores, protected coverage, sector/satellite ceilings, apportionment, ordering, hashing, rendering |
 
 The model never writes the final watchlist. Operations can be checked one at a time, rejected one
 at a time and reversed; a finished list cannot.
@@ -172,16 +172,17 @@ at a time and reversed; a finished list cannot.
   queue the next round inherits.
 - **Fail closed.** Incomplete facts, stale versions, missing evidence or a failed structural check
   block publication. Build attempts retain their inputs and repair diagnostics. Resume with
-  `build --resume OUTPUT.run`; validated but underfilled outputs are explicitly `partial`
-  (exit 3), not complete. See [recovery](references/recovery.md).
+  `build --resume OUTPUT.run`. Coverage-first accepts unused capacity only after all quality
+  gates pass; underfilled legacy replay remains `partial` (exit 3). See [recovery](references/recovery.md).
 
 ## The command surface
 
-One entry point, nine subcommands, in the order a real session uses them.
+One entry point, ten subcommands, in the order a real session uses them.
 
 | Command | What it is for |
 |---|---|
 | `taxonomy --market M [--profile P]` | Print the starter theme table to edit, or `--check` one before researching against it |
+| `audit-core --watchlist W --universe U` | Preserve the Core and create exact-code research decisions |
 | `import --watchlist W --market M` | Turn a TradingView export into a snapshot draft instead of retyping it |
 | `fetch --market M --prices-until D --output O` | Optional public listings/history adapter; writes receipts and coverage, never membership |
 | `measure --prices P --benchmark B` | Compute the window statistics the builder refuses to accept as judgement |
@@ -220,11 +221,11 @@ Stated plainly, because a limit you cannot see is a defect:
   against the window it lived through. Nothing here has been recalibrated from it yet: one window
   is one draw, and the numbers in `assets/default-policy.json` — breadth factors included — are
   the same judged ones they always were.
-- **Theme weights are judgement too, and they are the biggest lever in the system.** They decide
-  how the universe is apportioned, and nothing measures them. The report prints where a universe
-  concentrated and what the weights asked for, which makes a wrong weight visible, not impossible.
-- **The composite score is an ordinal tie-break**, deliberately. Role order carries the structural
-  judgement; nothing downstream should read the weighted score as a rating.
+- **Economic coverage is researched judgment.** Sector caps, business branches and leadership
+  evidence need human review. Code enforces declared obligations and reveals missing research;
+  it cannot prove that a plausible statement accurately describes a company.
+- **The composite score is an ordinal tie-break**, deliberately. The researched core roster carries structural
+  judgment; nothing downstream should read the weighted score as a rating.
 - **Seven Medium examples ship**, using observed listings and real measured prices. They are dated
   research subsets, not exhaustive market screens or quality ratings. Partial scores and warnings
   remain visible. CN preserves legacy driver labels; that inheritance is not fresh business diligence.

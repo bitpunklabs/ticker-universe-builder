@@ -37,7 +37,7 @@ def main() -> None:
         universe, report = build_universe(
             read_json(folder / "build-spec.json"),
             read_json(folder / "snapshot.json"),
-            load_policy(),
+            load_policy(ROOT / "examples" / "legacy-policy.json"),
         )
         write(folder / "universe.json", universe)
         write(folder / "validation.json", report)
@@ -66,7 +66,9 @@ def main() -> None:
                 ],
             }
             write(folder / "changes.json", changes)
-            updated, review = apply_change_set(universe, changes, load_policy())
+            updated, review = apply_change_set(
+                universe, changes, load_policy(ROOT / "examples" / "legacy-policy.json")
+            )
             write(folder / "maintained.json", updated)
             for language in report_languages(market):
                 (folder / f"maintenance.{language}.md").write_text(

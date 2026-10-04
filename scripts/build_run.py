@@ -30,6 +30,14 @@ def diagnostics(spec: dict, snapshot: dict, policy: dict) -> dict:
     """Admission checks are the core's; these counts never authorize a build."""
     try:
         normalized = normalize_snapshot(snapshot)
+        if policy.get("selection_model") == "coverage_first":
+            return {"selection_model": "coverage_first",
+                    "coverage_plan_present": bool(snapshot.get("coverage_plan")),
+                    "admissions": sum(bool(c.get("admission")) for c in normalized["candidates"]),
+                    "candidates": len(normalized["candidates"]),
+                    "note": ("Research necessary representatives and unresolved Core decisions "
+                             "first; "
+                             "do not pad capacity.")}
         guide = market_guidance(spec["market"], policy, normalized["market_spec"])
         stages = {}
         for profile in PROFILES[: PROFILES.index(spec["profile"]) + 1]:
@@ -162,11 +170,14 @@ def run_build(
         artifacts = write_artifacts(universe, report, destination, paths.get("language"))
         filled, target = len(universe["members"]), universe["limits"]["target_count"]
         attempt.update(
-            status="complete" if filled >= target else "partial",
+            status=("complete" if universe.get("selection_model") == "coverage_first"
+                    or filled >= target else "partial"),
             validation_passed=True,
             target=target,
             filled=filled,
-            shortfall=max(0, target - filled),
+            shortfall=(0 if universe.get("selection_model") == "coverage_first"
+                       else max(0, target - filled)),
+            unused_capacity=max(0, target - filled),
             version_hash=universe["version_hash"],
             warnings=report["warnings"],
             **report["stats"],

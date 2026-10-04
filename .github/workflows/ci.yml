@@ -44,7 +44,7 @@ jobs:
           markets=$(ls -d examples/*-medium | sed 's|examples/||; s|-medium||' | tr '\n' ' ')
           echo "building: $markets"
           for market in $markets; do
-            python scripts/universe.py build \
+            python scripts/universe.py --policy examples/legacy-policy.json build \
               --spec "examples/$market-medium/build-spec.json" \
               --snapshot "examples/$market-medium/snapshot.json" \
               --output "/tmp/$market" > "/tmp/$market.result.json"

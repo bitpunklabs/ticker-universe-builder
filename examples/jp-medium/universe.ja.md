@@ -177,6 +177,7 @@
 ## 警告
 
 - 121 themes have no declared observation duty; legacy presence-only coverage applies
+- Legacy artifact: structural validation is not coverage-first certification
 
 警告文は英語のままです。設定項目とコードパスを指しており、`.validation.json` にも同じ文字列が入るため、そのまま検索できます。
 

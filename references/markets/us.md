@@ -13,13 +13,16 @@ against the theme rather than the index are the same in every equity market.
 
 ## Build focus
 
-- Measure every stock against **its own sector or theme ETF**, not against SPY. A broad-index
-  regression makes every semiconductor a high-beta winner and credits the sector's move to each
-  component's alpha.
-- Light keeps index and sector gauges plus the companies with the clearest business leadership.
-- Medium adds quality leaders, supply-chain positions and a limited set of differentiated or
-  high-beta components.
-- Heavy adds cold sectors, mid-cap breadth, independent residual sensors and qualified IPOs.
+- Light is leader-only; Medium covers most reviewed leaders; Heavy completes all necessary
+  leaders and differentiated peers before a small measured satellite tail. Extreme adds only
+  qualified satellites to the same Heavy. Use the shared [coverage contract](../coverage-plan.md).
+- Compare at the old Core's observation budget, and reconcile every original instrument.
+  Recent heat, display-theme count and market-cap rank alone cannot define representation.
+- Preserve US-listed foreign businesses when in scope. Review banking business models,
+  underwriting versus brokerage, software functions, drug/device roles, parcel logistics,
+  regulated utilities and consumer formats. Toys/IP do not count as household-care coverage.
+- Measure against the appropriate sector/theme ETF, not SPY; a bad gauge does not justify
+  dropping a necessary representative.
 
 ## Cash-management instruments
 

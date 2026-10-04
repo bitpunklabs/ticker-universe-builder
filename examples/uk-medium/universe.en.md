@@ -167,6 +167,7 @@
 ## Warnings
 
 - 87 themes have no declared observation duty; legacy presence-only coverage applies
+- Legacy artifact: structural validation is not coverage-first certification
 
 ## Members
 

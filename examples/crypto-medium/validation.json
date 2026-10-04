@@ -3,10 +3,13 @@
   "errors": [],
   "warnings": [
     "13 themes have no declared observation duty; legacy presence-only coverage applies",
+    "Legacy artifact: structural validation is not coverage-first certification",
     "satellite bucket holds 86% of the pool against a 25% target"
   ],
   "stats": {
     "tickers": 105,
+    "exported_tickers": 105,
+    "quality": null,
     "themes": 13,
     "partially_scored": 105,
     "concentration": {

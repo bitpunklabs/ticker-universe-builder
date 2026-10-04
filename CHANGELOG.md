@@ -14,6 +14,17 @@ Each released heading below matches a `version:` in `SKILL.md` and a git tag of 
 there, and backfilling a listing for a release nobody could install would be tidier than it is
 true.
 
+## 0.6.0
+
+- Replace default target filling with coverage-first research: necessary leaders/peers before
+  optional Beta; independent economic branches and parent-sector caps; explicit admission evidence.
+- Make Light/Medium leader-only and cap Heavy/Extreme satellites at 20%/35%. Unused capacity is
+  successful when coverage passes. Extreme requires a validated same-plan Heavy seed.
+- Add exact-code Core migration audit, sourced retain/replace/remove decisions, distinct reference
+  instruments and Crypto ecosystem/instrument fields. Old roles never imply verified leadership.
+- Preserve resumable research attempts, offline standard-library execution and historical replay
+  through an explicit archived policy. Legacy validation is not current quality certification.
+
 ## 0.5.0 — unreleased
 
 - Reviewed ambiguous business classifications and differentiated US/CN/Crypto observation

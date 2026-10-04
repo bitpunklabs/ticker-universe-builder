@@ -1,6 +1,19 @@
 # Data contracts
 
-Three inputs, one output record. Every file is a JSON object with `schema_version: 1`.
+Build inputs and output records use `schema_version: 1`; the policy has its own version.
+
+## Coverage-first default (0.6)
+
+New builds require [coverage_plan and candidate admission](coverage-plan.md). Read that contract
+before creating a new snapshot. `target_count` is an entity ceiling, excludes references, and
+defaults to the plan budget. Light/Medium are leader-only; Heavy protects the reviewed backbone;
+Extreme requires the same-date qualified Heavy seed. Default builds never use legacy bucket
+fallbacks. A qualified under-ceiling result is complete with `unused_capacity`; unresolved
+coverage is needs_research. Old records remain readable but carry a legacy-certification warning.
+
+The measurement/listing/identity contracts below remain mandatory. Sections discussing bucket
+quotas, default breadth counts and theme-presence selection describe archived 0.4/0.5 replay,
+not the coverage-first selector.
 
 ## Research integrity (0.4)
 
@@ -25,10 +38,10 @@ Snapshot measurement declarations describe common units; ticker records identify
 both hashes are required when validating a stored universe. Version 0.3 snapshots need listing
 checks, reasons and measurement records before rebuilding; declared market guidance needs four tiers.
 
-Profiles are `light`, `medium`, `heavy`, `extreme`. Extreme targets 1.45 times Heavy, rounded to
-five; it inherits Heavy and preferentially fills 70% of new slots with qualified beta satellites.
-No gate is relaxed if the bench cannot meet that preference. Coverage levels remain 1/2/3;
-Extreme observes the Heavy taxonomy more deeply. The 1,000-token file limit still applies.
+Profiles are `light`, `medium`, `heavy`, `extreme`. The 0.6 coverage contract defines their
+selection roles and hard ceilings. Historical replay alone retains the former 45% expansion
+and 70% incremental-beta preference. The 1,000-token file limit applies to entities, references
+and headers together.
 
 Maintenance also accepts `UPDATE_THEME` (`theme`, one or more of `weight`, `theme_name`,
 `purpose`, `representative_roles`, reason, evidence)
@@ -52,9 +65,9 @@ limits and flip-flop disclosure, not an unimplemented two-snapshot decision rule
 }
 ```
 
-`target_count` may be omitted, in which case the policy default applies. V1 builds one market per
-run. `allow_outside_guidance` is for deliberately small demonstration universes; a production build
-stays inside the guidance range.
+`target_count` may be omitted: the coverage-plan ceiling applies (legacy replay uses policy
+guidance). One market per run. `allow_outside_guidance` only affects legacy replay; it cannot
+bypass economic coverage or raise a coverage-plan ceiling.
 
 ## Importing an existing watchlist
 
@@ -415,7 +428,8 @@ optional language; `attempts` holds numbered receipts with input SHA-256, archiv
 UTC timestamps, status, diagnostics and output artifact paths when present. Each archived input
 contains the parsed spec/snapshot/resolved policy/seed and language, not executable instructions.
 Statuses are `running`, `needs_research`, `partial`, `complete`. A validated subset remains
-`partial` until it fills the original target. See [recovery.md](recovery.md) for continuation and
+`partial` until it fills the original target in legacy replay. Coverage-first completion instead
+requires quality acceptance and allows unused capacity. See [recovery.md](recovery.md) for continuation and
 exit codes; validation success and requested-size completion are different claims.
 
 All stemmed `{market}-{profile}-{as_of}` — `crypto-light-2026-09-17.json`, `.validation.json`,
@@ -428,7 +442,8 @@ of them. The command prints every path it wrote under `artifacts`, with the repo
 language under `artifacts.reports`; read them from there instead of reconstructing them.
 
 The `.json` is the record: spec limits, policy hash, sources, measurement, taxonomy, members, the
-selection audit and the review history. `version_hash` covers membership and taxonomy only, so
+selection audit and the review history. For coverage-first, `version_hash` additionally covers the coverage plan and admissions.
+For legacy replay, `version_hash` covers membership and taxonomy only, so
 re-running with fresher metrics does not churn the version. The other three are derived from it
 and are never edited by hand.
 

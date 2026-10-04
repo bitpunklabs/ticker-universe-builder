@@ -764,6 +764,9 @@ def universe_hash(universe: dict[str, Any]) -> str:
             for item in universe.get("members") or []
         ],
     }
+    if universe.get("selection_model") == "coverage_first":
+        canonical["coverage_plan"] = universe.get("coverage_plan")
+        canonical["admissions"] = [c.get("admission") for c in universe.get("members", [])]
     return canonical_hash(canonical)
 
 
@@ -1446,6 +1449,8 @@ def normalize_candidate(
         "measurement_record": deepcopy(raw.get("measurement_record")),
         "tags": sorted({str(tag).strip() for tag in raw.get("tags", []) if str(tag).strip()}),
     }
+    if "admission" in raw:
+        candidate["admission"] = deepcopy(raw["admission"])
     candidate["scored_on"] = score_coverage(candidate)
     return candidate
 
@@ -1836,6 +1841,9 @@ def build_universe(
     policy: dict[str, Any],
     previous: dict[str, Any] | None = None,
 ) -> tuple[dict[str, Any], dict[str, Any]]:
+    if policy.get("selection_model") == "coverage_first" or "coverage_plan" in snapshot_raw:
+        from coverage_core import build
+        return build(spec, snapshot_raw, policy, previous)
     if spec.get("schema_version") != 1:
         raise UniverseError("build spec schema_version must be 1")
     market = str(spec.get("market", "")).lower()
@@ -2078,7 +2086,8 @@ def validate_universe(
     errors.extend(candidate_date_errors(normalized, str(universe.get("source_as_of", ""))))
     concentration: dict[str, Any] | None = None
     duties = {"declared": 0, "represented": 0, "missing": [], "undeclared": []}
-    if rules is not None and profile in PROFILES:
+    coverage_model = universe.get("selection_model") == "coverage_first"
+    if rules is not None and profile in PROFILES and not coverage_model:
         level = policy["profiles"][profile]["coverage_level"]
         required_themes = {
             item["theme_code"] for item in taxonomy if item["coverage_level"] <= level
@@ -2166,7 +2175,7 @@ def validate_universe(
                 f"quality rests on judgement alone for all {len(normalized)} members; "
                 "no candidate carries quality_facts"
             )
-    if rules is not None and profile in PROFILES and normalized:
+    if rules is not None and profile in PROFILES and normalized and not coverage_model:
         # Quotas steer the build; nothing re-checked them afterwards, so a maintenance round could
         # walk a pool from 5% tactical to 30% one evidence-backed op at a time and never be told.
         targets = policy["profiles"][profile]["bucket_targets"]
@@ -2178,15 +2187,28 @@ def validate_universe(
                     f"{bucket} bucket holds {actual:.0%} of the pool against a "
                     f"{float(share):.0%} target"
                 )
-    token_count = len(normalized) + len({item["theme_code"] for item in normalized})
+    quality = None
+    references = []
+    if coverage_model:
+        try:
+            from coverage_core import quality_check
+            quality = quality_check(universe, policy)
+            references = universe["coverage_plan"].get("references", [])
+        except (UniverseError, KeyError, TypeError, ValueError) as exc:
+            errors.append(str(exc))
+    else:
+        warnings.append(
+            "Legacy artifact: structural validation is not coverage-first certification")
+    exported = normalized + references
+    token_count = len(exported) + len({item["theme_code"] for item in exported})
     limits = universe.get("limits") or {}
     hard_ticker_cap = min(int(limits.get("hard_ticker_cap", 1000)), 1000)
     tradingview_token_cap = min(int(limits.get("tradingview_token_cap", 1000)), 1000)
-    if len(normalized) > hard_ticker_cap:
+    if len(exported) > hard_ticker_cap:
         errors.append(f"ticker count exceeds {hard_ticker_cap}")
     if token_count > tradingview_token_cap:
         errors.append(f"TradingView token count exceeds {tradingview_token_cap}")
-    if rules is not None and profile in PROFILES:
+    if rules is not None and profile in PROFILES and not coverage_model:
         guide = market_guidance(market, policy, declaration)[profile]
         if len(normalized) < int(guide["min"]):
             warnings.append(
@@ -2211,6 +2233,8 @@ def validate_universe(
         "warnings": warnings,
         "stats": {
             "tickers": len(normalized),
+            "exported_tickers": len(exported),
+            "quality": quality,
             "themes": len({item["theme_code"] for item in normalized}),
             # Members that earned a seat on an incomplete score. Not an error -- a metric may be
             # unmeasurable for good reasons -- but a reader deciding how much to trust the
@@ -2260,10 +2284,13 @@ def render_txt(universe: dict[str, Any]) -> str:
     grouped: dict[str, list[dict[str, Any]]] = defaultdict(list)
     for member in universe["members"]:
         grouped[member["theme_code"]].append(member)
+    for ref in universe.get("coverage_plan", {}).get("references", []):
+        grouped[ref["theme_code"]].append(ref)
     tokens: list[str] = []
     for code in sorted(grouped):
         tokens.append(f"###{code}_{taxonomy[code]['theme_name']}")
-        tokens.extend(item["ticker"] for item in sorted(grouped[code], key=rank_key))
+        tokens.extend(item["ticker"] for item in sorted(grouped[code], key=(lambda c: c["ticker"])
+                              if universe.get("selection_model") == "coverage_first" else rank_key))
     return ",".join(tokens) + "\n"
 
 
@@ -2433,7 +2460,8 @@ def render_markdown(
         f"- {lex['label.tickers']}{colon}{report['stats']['tickers']}",
         *([f"- PARTIAL: {len(universe['members'])} / {limits['target_count']} "
            "— requested size is not filled; continue research before calling this complete."]
-          if len(universe['members']) < limits.get('target_count', 0) else []),
+          if len(universe['members']) < limits.get('target_count', 0)
+          and universe.get('selection_model') != 'coverage_first' else []),
         f"- {lex['label.themes']}{colon}{report['stats']['themes']}",
         # Absent when a stored universe is re-validated rather than built — the bench it needs
         # is not in the file — so the line goes where it can simply not appear.
@@ -2590,6 +2618,21 @@ def render_markdown(
             f"{member['name']} | {_glossed(lex, 'role', member['role'])} | {reason} | "
             f"{evidence} |"
         )
+    if universe.get("selection_model") == "coverage_first":
+        quality = report["stats"].get("quality") or {}
+        lines.extend(["", "## Coverage-first audit", "",
+                      f"- Quality: {quality.get('status', 'unverified')}",
+                      f"- Reviewed leader coverage: {quality.get('leader_coverage')}",
+                      f"- Entity ceiling (not a fill target): {limits['target_count']}",
+                      f"- Unused capacity: {quality.get('unused_capacity')}",
+                      f"- Admission roles: {quality.get('roles')}",
+                      f"- Economic sector counts: {quality.get('sectors')}",
+                      "- Evidence boundary: validates declared research, not leadership truth.",
+                      "", "### Reference instruments", ""])
+        for ref in universe["coverage_plan"].get("references", []):
+            lines.append(f"- {ref['ticker']} ({ref['kind']}): {ref['observes']}"
+                         + (f"; proxy for {ref['proxy_for']}: {ref['limitation']}"
+                            if ref.get("proxy_for") else ""))
     return "\n".join(lines) + "\n"
 
 
@@ -2711,6 +2754,18 @@ def diff_universes(before: dict[str, Any], after: dict[str, Any]) -> dict[str, A
             or any(old_members[t]["role"] != new_members[t]["role"] for t in shared)
         ),
         "market_spec": rules,
+        "coverage_plan": {
+            "changed": before.get("coverage_plan") != after.get("coverage_plan"),
+            "before_hash": canonical_hash(before.get("coverage_plan")),
+            "after_hash": canonical_hash(after.get("coverage_plan")),
+        },
+        "references": {
+            "before": before.get("coverage_plan", {}).get("references", []),
+            "after": after.get("coverage_plan", {}).get("references", []),
+        },
+        "admissions_changed": [t for t in shared
+                               if old_members[t].get("admission") !=
+                               new_members[t].get("admission")],
         "header": header,
         "turnover": round((len(added) + len(removed)) / max(len(old_members), 1), 4),
         "added": added,

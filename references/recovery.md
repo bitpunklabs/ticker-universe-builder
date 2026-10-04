@@ -7,10 +7,13 @@ The run index is updated atomically. Use a single writer per checkpoint.
 
 | Exit | Status | Meaning |
 |---|---|---|
-| 0 | `complete` | Validation passed and the requested ticker count is filled; warnings still matter |
+| 0 | `complete` | Coverage-first quality gates passed; unused capacity is allowed (legacy replay: count filled) |
 | 2 | `needs_research` | Input, coverage, seed or output error prevented publication |
-| 3 | `partial` | A valid subset was written, but it does not fill the requested size |
+| 3 | `partial` | Legacy replay only: valid subset below the requested size |
 
+For coverage-first, resolve necessary representatives and Core decisions before optional depth.
+A shorter qualified Extreme can be complete; report zero expansion honestly. Never loosen quality
+just to add codes. The following capacity-fill diagnostics apply to legacy replay only.
 Read the diagnostic for every intermediate tier, not just the first missing theme. Capacity
 counts are upper bounds, not promises: duplicate assets, mandatory members and token limits can
 still constrain selection. A 1,000-token ceiling is a real boundary; never hide a target reduction.
@@ -20,7 +23,9 @@ The agent owns the research loop; the Python selector is deliberately offline:
 1. For transient provider failure, repeat `fetch` in the same data directory. Its same-day,
    exact-request cache retains successful responses; transient HTTP/network errors already have
    three request attempts. Inspect exclusions separately from transport failures.
-2. For missing themes or capacity, expand the researched bench or verify an alternative source.
+2. For missing economic branches/representatives, repair that research or verify another source.
+   Optional capacity alone does not require expansion. In legacy replay, missing themes/counts
+   may instead require a broader verified bench.
    Repair missing listing/provenance facts, and rerun `measure` on the changed data. Preserve
    verified candidates and disclose scope exclusions. Do not reinterpret a missing quote as a
    delisting, or invent a theme, metric or classification just to fill a slot.

@@ -10,6 +10,15 @@ Rewriting a full membership list cannot be reviewed: silently dropping twenty na
 sections or mistyping a venue would all pass unnoticed. Operations can each be checked, rejected
 individually and reversed.
 
+## Coverage-first invariants
+
+Build, validate and maintenance share the same economic-coverage, satellite-share and sector-cap
+checks. Removing a necessary leader or changing an admission cannot bypass the roster. Changes
+to the economic plan or Core migration decisions require a researched rebuild of Heavy; then
+rebuild Extreme against that Heavy. References are part of that immutable plan, so a reference
+substitution also follows this path. Extreme maintenance may not change its embedded Heavy's
+facts or bindings. The existing operation engine remains for valid local maintenance.
+
 ## Three review depths
 
 | depth | Purpose | Turnover warning |

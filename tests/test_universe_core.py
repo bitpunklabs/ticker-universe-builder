@@ -42,7 +42,6 @@ from universe_core import (  # noqa: E402
     languages,
     largest_remainder,
     load_lexicon,
-    load_policy,
     market_guidance,
     market_spec,
     metric_score,
@@ -67,6 +66,9 @@ from universe_core import (  # noqa: E402
     watchlist_to_snapshot,
     write_artifacts,
 )
+from universe_core import (  # noqa: E402
+    load_policy as current_policy,
+)
 
 # Every market with a committed example. Read off the directory rather than listed, so a new
 # example is covered by these tests the moment it is added.
@@ -75,6 +77,11 @@ EXAMPLE_MARKETS = sorted(
     for path in (ROOT / "examples").glob("*-medium")
     if path.is_dir()
 )
+
+
+def load_policy():
+    """Historical 0.4/0.5 fixtures explicitly replay their archived selection policy."""
+    return current_policy(Path(__file__).resolve().parents[1] / "examples/legacy-policy.json")
 
 
 def evidence(tier: int = 1, as_of: str = "2026-09-09") -> list[dict]:

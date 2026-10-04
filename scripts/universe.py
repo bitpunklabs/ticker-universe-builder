@@ -10,8 +10,9 @@
     python scripts/universe.py evaluate --universe U --prices P [--benchmark B]
     python scripts/universe.py validate universe.json
 
-Build exits 0 when the requested size is filled, 3 for a valid but underfilled result, and 2 for
-blocked input. Build checkpoints preserve attempts; invalid universes are never published.
+Build exits 0 when coverage is qualified (unused capacity allowed), 2 for blocked research,
+and 3 for an underfilled historical replay. Checkpoints preserve attempts; invalid universes
+are never published.
 """
 
 from __future__ import annotations
@@ -83,6 +84,17 @@ def import_watchlist(args: argparse.Namespace) -> int:
         "notes": draft["notes"],
         "next": "research each candidate: role, metrics, evidence, eligibility, then build",
     }, ensure_ascii=False))
+    return 0
+
+
+def audit_core_command(args: argparse.Namespace) -> int:
+    from coverage_core import audit_core
+    report = audit_core(Path(args.watchlist).read_text(encoding="utf-8"),
+                        read_json(args.universe) if args.universe else None)
+    Path(args.output).write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n",
+                                encoding="utf-8")
+    print(json.dumps({"status": report["status"], "original_count": report["original_count"],
+                      "exact_retained": report["exact_retained"], "output": args.output}))
     return 0
 
 
@@ -237,6 +249,12 @@ def parser() -> argparse.ArgumentParser:
     draft.add_argument("--output", required=True, help="snapshot skeleton to write")
     draft.set_defaults(handler=import_watchlist)
 
+    audit = sub.add_parser("audit-core", help="create an exact-code Core migration research queue")
+    audit.add_argument("--watchlist", required=True)
+    audit.add_argument("--universe")
+    audit.add_argument("--output", required=True)
+    audit.set_defaults(handler=audit_core_command)
+
     stats = sub.add_parser("measure", help="compute the window statistics from a price table")
     stats.add_argument("--prices", required=True, help="CSV of date,ticker,close[,volume|turnover]")
     stats.add_argument(
@@ -274,7 +292,7 @@ def parser() -> argparse.ArgumentParser:
     new.add_argument("--resume", help="continue a checkpoint directory after repairing inputs")
     new.add_argument(
         "--seed",
-        help="existing universe to widen or narrow to this profile instead of rebuilding",
+        help="existing base; coverage-first Extreme requires a qualified same-plan Heavy",
     )
     new.add_argument("--language", help=_LANGUAGE_HELP)
     new.set_defaults(handler=build)

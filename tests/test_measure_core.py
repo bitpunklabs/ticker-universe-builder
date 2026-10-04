@@ -15,9 +15,15 @@ from measure_core import (  # noqa: E402
     measure,
     merge_into_snapshot,
 )
-from universe_core import build_universe, load_policy  # noqa: E402
+from universe_core import build_universe  # noqa: E402
+from universe_core import load_policy as current_policy  # noqa: E402
 
 BENCHMARK = "BINANCE:BTCUSDT.P"
+
+
+def load_policy():
+    """Historical 0.4/0.5 fixtures explicitly replay their archived selection policy."""
+    return current_policy(Path(__file__).resolve().parents[1] / "examples/legacy-policy.json")
 
 
 def price_table(

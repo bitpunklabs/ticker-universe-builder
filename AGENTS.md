@@ -9,7 +9,7 @@ Everything below is only the part `SKILL.md` assumes you already know.
 - **Entry point:** `python scripts/universe.py <subcommand>`. Python 3.10+, standard library
   only, no install step. Run it from the repository root.
 - **Subcommands:** `taxonomy`, `import`, `fetch`, `measure`, `build`, `maintain`, `diff`, `evaluate`,
-  `validate`.
+  `validate`, `audit-core`.
 - **Contracts:** [`references/data-contracts.md`](references/data-contracts.md). Read it before
   writing any JSON. Every input is a documented shape; nothing is inferred from prose.
 - **Worked inputs:** [`examples/`](examples/README.md). Seven real-data Medium builds (us, jp, cn, kr, hk, uk, crypto), with

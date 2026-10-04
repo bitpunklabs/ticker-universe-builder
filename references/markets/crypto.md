@@ -2,18 +2,22 @@
 
 ## Universe boundary
 
-Use active Binance USDⓈ-M USDT perpetuals, then active Binance Spot USDT pairs. Prefer the
-perpetual only when its continuous sessions and 30-day quoted turnover qualify. The same base
-asset enters once. Other venues inform research but do not widen this trading boundary.
-Exclude delisted assets, delivery-only contracts, leveraged tokens and stablecoins themselves.
-A tokenized commodity is not automatically a crypto protocol; research a scope change explicitly.
+Declare the user's venues, spot/perpetual preference and quote currency explicitly. Preserve
+an existing multi-venue Core's scope: the bundled fetch adapter covers Binance only, which is
+not a reason to omit OKX incumbents. The default registry is Binance; use a sourced
+`market_spec` declaration (also supported for registered markets) for other verified venues.
+Acquire their listing/price evidence separately. Never guess venue syntax or copy Binance facts.
+Resolve asset identity across venues and contract units; choose one instrument per entity.
+Exclude delisted assets and leveraged tokens. Stablecoins are normally excluded as price sensors;
+tokenized gold has a distinct gold-price observation role, not RWA protocol exposure. Record any
+scope exclusion and Core replacement explicitly.
 
 ## Economic duties before product tags
 
 Use the legacy pool's economic map: core factors; exchange ecosystems; L1, L2, privacy, Bitcoin
 ecosystem and other PoW; payments and RWA; DEX, lending, stablecoin/yield, staking and derivatives;
 oracles and interoperability; AI/identity, agents/information and DePIN; speculative risk appetite.
-The starter declares twenty duties. Every reachable duty needs a qualified structural representative.
+The starter is a display map; economic branches and necessary representatives live in the coverage plan.
 Do not collapse lending, DEX and yield into `DEFI`, or oracles and interoperability into `INFRA`.
 Tags discover names; they do not prove business leadership, token economics or independent return
 information. Gaming or another emerging function needs its own researched duty before admission;
@@ -57,13 +61,12 @@ include different security models: a sidechain is not an Ethereum-secured rollup
    `fetch` currently screens 30-day mean turnover and history as documented in providers.md;
    it does not perform order-book or protocol due diligence.
 2. Preserve market factors and research structural representatives across economic duties.
-3. Add complementary breadth, independently justified sensors and measured beta satellites.
-   Low R² requires an explainable additional driver; residual correlation with existing sensors
-   matters too. Without that research retain a breadth role, not an independence claim.
-4. Use Heavy/Extreme to extend those duties. Extreme retains Heavy and prefers qualified beta
-   for 70% of additions; insufficient supply remains a warning, never a reason to relabel.
-5. Recent heat/new listings belong in the tactical budget with dated event and trading evidence.
-   History insufficient for a regression is not permission to invent one.
+3. Light/Medium select researched leaders; Heavy completes every necessary leader and peer,
+   then adds at most 20% measured satellites. Low R² or a provider category is not admission.
+4. Extreme extends a qualified same-plan Heavy, capped at 35% satellites overall. Compare every
+   increment to named core members and residual peers; do not fill broad meme/gaming buckets.
+5. Use ecosystem_id/token_role to separate network, gas, governance and asset-backed exposures.
+   New listings or unresolved economics remain deferred, without a tactical fill budget.
 
 ## Measurements and uncertainty
 

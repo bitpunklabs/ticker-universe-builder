@@ -2,10 +2,13 @@
   "passed": true,
   "errors": [],
   "warnings": [
-    "121 themes have no declared observation duty; legacy presence-only coverage applies"
+    "121 themes have no declared observation duty; legacy presence-only coverage applies",
+    "Legacy artifact: structural validation is not coverage-first certification"
   ],
   "stats": {
     "tickers": 170,
+    "exported_tickers": 170,
+    "quality": null,
     "themes": 121,
     "partially_scored": 170,
     "concentration": {

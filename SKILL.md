@@ -3,7 +3,7 @@ name: ticker-universe-builder
 description: Build and maintain auditable, evidence-gated ticker universes for fourteen markets at four depths, exported as TradingView watchlists. Not stock tips.
 allowed-tools: Read, Write, Bash, WebSearch, WebFetch
 metadata:
-  version: 0.5.0
+  version: 0.6.0
   homepage: https://github.com/bitpunklabs/ticker-universe-builder
   openclaw:
     emoji: "📋"
@@ -22,7 +22,7 @@ language: `us`, `cn` (zh-Hans), `jp` (ja), `in`, `hk` (zh-Hant), `kr` (ko), `uk`
 Read [examples/README.md](examples/README.md) first and open the example for the market you were
 asked about — Medium examples ship for us, jp, cn, kr, hk, uk and crypto. For another
 market, open the closest example and its own market overlay. The committed 0.4 snapshots are historical contract/regression examples, not current role or
-classification policy; use the current starter and methodology for new research.
+classification policy; replay only with `examples/legacy-policy.json`; use the current starter and methodology for new research.
 A worked snapshot answers more questions about
 the input format than the contract does, and the shipped examples are known to build.
 Read the example README, build spec and report summary first. Inspect relevant candidate rows
@@ -31,7 +31,8 @@ programmatically; do not load an entire multi-megabyte research snapshot into mo
 ## Route the request
 
 1. Read [references/methodology.md](references/methodology.md) and
-   [references/tier-profiles.md](references/tier-profiles.md).
+   [references/tier-profiles.md](references/tier-profiles.md), then
+   [references/coverage-plan.md](references/coverage-plan.md).
 2. Read the market overlay at `references/markets/<market>.md` — exactly one. For an equity
    market read [references/markets/equity-common.md](references/markets/equity-common.md) first:
    the universe boundary, the fund-versus-basket redundancy test, the cash-management exclusion
@@ -64,8 +65,11 @@ reported rather than dropped.
 
 ## Build a new universe
 
-1. Write `build-spec.json` from the user's request. Use the policy defaults unless the user asks
-   for a target count inside the documented guidance range.
+1. Write `build-spec.json` from the user's request. Use the reviewed plan budgets unless the user asks
+   for a smaller ceiling. Write `coverage_plan` first: stable economic sectors/branches, reviewed leader
+   roster, necessary peers, scope, four entity ceilings and reference instruments. Counts are
+   ceilings, never a reason to pad. When migrating a Core, run `audit-core` and resolve every
+   original code before publishing Heavy; a retained code is not automatically a leader.
 2. Start the taxonomy from the published one rather than inventing themes per run — two
    universes of one market built on ad-hoc taxonomies cannot be compared:
 
@@ -73,11 +77,9 @@ reported rather than dropped.
    python scripts/universe.py taxonomy --market us --profile light
    ```
 
-   Edit it: add what the market has grown, drop what it has not, and **revisit the `weight` on
-   every theme before you revisit a single ticker**. There is no per-theme cap; the slots left
-   after each theme has its first member are apportioned to weight, so one number moves dozens
-   of members. A weight of 3 against 1 means about three times the members. It is a starting
-   point, not a schema.
+   Edit display themes for readability. Their number and `weight` do not determine economic
+   budgets in 0.6. Set stable parent-sector caps/weights in `coverage_plan` before looking at
+   optional candidates; maintain the same economic branches when a display theme is split.
    Carry forward the user's existing economic-driver map when available, but recheck ambiguous
    assignments against current business disclosures. Preserve the method, not inherited mistakes.
    Separate the primary observation purpose from secondary businesses; fibre/cable is not an
@@ -95,9 +97,8 @@ reported rather than dropped.
    python scripts/universe.py taxonomy --check taxonomy.json --market cn --profile light
    ```
 
-   It reports a table that cannot produce the universe you asked for — more themes than the
-   target can hold, a group invisible at this depth, a theme weighted to be more than 15% of the
-   universe, a `theme_name` that will not survive a TradingView import.
+   This is a legacy display-table diagnostic, not economic feasibility certification. The
+   formal build checks economic branches, necessary representatives, sector caps and export limits.
 4. Optionally fetch a dated research bench with `fetch` before researching admissions:
 
    ```bash
@@ -108,7 +109,8 @@ reported rather than dropped.
    membership. Inspect the manifest, rejected histories and raw receipts; provider classification
    is a starting point, not issuer due diligence. Research the eligible universe against the taxonomy. Record facts in `snapshot.json`;
    never pass a claim to the scripts hidden inside prose. Research structural representatives
-   before extensions: size/turnover leadership alone does not establish business leadership,
+   before extensions. Add sourced `admission` records (leader/peer/satellite), not just roles:
+   size/turnover leadership alone does not establish business leadership,
    and low R² alone does not establish useful independent information. Use candidate `reason`
    and evidence to explain the observed variable; several complementary leaders may share a
    theme. Unmapped candidates stay deferred, never in a permanent OTHERS or provider-industry
@@ -147,9 +149,10 @@ reported rather than dropped.
    diagnostics, remeasure and resume. Normally allow up to three materially different repair
    rounds within the user's scope. Stop sooner when the accessible source universe is exhausted
    or a required external input is unavailable; explain that boundary and retain a continuation.
-   A small mapped snapshot does not prove source exhaustion: research already-fetched unmapped
-   candidates before stopping. Identical Heavy/Extreme membership is zero expansion to repair.
-   Never weaken gates or silently reduce the requested size to force completion.
+   A small mapped snapshot does not prove source exhaustion. Repair necessary coverage before
+   researching optional depth; unspent capacity is allowed. Identical Heavy/Extreme membership is zero expansion to disclose;
+   continue only when further qualified research is available.
+   Never weaken gates or hide the difference between a ceiling and actual membership.
 9. The command prints the path of every artifact it wrote; they are named
    `{market}-{profile}-{as_of}`. Run `validate` on the `universe` path even though the builder
    validates before writing. Never present an output that fails. Review the content too: each
@@ -175,12 +178,13 @@ To compare two universes — two sessions, two months, two people — run
 `diff before.json after.json`. It leads with `market_spec`, because for a declared market two
 sessions that researched the venue list differently did not build two versions of one universe.
 
-To change the depth of an existing universe, pass it as `--seed` instead of rebuilding. Widening
-keeps every incumbent and fills the rest; narrowing reselects inside the incumbents against the
-smaller target. A rebuild at the new depth churns a universe whose entire purpose is low turnover.
+Use `--seed heavy.json` for Extreme. It must be a qualified Heavy from the same plan and
+source date; only sourced, measured satellites may be added. For a narrower depth, rebuild from
+the same reviewed roster. Update Heavy first when facts or necessary representatives change.
 
-The model proposes taxonomy, roles and evidence. Python owns normalization, eligibility gates,
-tier nesting, quotas, ordering, apportionment, hashing and rendering. Never hand-write the final txt.
+The model researches business leadership, quality, economic branches and information gain.
+Python owns evidence contracts, protected coverage, sector/satellite ceilings, identity, hashing
+and rendering. Never hand-write the final txt. See the [0.6 design review](docs/design/0.6.0-coverage-first.md).
 
 ## Maintain an existing universe
 
@@ -210,10 +214,13 @@ a note for a later round is how a universe rots: use `ADD_THEME`, `UPDATE_THEME`
 - Never invent a ticker, venue, listing state, liquidity number, theme relationship or source.
 - Never select a name solely because it is popular or recently rose.
 - Preserve benchmarks and anchors before adding satellites.
-- Heavy means broader independent observation. Extreme adds about 45% more seats, retaining Heavy
-  and preferring qualified beta for 70% of additions. Neither profile relaxes fact or metric gates.
-- Weight a theme for what it is to that market, not for what it is to you. The range is 0.25 to
-  4.0 and a build reports the theme that ended up largest, so a lopsided table shows.
+- Light is leader-only; Medium covers most reviewed leaders; Heavy completes the necessary
+  leader/peer skeleton plus at most 20% satellites; Extreme extends qualified Heavy, at most 35%
+  satellites overall. These initial limits are ceilings, not desired allocations.
+- Every optional satellite must explain its incremental value relative to named core members.
+  No BREADTH_PROXY/tactical fallback, no forced 45% expansion, no hot-theme budget inflation.
+- Preserve direct reference instruments and explicitly explain substitutions; references do not
+  consume leader seats. A passed contract does not independently establish leadership truth.
 - No return guarantees, allocations, order instructions or trade execution. This skill produces
   an observation instrument, not investment advice.
 - Keep each TradingView file at or below 1,000 tokens including `###` section headers.

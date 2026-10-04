@@ -99,15 +99,5 @@
   },
   "freshness": {
     "evidence_warning_days": 180
-  },
-  "selection_model": "coverage_first",
-  "coverage": {
-    "medium_leader_min": 0.7,
-    "satellite_max": {
-      "light": 0,
-      "medium": 0,
-      "heavy": 0.2,
-      "extreme": 0.35
-    }
   }
 }

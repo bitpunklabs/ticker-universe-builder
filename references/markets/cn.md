@@ -23,15 +23,15 @@ theme rather than the index are the same in every equity market.
 
 ## Build focus
 
-- Light: broad and style gauges, first-level sectors, core policy and industrial themes, and the
-  most representative leaders.
-- Medium: the major second-level themes, quality leaders, upstream and downstream positions, and a
-  limited set of high-beta sensors.
-- Heavy: mid-cap structural representatives, non-consensus sectors, turnover breadth, quantitative
-  independent components and qualified new listings.
-
-Do not let short-term heat decide a permanent taxonomy. A policy change can raise research
-priority; it does not replace listing, turnover and industrial-relationship evidence.
+- Light is leader-only; Medium covers most reviewed leaders; Heavy completes all necessary
+  leaders and differentiated peers before a small measured satellite tail. Extreme adds only
+  qualified satellites to the same Heavy. Use the shared [coverage contract](../coverage-plan.md).
+- Compare at the old Core's observation budget, and reconcile every original instrument.
+  Recent heat, display-theme count and market-cap rank alone cannot define representation.
+- Review nationwide/shareholding/regional banking, insurance types, power-generation business
+  models, food/drink/retail branches and agriculture before optional semiconductor depth.
+  Separate fibre/optical communications from grid equipment; multiple business lines need
+  evidence for the chosen primary branch, not a keyword match.
 
 ## CN economic map
 
