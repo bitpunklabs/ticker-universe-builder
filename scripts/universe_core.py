@@ -128,7 +128,7 @@ MARKET_SPECS: dict[str, MarketSpec] = {
         MarketSpec(
             code="crypto",
             label="Crypto spot and perpetuals",
-            venues=frozenset({"BINANCE"}),
+            venues=frozenset({"BINANCE", "OKX"}),
             symbol_pattern=re.compile(r"[A-Z0-9]{1,15}USDT(\.P)?"),
             symbol_hint="a USDT-quoted spot or perpetual symbol",
             asset_id_strip=(".P", "USDT"),

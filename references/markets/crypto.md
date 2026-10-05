@@ -4,9 +4,11 @@
 
 Declare the user's venues, spot/perpetual preference and quote currency explicitly. Preserve
 an existing multi-venue Core's scope: the bundled fetch adapter covers Binance only, which is
-not a reason to omit OKX incumbents. The default registry is Binance; use a sourced
-`market_spec` declaration (also supported for registered markets) for other verified venues.
-Acquire their listing/price evidence separately. Never guess venue syntax or copy Binance facts.
+not a reason to omit OKX incumbents. The registry accepts Binance and OKX USDT spot/perpetual
+symbols; the fetch adapter still covers Binance only. Acquire OKX listing/price evidence
+separately ([instrument API](https://www.okx.com/docs-v5/en/#public-data-rest-api-get-instruments)).
+Registered-market rules cannot be overridden by a snapshot `market_spec`; another venue needs
+a reviewed registry change. Never guess venue syntax or copy Binance facts.
 Resolve asset identity across venues and contract units; choose one instrument per entity.
 Exclude delisted assets and leveraged tokens. Stablecoins are normally excluded as price sensors;
 tokenized gold has a distinct gold-price observation role, not RWA protocol exposure. Record any

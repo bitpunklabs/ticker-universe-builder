@@ -21,7 +21,38 @@ from universe_core import (
     render_txt,
     universe_hash,
     validate_universe,
+    default_asset_id,
+    validate_ticker,
 )
+
+
+def test_okx_core_build_keeps_crypto_identity_and_evidence_gates():
+    """Synthetic two-venue fixture; venue support does not waive factual admission."""
+    data = researched()
+    data['market'] = 'crypto'
+    data['candidates'] = data['candidates'][:2]
+    for c, ticker, asset in zip(data['candidates'],
+                                ('BINANCE:AAAUSDT.P', 'OKX:BBBUSDT'), ('AAA', 'BBB')):
+        c.update(ticker=ticker, asset_id=asset)
+        c['admission'].update(ecosystem_id=asset, token_role='Synthetic native token function',
+                              instrument=dict(kind='spot' if ticker.startswith('OKX:') else 'perpetual',
+                                              quote_currency='USDT', units=1))
+    plan = data['coverage_plan']
+    plan['scope'] = 'Synthetic Binance perpetual plus OKX spot fixture'
+    plan['sectors'] = plan['sectors'][:1]
+    plan['branches'] = plan['branches'][:1]
+    plan['branches'][0]['representatives'] = ['AAA', 'BBB']
+    plan['roster'] = [dict(asset_id=a, kind='leader', min_profile='light') for a in ('AAA', 'BBB')]
+    spec = dict(schema_version=1, market='crypto', profile='heavy')
+    result, _ = build_universe(spec, data, load_policy())
+    assert {c['ticker'] for c in result['members']} == {'BINANCE:AAAUSDT.P', 'OKX:BBBUSDT'}
+    assert validate_universe(result)['passed']
+    assert default_asset_id('crypto', 'OKX:AAAUSDT') == default_asset_id('crypto', 'BINANCE:AAAUSDT.P')
+    assert validate_ticker('crypto', 'OKX:AAAUSD')
+    assert validate_ticker('crypto', 'UNVERIFIED:AAAUSDT')
+    data['candidates'][1].pop('listing')
+    with pytest.raises(UniverseError, match='listing'):
+        build_universe(spec, data, load_policy())
 
 
 def researched():
