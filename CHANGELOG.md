@@ -14,6 +14,11 @@ Each released heading below matches a `version:` in `SKILL.md` and a git tag of 
 there, and backfilling a listing for a release nobody could install would be tidier than it is
 true.
 
+## 0.6.2 — unreleased
+
+- Adjust Extreme's required entity growth from 35%–40% to 30%–40%. All additions remain
+  qualified Beta; Heavy preservation, satellite-share, sector and evidence gates are unchanged.
+
 ## 0.6.1 — unreleased
 
 - Require Extreme to add 35%–40% of the actual Heavy entity count, entirely as qualified Beta;

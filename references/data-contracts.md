@@ -9,11 +9,11 @@ before creating a new snapshot. `target_count` is an entity ceiling, excludes re
 defaults to the plan budget. Light/Medium are leader-only; Heavy protects the reviewed backbone;
 Extreme requires the same-date qualified Heavy seed. Default builds never use legacy bucket
 fallbacks. A qualified under-ceiling result is complete with `unused_capacity` only when all
-gates pass. Extreme must grow by 35%–40% in entities, with all additions admitted as satellites;
+gates pass. Extreme must grow by 30%–40% in entities, with all additions admitted as satellites;
 under-expansion or unresolved coverage is `needs_research`.
 
-`policy.coverage.extreme_expansion` is `{ "min": 0.35, "max": 0.40 }`. Values must be finite
-numbers with `0.35 <= min <= max <= 0.40`; a custom policy may narrow, never widen this band.
+`policy.coverage.extreme_expansion` is `{ "min": 0.30, "max": 0.40 }`. Values must be finite
+numbers with `0.30 <= min <= max <= 0.40`; a custom policy may narrow, never widen this band.
 For actual Heavy entity count `H`, allowed totals are `H + ceil(H * min)` through
 `H + floor(H * max)`. The effective `limits.target_count` is capped at that upper bound.
 Reference instruments are excluded. `stats.quality.expansion` reports `heavy_entities`,
@@ -440,7 +440,7 @@ UTC timestamps, status, diagnostics and output artifact paths when present. Each
 contains the parsed spec/snapshot/resolved policy/seed and language, not executable instructions.
 Statuses are `running`, `needs_research`, `partial`, `complete`. A validated subset remains
 `partial` until it fills the original target in legacy replay. Coverage-first completion instead
-requires quality acceptance, including Extreme's 35%–40% growth; capacity above the minimum
+requires quality acceptance, including Extreme's 30%–40% growth; capacity above the minimum
 may remain unused. See [recovery.md](recovery.md) for continuation and
 exit codes; validation success and requested-size completion are different claims.
 

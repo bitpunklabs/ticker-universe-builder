@@ -292,8 +292,8 @@ def expansion_bounds(heavy_count, policy):
     )
     need(
         all(type(v) in (int, float) and math.isfinite(v) for v in band.values())
-        and 0.35 <= band["min"] <= band["max"] <= 0.4,
-        "Extreme expansion must stay within 35%-40%",
+        and 0.30 <= band["min"] <= band["max"] <= 0.4,
+        "Extreme expansion must stay within 30%-40%",
     )
     minimum = heavy_count + math.ceil(heavy_count * band["min"] - 1e-9)
     maximum = heavy_count + math.floor(heavy_count * band["max"] + 1e-9)

@@ -7,7 +7,7 @@ The run index is updated atomically. Use a single writer per checkpoint.
 
 | Exit | Status | Meaning |
 |---|---|---|
-| 0 | `complete` | All quality gates passed, including Extreme +35%–40%; unused capacity above the minimum is allowed (legacy replay: count filled) |
+| 0 | `complete` | All quality gates passed, including Extreme +30%–40%; unused capacity above the minimum is allowed (legacy replay: count filled) |
 | 2 | `needs_research` | Input, coverage, seed or output error prevented publication |
 | 3 | `partial` | Legacy replay only: valid subset below the requested size |
 

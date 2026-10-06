@@ -7,7 +7,7 @@ Depth describes representative coverage, not how many codes a data provider can 
 | Light | Concise leader-only skeleton | 0% |
 | Medium | Most reviewed leaders (at least 70% of the declared roster) | 0% |
 | Heavy | All reviewed leaders and necessary differentiated peers | 20% |
-| Extreme | The same qualified Heavy, expanded by 35%–40% with justified measured Beta | 35% total |
+| Extreme | The same qualified Heavy, expanded by 30%–40% with justified measured Beta | 35% total |
 
 These proportions are explicit starting constraints, not empirically optimal weights. A leader
 may itself have high measured beta; admission role describes its function, not volatility.
@@ -36,13 +36,13 @@ it is not proof that the market has no more candidates.
 Extreme must use `--seed heavy.json`, from the same market, plan and source date. Every retained
 member and instrument binding stays identical. Every new member must be a sourced, measured
 satellite; missing necessary representatives must be repaired in Heavy first. No theme has to
-expand. For Heavy's actual entity count `H`, add between `ceil(H * 0.35)` and
+expand. For Heavy's actual entity count `H`, add between `ceil(H * 0.30)` and
 `floor(H * 0.40)` Beta entities. References never enter either count. The selector caps its
 effective target at `H + floor(H * 0.40)`; a plan/spec ceiling below the minimum blocks the build.
 Reaching any integer in this band passes the count gate; the 40% end is not mandatory.
 
 Growth and total satellite share are different constraints. For example, a Heavy already at
-20% satellites cannot grow 35% entirely through Beta while keeping Extreme at 35% satellites.
+20% satellites cannot grow 30% entirely through Beta while keeping Extreme at 35% satellites.
 An infeasible pair of constraints, sector/export limits or a tiny `H` with no integer in the
 band must be reported explicitly; never drop protected members, relabel roles or loosen gates.
 Below-band results retain a resumable research checkpoint, not a completed watchlist.
@@ -53,5 +53,5 @@ The 60/160/400/580 bases, market breadth multipliers, taxonomy coverage levels a
 remain for archived 0.4/0.5 replay and legacy display-table checks. They do not size or allocate
 new coverage-first builds. Use [legacy-policy.json](../examples/legacy-policy.json) explicitly to
 reproduce historical examples; their validation does not certify current coverage quality.
-Previously published coverage-first Extreme files below 35% growth are historical outputs;
+Previously published coverage-first Extreme files below 30% growth are historical outputs;
 they do not pass the current contract and must be expanded before republication.

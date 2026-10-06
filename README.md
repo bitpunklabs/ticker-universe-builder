@@ -78,7 +78,7 @@ instrument bindings and an auditable Core migration. See the [0.6 design review]
 
 Light is leader-only. Medium covers most reviewed leaders. Heavy completes the necessary
 backbone plus at most 20% satellites; Extreme expands that same qualified Heavy with at most
-35% satellites overall, and must add 35%–40% to Heavy's entity count entirely as qualified Beta.
+35% satellites overall, and must add 30%–40% to Heavy's entity count entirely as qualified Beta.
 Entity budgets are ceilings; under-expansion retains a research checkpoint instead of publishing
 an undersized Extreme. Unused capacity above the minimum is allowed, and padding is never allowed.
 Reference indices, rates and other gauges are exported separately from entity budgets in the same TXT.

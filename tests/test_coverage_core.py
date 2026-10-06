@@ -176,7 +176,7 @@ def test_depth_roles_budgets_and_true_extreme_increment():
     assert report["stats"]["quality"]["leader_coverage"] == 1
     assert final["stats"]["quality"]["unused_capacity"] == 0
     assert final["stats"]["quality"]["expansion"] == dict(
-        heavy_entities=13, added_beta=5, growth=5 / 13, min_entities=18, max_entities=18)
+        heavy_entities=13, added_beta=5, growth=5 / 13, min_entities=17, max_entities=18)
     old = {c["asset_id"] for c in heavy["members"]}
     assert all(
         c["admission"]["kind"] == "satellite"
@@ -189,7 +189,7 @@ def test_depth_roles_budgets_and_true_extreme_increment():
 
 
 def expansion_fixture():
-    """Twenty protected core entities allow exact 35% and 40% boundary checks."""
+    """Twenty protected core entities allow exact 30% and 40% boundary checks."""
     data = researched()
     plan = data["coverage_plan"]
     plan["budgets"].update(heavy=30, extreme=50)
@@ -206,7 +206,7 @@ def expansion_fixture():
     return data
 
 
-@pytest.mark.parametrize("target,expected", [(27, 27), (28, 28), (50, 28)])
+@pytest.mark.parametrize("target,expected", [(26, 26), (27, 27), (28, 28), (50, 28)])
 def test_extreme_growth_boundaries_and_ceiling(target, expected):
     data = expansion_fixture()
     heavy, _ = build(data, target_count=20)
@@ -221,19 +221,19 @@ def test_extreme_can_complete_at_lower_edge_without_filling_upper_ceiling():
     data = expansion_fixture()
     data["candidates"] = [c for c in data["candidates"]
                           if c["admission"]["kind"] != "satellite"
-                          or c["asset_id"] in {f"BETA{i}" for i in range(7)}]
+                          or c["asset_id"] in {f"BETA{i}" for i in range(6)}]
     heavy, _ = build(data, target_count=20)
     extreme, report = build(data, profile="extreme", seed=heavy)
-    assert len(extreme["members"]) == 27
-    assert report["passed"] and report["stats"]["quality"]["unused_capacity"] == 1
+    assert len(extreme["members"]) == 26
+    assert report["passed"] and report["stats"]["quality"]["unused_capacity"] == 2
 
 
-@pytest.mark.parametrize("count,bounds", [(457, (617, 639)), (370, (500, 518)), (50, (68, 70))])
+@pytest.mark.parametrize("count,bounds", [(457, (595, 639)), (370, (481, 518)), (50, (65, 70))])
 def test_extreme_entity_rounding_for_reviewed_heavy_sizes(count, bounds):
     assert expansion_bounds(count, load_policy()) == bounds
 
 
-@pytest.mark.parametrize("band", [None, {}, {"min": 0.3, "max": 0.4},
+@pytest.mark.parametrize("band", [None, {}, {"min": 0.29, "max": 0.4},
                                    {"min": 0.35, "max": 0.45},
                                    {"min": 0.4, "max": 0.35},
                                    {"min": float("nan"), "max": 0.4}])
@@ -248,16 +248,15 @@ def test_extreme_reports_infeasible_capacity_and_satellite_share():
     data = expansion_fixture()
     heavy, _ = build(data, target_count=20)
     with pytest.raises(UniverseError, match="plan/spec ceiling"):
-        build(data, profile="extreme", seed=heavy, target_count=26)
+        build(data, profile="extreme", seed=heavy, target_count=25)
     # The original fixture fills Heavy to 20% Beta. Do not silently waive its
     # Extreme satellite-share gate or drop core facts to meet the growth promise.
     dense_heavy, _ = build()
     with pytest.raises(UniverseError, match="satellite-share ceiling"):
         build(profile="extreme", seed=dense_heavy)
-    # There is no integer between 12 * 1.35 and 12 * 1.40.
-    tiny_heavy, _ = build(target_count=12)
+    # There is no integer between 2 * 1.30 and 2 * 1.40.
     with pytest.raises(UniverseError, match="no integer solution"):
-        build(profile="extreme", seed=tiny_heavy)
+        expansion_bounds(2, load_policy())
 
 
 def test_extreme_growth_does_not_count_references_or_override_export_cap():
@@ -270,13 +269,13 @@ def test_extreme_growth_does_not_count_references_or_override_export_cap():
     assert len(extreme["members"]) == 28 and report["stats"]["exported_tickers"] == 29
     assert report["stats"]["quality"]["expansion"]["heavy_entities"] == 20
     with pytest.raises(UniverseError, match="expansion needs research"):
-        build(data, profile="extreme", seed=heavy, hard_ticker_cap=27)
+        build(data, profile="extreme", seed=heavy, hard_ticker_cap=26)
 
 
 def test_stored_validation_and_maintenance_enforce_growth():
     data = expansion_fixture()
     heavy, _ = build(data, target_count=20)
-    extreme, _ = build(data, profile="extreme", seed=heavy, target_count=27)
+    extreme, _ = build(data, profile="extreme", seed=heavy, target_count=26)
     beta = next(c for c in extreme["members"] if c["admission"]["kind"] == "satellite")
     changes = change_set(extreme, [dict(op="REMOVE", ticker=beta["ticker"],
                                        reason="fixture", evidence=evidence())])
@@ -290,7 +289,7 @@ def test_stored_validation_and_maintenance_enforce_growth():
     assert not report["passed"] and any("expansion needs research" in e for e in report["errors"])
     over = deepcopy(extreme)
     selected = {c["asset_id"] for c in over["members"]}
-    extra = [c for c in data["candidates"] if c["asset_id"] not in selected][:2]
+    extra = [c for c in data["candidates"] if c["asset_id"] not in selected][:3]
     pool = {c["asset_id"]: c for c in normalize_snapshot(data)["candidates"]}
     over["members"].extend(pool[c["asset_id"]] for c in extra)
     over["limits"]["target_count"] = 50
@@ -304,14 +303,14 @@ def test_extreme_shortfall_is_resumable_and_never_published(tmp_path):
     incomplete = deepcopy(data)
     incomplete["candidates"] = [c for c in data["candidates"]
                                 if c["admission"]["kind"] != "satellite"
-                                or c["asset_id"] in {f"BETA{i}" for i in range(6)}]
+                                or c["asset_id"] in {f"BETA{i}" for i in range(5)}]
     sp, sn, seed = (tmp_path / n for n in ("spec.json", "snapshot.json", "heavy.json"))
     sp.write_text(json.dumps(dict(schema_version=1, market="us", profile="extreme")))
     sn.write_text(json.dumps(incomplete))
     seed.write_text(json.dumps(heavy))
     result, code = run_build(spec=str(sp), snapshot=str(sn), seed=str(seed), output=str(tmp_path / "out"))
     assert code == 2 and result["status"] == "needs_research"
-    assert "selected=26" in result["error"] and "missing=1" in result["error"]
+    assert "selected=25" in result["error"] and "missing=1" in result["error"]
     assert result["diagnostics"]["expansion"]["minimum_candidate_gap"] == 1
     assert not (tmp_path / "out").exists()
     resume = str(Path(result["checkpoint"]).parent)
