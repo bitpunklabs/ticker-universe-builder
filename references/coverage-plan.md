@@ -103,13 +103,19 @@ replaced target must actually be selected in Heavy. There is no automatic alias 
 ## Building and continuing
 
 Default `target_count` is the plan's entity ceiling; a spec can lower it, never expand the plan.
-A qualified result below the ceiling is **complete** with `unused_capacity`, not a failed fill.
+A qualified result below the ceiling is **complete** with `unused_capacity` only when all gates
+pass, including Extreme's minimum growth.
 Unresolved backbone, identity or Core decisions are `needs_research` with archived inputs and
 resume command. Repair the failed assertions, remeasure affected candidates, then resume; retain
 successful research instead of restarting a broad screen. Do not spend retries on unchanged input.
 
 Extreme requires `--seed heavy.json`: same market, source date and complete plan, validated Heavy,
-identical retained member facts/bindings, and only satellites added. The embedded `heavy_base`
+identical retained member facts/bindings, and only satellites added. With `H` Heavy entities,
+Extreme needs `H + ceil(0.35 * H)` through `H + floor(0.40 * H)` entities. References are excluded.
+An underfilled bench is `needs_research`; preserve inputs, widen research and resume. The
+effective target is the smaller of the plan/spec ceiling and the growth maximum. Incompatible
+sector, satellite-share or export ceilings cannot be waived to achieve the minimum.
+The embedded `heavy_base`
 allows standalone validate to recheck this without external files. Updating Heavy requires
 rebuilding Extreme; maintenance cannot silently diverge the pair.
 

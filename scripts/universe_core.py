@@ -2627,8 +2627,15 @@ def render_markdown(
                       f"- Unused capacity: {quality.get('unused_capacity')}",
                       f"- Admission roles: {quality.get('roles')}",
                       f"- Economic sector counts: {quality.get('sectors')}",
-                      "- Evidence boundary: validates declared research, not leadership truth.",
-                      "", "### Reference instruments", ""])
+                      "- Evidence boundary: validates declared research, not leadership truth."])
+        if expansion := quality.get("expansion"):
+            lines.extend([
+                f"- Heavy entities: {expansion['heavy_entities']}; "
+                f"added Beta: {expansion['added_beta']} ({expansion['growth']:.1%})",
+                f"- Required Extreme entity range: {expansion['min_entities']}–"
+                f"{expansion['max_entities']} (references excluded)",
+            ])
+        lines.extend(["", "### Reference instruments", ""])
         for ref in universe["coverage_plan"].get("references", []):
             lines.append(f"- {ref['ticker']} ({ref['kind']}): {ref['observes']}"
                          + (f"; proxy for {ref['proxy_for']}: {ref['limitation']}"

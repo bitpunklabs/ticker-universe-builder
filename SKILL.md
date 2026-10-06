@@ -3,7 +3,7 @@ name: ticker-universe-builder
 description: Build and maintain auditable, evidence-gated ticker universes for fourteen markets at four depths, exported as TradingView watchlists. Not stock tips.
 allowed-tools: Read, Write, Bash, WebSearch, WebFetch
 metadata:
-  version: 0.6.0
+  version: 0.6.1
   homepage: https://github.com/bitpunklabs/ticker-universe-builder
   openclaw:
     emoji: "📋"
@@ -150,8 +150,10 @@ reported rather than dropped.
    rounds within the user's scope. Stop sooner when the accessible source universe is exhausted
    or a required external input is unavailable; explain that boundary and retain a continuation.
    A small mapped snapshot does not prove source exhaustion. Repair necessary coverage before
-   researching optional depth; unspent capacity is allowed. Identical Heavy/Extreme membership is zero expansion to disclose;
-   continue only when further qualified research is available.
+   researching optional depth. Extreme must add 35%–40% of Heavy's entity count, entirely as
+   qualified Beta. Below that band is `needs_research`, even when the backbone passes. Widen
+   the researched bench and resume; never publish a shorter Extreme as complete. Unspent
+   capacity above the minimum is allowed. Reference instruments do not count toward growth.
    Never weaken gates or hide the difference between a ceiling and actual membership.
 9. The command prints the path of every artifact it wrote; they are named
    `{market}-{profile}-{as_of}`. Run `validate` on the `universe` path even though the builder
@@ -180,7 +182,9 @@ sessions that researched the venue list differently did not build two versions o
 
 Use `--seed heavy.json` for Extreme. It must be a qualified Heavy from the same plan and
 source date; only sourced, measured satellites may be added. For a narrower depth, rebuild from
-the same reviewed roster. Update Heavy first when facts or necessary representatives change.
+the same reviewed roster. Plan for `ceil(0.35 * H)` to `floor(0.40 * H)` new entities, where `H`
+is the actual Heavy entity count. Check sector, satellite and export capacity before research;
+the new growth band does not waive those gates. Update Heavy first when facts or necessary representatives change.
 
 The model researches business leadership, quality, economic branches and information gain.
 Python owns evidence contracts, protected coverage, sector/satellite ceilings, identity, hashing
@@ -215,10 +219,11 @@ a note for a later round is how a universe rots: use `ADD_THEME`, `UPDATE_THEME`
 - Never select a name solely because it is popular or recently rose.
 - Preserve benchmarks and anchors before adding satellites.
 - Light is leader-only; Medium covers most reviewed leaders; Heavy completes the necessary
-  leader/peer skeleton plus at most 20% satellites; Extreme extends qualified Heavy, at most 35%
-  satellites overall. These initial limits are ceilings, not desired allocations.
+  leader/peer skeleton plus at most 20% satellites; Extreme adds 35%–40% to qualified Heavy,
+  entirely as Beta, with at most 35% satellites overall. The latter is a quality ceiling,
+  distinct from the required expansion band.
 - Every optional satellite must explain its incremental value relative to named core members.
-  No BREADTH_PROXY/tactical fallback, no forced 45% expansion, no hot-theme budget inflation.
+  No BREADTH_PROXY/tactical fallback, no padding to satisfy growth, no hot-theme budget inflation.
 - Preserve direct reference instruments and explicitly explain substitutions; references do not
   consume leader seats. A passed contract does not independently establish leadership truth.
 - No return guarantees, allocations, order instructions or trade execution. This skill produces

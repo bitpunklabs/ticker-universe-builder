@@ -26,18 +26,37 @@ def save(path: Path, value: dict) -> None:
     temporary.replace(path)
 
 
-def diagnostics(spec: dict, snapshot: dict, policy: dict) -> dict:
+def diagnostics(spec: dict, snapshot: dict, policy: dict, seed: dict | None = None) -> dict:
     """Admission checks are the core's; these counts never authorize a build."""
     try:
         normalized = normalize_snapshot(snapshot)
         if policy.get("selection_model") == "coverage_first":
-            return {"selection_model": "coverage_first",
-                    "coverage_plan_present": bool(snapshot.get("coverage_plan")),
-                    "admissions": sum(bool(c.get("admission")) for c in normalized["candidates"]),
-                    "candidates": len(normalized["candidates"]),
-                    "note": ("Research necessary representatives and unresolved Core decisions "
-                             "first; "
-                             "do not pad capacity.")}
+            result = {
+                "selection_model": "coverage_first",
+                "coverage_plan_present": bool(snapshot.get("coverage_plan")),
+                "admissions": sum(bool(c.get("admission")) for c in normalized["candidates"]),
+                "candidates": len(normalized["candidates"]),
+                "note": "Research necessary representatives and unresolved Core decisions "
+                        "first; do not pad capacity.",
+            }
+            if spec.get("profile") == "extreme" and seed and seed.get("profile") == "heavy":
+                from coverage_core import expansion_bounds
+
+                held = {c["asset_id"] for c in seed["members"]}
+                minimum, maximum = expansion_bounds(len(held), policy)
+                proposed = {
+                    c["asset_id"] for c in normalized["candidates"]
+                    if c["eligible"] and c["asset_id"] not in held
+                    and (c.get("admission") or {}).get("kind") == "satellite"
+                }
+                result["expansion"] = {
+                    "heavy_entities": len(held), "min_entities": minimum,
+                    "max_entities": maximum, "eligible_proposed_additions": len(proposed),
+                    "minimum_candidate_gap": max(0, minimum - len(held) - len(proposed)),
+                    "note": "Snapshot capacity only; evidence, sector, satellite and export "
+                            "gates still apply.",
+                }
+            return result
         guide = market_guidance(spec["market"], policy, normalized["market_spec"])
         stages = {}
         for profile in PROFILES[: PROFILES.index(spec["profile"]) + 1]:
@@ -203,7 +222,7 @@ def run_build(
         code = 2
     if code:
         attempt["diagnostics"] = diagnostics(
-            payload["spec"], payload["snapshot"], payload["policy"]
+            payload["spec"], payload["snapshot"], payload["policy"], payload["seed"]
         )
         attempt["next_actions"] = [
             "Repair invalid facts or missing themes; expand the verified bench for capacity gaps.",

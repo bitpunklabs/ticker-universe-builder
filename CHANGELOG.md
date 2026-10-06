@@ -14,6 +14,17 @@ Each released heading below matches a `version:` in `SKILL.md` and a git tag of 
 there, and backfilling a listing for a release nobody could install would be tidier than it is
 true.
 
+## 0.6.1 — unreleased
+
+- Require Extreme to add 35%–40% of the actual Heavy entity count, entirely as qualified Beta;
+  reference instruments never enlarge the denominator. Preserve all Heavy facts and existing
+  sector, satellite-share, evidence and export gates.
+- Cap the effective Extreme ceiling at 40% growth. Below 35% is a resumable `needs_research`
+  outcome, with explicit size/candidate diagnostics; it cannot publish as a complete universe.
+- Enforce the band in build, stored validation and maintenance; report the actual growth and
+  required range. Previously published smaller Extreme outputs are historical, not qualified
+  under this revised contract. Light/Medium/Heavy behavior and legacy replay are unchanged.
+
 ## 0.6.0
 
 - Replace default target filling with coverage-first research: necessary leaders/peers before

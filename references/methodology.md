@@ -67,8 +67,9 @@ is not high beta; if it genuinely adds information, it belongs in `INDEPENDENT_S
 4. For Heavy/Extreme only, add measured Beta with sourced quality and incremental value,
    within hard sector, satellite-share, entity and TradingView ceilings. Stable parent-sector
    weight divided by `2 * held + 1` orders optional seats; display weights and heat do not.
-5. Validate again, hash and render TXT/JSON/reports. Unused capacity is success when coverage
-   passes. Missing backbone is a recoverable research gap, not a partial production watchlist.
+5. Validate again, including Extreme's 35%–40% entity growth, then hash and render TXT/JSON/reports.
+   Unused capacity above that minimum is allowed. Missing backbone or expansion is a recoverable
+   research gap, not a completed production watchlist.
 
 Light/Medium select leaders only. All declared leaders and necessary peers must enter Heavy;
 Extreme requires an embedded, validated same-date Heavy and adds satellites only. Rebuilding

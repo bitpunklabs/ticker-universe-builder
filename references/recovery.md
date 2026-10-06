@@ -7,13 +7,17 @@ The run index is updated atomically. Use a single writer per checkpoint.
 
 | Exit | Status | Meaning |
 |---|---|---|
-| 0 | `complete` | Coverage-first quality gates passed; unused capacity is allowed (legacy replay: count filled) |
+| 0 | `complete` | All quality gates passed, including Extreme +35%–40%; unused capacity above the minimum is allowed (legacy replay: count filled) |
 | 2 | `needs_research` | Input, coverage, seed or output error prevented publication |
 | 3 | `partial` | Legacy replay only: valid subset below the requested size |
 
 For coverage-first, resolve necessary representatives and Core decisions before optional depth.
-A shorter qualified Extreme can be complete; report zero expansion honestly. Never loosen quality
-just to add codes. The following capacity-fill diagnostics apply to legacy replay only.
+A below-band Extreme is `needs_research`, never complete or silently replaced by Heavy. Read
+the error's selected/required/missing counts and `diagnostics.expansion`: its proposed-candidate
+count is only a bench capacity bound, before sector, satellite, evidence and export checks.
+Widen research for the missing Beta, remeasure and resume. Never loosen quality just to add
+codes. Outside this Extreme growth requirement, the following target-fill diagnostics apply
+to legacy replay only.
 Read the diagnostic for every intermediate tier, not just the first missing theme. Capacity
 counts are upper bounds, not promises: duplicate assets, mandatory members and token limits can
 still constrain selection. A 1,000-token ceiling is a real boundary; never hide a target reduction.
@@ -24,7 +28,7 @@ The agent owns the research loop; the Python selector is deliberately offline:
    exact-request cache retains successful responses; transient HTTP/network errors already have
    three request attempts. Inspect exclusions separately from transport failures.
 2. For missing economic branches/representatives, repair that research or verify another source.
-   Optional capacity alone does not require expansion. In legacy replay, missing themes/counts
+   Unused capacity above Extreme's growth minimum does not require expansion. In legacy replay, missing themes/counts
    may instead require a broader verified bench.
    Repair missing listing/provenance facts, and rerun `measure` on the changed data. Preserve
    verified candidates and disclose scope exclusions. Do not reinterpret a missing quote as a

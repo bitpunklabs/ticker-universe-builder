@@ -283,7 +283,29 @@ def core_decisions(plan, members, refs, profile):
             )
 
 
-def quality_check(universe, policy):
+def expansion_bounds(heavy_count, policy):
+    """Entity-only growth; references never enlarge the denominator."""
+    band = policy.get("coverage", {}).get("extreme_expansion")
+    need(
+        isinstance(band, dict) and set(band) == {"min", "max"},
+        "policy needs extreme_expansion min/max",
+    )
+    need(
+        all(type(v) in (int, float) and math.isfinite(v) for v in band.values())
+        and 0.35 <= band["min"] <= band["max"] <= 0.4,
+        "Extreme expansion must stay within 35%-40%",
+    )
+    minimum = heavy_count + math.ceil(heavy_count * band["min"] - 1e-9)
+    maximum = heavy_count + math.floor(heavy_count * band["max"] + 1e-9)
+    need(
+        minimum <= maximum,
+        f"Extreme growth has no integer solution for Heavy={heavy_count}; "
+        "review the requested plan without padding or dropping protected members",
+    )
+    return minimum, maximum
+
+
+def quality_check(universe, policy, *, assembling=False):
     """Recompute the same gates for build, maintenance and stored-file validation."""
     p, profile = universe.get("coverage_plan"), universe["profile"]
     settings = policy.get("coverage", {})
@@ -361,6 +383,7 @@ def quality_check(universe, policy):
         f"{profile}: satellite share exceeds {ceiling:.0%}",
     )
     core_decisions(p, members, refs, profile)
+    expansion = {}
     if profile == "extreme":
         seed = universe.get("heavy_base")
         need(
@@ -386,6 +409,22 @@ def quality_check(universe, policy):
             all(c["admission"]["kind"] == "satellite" for k, c in by_asset.items() if k not in old),
             "Extreme cannot repair a missing Heavy core representative",
         )
+        minimum, maximum = expansion_bounds(len(old), policy)
+        need(len(members) <= maximum, f"Extreme exceeds growth ceiling: {len(members)} > {maximum}")
+        if not assembling:
+            need(
+                len(members) >= minimum,
+                f"Extreme expansion needs research: Heavy={len(old)}, selected={len(members)}, "
+                f"required={minimum}..{maximum}, missing={max(0, minimum - len(members))}; "
+                "research more qualified Beta; do not weaken admission gates",
+            )
+        expansion = {
+            "heavy_entities": len(old),
+            "added_beta": len(members) - len(old),
+            "growth": (len(members) - len(old)) / len(old),
+            "min_entities": minimum,
+            "max_entities": maximum,
+        }
     return {
         "status": "qualified",
         "leader_coverage": round(share, 4),
@@ -396,6 +435,7 @@ def quality_check(universe, policy):
         "unused_capacity": universe["limits"]["target_count"] - len(members),
         "plan_hash": canonical_hash(p),
         "evidence_boundary": "Checks declared research, not independent proof of leadership.",
+        **({"expansion": expansion} if expansion else {}),
     }
 
 
@@ -526,7 +566,23 @@ def build(spec, raw, policy, previous=None):
     if profile == "extreme":
         base["heavy_base"] = deepcopy(previous)
     # Validate the skeleton BEFORE optional Beta; no candidate can conceal its absence.
-    quality_check(base, policy)
+    quality_check(base, policy, assembling=True)
+    if profile == "extreme":
+        minimum, maximum = expansion_bounds(len(selected), policy)
+        target = min(target, maximum)
+        base["limits"]["target_count"] = target
+        need(
+            minimum <= target,
+            f"Extreme growth needs {minimum}..{maximum} entities; plan/spec ceiling {target} "
+            "cannot meet it; review capacity before researching additions",
+        )
+        retained_beta = sum(c["admission"]["kind"] == "satellite" for c in selected)
+        ceiling = policy["coverage"]["satellite_max"][profile]
+        need(
+            retained_beta + minimum - len(selected) <= minimum * ceiling + 1e-9,
+            "Extreme growth conflicts with the satellite-share ceiling of this Heavy; "
+            "review the Heavy plan without relabelling or dropping protected members",
+        )
 
     def fits_export(items):
         exported = items + list(refs.values())
