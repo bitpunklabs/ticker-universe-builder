@@ -72,8 +72,8 @@ vocabulary, theme table and report language:
 Any other market builds by declaring the same handful of facts in the snapshot, evidence-gated,
 hashed, and reported as **declared rather than reviewed** on every run.
 
-CN, US and Crypto ship current [worked examples](examples/README.md), with a Crypto Heavy→Max
-seed example. All new builds use a [coverage-first research plan](references/coverage-plan.md):
+US ships Light/Medium/Heavy/Max [worked examples](examples/README.md); CN, Crypto, JP and KR
+ship Medium examples. All new builds use a [coverage-first research plan](references/coverage-plan.md):
 stable economic branches, a reviewed leader/necessary-peer roster, parent-sector ceilings,
 instrument bindings and auditable Core migration. Archived replay requires an explicit policy
 in `assets/legacy-policy.json`.
@@ -104,7 +104,7 @@ an implicit destination. Files use `{market}-{profile}-{as_of}` as their stem.
 | `.en.md` | Readable report |
 | `.<market-language>.md` | Companion for non-English markets, e.g. `.zh-Hans.md` for CN |
 
-**US/Crypto: four files; CN: five.** See the
+**US/Crypto: four files; CN/JP/KR: five.** See the
 [CN report](examples/cn-medium/output/cn-medium-2026-10-07.zh-Hans.md) and
 [Crypto TXT](examples/crypto-medium/output/crypto-medium-2026-10-07.txt).
 
@@ -125,6 +125,14 @@ No dependencies. Python 3.10+ and the standard library.
 Releases are semver-tagged; `--branch v0.1.0` pins one, and `main` is always the newest.
 
 ```bash
+# Codex — all projects
+git clone https://github.com/bitpunklabs/ticker-universe-builder.git \
+  ~/.agents/skills/ticker-universe-builder
+
+# Codex — one project
+git clone https://github.com/bitpunklabs/ticker-universe-builder.git \
+  .agents/skills/ticker-universe-builder
+
 # Claude Code — all projects
 git clone https://github.com/bitpunklabs/ticker-universe-builder.git \
   ~/.claude/skills/ticker-universe-builder
@@ -133,6 +141,10 @@ git clone https://github.com/bitpunklabs/ticker-universe-builder.git \
 git clone https://github.com/bitpunklabs/ticker-universe-builder.git \
   .claude/skills/ticker-universe-builder
 ```
+
+For **Codex**, invoke `$ticker-universe-builder` or select it through `/skills`. Codex detects
+local skills automatically; restart if the new skill is absent. See the
+[official skill documentation](https://learn.chatgpt.com/docs/build-skills).
 
 For **OpenClaw**, `clawhub install @bitpunklabs/ticker-universe-builder`, or clone into
 `~/.openclaw/workspace/skills/`. For **claude.ai**, zip the repository and upload it under
@@ -194,7 +206,7 @@ references/           methodology, tiers, contracts, maintenance, sources, per-m
 scripts/universe.py   the only entry point
 scripts/*_core.py     selection, measurement and evaluation; stdlib only
 assets/               policy, theme tables (one shared equity base + per-market deltas), locales
-examples/             CN/US/Crypto Medium and Crypto Heavy/Max, rebuilt from dated snapshots
+examples/             US four depths and CN/Crypto/JP/KR Medium, rebuilt from dated snapshots
 tests/                pytest
 ```
 

@@ -4,34 +4,34 @@
   "errors": [],
   "warnings": [],
   "stats": {
-    "tickers": 294,
-    "exported_tickers": 338,
+    "tickers": 100,
+    "exported_tickers": 144,
     "quality": {
       "status": "qualified",
-      "leader_coverage": 0.8909,
+      "leader_coverage": 0.303,
       "roles": {
-        "leader": 294
+        "leader": 100
       },
       "sectors": {
-        "communications": 19,
-        "consumer": 41,
-        "energy": 17,
-        "finance": 39,
-        "health": 35,
-        "industry": 30,
-        "materials": 21,
-        "real_estate": 15,
-        "technology": 63,
-        "utilities": 14
+        "communications": 8,
+        "consumer": 11,
+        "energy": 4,
+        "finance": 15,
+        "health": 12,
+        "industry": 10,
+        "materials": 6,
+        "real_estate": 5,
+        "technology": 23,
+        "utilities": 6
       },
-      "entity_count": 294,
+      "entity_count": 100,
       "references": 44,
-      "unused_capacity": 36,
+      "unused_capacity": 25,
       "plan_hash": "0c6468690a1a",
       "evidence_boundary": "Checks declared research, not independent proof of leadership."
     },
-    "themes": 51,
-    "research_themes": 68,
+    "themes": 13,
+    "research_themes": 57,
     "concentration": null,
     "duties": {
       "declared": 0,
@@ -39,15 +39,15 @@
       "missing": [],
       "undeclared": []
     },
-    "tradingview_tokens": 397,
+    "tradingview_tokens": 165,
     "roles": {
-      "THEME_LEADER": 294
+      "THEME_LEADER": 100
     },
     "buckets": {
-      "core": 294
+      "core": 100
     },
     "rejections": {
-      "not_selected_under_budget": 360,
+      "not_selected_under_budget": 554,
       "other": 12
     }
   }

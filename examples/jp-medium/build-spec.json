@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "market": "crypto",
-  "profile": "max",
+  "market": "jp",
+  "profile": "medium",
   "as_of": "2026-10-07",
   "shortfall_action": "retry"
 }

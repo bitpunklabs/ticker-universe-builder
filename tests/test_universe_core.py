@@ -1739,10 +1739,12 @@ class ExampleTests(unittest.TestCase):
         }
         self.assertEqual(before, after)
 
-    def test_three_current_markets_and_crypto_seeded_max_ship(self) -> None:
-        self.assertEqual(EXAMPLE_MARKETS, ["cn", "crypto", "us"])
+    def test_five_current_markets_and_the_us_ladder_ship(self) -> None:
+        self.assertEqual(EXAMPLE_MARKETS, ["cn", "crypto", "jp", "kr", "us"])
         summary = read_json(ROOT / "examples" / "build-summary.json")["examples"]
-        self.assertEqual([row["entities"] for row in summary], [302, 294, 35, 50, 65])
+        self.assertEqual(
+            [row["entities"] for row in summary], [100, 294, 370, 481, 302, 35, 131, 108]
+        )
         self.assertTrue(all(row["qualified"] for row in summary))
 
     def test_examples_use_reviewed_coverage_and_standard_artifacts(self) -> None:
@@ -1771,11 +1773,11 @@ class ExampleTests(unittest.TestCase):
                     )
 
     def test_max_retains_heavy_and_only_adds_beta(self) -> None:
-        heavy = read_json(ROOT / "examples/crypto-heavy/output/crypto-heavy-2026-10-07.json")
-        maximum = read_json(ROOT / "examples/crypto-max/output/crypto-max-2026-10-07.json")
+        heavy = read_json(ROOT / "examples/us-heavy/output/us-heavy-2026-10-07.json")
+        maximum = read_json(ROOT / "examples/us-max/output/us-max-2026-10-07.json")
         held = {row["ticker"]: row for row in heavy["members"]}
         added = [row for row in maximum["members"] if row["ticker"] not in held]
-        self.assertEqual(len(added), 15)
+        self.assertEqual(len(added), 111)
         self.assertTrue(all(row["role"] == "BETA_SATELLITE" for row in added))
         self.assertEqual(
             held, {row["ticker"]: row for row in maximum["members"] if row["ticker"] in held}

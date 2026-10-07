@@ -1,12 +1,12 @@
 {
   "examples": [
     {
-      "example": "cn-medium",
-      "entities": 302,
-      "references": 42,
+      "example": "us-light",
+      "entities": 100,
+      "references": 44,
       "qualified": true,
-      "version_hash": "cdc26ce20a3c",
-      "content_hash": "422ec193f802",
+      "version_hash": "42dff0c01d50",
+      "content_hash": "213ff2deaede",
       "warnings": []
     },
     {
@@ -15,7 +15,34 @@
       "references": 44,
       "qualified": true,
       "version_hash": "1e8da878a880",
-      "content_hash": "f3f8542a4e70",
+      "content_hash": "5a43cab1a6b8",
+      "warnings": []
+    },
+    {
+      "example": "us-heavy",
+      "entities": 370,
+      "references": 44,
+      "qualified": true,
+      "version_hash": "319858134940",
+      "content_hash": "f1576c4b3dea",
+      "warnings": []
+    },
+    {
+      "example": "us-max",
+      "entities": 481,
+      "references": 44,
+      "qualified": true,
+      "version_hash": "d4015c014824",
+      "content_hash": "e4a28eedfefd",
+      "warnings": []
+    },
+    {
+      "example": "cn-medium",
+      "entities": 302,
+      "references": 42,
+      "qualified": true,
+      "version_hash": "cdc26ce20a3c",
+      "content_hash": "422ec193f802",
       "warnings": []
     },
     {
@@ -28,21 +55,21 @@
       "warnings": []
     },
     {
-      "example": "crypto-heavy",
-      "entities": 50,
-      "references": 0,
+      "example": "jp-medium",
+      "entities": 131,
+      "references": 2,
       "qualified": true,
-      "version_hash": "3ffca1f09bf4",
-      "content_hash": "b0ce4498a3dd",
+      "version_hash": "4350f3f0796c",
+      "content_hash": "8320546f9de4",
       "warnings": []
     },
     {
-      "example": "crypto-max",
-      "entities": 65,
-      "references": 0,
+      "example": "kr-medium",
+      "entities": 108,
+      "references": 2,
       "qualified": true,
-      "version_hash": "3a3f7f939f74",
-      "content_hash": "9d677beb2fa3",
+      "version_hash": "6fd6fd9920fc",
+      "content_hash": "3dc0f17b9ad0",
       "warnings": []
     }
   ]

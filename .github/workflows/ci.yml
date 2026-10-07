@@ -54,16 +54,21 @@ jobs:
             python scripts/universe.py validate "$universe" > /dev/null
             echo "$universe" > "/tmp/$market.path"
           done
-      - name: expand a qualified Heavy with sourced Beta
+      - name: build the US ladder and expand a qualified Heavy with sourced Beta
         run: |
           python scripts/universe.py build \
-            --spec examples/crypto-heavy/build-spec.json \
-            --snapshot examples/crypto-medium/snapshot.json --output /tmp/crypto-heavy
+            --spec examples/us-light/build-spec.json \
+            --snapshot examples/us-medium/snapshot.json --output /tmp/us-light
           python scripts/universe.py build \
-            --spec examples/crypto-max/build-spec.json \
-            --snapshot examples/crypto-medium/snapshot.json \
-            --seed /tmp/crypto-heavy/crypto-heavy-2026-10-07.json --output /tmp/crypto-max
-          python scripts/universe.py validate /tmp/crypto-max/crypto-max-2026-10-07.json
+            --spec examples/us-heavy/build-spec.json \
+            --snapshot examples/us-medium/snapshot.json --output /tmp/us-heavy
+          python scripts/universe.py build \
+            --spec examples/us-max/build-spec.json \
+            --snapshot examples/us-medium/snapshot.json \
+            --seed /tmp/us-heavy/us-heavy-2026-10-07.json --output /tmp/us-max
+          python scripts/universe.py validate /tmp/us-light/us-light-2026-10-07.json
+          python scripts/universe.py validate /tmp/us-heavy/us-heavy-2026-10-07.json
+          python scripts/universe.py validate /tmp/us-max/us-max-2026-10-07.json
       - name: read a watchlist back in and reach the same tickers
         run: |
           watchlist=$(python -c \
@@ -93,7 +98,9 @@ jobs:
         # not to exist.
         run: |
           grep -q '^# CN 标的池' "$(dirname "$(cat /tmp/cn.path)")"/cn-medium-*.zh-Hans.md
-          for market in cn us crypto; do
+          grep -q '^# JP 銘柄ユニバース' "$(dirname "$(cat /tmp/jp.path)")"/jp-medium-*.ja.md
+          grep -q '^# KR 종목 유니버스' "$(dirname "$(cat /tmp/kr.path)")"/kr-medium-*.ko.md
+          for market in cn us crypto jp kr; do
             path="$(dirname "$(cat /tmp/$market.path)")"
             grep -q '^# .* Ticker Universe' "$path"/$market-medium-*.en.md \
               || { echo "$market: no English report"; exit 1; }

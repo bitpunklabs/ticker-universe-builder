@@ -20,8 +20,10 @@ true.
   checks display structure only; archived replay retains its explicit policy in assets.
 - Remove legacy composite-score completeness statistics from coverage reports and preserve
   coverage ordering through NO_CHANGE maintenance.
-- Replace old examples with current CN/US/Crypto Medium and a Crypto Heavy→Max seed demonstration,
-  using standard artifact filenames and deterministic regeneration.
+- Replace old examples with US Light/Medium/Heavy/Max and CN/Crypto/JP/KR Medium, using
+  standard artifact filenames and deterministic regeneration. US Max retains its qualified Heavy
+  and adds 30% sourced Beta. JP/KR include reviewed admissions and disclosed research limits.
+- Include generated example artifacts in ClawHub bundles; document current Codex install paths.
 - Document output destinations, artifact bundles, checkpoints, partial delivery and source dates;
   update market routing, contribution instructions and CLI CI checks.
 

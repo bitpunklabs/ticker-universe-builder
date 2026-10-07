@@ -19,9 +19,9 @@ Registered markets, each with reviewed rules, its own theme table and a report i
 language: `us`, `cn` (zh-Hans), `jp` (ja), `in`, `hk` (zh-Hant), `kr` (ko), `uk`, `tw` (zh-Hant),
 `de` (de), `fr` (fr), `ca`, `au`, `br` (pt-BR), `crypto`. Anything else builds too — see step 6.
 
-Read [examples/README.md](examples/README.md) first. Current Medium examples ship for CN, US
-and Crypto, with a Crypto Heavy→Max example using the same snapshot and qualified seed. For
-other markets open the closest worked input and the matching overlay. Read the example spec
+Read [examples/README.md](examples/README.md) first. Examples ship for US Light/Medium/Heavy/Max
+and CN/Crypto/JP/KR Medium. The US ladder shares one snapshot and Max uses its qualified Heavy
+seed. For other markets open the closest worked input and the matching overlay. Read the example spec
 and report summary first; inspect relevant candidate rows programmatically rather than loading
 multi-megabyte snapshots into model context. Archived replay uses `assets/legacy-policy.json`
 explicitly and does not certify the current coverage contract.

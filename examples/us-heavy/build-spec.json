@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "market": "crypto",
+  "market": "us",
   "profile": "heavy",
   "as_of": "2026-10-07",
   "shortfall_action": "retry"

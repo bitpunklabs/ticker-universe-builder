@@ -1,0 +1,5 @@
+# ClawHub also reads .gitignore. Ship the committed worked outputs.
+!examples/*/output/
+!examples/*/output/**
+!examples/*/maintenance/
+!examples/*/maintenance/**

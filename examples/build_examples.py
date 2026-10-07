@@ -19,7 +19,10 @@ from universe_core import (  # noqa: E402
     write_artifacts,
 )
 
-EXAMPLES = ("cn-medium", "us-medium", "crypto-medium", "crypto-heavy", "crypto-max")
+EXAMPLES = (
+    "us-light", "us-medium", "us-heavy", "us-max",
+    "cn-medium", "crypto-medium", "jp-medium", "kr-medium",
+)
 
 
 def write(path: Path, data: dict) -> None:
@@ -41,7 +44,7 @@ def main() -> None:
                 read_json(folder / "build-spec.json"),
                 read_json(snapshot_folder / "snapshot.json"),
                 policy,
-                built.get("crypto-heavy") if name == "crypto-max" else None,
+                built.get(f"{market}-heavy") if name.endswith("-max") else None,
             )
             if not report.get("qualified"):
                 raise RuntimeError(f"{name}: worked examples must be fully qualified")

@@ -40,9 +40,9 @@ Starter theme levels/weights do not set current member quotas.
 
 ## Example
 
-Use the closest [current equity example](../../examples/README.md) for the coverage-plan,
-admission and output contracts, then research this market under its own overlay. No dedicated
-current snapshot ships for this market.
+Open the [KR Medium example](../../examples/kr-medium/build-spec.json) and
+[example research limits](../../examples/README.md). Its reviewed roster demonstrates the
+current coverage contract; it is not an exhaustive census of this market’s leaders.
 
 ## Suggested live fields
 
@@ -54,6 +54,6 @@ Beyond the ones in equity-common.md:
 
 ## Report language
 
-The report is written in Korean by default, so write the snapshot in Korean
-too — names, `l1_name`, reasons and measurement methods. `--language en` overrides the report
-and changes nothing else about the build.
+English is always generated, with a Korean companion by default. Write researched names
+and reasons in Korean; only report headings and closed vocabulary are translated.
+`--language` chooses the companion language without changing membership or facts.

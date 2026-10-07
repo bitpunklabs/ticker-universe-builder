@@ -26,8 +26,8 @@ python examples/build_examples.py && git diff --exit-code examples/
 ```
 
 The third one matters more than it looks. The examples are generated from
-the dated `examples/*-medium/snapshot.json` inputs (Crypto Heavy/Max share the Medium snapshot), and any change to selection, ordering, rendering or hashing rewrites
-them. A diff there is not noise — it is the change you just made, shown as its effect on a real
+the dated `examples/*-medium/snapshot.json` inputs (US Light/Heavy/Max share the Medium snapshot).
+Any change to selection, ordering, rendering or hashing rewrites them. A diff there is not noise — it is the change you just made, shown as its effect on a real
 universe. Read it before committing it, and commit it in the same commit as the code.
 
 If the hash changed, `examples/crypto-medium/changes.json` carries a `base_version_hash` that has
@@ -44,8 +44,9 @@ language is new. See
 [`references/markets/adding-a-market.md`](references/markets/adding-a-market.md).
 
 Do not ship an unexercised market overlay on speculation. Add a reproducible researched fixture
-that exercises its rules and verify all four profiles. The published examples are deliberately
-limited to CN/US/Crypto, plus a Crypto seeded Max; registry coverage and example coverage are separate test contracts.
+that exercises its rules and verify all four profiles. The published examples cover
+US Light/Medium/Heavy/Max and CN/Crypto/JP/KR Medium; registry coverage and example coverage
+are separate test contracts.
 
 ## Cutting a release
 
@@ -61,8 +62,13 @@ The version is bumped by the **first** change of a cycle, not at the end: a test
 python -m pytest tests -q          # VersionTests fails if the two disagree
 git commit -am "Release X.Y.Z" && git push
 git tag vX.Y.Z && git push origin vX.Y.Z
-clawhub skill publish . --version X.Y.Z --dry-run   # read it, then run it without --dry-run
+clawhub skill publish . --owner bitpunklabs --version X.Y.Z --dry-run
+# Inspect the receipt, then publish the same checked tree without --dry-run
 ```
+
+ClawHub reads `.gitignore`; `.clawhubignore` restores the committed example output and
+maintenance directories. Verify the preview includes all 35 current example output files.
+A dry-run checks bundle preparation, not registry authorization or a completed upload.
 
 ### The listing text
 

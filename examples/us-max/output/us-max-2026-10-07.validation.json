@@ -1,0 +1,363 @@
+{
+  "passed": true,
+  "qualified": true,
+  "errors": [],
+  "warnings": [],
+  "stats": {
+    "tickers": 481,
+    "exported_tickers": 525,
+    "quality": {
+      "status": "qualified",
+      "leader_coverage": 1.0,
+      "roles": {
+        "satellite": 116,
+        "leader": 330,
+        "peer": 35
+      },
+      "sectors": {
+        "communications": 32,
+        "consumer": 62,
+        "energy": 26,
+        "finance": 62,
+        "health": 54,
+        "industry": 53,
+        "materials": 33,
+        "real_estate": 27,
+        "technology": 110,
+        "utilities": 22
+      },
+      "entity_count": 481,
+      "references": 44,
+      "unused_capacity": 99,
+      "plan_hash": "0c6468690a1a",
+      "evidence_boundary": "Checks declared research, not independent proof of leadership.",
+      "expansion": {
+        "heavy_entities": 370,
+        "added_beta": 111,
+        "growth": 0.3,
+        "min_entities": 481,
+        "max_entities": 580,
+        "distribution": {
+          "10_A": {
+            "heavy": 14,
+            "added": 5,
+            "added_cap": 5
+          },
+          "10_B": {
+            "heavy": 7,
+            "added": 1,
+            "added_cap": 3
+          },
+          "10_C": {
+            "heavy": 6,
+            "added": 2,
+            "added_cap": 2
+          },
+          "10_D": {
+            "heavy": 3,
+            "added": 1,
+            "added_cap": 1
+          },
+          "10_E": {
+            "heavy": 5,
+            "added": 1,
+            "added_cap": 2
+          },
+          "10_F": {
+            "heavy": 6,
+            "added": 2,
+            "added_cap": 2
+          },
+          "11_A": {
+            "heavy": 6,
+            "added": 0,
+            "added_cap": 2
+          },
+          "11_B": {
+            "heavy": 6,
+            "added": 2,
+            "added_cap": 2
+          },
+          "12_A": {
+            "heavy": 7,
+            "added": 3,
+            "added_cap": 3
+          },
+          "12_B": {
+            "heavy": 5,
+            "added": 2,
+            "added_cap": 2
+          },
+          "12_C": {
+            "heavy": 5,
+            "added": 1,
+            "added_cap": 2
+          },
+          "13_A": {
+            "heavy": 5,
+            "added": 2,
+            "added_cap": 2
+          },
+          "13_B": {
+            "heavy": 6,
+            "added": 1,
+            "added_cap": 2
+          },
+          "13_C": {
+            "heavy": 9,
+            "added": 3,
+            "added_cap": 3
+          },
+          "13_D": {
+            "heavy": 5,
+            "added": 2,
+            "added_cap": 2
+          },
+          "14_A": {
+            "heavy": 8,
+            "added": 3,
+            "added_cap": 3
+          },
+          "14_B": {
+            "heavy": 9,
+            "added": 3,
+            "added_cap": 3
+          },
+          "14_C": {
+            "heavy": 4,
+            "added": 0,
+            "added_cap": 2
+          },
+          "14_D": {
+            "heavy": 5,
+            "added": 0,
+            "added_cap": 2
+          },
+          "15_A": {
+            "heavy": 5,
+            "added": 2,
+            "added_cap": 2
+          },
+          "15_B": {
+            "heavy": 4,
+            "added": 1,
+            "added_cap": 2
+          },
+          "15_C": {
+            "heavy": 14,
+            "added": 5,
+            "added_cap": 5
+          },
+          "15_E": {
+            "heavy": 5,
+            "added": 2,
+            "added_cap": 2
+          },
+          "15_F": {
+            "heavy": 7,
+            "added": 3,
+            "added_cap": 3
+          },
+          "15_G": {
+            "heavy": 7,
+            "added": 3,
+            "added_cap": 3
+          },
+          "15_I": {
+            "heavy": 3,
+            "added": 1,
+            "added_cap": 1
+          },
+          "16_A": {
+            "heavy": 11,
+            "added": 4,
+            "added_cap": 4
+          },
+          "16_B": {
+            "heavy": 6,
+            "added": 2,
+            "added_cap": 2
+          },
+          "16_C": {
+            "heavy": 15,
+            "added": 5,
+            "added_cap": 5
+          },
+          "16_D": {
+            "heavy": 8,
+            "added": 3,
+            "added_cap": 3
+          },
+          "17_A": {
+            "heavy": 9,
+            "added": 3,
+            "added_cap": 3
+          },
+          "17_B": {
+            "heavy": 6,
+            "added": 2,
+            "added_cap": 2
+          },
+          "17_C": {
+            "heavy": 6,
+            "added": 2,
+            "added_cap": 2
+          },
+          "17_D": {
+            "heavy": 8,
+            "added": 3,
+            "added_cap": 3
+          },
+          "17_E": {
+            "heavy": 5,
+            "added": 1,
+            "added_cap": 2
+          },
+          "17_F": {
+            "heavy": 3,
+            "added": 0,
+            "added_cap": 1
+          },
+          "17_G": {
+            "heavy": 6,
+            "added": 2,
+            "added_cap": 2
+          },
+          "17_H": {
+            "heavy": 5,
+            "added": 1,
+            "added_cap": 2
+          },
+          "18_A": {
+            "heavy": 8,
+            "added": 3,
+            "added_cap": 3
+          },
+          "18_B": {
+            "heavy": 5,
+            "added": 0,
+            "added_cap": 2
+          },
+          "18_C": {
+            "heavy": 9,
+            "added": 3,
+            "added_cap": 3
+          },
+          "18_D": {
+            "heavy": 5,
+            "added": 2,
+            "added_cap": 2
+          },
+          "18_E": {
+            "heavy": 10,
+            "added": 3,
+            "added_cap": 3
+          },
+          "18_F": {
+            "heavy": 5,
+            "added": 2,
+            "added_cap": 2
+          },
+          "19_A": {
+            "heavy": 4,
+            "added": 2,
+            "added_cap": 2
+          },
+          "19_B": {
+            "heavy": 4,
+            "added": 1,
+            "added_cap": 2
+          },
+          "19_C": {
+            "heavy": 7,
+            "added": 3,
+            "added_cap": 3
+          },
+          "19_D": {
+            "heavy": 4,
+            "added": 1,
+            "added_cap": 2
+          },
+          "20_A": {
+            "heavy": 7,
+            "added": 3,
+            "added_cap": 3
+          },
+          "20_B": {
+            "heavy": 4,
+            "added": 0,
+            "added_cap": 2
+          },
+          "20_C": {
+            "heavy": 6,
+            "added": 1,
+            "added_cap": 2
+          },
+          "20_D": {
+            "heavy": 4,
+            "added": 1,
+            "added_cap": 2
+          },
+          "20_E": {
+            "heavy": 3,
+            "added": 0,
+            "added_cap": 1
+          },
+          "21_B": {
+            "heavy": 5,
+            "added": 0,
+            "added_cap": 2
+          },
+          "21_C": {
+            "heavy": 3,
+            "added": 0,
+            "added_cap": 1
+          },
+          "21_E": {
+            "heavy": 3,
+            "added": 0,
+            "added_cap": 1
+          },
+          "22_A": {
+            "heavy": 4,
+            "added": 1,
+            "added_cap": 2
+          },
+          "22_B": {
+            "heavy": 7,
+            "added": 3,
+            "added_cap": 3
+          },
+          "22_D": {
+            "heavy": 9,
+            "added": 3,
+            "added_cap": 3
+          }
+        }
+      }
+    },
+    "themes": 59,
+    "research_themes": 73,
+    "concentration": null,
+    "duties": {
+      "declared": 0,
+      "represented": 0,
+      "missing": [],
+      "undeclared": []
+    },
+    "tradingview_tokens": 592,
+    "roles": {
+      "ANCHOR": 35,
+      "BETA_SATELLITE": 116,
+      "THEME_LEADER": 330
+    },
+    "buckets": {
+      "core": 365,
+      "satellite": 116
+    },
+    "rejections": {
+      "not_selected_under_budget": 173,
+      "other": 12
+    }
+  }
+}

@@ -15,10 +15,10 @@
       "market": "us",
       "origin": "accepted optimization-05 reviewed research, 2026-10-07",
       "original_snapshot_sha256": "b898c868070c17087e48a5cba91e85dfc335cb6a9000b65694e6ec77a3108595",
-      "example_snapshot_sha256": "d678a0bcde0e9dac22ae32c604d87cc8403dd1fc4419483d702e589a625ccabd",
+      "example_snapshot_sha256": "b898c868070c17087e48a5cba91e85dfc335cb6a9000b65694e6ec77a3108595",
       "original_candidates": 666,
-      "example_candidates": 370,
-      "transformation": "retain reviewed Heavy entity candidates; preserve plan, original measured populations and provenance; remove source-index entries unused by the retained plan, candidates or measurement provenance",
+      "example_candidates": 666,
+      "transformation": "unchanged full accepted US research snapshot; preserve eligible Beta bench and rejection audit for the four-depth ladder",
       "as_of": "2026-10-07"
     },
     {
@@ -30,6 +30,37 @@
       "example_candidates": 79,
       "transformation": "unchanged full Crypto research snapshot",
       "as_of": "2026-10-07"
+    },
+    {
+      "market": "jp",
+      "origin": "Reviewed business proposals and actual public receipts, 2026-10-07; reuse archived measured liquidity/listing facts",
+      "original_snapshot_sha256": "614c112f7b95a98da2e7108fd4254884d3044c79daf05f73b3d5857adec7992f",
+      "example_snapshot_sha256": "7991b6288e86b621f0d5accb565e17e7e8494cd49be57f39f5e244b033dcbce5",
+      "original_candidates": 533,
+      "example_candidates": 131,
+      "transformation": "Individually reviewed operating representatives and new current coverage plan; retain verified instruments and measured liquidity with original dates/hash/population; omit old optional factor statistics after reclassification. ETF gauges move to references.",
+      "as_of": "2026-10-07",
+      "business_profiles": 131,
+      "financial_receipt_sha256": "8d7f6758e98048432a72fdcd52696d2d224dff2cabc71fc8ee1761fd894ef827",
+      "structure_receipt_sha256": "4a1fa0a286f4ef35ae528dfe5436003057c4d2b762dd49a721d5dd53fa62645a",
+      "deferred": [],
+      "primary_business_exception": "TSE:9984 provider description discarded; official 2026 issuer business model read"
+    },
+    {
+      "market": "kr",
+      "origin": "Reviewed business proposals and actual public receipts, 2026-10-07; reuse archived measured liquidity/listing facts",
+      "original_snapshot_sha256": "0e7027ea175accd7a5bf624b1a7a6f25c3ffd9dc5c4e93bb28c727e5e93f05f4",
+      "example_snapshot_sha256": "34cc57762836c5636529080595a19e4407b925c1679d9114be8e2f36a780153c",
+      "original_candidates": 478,
+      "example_candidates": 108,
+      "transformation": "Individually reviewed operating representatives and new current coverage plan; retain verified instruments and measured liquidity with original dates/hash/population; omit old optional factor statistics after reclassification. ETF gauges move to references.",
+      "as_of": "2026-10-07",
+      "business_profiles": 108,
+      "financial_receipt_sha256": "e862f5e0e5be6462aa945e2e8b9c16d1e6df7f68d7ca04f05e5b5f7b62428fde",
+      "structure_receipt_sha256": "964e75e4c8e0430f5925eb1212166152dcba044d1dfa24636536e025d329d2b9",
+      "deferred": [
+        "KRX:122870: absent from the measured inventory; do not invent history"
+      ]
     }
   ]
 }
