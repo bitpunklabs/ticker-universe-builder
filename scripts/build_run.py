@@ -40,10 +40,11 @@ def diagnostics(spec: dict, snapshot: dict, policy: dict, seed: dict | None = No
                         "first; do not pad capacity.",
             }
             if spec.get("profile") == "extreme" and seed and seed.get("profile") == "heavy":
-                from coverage_core import expansion_bounds
+                from coverage_core import expansion_minimum
 
                 held = {c["asset_id"] for c in seed["members"]}
-                minimum, maximum = expansion_bounds(len(held), policy)
+                minimum = expansion_minimum(len(held), policy)
+                maximum = spec.get("target_count") or snapshot["coverage_plan"]["budgets"]["extreme"]
                 proposed = {
                     c["asset_id"] for c in normalized["candidates"]
                     if c["eligible"] and c["asset_id"] not in held

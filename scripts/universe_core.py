@@ -2632,8 +2632,8 @@ def render_markdown(
             lines.extend([
                 f"- Heavy entities: {expansion['heavy_entities']}; "
                 f"added Beta: {expansion['added_beta']} ({expansion['growth']:.1%})",
-                f"- Required Extreme entity range: {expansion['min_entities']}–"
-                f"{expansion['max_entities']} (references excluded)",
+                f"- Required Extreme entities: at least {expansion['min_entities']}; "
+                f"entity ceiling {expansion['max_entities']} (references excluded)",
             ])
         lines.extend(["", "### Reference instruments", ""])
         for ref in universe["coverage_plan"].get("references", []):

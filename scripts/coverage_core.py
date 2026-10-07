@@ -283,26 +283,19 @@ def core_decisions(plan, members, refs, profile):
             )
 
 
-def expansion_bounds(heavy_count, policy):
-    """Entity-only growth; references never enlarge the denominator."""
-    band = policy.get("coverage", {}).get("extreme_expansion")
+def expansion_minimum(heavy_count, policy):
+    """Entity-only minimum growth; existing capacity gates provide the ceilings."""
+    rule = policy.get("coverage", {}).get("extreme_expansion")
     need(
-        isinstance(band, dict) and set(band) == {"min", "max"},
-        "policy needs extreme_expansion min/max",
+        isinstance(rule, dict) and set(rule) == {"min"},
+        "policy needs extreme_expansion min only",
     )
+    minimum = rule["min"]
     need(
-        all(type(v) in (int, float) and math.isfinite(v) for v in band.values())
-        and 0.30 <= band["min"] <= band["max"] <= 0.4,
-        "Extreme expansion must stay within 30%-40%",
+        type(minimum) in (int, float) and math.isfinite(minimum) and minimum >= 0.4,
+        "Extreme expansion minimum must be at least 40%",
     )
-    minimum = heavy_count + math.ceil(heavy_count * band["min"] - 1e-9)
-    maximum = heavy_count + math.floor(heavy_count * band["max"] + 1e-9)
-    need(
-        minimum <= maximum,
-        f"Extreme growth has no integer solution for Heavy={heavy_count}; "
-        "review the requested plan without padding or dropping protected members",
-    )
-    return minimum, maximum
+    return heavy_count + math.ceil(heavy_count * minimum - 1e-9)
 
 
 def quality_check(universe, policy, *, assembling=False):
@@ -409,13 +402,13 @@ def quality_check(universe, policy, *, assembling=False):
             all(c["admission"]["kind"] == "satellite" for k, c in by_asset.items() if k not in old),
             "Extreme cannot repair a missing Heavy core representative",
         )
-        minimum, maximum = expansion_bounds(len(old), policy)
-        need(len(members) <= maximum, f"Extreme exceeds growth ceiling: {len(members)} > {maximum}")
+        minimum = expansion_minimum(len(old), policy)
+        maximum = universe["limits"]["target_count"]
         if not assembling:
             need(
                 len(members) >= minimum,
                 f"Extreme expansion needs research: Heavy={len(old)}, selected={len(members)}, "
-                f"required={minimum}..{maximum}, missing={max(0, minimum - len(members))}; "
+                f"required>={minimum}, entity_ceiling={maximum}, missing={max(0, minimum - len(members))}; "
                 "research more qualified Beta; do not weaken admission gates",
             )
         expansion = {
@@ -568,12 +561,10 @@ def build(spec, raw, policy, previous=None):
     # Validate the skeleton BEFORE optional Beta; no candidate can conceal its absence.
     quality_check(base, policy, assembling=True)
     if profile == "extreme":
-        minimum, maximum = expansion_bounds(len(selected), policy)
-        target = min(target, maximum)
-        base["limits"]["target_count"] = target
+        minimum = expansion_minimum(len(selected), policy)
         need(
             minimum <= target,
-            f"Extreme growth needs {minimum}..{maximum} entities; plan/spec ceiling {target} "
+            f"Extreme growth needs at least {minimum} entities; plan/spec ceiling {target} "
             "cannot meet it; review capacity before researching additions",
         )
         retained_beta = sum(c["admission"]["kind"] == "satellite" for c in selected)

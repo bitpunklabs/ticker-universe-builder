@@ -11,7 +11,7 @@ import pytest
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 
 from build_run import run_build
-from coverage_core import audit_core, expansion_bounds
+from coverage_core import audit_core, expansion_minimum
 from test_universe_core import candidate, change_set, evidence, measurement
 from universe_core import (
     UniverseError,
@@ -169,14 +169,14 @@ def test_default_requires_plan_and_does_not_certify_legacy_anchors():
 def test_depth_roles_budgets_and_true_extreme_increment():
     light, _ = build(profile="light")
     medium, _ = build(profile="medium")
-    heavy, report = build(target_count=13)
+    heavy, report = build(target_count=12)
     extreme, final = build(profile="extreme", seed=heavy)
-    assert [len(u["members"]) for u in (light, medium, heavy, extreme)] == [4, 8, 13, 18]
+    assert [len(u["members"]) for u in (light, medium, heavy, extreme)] == [4, 8, 12, 18]
     assert {c["admission"]["kind"] for c in medium["members"]} == {"leader"}
     assert report["stats"]["quality"]["leader_coverage"] == 1
-    assert final["stats"]["quality"]["unused_capacity"] == 0
+    assert final["stats"]["quality"]["unused_capacity"] == 12
     assert final["stats"]["quality"]["expansion"] == dict(
-        heavy_entities=13, added_beta=5, growth=5 / 13, min_entities=17, max_entities=18)
+        heavy_entities=12, added_beta=6, growth=6 / 12, min_entities=17, max_entities=30)
     old = {c["asset_id"] for c in heavy["members"]}
     assert all(
         c["admission"]["kind"] == "satellite"
@@ -189,7 +189,7 @@ def test_depth_roles_budgets_and_true_extreme_increment():
 
 
 def expansion_fixture():
-    """Twenty protected core entities allow exact 30% and 40% boundary checks."""
+    """Twenty protected core entities allow exact 40% and above-minimum capacity checks."""
     data = researched()
     plan = data["coverage_plan"]
     plan["budgets"].update(heavy=30, extreme=50)
@@ -206,13 +206,13 @@ def expansion_fixture():
     return data
 
 
-@pytest.mark.parametrize("target,expected", [(26, 26), (27, 27), (28, 28), (50, 28)])
-def test_extreme_growth_boundaries_and_ceiling(target, expected):
+@pytest.mark.parametrize("target,expected", [(28, 28), (29, 29), (50, 30)])
+def test_extreme_growth_minimum_and_existing_capacity_ceilings(target, expected):
     data = expansion_fixture()
     heavy, _ = build(data, target_count=20)
     extreme, report = build(data, profile="extreme", seed=heavy, target_count=target)
     assert len(extreme["members"]) == expected
-    assert report["passed"] and extreme["limits"]["target_count"] == expected
+    assert report["passed"] and extreme["limits"]["target_count"] == target
     selected = {c["asset_id"]: c for c in extreme["members"]}
     assert all(selected[c["asset_id"]] == c for c in heavy["members"])
 
@@ -221,42 +221,44 @@ def test_extreme_can_complete_at_lower_edge_without_filling_upper_ceiling():
     data = expansion_fixture()
     data["candidates"] = [c for c in data["candidates"]
                           if c["admission"]["kind"] != "satellite"
-                          or c["asset_id"] in {f"BETA{i}" for i in range(6)}]
+                          or c["asset_id"] in {f"BETA{i}" for i in range(8)}]
     heavy, _ = build(data, target_count=20)
     extreme, report = build(data, profile="extreme", seed=heavy)
-    assert len(extreme["members"]) == 26
-    assert report["passed"] and report["stats"]["quality"]["unused_capacity"] == 2
+    assert len(extreme["members"]) == 28
+    assert report["passed"] and report["stats"]["quality"]["unused_capacity"] == 22
 
 
-@pytest.mark.parametrize("count,bounds", [(457, (595, 639)), (370, (481, 518)), (50, (65, 70))])
-def test_extreme_entity_rounding_for_reviewed_heavy_sizes(count, bounds):
-    assert expansion_bounds(count, load_policy()) == bounds
+@pytest.mark.parametrize("count,minimum", [(457, 640), (370, 518), (50, 70), (2, 3)])
+def test_extreme_entity_rounding_for_reviewed_heavy_sizes(count, minimum):
+    assert expansion_minimum(count, load_policy()) == minimum
 
 
-@pytest.mark.parametrize("band", [None, {}, {"min": 0.29, "max": 0.4},
-                                   {"min": 0.35, "max": 0.45},
-                                   {"min": 0.4, "max": 0.35},
-                                   {"min": float("nan"), "max": 0.4}])
-def test_policy_cannot_waive_growth_band(band):
+@pytest.mark.parametrize("rule", [None, {}, {"min": 0.39}, {"min": 0.4, "max": 0.5},
+                                   {"min": True}, {"min": float("nan")},
+                                   {"min": float("inf")}])
+def test_policy_cannot_waive_growth_minimum(rule):
     policy = load_policy()
-    policy["coverage"]["extreme_expansion"] = band
+    policy["coverage"]["extreme_expansion"] = rule
     with pytest.raises(UniverseError, match="expansion"):
-        expansion_bounds(20, policy)
+        expansion_minimum(20, policy)
+
+
+def test_custom_policy_can_tighten_minimum():
+    policy = load_policy()
+    policy["coverage"]["extreme_expansion"] = {"min": 0.45}
+    assert expansion_minimum(20, policy) == 29
 
 
 def test_extreme_reports_infeasible_capacity_and_satellite_share():
     data = expansion_fixture()
     heavy, _ = build(data, target_count=20)
     with pytest.raises(UniverseError, match="plan/spec ceiling"):
-        build(data, profile="extreme", seed=heavy, target_count=25)
+        build(data, profile="extreme", seed=heavy, target_count=27)
     # The original fixture fills Heavy to 20% Beta. Do not silently waive its
     # Extreme satellite-share gate or drop core facts to meet the growth promise.
     dense_heavy, _ = build()
     with pytest.raises(UniverseError, match="satellite-share ceiling"):
         build(profile="extreme", seed=dense_heavy)
-    # There is no integer between 2 * 1.30 and 2 * 1.40.
-    with pytest.raises(UniverseError, match="no integer solution"):
-        expansion_bounds(2, load_policy())
 
 
 def test_extreme_growth_does_not_count_references_or_override_export_cap():
@@ -266,16 +268,16 @@ def test_extreme_growth_does_not_count_references_or_override_export_cap():
              observes="US ten-year Treasury yield", evidence=evidence())]
     heavy, _ = build(data, target_count=20)
     extreme, report = build(data, profile="extreme", seed=heavy)
-    assert len(extreme["members"]) == 28 and report["stats"]["exported_tickers"] == 29
+    assert len(extreme["members"]) == 30 and report["stats"]["exported_tickers"] == 31
     assert report["stats"]["quality"]["expansion"]["heavy_entities"] == 20
     with pytest.raises(UniverseError, match="expansion needs research"):
-        build(data, profile="extreme", seed=heavy, hard_ticker_cap=26)
+        build(data, profile="extreme", seed=heavy, hard_ticker_cap=28)
 
 
 def test_stored_validation_and_maintenance_enforce_growth():
     data = expansion_fixture()
     heavy, _ = build(data, target_count=20)
-    extreme, _ = build(data, profile="extreme", seed=heavy, target_count=26)
+    extreme, _ = build(data, profile="extreme", seed=heavy, target_count=28)
     beta = next(c for c in extreme["members"] if c["admission"]["kind"] == "satellite")
     changes = change_set(extreme, [dict(op="REMOVE", ticker=beta["ticker"],
                                        reason="fixture", evidence=evidence())])
@@ -289,12 +291,17 @@ def test_stored_validation_and_maintenance_enforce_growth():
     assert not report["passed"] and any("expansion needs research" in e for e in report["errors"])
     over = deepcopy(extreme)
     selected = {c["asset_id"] for c in over["members"]}
-    extra = [c for c in data["candidates"] if c["asset_id"] not in selected][:3]
+    extra = [c for c in data["candidates"] if c["asset_id"] not in selected][:2]
     pool = {c["asset_id"]: c for c in normalize_snapshot(data)["candidates"]}
     over["members"].extend(pool[c["asset_id"]] for c in extra)
     over["limits"]["target_count"] = 50
     report = validate_universe(resign(over))
-    assert not report["passed"] and any("growth ceiling" in e for e in report["errors"])
+    assert report["passed"]  # 50% growth is allowed, with 10/30 satellites.
+    extra_beta = next(pool[c["asset_id"]] for c in data["candidates"]
+                      if c["asset_id"] not in {x["asset_id"] for x in over["members"]})
+    over["members"].append(extra_beta)
+    report = validate_universe(resign(over))
+    assert not report["passed"] and any("satellite share" in e for e in report["errors"])
 
 
 def test_extreme_shortfall_is_resumable_and_never_published(tmp_path):
@@ -303,14 +310,14 @@ def test_extreme_shortfall_is_resumable_and_never_published(tmp_path):
     incomplete = deepcopy(data)
     incomplete["candidates"] = [c for c in data["candidates"]
                                 if c["admission"]["kind"] != "satellite"
-                                or c["asset_id"] in {f"BETA{i}" for i in range(5)}]
+                                or c["asset_id"] in {f"BETA{i}" for i in range(7)}]
     sp, sn, seed = (tmp_path / n for n in ("spec.json", "snapshot.json", "heavy.json"))
     sp.write_text(json.dumps(dict(schema_version=1, market="us", profile="extreme")))
     sn.write_text(json.dumps(incomplete))
     seed.write_text(json.dumps(heavy))
     result, code = run_build(spec=str(sp), snapshot=str(sn), seed=str(seed), output=str(tmp_path / "out"))
     assert code == 2 and result["status"] == "needs_research"
-    assert "selected=25" in result["error"] and "missing=1" in result["error"]
+    assert "selected=27" in result["error"] and "missing=1" in result["error"]
     assert result["diagnostics"]["expansion"]["minimum_candidate_gap"] == 1
     assert not (tmp_path / "out").exists()
     resume = str(Path(result["checkpoint"]).parent)
@@ -319,7 +326,7 @@ def test_extreme_shortfall_is_resumable_and_never_published(tmp_path):
     sn.write_text(json.dumps(data))
     repaired, code = run_build(spec=None, snapshot=None, output=None, resume=resume)
     assert code == 0 and repaired["status"] == "complete"
-    assert repaired["expansion"]["added"] == 8 and repaired["filled"] == 28
+    assert repaired["expansion"]["added"] == 10 and repaired["filled"] == 30
     assert json.loads(Path(result["inputs_archive"]).read_text())["snapshot"] == incomplete
 
 
