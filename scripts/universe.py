@@ -11,7 +11,7 @@
     python scripts/universe.py validate universe.json
 
 Build exits 0 when coverage is qualified (unused capacity allowed), 2 for blocked research,
-and 3 for an underfilled historical replay. Checkpoints preserve attempts; invalid universes
+and 3 for an explicit partial delivery. Checkpoints preserve attempts; invalid universes
 are never published.
 """
 
@@ -239,7 +239,7 @@ def parser() -> argparse.ArgumentParser:
     )
     themes.add_argument(
         "--target", type=int,
-        help="target member count for --profile (default: the policy guidance)",
+        help="informational target for --profile; legacy policies also check size guidance",
     )
     themes.set_defaults(handler=taxonomy)
 

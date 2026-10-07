@@ -1,7 +1,7 @@
 # Evaluation
 
 Every threshold in this skill is a guess. The guidance ranges, `BETA_FULL_SCALE`, the listing-age
-bands, the score weights, the theme weights — all set by judgement, none ever checked against an
+coverage/satellite constraints and legacy score weights — all set by judgement, none calibrated against an
 outcome. `evaluate` is the only thing here that can change that, and it matters more for a
 market whose rules were declared at run time than for one that was reviewed once by a person.
 
@@ -55,8 +55,7 @@ validation from the history used to select it. Historical same-window diagnostic
 - **A correlated pair is a question, not a verdict.** `redundancy` reports and never gates.
   Two names in one sector move together because that is what a sector is, and both can belong.
   What the section is for is the pair that no one intended: two themes apart on the table and
-  0.97 in the window. The breadth floor already spends more than half a Light universe, so a
-  seat bought twice is the most expensive mistake available here and the hardest to see by eye.
+  0.97 in the window. Duplicate observation seats deserve review even when both tickers satisfy their contracts.
   A member whose history covers less than half the window is set aside and named rather than
   allowed to shorten the shared grid for every other pair, and so is one that never moved at all
   — its correlation with anything is undefined rather than zero, and a sensor printing a flat

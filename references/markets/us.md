@@ -59,7 +59,7 @@ remain excluded; duration, currency and commodity signals require actual observa
 
 ## Example
 
-[`examples/us-medium/`](../../examples/us-medium/) contains a full-size Medium
+[`examples/us-medium/`](../../examples/us-medium/) contains a current coverage-first Medium
 research snapshot, measured statistics, dated listing evidence, reports and script-generated watchlist.
 Read [the scope and limitations](../../examples/README.md) before reusing it.
 

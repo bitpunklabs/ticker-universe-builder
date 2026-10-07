@@ -85,8 +85,8 @@ and unlock checks explicit in notes/deferred research. Never convert missing fac
 score. This preserves the old pool's liquidity-first and information-density principles while
 keeping selection deterministic and research proportionate to the requested depth.
 
-## Historical comparison example
+## Current worked examples
 
-[`examples/crypto-medium/`](../../examples/crypto-medium/) is the dated 0.4 baseline. Its broad
-tags and mechanical roles are disclosed limitations, not the current research policy. See
-[example scope](../../examples/README.md); new builds start with the current economic-duty table.
+[`examples/crypto-medium/`](../../examples/crypto-medium/) demonstrates researched economic
+coverage and admissions. Heavy and Max share that snapshot; Max adds 30% sourced Beta to the
+qualified Heavy. Read [scope and limitations](../../examples/README.md) before reusing facts.

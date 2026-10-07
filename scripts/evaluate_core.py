@@ -280,9 +280,8 @@ def _independence(
 ) -> dict[str, Any]:
     """The declared redundancy against the realised one.
 
-    `independence` is the metric the satellite bucket is selected on, and until now nothing ever
-    compared it to what the window did. The error here is what `BETA_FULL_SCALE` and the
-    `INDEPENDENT_SENSOR` threshold should be set from.
+    Price independence is auxiliary in coverage-first and a selection metric in legacy replay.
+    Compare it to the observed window without turning measurement error into an admission gate.
     """
     if not benchmarks:
         return {"benchmarks": [], "note": "pass --benchmark to compare declared independence"}

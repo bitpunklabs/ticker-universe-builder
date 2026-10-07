@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "inputs": [
+    {
+      "market": "cn",
+      "origin": "accepted optimization-05 reviewed research, 2026-10-07",
+      "original_snapshot_sha256": "fce6e0be3429c4e516dfed65efb7682c080b820a71b2dd15238a9678009930a1",
+      "example_snapshot_sha256": "aaa24f3d400dc96ace102be20020ddd173ff4d7656e97cc61c6c65a83ddddc1f",
+      "original_candidates": 1639,
+      "example_candidates": 457,
+      "transformation": "retain reviewed Heavy entity candidates; preserve plan, original measured populations and provenance; remove source-index entries unused by the retained plan, candidates or measurement provenance",
+      "as_of": "2026-10-07"
+    },
+    {
+      "market": "us",
+      "origin": "accepted optimization-05 reviewed research, 2026-10-07",
+      "original_snapshot_sha256": "b898c868070c17087e48a5cba91e85dfc335cb6a9000b65694e6ec77a3108595",
+      "example_snapshot_sha256": "d678a0bcde0e9dac22ae32c604d87cc8403dd1fc4419483d702e589a625ccabd",
+      "original_candidates": 666,
+      "example_candidates": 370,
+      "transformation": "retain reviewed Heavy entity candidates; preserve plan, original measured populations and provenance; remove source-index entries unused by the retained plan, candidates or measurement provenance",
+      "as_of": "2026-10-07"
+    },
+    {
+      "market": "crypto",
+      "origin": "accepted optimization-05 reviewed research, 2026-10-07",
+      "original_snapshot_sha256": "b3f53be91327146df0179d90496064c83f2b5a6d6af38ca5cab2a03cdaa2c2bd",
+      "example_snapshot_sha256": "b3f53be91327146df0179d90496064c83f2b5a6d6af38ca5cab2a03cdaa2c2bd",
+      "original_candidates": 79,
+      "example_candidates": 79,
+      "transformation": "unchanged full Crypto research snapshot",
+      "as_of": "2026-10-07"
+    }
+  ]
+}

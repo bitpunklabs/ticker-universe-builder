@@ -1,0 +1,53 @@
+{
+  "passed": true,
+  "qualified": true,
+  "errors": [],
+  "warnings": [],
+  "stats": {
+    "tickers": 294,
+    "exported_tickers": 338,
+    "quality": {
+      "status": "qualified",
+      "leader_coverage": 0.8909,
+      "roles": {
+        "leader": 294
+      },
+      "sectors": {
+        "communications": 19,
+        "consumer": 41,
+        "energy": 17,
+        "finance": 39,
+        "health": 35,
+        "industry": 30,
+        "materials": 21,
+        "real_estate": 15,
+        "technology": 63,
+        "utilities": 14
+      },
+      "entity_count": 294,
+      "references": 44,
+      "unused_capacity": 36,
+      "plan_hash": "0c6468690a1a",
+      "evidence_boundary": "Checks declared research, not independent proof of leadership."
+    },
+    "themes": 51,
+    "research_themes": 68,
+    "concentration": null,
+    "duties": {
+      "declared": 0,
+      "represented": 0,
+      "missing": [],
+      "undeclared": []
+    },
+    "tradingview_tokens": 397,
+    "roles": {
+      "THEME_LEADER": 294
+    },
+    "buckets": {
+      "core": 294
+    },
+    "rejections": {
+      "not_selected_under_budget": 76
+    }
+  }
+}

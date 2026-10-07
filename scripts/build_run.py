@@ -29,7 +29,9 @@ def save(path: Path, value: dict) -> None:
 def diagnostics(spec: dict, snapshot: dict, policy: dict, seed: dict | None = None) -> dict:
     """Admission checks are the core's; these counts never authorize a build."""
     try:
-        normalized = normalize_snapshot(snapshot, coverage_first=policy.get("selection_model") == "coverage_first")
+        normalized = normalize_snapshot(
+            snapshot, coverage_first=policy.get("selection_model") == "coverage_first"
+        )
         if policy.get("selection_model") == "coverage_first":
             result = {
                 "selection_model": "coverage_first",
@@ -40,8 +42,9 @@ def diagnostics(spec: dict, snapshot: dict, policy: dict, seed: dict | None = No
                         "first; do not pad capacity.",
             }
             if spec.get("profile") == "max" and seed and seed.get("profile") == "heavy":
-                from coverage_core import expansion_minimum, expansion_distribution
                 from collections import Counter
+
+                from coverage_core import expansion_distribution, expansion_minimum
 
                 held = {c["asset_id"] for c in seed["members"]}
                 minimum = expansion_minimum(len(held), policy)
@@ -68,15 +71,23 @@ def diagnostics(spec: dict, snapshot: dict, policy: dict, seed: dict | None = No
                 }
                 required_added = minimum - len(held)
                 capacity = result["expansion"]["distribution_capacity"]
-                cause = ("candidate_supply" if len(proposed) < required_added else
-                         "group_distribution" if capacity < required_added else "other_limits_or_facts")
+                cause = (
+                    "candidate_supply"
+                    if len(proposed) < required_added
+                    else "group_distribution"
+                    if capacity < required_added
+                    else "other_limits_or_facts"
+                )
                 result["recovery"] = {
                     "cause": cause,
                     "missing_groups": [k for k in sorted(caps) if available[k] < caps[k]],
                     "strategy": [
-                        "Review primary business assignments and peer gauges; correct facts, not fit-chase.",
-                        "Research candidates in deficient groups; do not redirect their places to surplus groups.",
-                        "Check broad business, named-core complementarity, sourced market cap and liquidity; "
+                        "Review primary business assignments and peer gauges; "
+                        "correct facts, not fit-chase.",
+                        "Research candidates in deficient groups; "
+                        "do not redirect their places to surplus groups.",
+                        "Check broad business, named-core complementarity, "
+                        "sourced market cap and liquidity; "
                         "price beta is descriptive, not an admission floor.",
                         "Resume with materially revised sourced inputs; keep previous deliveries.",
                     ],
@@ -281,8 +292,10 @@ def run_build(
             attempt["handler"] = {"action": "deliver", "reason": "small_count_gap_only",
                                   "retry_command": next_command + " --shortfall-action retry"}
             attempt["next_actions"] = [
-                "Deliver all partial-labelled artifacts together; disclose actual growth and missing count.",
-                "For further research, use the saved diagnostics and retry command with revised inputs.",
+                "Deliver all partial-labelled artifacts together; "
+                "disclose actual growth and missing count.",
+                "For further research, use the saved diagnostics and retry command "
+                "with revised inputs.",
             ]
         elif attempt["status"] == "needs_research":
             attempt["handler"] = {"action": "retry", "reason": "large_gap_or_other_failed_checks",

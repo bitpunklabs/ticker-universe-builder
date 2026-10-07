@@ -376,14 +376,8 @@ OP_ORDER = {
     "REMOVE_THEME": 5,
     "NO_CHANGE": 6,
 }
-# Themes are not equal and a cap said they were. Semiconductors in CN, or the megacap platforms in
-# US, carry more of what their market does than property development does, and a ceiling both had
-# to share meant either the important theme was cut off or the unimportant one was handed slots it
-# had nothing to fill them with. So there is no cap. A theme declares a `weight` — how much of the
-# market it accounts for — and the slots left after every theme has its first one are apportioned
-# to weight by the Sainte-Laguë divisor rule. A weight-3 theme with a deep bench ends up with
-# roughly three times the members of a weight-1 theme, and a theme that runs out of eligible
-# candidates simply stops being served, with its slots flowing to the next theme in line.
+# Display weights allocate seats only in explicit legacy replay. Coverage-first uses the
+# economic plan; Max freezes Heavy's distribution, independent of these display weights.
 DEFAULT_THEME_WEIGHT = 1.0
 # The range is a guard rail, not a judgement. Below a quarter a theme is not worth a row in the
 # table; above four the apportionment is being used to hand-pick the universe, which is what the
@@ -450,14 +444,9 @@ def check_taxonomy(
     target: int | None = None,
     profile: str | None = None,
 ) -> dict[str, Any]:
-    """Check a hand-written theme table before a single candidate has been researched.
+    """Check display-table structure; economic feasibility belongs to the coverage plan.
 
-    Designing the taxonomy is the first step and the one with no help in it, and a declared
-    market has no starter to edit — the agent writes it from nothing. The expensive failure is
-    not a malformed file, which the builder catches anyway; it is a table that is structurally
-    fine and cannot produce the universe that was asked for. A Light target of 150 against
-    twelve Level-1 themes and a cap of four can reach 48, and today you learn that after the
-    research is done.
+    An explicit legacy policy additionally checks its theme floors and weighted allocation.
     """
     policy = policy or load_policy()
     errors: list[str] = []
@@ -496,10 +485,6 @@ def check_taxonomy(
                 "this part of the market is invisible to a Light universe"
             )
 
-    try:
-        guidance = market_guidance(str(market).strip().lower(), policy, None)
-    except UniverseError:
-        guidance = None
     stats: dict[str, Any] = {
         "themes": len(taxonomy),
         "l1_groups": len(names),
@@ -509,6 +494,24 @@ def check_taxonomy(
     }
     if profile is not None and profile not in PROFILES:
         raise UniverseError(f"profile must be one of {', '.join(PROFILES)}")
+    if policy.get("selection_model") == "coverage_first":
+        for name in (profile,) if profile else PROFILES:
+            level = int(policy["profiles"][name]["coverage_level"])
+            stats["capacity"][name] = {
+                "themes": sum(item["coverage_level"] <= level for item in taxonomy),
+                "target": target,
+            }
+        return {
+            "passed": not errors,
+            "scope": "display_structure_only",
+            "errors": sorted(set(errors)),
+            "warnings": sorted(set(warnings)),
+            "stats": stats,
+        }
+    try:
+        guidance = market_guidance(str(market).strip().lower(), policy, None)
+    except UniverseError:
+        guidance = None
     for name in (profile,) if profile else PROFILES:
         level = int(policy["profiles"][name]["coverage_level"])
         in_level = [item for item in taxonomy if int(item["coverage_level"]) <= level]
@@ -1383,7 +1386,12 @@ def normalize_candidate(
     supplementary_beta = (coverage_first and role == "BETA_SATELLITE"
                           and isinstance(raw.get("admission"), dict)
                           and raw["admission"].get("kind") == "satellite")
-    if eligible and spec.factor_r2_required and role not in FACTOR_EXEMPT_ROLES and not supplementary_beta:
+    if (
+        eligible
+        and spec.factor_r2_required
+        and role not in FACTOR_EXEMPT_ROLES
+        and not supplementary_beta
+    ):
         if metrics["factor_r2"] is None:
             raise UniverseError(
                 f"{ticker}: established {spec.code} candidates require factor_r2"
@@ -2078,8 +2086,12 @@ def validate_universe(
         errors.append(str(exc))
     for index, raw in enumerate(members):
         try:
-            item = normalize_candidate(rules or market, raw, taxonomy_by_code,
-                                       coverage_first=universe.get("selection_model") == "coverage_first")
+            item = normalize_candidate(
+                rules or market,
+                raw,
+                taxonomy_by_code,
+                coverage_first=universe.get("selection_model") == "coverage_first",
+            )
         except UniverseError as exc:
             errors.append(f"member #{index}: {exc}")
             continue
@@ -2204,8 +2216,10 @@ def validate_universe(
             quality = quality_check(universe, policy)
             references = universe["coverage_plan"].get("references", [])
             if quality["status"] == "partial":
-                warnings.append("PARTIAL Max: qualified members, but required expansion is not met; "
-                                f"shortfall={universe['delivery']['shortfall']}")
+                warnings.append(
+                    "PARTIAL Max: qualified members, but required expansion is not met; "
+                    f"shortfall={universe['delivery']['shortfall']}"
+                )
         except (UniverseError, KeyError, TypeError, ValueError) as exc:
             errors.append(str(exc))
     else:
@@ -2256,12 +2270,8 @@ def validate_universe(
                            for item in normalized}),
             **({"research_themes": len({item["theme_code"] for item in normalized})}
                if coverage_model else {}),
-            # Members that earned a seat on an incomplete score. Not an error -- a metric may be
-            # unmeasurable for good reasons -- but a reader deciding how much to trust the
-            # ordering should not have to open the JSON to find out.
-            "partially_scored": sum(
-                1 for item in normalized if _is_partially_scored(item)
-            ),
+            **({"partially_scored": sum(_is_partially_scored(item) for item in normalized)}
+               if not coverage_model else {}),
             "concentration": concentration,
             "duties": duties,
             "tradingview_tokens": token_count,
@@ -2475,14 +2485,18 @@ def render_markdown(
         filled = len(universe["members"])
         if (language or report_language(universe)) == "zh-Hans":
             held = len(universe["heavy_base"]["members"])
-            partial_notice = [f"- 交付状态：部分完成（PARTIAL），{filled} / "
-                              f"{delivery['required_entities']} 个实体，缺 {delivery['shortfall']} 个；"
-                              f"实际扩增 {(filled-held)/held:.2%}。标的与覆盖检查通过，扩增目标未达标；"
-                              "可使用当前版或继续补充。"]
+            partial_notice = [
+                f"- 交付状态：部分完成（PARTIAL），{filled} / "
+                f"{delivery['required_entities']} 个实体，缺 {delivery['shortfall']} 个；"
+                f"实际扩增 {(filled - held) / held:.2%}。标的与覆盖检查通过，扩增目标未达标；"
+                "可使用当前版或继续补充。"
+            ]
         else:
-            partial_notice = [f"- PARTIAL: {filled} / {delivery['required_entities']} "
-                              f"entities; missing {delivery['shortfall']}. Max growth target is not met; "
-                              "member/coverage checks passed. Deliver with disclosure or resume research."]
+            partial_notice = [
+                f"- PARTIAL: {filled} / {delivery['required_entities']} "
+                f"entities; missing {delivery['shortfall']}. Max growth target is not met; "
+                "member/coverage checks passed. Deliver with disclosure or resume research."
+            ]
     lines = [
         "# " + lex["title"].format(market=universe["market"].upper()),
         "",
@@ -2655,11 +2669,16 @@ def render_markdown(
             members = [c for c in groups[code] if "asset_id" in c]
             if not members:
                 continue
-            lines.extend([f"### {code} · {labels[code]} ({len(members)})", "",
-                          f"| {lex['column.ticker']} | {lex['column.name']} | "
-                          f"{lex['column.role']} | {lex['column.theme']} | "
-                          f"{lex['column.reason']} | Market cap (Beta) | {lex['column.evidence']} |",
-                          "|---|---|---|---|---|---|---|"])
+            lines.extend(
+                [
+                    f"### {code} · {labels[code]} ({len(members)})",
+                    "",
+                    f"| {lex['column.ticker']} | {lex['column.name']} | "
+                    f"{lex['column.role']} | {lex['column.theme']} | "
+                    f"{lex['column.reason']} | Market cap (Beta) | {lex['column.evidence']} |",
+                    "|---|---|---|---|---|---|---|",
+                ]
+            )
             for member in sorted(members, key=lambda c: c["ticker"]):
                 url = member["evidence"][0]["url"] if member["evidence"] else ""
                 reason = (member.get("reason") or "").replace("|", "\\|").replace("\n", " ")
@@ -2709,9 +2728,9 @@ def render_markdown(
         lines.extend(["", "### Reference instruments", ""])
         for ref in universe["coverage_plan"].get("references", []):
             lines.append(f"- {ref['ticker']} ({ref['kind']}): {ref['observes']}"
-                         + (f"; proxy for {ref['proxy_for']}: {ref['limitation']}"
+                         + (f"; proxy for {ref['proxy_for']}{colon}{ref['limitation']}"
                             if ref.get("proxy_for") else ""))
-    return "\n".join(lines) + "\n"
+    return "\n".join(lines).rstrip() + "\n"
 
 
 def _write_atomic(output: str | Path, files: dict[str, str]) -> Path:
@@ -2991,8 +3010,12 @@ def apply_change_set(
             taxonomy_by_code = {item["theme_code"]: item for item in universe["taxonomy"]}
         elif name == "REFRESH":
             index, old = locate(op.get("ticker", ""))
-            refreshed = normalize_candidate(rules, op.get("candidate") or {}, taxonomy_by_code,
-                                            coverage_first=universe.get("selection_model") == "coverage_first")
+            refreshed = normalize_candidate(
+                rules,
+                op.get("candidate") or {},
+                taxonomy_by_code,
+                coverage_first=universe.get("selection_model") == "coverage_first",
+            )
             keys = ("ticker", "asset_id", "theme_code", "role", "required")
             if any(refreshed[k] != old[k] for k in keys) or not refreshed["eligible"]:
                 raise UniverseError(f"{subject}: REFRESH must preserve membership and role")
@@ -3025,8 +3048,12 @@ def apply_change_set(
         elif name in {"ADD", "REPLACE"}:
             candidate_input = deepcopy(op.get("candidate") or {})
             candidate_input["evidence"] = deepcopy(evidence)
-            candidate = normalize_candidate(rules, candidate_input, taxonomy_by_code,
-                                            coverage_first=universe.get("selection_model") == "coverage_first")
+            candidate = normalize_candidate(
+                rules,
+                candidate_input,
+                taxonomy_by_code,
+                coverage_first=universe.get("selection_model") == "coverage_first",
+            )
             if not candidate["eligible"]:
                 raise UniverseError(f"op #{original_index}: candidate is not eligible")
             candidate["reason"] = reason or candidate["reason"]
@@ -3043,7 +3070,10 @@ def apply_change_set(
                 raise UniverseError(f"{subject}: duplicate asset {candidate['asset_id']}")
             members.append(candidate)
 
-    members.sort(key=lambda item: (item["theme_code"], rank_key(item)))
+    members.sort(key=lambda item: (
+        item["theme_code"],
+        item["ticker"] if universe.get("selection_model") == "coverage_first" else rank_key(item),
+    ))
     after = {item["ticker"] for item in members}
     added = sorted(after - before)
     removed = sorted(before - after)

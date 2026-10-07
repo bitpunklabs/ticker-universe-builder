@@ -26,7 +26,7 @@ python examples/build_examples.py && git diff --exit-code examples/
 ```
 
 The third one matters more than it looks. The examples are generated from
-the dated `examples/*-medium/snapshot.json` inputs, and any change to selection, ordering, rendering or hashing rewrites
+the dated `examples/*-medium/snapshot.json` inputs (Crypto Heavy/Max share the Medium snapshot), and any change to selection, ordering, rendering or hashing rewrites
 them. A diff there is not noise — it is the change you just made, shown as its effect on a real
 universe. Read it before committing it, and commit it in the same commit as the code.
 
@@ -38,14 +38,14 @@ to move with it.
 Two paths, and the cheap one is usually right. A market can be **declared** in the snapshot's
 `market_spec` — venues, symbol shape, identity rule, size guidance — with no code change at all;
 it builds under the same evidence gate as everything else and is reported as declared rather
-than reviewed. **Registering** a market is five additions — a `MARKET_SPECS`
-row, a breadth number, a starter taxonomy, an overlay and a researched snapshot — plus locale keys if its
+than reviewed. **Registering** a market requires a `MARKET_SPECS`
+row, a starter taxonomy, an overlay and a researched snapshot with a coverage plan, plus locale keys if its
 language is new. See
 [`references/markets/adding-a-market.md`](references/markets/adding-a-market.md).
 
 Do not ship an unexercised market overlay on speculation. Add a reproducible researched fixture
 that exercises its rules and verify all four profiles. The published examples are deliberately
-limited to seven markets in 0.4; registry coverage and example coverage are separate test contracts.
+limited to CN/US/Crypto, plus a Crypto seeded Max; registry coverage and example coverage are separate test contracts.
 
 ## Cutting a release
 

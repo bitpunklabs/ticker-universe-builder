@@ -1,0 +1,49 @@
+{
+  "examples": [
+    {
+      "example": "cn-medium",
+      "entities": 302,
+      "references": 42,
+      "qualified": true,
+      "version_hash": "cdc26ce20a3c",
+      "content_hash": "422ec193f802",
+      "warnings": []
+    },
+    {
+      "example": "us-medium",
+      "entities": 294,
+      "references": 44,
+      "qualified": true,
+      "version_hash": "1e8da878a880",
+      "content_hash": "f3f8542a4e70",
+      "warnings": []
+    },
+    {
+      "example": "crypto-medium",
+      "entities": 35,
+      "references": 0,
+      "qualified": true,
+      "version_hash": "3e79fe5c1fe7",
+      "content_hash": "31cda199dfe4",
+      "warnings": []
+    },
+    {
+      "example": "crypto-heavy",
+      "entities": 50,
+      "references": 0,
+      "qualified": true,
+      "version_hash": "3ffca1f09bf4",
+      "content_hash": "b0ce4498a3dd",
+      "warnings": []
+    },
+    {
+      "example": "crypto-max",
+      "entities": 65,
+      "references": 0,
+      "qualified": true,
+      "version_hash": "3a3f7f939f74",
+      "content_hash": "9d677beb2fa3",
+      "warnings": []
+    }
+  ]
+}

@@ -12,9 +12,9 @@ Everything below is only the part `SKILL.md` assumes you already know.
   `validate`, `audit-core`.
 - **Contracts:** [`references/data-contracts.md`](references/data-contracts.md). Read it before
   writing any JSON. Every input is a documented shape; nothing is inferred from prose.
-- **Worked inputs:** [`examples/`](examples/README.md). Seven real-data Medium builds (us, jp, cn, kr, hk, uk, crypto), with
-  market-language reports and disclosed research limits. Open the matching example, or the closest available one,
-  before writing a snapshot from scratch.
+- **Worked inputs:** [`examples/`](examples/README.md). Current CN/US/Crypto Medium builds and a
+  Crypto Heavy→Max seed example, with standard outputs and disclosed research limits. Open the
+  matching example, or the closest available one, before writing a snapshot from scratch.
 - **Tests:** `python -m pytest tests -q`.
 
 Hard boundaries, repeated here because they are the ones that matter if you read nothing else:

@@ -26,7 +26,7 @@ questions:
 | Where the rules live | `market_spec` in the snapshot | a row in `MARKET_SPECS` |
 | Who wrote them | whoever built this universe, at run time | this repository, reviewed |
 | What it costs | research, with evidence | a pull request |
-| What ships | nothing | a policy breadth, a starter taxonomy, an overlay, a locale |
+| What ships | nothing | a starter taxonomy, an overlay, a researched coverage plan, a locale |
 | What the report says | `Market rules: declared`, on every run | nothing; silence is the reviewed case |
 
 A declared market has no starter taxonomy, so the agent writes one from nothing;
@@ -44,11 +44,8 @@ seven fields, and the report never lets a reader confuse the two.
 A new *registered* market is five additions and no edits to existing logic:
 
 1. A `MarketSpec` row in `MARKET_SPECS`.
-2. A `markets.<code>.breadth` number in `assets/default-policy.json`. One number, not nine: the
-   tier bases are 60 / 160 / 400 / 580 and breadth scales them. `MarketRegistryTests` fails until it
-   exists, which is the point — a market with no size would build universes of an arbitrary size
-   and report nothing. Place it against the markets already in the table rather than deriving it
-   from market capitalisation; it is a claim about how many names a reader can tell apart.
+2. A sourced coverage plan with market-specific leader/necessary-peer duties, entity budgets,
+   sector caps and references. Defaults do not size markets through breadth multipliers.
 3. A starter taxonomy at `assets/taxonomy/<code>.json`. For an equity market this is a delta on
    `_equity.json`, not a new table: state `extends`, then `drop` what this market does not list,
    `add` what nobody else lists, `groups` to put the group labels in the market's own language,
@@ -61,8 +58,7 @@ A new *registered* market is five additions and no edits to existing logic:
 5. A researched snapshot exercising the new rules, with dated listing checks, real measurements
    and a reproducible build test. Use the Medium inputs in `examples/` as the contract reference;
    do not generate illustrative scores. Empty required themes are findings about the taxonomy,
-   never reasons to invent tickers. Publishing a new example is a separate scope choice; version
-   0.4 ships seven examples while keeping fourteen registered markets.
+   never reasons to invent tickers. Publishing a new example is a separate scope choice; the current release ships CN/US/Crypto examples while keeping fourteen registered markets.
 
 
 Plus a locale at `assets/locales/<language>.json` if the market's language has none yet, and, if
@@ -74,8 +70,8 @@ selection; and is the code meaningless in every other market. A flag that fails 
 universal code that has not been added yet — add it to `QUALITY_FLAG_CODES` instead, where it is
 comparable across markets, rather than to two market specs where it silently is not.
 
-CI checks the registry, sizing, starter taxonomy and locale for all registered markets.
-The seven shipped examples additionally receive full offline build and CLI checks.
+CI checks the registry, starter taxonomy and locale for all registered markets.
+The current worked examples additionally receive full offline build and CLI checks.
 
 Writing the research snapshot is also how the registry row gets tested. Two shipped symbol rules were wrong
 until a real listing hit them — `de` rejected `4GLD` and `br` rejected `B3SA3` — and neither
@@ -135,7 +131,8 @@ Deciding a market's language after the fact means two A-share universes built a 
 differently. So the language is settled in the registry, before any market is implemented, and it
 is a fact about the market rather than a preference of the caller.
 
-All fourteen ship, each with an example in its own language under `examples/`:
+All fourteen have registered rules, a starter and a report locale. Worked examples ship for
+CN/US/Crypto separately:
 
 | Market | Code | Venues | Language | Symbol |
 |---|---|---|---|---|
@@ -175,15 +172,11 @@ Two more markets ship without an `ar`-style surprise but with a rule correction 
 
 ## What the registry does not decide
 
-Roles, buckets, score weights, coverage levels, turnover budgets and evidence tiers are market
-independent on purpose. So is the absence of a theme cap: a market says what a theme is
-*worth* to it, in the `weight` on its own table, and the apportionment turns that into seats. It
-does not get to say what a theme may hold, because a ceiling would make every theme worth the
-same in exactly the market where that is least true. So is what an adverse flag *costs*: a market names its own flags and
-every one of them is worth the same 25 points, because a market that could also set the penalty
-could make its members score however it liked. A market that appears to need its own role vocabulary is usually a market
-whose overlay has not yet been written carefully enough; reach for a new role only after the
-overlay makes the case in prose.
+Admission roles, evidence/measurement contracts, turnover controls and identity validation
+are shared. Markets supply their researched economic branches, leaders, sector caps/weights
+and references. Display theme weights never allocate current coverage. Max follows its own
+qualified Heavy’s distribution. The explicit archived policy retains legacy weighted scoring;
+its vocabulary is not a reason to add new product roles.
 
 ## What building the last eleven actually cost
 
@@ -195,8 +188,8 @@ The two wrong symbol rules are noted above. The nine wrong theme tables are the 
 generalises, because the tables had all been reviewed.
 
 Nine of them claimed sectors their market does not list, which matters more than an unused
-row: the breadth floor spends a seat on every reachable theme whether or not anything can fill
-it, so an empty theme is worse than no theme. Managed care left Light in `jp`, `kr`, `hk` and
+row: required economic duties must have real representatives, so a made-up duty cannot be
+repaired by allocating more candidates. Managed care left Light in `jp`, `kr`, `hk` and
 `uk`, where cover is single-payer and no insurer lists. Energy, payments and the data-centre
 theme left the German table outright. `br` raised managed care *into* Light, alone among the
 fourteen. None of that was visible from reading the tables — only from trying to fill them.

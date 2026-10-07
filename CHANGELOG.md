@@ -14,6 +14,17 @@ Each released heading below matches a `version:` in `SKILL.md` and a git tag of 
 there, and backfilling a listing for a release nobody could install would be tidier than it is
 true.
 
+## 0.9.0 — 2026-10-07
+
+- Remove inactive legacy sizing/bucket quotas from the default coverage policy. Default taxonomy
+  checks display structure only; archived replay retains its explicit policy in assets.
+- Remove legacy composite-score completeness statistics from coverage reports and preserve
+  coverage ordering through NO_CHANGE maintenance.
+- Replace old examples with current CN/US/Crypto Medium and a Crypto Heavy→Max seed demonstration,
+  using standard artifact filenames and deterministic regeneration.
+- Document output destinations, artifact bundles, checkpoints, partial delivery and source dates;
+  update market routing, contribution instructions and CLI CI checks.
+
 ## 0.8.0 — unreleased
 
 - Define coverage Beta as supplementary business/token coverage, ranked by sourced market cap.

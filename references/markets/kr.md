@@ -18,7 +18,7 @@ The battery chain is its own theme under materials rather than being filed with 
 
 Entertainment and music is a level-1 theme. The listed agencies are a real export sector here and nowhere else in the table.
 
-Managed care leaves Light: national health insurance means there is no listed insurer to observe. Everything else in this table is unusually dense — thirty-five themes reachable at Light against a target of fifty-five, so the breadth floor spends most of the universe and the weights work on what is left.
+Managed care leaves Light: national health insurance means there is no listed insurer to observe. Everything else in this table is unusually dense — thirty-five themes reachable at Light against a target of fifty-five, in the historical sizing scheme; current coverage comes from the reviewed economic plan.
 
 ## Adverse flags
 
@@ -33,15 +33,16 @@ universal flag; what is market-specific is the vocabulary, not the price.
 
 ## Size
 
-Breadth `0.9` in `assets/default-policy.json`, so the tiers are **Light 55**,
-**Medium 145**, **Heavy 360** members. The starter table reaches 35 themes at
-Light.
+Research the leader/necessary-peer roster and declare four entity ceilings in `coverage_plan`.
+Reference instruments are additional. Medium covers most reviewed leaders; Heavy protects the
+full necessary backbone; Max adds at least 30% sourced Beta following that Heavy's distribution.
+Starter theme levels/weights do not set current member quotas.
 
 ## Example
 
-[`examples/kr-medium/`](../../examples/kr-medium/) contains a full-size Medium
-research snapshot, measured statistics, dated listing evidence, reports and script-generated watchlist.
-Read [the scope and limitations](../../examples/README.md) before reusing it.
+Use the closest [current equity example](../../examples/README.md) for the coverage-plan,
+admission and output contracts, then research this market under its own overlay. No dedicated
+current snapshot ships for this market.
 
 ## Suggested live fields
 

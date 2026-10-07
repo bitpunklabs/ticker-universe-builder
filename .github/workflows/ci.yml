@@ -44,7 +44,7 @@ jobs:
           markets=$(ls -d examples/*-medium | sed 's|examples/||; s|-medium||' | tr '\n' ' ')
           echo "building: $markets"
           for market in $markets; do
-            python scripts/universe.py --policy examples/legacy-policy.json build \
+            python scripts/universe.py build \
               --spec "examples/$market-medium/build-spec.json" \
               --snapshot "examples/$market-medium/snapshot.json" \
               --output "/tmp/$market" > "/tmp/$market.result.json"
@@ -54,6 +54,16 @@ jobs:
             python scripts/universe.py validate "$universe" > /dev/null
             echo "$universe" > "/tmp/$market.path"
           done
+      - name: expand a qualified Heavy with sourced Beta
+        run: |
+          python scripts/universe.py build \
+            --spec examples/crypto-heavy/build-spec.json \
+            --snapshot examples/crypto-medium/snapshot.json --output /tmp/crypto-heavy
+          python scripts/universe.py build \
+            --spec examples/crypto-max/build-spec.json \
+            --snapshot examples/crypto-medium/snapshot.json \
+            --seed /tmp/crypto-heavy/crypto-heavy-2026-10-07.json --output /tmp/crypto-max
+          python scripts/universe.py validate /tmp/crypto-max/crypto-max-2026-10-07.json
       - name: read a watchlist back in and reach the same tickers
         run: |
           watchlist=$(python -c \
@@ -72,7 +82,7 @@ jobs:
           echo "checking: $markets"
           for market in $markets; do
             python scripts/universe.py taxonomy --market "$market" --output "/tmp/$market.tax.json"
-            for profile in light medium heavy extreme; do
+            for profile in light medium heavy max; do
               python scripts/universe.py taxonomy --check "/tmp/$market.tax.json" \
                 --market "$market" --profile "$profile" > /dev/null
             done
@@ -83,9 +93,7 @@ jobs:
         # not to exist.
         run: |
           grep -q '^# CN 标的池' "$(dirname "$(cat /tmp/cn.path)")"/cn-medium-*.zh-Hans.md
-          grep -q '^# JP 銘柄ユニバース' "$(dirname "$(cat /tmp/jp.path)")"/jp-medium-*.ja.md
-          grep -q '^# KR 종목 유니버스' "$(dirname "$(cat /tmp/kr.path)")"/kr-medium-*.ko.md
-          for market in cn us jp kr hk uk crypto; do
+          for market in cn us crypto; do
             path="$(dirname "$(cat /tmp/$market.path)")"
             grep -q '^# .* Ticker Universe' "$path"/$market-medium-*.en.md \
               || { echo "$market: no English report"; exit 1; }
@@ -132,7 +140,7 @@ jobs:
           for index, ticker in enumerate(sorted(set(tickers))):
               for day in range(30):
                   close = 100.0 * (1.0 + (index % 11 - 5) / 100 * day / 29)
-                  rows.append(f"2026-10-{day + 1:02d},{ticker},{close:.4f}")
+                  rows.append(f"2026-11-{day + 1:02d},{ticker},{close:.4f}")
           open("/tmp/window.csv", "w").write("\n".join(rows) + "\n")
           EOF
           python scripts/universe.py evaluate \

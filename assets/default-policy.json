@@ -1,89 +1,17 @@
 {
   "schema_version": 2,
-  "tiers": {
-    "light": 60,
-    "medium": 160,
-    "heavy": 400,
-    "max": 580
-  },
-  "guidance_band": 0.25,
-  "markets": {
-    "us": {
-      "breadth": 1.35
-    },
-    "cn": {
-      "breadth": 1.3
-    },
-    "jp": {
-      "breadth": 1.05
-    },
-    "in": {
-      "breadth": 1.0
-    },
-    "hk": {
-      "breadth": 0.9
-    },
-    "kr": {
-      "breadth": 0.9
-    },
-    "uk": {
-      "breadth": 0.85
-    },
-    "de": {
-      "breadth": 0.75
-    },
-    "fr": {
-      "breadth": 0.75
-    },
-    "ca": {
-      "breadth": 0.75
-    },
-    "au": {
-      "breadth": 0.7
-    },
-    "tw": {
-      "breadth": 0.8
-    },
-    "br": {
-      "breadth": 0.55
-    },
-    "crypto": {
-      "breadth": 0.65
-    }
-  },
   "profiles": {
     "light": {
-      "coverage_level": 1,
-      "bucket_targets": {
-        "core": 0.8,
-        "satellite": 0.15,
-        "tactical": 0.05
-      }
+      "coverage_level": 1
     },
     "medium": {
-      "coverage_level": 2,
-      "bucket_targets": {
-        "core": 0.65,
-        "satellite": 0.25,
-        "tactical": 0.1
-      }
+      "coverage_level": 2
     },
     "heavy": {
-      "coverage_level": 3,
-      "bucket_targets": {
-        "core": 0.5,
-        "satellite": 0.35,
-        "tactical": 0.15
-      }
+      "coverage_level": 3
     },
     "max": {
-      "coverage_level": 3,
-      "bucket_targets": {
-        "core": 0.35,
-        "satellite": 0.5,
-        "tactical": 0.15
-      },
-      "incremental_beta_share": 0.7
+      "coverage_level": 3
     }
   },
   "maintenance": {
@@ -103,7 +31,9 @@
   "selection_model": "coverage_first",
   "coverage": {
     "medium_leader_min": 0.7,
-    "max_expansion": {"min": 0.3},
+    "max_expansion": {
+      "min": 0.3
+    },
     "satellite_max": {
       "light": 0,
       "medium": 0,

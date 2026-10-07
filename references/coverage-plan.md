@@ -2,7 +2,7 @@
 
 Read with [data-contracts.md](data-contracts.md). The default builder requires this plan. It does
 not infer leadership from Core membership, market cap, ANCHOR, provider tags or a high score.
-Historical replay alone uses [the archived policy](../examples/legacy-policy.json).
+Historical replay alone uses [the archived policy](../assets/legacy-policy.json).
 
 ## Plan before candidates
 

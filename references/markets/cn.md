@@ -79,7 +79,7 @@ than left to whoever happens to be reviewing.
 
 ## Example
 
-[`examples/cn-medium/`](../../examples/cn-medium/) contains a full-size Medium
+[`examples/cn-medium/`](../../examples/cn-medium/) contains a current coverage-first Medium
 research snapshot, measured statistics, dated listing evidence, reports and script-generated watchlist.
 Read [the scope and limitations](../../examples/README.md) before reusing it.
 

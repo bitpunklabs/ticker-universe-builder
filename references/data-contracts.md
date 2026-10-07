@@ -107,33 +107,20 @@ saves the transcription, not the work. Tickers that do not match the named marke
 
 ## Checking a theme table
 
-`taxonomy --check FILE --market M [--profile P] [--target N]` reads a taxonomy — a bare list, or
-the `{schema_version, market, taxonomy}` object `taxonomy --output` writes — and reports whether
-it can produce the universe being asked for, before any candidate is researched:
+`taxonomy --check FILE --market M [--profile P] [--target N]` reads a bare taxonomy list or
+the `{schema_version, market, taxonomy}` object written by `taxonomy --output`.
 
-| | |
-|---|---|
-| **error** | more themes inside the coverage level than the target can hold; every theme must carry a member, so the build could not validate |
-| **error** | one `l1_code` carrying two different `l1_name`s |
-| **error** | no theme at `coverage_level` 1 |
-| **warning** | a theme weighted to hold more than 15% of the universe — not wrong, but it should be deliberate |
-| **warning** | an `l1_code` group first appearing at level 2 or 3, invisible to a Light universe |
-| **warning** | a non-ASCII `theme_name`; it becomes a `###00_A_NAME` section header in the TradingView export, so the local-language label belongs in `l1_name` |
-| **warning** | themes plus tickers over the 1000-token cap |
-| **warning** | the breadth floor taking more than 75% of the target, leaving weight almost nothing to order |
+Default coverage-first checks structure only (`scope: "display_structure_only"`). Errors are
+malformed/duplicate themes, conflicting parent labels or no Level-1 theme. Warnings identify
+non-ASCII export headers and groups that first appear beyond Light. `stats.capacity[profile]`
+contains the visible theme count and optional informational target. It does **not** infer a
+member floor, economic budget or weighted expected membership from display headings.
+Economic feasibility, duties and merged export capacity are validated at build time against
+`coverage_plan` and researched admissions.
 
-`stats.capacity[profile].floor_share` reports that last number on every run, warning or not. The
-breadth floor gives every reachable theme a seat before weight is consulted at all, and across the
-fourteen reviewed tables it takes 38–66% of a Light universe — Brazil spends 23 of 35 seats before
-a single weight is read. That is not a defect; it is what makes the instrument a survey rather
-than a shortlist. But an author about to spend an afternoon tuning `weight` should be able to see
-how much of the budget weight still reaches, and this is the command they run before the research
-starts. The warning fires only past 75%, because a warning that fires on ten of fourteen correct
-tables is the fastest way to teach someone to stop reading warnings.
-
-Exit 0 with warnings, 2 with errors. Every shipped starter table passes clean — no errors and no
-warnings — at every tier of its own market, and a test asserts it. A starter is still a starting
-point to edit, but it is not one that ships needing repairs.
+Explicit archived policies additionally check legacy per-theme presence, size guidance,
+weighted concentration and `floor_share`. Those diagnostics never certify the current model.
+Exit 0 with warnings, 2 with errors.
 
 ## snapshot.json
 
@@ -141,10 +128,12 @@ point to edit, but it is not one that ships needing repairs.
 
 New research tables declare `purpose` (a non-empty sentence explaining the economic variable
 being observed) and `representative_roles` (a non-empty list drawn from `BENCHMARK`, `ANCHOR`,
-`THEME_LEADER`, `QUALITY_LEADER`). At least one eligible member with one of these roles must
-represent each reachable theme. This is an OR condition, not one seat per listed role. Build,
-validate and maintenance enforce it; satellites cannot silently take the last representative's
-place. A role declaration needs a purpose. Legacy tables may omit both and retain their old
+`THEME_LEADER`, `QUALITY_LEADER`). In archived selection, at least one eligible member
+with one of these roles must
+represent each reachable theme (an OR condition). Coverage-first protects necessary
+representatives and branch duties declared in `coverage_plan`; a display theme does not
+create another seat floor. Satellites cannot silently replace those required representatives.
+A role declaration needs a purpose. Legacy tables may omit both and retain their old
 coverage checks, with missing duties disclosed in validation statistics/warnings.
 
 `purpose` describes a duty, not a promise about a company's business. Candidate `reason` and
@@ -227,20 +216,13 @@ registry row would have held:
 }
 ```
 
-Size it the way every registered market is sized: one `breadth` factor scaling the 60 / 160 / 400 / 580
-tier bases, rounded to five, with the band at ±25%. Breadth is roughly how many names this market
-lists that a reader could tell apart, sustain a position in, and would be worse off not watching
-— see the table in [tier-profiles.md](tier-profiles.md) for where the registered markets sit, and
-place the new one against them rather than inventing a scale.
+The declaration still requires exactly one of `breadth` or four-tier `guidance` for
+compatibility with archived records. These describe legacy sizing only. Coverage-first always
+sizes from `coverage_plan.budgets`; neither field overrides it. `breadth` scales historical
+60/160/400/580 bases only when an explicit legacy policy is used.
 
-A market that knows better than a scale factor can say may state `guidance` instead — the same
-`{min, target, max}` per tier the policy used to carry. Exactly one of the two is required.
-Run `taxonomy --check --market <code> --target <n>` against the table before researching a single
-candidate — a table that cannot produce the universe being asked for is the one build failure that
-costs a whole research session.
-
-Nothing else about the build changes — roles, quotas, coverage levels, evidence tiers, the
-measurement rules, turnover budgets and hashing are the same as for a registered market. This
+The same coverage-plan, admissions, evidence tiers,
+measurement rules, turnover budgets and hashing apply as for a registered market. This
 block is the *only* thing a market gets to decide for itself, which is why it is checked like any
 other researched fact:
 
@@ -293,22 +275,22 @@ Role-specific requirements the builder enforces:
 | established Crypto core / legacy members | `factor_r2`; coverage satellites may omit factor metrics |
 
 `null` means not measurable. It is not a bad score, and it must not be replaced by a low one.
-It is also not free: a member is scored against the **full** weight of its bucket's fields, so an
+In explicit legacy replay, a member is scored against the **full** weight of its bucket's fields, so an
 absent field costs exactly what it weighs. Renormalizing over the fields that happen to be
 present would make silence profitable — a candidate carrying only `liquidity 0.95` would outrank
 one carrying `0.90 / 0.85 / 0.80 / 0.75` — and the silence is manufactured by the rule above,
 which forbids replacing an unmeasurable number with a guess.
 
-Every member therefore records `scored_on`, `{"present": n, "of": m}`: how many of its bucket's
+Normalized members retain legacy metadata `scored_on`, `{"present": n, "of": m}`: how many of its bucket's
 weighted fields carried a value. `0.62` from four fields and `0.62` from two are not the same
-claim, and only the second is partly a statement about missing research. The build report counts
-the members scored on fewer than all their fields, and prints the count only when it is not zero.
+claim, and only the second is partly a statement about missing research. Only legacy build reports count partially scored members. Coverage-first selection does not
+use composite scores or interpret absent optional price metrics as incomplete Beta research.
 
 ### quality_facts
 
-`quality` carries the heaviest weight in the core bucket and is the least checkable field in the
-file. It stays a judgement — durability is not a statistic — but where checkable facts exist they
-carry half of it, so the score cannot drift on opinion alone.
+Core requires researched quality; coverage satellites may omit it. Optional `quality_facts`
+retain separately checkable facts and historical blended metadata. The blend ranks only in
+explicit legacy replay, not coverage-first Beta selection.
 
 ```json
 "quality_facts": {
@@ -353,8 +335,8 @@ and printed as the bare code where it cannot.
 
 The block is optional, and needs at least one of `listing_age_days` or `size_rank_pct` — flags
 alone do not make a score. It does not replace the judged value: `metrics.quality` is still
-required and stays in the record exactly as supplied, while the built member carries
-`quality_rule_score` and the blended `quality_score` beside it. Selection reads the blend; the
+required for core and stays in the record exactly as supplied, while the built member carries
+`quality_rule_score` and the blended `quality_score` beside it. Legacy selection reads the blend; the
 inputs stay separable, so re-validating a built universe reaches the same number rather than
 compounding it. A universe where no member carries facts validates, with a warning saying so.
 
@@ -442,6 +424,9 @@ tier 2 evidence item. Market narrative alone cannot admit or remove anything.
 
 ## Output
 
+See [output-artifacts.md](output-artifacts.md) for the standard bundle, destination convention,
+receipt and delivery status. The following defines hashing/checkpoint compatibility.
+
 ### Build-run checkpoint
 
 The CLI's `OUTPUT.run/run.json` is `{schema_version: 1, kind: "build_run", inputs, status,
@@ -467,10 +452,10 @@ language under `artifacts.reports`; read them from there instead of reconstructi
 The `.json` is the record: spec limits, policy hash, sources, measurement, taxonomy, members, the
 selection audit and the review history. For coverage-first, `version_hash` additionally covers the coverage plan and admissions.
 For legacy replay, `version_hash` covers membership and taxonomy only, so
-re-running with fresher metrics does not churn the version. The other three are derived from it
+re-running with fresher metrics does not churn the version. The TXT, validation and reports are derived from it
 and are never edited by hand.
 
-The `.validation.json` carries `stats.stability` on a build and omits it on a re-validation:
+An explicit legacy build’s `.validation.json` carries `stats.stability` and omits it on re-validation:
 `{shift, draws, survived, of, share}` — how much of the membership two independently perturbed
 re-runs agree on. Answering it needs the whole bench, including the candidates that lost, and the
 universe file keeps only the members and the codes the rest were turned down under. So `validate`
@@ -479,8 +464,8 @@ as absent, not as zero.
 
 `version_hash` is not the skill's release number and does not move with it. The skill is
 versioned in `SKILL.md` so a registry and a git tag have something to point at; a universe is
-versioned by its own content so two files can be compared. Upgrading the skill does not
-invalidate a universe built under an older one — `policy_hash` records which policy produced it,
+versioned by its own content so two files can be compared. Upgrading does not rewrite old artifacts. Changed contracts can require an explicit archived
+policy or renewed research to revalidate them. `policy_version` records the producing policy,
 and `diff` is what answers whether two universes are the same instrument.
 
 ## Comparing two universes

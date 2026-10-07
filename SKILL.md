@@ -3,7 +3,7 @@ name: ticker-universe-builder
 description: Build and maintain auditable, evidence-gated ticker universes for fourteen markets at four depths, exported as TradingView watchlists. Not stock tips.
 allowed-tools: Read, Write, Bash, WebSearch, WebFetch
 metadata:
-  version: 0.8.0
+  version: 0.9.0
   homepage: https://github.com/bitpunklabs/ticker-universe-builder
   openclaw:
     emoji: "📋"
@@ -19,14 +19,12 @@ Registered markets, each with reviewed rules, its own theme table and a report i
 language: `us`, `cn` (zh-Hans), `jp` (ja), `in`, `hk` (zh-Hant), `kr` (ko), `uk`, `tw` (zh-Hant),
 `de` (de), `fr` (fr), `ca`, `au`, `br` (pt-BR), `crypto`. Anything else builds too — see step 6.
 
-Read [examples/README.md](examples/README.md) first and open the example for the market you were
-asked about — Medium examples ship for us, jp, cn, kr, hk, uk and crypto. For another
-market, open the closest example and its own market overlay. The committed 0.4 snapshots are historical contract/regression examples, not current role or
-classification policy; replay only with `examples/legacy-policy.json`; use the current starter and methodology for new research.
-A worked snapshot answers more questions about
-the input format than the contract does, and the shipped examples are known to build.
-Read the example README, build spec and report summary first. Inspect relevant candidate rows
-programmatically; do not load an entire multi-megabyte research snapshot into model context.
+Read [examples/README.md](examples/README.md) first. Current Medium examples ship for CN, US
+and Crypto, with a Crypto Heavy→Max example using the same snapshot and qualified seed. For
+other markets open the closest worked input and the matching overlay. Read the example spec
+and report summary first; inspect relevant candidate rows programmatically rather than loading
+multi-megabyte snapshots into model context. Archived replay uses `assets/legacy-policy.json`
+explicitly and does not certify the current coverage contract.
 
 ## Route the request
 
@@ -43,7 +41,9 @@ programmatically; do not load an entire multi-megabyte research snapshot into mo
 4. Read [references/data-contracts.md](references/data-contracts.md) before writing any JSON.
 5. Follow [references/source-policy.md](references/source-policy.md) for evidence and provider use.
 6. Read [references/measurement.md](references/measurement.md) before filling in any metric.
-7. To check a universe after the fact, read [references/evaluation.md](references/evaluation.md).
+7. For output paths, artifact formats and delivery, read
+   [references/output-artifacts.md](references/output-artifacts.md).
+8. To check a universe after the fact, read [references/evaluation.md](references/evaluation.md).
 
 If the market or the depth is missing, ask only for the missing choice. Default the depth to
 `medium` when the user asks for a generally useful universe without naming one.
@@ -78,7 +78,7 @@ reported rather than dropped.
    ```
 
    Edit display themes for readability. Their number and `weight` do not determine economic
-   budgets in 0.6. Set stable parent-sector caps/weights in `coverage_plan` before looking at
+   budgets. Set stable parent-sector caps/weights in `coverage_plan` before looking at
    optional candidates. Merge sparse themes with economically adjacent themes through
    `coverage_plan.display_groups`; preserve underlying duties. Light/Medium may use broader
    groups; Heavy/Max share the same map. Max follows Heavy group entity proportions, with
@@ -100,7 +100,7 @@ reported rather than dropped.
    python scripts/universe.py taxonomy --check taxonomy.json --market cn --profile light
    ```
 
-   This is a legacy display-table diagnostic, not economic feasibility certification. The
+   This checks display structure only, not economic feasibility or per-theme seat floors. The
    formal build checks economic branches, necessary representatives, sector caps and export limits.
 4. Optionally fetch a dated research bench with `fetch` before researching admissions:
 
@@ -134,8 +134,8 @@ reported rather than dropped.
    `measurement_record`. Cite current sources for listing status, venue, liquidity and every non-obvious admission. If
    an essential fact cannot be verified, exclude the candidate or mark the snapshot incomplete.
    For a market outside the fourteen, also research its rules and declare them in the snapshot's
-   `market_spec` — venues, symbol shape, identity rule and one `breadth` factor sizing the tiers,
-   with tier 1 or tier 2 evidence. Everything else about the build is unchanged. See
+   `market_spec` — venues, symbol shape, identity rule and legacy-compatible `breadth`/`guidance`,
+   with tier 1 or tier 2 evidence. Current sizes still come from `coverage_plan.budgets`. See
    [references/data-contracts.md](references/data-contracts.md#market_spec); do not guess a venue
    code or a symbol format, and say in your answer that the rules were declared, not reviewed.
 7. Run:
@@ -170,14 +170,13 @@ reported rather than dropped.
    economic duty still has a qualified representative, gauges remain observable, and role
    shortages are understood. A filled count with poor duty coverage is not a completed research
    result. Core supply far below its policy target calls for role/business research, not padding.
-10. Return the human-readable `.md` reports and the TradingView-importable `.txt`. There are two
-   reports wherever the market does not already read in English — `{stem}.ja.md` and
-   `{stem}.en.md` for `jp`, and likewise Korean for `kr`, Traditional Chinese for `hk` and `tw`,
-   Portuguese for `br` — because a universe is read both by the people who trade that market and
-   by someone allocating across several. Write the snapshot's names, themes, reasons and methods
-   in the market's language; only the report's chrome is translated, so the English report
-   carries those fields exactly as the snapshot wrote them. `--language` names the companion
-   report, not the only one: English is always written. Nothing else about the build changes.
+10. Deliver the report, TradingView TXT, authoritative JSON and validation paths following
+    [the output contract](references/output-artifacts.md). If no destination was requested,
+    use `ticker-universes/<market>/<profile>/<as_of>/` in the user's project, passing an absolute
+    `--output` path. Keep checkpoints, use a new empty directory for revisions, and disclose
+    source cutoffs and partial status. English is always generated; non-English markets also
+    get their market-language report. Write researched names/reasons in that language; only
+    report headings and closed vocabularies are translated.
 
 If you have a price table covering the window after a universe was built, run
 `evaluate --universe U --prices P` before proposing the next set of changes. It reports whether

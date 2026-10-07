@@ -11,8 +11,8 @@ import math
 import re
 from collections import Counter
 from copy import deepcopy
-from display_core import theme_groups
 
+from display_core import theme_groups
 from universe_core import (
     PROFILES,
     UniverseError,
@@ -495,7 +495,8 @@ def quality_check(universe, policy, *, assembling=False):
             need(
                 len(members) >= minimum or bool(delivery),
                 f"Max expansion needs research: Heavy={len(old)}, selected={len(members)}, "
-                f"required>={minimum}, entity_ceiling={maximum}, missing={max(0, minimum - len(members))}; "
+                f"required>={minimum}, entity_ceiling={maximum}, "
+                f"missing={max(0, minimum - len(members))}; "
                 "research more qualified Beta; do not weaken admission gates",
             )
         for group, n in additions.items():
@@ -745,7 +746,9 @@ def build(spec, raw, policy, previous=None):
             )
     if profile == "max" and len(selected) < selection_target and shortfall_action != "retry":
         missing = selection_target - len(selected)
-        if missing <= selection_target * MAX_PARTIAL_GAP_RATIO and len(selected) > len(previous["members"]):
+        if missing <= selection_target * MAX_PARTIAL_GAP_RATIO and len(selected) > len(
+            previous["members"]
+        ):
             base["delivery"] = partial_delivery(len(previous["members"]), len(selected), policy)
     base["version_hash"] = universe_hash(base)
     base["content_hash"] = content_hash(base)

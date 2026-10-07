@@ -18,13 +18,13 @@ from universe_core import (
     apply_change_set,
     build_universe,
     content_hash,
+    default_asset_id,
     load_policy,
     normalize_snapshot,
     render_txt,
     universe_hash,
-    validate_universe,
-    default_asset_id,
     validate_ticker,
+    validate_universe,
 )
 
 
@@ -34,11 +34,17 @@ def test_okx_core_build_keeps_crypto_identity_and_evidence_gates():
     data['market'] = 'crypto'
     data['candidates'] = data['candidates'][:2]
     for c, ticker, asset in zip(data['candidates'],
-                                ('BINANCE:AAAUSDT.P', 'OKX:BBBUSDT'), ('AAA', 'BBB')):
+                                ('BINANCE:AAAUSDT.P', 'OKX:BBBUSDT'), ('AAA', 'BBB'), strict=True):
         c.update(ticker=ticker, asset_id=asset)
-        c['admission'].update(ecosystem_id=asset, token_role='Synthetic native token function',
-                              instrument=dict(kind='spot' if ticker.startswith('OKX:') else 'perpetual',
-                                              quote_currency='USDT', units=1))
+        c["admission"].update(
+            ecosystem_id=asset,
+            token_role="Synthetic native token function",
+            instrument=dict(
+                kind="spot" if ticker.startswith("OKX:") else "perpetual",
+                quote_currency="USDT",
+                units=1,
+            ),
+        )
     plan = data['coverage_plan']
     plan['scope'] = 'Synthetic Binance perpetual plus OKX spot fixture'
     plan['sectors'] = plan['sectors'][:1]
@@ -49,7 +55,9 @@ def test_okx_core_build_keeps_crypto_identity_and_evidence_gates():
     result, _ = build_universe(spec, data, load_policy())
     assert {c['ticker'] for c in result['members']} == {'BINANCE:AAAUSDT.P', 'OKX:BBBUSDT'}
     assert validate_universe(result)['passed']
-    assert default_asset_id('crypto', 'OKX:AAAUSDT') == default_asset_id('crypto', 'BINANCE:AAAUSDT.P')
+    assert default_asset_id("crypto", "OKX:AAAUSDT") == default_asset_id(
+        "crypto", "BINANCE:AAAUSDT.P"
+    )
     assert validate_ticker('crypto', 'OKX:AAAUSD')
     assert validate_ticker('crypto', 'UNVERIFIED:AAAUSDT')
     data['candidates'][1].pop('listing')
@@ -317,10 +325,14 @@ def test_max_shortfall_is_resumable_and_never_published(tmp_path):
                                 if c["admission"]["kind"] != "satellite"
                                 or c["asset_id"] in {f"BETA{i}" for i in range(5)}]
     sp, sn, seed = (tmp_path / n for n in ("spec.json", "snapshot.json", "heavy.json"))
-    sp.write_text(json.dumps(dict(schema_version=1, market="us", profile="max", shortfall_action="retry")))
+    sp.write_text(
+        json.dumps(dict(schema_version=1, market="us", profile="max", shortfall_action="retry"))
+    )
     sn.write_text(json.dumps(incomplete))
     seed.write_text(json.dumps(heavy))
-    result, code = run_build(spec=str(sp), snapshot=str(sn), seed=str(seed), output=str(tmp_path / "out"))
+    result, code = run_build(
+        spec=str(sp), snapshot=str(sn), seed=str(seed), output=str(tmp_path / "out")
+    )
     assert code == 2 and result["status"] == "needs_research"
     assert "selected=25" in result["error"] and "missing=1" in result["error"]
     assert result["diagnostics"]["expansion"]["minimum_candidate_gap"] == 1
@@ -723,8 +735,18 @@ def test_supplementary_beta_price_metrics_are_descriptors(market, price_metrics)
     assert report['qualified'] and len(result['members']) == 15
     assert validate_universe(result)['qualified']
     beta = next(c for c in result['members'] if c['admission']['kind'] == 'satellite')
-    changes = change_set(result, [dict(op='REFRESH', ticker=beta['ticker'],
-                                      candidate=deepcopy(beta), reason='Fixture facts unchanged', evidence=evidence())])
+    changes = change_set(
+        result,
+        [
+            dict(
+                op="REFRESH",
+                ticker=beta["ticker"],
+                candidate=deepcopy(beta),
+                reason="Fixture facts unchanged",
+                evidence=evidence(),
+            )
+        ],
+    )
     changes['market'] = market
     changes['as_of'] = result['source_as_of']
     maintained, checked = apply_change_set(result, changes, load_policy())
@@ -757,7 +779,9 @@ def test_crypto_core_still_requires_factor_metrics():
     data['candidates'][0].update(ticker='BINANCE:CORE0USDT.P')
     data['candidates'][0]['metrics'].update(factor_r2=None, independence=None)
     with pytest.raises(UniverseError, match='require factor_r2'):
-        build_universe(dict(schema_version=1, market='crypto', profile='heavy'), data, load_policy())
+        build_universe(
+            dict(schema_version=1, market="crypto", profile="heavy"), data, load_policy()
+        )
 
 
 @pytest.mark.parametrize('patch, error', [
@@ -808,19 +832,26 @@ def test_partial_contract_recomputes_counts_and_preserves_member_gates():
     assert report['stats']['quality']['status'] == 'partial'
     assert partial['delivery']['shortfall'] == 1
     # Partial is an explicit new contract; it cannot silently certify an old underfilled Max.
-    unmarked = deepcopy(partial);unmarked.pop('delivery')
+    unmarked = deepcopy(partial)
+    unmarked.pop("delivery")
     assert not validate_universe(resign(unmarked))['passed']
-    for edit in [lambda u: u['delivery'].update(shortfall=0),
-                 lambda u: u['delivery'].update(shortfall=True),
-                 lambda u: u['delivery'].update(allowed_gap_ratio=.5),
-                 lambda u: next(c for c in u['members'] if c['admission']['kind']=='leader')['admission'].update(quality=''),
-                 lambda u: u['members'][0].update(eligible=False),
-                 lambda u: u['members'][0]['listing'].update(status='inactive'),
-                 lambda u: u['members'][0]['measurement_record'].update(data_sha256='invalid'),
-                 lambda u: u['limits'].update(tradingview_token_cap=10)]:
-        changed = deepcopy(partial);edit(changed)
+    for edit in [
+        lambda u: u["delivery"].update(shortfall=0),
+        lambda u: u["delivery"].update(shortfall=True),
+        lambda u: u["delivery"].update(allowed_gap_ratio=0.5),
+        lambda u: next(c for c in u["members"] if c["admission"]["kind"] == "leader")[
+            "admission"
+        ].update(quality=""),
+        lambda u: u["members"][0].update(eligible=False),
+        lambda u: u["members"][0]["listing"].update(status="inactive"),
+        lambda u: u["members"][0]["measurement_record"].update(data_sha256="invalid"),
+        lambda u: u["limits"].update(tradingview_token_cap=10),
+    ]:
+        changed = deepcopy(partial)
+        edit(changed)
         assert not validate_universe(resign(changed))['passed']
-    wrong_profile = deepcopy(heavy);wrong_profile['delivery'] = partial['delivery']
+    wrong_profile = deepcopy(heavy)
+    wrong_profile["delivery"] = partial["delivery"]
     assert not validate_universe(resign(wrong_profile))['passed']
 
 
@@ -856,3 +887,17 @@ def test_malformed_shortfall_actions_fail_cleanly(action):
     data, heavy = small_partial_fixture()
     with pytest.raises(UniverseError, match='unknown shortfall_action'):
         build(data, profile='max', seed=heavy, shortfall_action=action)
+
+
+def test_current_taxonomy_has_no_legacy_theme_floor_or_size_allocation():
+    from universe_core import check_taxonomy, starter_taxonomy
+
+    policy = load_policy()
+    assert not {"tiers", "markets", "guidance_band"} & policy.keys()
+    assert all("bucket_targets" not in row for row in policy["profiles"].values())
+    result = check_taxonomy(starter_taxonomy("cn"), "cn", target=2, profile="light")
+    assert result["passed"], result["errors"]
+    assert result["scope"] == "display_structure_only"
+    assert result["stats"]["capacity"]["light"]["themes"] > 2
+    assert "floor_share" not in result["stats"]["capacity"]["light"]
+    assert "expected" not in result["stats"]["capacity"]["light"]

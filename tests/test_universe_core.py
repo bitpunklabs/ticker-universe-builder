@@ -12,6 +12,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
+from display_core import display_view  # noqa: E402
 from universe_core import (  # noqa: E402
     AUDIT_CODES,
     BETA_SCORE_WEIGHTS,
@@ -33,7 +34,6 @@ from universe_core import (  # noqa: E402
     apply_change_set,
     build_universe,
     canonical_hash,
-    check_taxonomy,
     content_hash,
     declared_market_warnings,
     default_asset_id,
@@ -67,6 +67,9 @@ from universe_core import (  # noqa: E402
     write_artifacts,
 )
 from universe_core import (  # noqa: E402
+    check_taxonomy as current_check_taxonomy,
+)
+from universe_core import (  # noqa: E402
     load_policy as current_policy,
 )
 
@@ -81,7 +84,12 @@ EXAMPLE_MARKETS = sorted(
 
 def load_policy():
     """Historical 0.4/0.5 fixtures explicitly replay their archived selection policy."""
-    return current_policy(Path(__file__).resolve().parents[1] / "examples/legacy-policy.json")
+    return current_policy(Path(__file__).resolve().parents[1] / "assets/legacy-policy.json")
+
+
+def check_taxonomy(raw, market, policy=None, target=None, profile=None):
+    """Legacy taxonomy tests opt into archived theme-floor semantics."""
+    return current_check_taxonomy(raw, market, policy or load_policy(), target, profile)
 
 
 def evidence(tier: int = 1, as_of: str = "2026-09-09") -> list[dict]:
@@ -668,10 +676,11 @@ class MaintenanceTests(unittest.TestCase):
 class MarketRegistryTests(unittest.TestCase):
     """Market rules live in one table so a fourth market cannot be half-added."""
 
-    def test_every_registered_market_has_a_policy_row(self) -> None:
+    def test_archived_size_rows_are_separate_from_current_coverage(self) -> None:
         policy = load_policy()
-        self.assertEqual(set(MARKET_SPECS), set(policy["markets"]))
-        for code in MARKET_SPECS:
+        self.assertLessEqual(set(policy["markets"]), set(MARKET_SPECS))
+        self.assertNotIn("markets", current_policy())
+        for code in policy["markets"]:
             self.assertEqual(set(policy["markets"][code]), {"breadth"})
 
     def test_a_market_states_its_size_as_one_number(self) -> None:
@@ -712,7 +721,7 @@ class MarketRegistryTests(unittest.TestCase):
         # asked for 220 members from a table that tops out at 72. Every profile of every
         # shipped market now checks clean, warnings included, so the two cannot drift apart
         # again without this failing.
-        for code in sorted(MARKETS):
+        for code in sorted(load_policy()["markets"]):
             for name in PROFILES:
                 with self.subTest(market=code, profile=name):
                     result = check_taxonomy(starter_taxonomy(code), code, profile=name)
@@ -724,15 +733,12 @@ class MarketRegistryTests(unittest.TestCase):
             market_spec("th")
 
     def test_the_registry_covers_the_markets_the_skill_claims_to_cover(self) -> None:
-        # Fourteen rows, one policy breadth each, one starter table each, and a locale for the
-        # language each of them defaults to. A market half-registered is worse than one not
-        # registered at all: it builds, and nothing says which half is missing.
-        policy = load_policy()
+        # Current markets require reviewed identity rules, starters, overlays and locales;
+        # historical breadth multipliers are not a registration requirement.
         self.assertGreaterEqual(len(MARKETS), 14)
         for code in sorted(MARKETS):
             with self.subTest(market=code):
                 spec = market_spec(code)
-                self.assertIn(code, policy["markets"])
                 self.assertIn(spec.language, languages())
                 self.assertTrue(starter_taxonomy(code))
                 self.assertTrue((ROOT / "references" / "markets" / f"{code}.md").is_file())
@@ -829,7 +835,7 @@ class ThemeWeightTests(unittest.TestCase):
 
     def test_a_heavier_theme_takes_more_of_the_universe(self) -> None:
         # The end-to-end statement: same candidates, same target, one weight changed.
-        folder = ROOT / "examples" / "crypto-medium"
+        folder = ROOT / "tests" / "fixtures" / "legacy-crypto"
         snapshot = read_json(folder / "snapshot.json")
         policy = load_policy()
 
@@ -865,7 +871,7 @@ class ThemeWeightTests(unittest.TestCase):
     def test_a_theme_with_no_bench_left_costs_the_universe_nothing(self) -> None:
         # The property a cap could never have: slots the theme cannot fill flow to the next
         # theme in line instead of being held open or spent on relaxing eligibility.
-        folder = ROOT / "examples" / "crypto-medium"
+        folder = ROOT / "tests" / "fixtures" / "legacy-crypto"
         data = read_json(folder / "snapshot.json")
         for item in data["taxonomy"]:
             if item["theme_code"] == "60_A":
@@ -882,7 +888,7 @@ class ThemeWeightTests(unittest.TestCase):
         self.assertEqual(len(universe["members"]), universe["limits"]["target_count"])
 
     def test_the_report_says_where_the_universe_concentrated(self) -> None:
-        folder = ROOT / "examples" / "crypto-medium"
+        folder = ROOT / "tests" / "fixtures" / "legacy-crypto"
         universe, report = build_universe(
             read_json(folder / "build-spec.json"),
             read_json(folder / "snapshot.json"),
@@ -898,7 +904,7 @@ class ThemeWeightTests(unittest.TestCase):
     def test_drift_away_from_the_table_is_reported(self) -> None:
         # Nothing caps a theme, so the check that replaces the cap is a disclosure: a pool that
         # walked far from what its own weights asked for says so.
-        folder = ROOT / "examples" / "crypto-medium"
+        folder = ROOT / "tests" / "fixtures" / "legacy-crypto"
         universe, _ = build_universe(
             read_json(folder / "build-spec.json"),
             read_json(folder / "snapshot.json"),
@@ -917,18 +923,24 @@ class ThemeWeightTests(unittest.TestCase):
         # theme won a slot. Counting it against the theme's apportioned expectation compares an
         # assigned seat to an earned one, and since every market's required seats sit in its
         # benchmark theme, it skews the same theme the same way everywhere.
-        folder = ROOT / "examples" / "kr-medium"
+        data = snapshot()
+        data["candidates"].extend([
+            candidate(f"BINANCE:TEST{i}USDT.P", f"TEST{i}", "12_A", "INDEPENDENT_SENSOR")
+            for i in range(8)
+        ])
         universe, _ = build_universe(
-            read_json(folder / "build-spec.json"),
-            read_json(folder / "snapshot.json"),
-            load_policy(),
+            dict(spec("heavy"), target_count=10, allow_outside_guidance=True), data, small_policy()
         )
         theme = Counter(
             item["theme_code"] for item in universe["members"] if item.get("required")
         ).most_common(1)[0][0]
         stuffed = copy.deepcopy(universe)
         for item in stuffed["members"]:
-            if item["theme_code"] != theme and not item.get("required"):
+            if (
+                item["theme_code"] != theme
+                and not item.get("required")
+                and Counter(m["theme_code"] for m in stuffed["members"])[item["theme_code"]] > 1
+            ):
                 item["required"] = True
                 item["theme_code"] = theme
                 break
@@ -967,7 +979,7 @@ class StabilityTests(unittest.TestCase):
     """The instrument is sold on low turnover. This is the only thing that measures it."""
 
     def build(self, market: str = "crypto"):
-        folder = ROOT / "examples" / f"{market}-medium"
+        folder = ROOT / "tests" / "fixtures" / "legacy-crypto"
         return build_universe(
             read_json(folder / "build-spec.json"),
             read_json(folder / "snapshot.json"),
@@ -995,9 +1007,11 @@ class StabilityTests(unittest.TestCase):
         # The draw has to be per ticker. `metric_score` is linear, so nudging every number the
         # same way rescales every score and reorders nothing — the number would read 1.00 on any
         # input, which is worse than not reporting it.
-        candidates = read_json(ROOT / "examples" / "crypto-medium" / "snapshot.json")["candidates"]
+        candidates = read_json(ROOT / "tests" / "fixtures" / "legacy-crypto" / "snapshot.json")[
+            "candidates"
+        ]
         normalized = normalize_snapshot(
-            read_json(ROOT / "examples" / "crypto-medium" / "snapshot.json")
+            read_json(ROOT / "tests" / "fixtures" / "legacy-crypto" / "snapshot.json")
         )["candidates"]
         self.assertEqual(len(candidates), len(normalized))
         signs = set()
@@ -1014,7 +1028,7 @@ class StabilityTests(unittest.TestCase):
         # A judgement is not an estimate with an error bar. Nudging one would ask how sensitive
         # the pool is to the author's opinion, which a ±1% shift cannot answer.
         normalized = normalize_snapshot(
-            read_json(ROOT / "examples" / "crypto-medium" / "snapshot.json")
+            read_json(ROOT / "tests" / "fixtures" / "legacy-crypto" / "snapshot.json")
         )["candidates"]
         for before, after in zip(normalized, _jitter(normalized, 0), strict=True):
             self.assertEqual(before["metrics"].get("quality"), after["metrics"].get("quality"))
@@ -1044,7 +1058,7 @@ class DiffTests(unittest.TestCase):
         # Two definitions of turnover that drift apart would be worse than one, so they are
         # checked against each other on the shipped example rather than asserted separately.
         folder = ROOT / "examples" / "crypto-medium"
-        policy = load_policy()
+        policy = current_policy()
         built, _ = build_universe(
             read_json(folder / "build-spec.json"), read_json(folder / "snapshot.json"), policy
         )
@@ -1454,10 +1468,12 @@ class LocalizationTests(unittest.TestCase):
         self.assertEqual(report_language("th"), "en")
 
     def test_a_market_report_is_written_in_its_own_language(self) -> None:
-        chinese = (ROOT / "examples" / "cn-medium" / "universe.zh-Hans.md").read_text(
-            encoding="utf-8"
-        )
-        english = (ROOT / "examples" / "us-medium" / "universe.en.md").read_text(encoding="utf-8")
+        chinese = (
+            ROOT / "examples" / "cn-medium" / "output" / "cn-medium-2026-10-07.zh-Hans.md"
+        ).read_text(encoding="utf-8")
+        english = (
+            ROOT / "examples" / "us-medium" / "output" / "us-medium-2026-10-07.en.md"
+        ).read_text(encoding="utf-8")
         self.assertIn("# CN 标的池", chinese)
         self.assertIn("## 成员", chinese)
         self.assertNotIn("## Members", chinese)
@@ -1490,9 +1506,9 @@ class LocalizationTests(unittest.TestCase):
                     f"{language} {key}: ASCII punctuation beside CJK in {value!r}",
                 )
         # The example is the demonstration, so it is held to the same standard as the chrome.
-        chinese = (ROOT / "examples" / "cn-medium" / "universe.zh-Hans.md").read_text(
-            encoding="utf-8"
-        )
+        chinese = (
+            ROOT / "examples" / "cn-medium" / "output" / "cn-medium-2026-10-07.zh-Hans.md"
+        ).read_text(encoding="utf-8")
         for line in chinese.splitlines():
             self.assertIsNone(_ASCII_NEXT_TO_CJK.search(line), line)
 
@@ -1686,12 +1702,12 @@ class ImportTests(unittest.TestCase):
         universe, _ = build_universe(
             read_json(ROOT / "examples" / "crypto-medium" / "build-spec.json"),
             read_json(ROOT / "examples" / "crypto-medium" / "snapshot.json"),
-            load_policy(),
+            current_policy(),
         )
         draft = self.draft(render_txt(universe), market="crypto")
         self.assertEqual(
             [item["theme_code"] for item in draft["taxonomy"]],
-            sorted({item["theme_code"] for item in universe["members"]}),
+            sorted(display_view(universe)[1]),
         )
         self.assertEqual(
             sorted(item["ticker"] for item in draft["candidates"]),
@@ -1704,133 +1720,82 @@ class ImportTests(unittest.TestCase):
 
 
 class ExampleTests(unittest.TestCase):
-    """The shipped examples are the first thing anyone runs; a rotted one is a broken skill."""
+    """Worked inputs demonstrate the current contract and standard artifact names."""
 
     def test_the_committed_examples_rebuild_from_researched_inputs(self) -> None:
-        # The researched snapshots are the source of truth. If rebuilding changes a committed file,
-        # someone edited the output instead of the input.
         sys.path.insert(0, str(ROOT / "examples"))
         import build_examples
 
         before = {
-            path: path.read_text(encoding="utf-8")
-            for market in EXAMPLE_MARKETS
-            for pattern in ("*.json", "*.md", "*.txt")
-            for path in (ROOT / "examples" / f"{market}-medium").glob(pattern)
-            if path.name != "changes.json"
+            path: path.read_bytes()
+            for path in (ROOT / "examples").rglob("*")
+            if path.is_file() and path.suffix in {".json", ".txt", ".md"}
         }
-        # One report per language per example, named `universe.<language>.md` exactly as a build
-        # names its own. Every market has an English one; nine of the fourteen have a second.
-        expected = sorted(
-            [f"maintenance.{code}.md" for code in report_languages("crypto")]
-            + [
-                f"universe.{code}.md"
-                for market in EXAMPLE_MARKETS
-                for code in report_languages(market)
-            ]
-        )
-        self.assertEqual(
-            sorted(path.name for path in before if path.name.endswith(".md")), expected
-        )
-        self.assertEqual(
-            len([name for name in expected if name.endswith(".en.md")]),
-            len(EXAMPLE_MARKETS) + 1,
-            "every market's example has to carry an English report",
-        )
-        # The watchlist is committed too: it is the artifact that gets imported, and a diff in
-        # the TradingView format should be reviewable without running a build.
-        self.assertEqual(
-            len([path for path in before if path.name == "watchlist.txt"]),
-            len(EXAMPLE_MARKETS),
-        )
         build_examples.main()
-        for path, text in before.items():
-            self.assertEqual(path.read_text(encoding="utf-8"), text, path.name)
+        after = {
+            path: path.read_bytes()
+            for path in (ROOT / "examples").rglob("*")
+            if path.is_file() and path.suffix in {".json", ".txt", ".md"}
+        }
+        self.assertEqual(before, after)
 
-    def test_exactly_the_seven_requested_markets_ship_examples(self) -> None:
-        # Example scope is independent of the fourteen-market registry.
-        self.assertEqual(
-            sorted(EXAMPLE_MARKETS), sorted(("us", "jp", "cn", "kr", "hk", "uk", "crypto"))
-        )
+    def test_three_current_markets_and_crypto_seeded_max_ship(self) -> None:
+        self.assertEqual(EXAMPLE_MARKETS, ["cn", "crypto", "us"])
+        summary = read_json(ROOT / "examples" / "build-summary.json")["examples"]
+        self.assertEqual([row["entities"] for row in summary], [302, 294, 35, 50, 65])
+        self.assertTrue(all(row["qualified"] for row in summary))
 
-    def test_examples_use_their_declared_researched_taxonomy(self) -> None:
-        for market in EXAMPLE_MARKETS:
-            with self.subTest(market=market):
-                raw = read_json(ROOT / "examples" / f"{market}-medium" / "snapshot.json")
-                published = {item["theme_code"] for item in raw["taxonomy"]}
-                used = {
-                    item["theme_code"]
-                    for item in read_json(
-                        ROOT / "examples" / f"{market}-medium" / "snapshot.json"
-                    )["candidates"]
-                }
-                self.assertLessEqual(used, published)
-
-    def test_every_example_builds_and_passes(self) -> None:
+    def test_examples_use_reviewed_coverage_and_standard_artifacts(self) -> None:
         for market in EXAMPLE_MARKETS:
             folder = ROOT / "examples" / f"{market}-medium"
             with self.subTest(market=market):
-                universe, report = build_universe(
-                    read_json(folder / "build-spec.json"),
-                    read_json(folder / "snapshot.json"),
-                    load_policy(),
+                raw = read_json(folder / "snapshot.json")
+                self.assertLessEqual(
+                    {row["theme_code"] for row in raw["candidates"]},
+                    {row["theme_code"] for row in raw["taxonomy"]},
                 )
-                self.assertTrue(report["passed"], report["errors"])
-                self.assertEqual(universe["market"], market)
-
-    def test_every_example_is_a_full_size_universe_for_its_market(self) -> None:
-        # An example below its own guidance teaches the wrong shape, and `allow_outside_guidance`
-        # in a shipped build spec teaches that the flag is normal. Both used to be true here.
-        policy = load_policy()
-        for market in EXAMPLE_MARKETS:
-            folder = ROOT / "examples" / f"{market}-medium"
-            with self.subTest(market=market):
-                spec = read_json(folder / "build-spec.json")
-                self.assertNotIn("allow_outside_guidance", spec)
                 universe, report = build_universe(
-                    spec, read_json(folder / "snapshot.json"), policy
+                    read_json(folder / "build-spec.json"), raw, current_policy()
                 )
-                band = market_guidance(market, policy, None)["medium"]
-                self.assertEqual(len(universe["members"]), band["target"])
-                self.assertGreaterEqual(len(universe["members"]), band["min"])
-                self.assertLessEqual(len(universe["members"]), band["max"])
-                self.assertTrue(all(
-                    m["measurement_record"]["data_sha256"] for m in universe["members"]
-                ))
-
-    def test_every_example_reads_in_its_own_market_language_and_in_english(self) -> None:
-        # The report language is a registry fact, not a run-time choice, and the committed
-        # example is where that either holds or quietly stops holding. Both files are checked:
-        # an English report that was quietly rendered from the market's lexicon would look fine
-        # to anyone who cannot read the market's language, which is exactly its reader.
-        for market in EXAMPLE_MARKETS:
-            for code in report_languages(market):
-                with self.subTest(market=market, language=code):
-                    path = ROOT / "examples" / f"{market}-medium" / f"universe.{code}.md"
-                    heading = next(
-                        line
-                        for line in path.read_text(encoding="utf-8").splitlines()
-                        if line.startswith("# ")
-                    )
-                    lexicon = read_json(ROOT / "assets" / "locales" / f"{code}.json")
+                self.assertTrue(report["qualified"], report["errors"])
+                self.assertNotIn("partially_scored", report["stats"])
+                stem = f"{market}-medium-{universe['as_of']}"
+                expected = {f"{stem}.json", f"{stem}.validation.json", f"{stem}.txt"}
+                expected |= {f"{stem}.{code}.md" for code in report_languages(market)}
+                self.assertEqual({path.name for path in (folder / "output").iterdir()}, expected)
+                for code in report_languages(market):
+                    text = (folder / "output" / f"{stem}.{code}.md").read_text()
+                    lexicon = load_lexicon(code)
                     self.assertEqual(
-                        heading, "# " + lexicon["title"].format(market=market.upper())
+                        text.splitlines()[0], "# " + lexicon["title"].format(market=market.upper())
                     )
+
+    def test_max_retains_heavy_and_only_adds_beta(self) -> None:
+        heavy = read_json(ROOT / "examples/crypto-heavy/output/crypto-heavy-2026-10-07.json")
+        maximum = read_json(ROOT / "examples/crypto-max/output/crypto-max-2026-10-07.json")
+        held = {row["ticker"]: row for row in heavy["members"]}
+        added = [row for row in maximum["members"] if row["ticker"] not in held]
+        self.assertEqual(len(added), 15)
+        self.assertTrue(all(row["role"] == "BETA_SATELLITE" for row in added))
+        self.assertEqual(
+            held, {row["ticker"]: row for row in maximum["members"] if row["ticker"] in held}
+        )
 
     def test_the_crypto_change_set_still_applies_to_its_own_universe(self) -> None:
-        folder = ROOT / "examples" / "crypto-medium"
+        folder = ROOT / "examples/crypto-medium"
         universe, _ = build_universe(
             read_json(folder / "build-spec.json"),
             read_json(folder / "snapshot.json"),
-            load_policy(),
+            current_policy(),
         )
         changes = read_json(folder / "changes.json")
         self.assertEqual(changes["base_version_hash"], universe["version_hash"])
-        updated, report = apply_change_set(universe, changes, load_policy())
-        self.assertTrue(report["passed"], report["errors"])
+        updated, report = apply_change_set(universe, changes, current_policy())
+        self.assertTrue(report["qualified"], report["errors"])
         self.assertEqual(report["maintenance"]["added"], [])
         self.assertEqual(report["maintenance"]["removed"], [])
         self.assertEqual(updated["members"], universe["members"])
+        self.assertEqual(updated["version_hash"], universe["version_hash"])
 
 
 if __name__ == "__main__":

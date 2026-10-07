@@ -2,5 +2,6 @@
   "schema_version": 1,
   "market": "crypto",
   "profile": "medium",
-  "as_of": "2026-09-29"
+  "as_of": "2026-10-07",
+  "shortfall_action": "retry"
 }

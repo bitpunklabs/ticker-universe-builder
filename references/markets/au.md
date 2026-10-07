@@ -33,13 +33,14 @@ universal flag; what is market-specific is the vocabulary, not the price.
 
 ## Size
 
-Breadth `0.7` in `assets/default-policy.json`, so the tiers are **Light 40**,
-**Medium 110**, **Heavy 280** members. The starter table reaches 24 themes at
-Light.
+Research the leader/necessary-peer roster and declare four entity ceilings in `coverage_plan`.
+Reference instruments are additional. Medium covers most reviewed leaders; Heavy protects the
+full necessary backbone; Max adds at least 30% sourced Beta following that Heavy's distribution.
+Starter theme levels/weights do not set current member quotas.
 
 ## Example
 
-No dedicated example ships for this market in 0.4. Use the closest
+No dedicated current example ships for this market. Use the closest
 [worked Medium example](../../examples/README.md), then research this market under the overlay above.
 
 ## Suggested live fields

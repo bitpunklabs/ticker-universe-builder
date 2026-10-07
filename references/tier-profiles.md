@@ -52,7 +52,7 @@ Below-minimum results retain a resumable research checkpoint, not a completed wa
 
 The 60/160/400/580 bases, market breadth multipliers, taxonomy coverage levels and bucket targets
 remain for archived 0.4/0.5 replay and legacy display-table checks. They do not size or allocate
-new coverage-first builds. Use [legacy-policy.json](../examples/legacy-policy.json) explicitly to
-reproduce historical examples; their validation does not certify current coverage quality.
+new coverage-first builds. Use [legacy-policy.json](../assets/legacy-policy.json) explicitly to
+reproduce archived inputs; their validation does not certify current coverage quality.
 Previously published coverage-first Max files below 30% growth are historical outputs;
 they do not pass the current contract and must be expanded before republication.

@@ -79,7 +79,7 @@ Light/Medium select leaders only. All declared leaders and necessary peers must 
 Max requires an embedded, validated same-date Heavy and adds satellites only. Rebuilding
 Light/Medium from the same roster preserves nesting; expanding Max preserves Heavy's exact
 members and facts. A changed Heavy requires a new Max. Historical quota/stability selection
-is available only through the explicit archived example policy; it does not certify this model.
+is available only through the explicit archived replay policy; it does not certify this model.
 
 ## What the composite score is, and what it is not
 

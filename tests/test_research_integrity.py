@@ -37,7 +37,7 @@ from universe_core import (
 
 def load_policy():
     """Historical 0.4/0.5 fixtures explicitly replay their archived selection policy."""
-    return current_policy(Path(__file__).resolve().parents[1] / "examples/legacy-policy.json")
+    return current_policy(Path(__file__).resolve().parents[1] / "assets/legacy-policy.json")
 
 
 @pytest.mark.parametrize("ticker", ["SSE:300308", "SZSE:600519", "BSE:000001"])
@@ -273,25 +273,15 @@ def test_all_markets_max_increment_is_40_to_50_percent():
         assert 1.4 <= ratio <= 1.5, market
 
 
-def test_cn_real_max_retains_heavy_and_adds_qualified_beta():
+def test_cn_compact_example_does_not_pad_max_from_an_inadequate_bench():
     root = Path(__file__).resolve().parents[1]
     raw = read_json(root / "examples/cn-medium/snapshot.json")
-    policy = load_policy()
-    heavy, _ = build_universe(dict(spec("heavy"), market="cn"), raw, policy)
-    max, report = build_universe(dict(spec("max"), market="cn"), raw, policy, heavy)
-    held = {m["ticker"] for m in heavy["members"]}
-    additions = [m for m in max["members"] if m["ticker"] not in held]
-    assert held <= {m["ticker"] for m in max["members"]}
-    assert len(heavy["members"]) == 520 and len(max["members"]) == 755
-    assert sum(m["role"] == "BETA_SATELLITE" for m in additions) >= 165
-    assert report["passed"] and report["stats"]["tradingview_tokens"] <= 1000
-    medium, _ = build_universe(dict(spec("medium"), market="cn"), raw, policy)
-    jumped, _ = build_universe(dict(spec("max"), market="cn"), raw, policy, medium)
-    assert {m["ticker"] for m in jumped["members"]} == {
-        m["ticker"] for m in max["members"]
-    }
-    direct, _ = build_universe(dict(spec("max"), market="cn"), raw, policy)
-    assert {m["ticker"] for m in direct["members"]} == {m["ticker"] for m in max["members"]}
+    policy = current_policy()
+    heavy, report = build_universe(dict(spec("heavy"), market="cn"), raw, policy)
+    assert len(heavy["members"]) == 457
+    assert report["qualified"] and report["stats"]["tradingview_tokens"] <= 1000
+    with pytest.raises(UniverseError):
+        build_universe(dict(spec("max"), market="cn", shortfall_action="retry"), raw, policy, heavy)
 
 
 def test_insufficient_beta_is_disclosed_without_relabelling():

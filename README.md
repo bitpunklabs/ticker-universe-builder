@@ -72,10 +72,11 @@ vocabulary, theme table and report language:
 Any other market builds by declaring the same handful of facts in the snapshot, evidence-gated,
 hashed, and reported as **declared rather than reviewed** on every run.
 
-Seven markets ship dated Medium [historical examples](examples/README.md), explicitly replayed
-with an archived policy. New builds use a [coverage-first research plan](references/coverage-plan.md):
+CN, US and Crypto ship current [worked examples](examples/README.md), with a Crypto Heavy→Max
+seed example. All new builds use a [coverage-first research plan](references/coverage-plan.md):
 stable economic branches, a reviewed leader/necessary-peer roster, parent-sector ceilings,
-instrument bindings and an auditable Core migration. See the [0.6 design review](docs/design/0.6.0-coverage-first.md).
+instrument bindings and auditable Core migration. Archived replay requires an explicit policy
+in `assets/legacy-policy.json`.
 
 Light is leader-only. Medium covers most reviewed leaders. Heavy completes the necessary
 backbone plus at most 20% satellites; Max expands that same qualified Heavy with at most
@@ -91,46 +92,31 @@ Display theme weights and news heat do not allocate economic coverage.
 
 ## What you get
 
-Four artifacts per build, named `{market}-{profile}-{as_of}`, plus one report per language.
+`build` and `maintain` write to the explicit `--output DIR`. The agent's default convention is
+`ticker-universes/<market>/<profile>/<as_of>/` inside the user's project; the CLI does not choose
+an implicit destination. Files use `{market}-{profile}-{as_of}` as their stem.
 
-A **`.md` report**, written twice: once in the market's own language and once in English, as
-`{stem}.zh-Hans.md` and `{stem}.en.md` ([CN example](examples/cn-medium/universe.zh-Hans.md), and
-[the same universe in English](examples/cn-medium/universe.en.md)). A universe is read both by the
-people who trade that market and by someone allocating across several who reads none of their
-languages, and the reasons and the evidence are the whole point of the file. English markets get
-the one file:
+| File | Use |
+|---|---|
+| `.json` | Authoritative universe, coverage/admissions, dated facts, sources, rejections and hashes; keep for maintenance |
+| `.validation.json` | Qualification, errors/warnings, counts and coverage/expansion checks |
+| `.txt` | Grouped TradingView import, including references, at most 1,000 tokens |
+| `.en.md` | Readable report |
+| `.<market-language>.md` | Companion for non-English markets, e.g. `.zh-Hans.md` for CN |
 
-```markdown
-# CRYPTO Ticker Universe
+**US/Crypto: four files; CN: five.** See the
+[CN report](examples/cn-medium/output/cn-medium-2026-10-07.zh-Hans.md) and
+[Crypto TXT](examples/crypto-medium/output/crypto-medium-2026-10-07.txt).
 
-- Profile: Medium
-- Facts as of: 2026-09-29
-- Tickers: 105
-- Themes: 13
-- Partially scored: 105 / 105
-- Validation: PASS
+The CLI prints a JSON receipt with artifact paths and creates `DIR.run/` with saved inputs,
+attempts and repair diagnostics. A resumed attempt uses a fresh destination; existing outputs
+are never overwritten. Partial files include `-partial` in their names. The
+[standard output contract](references/output-artifacts.md) documents paths, receipts, formats
+and delivery statuses.
 
-| Theme | Ticker | Name | Role | Reason | Evidence |
-|---|---|---|---|---|---|
-| 10_A L1_MAJORS | BINANCE:ADAUSDT.P | Cardano | THEME_LEADER | … | https://api.binance.com/… |
-```
-
-A **`.txt` watchlist** TradingView imports directly, sectioned by theme, capped at 1,000 tokens
-([crypto example](examples/crypto-medium/watchlist.txt)):
-
-```text
-###00_A_CORE_ASSETS,BINANCE:ETHUSDT.P,BINANCE:BTCUSDT.P,###10_A_L1_MAJORS,BINANCE:ADAUSDT.P,…
-```
-
-<!-- MEDIA PLACEHOLDER 2 of 2 — drop docs/media/watchlist-import.gif in place, then
-     delete these two comment lines. Capture instructions: docs/media/README.md
+<!-- MEDIA PLACEHOLDER 2 of 2 — capture instructions: docs/media/README.md
 ![Importing a generated watchlist into TradingView](docs/media/watchlist-import.gif)
 -->
-
-A **`.json` universe** — the version of record, carrying every member, every rejected candidate
-with its exclusion code, the policy hash and the content hash. This is the file you keep and pass
-back in to maintain. And a **`.validation.json`** — the structural verdict. If it fails, the
-other three were never written.
 
 ## Install
 
@@ -160,7 +146,7 @@ The model researches. Python decides.
 
 | The model supplies | Python owns |
 |---|---|
-| Themes, weights, roles, evidence, judgement, proposed operations | Normalization, eligibility gates, window statistics, rule scores, protected coverage, sector/satellite ceilings, apportionment, ordering, hashing, rendering |
+| Economic plan, leader/peer roster, admissions, business evidence, sourced caps, proposed operations | Normalization, eligibility gates, window statistics, protected coverage, sector/satellite ceilings, apportionment, ordering, hashing, rendering |
 
 The model never writes the final watchlist. Operations can be checked one at a time, rejected one
 at a time and reversed; a finished list cannot.
@@ -172,15 +158,15 @@ at a time and reversed; a finished list cannot.
 - **Measured, not asserted.** Window-dependent statistics — liquidity, `factor_r2`, beta strength
   and stability — must declare their method, window and source, and cannot be submitted as
   judgement. `measure` computes them from a price table so the rule has a way to be kept.
-- **Judgement, bounded.** `quality` is half rule and half model opinion wherever checkable facts
-  exist — listing age, size percentile, a closed list of adverse flags — and the halves stay
-  separately recorded.
-- **Low turnover.** Per-depth turnover budgets, flip-flop warnings, and a `deferred`
+- **Coverage before depth.** The reviewed backbone is protected before optional Beta. Beta uses
+  complementary business/token exposure and sourced market cap within Heavy's distribution.
+  Supplied measurements retain their provenance; missing optional price statistics are not invented.
+- **Low turnover.** Per-review-depth turnover budgets, flip-flop warnings, and a `deferred`
   queue the next round inherits.
 - **Fail closed.** Incomplete facts, stale versions, missing evidence or a failed structural check
   block publication. Build attempts retain their inputs and repair diagnostics. Resume with
   `build --resume OUTPUT.run`. Coverage-first accepts unused capacity only after all quality
-  gates pass; underfilled legacy replay remains `partial` (exit 3). See [recovery](references/recovery.md).
+  gates pass; explicit small Max count-only shortfalls are `partial` (exit 3). See [recovery](references/recovery.md).
 
 ## The command surface
 
@@ -193,7 +179,7 @@ One entry point, ten subcommands, in the order a real session uses them.
 | `import --watchlist W --market M` | Turn a TradingView export into a snapshot draft instead of retyping it |
 | `fetch --market M --prices-until D --output O` | Optional public listings/history adapter; writes receipts and coverage, never membership |
 | `measure --prices P --benchmark B` | Compute the window statistics the builder refuses to accept as judgement |
-| `build --spec S --snapshot N` | Select, rank, apportion, validate and write the four artifacts |
+| `build --spec S --snapshot N` | Select, rank, apportion, validate and write the standard artifact bundle |
 | `validate universe.json` | Re-run the structural verdict on any universe file |
 | `maintain --universe U --changes C` | Apply a change set against an exact version, under the turnover budget |
 | `diff before.json after.json` | Say what actually changed between two universes |
@@ -203,12 +189,12 @@ One entry point, ten subcommands, in the order a real session uses them.
 
 ```text
 SKILL.md              routing; the agent reads this first
-AGENTS.md             the same routing for agents that are not Claude
+AGENTS.md             repository-specific entry point and boundaries
 references/           methodology, tiers, contracts, maintenance, sources, per-market overlays
 scripts/universe.py   the only entry point
 scripts/*_core.py     selection, measurement and evaluation; stdlib only
 assets/               policy, theme tables (one shared equity base + per-market deltas), locales
-examples/             seven researched Medium universes, rebuilt offline from dated snapshots
+examples/             CN/US/Crypto Medium and Crypto Heavy/Max, rebuilt from dated snapshots
 tests/                pytest
 ```
 
@@ -222,30 +208,14 @@ Stated plainly, because a limit you cannot see is a defect:
 - **Optional data adapters.** Public TradingView/Yahoo and Binance adapters write raw receipts.
   Endpoints can fail or change; incomplete requests are disclosed. Build and measure remain offline.
   See [provider scope](references/providers.md). A verified quote is not regulatory due diligence.
-- **Half of `quality` is still judgement**, by design — durability is not a statistic. The rule
-  half covers listing age, size percentile and adverse flags, recorded separately.
-- **The constants are still guesses, but they are now checkable.** `evaluate` measures a universe
-  against the window it lived through. Nothing here has been recalibrated from it yet: one window
-  is one draw, and the numbers in `assets/default-policy.json` — breadth factors included — are
-  the same judged ones they always were.
-- **Economic coverage is researched judgment.** Sector caps, business branches and leadership
-  evidence need human review. Code enforces declared obligations and reveals missing research;
-  it cannot prove that a plausible statement accurately describes a company.
-- **The composite score is an ordinal tie-break**, deliberately. The researched core roster carries structural
-  judgment; nothing downstream should read the weighted score as a rating.
-- **Seven Medium examples ship**, using observed listings and real measured prices. They are dated
-  research subsets, not exhaustive market screens or quality ratings. Partial scores and warnings
-  remain visible. CN preserves legacy driver labels; that inheritance is not fresh business diligence.
-- **Hysteresis remains a research policy.** Python enforces turnover and warns on flip-flops; it
-  does not implement a numerical two-snapshot entry/exit state machine.
-- **Integrity is not authenticity.** Hashes and structured measurement records catch drift and
-  missing provenance; they cannot prove that a dishonest input author computed the supplied number.
-- **`fr` cannot enforce its own boundary.** TradingView's `EURONEXT` venue code covers Paris,
-  Amsterdam, Brussels and Lisbon alike, so the identity rule cannot tell them apart and the
-  research has to. It is stated in the overlay rather than papered over.
-- **Eight locales ship.** Only the chrome is translated; validation diagnostics stay English
-  because they name policy fields and code paths. A market's adverse-flag vocabulary is
-  translated in its own language and in English, and prints as a code elsewhere.
+- **Leadership is researched judgement.** Validation checks sourced admissions and a declared
+  roster; it does not independently certify business leadership or market-wide completeness.
+  Optional legacy quality blends remain separately recorded; they do not rank coverage Beta.
+- **Coverage constraints are declared policy.** Leader coverage, satellite ceilings, minimum
+  expansion and sector budgets are transparent starting rules, not empirically optimal weights.
+- **Worked examples are dated research subsets.** Their cutoffs, source scope and optional
+  measurements remain visible; offline replay does not establish real-time data freshness or
+  prove that the universe discovers every important move.
 
 ## Verifying
 
@@ -256,7 +226,7 @@ python examples/build_examples.py && git diff --exit-code examples/
 ```
 
 CI runs the suite on Python 3.10 through 3.13 with pytest; runtime scripts use only the standard
-library. A second job drives the CLI: builds all seven examples, validates each,
+library. A second job drives the CLI: builds all current examples, including seeded Max, validates each,
 re-imports a generated watchlist, checks every registered market's starter table, applies the
 example change set, diffs the result and runs `evaluate` against a synthetic window.
 

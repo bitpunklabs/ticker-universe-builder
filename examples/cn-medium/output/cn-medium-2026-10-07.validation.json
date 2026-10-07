@@ -1,0 +1,54 @@
+{
+  "passed": true,
+  "qualified": true,
+  "errors": [],
+  "warnings": [],
+  "stats": {
+    "tickers": 302,
+    "exported_tickers": 344,
+    "quality": {
+      "status": "qualified",
+      "leader_coverage": 0.8805,
+      "roles": {
+        "leader": 302
+      },
+      "sectors": {
+        "agriculture": 5,
+        "consumer": 43,
+        "digital": 36,
+        "finance": 18,
+        "health": 21,
+        "industry": 29,
+        "infrastructure": 23,
+        "resources": 36,
+        "semiconductors": 36,
+        "transport_energy_equipment": 47,
+        "utilities": 8
+      },
+      "entity_count": 302,
+      "references": 42,
+      "unused_capacity": 38,
+      "plan_hash": "ba55ae5b7955",
+      "evidence_boundary": "Checks declared research, not independent proof of leadership."
+    },
+    "themes": 58,
+    "research_themes": 88,
+    "concentration": null,
+    "duties": {
+      "declared": 0,
+      "represented": 0,
+      "missing": [],
+      "undeclared": []
+    },
+    "tradingview_tokens": 413,
+    "roles": {
+      "THEME_LEADER": 302
+    },
+    "buckets": {
+      "core": 302
+    },
+    "rejections": {
+      "not_selected_under_budget": 155
+    }
+  }
+}

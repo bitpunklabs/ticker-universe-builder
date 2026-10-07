@@ -18,7 +18,7 @@ Electrical equipment and chemicals are promoted to level 1: Siemens and BASF are
 
 Insurance is weighted at 2.0 against 1.0 in the base — Allianz and Munich Re are a reinsurance complex, and reinsurance moves on things nothing else in the index moves on.
 
-Three things the shared base carries are not here at all: energy, payments and a data-centre theme. Frankfurt lists no oil major, the payments sector did not survive Wirecard as a listed pure play, and there is no German data-centre operator — so the energy transition and the AI build-out are both observed through electrical equipment and utilities. A theme nothing can fill is worse than no theme: it turns the breadth floor into a hole.
+Three things the shared base carries are not here at all: energy, payments and a data-centre theme. Frankfurt lists no oil major, the payments sector did not survive Wirecard as a listed pure play, and there is no German data-centre operator — so the energy transition and the AI build-out are both observed through electrical equipment and utilities. A theme nothing can fill is worse than no theme: it would invent an economic duty the market cannot fulfill.
 
 ## Adverse flags
 
@@ -33,13 +33,14 @@ universal flag; what is market-specific is the vocabulary, not the price.
 
 ## Size
 
-Breadth `0.75` in `assets/default-policy.json`, so the tiers are **Light 45**,
-**Medium 120**, **Heavy 300** members. The starter table reaches 25 themes at
-Light.
+Research the leader/necessary-peer roster and declare four entity ceilings in `coverage_plan`.
+Reference instruments are additional. Medium covers most reviewed leaders; Heavy protects the
+full necessary backbone; Max adds at least 30% sourced Beta following that Heavy's distribution.
+Starter theme levels/weights do not set current member quotas.
 
 ## Example
 
-No dedicated example ships for this market in 0.4. Use the closest
+No dedicated current example ships for this market. Use the closest
 [worked Medium example](../../examples/README.md), then research this market under the overlay above.
 
 ## Suggested live fields

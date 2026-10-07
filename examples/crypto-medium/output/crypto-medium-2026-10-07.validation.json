@@ -1,0 +1,50 @@
+{
+  "passed": true,
+  "qualified": true,
+  "errors": [],
+  "warnings": [],
+  "stats": {
+    "tickers": 35,
+    "exported_tickers": 35,
+    "quality": {
+      "status": "qualified",
+      "leader_coverage": 0.9211,
+      "roles": {
+        "leader": 35
+      },
+      "sectors": {
+        "applications": 3,
+        "defi": 11,
+        "infrastructure": 3,
+        "payments_rwa": 3,
+        "settlement": 15
+      },
+      "entity_count": 35,
+      "references": 0,
+      "unused_capacity": 5,
+      "plan_hash": "95fa220b9aaa",
+      "evidence_boundary": "Checks declared research, not independent proof of leadership."
+    },
+    "themes": 9,
+    "research_themes": 19,
+    "concentration": null,
+    "duties": {
+      "declared": 0,
+      "represented": 0,
+      "missing": [],
+      "undeclared": []
+    },
+    "tradingview_tokens": 44,
+    "roles": {
+      "BENCHMARK": 3,
+      "THEME_LEADER": 32
+    },
+    "buckets": {
+      "core": 35
+    },
+    "rejections": {
+      "not_selected_under_budget": 41,
+      "other": 3
+    }
+  }
+}

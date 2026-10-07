@@ -159,28 +159,34 @@ def test_interrupted_attempt_can_retry_same_inputs(tmp_path):
 
 
 def coverage_gap_args(tmp_path, beta_count=5):
-    from test_coverage_core import expansion_fixture, build
+    from test_coverage_core import build, expansion_fixture
     data = expansion_fixture()
     heavy, _ = build(data, target_count=20)
     data['candidates'] = [c for c in data['candidates']
                           if c['admission']['kind'] != 'satellite'
                           or c['asset_id'] in {f'BETA{i}' for i in range(beta_count)}]
-    return dict(spec=write(tmp_path/'spec.json', dict(schema_version=1, market='us', profile='max')),
-                snapshot=write(tmp_path/'snapshot.json', data),
-                seed=write(tmp_path/'heavy.json', heavy), output=str(tmp_path/'out'))
+    return dict(
+        spec=write(tmp_path / "spec.json", dict(schema_version=1, market="us", profile="max")),
+        snapshot=write(tmp_path / "snapshot.json", data),
+        seed=write(tmp_path / "heavy.json", heavy),
+        output=str(tmp_path / "out"),
+    )
 
 
 def test_small_max_gap_delivers_partial_and_can_retry_to_complete(tmp_path):
-    from universe_core import validate_universe
     from test_coverage_core import expansion_fixture
+    from universe_core import validate_universe
     args = coverage_gap_args(tmp_path)
     first, code = run_build(**args)
     assert code == 3 and first['status'] == 'partial' and first['shortfall'] == 1
     assert first['validation_passed'] and not first['qualified']
     assert first['handler']['action'] == 'deliver'
     assert first['diagnostics']['recovery']['cause'] == 'candidate_supply'
-    assert first['diagnostics']['recovery']['price_diagnostics']['beta_strength']['required'] is False
-    path = Path(first['artifacts']['universe']);before = path.read_bytes()
+    assert (
+        first["diagnostics"]["recovery"]["price_diagnostics"]["beta_strength"]["required"] is False
+    )
+    path = Path(first["artifacts"]["universe"])
+    before = path.read_bytes()
     assert '-partial.json' in path.name
     u = json.loads(before)
     assert u['delivery']['required_entities'] == 26

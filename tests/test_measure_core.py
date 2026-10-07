@@ -23,7 +23,7 @@ BENCHMARK = "BINANCE:BTCUSDT.P"
 
 def load_policy():
     """Historical 0.4/0.5 fixtures explicitly replay their archived selection policy."""
-    return current_policy(Path(__file__).resolve().parents[1] / "examples/legacy-policy.json")
+    return current_policy(Path(__file__).resolve().parents[1] / "assets/legacy-policy.json")
 
 
 def price_table(

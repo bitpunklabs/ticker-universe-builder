@@ -18,7 +18,7 @@ Agribusiness is its own group and exists in no other shipped table. Filing it un
 
 Managed care comes up to Light, which it does in no other equity table here: private health in Brazil is listed and large, and Hapvida and Rede D'Or are observed nowhere else. Media, payments and medtech leave Light in the same edit — the payments names went private or listed in New York.
 
-Twenty-five themes from the shared base are dropped, including all of technology except software and internet. The resulting table is the shortest of the fourteen, which matches a market with the smallest breadth factor.
+Twenty-five themes from the shared base are dropped, including all of technology except software and internet. The resulting table is the shortest of the fourteen, reflecting its distinct listed-economy structure.
 
 ## Adverse flags
 
@@ -33,13 +33,14 @@ universal flag; what is market-specific is the vocabulary, not the price.
 
 ## Size
 
-Breadth `0.55` in `assets/default-policy.json`, so the tiers are **Light 35**,
-**Medium 90**, **Heavy 220** members. The starter table reaches 23 themes at
-Light.
+Research the leader/necessary-peer roster and declare four entity ceilings in `coverage_plan`.
+Reference instruments are additional. Medium covers most reviewed leaders; Heavy protects the
+full necessary backbone; Max adds at least 30% sourced Beta following that Heavy's distribution.
+Starter theme levels/weights do not set current member quotas.
 
 ## Example
 
-No dedicated example ships for this market in 0.4. Use the closest
+No dedicated current example ships for this market. Use the closest
 [worked Medium example](../../examples/README.md), then research this market under the overlay above.
 
 ## Suggested live fields
