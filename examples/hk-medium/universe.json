@@ -5,7 +5,7 @@
   "profile": "medium",
   "as_of": "2026-09-29",
   "source_as_of": "2026-09-29",
-  "policy_version": "5949a4fc687c",
+  "policy_version": "70fc2a03f655",
   "limits": {
     "hard_ticker_cap": 1000,
     "tradingview_token_cap": 1000,
@@ -14750,5 +14750,5 @@
   ],
   "history": [],
   "version_hash": "b3ff6b8fc24c",
-  "content_hash": "a36e63f26337"
+  "content_hash": "4f9fb2b5bd25"
 }
