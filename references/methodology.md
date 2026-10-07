@@ -64,17 +64,19 @@ is not high beta; if it genuinely adds information, it belongs in `INDEPENDENT_S
 1. Validate the sourced market plan, complete core roster, instrument identity and admissions.
 2. Select every necessary leader/peer due at the depth; fail if missing or infeasible.
 3. Check Core migration decisions and economic branch coverage before optional additions.
-4. For Heavy/Extreme only, add measured Beta with sourced quality and incremental value,
-   within hard sector, satellite-share, entity and TradingView ceilings. Stable parent-sector
-   weight divided by `2 * held + 1` orders optional seats; display weights and heat do not.
-5. Validate again, including Extreme's at least 40% entity growth, then hash and render TXT/JSON/reports.
+4. For Heavy/Max only, add measured Beta with sourced market cap, broad business validity and incremental value,
+   within hard sector, satellite-share, entity and TradingView ceilings. Heavy optional seats
+   use stable sector weights. Max follows the frozen Heavy display-group entity proportions:
+   group h orders increments by h / (2 * added + 1), capped at ceil(h * total_added / Heavy).
+   Recent heat and display-label weights do not enter. Stop at the minimum qualified growth.
+5. Validate again, including Max's at least 40% entity growth, then hash and render TXT/JSON/reports.
    Unused capacity above that minimum is allowed. Missing backbone or expansion is a recoverable
    research gap, not a completed production watchlist.
 
 Light/Medium select leaders only. All declared leaders and necessary peers must enter Heavy;
-Extreme requires an embedded, validated same-date Heavy and adds satellites only. Rebuilding
-Light/Medium from the same roster preserves nesting; expanding Extreme preserves Heavy's exact
-members and facts. A changed Heavy requires a new Extreme. Historical quota/stability selection
+Max requires an embedded, validated same-date Heavy and adds satellites only. Rebuilding
+Light/Medium from the same roster preserves nesting; expanding Max preserves Heavy's exact
+members and facts. A changed Heavy requires a new Max. Historical quota/stability selection
 is available only through the explicit archived example policy; it does not certify this model.
 
 ## What the composite score is, and what it is not
@@ -92,3 +94,5 @@ into a structured snapshot. Python never guesses a field out of natural language
 a missing value as zero quality. Every value used for liveness, turnover, correlation or listing
 status carries an `as_of` and a source, and every metric carries a `measurement` declaration that
 says whether it was computed or judged.
+
+Beta admission uses broad business validity, complementarity and sourced market cap; rank by capitalization within the protected distribution. Detailed financial/protocol quality reasoning remains required for core leaders/peers, not Beta. Never use FDV for circulating token cap.

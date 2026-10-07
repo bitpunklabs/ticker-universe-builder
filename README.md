@@ -41,7 +41,7 @@ model researches and proposes; Python normalizes, gates, ranks, apportions, hash
 - *"Widen my Light crypto universe to Medium without churning the incumbents."*
 - *"Evaluate the universe I built in July against the last 60 days of prices."*
 
-Name the market and the depth (`light` / `medium` / `heavy` / `extreme`). Skip the depth and it defaults to
+Name the market and the depth (`light` / `medium` / `heavy` / `max`). Skip the depth and it defaults to
 Medium; skip the market and you will be asked for that and nothing else.
 
 It declines stock tips, position sizing, allocations, entries and exits.
@@ -77,10 +77,10 @@ stable economic branches, a reviewed leader/necessary-peer roster, parent-sector
 instrument bindings and an auditable Core migration. See the [0.6 design review](docs/design/0.6.0-coverage-first.md).
 
 Light is leader-only. Medium covers most reviewed leaders. Heavy completes the necessary
-backbone plus at most 20% satellites; Extreme expands that same qualified Heavy with at most
+backbone plus at most 20% satellites; Max expands that same qualified Heavy with at most
 35% satellites overall, and must add at least 40% to Heavy's entity count entirely as qualified Beta.
 Entity budgets are ceilings; under-expansion retains a research checkpoint instead of publishing
-an undersized Extreme. Unused capacity above the minimum is allowed, and padding is never allowed.
+an undersized Max. Unused capacity above the minimum is allowed, and padding is never allowed.
 Reference indices, rates and other gauges are exported separately from entity budgets in the same TXT.
 Display theme weights and news heat do not allocate economic coverage.
 

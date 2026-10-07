@@ -7,20 +7,25 @@ Build inputs and output records use `schema_version: 1`; the policy has its own 
 New builds require [coverage_plan and candidate admission](coverage-plan.md). Read that contract
 before creating a new snapshot. `target_count` is an entity ceiling, excludes references, and
 defaults to the plan budget. Light/Medium are leader-only; Heavy protects the reviewed backbone;
-Extreme requires the same-date qualified Heavy seed. Default builds never use legacy bucket
+Max requires the same-date qualified Heavy seed. Default builds never use legacy bucket
 fallbacks. A qualified under-ceiling result is complete with `unused_capacity` only when all
-gates pass. Extreme must grow by at least 40% in entities, with all additions admitted as satellites;
+gates pass. Max must grow by at least 40% in entities, with all additions admitted as satellites;
 under-expansion or unresolved coverage is `needs_research`.
 
-`policy.coverage.extreme_expansion` is `{ "min": 0.40 }`. The minimum must be finite
+`policy.coverage.max_expansion` is `{ "min": 0.40 }`. The minimum must be finite
 and at least `0.40`; a custom policy may tighten it. For actual Heavy entity count `H`,
 require at least `H + ceil(H * min)` entities. There is no separate growth upper bound:
 plan/spec entity budgets, economic sector caps, total satellite share and export limits still bind.
 Reference instruments are excluded. `stats.quality.expansion` reports `heavy_entities`,
 `added_beta`, `growth` (a fraction), `min_entities` and `max_entities` (the plan/spec entity ceiling,
 not a promise of available eligible capacity).
+Max follows Heavy display-group entity proportions. For Heavy H and actual additions A,
+a group with h Heavy entities may add at most ceil(h*A/H), including only integer rounding
+surplus. Build selects ceil(H*min) additions and then stops; target_count remains a ceiling.
+Optional profile-keyed display_groups are documented in coverage-plan.md.
+
 The same rules apply to stored validation and maintenance. Older below-minimum coverage-first
-Extreme files remain historical artifacts, not current-contract completions. Legacy 0.4/0.5
+Max files remain historical artifacts, not current-contract completions. Legacy 0.4/0.5
 records remain readable with a legacy-certification warning and their explicit replay policy.
 
 The measurement/listing/identity contracts below remain mandatory. Sections discussing bucket
@@ -50,7 +55,7 @@ Snapshot measurement declarations describe common units; ticker records identify
 both hashes are required when validating a stored universe. Version 0.3 snapshots need listing
 checks, reasons and measurement records before rebuilding; declared market guidance needs four tiers.
 
-Profiles are `light`, `medium`, `heavy`, `extreme`. The 0.6 coverage contract defines their
+Profiles are `light`, `medium`, `heavy`, `max`. The 0.6 coverage contract defines their
 selection roles and hard ceilings. Historical replay alone retains the former 45% expansion
 and 70% incremental-beta preference. The 1,000-token file limit applies to entities, references
 and headers together.
@@ -441,7 +446,7 @@ UTC timestamps, status, diagnostics and output artifact paths when present. Each
 contains the parsed spec/snapshot/resolved policy/seed and language, not executable instructions.
 Statuses are `running`, `needs_research`, `partial`, `complete`. A validated subset remains
 `partial` until it fills the original target in legacy replay. Coverage-first completion instead
-requires quality acceptance, including Extreme's minimum 40% growth; capacity above the minimum
+requires quality acceptance, including Max's minimum 40% growth; capacity above the minimum
 may remain unused. See [recovery.md](recovery.md) for continuation and
 exit codes; validation success and requested-size completion are different claims.
 
@@ -503,3 +508,5 @@ translation. Everything else is the content this file carries: `name`, `l1_name`
 messages name policy fields and code paths.
 [markets/adding-a-market.md](markets/adding-a-market.md) carries the language for every
 above-scale market, decided ahead of implementation.
+
+Coverage-first satellite admission requires `market_cap` as specified in [coverage-plan.md](coverage-plan.md): positive sourced equity/native quote-currency capitalization or Crypto circulating USD capitalization, dated within 30 days. FDV is rejected. `quality` is optional for satellites; core still requires it. Ranking uses cap within the fixed distribution, not the legacy composite Beta score.

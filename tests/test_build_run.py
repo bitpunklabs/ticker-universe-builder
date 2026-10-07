@@ -60,7 +60,7 @@ def test_missing_theme_repair_and_unchanged_retry(tmp_path):
 
 
 def test_partial_can_resume_without_overwriting_valid_subset(tmp_path):
-    args = start(tmp_path, profile="extreme")
+    args = start(tmp_path, profile="max")
     first, code = run_build(**args)
     assert code == 3 and first["shortfall"] > 0
     old_path = Path(first["artifacts"]["universe"])
@@ -99,8 +99,8 @@ def test_seeded_expansion_reports_zero_then_researched_additions(tmp_path):
     args = start(tmp_path)
     heavy, code = run_build(**args)
     assert code == 0
-    write(Path(args["spec"]), dict(spec("extreme"), target_count=5, allow_outside_guidance=True))
-    args.update(seed=heavy["artifacts"]["universe"], output=str(tmp_path / "extreme"))
+    write(Path(args["spec"]), dict(spec("max"), target_count=5, allow_outside_guidance=True))
+    args.update(seed=heavy["artifacts"]["universe"], output=str(tmp_path / "max"))
     first, code = run_build(**args)
     assert code == 3
     assert first["expansion"] == {

@@ -72,11 +72,10 @@ let a wrong sector label decide the theme.
 
 ## Weights are the market's opinion of itself
 
-Every theme in the starter table carries a `weight`, and the slots left after each theme has its
-first member are apportioned to it. This is where a market says that semiconductors matter more
-to it than property development does — and where a stale table says a market still looks the way
-it did five years ago. Revisit the weights before the tickers: a weight is one number and it
-moves dozens of members.
+Starter display weights belong to archived replay. Current Heavy uses the reviewed economic
+plan and protected representatives. Max extends the frozen Heavy group proportions, not inverse
+counts or recent heat. Review the economic map before candidates; sparse display groups can be
+combined with adjacent duties without changing researched member facts.
 
 ## The language of the report
 

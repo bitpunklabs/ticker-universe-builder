@@ -105,7 +105,7 @@
   "flag.disposition_stock": "處置股票",
   "flag.altered_trading_method": "變更交易方法",
   "flag.full_delivery": "全額交割",
-  "profile.extreme": "Extreme（極廣）",
+  "profile.max": "Max",
   "column.purpose": "觀察職責",
   "column.representatives": "代表角色",
   "column.weight": "權重"

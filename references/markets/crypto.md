@@ -32,7 +32,7 @@ exempt from listing, liquidity or factual checks. Several complementary represen
 a theme. Preserve existing user-supplied assignments as dated hypotheses when fresh business
 research is unavailable; do not describe them as newly verified leadership.
 
-The same research questions apply to each proposed representative:
+For core leaders/peers, research these questions. Beta needs only correct business/token identity, complementarity and sourced circulating USD market cap, plus the unchanged listing/liquidity/measurement gates:
 
 - What activity or demand does the protocol serve, and what does this ticker observe?
 - What does its token actually do: pay for service, secure the network, govern, or receive value?
@@ -65,7 +65,7 @@ include different security models: a sidechain is not an Ethereum-secured rollup
 2. Preserve market factors and research structural representatives across economic duties.
 3. Light/Medium select researched leaders; Heavy completes every necessary leader and peer,
    then adds at most 20% measured satellites. Low R² or a provider category is not admission.
-4. Extreme extends a qualified same-plan Heavy, capped at 35% satellites overall. Compare every
+4. Max extends a qualified same-plan Heavy, capped at 35% satellites overall. Compare every
    increment to named core members and residual peers; do not fill broad meme/gaming buckets.
 5. Use ecosystem_id/token_role to separate network, gas, governance and asset-backed exposures.
    New listings or unresolved economics remain deferred, without a tactical fill budget.

@@ -292,7 +292,7 @@ def parser() -> argparse.ArgumentParser:
     new.add_argument("--resume", help="continue a checkpoint directory after repairing inputs")
     new.add_argument(
         "--seed",
-        help="existing base; coverage-first Extreme requires a qualified same-plan Heavy",
+        help="existing base; coverage-first Max requires a qualified same-plan Heavy",
     )
     new.add_argument("--language", help=_LANGUAGE_HELP)
     new.set_defaults(handler=build)

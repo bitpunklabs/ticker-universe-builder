@@ -59,7 +59,7 @@ def test_okx_core_build_keeps_crypto_identity_and_evidence_gates():
 
 def researched():
     """Ten necessary leaders, two peers, many attractive Beta alternatives."""
-    profiles = ("light", "medium", "heavy", "extreme")
+    profiles = ("light", "medium", "heavy", "max")
     plan = dict(
         schema_version=1,
         origin="new",
@@ -111,16 +111,19 @@ def researched():
         )
     for i in range(30):
         asset = f"BETA{i}"
-        c = candidate(f"NYSE:{asset}", asset, "11_A", "BETA_SATELLITE")
+        sector = "banking" if i % 2 == 0 else "technology"
+        c = candidate(f"NYSE:{asset}", asset, "10_A" if i % 2 == 0 else "11_A", "BETA_SATELLITE")
         c["admission"] = dict(
             kind="satellite",
-            branch="technology",
+            branch=sector,
             min_profile="heavy",
             business="Verified supply-chain exposure",
             quality="Fixture quality evidence",
             evidence=evidence(),
             incremental_value=f"Distinct fixture business {i}",
-            distinct_from=["CORE6"],
+            market_cap=dict(value=1000000000, currency="USD", basis="equity",
+                            as_of="2026-09-09", source=evidence()[0]["url"]),
+            distinct_from=["CORE0" if i % 2 == 0 else "CORE6"],
             instrument=dict(kind="equity", quote_currency="USD", units=1),
         )
         candidates.append(c)
@@ -166,25 +169,27 @@ def test_default_requires_plan_and_does_not_certify_legacy_anchors():
         build(data)
 
 
-def test_depth_roles_budgets_and_true_extreme_increment():
+def test_depth_roles_budgets_and_true_max_increment():
     light, _ = build(profile="light")
     medium, _ = build(profile="medium")
     heavy, report = build(target_count=12)
-    extreme, final = build(profile="extreme", seed=heavy)
-    assert [len(u["members"]) for u in (light, medium, heavy, extreme)] == [4, 8, 12, 18]
+    max, final = build(profile="max", seed=heavy)
+    assert [len(u["members"]) for u in (light, medium, heavy, max)] == [4, 8, 12, 17]
     assert {c["admission"]["kind"] for c in medium["members"]} == {"leader"}
     assert report["stats"]["quality"]["leader_coverage"] == 1
-    assert final["stats"]["quality"]["unused_capacity"] == 12
+    assert final["stats"]["quality"]["unused_capacity"] == 13
     assert final["stats"]["quality"]["expansion"] == dict(
-        heavy_entities=12, added_beta=6, growth=6 / 12, min_entities=17, max_entities=30)
+        heavy_entities=12, added_beta=5, growth=5 / 12, min_entities=17, max_entities=30,
+        distribution={"10_A": dict(heavy=6, added=3, added_cap=3),
+                      "11_A": dict(heavy=6, added=2, added_cap=3)})
     old = {c["asset_id"] for c in heavy["members"]}
     assert all(
         c["admission"]["kind"] == "satellite"
-        for c in extreme["members"]
+        for c in max["members"]
         if c["asset_id"] not in old
     )
     assert (
-        len([c for c in extreme["members"] if c["admission"]["kind"] == "satellite"]) / 18 <= 0.35
+        len([c for c in max["members"] if c["admission"]["kind"] == "satellite"]) / 17 <= 0.35
     )
 
 
@@ -192,9 +197,9 @@ def expansion_fixture():
     """Twenty protected core entities allow exact 40% and above-minimum capacity checks."""
     data = researched()
     plan = data["coverage_plan"]
-    plan["budgets"].update(heavy=30, extreme=50)
+    plan["budgets"].update(heavy=30, max=50)
     for sector in plan["sectors"]:
-        sector["caps"].update(heavy=20, extreme=30)
+        sector["caps"].update(heavy=20, max=30)
     for i in range(12, 20):
         c = deepcopy(data["candidates"][0 if i < 16 else 6])
         c.update(ticker=f"NYSE:CORE{i}", asset_id=f"CORE{i}")
@@ -206,30 +211,30 @@ def expansion_fixture():
     return data
 
 
-@pytest.mark.parametrize("target,expected", [(28, 28), (29, 29), (50, 30)])
-def test_extreme_growth_minimum_and_existing_capacity_ceilings(target, expected):
+@pytest.mark.parametrize("target,expected", [(28, 28), (29, 28), (50, 28)])
+def test_max_growth_minimum_and_existing_capacity_ceilings(target, expected):
     data = expansion_fixture()
     heavy, _ = build(data, target_count=20)
-    extreme, report = build(data, profile="extreme", seed=heavy, target_count=target)
-    assert len(extreme["members"]) == expected
-    assert report["passed"] and extreme["limits"]["target_count"] == target
-    selected = {c["asset_id"]: c for c in extreme["members"]}
+    max, report = build(data, profile="max", seed=heavy, target_count=target)
+    assert len(max["members"]) == expected
+    assert report["passed"] and max["limits"]["target_count"] == target
+    selected = {c["asset_id"]: c for c in max["members"]}
     assert all(selected[c["asset_id"]] == c for c in heavy["members"])
 
 
-def test_extreme_can_complete_at_lower_edge_without_filling_upper_ceiling():
+def test_max_can_complete_at_lower_edge_without_filling_upper_ceiling():
     data = expansion_fixture()
     data["candidates"] = [c for c in data["candidates"]
                           if c["admission"]["kind"] != "satellite"
                           or c["asset_id"] in {f"BETA{i}" for i in range(8)}]
     heavy, _ = build(data, target_count=20)
-    extreme, report = build(data, profile="extreme", seed=heavy)
-    assert len(extreme["members"]) == 28
+    max, report = build(data, profile="max", seed=heavy)
+    assert len(max["members"]) == 28
     assert report["passed"] and report["stats"]["quality"]["unused_capacity"] == 22
 
 
 @pytest.mark.parametrize("count,minimum", [(457, 640), (370, 518), (50, 70), (2, 3)])
-def test_extreme_entity_rounding_for_reviewed_heavy_sizes(count, minimum):
+def test_max_entity_rounding_for_reviewed_heavy_sizes(count, minimum):
     assert expansion_minimum(count, load_policy()) == minimum
 
 
@@ -238,58 +243,58 @@ def test_extreme_entity_rounding_for_reviewed_heavy_sizes(count, minimum):
                                    {"min": float("inf")}])
 def test_policy_cannot_waive_growth_minimum(rule):
     policy = load_policy()
-    policy["coverage"]["extreme_expansion"] = rule
+    policy["coverage"]["max_expansion"] = rule
     with pytest.raises(UniverseError, match="expansion"):
         expansion_minimum(20, policy)
 
 
 def test_custom_policy_can_tighten_minimum():
     policy = load_policy()
-    policy["coverage"]["extreme_expansion"] = {"min": 0.45}
+    policy["coverage"]["max_expansion"] = {"min": 0.45}
     assert expansion_minimum(20, policy) == 29
 
 
-def test_extreme_reports_infeasible_capacity_and_satellite_share():
+def test_max_reports_infeasible_capacity_and_satellite_share():
     data = expansion_fixture()
     heavy, _ = build(data, target_count=20)
     with pytest.raises(UniverseError, match="plan/spec ceiling"):
-        build(data, profile="extreme", seed=heavy, target_count=27)
+        build(data, profile="max", seed=heavy, target_count=27)
     # The original fixture fills Heavy to 20% Beta. Do not silently waive its
-    # Extreme satellite-share gate or drop core facts to meet the growth promise.
+    # Max satellite-share gate or drop core facts to meet the growth promise.
     dense_heavy, _ = build()
     with pytest.raises(UniverseError, match="satellite-share ceiling"):
-        build(profile="extreme", seed=dense_heavy)
+        build(profile="max", seed=dense_heavy)
 
 
-def test_extreme_growth_does_not_count_references_or_override_export_cap():
+def test_max_growth_does_not_count_references_or_override_export_cap():
     data = expansion_fixture()
     data["coverage_plan"]["references"] = [
         dict(id="rate10", ticker="TVC:US10Y", theme_code="10_A", kind="yield",
              observes="US ten-year Treasury yield", evidence=evidence())]
     heavy, _ = build(data, target_count=20)
-    extreme, report = build(data, profile="extreme", seed=heavy)
-    assert len(extreme["members"]) == 30 and report["stats"]["exported_tickers"] == 31
+    max, report = build(data, profile="max", seed=heavy)
+    assert len(max["members"]) == 28 and report["stats"]["exported_tickers"] == 29
     assert report["stats"]["quality"]["expansion"]["heavy_entities"] == 20
     with pytest.raises(UniverseError, match="expansion needs research"):
-        build(data, profile="extreme", seed=heavy, hard_ticker_cap=28)
+        build(data, profile="max", seed=heavy, hard_ticker_cap=28)
 
 
 def test_stored_validation_and_maintenance_enforce_growth():
     data = expansion_fixture()
     heavy, _ = build(data, target_count=20)
-    extreme, _ = build(data, profile="extreme", seed=heavy, target_count=28)
-    beta = next(c for c in extreme["members"] if c["admission"]["kind"] == "satellite")
-    changes = change_set(extreme, [dict(op="REMOVE", ticker=beta["ticker"],
+    max, _ = build(data, profile="max", seed=heavy, target_count=28)
+    beta = next(c for c in max["members"] if c["admission"]["kind"] == "satellite")
+    changes = change_set(max, [dict(op="REMOVE", ticker=beta["ticker"],
                                        reason="fixture", evidence=evidence())])
     changes["market"] = "us"
-    changes["as_of"] = extreme["source_as_of"]
+    changes["as_of"] = max["source_as_of"]
     with pytest.raises(UniverseError, match="expansion needs research"):
-        apply_change_set(extreme, changes, load_policy())
-    under = deepcopy(extreme)
+        apply_change_set(max, changes, load_policy())
+    under = deepcopy(max)
     under["members"].remove(beta)
     report = validate_universe(resign(under))
     assert not report["passed"] and any("expansion needs research" in e for e in report["errors"])
-    over = deepcopy(extreme)
+    over = deepcopy(max)
     selected = {c["asset_id"] for c in over["members"]}
     extra = [c for c in data["candidates"] if c["asset_id"] not in selected][:2]
     pool = {c["asset_id"]: c for c in normalize_snapshot(data)["candidates"]}
@@ -304,7 +309,7 @@ def test_stored_validation_and_maintenance_enforce_growth():
     assert not report["passed"] and any("satellite share" in e for e in report["errors"])
 
 
-def test_extreme_shortfall_is_resumable_and_never_published(tmp_path):
+def test_max_shortfall_is_resumable_and_never_published(tmp_path):
     data = expansion_fixture()
     heavy, _ = build(data, target_count=20)
     incomplete = deepcopy(data)
@@ -312,7 +317,7 @@ def test_extreme_shortfall_is_resumable_and_never_published(tmp_path):
                                 if c["admission"]["kind"] != "satellite"
                                 or c["asset_id"] in {f"BETA{i}" for i in range(7)}]
     sp, sn, seed = (tmp_path / n for n in ("spec.json", "snapshot.json", "heavy.json"))
-    sp.write_text(json.dumps(dict(schema_version=1, market="us", profile="extreme")))
+    sp.write_text(json.dumps(dict(schema_version=1, market="us", profile="max")))
     sn.write_text(json.dumps(incomplete))
     seed.write_text(json.dumps(heavy))
     result, code = run_build(spec=str(sp), snapshot=str(sn), seed=str(seed), output=str(tmp_path / "out"))
@@ -326,8 +331,72 @@ def test_extreme_shortfall_is_resumable_and_never_published(tmp_path):
     sn.write_text(json.dumps(data))
     repaired, code = run_build(spec=None, snapshot=None, output=None, resume=resume)
     assert code == 0 and repaired["status"] == "complete"
-    assert repaired["expansion"]["added"] == 10 and repaired["filled"] == 30
+    assert repaired["expansion"]["added"] == 8 and repaired["filled"] == 28
     assert json.loads(Path(result["inputs_archive"]).read_text())["snapshot"] == incomplete
+
+
+def test_max_uses_heavy_proportions_not_inverse_sector_counts():
+    data = expansion_fixture()
+    # Sixteen technology and four banking representatives, with ample Beta on both sides.
+    for c in data['candidates']:
+        if c['admission']['kind'] in {'leader', 'peer'}:
+            i = int(c['asset_id'][4:])
+            sector = 'banking' if i < 4 else 'technology'
+            c['theme_code'] = '10_A' if i < 4 else '11_A'
+            c['admission']['branch'] = sector
+    for b in data['coverage_plan']['branches']:
+        b['representatives'] = [c['asset_id'] for c in data['candidates']
+                               if c['admission']['kind'] in {'leader','peer'}
+                               and c['admission']['branch'] == b['id']]
+    heavy, _ = build(data, target_count=20)
+    result, report = build(data, profile='max', seed=heavy)
+    distribution = report['stats']['quality']['expansion']['distribution']
+    assert distribution['10_A'] == dict(heavy=4, added=2, added_cap=2)
+    assert distribution['11_A'] == dict(heavy=16, added=6, added_cap=7)
+    old = {c['asset_id']: c for c in heavy['members']}
+    assert all(c == old[c['asset_id']] for c in result['members'] if c['asset_id'] in old)
+    # A resigned artifact still cannot concentrate all increments in one group.
+    tampered = deepcopy(result)
+    new = [c for c in tampered['members'] if c['asset_id'] not in old]
+    for c in new:
+        c['theme_code'] = '10_A'
+        c['admission']['branch'] = 'banking'
+    resign(tampered)
+    checked = validate_universe(tampered)
+    assert not checked['passed']
+    assert any('Heavy distribution exceeded' in error for error in checked['errors'])
+
+
+def test_max_does_not_transfer_missing_group_capacity():
+    data = expansion_fixture()
+    data['candidates'] = [c for c in data['candidates']
+                          if c['admission']['kind'] != 'satellite'
+                          or c['admission']['branch'] == 'technology']
+    heavy, _ = build(data, target_count=20)
+    with pytest.raises(UniverseError, match='needs research'):
+        build(data, profile='max', seed=heavy)
+
+
+def test_display_merges_preserve_member_facts_and_txt_md_parity():
+    from universe_core import render_markdown
+    data = researched()
+    groups = [dict(id='10_A', name='FINANCE_TECH', themes=['10_A','11_A'],
+                   reason='Synthetic fixture combined display, retaining both economic duties.')]
+    data['coverage_plan']['display_groups'] = {p: deepcopy(groups)
+                                               for p in ('light','medium','heavy','max')}
+    result, report = build(data, target_count=12)
+    assert {c['theme_code'] for c in result['members']} == {'10_A','11_A'}
+    assert report['stats']['themes'] == 1 and report['stats']['research_themes'] == 2
+    txt = render_txt(result)
+    md = render_markdown(result, report)
+    assert txt.count('###') == 1 and '###10_A_FINANCE_TECH' in txt
+    assert '### 10_A · FINANCE_TECH (12)' in md
+    for member in result['members']:
+        assert member['ticker'] in txt and member['ticker'] in md
+    bad = deepcopy(data)
+    bad['coverage_plan']['display_groups']['max'] = []
+    with pytest.raises(UniverseError, match='retain Heavy display groups'):
+        build(bad, target_count=12)
 
 
 def test_bank_representatives_cannot_be_displaced_by_hot_candidates():
@@ -372,7 +441,7 @@ def test_display_split_order_and_heat_do_not_change_selected_entities():
             lambda d: d["coverage_plan"]["sectors"][0]["caps"].update(medium=5, heavy=5),
             "sector cap",
         ),
-        (lambda d: d["candidates"][3]["admission"].update(min_profile="extreme"), "delayed"),
+        (lambda d: d["candidates"][3]["admission"].update(min_profile="max"), "delayed"),
         (lambda d: d["candidates"][12]["admission"].update(incremental_value=""), "incremental"),
         (lambda d: d["candidates"][0]["admission"].update(evidence=evidence(3)), "tier 1"),
         (lambda d: d["candidates"][0]["admission"]["instrument"].update(units=0), "contract units"),
@@ -385,21 +454,21 @@ def test_quality_failures(mutation, error):
         build(data)
 
 
-def test_extreme_requires_qualified_same_version_heavy():
+def test_max_requires_qualified_same_version_heavy():
     with pytest.raises(UniverseError, match="--seed"):
-        build(profile="extreme")
+        build(profile="max")
     medium, _ = build(profile="medium")
     with pytest.raises(UniverseError, match="Heavy"):
-        build(profile="extreme", seed=medium)
+        build(profile="max", seed=medium)
     heavy, _ = build()
     changed = researched()
     changed["coverage_plan"]["scope"] = "Different scope"
     with pytest.raises(UniverseError, match="coverage plan"):
-        build(changed, profile="extreme", seed=heavy)
+        build(changed, profile="max", seed=heavy)
     heavy["members"].pop(0)
     resign(heavy)
     with pytest.raises(UniverseError):
-        build(profile="extreme", seed=heavy)
+        build(profile="max", seed=heavy)
 
 
 def test_revalidate_rejects_missing_backbone_even_after_resigning():
@@ -536,6 +605,8 @@ def test_crypto_needs_ecosystem_and_token_identity():
     for c in data["candidates"]:
         c["admission"].update(ecosystem_id=c["asset_id"], token_role="Fixture network token")
         c["admission"]["instrument"] = dict(kind="perpetual", quote_currency="USDT", units=1)
+        if c["admission"]["kind"] == "satellite":
+            c["admission"]["market_cap"]["basis"] = "circulating"
     universe, report = build_universe(spec, data, load_policy())
     assert report["passed"] and len(universe["members"]) == 15
 
@@ -614,4 +685,48 @@ def test_malformed_plan_returns_actionable_contract_error(field, value):
     data = researched()
     data["coverage_plan"][field] = value
     with pytest.raises(UniverseError, match="coverage:"):
+        build(data)
+
+
+def test_beta_cap_ranking_does_not_require_detailed_quality():
+    data = researched()
+    betas = [c for c in data['candidates'] if c['admission']['kind'] == 'satellite']
+    for c in betas:
+        c['admission'].pop('quality')
+        c['admission']['market_cap']['value'] = 1
+    betas[-2]['admission']['market_cap']['value'] = 1000
+    heavy, report = build(data)
+    assert report['passed'] and betas[-2]['asset_id'] in {c['asset_id'] for c in heavy['members']}
+    assert 'Market cap (Beta)' in __import__('universe_core').render_markdown(heavy, report)
+
+
+@pytest.mark.parametrize('patch, error', [
+    ({'value': 0}, 'positive sourced'),
+    ({'value': float('nan')}, 'positive sourced'),
+    ({'currency': 'CNY'}, 'must use USD'),
+    ({'basis': 'fully_diluted'}, 'not FDV'),
+    ({'as_of': '2026-09-10'}, 'within 30 days'),
+    ({'as_of': '2026-07-01'}, 'within 30 days'),
+    ({'source': 'https://example.com/uncited'}, 'source must match'),
+])
+def test_beta_cap_contract(patch, error):
+    data = researched()
+    data['candidates'][12]['admission']['market_cap'].update(patch)
+    with pytest.raises(UniverseError, match=error):
+        build(data)
+
+
+def test_core_quality_remains_required():
+    data = researched()
+    data['candidates'][0]['admission'].pop('quality')
+    with pytest.raises(UniverseError, match='core also needs'):
+        build(data)
+
+
+def test_beta_caps_in_different_currencies_are_not_ranked_together():
+    data = researched()
+    c = data['candidates'][12]
+    c['admission']['instrument']['quote_currency'] = 'CNY'
+    c['admission']['market_cap']['currency'] = 'CNY'
+    with pytest.raises(UniverseError, match='one comparable currency'):
         build(data)

@@ -39,21 +39,30 @@ def diagnostics(spec: dict, snapshot: dict, policy: dict, seed: dict | None = No
                 "note": "Research necessary representatives and unresolved Core decisions "
                         "first; do not pad capacity.",
             }
-            if spec.get("profile") == "extreme" and seed and seed.get("profile") == "heavy":
-                from coverage_core import expansion_minimum
+            if spec.get("profile") == "max" and seed and seed.get("profile") == "heavy":
+                from coverage_core import expansion_minimum, expansion_distribution
+                from collections import Counter
 
                 held = {c["asset_id"] for c in seed["members"]}
                 minimum = expansion_minimum(len(held), policy)
-                maximum = spec.get("target_count") or snapshot["coverage_plan"]["budgets"]["extreme"]
+                maximum = spec.get("target_count") or snapshot["coverage_plan"]["budgets"]["max"]
                 proposed = {
                     c["asset_id"] for c in normalized["candidates"]
                     if c["eligible"] and c["asset_id"] not in held
                     and (c.get("admission") or {}).get("kind") == "satellite"
                 }
+                mapping, counts, caps = expansion_distribution(seed, minimum - len(held))
+                available = Counter(mapping.get(c["theme_code"], c["theme_code"])
+                                    for c in normalized["candidates"]
+                                    if c["asset_id"] in proposed)
                 result["expansion"] = {
                     "heavy_entities": len(held), "min_entities": minimum,
                     "max_entities": maximum, "eligible_proposed_additions": len(proposed),
                     "minimum_candidate_gap": max(0, minimum - len(held) - len(proposed)),
+                    "distribution_capacity": sum(min(n, available[k]) for k, n in caps.items()),
+                    "distribution": {k: {"heavy": counts[k], "added_cap": n,
+                                         "proposed": available[k]}
+                                     for k, n in sorted(caps.items())},
                     "note": "Snapshot capacity only; evidence, sector, satellite and export "
                             "gates still apply.",
                 }

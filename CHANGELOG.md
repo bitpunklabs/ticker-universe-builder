@@ -14,6 +14,16 @@ Each released heading below matches a `version:` in `SKILL.md` and a git tag of 
 there, and backfilling a listing for a release nobody could install would be tidier than it is
 true.
 
+## 0.7.0 — unreleased
+
+- Simplify Beta research to broad business validity, named-core complementarity and sourced
+  market cap. Rank by capitalization within protected distribution; core quality and numeric gates remain.
+- Rename Extreme to Max in new inputs, CLI, policy and reports; archived outputs stay unchanged.
+- Preserve Heavy display-group proportions in Max. Each group receives only its proportional
+  Beta capacity plus integer rounding; shortages remain resumable research gaps.
+- Add researched per-profile compact display groups, retaining source themes and economic duties.
+  MD, TradingView exports and token validation share the same grouping.
+
 ## 0.6.3 — unreleased
 
 - Require Extreme to add at least 40% of Heavy entities, entirely as qualified Beta. Remove

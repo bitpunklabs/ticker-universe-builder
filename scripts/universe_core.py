@@ -21,7 +21,7 @@ from datetime import date
 from pathlib import Path
 from typing import Any
 
-PROFILES = ("light", "medium", "heavy", "extreme")
+PROFILES = ("light", "medium", "heavy", "max")
 PROFILE_INDEX = {name: index for index, name in enumerate(PROFILES)}
 ROLES = {
     "BENCHMARK",
@@ -1709,7 +1709,7 @@ def _select_stage(
     quotas = largest_remainder(target, profile_policy["bucket_targets"])
     bucket_counts = Counter(candidate_bucket(item) for item in selected)
 
-    # Extreme extends the inherited Heavy instrument. Spend the incremental beta budget first,
+    # Max extends the inherited Heavy instrument. Spend the incremental beta budget first,
     # across themes by the same weighted apportionment; never relabel weak candidates to fill it.
     beta_goal = math.ceil(max(0, target - len(seed)) * float(
         profile_policy.get("incremental_beta_share", 0)
@@ -1901,7 +1901,7 @@ def build_universe(
             f"seeded {len(selected)} members from universe "
             f"{previous.get('version_hash')} ({seed_profile})"
         )
-    # Walk every intermediate tier when widening, including a Medium -> Extreme jump. Otherwise
+    # Walk every intermediate tier when widening, including a Medium -> Max jump. Otherwise
     # the beta preference would spend the Heavy budget too and nesting would depend on the route.
     if (incumbents and seed_profile in PROFILE_INDEX
             and PROFILE_INDEX[seed_profile] < PROFILE_INDEX[profile]):
@@ -2200,7 +2200,10 @@ def validate_universe(
         warnings.append(
             "Legacy artifact: structural validation is not coverage-first certification")
     exported = normalized + references
-    token_count = len(exported) + len({item["theme_code"] for item in exported})
+    from display_core import theme_groups
+    display = theme_groups(universe["coverage_plan"], profile) if quality else {}
+    token_count = len(exported) + len({display.get(item["theme_code"], item["theme_code"])
+                                      for item in exported})
     limits = universe.get("limits") or {}
     hard_ticker_cap = min(int(limits.get("hard_ticker_cap", 1000)), 1000)
     tradingview_token_cap = min(int(limits.get("tradingview_token_cap", 1000)), 1000)
@@ -2235,7 +2238,10 @@ def validate_universe(
             "tickers": len(normalized),
             "exported_tickers": len(exported),
             "quality": quality,
-            "themes": len({item["theme_code"] for item in normalized}),
+            "themes": len({display.get(item["theme_code"], item["theme_code"])
+                           for item in normalized}),
+            **({"research_themes": len({item["theme_code"] for item in normalized})}
+               if coverage_model else {}),
             # Members that earned a seat on an incomplete score. Not an error -- a metric may be
             # unmeasurable for good reasons -- but a reader deciding how much to trust the
             # ordering should not have to open the JSON to find out.
@@ -2280,15 +2286,11 @@ def adverse_flag_summary(members: list[dict[str, Any]]) -> list[tuple[str, int]]
 
 
 def render_txt(universe: dict[str, Any]) -> str:
-    taxonomy = {item["theme_code"]: item for item in universe["taxonomy"]}
-    grouped: dict[str, list[dict[str, Any]]] = defaultdict(list)
-    for member in universe["members"]:
-        grouped[member["theme_code"]].append(member)
-    for ref in universe.get("coverage_plan", {}).get("references", []):
-        grouped[ref["theme_code"]].append(ref)
+    from display_core import display_view
+    labels, grouped = display_view(universe)
     tokens: list[str] = []
     for code in sorted(grouped):
-        tokens.append(f"###{code}_{taxonomy[code]['theme_name']}")
+        tokens.append(f"###{code}_{labels[code]}")
         tokens.extend(item["ticker"] for item in sorted(grouped[code], key=(lambda c: c["ticker"])
                               if universe.get("selection_model") == "coverage_first" else rank_key))
     return ",".join(tokens) + "\n"
@@ -2440,6 +2442,9 @@ def render_markdown(
     lex = load_lexicon(language or report_language(universe))
     taxonomy = {item["theme_code"]: item for item in universe["taxonomy"]}
     per_theme = Counter(member["theme_code"] for member in universe["members"])
+    from display_core import display_view, theme_groups
+    labels, groups = display_view(universe)
+    mapping = theme_groups(universe.get("coverage_plan", {}), universe["profile"])
     limits = universe.get("limits", {})
     profile = universe["profile"]
     colon = lex["punct.colon"]
@@ -2516,10 +2521,14 @@ def render_markdown(
         "|---|---|---|---:|---:|---:|",
     ])
     for code in sorted(taxonomy):
+        if mapping.get(code, code) != code:
+            continue
         theme = taxonomy[code]
+        merged = [k for k in taxonomy if mapping.get(k, k) == code]
+        count = sum(per_theme[k] for k in merged)
         lines.append(
-            f"| {code} | {theme['l1_name']} | {theme['theme_name']} | "
-            f"{theme['coverage_level']} | {theme_weight(theme):g} | {per_theme.get(code, 0)} |"
+            f"| {code} | {theme['l1_name']} | {labels[code]} | "
+            f"{theme['coverage_level']} | {theme_weight(theme):g} | {count} |"
         )
     duties = [t for t in taxonomy.values() if t.get("purpose")]
     if duties:
@@ -2609,15 +2618,38 @@ def render_markdown(
         f"| {lex['column.role']} | {lex['column.reason']} | {lex['column.evidence']} |",
         "|---|---|---|---|---|---|",
     ])
-    for member in universe["members"]:
-        theme = taxonomy[member["theme_code"]]
-        evidence = member["evidence"][0]["url"] if member["evidence"] else ""
-        reason = member.get("reason") or ""
-        lines.append(
-            f"| {member['theme_code']} {theme['theme_name']} | {member['ticker']} | "
-            f"{member['name']} | {_glossed(lex, 'role', member['role'])} | {reason} | "
-            f"{evidence} |"
-        )
+    if universe.get("selection_model") == "coverage_first":
+        # Groups simplify reading; the original theme and economic duty stay on each row.
+        lines = lines[:-2]
+        for code in sorted(groups):
+            members = [c for c in groups[code] if "asset_id" in c]
+            if not members:
+                continue
+            lines.extend([f"### {code} · {labels[code]} ({len(members)})", "",
+                          f"| {lex['column.ticker']} | {lex['column.name']} | "
+                          f"{lex['column.role']} | {lex['column.theme']} | "
+                          f"{lex['column.reason']} | Market cap (Beta) | {lex['column.evidence']} |",
+                          "|---|---|---|---|---|---|---|"])
+            for member in sorted(members, key=lambda c: c["ticker"]):
+                url = member["evidence"][0]["url"] if member["evidence"] else ""
+                reason = (member.get("reason") or "").replace("|", "\\|").replace("\n", " ")
+                source_theme = taxonomy[member["theme_code"]]["theme_name"]
+                cap = member.get("admission", {}).get("market_cap")
+                cap_text = (f"[{cap['value']:,.0f} {cap['currency']}]({cap['source']}) "
+                            f"({cap['as_of']})" if cap else "—")
+                lines.append(f"| {member['ticker']} | {member['name']} | "
+                             f"{_glossed(lex, 'role', member['role'])} | {source_theme} | "
+                             f"{reason} | {cap_text} | {url} |")
+            lines.append("")
+    else:
+        for member in universe["members"]:
+            theme = taxonomy[member["theme_code"]]
+            url = member["evidence"][0]["url"] if member["evidence"] else ""
+            reason = member.get("reason") or ""
+            lines.append(
+                f"| {member['theme_code']} {theme['theme_name']} | {member['ticker']} | "
+                f"{member['name']} | {_glossed(lex, 'role', member['role'])} | {reason} | {url} |"
+            )
     if universe.get("selection_model") == "coverage_first":
         quality = report["stats"].get("quality") or {}
         lines.extend(["", "## Coverage-first audit", "",
@@ -2632,9 +2664,15 @@ def render_markdown(
             lines.extend([
                 f"- Heavy entities: {expansion['heavy_entities']}; "
                 f"added Beta: {expansion['added_beta']} ({expansion['growth']:.1%})",
-                f"- Required Extreme entities: at least {expansion['min_entities']}; "
+                f"- Required Max entities: at least {expansion['min_entities']}; "
                 f"entity ceiling {expansion['max_entities']} (references excluded)",
             ])
+            lines.extend(["", "### Heavy → Max distribution", "",
+                          "| Group | Heavy | Added Beta | Rounding ceiling |",
+                          "|---|---:|---:|---:|"])
+            for code, row in expansion["distribution"].items():
+                lines.append(f"| {code} {labels[code]} | {row['heavy']} | "
+                             f"{row['added']} | {row['added_cap']} |")
         lines.extend(["", "### Reference instruments", ""])
         for ref in universe["coverage_plan"].get("references", []):
             lines.append(f"- {ref['ticker']} ({ref['kind']}): {ref['observes']}"

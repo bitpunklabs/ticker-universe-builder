@@ -197,7 +197,7 @@ def snapshot() -> dict:
 def small_policy() -> dict:
     value = copy.deepcopy(load_policy())
     # A two-name universe: small enough that every selection rule is visible in one diff.
-    value["tiers"] = {"light": 2, "medium": 3, "heavy": 4, "extreme": 6}
+    value["tiers"] = {"light": 2, "medium": 3, "heavy": 4, "max": 6}
     value["markets"]["crypto"] = {"breadth": 1.0}
     value["guidance_band"] = 0.0
     return value
@@ -768,7 +768,7 @@ def declaration(**overrides) -> dict:
             "light": {"min": 1, "target": 2, "max": 4},
             "medium": {"min": 2, "target": 3, "max": 6},
             "heavy": {"min": 3, "target": 4, "max": 8},
-            "extreme": {"min": 4, "target": 6, "max": 10},
+            "max": {"min": 4, "target": 6, "max": 10},
         },
         "evidence": evidence(),
     }

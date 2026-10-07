@@ -14,7 +14,7 @@ against the theme rather than the index are the same in every equity market.
 ## Build focus
 
 - Light is leader-only; Medium covers most reviewed leaders; Heavy completes all necessary
-  leaders and differentiated peers before a small measured satellite tail. Extreme adds only
+  leaders and differentiated peers before a small measured satellite tail. Max adds only
   qualified satellites to the same Heavy. Use the shared [coverage contract](../coverage-plan.md).
 - Compare at the old Core's observation budget, and reconcile every original instrument.
   Recent heat, display-theme count and market-cap rank alone cannot define representation.

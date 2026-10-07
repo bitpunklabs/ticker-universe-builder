@@ -11,13 +11,13 @@ import math
 import re
 from collections import Counter
 from copy import deepcopy
+from display_core import theme_groups
 
 from universe_core import (
     PROFILES,
     UniverseError,
     canonical_hash,
     content_hash,
-    metric_score,
     normalize_snapshot,
     parse_watchlist,
     require_strong_evidence,
@@ -128,6 +128,26 @@ def plan_check(plan, as_of, taxonomy):
     )
     refs = keyed(plan.get("references", []), "id", "references")
     themes = {t["theme_code"] for t in taxonomy}
+    presentation = plan.get("display_groups", {})
+    need(isinstance(presentation, dict), "display_groups must be a profile-keyed object")
+    if presentation:
+        need(set(presentation) == set(PROFILES), "display_groups needs all four profiles")
+        need(presentation["max"] == presentation["heavy"], "Max must retain Heavy display groups")
+        for profile, rows in presentation.items():
+            groups = keyed(rows, "id", profile + " display groups")
+            mapped = set()
+            for key, row in groups.items():
+                source = row.get("themes")
+                need(isinstance(source, list) and len(source) >= 2
+                     and all(sentence(x) for x in source)
+                     and set(source) <= themes and len(source) == len(set(source))
+                     and key in source and not mapped.intersection(source),
+                     f"{key}: display groups need unique known themes and a constituent id")
+                need(sentence(row.get("name"))
+                     and re.fullmatch(r"[A-Z0-9_]+", row["name"])
+                     and sentence(row.get("reason")),
+                     f"{key}: display group name and economic-similarity reason required")
+                mapped.update(source)
     symbols = set()
     for key, row in refs.items():
         ticker = row.get("ticker", "")
@@ -200,8 +220,8 @@ def admission_check(candidate, plan, branches, as_of, market):
     minimum = a.get("min_profile")
     need(minimum in PROFILES, f"{ticker}: admission min_profile required")
     need(
-        sentence(a.get("business")) and sentence(a.get("quality")),
-        f"{ticker}: business representation and domain-specific quality evidence required",
+        sentence(a.get("business")) and (kind == "satellite" or sentence(a.get("quality"))),
+        f"{ticker}: business representation required; core also needs domain-specific quality",
     )
     evidence(a.get("evidence", []), ticker + " admission", as_of)
     if market == "crypto":
@@ -214,7 +234,7 @@ def admission_check(candidate, plan, branches, as_of, market):
         need(
             candidate["asset_id"] in expected, f"{ticker}: core admission absent from branch roster"
         )
-        need(minimum != "extreme", f"{ticker}: necessary representative delayed to Extreme")
+        need(minimum != "max", f"{ticker}: necessary representative delayed to Max")
         need(
             kind == "leader" or minimum == "heavy",
             f"{ticker}: peers enter at Heavy, not Light/Medium",
@@ -230,7 +250,7 @@ def admission_check(candidate, plan, branches, as_of, market):
             f"{ticker}: necessary representative cannot be relabelled satellite",
         )
         need(
-            minimum in {"heavy", "extreme"} and candidate["role"] == "BETA_SATELLITE",
+            minimum in {"heavy", "max"} and candidate["role"] == "BETA_SATELLITE",
             f"{ticker}: satellites need measured Beta and cannot enter Light/Medium",
         )
         distinct = a.get("distinct_from")
@@ -254,7 +274,38 @@ def admission_check(candidate, plan, branches, as_of, market):
         and binding["units"] > 0,
         f"{ticker}: instrument kind, quote_currency and contract units required",
     )
+    if kind == "satellite":
+        market_cap_check(a, ticker, as_of, market)
     return a
+
+
+def market_cap_check(admission, ticker, as_of, market):
+    """Sourced equity/circulating capitalization; no FDV or inferred quality score."""
+    from datetime import date
+
+    cap = admission.get("market_cap", {})
+    need(isinstance(cap, dict), f"{ticker}: market_cap object required")
+    value = cap.get("value")
+    need(type(value) in (int, float) and math.isfinite(value) and value > 0,
+         f"{ticker}: positive sourced market cap required")
+    currency = "USD" if market == "crypto" else admission["instrument"]["quote_currency"]
+    need(cap.get("currency") == currency, f"{ticker}: market cap must use {currency}")
+    need(cap.get("basis") == ("circulating" if market == "crypto" else "equity"),
+         f"{ticker}: equity/circulating market cap required, not FDV")
+    try:
+        age = (date.fromisoformat(as_of) - date.fromisoformat(cap.get("as_of", ""))).days
+    except (ValueError, TypeError) as exc:
+        raise UniverseError(f"coverage: {ticker}: invalid market cap date") from exc
+    need(0 <= age <= 30, f"{ticker}: market cap must be dated within 30 days")
+    need(any(e.get("url") == cap.get("source") and e.get("as_of") == cap["as_of"]
+             and e.get("tier") in (1, 2) for e in admission.get("evidence", [])),
+         f"{ticker}: market cap source must match dated tier 1/2 admission evidence")
+
+
+def comparable_caps(candidates):
+    currencies = {c["admission"]["market_cap"]["currency"] for c in candidates
+                  if c["admission"]["kind"] == "satellite"}
+    need(len(currencies) <= 1, "Beta market caps must use one comparable currency")
 
 
 def core_decisions(plan, members, refs, profile):
@@ -264,7 +315,7 @@ def core_decisions(plan, members, refs, profile):
     held = {c["asset_id"]: c for c in members}
     for row in baseline["decisions"]:
         ticker, action = row["ticker"], row["action"]
-        if profile in {"heavy", "extreme"}:
+        if profile in {"heavy", "max"}:
             need(action != "pending", f"unresolved Core decision: {ticker}")
         if action == "remove":
             need(
@@ -274,7 +325,7 @@ def core_decisions(plan, members, refs, profile):
         if action in {"pending", "remove"}:
             continue
         obj = held.get(row.get("asset_id")) or refs.get(row.get("reference_id"))
-        if profile in {"heavy", "extreme"}:
+        if profile in {"heavy", "max"}:
             need(obj is not None, f"Core {action} target missing: {ticker}")
         if obj and action == "retain":
             need(
@@ -285,17 +336,26 @@ def core_decisions(plan, members, refs, profile):
 
 def expansion_minimum(heavy_count, policy):
     """Entity-only minimum growth; existing capacity gates provide the ceilings."""
-    rule = policy.get("coverage", {}).get("extreme_expansion")
+    rule = policy.get("coverage", {}).get("max_expansion")
     need(
         isinstance(rule, dict) and set(rule) == {"min"},
-        "policy needs extreme_expansion min only",
+        "policy needs max_expansion min only",
     )
     minimum = rule["min"]
     need(
         type(minimum) in (int, float) and math.isfinite(minimum) and minimum >= 0.4,
-        "Extreme expansion minimum must be at least 40%",
+        "Max expansion minimum must be at least 40%",
     )
     return heavy_count + math.ceil(heavy_count * minimum - 1e-9)
+
+
+def expansion_distribution(seed, added_count):
+    """Heavy proportions, with at most the one-seat integer rounding remainder per group."""
+    mapping = theme_groups(seed["coverage_plan"])
+    counts = Counter(mapping.get(c["theme_code"], c["theme_code"]) for c in seed["members"])
+    total = len(seed["members"])
+    return mapping, counts, {k: math.ceil(n * added_count / total - 1e-9)
+                             for k, n in counts.items()}
 
 
 def quality_check(universe, policy, *, assembling=False):
@@ -331,6 +391,7 @@ def quality_check(universe, policy, *, assembling=False):
         need(PROFILES.index(a["min_profile"]) <= stage, f"{c['ticker']}: outside admission depth")
         counts[branches[a["branch"]]["sector"]] += 1
         kinds[a["kind"]] += 1
+    comparable_caps(members)
     for branch in branches.values():
         if PROFILES.index(branch["min_profile"]) <= stage:
             representatives = [by_asset[x] for x in branch["representatives"] if x in by_asset]
@@ -338,7 +399,7 @@ def quality_check(universe, policy, *, assembling=False):
                 any(c["admission"]["kind"] in CORE_KINDS for c in representatives),
                 f"uncovered economic branch: {branch['id']}",
             )
-        if profile in {"heavy", "extreme"}:
+        if profile in {"heavy", "max"}:
             missing = set(branch["representatives"]) - set(by_asset)
             need(not missing, "missing necessary representatives: " + ", ".join(sorted(missing)))
     roster = p.get("roster", [])
@@ -377,11 +438,11 @@ def quality_check(universe, policy, *, assembling=False):
     )
     core_decisions(p, members, refs, profile)
     expansion = {}
-    if profile == "extreme":
+    if profile == "max":
         seed = universe.get("heavy_base")
         need(
             isinstance(seed, dict) and seed.get("profile") == "heavy",
-            "Extreme requires a Heavy base",
+            "Max requires a Heavy base",
         )
         need(seed.get("selection_model") == MODEL, "legacy Heavy has no coverage certification")
         need(
@@ -393,30 +454,41 @@ def quality_check(universe, policy, *, assembling=False):
         checked = validate_universe(seed, policy)
         need(checked["passed"], "Heavy base failed validation: " + "; ".join(checked["errors"]))
         old = {c["asset_id"]: c for c in seed["members"]}
-        need(set(old) <= set(by_asset), "Extreme dropped Heavy economic entities")
+        need(set(old) <= set(by_asset), "Max dropped Heavy economic entities")
         need(
             all(by_asset[k] == c for k, c in old.items()),
-            "Extreme changed Heavy facts/bindings; rebuild Heavy first",
+            "Max changed Heavy facts/bindings; rebuild Heavy first",
         )
         need(
             all(c["admission"]["kind"] == "satellite" for k, c in by_asset.items() if k not in old),
-            "Extreme cannot repair a missing Heavy core representative",
+            "Max cannot repair a missing Heavy core representative",
         )
         minimum = expansion_minimum(len(old), policy)
         maximum = universe["limits"]["target_count"]
+        added_count = len(members) - len(old)
+        mapping, heavy_groups, group_caps = expansion_distribution(seed, added_count)
+        additions = Counter(mapping.get(c["theme_code"], c["theme_code"])
+                            for k, c in by_asset.items() if k not in old)
         if not assembling:
             need(
                 len(members) >= minimum,
-                f"Extreme expansion needs research: Heavy={len(old)}, selected={len(members)}, "
+                f"Max expansion needs research: Heavy={len(old)}, selected={len(members)}, "
                 f"required>={minimum}, entity_ceiling={maximum}, missing={max(0, minimum - len(members))}; "
                 "research more qualified Beta; do not weaken admission gates",
             )
+        for group, n in additions.items():
+            need(n <= group_caps.get(group, 0),
+                 f"Max Heavy distribution exceeded: {group}, added={n}, "
+                 f"proportional_cap={group_caps.get(group, 0)}; research other groups")
         expansion = {
             "heavy_entities": len(old),
             "added_beta": len(members) - len(old),
             "growth": (len(members) - len(old)) / len(old),
             "min_entities": minimum,
             "max_entities": maximum,
+            "distribution": {k: {"heavy": n, "added": additions[k],
+                                 "added_cap": group_caps[k]}
+                             for k, n in sorted(heavy_groups.items())},
         }
     return {
         "status": "qualified",
@@ -458,6 +530,7 @@ def build(spec, raw, policy, previous=None):
             continue
         admission_check(c, plan, branches, snap["as_of"], market)
         admitted.append(c)
+    comparable_caps(admitted)
     pool = {c["asset_id"]: c for c in admitted}
     roster = {x for b in branches.values() for x in b["representatives"]}
     need(
@@ -477,10 +550,10 @@ def build(spec, raw, policy, previous=None):
         integer(target, 1) and target <= plan["budgets"][profile],
         "target must respect plan entity ceiling",
     )
-    if profile == "extreme":
+    if profile == "max":
         need(
             previous is not None and previous.get("profile") == "heavy",
-            "Extreme requires --seed with a qualified Heavy",
+            "Max requires --seed with a qualified Heavy",
         )
         selected = deepcopy(previous.get("members", []))
         need(
@@ -556,30 +629,32 @@ def build(spec, raw, policy, previous=None):
         all(integer(base["limits"][k], 1) for k in ("hard_ticker_cap", "tradingview_token_cap")),
         "hard caps must be positive integers",
     )
-    if profile == "extreme":
+    if profile == "max":
         base["heavy_base"] = deepcopy(previous)
     # Validate the skeleton BEFORE optional Beta; no candidate can conceal its absence.
     quality_check(base, policy, assembling=True)
-    if profile == "extreme":
+    if profile == "max":
         minimum = expansion_minimum(len(selected), policy)
         need(
             minimum <= target,
-            f"Extreme growth needs at least {minimum} entities; plan/spec ceiling {target} "
+            f"Max growth needs at least {minimum} entities; plan/spec ceiling {target} "
             "cannot meet it; review capacity before researching additions",
         )
         retained_beta = sum(c["admission"]["kind"] == "satellite" for c in selected)
         ceiling = policy["coverage"]["satellite_max"][profile]
         need(
             retained_beta + minimum - len(selected) <= minimum * ceiling + 1e-9,
-            "Extreme growth conflicts with the satellite-share ceiling of this Heavy; "
+            "Max growth conflicts with the satellite-share ceiling of this Heavy; "
             "review the Heavy plan without relabelling or dropping protected members",
         )
 
     def fits_export(items):
         exported = items + list(refs.values())
+        display = theme_groups(plan, profile)
         return (
             len(exported) <= base["limits"]["hard_ticker_cap"]
-            and len(exported) + len({c["theme_code"] for c in exported})
+            and len(exported) + len({display.get(c["theme_code"], c["theme_code"])
+                                     for c in exported})
             <= base["limits"]["tradingview_token_cap"]
         )
 
@@ -588,25 +663,36 @@ def build(spec, raw, policy, previous=None):
     counts = Counter(branches[c["admission"]["branch"]]["sector"] for c in selected)
     satellites = sum(c["admission"]["kind"] == "satellite" for c in selected)
     ceiling = policy["coverage"]["satellite_max"][profile]
-    while len(selected) < target:
+    mapping, heavy_groups, group_caps = ({}, Counter(), {})
+    added_groups = Counter()
+    selection_target = target
+    if profile == "max":
+        selection_target = expansion_minimum(len(selected), policy)
+        mapping, heavy_groups, group_caps = expansion_distribution(
+            previous, selection_target - len(selected))
+    while len(selected) < selection_target:
         choices = []
         for c in admitted:
             a = c["admission"]
             sector = branches[a["branch"]]["sector"]
+            group = mapping.get(c["theme_code"], c["theme_code"])
             if (
                 c["asset_id"] in held
                 or a["kind"] != "satellite"
                 or PROFILES.index(a["min_profile"]) > stage
                 or counts[sector] >= sectors[sector]["caps"][profile]
                 or satellites + 1 > (len(selected) + 1) * ceiling + 1e-9
+                or (profile == "max" and added_groups[group] >= group_caps.get(group, 0))
                 or not fits_export(selected + [c])
             ):
                 continue
-            # Theme labels/weights/number of subgroups deliberately do not occur here.
+            # Max follows the frozen Heavy distribution; small groups gain no inverse bonus.
             choices.append(
                 (
-                    -sectors[sector]["weight"] / (2 * counts[sector] + 1),
-                    -metric_score({**c, "metrics": {**c["metrics"], "heat": None}}),
+                    -(heavy_groups[group] / (2 * added_groups[group] + 1)
+                      if profile == "max" else
+                      sectors[sector]["weight"] / (2 * counts[sector] + 1)),
+                    -a["market_cap"]["value"],
                     c["ticker"],
                     c,
                 )
@@ -618,6 +704,7 @@ def build(spec, raw, policy, previous=None):
         held.add(c["asset_id"])
         counts[branches[c["admission"]["branch"]]["sector"]] += 1
         satellites += 1
+        added_groups[mapping.get(c["theme_code"], c["theme_code"])] += 1
     selected.sort(key=lambda c: (c["theme_code"], c["ticker"]))
     for c in admitted:
         if c["asset_id"] not in held:

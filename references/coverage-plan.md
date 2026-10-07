@@ -14,14 +14,18 @@ Historical replay alone uses [the archived policy](../examples/legacy-policy.jso
 | `origin` | `new` or `migration`; migrating a user Core requires `baseline` |
 | `scope` | Explicit market, venues, instrument types, exclusions; do not silently narrow Crypto to Binance |
 | `evidence` | Dated tier 1/2 evidence for the stable market structure, not recent news heat |
-| `budgets` | `{light: int, medium: int, heavy: int, extreme: int}` positive, nondecreasing **entity ceilings**, excluding references |
+| `budgets` | `{light: int, medium: int, heavy: int, max: int}` positive, nondecreasing **entity ceilings**, excluding references |
 | `sectors` | List of `{id, weight, rationale, caps}`; positive stable weight and four nondecreasing integer absolute caps keyed by profile |
 | `branches` | List of `{id, sector, purpose, min_profile, representatives}`; `representatives` is a nonempty list of necessary economic `asset_id`s; each entity has one primary branch |
 | `roster` | Every branch representative exactly once: `{asset_id, kind, min_profile}`; kind `leader` or `peer`, admitted by Heavy |
 | `references` | List described below, may be empty; BTC/ETH/SOL are Crypto entities, not references |
+| `display_groups` | Optional four-profile object; rows have constituent `id`, ASCII `name`, disjoint known `themes`, and economic-similarity `reason`; Heavy/Max maps must match |
 
-Economic sectors/branches are independent of the existing display taxonomy. Split, rename or
-reorder display themes without gaining economic budget. A branch's `min_profile` is Light,
+Economic sectors/branches remain separate from presentation. Merge sparse one/two-entity
+groups with economically adjacent duties for readability, preserving member facts and duties.
+Light/Medium may use broader display groups; Heavy/Max use identical groups. Max follows Heavy
+entity proportions: for total added A and Heavy H, group h can add at most ceil(h*A/H).
+Rounding is the only surplus; split headings cannot create capacity. A branch's `min_profile` is Light,
 Medium or Heavy; when reached, it needs a researched core representative. All roster entries
 must exist as eligible, researched candidates before building the ladder. The budget must fit
 all representatives due at that depth. Do not silently change their tier to fit.
@@ -31,11 +35,12 @@ Medium contains at least 70% of the reviewed leader roster; Heavy contains every
 and necessary differentiated peer. Peers enter at Heavy. This denominator is the **declared
 research roster**, not a claim to know every leader in the market. Audit Core blind spots too.
 
-Heavy satellite share is at most 20%, Extreme at most 35%, measured on selected entities. These
+Heavy satellite share is at most 20%, Max at most 35%, measured on selected entities. These
 are transparent initial engineering limits, not empirically optimal market weights. Policy may
 tighten them. Sector caps also bind necessary representatives: an infeasible plan is returned for
-research, never resolved by evicting a leader. Optional allocation uses stable sector weights and
-existing sector counts; recent heat and display theme weights do not enter that allocation.
+research, never resolved by evicting a leader. Heavy optional allocation uses stable sector weights and existing counts. Max uses Heavy
+group proportions; candidate shortages are research gaps, not permission to overweight another
+group. Stop at the minimum qualified expansion. Recent heat and label weights do not enter.
 
 Use roughly comparable Core budgets for the first migration: the supplied review has CN 463,
 US 378 security-layer entries and Crypto 53 asset/tool entries. These are comparison scales,
@@ -49,12 +54,13 @@ Every selected entity keeps the existing candidate contract plus an `admission` 
 |---|---|
 | `kind` | `leader`, `peer`, `satellite`; selection function, distinct from measured beta or observation role |
 | `branch` | One economic branch id; determines primary sector independently of display theme |
-| `min_profile` | Light/Medium/Heavy for leaders; Heavy for peers; Heavy/Extreme for satellites |
+| `min_profile` | Light/Medium/Heavy for leaders; Heavy for peers; Heavy/Max for satellites |
 | `business` | Why this entity represents this business function; source-supported leadership/necessary differentiation |
-| `quality` | Domain-specific continuing quality/observability reasoning, not a generic adjective or invented score |
+| `quality` | Required for leaders/peers: domain-specific continuing quality/observability reasoning; optional for satellites |
 | `evidence` | Tier 1/2 evidence for those assertions, no future dates and within 180 days of snapshot |
 | `instrument` | `{kind, quote_currency, units}`; kind equity/spot/perpetual/etf, positive units; explicit contract multiplier |
 | `ecosystem_id`, `token_role` | Required for Crypto; distinguish VET/VTHO roles without claiming two independent networks |
+| `market_cap` | Satellites: `{value, currency, basis, as_of, source}`; positive finite capitalization, equity/native quote currency for stocks, circulating/USD for Crypto (never FDV); within 30 days, matching dated tier 1/2 admission evidence |
 | `distinct_from`, `incremental_value` | Satellites only: nonempty core asset-id list and what is missing without this candidate |
 
 Leaders/peers must carry a compatible core observation role; satellites require
@@ -65,7 +71,7 @@ readable in old records but are not a fallback that fills new production lists.
 
 Evidence validation checks provenance shape and dates; it cannot verify that a cited document
 actually proves a business claim. The agent must read it and compare the candidate against peers.
-For Crypto, research use, token value capture, supply, liquidity and residual redundancy; a token
+Beta research stops after broad business/token identity and complementarity checks plus sourced market cap. Rank eligible Beta by capitalization within the planned distribution; equal caps break ties by ticker. Detailed profitability, tokenomics, supply unlock or revenue analyses are not Beta prerequisites. Core research remains unchanged. For Crypto core representatives, research use, token value capture, supply, liquidity and residual redundancy; a token
 with no holder revenue can still represent a network, but is not a revenue-producing protocol by
 analogy. Old strict new-token thresholds are research context, not universal leader criteria.
 
@@ -97,27 +103,27 @@ researched plan, `baseline` holds `{watchlist, sha256, decisions}`. Each decisio
 or `reference_id`. Allowed actions: retain/replace/remove/pending. Retain preserves the full
 code; venue or spot/perpetual conversion requires replace and a sourced explanation of identity,
 units and observation changes. Deletion needs a sourced reason and surviving branch coverage.
-Every original symbol must occur exactly once. Pending blocks Heavy/Extreme; a retained or
+Every original symbol must occur exactly once. Pending blocks Heavy/Max; a retained or
 replaced target must actually be selected in Heavy. There is no automatic alias resolution.
 
 ## Building and continuing
 
 Default `target_count` is the plan's entity ceiling; a spec can lower it, never expand the plan.
 A qualified result below the ceiling is **complete** with `unused_capacity` only when all gates
-pass, including Extreme's minimum growth.
+pass, including Max's minimum growth.
 Unresolved backbone, identity or Core decisions are `needs_research` with archived inputs and
 resume command. Repair the failed assertions, remeasure affected candidates, then resume; retain
 successful research instead of restarting a broad screen. Do not spend retries on unchanged input.
 
-Extreme requires `--seed heavy.json`: same market, source date and complete plan, validated Heavy,
+Max requires `--seed heavy.json`: same market, source date and complete plan, validated Heavy,
 identical retained member facts/bindings, and only satellites added. With `H` Heavy entities,
-Extreme needs at least `H + ceil(0.40 * H)` entities. References are excluded.
+Max needs at least `H + ceil(0.40 * H)` entities. References are excluded.
 An underfilled bench is `needs_research`; preserve inputs, widen research and resume. The
 effective target remains the plan/spec entity ceiling; growth has no separate maximum. Incompatible
 sector, satellite-share or export ceilings cannot be waived to achieve the minimum.
 The embedded `heavy_base`
 allows standalone validate to recheck this without external files. Updating Heavy requires
-rebuilding Extreme; maintenance cannot silently diverge the pair.
+rebuilding Max; maintenance cannot silently diverge the pair.
 
 Legacy `taxonomy --check` remains a display-table compatibility/preflight diagnostic, not the
 0.6 economic feasibility test. Formal build/validate checks the coverage plan instead. Existing

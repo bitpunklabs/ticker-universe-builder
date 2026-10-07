@@ -264,34 +264,34 @@ def test_forward_evaluation_rejects_in_sample_only(tmp_path):
         evaluate_core.evaluate(universe=universe, prices=path)
 
 
-def test_all_markets_extreme_increment_is_40_to_50_percent():
+def test_all_markets_max_increment_is_40_to_50_percent():
     policy = load_policy()
-    assert PROFILES[-1] == "extreme"
+    assert PROFILES[-1] == "max"
     for market in policy["markets"]:
         bands = market_guidance(market, policy, None)
-        ratio = bands["extreme"]["target"] / bands["heavy"]["target"]
+        ratio = bands["max"]["target"] / bands["heavy"]["target"]
         assert 1.4 <= ratio <= 1.5, market
 
 
-def test_cn_real_extreme_retains_heavy_and_adds_qualified_beta():
+def test_cn_real_max_retains_heavy_and_adds_qualified_beta():
     root = Path(__file__).resolve().parents[1]
     raw = read_json(root / "examples/cn-medium/snapshot.json")
     policy = load_policy()
     heavy, _ = build_universe(dict(spec("heavy"), market="cn"), raw, policy)
-    extreme, report = build_universe(dict(spec("extreme"), market="cn"), raw, policy, heavy)
+    max, report = build_universe(dict(spec("max"), market="cn"), raw, policy, heavy)
     held = {m["ticker"] for m in heavy["members"]}
-    additions = [m for m in extreme["members"] if m["ticker"] not in held]
-    assert held <= {m["ticker"] for m in extreme["members"]}
-    assert len(heavy["members"]) == 520 and len(extreme["members"]) == 755
+    additions = [m for m in max["members"] if m["ticker"] not in held]
+    assert held <= {m["ticker"] for m in max["members"]}
+    assert len(heavy["members"]) == 520 and len(max["members"]) == 755
     assert sum(m["role"] == "BETA_SATELLITE" for m in additions) >= 165
     assert report["passed"] and report["stats"]["tradingview_tokens"] <= 1000
     medium, _ = build_universe(dict(spec("medium"), market="cn"), raw, policy)
-    jumped, _ = build_universe(dict(spec("extreme"), market="cn"), raw, policy, medium)
+    jumped, _ = build_universe(dict(spec("max"), market="cn"), raw, policy, medium)
     assert {m["ticker"] for m in jumped["members"]} == {
-        m["ticker"] for m in extreme["members"]
+        m["ticker"] for m in max["members"]
     }
-    direct, _ = build_universe(dict(spec("extreme"), market="cn"), raw, policy)
-    assert {m["ticker"] for m in direct["members"]} == {m["ticker"] for m in extreme["members"]}
+    direct, _ = build_universe(dict(spec("max"), market="cn"), raw, policy)
+    assert {m["ticker"] for m in direct["members"]} == {m["ticker"] for m in max["members"]}
 
 
 def test_insufficient_beta_is_disclosed_without_relabelling():
@@ -302,11 +302,11 @@ def test_insufficient_beta_is_disclosed_without_relabelling():
         for i in range(10)
     ]
     policy = small_policy()
-    policy["tiers"]["extreme"] = 10
+    policy["tiers"]["max"] = 10
     heavy, _ = build_universe(spec("heavy"), raw, policy)
-    extreme, report = build_universe(spec("extreme"), raw, policy, heavy)
-    assert len(extreme["members"]) == 10
-    assert all(m["role"] == "THEME_LEADER" for m in extreme["members"])
+    max, report = build_universe(spec("max"), raw, policy, heavy)
+    assert len(max["members"]) == 10
+    assert all(m["role"] == "THEME_LEADER" for m in max["members"])
     assert any("qualified beta additions filled 0" in w for w in report["warnings"])
 
 

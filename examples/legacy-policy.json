@@ -4,7 +4,7 @@
     "light": 60,
     "medium": 160,
     "heavy": 400,
-    "extreme": 580
+    "max": 580
   },
   "guidance_band": 0.25,
   "markets": {
@@ -76,7 +76,7 @@
         "tactical": 0.15
       }
     },
-    "extreme": {
+    "max": {
       "coverage_level": 3,
       "bucket_targets": {
         "core": 0.35,

@@ -15,8 +15,8 @@ individually and reversed.
 Build, validate and maintenance share the same economic-coverage, satellite-share and sector-cap
 checks. Removing a necessary leader or changing an admission cannot bypass the roster. Changes
 to the economic plan or Core migration decisions require a researched rebuild of Heavy; then
-rebuild Extreme against that Heavy. References are part of that immutable plan, so a reference
-substitution also follows this path. Extreme maintenance may not change its embedded Heavy's
+rebuild Max against that Heavy. References are part of that immutable plan, so a reference
+substitution also follows this path. Max maintenance may not change its embedded Heavy's
 facts or bindings, fall below 40% growth or exceed 40% growth relative to Heavy's entity count.
 The existing operation engine remains for valid local maintenance.
 

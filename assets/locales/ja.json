@@ -93,7 +93,7 @@
   "flag.security_on_alert": "特設注意市場銘柄",
   "flag.supervision_post": "監理銘柄",
   "flag.listing_criteria_shortfall": "上場維持基準未達",
-  "profile.extreme": "Extreme（最大）",
+  "profile.max": "Max",
   "column.purpose": "観測目的",
   "column.representatives": "代表の役割",
   "column.weight": "重み"
