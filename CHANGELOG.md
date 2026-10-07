@@ -14,6 +14,11 @@ Each released heading below matches a `version:` in `SKILL.md` and a git tag of 
 there, and backfilling a listing for a release nobody could install would be tidier than it is
 true.
 
+## 0.6.3 — unreleased
+
+- Require Extreme to add at least 40% of Heavy entities, entirely as qualified Beta. Remove
+  the separate growth upper bound; entity/sector, satellite-share and export ceilings still bind.
+
 ## 0.6.2 — unreleased
 
 - Adjust Extreme's required entity growth from 35%–40% to 30%–40%. All additions remain

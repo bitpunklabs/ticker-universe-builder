@@ -7,12 +7,12 @@ The run index is updated atomically. Use a single writer per checkpoint.
 
 | Exit | Status | Meaning |
 |---|---|---|
-| 0 | `complete` | All quality gates passed, including Extreme +30%–40%; unused capacity above the minimum is allowed (legacy replay: count filled) |
+| 0 | `complete` | All quality gates passed, including Extreme growth of at least 40%; unused capacity above the minimum is allowed (legacy replay: count filled) |
 | 2 | `needs_research` | Input, coverage, seed or output error prevented publication |
 | 3 | `partial` | Legacy replay only: valid subset below the requested size |
 
 For coverage-first, resolve necessary representatives and Core decisions before optional depth.
-A below-band Extreme is `needs_research`, never complete or silently replaced by Heavy. Read
+A below-minimum Extreme is `needs_research`, never complete or silently replaced by Heavy. Read
 the error's selected/required/missing counts and `diagnostics.expansion`: its proposed-candidate
 count is only a bench capacity bound, before sector, satellite, evidence and export checks.
 Widen research for the missing Beta, remeasure and resume. Never loosen quality just to add

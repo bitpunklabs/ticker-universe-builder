@@ -9,16 +9,17 @@ before creating a new snapshot. `target_count` is an entity ceiling, excludes re
 defaults to the plan budget. Light/Medium are leader-only; Heavy protects the reviewed backbone;
 Extreme requires the same-date qualified Heavy seed. Default builds never use legacy bucket
 fallbacks. A qualified under-ceiling result is complete with `unused_capacity` only when all
-gates pass. Extreme must grow by 30%–40% in entities, with all additions admitted as satellites;
+gates pass. Extreme must grow by at least 40% in entities, with all additions admitted as satellites;
 under-expansion or unresolved coverage is `needs_research`.
 
-`policy.coverage.extreme_expansion` is `{ "min": 0.30, "max": 0.40 }`. Values must be finite
-numbers with `0.30 <= min <= max <= 0.40`; a custom policy may narrow, never widen this band.
-For actual Heavy entity count `H`, allowed totals are `H + ceil(H * min)` through
-`H + floor(H * max)`. The effective `limits.target_count` is capped at that upper bound.
+`policy.coverage.extreme_expansion` is `{ "min": 0.40 }`. The minimum must be finite
+and at least `0.40`; a custom policy may tighten it. For actual Heavy entity count `H`,
+require at least `H + ceil(H * min)` entities. There is no separate growth upper bound:
+plan/spec entity budgets, economic sector caps, total satellite share and export limits still bind.
 Reference instruments are excluded. `stats.quality.expansion` reports `heavy_entities`,
-`added_beta`, `growth` (a fraction), `min_entities` and `max_entities`.
-The same rules apply to stored validation and maintenance. Older below-band coverage-first
+`added_beta`, `growth` (a fraction), `min_entities` and `max_entities` (the plan/spec entity ceiling,
+not a promise of available eligible capacity).
+The same rules apply to stored validation and maintenance. Older below-minimum coverage-first
 Extreme files remain historical artifacts, not current-contract completions. Legacy 0.4/0.5
 records remain readable with a legacy-certification warning and their explicit replay policy.
 
@@ -440,7 +441,7 @@ UTC timestamps, status, diagnostics and output artifact paths when present. Each
 contains the parsed spec/snapshot/resolved policy/seed and language, not executable instructions.
 Statuses are `running`, `needs_research`, `partial`, `complete`. A validated subset remains
 `partial` until it fills the original target in legacy replay. Coverage-first completion instead
-requires quality acceptance, including Extreme's 30%–40% growth; capacity above the minimum
+requires quality acceptance, including Extreme's minimum 40% growth; capacity above the minimum
 may remain unused. See [recovery.md](recovery.md) for continuation and
 exit codes; validation success and requested-size completion are different claims.
 

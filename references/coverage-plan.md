@@ -111,9 +111,9 @@ successful research instead of restarting a broad screen. Do not spend retries o
 
 Extreme requires `--seed heavy.json`: same market, source date and complete plan, validated Heavy,
 identical retained member facts/bindings, and only satellites added. With `H` Heavy entities,
-Extreme needs `H + ceil(0.30 * H)` through `H + floor(0.40 * H)` entities. References are excluded.
+Extreme needs at least `H + ceil(0.40 * H)` entities. References are excluded.
 An underfilled bench is `needs_research`; preserve inputs, widen research and resume. The
-effective target is the smaller of the plan/spec ceiling and the growth maximum. Incompatible
+effective target remains the plan/spec entity ceiling; growth has no separate maximum. Incompatible
 sector, satellite-share or export ceilings cannot be waived to achieve the minimum.
 The embedded `heavy_base`
 allows standalone validate to recheck this without external files. Updating Heavy requires
