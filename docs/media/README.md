@@ -1,7 +1,7 @@
 # README imagery
 
-Two GIF slots remain commented out until actual recordings exist: `demo.gif` and
-`watchlist-import.gif`. Do not substitute a synthetic terminal/UI result for a real run.
+Optional release recordings: `demo.gif` and `watchlist-import.gif`. Add them to the root README
+only after a real capture has been reviewed. Do not substitute a synthetic terminal/UI result.
 
 ## demo.gif
 
@@ -22,4 +22,4 @@ imported instrument count and venue prefixes. The TXT includes reference instrum
 as entity members. A locally validated TXT is not evidence of successful TradingView UI import.
 
 Keep both recordings legible, under 5 MB each, and free of private data. Put them in this
-folder and uncomment the corresponding README image only after reviewing the real capture.
+folder and add a README image link only after reviewing the real capture.

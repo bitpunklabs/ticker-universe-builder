@@ -64,34 +64,6 @@ class DocumentationLinkTests(unittest.TestCase):
                     self.assertIn(target[1:], anchors)
 
 
-class ReadmeMediaTests(unittest.TestCase):
-    """Two image slots, commented out until the files exist.
-
-    A placeholder that renders as a broken image is worse than no image at all, so the tags live
-    inside HTML comments and the capture instructions live beside the directory they write into.
-    Either half going missing leaves someone holding an instruction for a slot that is not there,
-    or a slot nobody knows how to fill.
-    """
-
-    def test_each_placeholder_has_capture_instructions(self) -> None:
-        readme = (ROOT / "README.md").read_text(encoding="utf-8")
-        instructions = (ROOT / "docs" / "media" / "README.md").read_text(encoding="utf-8")
-        slots = re.findall(r"docs/media/([\w.-]+\.(?:gif|png|jpg|svg))", readme)
-        self.assertEqual(sorted(set(slots)), ["demo.gif", "watchlist-import.gif"])
-        for slot in set(slots):
-            with self.subTest(slot=slot):
-                self.assertIn(slot, instructions)
-
-    def test_a_missing_asset_is_commented_out_rather_than_broken(self) -> None:
-        readme = (ROOT / "README.md").read_text(encoding="utf-8")
-        commented = "".join(re.findall(r"<!--.*?-->", readme, re.DOTALL))
-        for slot in re.findall(r"docs/media/([\w.-]+\.(?:gif|png|jpg|svg))", readme):
-            if (ROOT / "docs" / "media" / slot).exists():
-                continue
-            with self.subTest(slot=slot):
-                self.assertIn(f"]({Path('docs/media') / slot})", commented)
-
-
 class VersionTests(unittest.TestCase):
     """The skill's version is published to a registry, tagged in git and headed in the changelog.
 
