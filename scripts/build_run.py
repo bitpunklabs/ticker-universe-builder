@@ -66,6 +66,34 @@ def diagnostics(spec: dict, snapshot: dict, policy: dict, seed: dict | None = No
                     "note": "Snapshot capacity only; evidence, sector, satellite and export "
                             "gates still apply.",
                 }
+                required_added = minimum - len(held)
+                capacity = result["expansion"]["distribution_capacity"]
+                cause = ("candidate_supply" if len(proposed) < required_added else
+                         "group_distribution" if capacity < required_added else "other_limits_or_facts")
+                result["recovery"] = {
+                    "cause": cause,
+                    "missing_groups": [k for k in sorted(caps) if available[k] < caps[k]],
+                    "strategy": [
+                        "Review primary business assignments and peer gauges; correct facts, not fit-chase.",
+                        "Research candidates in deficient groups; do not redirect their places to surplus groups.",
+                        "If beta >= 1.1 is the binding gate, compare a disclosed beta >= 1.0 policy offline; "
+                        "do not change thresholds or roles silently.",
+                        "Resume with materially revised sourced inputs; keep previous deliveries.",
+                    ],
+                }
+                bench = [c for c in normalized["candidates"]
+                         if c["asset_id"] not in held
+                         and (c.get("admission") or {}).get("kind") == "satellite"]
+                result["recovery"]["beta_gates"] = {
+                    metric: {"threshold": floor,
+                             "below": sum(c["metrics"].get(metric) is not None
+                                          and c["metrics"][metric] < floor for c in bench),
+                             "missing": sum(c["metrics"].get(metric) is None for c in bench)}
+                    for metric, floor in (("factor_r2", 30), ("beta_strength", 55), ("beta_stability", 50))
+                }
+                result["recovery"]["metric_count_note"] = (
+                    "Overlapping counts over the researched non-Heavy satellite bench; "
+                    "not a claim that every excluded candidate is otherwise admissible.")
             return result
         guide = market_guidance(spec["market"], policy, normalized["market_spec"])
         stages = {}
@@ -118,6 +146,7 @@ def run_build(
     language: str | None = None,
     run_dir: str | None = None,
     resume: str | None = None,
+    shortfall_action: str | None = None,
 ) -> tuple[dict, int]:
     if resume and run_dir:
         raise UniverseError("choose --resume or --run-dir")
@@ -147,6 +176,8 @@ def run_build(
             paths[key] = str(Path(value).resolve())
     if language is not None:
         paths["language"] = language
+    if shortfall_action is not None:
+        paths["shortfall_action"] = shortfall_action
     next_command = f"python scripts/universe.py build --resume {shlex.quote(str(root))}"
     # Read before starting an attempt; a missing file can be repaired at the saved input path.
     payload = {
@@ -156,6 +187,11 @@ def run_build(
         "seed": read_json(paths["seed"]) if paths.get("seed") else None,
         "language": paths.get("language"),
     }
+    if paths.get("shortfall_action") is not None:
+        payload["spec"]["shortfall_action"] = paths["shortfall_action"]
+    if payload["spec"].get("profile") == "max" and payload["snapshot"].get("coverage_plan"):
+        # Archive the effective choice too; pre-handler failed runs can be reconsidered once.
+        payload["spec"].setdefault("shortfall_action", "auto")
     digest = hashlib.sha256(json.dumps(payload, sort_keys=True).encode()).hexdigest()
     previous = state["attempts"][-1] if state["attempts"] else None
     changed_destination = (
@@ -198,13 +234,16 @@ def run_build(
         )
         artifacts = write_artifacts(universe, report, destination, paths.get("language"))
         filled, target = len(universe["members"]), universe["limits"]["target_count"]
+        coverage_model = universe.get("selection_model") == "coverage_first"
+        delivery = universe.get("delivery")
         attempt.update(
-            status=("complete" if universe.get("selection_model") == "coverage_first"
+            status=("partial" if delivery else "complete" if coverage_model
                     or filled >= target else "partial"),
             validation_passed=True,
+            **({"qualified": report["qualified"], "delivery": delivery} if delivery else {}),
             target=target,
             filled=filled,
-            shortfall=(0 if universe.get("selection_model") == "coverage_first"
+            shortfall=(delivery["shortfall"] if delivery else 0 if coverage_model
                        else max(0, target - filled)),
             unused_capacity=max(0, target - filled),
             version_hash=universe["version_hash"],
@@ -239,6 +278,16 @@ def run_build(
             "Recompute affected measurements, then resume with the corrected input paths.",
             "Keep eligibility and depth unchanged; do not spend retries on identical inputs.",
         ]
+        if attempt["status"] == "partial" and attempt.get("delivery"):
+            attempt["handler"] = {"action": "deliver", "reason": "small_count_gap_only",
+                                  "retry_command": next_command + " --shortfall-action retry"}
+            attempt["next_actions"] = [
+                "Deliver all partial-labelled artifacts together; disclose actual growth and missing count.",
+                "For further research, use the saved diagnostics and retry command with revised inputs.",
+            ]
+        elif attempt["status"] == "needs_research":
+            attempt["handler"] = {"action": "retry", "reason": "large_gap_or_other_failed_checks",
+                                  "retry_command": next_command}
     attempt["finished_at"] = datetime.now(timezone.utc).isoformat()
     state["status"] = attempt["status"]
     save(attempt_dir / "result.json", attempt)

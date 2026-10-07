@@ -16,7 +16,8 @@ renders them as TradingView-importable watchlists.
 A ticker universe is an observation instrument, not a recommendation list. This skill exists to
 gate it: every member arrives with a role, a reason and dated evidence; every change is an
 operation against an exact version; and no universe is published unless the deterministic
-validator passes. Failed attempts keep a checkpoint so research can continue.
+validator passes. Small Max count-only shortfalls can be delivered with explicit partial status; larger gaps
+keep diagnostics and a checkpoint so research can continue.
 
 ## The problem this solves
 

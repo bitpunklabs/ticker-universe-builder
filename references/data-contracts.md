@@ -9,7 +9,7 @@ before creating a new snapshot. `target_count` is an entity ceiling, excludes re
 defaults to the plan budget. Light/Medium are leader-only; Heavy protects the reviewed backbone;
 Max requires the same-date qualified Heavy seed. Default builds never use legacy bucket
 fallbacks. A qualified under-ceiling result is complete with `unused_capacity` only when all
-gates pass. Max must grow by at least 40% in entities, with all additions admitted as satellites;
+gates pass. A complete Max must grow by at least 40% in entities, with all additions admitted as satellites;
 under-expansion or unresolved coverage is `needs_research`.
 
 `policy.coverage.max_expansion` is `{ "min": 0.40 }`. The minimum must be finite
@@ -24,7 +24,9 @@ a group with h Heavy entities may add at most ceil(h*A/H), including only intege
 surplus. Build selects ceil(H*min) additions and then stops; target_count remains a ceiling.
 Optional profile-keyed display_groups are documented in coverage-plan.md.
 
-The same rules apply to stored validation and maintenance. Older below-minimum coverage-first
+The same rules apply to stored validation and maintenance. A new explicitly marked `delivery`
+partial is an authorized exception to growth only, as specified below. Unmarked underfilled
+outputs remain invalid. Older below-minimum coverage-first
 Max files remain historical artifacts, not current-contract completions. Legacy 0.4/0.5
 records remain readable with a legacy-certification warning and their explicit replay policy.
 
@@ -510,3 +512,26 @@ messages name policy fields and code paths.
 above-scale market, decided ahead of implementation.
 
 Coverage-first satellite admission requires `market_cap` as specified in [coverage-plan.md](coverage-plan.md): positive sourced equity/native quote-currency capitalization or Crypto circulating USD capitalization, dated within 30 days. FDV is rejected. `quality` is optional for satellites; core still requires it. Ranking uses cap within the fixed distribution, not the legacy composite Beta score.
+
+## Max shortfall delivery (0.7.1)
+
+`build-spec.shortfall_action` is `auto` (default), `deliver` or `retry`; CLI `--shortfall-action`
+overrides and persists in the checkpoint. Auto/deliver can emit partial only when the sole
+unmet requirement is Max minimum growth, at least one Beta was added, and
+`required_entities - actual_entities <= 0.05 * required_entities`. Deliver cannot waive this
+bound. Retry preserves full-growth requirements and returns diagnostics for an agent repair.
+
+A partial universe includes `delivery: {status: "partial", reason: "max_growth_shortfall",
+required_entities: int, shortfall: int, allowed_gap_ratio: 0.05}`. All values are recomputed
+by validation; this field is valid only for an underfilled Max within the bound. Membership,
+listing, identity, measurements, admission, Heavy retention, core coverage and all other caps
+still apply. Partial group ceilings use the original planned addition count
+`required_entities - Heavy_entities`, keeping vacancies instead of transferring seats. Complete
+Max uses actual additions as before. References do not count as growth.
+
+Validation has `passed: true` for a contract-valid partial, `qualified: false`, and
+`stats.quality.status: "partial"`. Full qualification remains `qualified: true`. The runner
+returns exit 3/status partial, a continuation, and MD/TXT/JSON filenames ending `-partial`
+before their extension/language. The Markdown and JSON show actual growth, required count
+and shortfall; TXT stays TradingView-compatible and carries partial status in its filename.
+Never change a stored partial to complete by relabeling metadata; rebuild with revised inputs.

@@ -156,3 +156,58 @@ def test_interrupted_attempt_can_retry_same_inputs(tmp_path):
     assert state["status"] == "running"
     final, code = resume({"checkpoint": str(state_path)})
     assert code == 0 and final["number"] == 2
+
+
+def coverage_gap_args(tmp_path, beta_count=7):
+    from test_coverage_core import expansion_fixture, build
+    data = expansion_fixture()
+    heavy, _ = build(data, target_count=20)
+    data['candidates'] = [c for c in data['candidates']
+                          if c['admission']['kind'] != 'satellite'
+                          or c['asset_id'] in {f'BETA{i}' for i in range(beta_count)}]
+    return dict(spec=write(tmp_path/'spec.json', dict(schema_version=1, market='us', profile='max')),
+                snapshot=write(tmp_path/'snapshot.json', data),
+                seed=write(tmp_path/'heavy.json', heavy), output=str(tmp_path/'out'))
+
+
+def test_small_max_gap_delivers_partial_and_can_retry_to_complete(tmp_path):
+    from universe_core import validate_universe
+    from test_coverage_core import expansion_fixture
+    args = coverage_gap_args(tmp_path)
+    first, code = run_build(**args)
+    assert code == 3 and first['status'] == 'partial' and first['shortfall'] == 1
+    assert first['validation_passed'] and not first['qualified']
+    assert first['handler']['action'] == 'deliver'
+    assert first['diagnostics']['recovery']['cause'] == 'candidate_supply'
+    assert first['diagnostics']['recovery']['beta_gates']['beta_strength']['threshold'] == 55
+    path = Path(first['artifacts']['universe']);before = path.read_bytes()
+    assert '-partial.json' in path.name
+    u = json.loads(before)
+    assert u['delivery']['required_entities'] == 28
+    checked = validate_universe(u)
+    assert checked['passed'] and not checked['qualified']
+    report = Path(first['artifacts']['reports']['en']).read_text()
+    assert 'PARTIAL: 27 / 28' in report and '35.0%' in report
+    assert '-partial.txt' in first['artifacts']['watchlist']
+    again, code = resume(first)
+    assert code == 3 and again['retry_skipped'] and again['artifacts'] == first['artifacts']
+    strict, code = resume(first, shortfall_action='retry')
+    assert code == 2 and strict['handler']['action'] == 'retry' and 'artifacts' not in strict
+    write(Path(args['snapshot']), expansion_fixture())
+    repaired, code = resume(strict)
+    assert code == 0 and repaired['status'] == 'complete' and repaired['filled'] == 28
+    assert path.read_bytes() == before
+    assert '-partial' not in Path(repaired['artifacts']['universe']).name
+
+
+def test_large_max_gap_and_invalid_facts_cannot_be_delivered(tmp_path):
+    args = coverage_gap_args(tmp_path, beta_count=6)
+    result, code = run_build(**args, shortfall_action='deliver')
+    assert code == 2 and result['handler']['action'] == 'retry'
+    assert 'artifacts' not in result
+    data = json.loads(Path(args['snapshot']).read_text())
+    del data['candidates'][0]['listing']
+    write(Path(args['snapshot']), data)
+    again, code = resume(result)
+    assert code == 2 and 'artifacts' not in again
+    assert 'listing' in again['error']

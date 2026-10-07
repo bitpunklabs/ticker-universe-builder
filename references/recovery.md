@@ -9,15 +9,32 @@ The run index is updated atomically. Use a single writer per checkpoint.
 |---|---|---|
 | 0 | `complete` | All quality gates passed, including Max growth of at least 40%; unused capacity above the minimum is allowed (legacy replay: count filled) |
 | 2 | `needs_research` | Input, coverage, seed or output error prevented publication |
-| 3 | `partial` | Legacy replay only: valid subset below the requested size |
+| 3 | `partial` | Disclosed valid subset: near-target Max growth gap, or legacy below-size replay |
 
 For coverage-first, resolve necessary representatives and Core decisions before optional depth.
-A below-minimum Max is `needs_research`, never complete or silently replaced by Heavy. Read
-the error's selected/required/missing counts and `diagnostics.expansion`: its proposed-candidate
-count is only a bench capacity bound, before sector, satellite, evidence and export checks.
-Widen research for the missing Beta, remeasure and resume. Never loosen quality just to add
-codes. Outside this Max growth requirement, the following target-fill diagnostics apply
-to legacy replay only.
+The Max handler has two outcomes. `shortfall_action: auto` is the default; `deliver` explicitly
+requests the same delivery branch, while `retry` always requires full growth. CLI
+`--shortfall-action` overrides the spec and is saved on resume.
+
+- **Deliver:** the only unmet requirement is growth; deficit is at most 5% of required total
+  entities, positive Beta growth, and all other checks pass. Emit `partial` (exit 3), explicit
+  actual/required counts, growth and deficit, `qualified: false`, `-partial` filenames, and a
+  continuation. For Heavy 457, minimum 640, selected 613: deficit 27/640=4.22%, so deliver.
+  Planned group ceilings remain frozen; empty places are not transferred.
+- **Analyze and retry:** larger gaps, invalid facts or explicit retry choice yield
+  `needs_research` (exit 2). Diagnostics distinguish candidate supply, group distribution, and
+  other constraints. Review gauges/assignments, target deficient groups, use another verified
+  source, then resume with materially changed inputs. Python does not run network research
+  or relax gates automatically. A disclosed threshold-policy change needs methodological
+  justification and uniform remeasurement; it must not cherry-pick members or fit.
+
+Current R²>=30, beta strength>=55 (approximately positive beta>=1.1) and stability>=50 stay
+unchanged. Candidate size alone is not proof of a high-beta price response. Lowering strength
+to 50 (approximately beta>=1.0) would redefine the intended price exposure and needs a
+separately disclosed policy; identity, listing, measured data and core coverage stay mandatory.
+The error/receipt and `diagnostics.expansion` show proposed capacity before remaining caps;
+`diagnostics.recovery` lists deficient groups and research strategies. Outside Max growth,
+target-fill diagnostics apply to legacy replay only.
 Read the diagnostic for every intermediate tier, not just the first missing theme. Capacity
 counts are upper bounds, not promises: duplicate assets, mandatory members and token limits can
 still constrain selection. A 1,000-token ceiling is a real boundary; never hide a target reduction.

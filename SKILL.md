@@ -3,7 +3,7 @@ name: ticker-universe-builder
 description: Build and maintain auditable, evidence-gated ticker universes for fourteen markets at four depths, exported as TradingView watchlists. Not stock tips.
 allowed-tools: Read, Write, Bash, WebSearch, WebFetch
 metadata:
-  version: 0.7.0
+  version: 0.7.1
   homepage: https://github.com/bitpunklabs/ticker-universe-builder
   openclaw:
     emoji: "📋"
@@ -154,13 +154,19 @@ reported rather than dropped.
    or a required external input is unavailable; explain that boundary and retain a continuation.
    A small mapped snapshot does not prove source exhaustion. Repair necessary coverage before
    researching optional depth. Max must add at least 40% of Heavy's entity count, entirely as
-   qualified Beta. Below that minimum is `needs_research`, even when the backbone passes. Widen
-   the researched bench and resume; never publish a shorter Max as complete. Unspent
+   qualified Beta. The shortfall handler defaults to `auto`: a count-only gap within 5% of the
+   required entity count may be delivered as `partial`, with qualified members, unchanged Heavy
+   and planned group quotas, explicit counts/growth, and `-partial` filenames. Every other check
+   must pass. Use `--shortfall-action retry` to require full growth and analyze/repair instead;
+   `deliver` still cannot waive the 5% bound or any other check. Larger gaps remain `needs_research`.
+   Diagnose business/gauges, missing groups and source/capacity limits, repair and resume;
+   never call partial delivery complete. Unspent
    capacity above the minimum is allowed. Reference instruments do not count toward growth.
    Never weaken gates or hide the difference between a ceiling and actual membership.
 9. The command prints the path of every artifact it wrote; they are named
    `{market}-{profile}-{as_of}`. Run `validate` on the `universe` path even though the builder
-   validates before writing. Never present an output that fails. Review the content too: each
+   validates before writing. Never present an output that fails its declared delivery contract. A validated partial has
+   `passed: true`, `qualified: false`; disclose its shortfall prominently. Review the content too: each
    economic duty still has a qualified representative, gauges remain observable, and role
    shortages are understood. A filled count with poor duty coverage is not a completed research
    result. Core supply far below its policy target calls for role/business research, not padding.
@@ -227,7 +233,8 @@ a note for a later round is how a universe rots: use `ADD_THEME`, `UPDATE_THEME`
 - Preserve benchmarks and anchors before adding satellites.
 - Light is leader-only; Medium covers most reviewed leaders; Heavy completes the necessary
   leader/peer skeleton plus at most 20% satellites; Max adds at least 40% to qualified Heavy,
-  entirely as Beta, with at most 35% satellites overall. The latter is a quality ceiling,
+  entirely as Beta for complete delivery; a small count-only gap may be delivered explicitly
+  as partial under the recovery contract. Max still has at most 35% satellites overall. The latter is a quality ceiling,
   distinct from the required expansion minimum.
 - Every optional satellite must explain its incremental value relative to named core members.
   No BREADTH_PROXY/tactical fallback, no padding to satisfy growth, no hot-theme budget inflation.

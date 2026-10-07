@@ -14,6 +14,14 @@ Each released heading below matches a `version:` in `SKILL.md` and a git tag of 
 there, and backfilling a listing for a release nobody could install would be tidier than it is
 true.
 
+## 0.7.1 — unreleased
+
+- Add a Max shortfall handler: auto/deliver emits a disclosed partial for count-only gaps
+  within 5% of required entities; retry retains diagnostics and research continuation.
+- Preserve all member, identity, evidence, Heavy, sector/export and planned group gates.
+  Partial artifacts carry a distinct filename, status, actual growth and required count.
+- Keep the default measured Beta thresholds; retry diagnoses supply versus group distribution.
+
 ## 0.7.0 — unreleased
 
 - Simplify Beta research to broad business validity, named-core complementarity and sourced

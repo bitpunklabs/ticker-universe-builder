@@ -276,7 +276,7 @@ def test_max_growth_does_not_count_references_or_override_export_cap():
     assert len(max["members"]) == 28 and report["stats"]["exported_tickers"] == 29
     assert report["stats"]["quality"]["expansion"]["heavy_entities"] == 20
     with pytest.raises(UniverseError, match="expansion needs research"):
-        build(data, profile="max", seed=heavy, hard_ticker_cap=28)
+        build(data, profile="max", seed=heavy, hard_ticker_cap=28, shortfall_action="retry")
 
 
 def test_stored_validation_and_maintenance_enforce_growth():
@@ -317,7 +317,7 @@ def test_max_shortfall_is_resumable_and_never_published(tmp_path):
                                 if c["admission"]["kind"] != "satellite"
                                 or c["asset_id"] in {f"BETA{i}" for i in range(7)}]
     sp, sn, seed = (tmp_path / n for n in ("spec.json", "snapshot.json", "heavy.json"))
-    sp.write_text(json.dumps(dict(schema_version=1, market="us", profile="max")))
+    sp.write_text(json.dumps(dict(schema_version=1, market="us", profile="max", shortfall_action="retry")))
     sn.write_text(json.dumps(incomplete))
     seed.write_text(json.dumps(heavy))
     result, code = run_build(spec=str(sp), snapshot=str(sn), seed=str(seed), output=str(tmp_path / "out"))
@@ -730,3 +730,69 @@ def test_beta_caps_in_different_currencies_are_not_ranked_together():
     c['admission']['market_cap']['currency'] = 'CNY'
     with pytest.raises(UniverseError, match='one comparable currency'):
         build(data)
+
+
+def small_partial_fixture():
+    data = expansion_fixture()
+    heavy, _ = build(data, target_count=20)
+    data['candidates'] = [c for c in data['candidates']
+                          if c['admission']['kind'] != 'satellite'
+                          or c['asset_id'] in {f'BETA{i}' for i in range(7)}]
+    return data, heavy
+
+
+def test_partial_contract_recomputes_counts_and_preserves_member_gates():
+    data, heavy = small_partial_fixture()
+    partial, report = build(data, profile='max', seed=heavy, shortfall_action='deliver')
+    assert report['passed'] and not report['qualified']
+    assert report['stats']['quality']['status'] == 'partial'
+    assert partial['delivery']['shortfall'] == 1
+    # Partial is an explicit new contract; it cannot silently certify an old underfilled Max.
+    unmarked = deepcopy(partial);unmarked.pop('delivery')
+    assert not validate_universe(resign(unmarked))['passed']
+    for edit in [lambda u: u['delivery'].update(shortfall=0),
+                 lambda u: u['delivery'].update(shortfall=True),
+                 lambda u: u['delivery'].update(allowed_gap_ratio=.5),
+                 lambda u: next(c for c in u['members'] if c['admission']['kind']=='leader')['admission'].update(quality=''),
+                 lambda u: u['members'][0].update(eligible=False),
+                 lambda u: u['members'][0]['listing'].update(status='inactive'),
+                 lambda u: u['members'][0]['metrics'].update(beta_strength=1),
+                 lambda u: u['limits'].update(tradingview_token_cap=10)]:
+        changed = deepcopy(partial);edit(changed)
+        assert not validate_universe(resign(changed))['passed']
+    wrong_profile = deepcopy(heavy);wrong_profile['delivery'] = partial['delivery']
+    assert not validate_universe(resign(wrong_profile))['passed']
+
+
+def test_partial_distribution_keeps_planned_quotas_and_never_borrows_slots():
+    data = expansion_fixture()
+    for c in data['candidates']:
+        if c['admission']['kind'] in {'leader', 'peer'}:
+            sector = 'banking' if int(c['asset_id'][4:]) < 4 else 'technology'
+            c.update(theme_code='10_A' if sector == 'banking' else '11_A')
+            c['admission']['branch'] = sector
+    for branch in data['coverage_plan']['branches']:
+        branch['representatives'] = [c['asset_id'] for c in data['candidates']
+                                    if c['admission']['kind'] in {'leader', 'peer'}
+                                    and c['admission']['branch'] == branch['id']]
+    heavy, _ = build(data, target_count=20)
+    # Seven tech candidates, no bank candidates: one vacancy remains, planned tech cap is 7.
+    data['candidates'] = [c for c in data['candidates']
+                          if c['admission']['kind'] != 'satellite'
+                          or c['asset_id'] in {f'BETA{i}' for i in range(1, 15, 2)}]
+    partial, report = build(data, profile='max', seed=heavy)
+    assert len(partial['members']) == 27 and report['passed']
+    expansion = report['stats']['quality']['expansion']
+    assert expansion['distribution_basis_added'] == 8
+    assert expansion['distribution']['11_A'] == dict(heavy=16, added=7, added_cap=7)
+    pool = {c['asset_id']:c for c in normalize_snapshot(expansion_fixture())['candidates']}
+    partial['members'].append(pool['BETA15'])
+    partial.pop('delivery')
+    assert not validate_universe(resign(partial))['passed']
+
+
+@pytest.mark.parametrize('action', [None, False, {}, [], 'ignore'])
+def test_malformed_shortfall_actions_fail_cleanly(action):
+    data, heavy = small_partial_fixture()
+    with pytest.raises(UniverseError, match='unknown shortfall_action'):
+        build(data, profile='max', seed=heavy, shortfall_action=action)

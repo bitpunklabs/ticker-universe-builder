@@ -29,6 +29,7 @@ from universe_core import (
 MODEL = "coverage_first"
 CORE_KINDS = {"leader", "peer"}
 REFERENCE_KINDS = {"index", "yield", "fx", "commodity", "etf", "spot", "future", "ratio"}
+MAX_PARTIAL_GAP_RATIO = 0.05
 
 
 def need(condition, message):
@@ -358,9 +359,20 @@ def expansion_distribution(seed, added_count):
                              for k, n in counts.items()}
 
 
+def partial_delivery(heavy_count, selected_count, policy):
+    required = expansion_minimum(heavy_count, policy)
+    missing = required - selected_count
+    need(selected_count > heavy_count and 0 < missing <= required * MAX_PARTIAL_GAP_RATIO,
+         "Max partial delivery requires positive growth and a gap within 5% of required entities")
+    return {"status": "partial", "reason": "max_growth_shortfall",
+            "required_entities": required, "shortfall": missing,
+            "allowed_gap_ratio": MAX_PARTIAL_GAP_RATIO}
+
+
 def quality_check(universe, policy, *, assembling=False):
     """Recompute the same gates for build, maintenance and stored-file validation."""
     p, profile = universe.get("coverage_plan"), universe["profile"]
+    need("delivery" not in universe or profile == "max", "partial delivery is Max-only")
     settings = policy.get("coverage", {})
     limits = settings.get("satellite_max", {})
     need(set(limits) == set(PROFILES), "policy needs four satellite ceilings")
@@ -466,12 +478,22 @@ def quality_check(universe, policy, *, assembling=False):
         minimum = expansion_minimum(len(old), policy)
         maximum = universe["limits"]["target_count"]
         added_count = len(members) - len(old)
-        mapping, heavy_groups, group_caps = expansion_distribution(seed, added_count)
+        delivery = universe.get("delivery")
+        if "delivery" in universe:
+            need(isinstance(delivery, dict)
+                 and integer(delivery.get("required_entities"), 1)
+                 and integer(delivery.get("shortfall"), 1)
+                 and delivery == partial_delivery(len(old), len(members), policy),
+                 "partial delivery metadata does not match the actual Max shortfall")
+        # Vacancies retain their original target-group allocation; partial delivery cannot
+        # move them to groups with plentiful candidates or change Heavy facts.
+        distribution_basis = minimum - len(old) if delivery else added_count
+        mapping, heavy_groups, group_caps = expansion_distribution(seed, distribution_basis)
         additions = Counter(mapping.get(c["theme_code"], c["theme_code"])
                             for k, c in by_asset.items() if k not in old)
         if not assembling:
             need(
-                len(members) >= minimum,
+                len(members) >= minimum or bool(delivery),
                 f"Max expansion needs research: Heavy={len(old)}, selected={len(members)}, "
                 f"required>={minimum}, entity_ceiling={maximum}, missing={max(0, minimum - len(members))}; "
                 "research more qualified Beta; do not weaken admission gates",
@@ -486,12 +508,14 @@ def quality_check(universe, policy, *, assembling=False):
             "growth": (len(members) - len(old)) / len(old),
             "min_entities": minimum,
             "max_entities": maximum,
+            **({"shortfall": minimum - len(members),
+                "distribution_basis_added": distribution_basis} if delivery else {}),
             "distribution": {k: {"heavy": n, "added": additions[k],
                                  "added_cap": group_caps[k]}
                              for k, n in sorted(heavy_groups.items())},
         }
     return {
-        "status": "qualified",
+        "status": "partial" if universe.get("delivery") else "qualified",
         "leader_coverage": round(share, 4),
         "roles": dict(kinds),
         "sectors": dict(sorted(counts.items())),
@@ -509,6 +533,9 @@ def build(spec, raw, policy, previous=None):
     snap = normalize_snapshot(raw)
     market, profile = snap["market"], spec.get("profile")
     need(spec.get("market") == market and profile in PROFILES, "spec market/profile mismatch")
+    shortfall_action = spec.get("shortfall_action", "auto")
+    need(isinstance(shortfall_action, str) and shortfall_action in {"auto", "deliver", "retry"},
+         "unknown shortfall_action")
     need(not spec.get("as_of") or spec["as_of"] == snap["as_of"], "spec/snapshot dates differ")
     plan = deepcopy(raw.get("coverage_plan"))
     sectors, branches, refs = plan_check(plan, snap["as_of"], snap["taxonomy"])
@@ -716,6 +743,10 @@ def build(spec, raw, policy, previous=None):
                     "reasons": ["not_selected_under_budget: depth, sector or satellite ceiling"],
                 }
             )
+    if profile == "max" and len(selected) < selection_target and shortfall_action != "retry":
+        missing = selection_target - len(selected)
+        if missing <= selection_target * MAX_PARTIAL_GAP_RATIO and len(selected) > len(previous["members"]):
+            base["delivery"] = partial_delivery(len(previous["members"]), len(selected), policy)
     base["version_hash"] = universe_hash(base)
     base["content_hash"] = content_hash(base)
     report = validate_universe(base, policy)

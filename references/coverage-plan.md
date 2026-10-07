@@ -129,3 +129,8 @@ Legacy `taxonomy --check` remains a display-table compatibility/preflight diagno
 0.6 economic feasibility test. Formal build/validate checks the coverage plan instead. Existing
 `measure`, qualification gates, content/version hashes, atomic artifacts and retry receipts remain
 in use. `validate` of a legacy record explicitly discloses the absence of coverage certification.
+
+A small growth-only shortfall may now be delivered as an explicit validated `partial`, never
+complete: gap <=5% of the required total entities, all member/core/identity/evidence and cap
+checks passed, planned group quotas retained. See [delivery contract](data-contracts.md#max-shortfall-delivery-071)
+and [recovery handler](recovery.md). Unmarked or larger shortfalls remain needs_research.

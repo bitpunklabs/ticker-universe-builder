@@ -146,6 +146,7 @@ def build(args: argparse.Namespace) -> int:
     result, code = run_build(
         spec=args.spec, snapshot=args.snapshot, output=args.output, policy=args.policy,
         seed=args.seed, language=args.language, run_dir=args.run_dir, resume=args.resume,
+        shortfall_action=args.shortfall_action,
     )
     print(json.dumps(result, ensure_ascii=False))
     return code
@@ -290,6 +291,8 @@ def parser() -> argparse.ArgumentParser:
     new.add_argument("--output", help="new, empty output directory")
     new.add_argument("--run-dir", help="checkpoint directory (default: OUTPUT.run)")
     new.add_argument("--resume", help="continue a checkpoint directory after repairing inputs")
+    new.add_argument("--shortfall-action", choices=("auto", "deliver", "retry"),
+                     help="Max: disclose/deliver count-only gaps within 5%%, or research/retry")
     new.add_argument(
         "--seed",
         help="existing base; coverage-first Max requires a qualified same-plan Heavy",

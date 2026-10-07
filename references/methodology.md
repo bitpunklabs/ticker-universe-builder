@@ -70,8 +70,8 @@ is not high beta; if it genuinely adds information, it belongs in `INDEPENDENT_S
    group h orders increments by h / (2 * added + 1), capped at ceil(h * total_added / Heavy).
    Recent heat and display-label weights do not enter. Stop at the minimum qualified growth.
 5. Validate again, including Max's at least 40% entity growth, then hash and render TXT/JSON/reports.
-   Unused capacity above that minimum is allowed. Missing backbone or expansion is a recoverable
-   research gap, not a completed production watchlist.
+   Unused capacity above that minimum is allowed. Missing backbone is a research gap. A small count-only expansion gap may be delivered
+   as explicit partial under the recovery contract; it is never complete.
 
 Light/Medium select leaders only. All declared leaders and necessary peers must enter Heavy;
 Max requires an embedded, validated same-date Heavy and adds satellites only. Rebuilding
@@ -81,8 +81,8 @@ is available only through the explicit archived example policy; it does not cert
 
 ## What the composite score is, and what it is not
 
-The existing measured score breaks ties between already-qualified satellites inside sector
-budgets. Heat is excluded. It cannot buy a place ahead of a necessary representative or excuse
+Coverage-first ranks qualified satellites by sourced market cap within the planned distribution.
+The legacy composite measured score applies only to archived replay. Heat is excluded. It cannot buy a place ahead of a necessary representative or excuse
 missing business/quality evidence. The old observation roles remain measurable descriptors;
 new admission roles (leader/peer/satellite) carry the researched selection function. Do not
 promote a BREADTH_PROXY, ANCHOR or high-beta candidate into leadership to fill capacity.

@@ -2194,6 +2194,9 @@ def validate_universe(
             from coverage_core import quality_check
             quality = quality_check(universe, policy)
             references = universe["coverage_plan"].get("references", [])
+            if quality["status"] == "partial":
+                warnings.append("PARTIAL Max: qualified members, but required expansion is not met; "
+                                f"shortfall={universe['delivery']['shortfall']}")
         except (UniverseError, KeyError, TypeError, ValueError) as exc:
             errors.append(str(exc))
     else:
@@ -2232,6 +2235,8 @@ def validate_universe(
         errors.append("content_hash does not match facts or provenance")
     return {
         "passed": not errors,
+        **({"qualified": not errors and quality is not None and quality["status"] == "qualified"}
+           if coverage_model else {}),
         "errors": errors,
         "warnings": warnings,
         "stats": {
@@ -2455,6 +2460,20 @@ def render_markdown(
         f"- {lex['label.market_rules']}{colon}{_glossed(lex, 'origin', 'declared')} · "
         f"{declaration['label']} · {', '.join(declaration['venues'])}"
     ] if declaration else []
+    partial_notice = []
+    if universe.get("delivery", {}).get("status") == "partial":
+        delivery = universe["delivery"]
+        filled = len(universe["members"])
+        if (language or report_language(universe)) == "zh-Hans":
+            held = len(universe["heavy_base"]["members"])
+            partial_notice = [f"- 交付状态：部分完成（PARTIAL），{filled} / "
+                              f"{delivery['required_entities']} 个实体，缺 {delivery['shortfall']} 个；"
+                              f"实际扩增 {(filled-held)/held:.2%}。标的与覆盖检查通过，扩增目标未达标；"
+                              "可使用当前版或继续补充。"]
+        else:
+            partial_notice = [f"- PARTIAL: {filled} / {delivery['required_entities']} "
+                              f"entities; missing {delivery['shortfall']}. Max growth target is not met; "
+                              "member/coverage checks passed. Deliver with disclosure or resume research."]
     lines = [
         "# " + lex["title"].format(market=universe["market"].upper()),
         "",
@@ -2463,6 +2482,7 @@ def render_markdown(
         f"- {lex['label.facts_as_of']}{colon}{universe['source_as_of']}",
         f"- {lex['label.version']}{colon}`{universe['version_hash']}`",
         f"- {lex['label.tickers']}{colon}{report['stats']['tickers']}",
+        *partial_notice,
         *([f"- PARTIAL: {len(universe['members'])} / {limits['target_count']} "
            "— requested size is not filled; continue research before calling this complete."]
           if len(universe['members']) < limits.get('target_count', 0)
@@ -2667,6 +2687,9 @@ def render_markdown(
                 f"- Required Max entities: at least {expansion['min_entities']}; "
                 f"entity ceiling {expansion['max_entities']} (references excluded)",
             ])
+            if expansion.get("shortfall"):
+                lines.append("- Partial group ceilings retain the planned growth allocation; "
+                             "unfilled places are not transferred to other groups.")
             lines.extend(["", "### Heavy → Max distribution", "",
                           "| Group | Heavy | Added Beta | Rounding ceiling |",
                           "|---|---:|---:|---:|"])
@@ -2706,7 +2729,8 @@ def artifact_stem(universe: dict[str, Any]) -> str:
     dropped in a downloads folder next to last quarter's. A file called `universe.txt` says
     nothing about which universe or when; the name has to carry that on its own.
     """
-    return f"{universe['market']}-{universe['profile']}-{universe['as_of']}"
+    suffix = "-partial" if universe.get("delivery", {}).get("status") == "partial" else ""
+    return f"{universe['market']}-{universe['profile']}-{universe['as_of']}{suffix}"
 
 
 def write_artifacts(
