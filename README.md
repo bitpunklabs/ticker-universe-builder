@@ -79,9 +79,13 @@ instrument bindings and an auditable Core migration. See the [0.6 design review]
 
 Light is leader-only. Medium covers most reviewed leaders. Heavy completes the necessary
 backbone plus at most 20% satellites; Max expands that same qualified Heavy with at most
-35% satellites overall, and must add at least 40% to Heavy's entity count entirely as qualified Beta.
-Entity budgets are ceilings; under-expansion retains a research checkpoint instead of publishing
-an undersized Max. Unused capacity above the minimum is allowed, and padding is never allowed.
+35% satellites overall, and must add at least 30% to Heavy's entity count entirely as qualified Beta.
+Coverage Beta means supplementary business/token coverage, ranked by sourced market cap; price
+beta, R² and stability are auxiliary measurements, not admission floors. Legacy high-beta replay
+retains its statistical gates.
+Entity budgets are ceilings; under-expansion retains a research checkpoint. A small count-only
+gap may be delivered as explicit partial under the recovery contract, never complete. Unused
+capacity above the minimum is allowed, and padding is never allowed.
 Reference indices, rates and other gauges are exported separately from entity budgets in the same TXT.
 Display theme weights and news heat do not allocate economic coverage.
 

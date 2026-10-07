@@ -38,6 +38,11 @@ fits R² jointly on the individual legs with an intercept; beta strength/stabili
 the equal-weight basket. Singular factor matrices produce no score. Crypto should declare its
 actual core anchors as factor legs. These models are different and the record states which ran.
 
+Coverage satellites use price Beta/R²/stability as optional descriptors. Missing factor statistics
+do not block business-complementary admission when listing, measured liquidity, identity and
+sourced cap pass; supplied statistics still require the measurement records above. Core and
+legacy role requirements remain unchanged. A high-beta price claim needs actual measurements.
+
 ## Equity theme gauges
 
 Use a researched map rather than silently substituting a broad index:

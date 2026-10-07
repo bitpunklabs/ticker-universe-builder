@@ -3,7 +3,7 @@ name: ticker-universe-builder
 description: Build and maintain auditable, evidence-gated ticker universes for fourteen markets at four depths, exported as TradingView watchlists. Not stock tips.
 allowed-tools: Read, Write, Bash, WebSearch, WebFetch
 metadata:
-  version: 0.7.1
+  version: 0.8.0
   homepage: https://github.com/bitpunklabs/ticker-universe-builder
   openclaw:
     emoji: "📋"
@@ -153,7 +153,7 @@ reported rather than dropped.
    rounds within the user's scope. Stop sooner when the accessible source universe is exhausted
    or a required external input is unavailable; explain that boundary and retain a continuation.
    A small mapped snapshot does not prove source exhaustion. Repair necessary coverage before
-   researching optional depth. Max must add at least 40% of Heavy's entity count, entirely as
+   researching optional depth. Max must add at least 30% of Heavy's entity count, entirely as
    qualified Beta. The shortfall handler defaults to `auto`: a count-only gap within 5% of the
    required entity count may be delivered as `partial`, with qualified members, unchanged Heavy
    and planned group quotas, explicit counts/growth, and `-partial` filenames. Every other check
@@ -190,8 +190,8 @@ To compare two universes — two sessions, two months, two people — run
 sessions that researched the venue list differently did not build two versions of one universe.
 
 Use `--seed heavy.json` for Max. It must be a qualified Heavy from the same plan and
-source date; only sourced, measured satellites may be added. For a narrower depth, rebuild from
-the same reviewed roster. Plan for at least `ceil(0.40 * H)` new entities, where `H`
+source date; only sourced satellites with measured liquidity may be added. For a narrower depth, rebuild from
+the same reviewed roster. Plan for at least `ceil(0.30 * H)` new entities, where `H`
 is the actual Heavy entity count. Check sector, satellite and export capacity before research;
 the new growth minimum does not waive those gates. Update Heavy first when facts or necessary representatives change.
 
@@ -199,7 +199,9 @@ The model researches core business leadership and quality, economic branches and
 For Beta, verify broad business/token identity, complementarity to named core members and sourced
 market cap; do not spend time on detailed profitability or tokenomics analysis. Eligible Beta
 are ranked by equity market cap (stocks) or circulating USD market cap (Crypto) within the
-planned distribution. All measured/liquidity/listing gates remain.
+planned distribution. Listing, sourced liquidity and measurement provenance remain mandatory. Price beta, R² and stability
+are auxiliary descriptors for coverage satellites, not admission thresholds or ranking inputs.
+Missing factor metrics are disclosed; legacy high-beta replay retains its numeric gates.
 Python owns evidence contracts, protected coverage, sector/satellite ceilings, identity, hashing
 and rendering. Never hand-write the final txt. See the [0.7 design](docs/design/0.7.0-heavy-shaped-max.md).
 
@@ -232,7 +234,7 @@ a note for a later round is how a universe rots: use `ADD_THEME`, `UPDATE_THEME`
 - Never select a name solely because it is popular or recently rose.
 - Preserve benchmarks and anchors before adding satellites.
 - Light is leader-only; Medium covers most reviewed leaders; Heavy completes the necessary
-  leader/peer skeleton plus at most 20% satellites; Max adds at least 40% to qualified Heavy,
+  leader/peer skeleton plus at most 20% satellites; Max adds at least 30% to qualified Heavy,
   entirely as Beta for complete delivery; a small count-only gap may be delivered explicitly
   as partial under the recovery contract. Max still has at most 35% satellites overall. The latter is a quality ceiling,
   distinct from the required expansion minimum.

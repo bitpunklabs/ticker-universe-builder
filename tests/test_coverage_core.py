@@ -174,14 +174,14 @@ def test_depth_roles_budgets_and_true_max_increment():
     medium, _ = build(profile="medium")
     heavy, report = build(target_count=12)
     max, final = build(profile="max", seed=heavy)
-    assert [len(u["members"]) for u in (light, medium, heavy, max)] == [4, 8, 12, 17]
+    assert [len(u["members"]) for u in (light, medium, heavy, max)] == [4, 8, 12, 16]
     assert {c["admission"]["kind"] for c in medium["members"]} == {"leader"}
     assert report["stats"]["quality"]["leader_coverage"] == 1
-    assert final["stats"]["quality"]["unused_capacity"] == 13
+    assert final["stats"]["quality"]["unused_capacity"] == 14
     assert final["stats"]["quality"]["expansion"] == dict(
-        heavy_entities=12, added_beta=5, growth=5 / 12, min_entities=17, max_entities=30,
-        distribution={"10_A": dict(heavy=6, added=3, added_cap=3),
-                      "11_A": dict(heavy=6, added=2, added_cap=3)})
+        heavy_entities=12, added_beta=4, growth=4 / 12, min_entities=16, max_entities=30,
+        distribution={"10_A": dict(heavy=6, added=2, added_cap=2),
+                      "11_A": dict(heavy=6, added=2, added_cap=2)})
     old = {c["asset_id"] for c in heavy["members"]}
     assert all(
         c["admission"]["kind"] == "satellite"
@@ -189,12 +189,12 @@ def test_depth_roles_budgets_and_true_max_increment():
         if c["asset_id"] not in old
     )
     assert (
-        len([c for c in max["members"] if c["admission"]["kind"] == "satellite"]) / 17 <= 0.35
+        len([c for c in max["members"] if c["admission"]["kind"] == "satellite"]) / 16 <= 0.35
     )
 
 
 def expansion_fixture():
-    """Twenty protected core entities allow exact 40% and above-minimum capacity checks."""
+    """Twenty protected core entities allow exact 30% and above-minimum capacity checks."""
     data = researched()
     plan = data["coverage_plan"]
     plan["budgets"].update(heavy=30, max=50)
@@ -211,7 +211,7 @@ def expansion_fixture():
     return data
 
 
-@pytest.mark.parametrize("target,expected", [(28, 28), (29, 28), (50, 28)])
+@pytest.mark.parametrize("target,expected", [(26, 26), (27, 26), (50, 26)])
 def test_max_growth_minimum_and_existing_capacity_ceilings(target, expected):
     data = expansion_fixture()
     heavy, _ = build(data, target_count=20)
@@ -226,19 +226,19 @@ def test_max_can_complete_at_lower_edge_without_filling_upper_ceiling():
     data = expansion_fixture()
     data["candidates"] = [c for c in data["candidates"]
                           if c["admission"]["kind"] != "satellite"
-                          or c["asset_id"] in {f"BETA{i}" for i in range(8)}]
+                          or c["asset_id"] in {f"BETA{i}" for i in range(6)}]
     heavy, _ = build(data, target_count=20)
     max, report = build(data, profile="max", seed=heavy)
-    assert len(max["members"]) == 28
-    assert report["passed"] and report["stats"]["quality"]["unused_capacity"] == 22
+    assert len(max["members"]) == 26
+    assert report["passed"] and report["stats"]["quality"]["unused_capacity"] == 24
 
 
-@pytest.mark.parametrize("count,minimum", [(457, 640), (370, 518), (50, 70), (2, 3)])
+@pytest.mark.parametrize("count,minimum", [(457, 595), (370, 481), (50, 65), (2, 3)])
 def test_max_entity_rounding_for_reviewed_heavy_sizes(count, minimum):
     assert expansion_minimum(count, load_policy()) == minimum
 
 
-@pytest.mark.parametrize("rule", [None, {}, {"min": 0.39}, {"min": 0.4, "max": 0.5},
+@pytest.mark.parametrize("rule", [None, {}, {"min": 0.29}, {"min": 0.4, "max": 0.5},
                                    {"min": True}, {"min": float("nan")},
                                    {"min": float("inf")}])
 def test_policy_cannot_waive_growth_minimum(rule):
@@ -258,7 +258,7 @@ def test_max_reports_infeasible_capacity_and_satellite_share():
     data = expansion_fixture()
     heavy, _ = build(data, target_count=20)
     with pytest.raises(UniverseError, match="plan/spec ceiling"):
-        build(data, profile="max", seed=heavy, target_count=27)
+        build(data, profile="max", seed=heavy, target_count=25)
     # The original fixture fills Heavy to 20% Beta. Do not silently waive its
     # Max satellite-share gate or drop core facts to meet the growth promise.
     dense_heavy, _ = build()
@@ -273,16 +273,16 @@ def test_max_growth_does_not_count_references_or_override_export_cap():
              observes="US ten-year Treasury yield", evidence=evidence())]
     heavy, _ = build(data, target_count=20)
     max, report = build(data, profile="max", seed=heavy)
-    assert len(max["members"]) == 28 and report["stats"]["exported_tickers"] == 29
+    assert len(max["members"]) == 26 and report["stats"]["exported_tickers"] == 27
     assert report["stats"]["quality"]["expansion"]["heavy_entities"] == 20
     with pytest.raises(UniverseError, match="expansion needs research"):
-        build(data, profile="max", seed=heavy, hard_ticker_cap=28, shortfall_action="retry")
+        build(data, profile="max", seed=heavy, hard_ticker_cap=26, shortfall_action="retry")
 
 
 def test_stored_validation_and_maintenance_enforce_growth():
     data = expansion_fixture()
     heavy, _ = build(data, target_count=20)
-    max, _ = build(data, profile="max", seed=heavy, target_count=28)
+    max, _ = build(data, profile="max", seed=heavy, target_count=26)
     beta = next(c for c in max["members"] if c["admission"]["kind"] == "satellite")
     changes = change_set(max, [dict(op="REMOVE", ticker=beta["ticker"],
                                        reason="fixture", evidence=evidence())])
@@ -296,7 +296,7 @@ def test_stored_validation_and_maintenance_enforce_growth():
     assert not report["passed"] and any("expansion needs research" in e for e in report["errors"])
     over = deepcopy(max)
     selected = {c["asset_id"] for c in over["members"]}
-    extra = [c for c in data["candidates"] if c["asset_id"] not in selected][:2]
+    extra = [c for c in data["candidates"] if c["asset_id"] not in selected][:4]
     pool = {c["asset_id"]: c for c in normalize_snapshot(data)["candidates"]}
     over["members"].extend(pool[c["asset_id"]] for c in extra)
     over["limits"]["target_count"] = 50
@@ -315,14 +315,14 @@ def test_max_shortfall_is_resumable_and_never_published(tmp_path):
     incomplete = deepcopy(data)
     incomplete["candidates"] = [c for c in data["candidates"]
                                 if c["admission"]["kind"] != "satellite"
-                                or c["asset_id"] in {f"BETA{i}" for i in range(7)}]
+                                or c["asset_id"] in {f"BETA{i}" for i in range(5)}]
     sp, sn, seed = (tmp_path / n for n in ("spec.json", "snapshot.json", "heavy.json"))
     sp.write_text(json.dumps(dict(schema_version=1, market="us", profile="max", shortfall_action="retry")))
     sn.write_text(json.dumps(incomplete))
     seed.write_text(json.dumps(heavy))
     result, code = run_build(spec=str(sp), snapshot=str(sn), seed=str(seed), output=str(tmp_path / "out"))
     assert code == 2 and result["status"] == "needs_research"
-    assert "selected=27" in result["error"] and "missing=1" in result["error"]
+    assert "selected=25" in result["error"] and "missing=1" in result["error"]
     assert result["diagnostics"]["expansion"]["minimum_candidate_gap"] == 1
     assert not (tmp_path / "out").exists()
     resume = str(Path(result["checkpoint"]).parent)
@@ -331,7 +331,7 @@ def test_max_shortfall_is_resumable_and_never_published(tmp_path):
     sn.write_text(json.dumps(data))
     repaired, code = run_build(spec=None, snapshot=None, output=None, resume=resume)
     assert code == 0 and repaired["status"] == "complete"
-    assert repaired["expansion"]["added"] == 8 and repaired["filled"] == 28
+    assert repaired["expansion"]["added"] == 6 and repaired["filled"] == 26
     assert json.loads(Path(result["inputs_archive"]).read_text())["snapshot"] == incomplete
 
 
@@ -351,8 +351,8 @@ def test_max_uses_heavy_proportions_not_inverse_sector_counts():
     heavy, _ = build(data, target_count=20)
     result, report = build(data, profile='max', seed=heavy)
     distribution = report['stats']['quality']['expansion']['distribution']
-    assert distribution['10_A'] == dict(heavy=4, added=2, added_cap=2)
-    assert distribution['11_A'] == dict(heavy=16, added=6, added_cap=7)
+    assert distribution['10_A'] == dict(heavy=4, added=1, added_cap=2)
+    assert distribution['11_A'] == dict(heavy=16, added=5, added_cap=5)
     old = {c['asset_id']: c for c in heavy['members']}
     assert all(c == old[c['asset_id']] for c in result['members'] if c['asset_id'] in old)
     # A resigned artifact still cannot concentrate all increments in one group.
@@ -700,6 +700,66 @@ def test_beta_cap_ranking_does_not_require_detailed_quality():
     assert 'Market cap (Beta)' in __import__('universe_core').render_markdown(heavy, report)
 
 
+@pytest.mark.parametrize('price_metrics', [
+    dict(factor_r2=5, beta_strength=10, beta_stability=20, independence=95),
+    dict(factor_r2=None, beta_strength=None, beta_stability=None, independence=None),
+])
+@pytest.mark.parametrize('market', ['us', 'crypto'])
+def test_supplementary_beta_price_metrics_are_descriptors(market, price_metrics):
+    data = researched()
+    data['market'] = market
+    for c in data['candidates']:
+        if market == 'crypto':
+            c['ticker'] = 'BINANCE:' + c['asset_id'] + 'USDT.P'
+            c['admission'].update(ecosystem_id=c['asset_id'], token_role='Fixture token function',
+                                  instrument=dict(kind='perpetual', quote_currency='USDT', units=1))
+        if c['admission']['kind'] == 'satellite':
+            c['metrics'].update(price_metrics)
+            c['admission'].pop('quality')
+            if market == 'crypto':
+                c['admission']['market_cap']['basis'] = 'circulating'
+    result, report = build_universe(dict(schema_version=1, market=market, profile='heavy'),
+                                    data, load_policy())
+    assert report['qualified'] and len(result['members']) == 15
+    assert validate_universe(result)['qualified']
+    beta = next(c for c in result['members'] if c['admission']['kind'] == 'satellite')
+    changes = change_set(result, [dict(op='REFRESH', ticker=beta['ticker'],
+                                      candidate=deepcopy(beta), reason='Fixture facts unchanged', evidence=evidence())])
+    changes['market'] = market
+    changes['as_of'] = result['source_as_of']
+    maintained, checked = apply_change_set(result, changes, load_policy())
+    assert checked['passed']
+    before = {c['ticker']: (c['metrics'], c['admission']) for c in result['members']}
+    assert {c['ticker']: (c['metrics'], c['admission']) for c in maintained['members']} == before
+    # Archived high-price-beta interpretation is still strict, even with admissions present.
+    with pytest.raises(UniverseError, match='BETA_SATELLITE|require factor_r2'):
+        normalize_snapshot(data)
+
+
+def test_optional_price_statistics_still_need_factor_provenance():
+    data = researched()
+    beta = data['candidates'][12]
+    beta['metrics'].update(factor_r2=None, independence=None)
+    beta['measurement_record'].update(observations=0, benchmarks=[])
+    with pytest.raises(UniverseError, match='factor record'):
+        build(data)
+    beta['metrics'].update(beta_strength=None, beta_stability=None)
+    result, _ = build(data)
+    assert validate_universe(result)['qualified']
+    beta['metrics']['liquidity'] = None
+    with pytest.raises(UniverseError, match='liquidity'):
+        build(data)
+
+
+def test_crypto_core_still_requires_factor_metrics():
+    data = researched()
+    data['market'] = 'crypto'
+    data['candidates'][0].update(ticker='BINANCE:CORE0USDT.P')
+    data['candidates'][0]['metrics'].update(factor_r2=None, independence=None)
+    with pytest.raises(UniverseError, match='require factor_r2'):
+        build_universe(dict(schema_version=1, market='crypto', profile='heavy'), data, load_policy())
+
+
 @pytest.mark.parametrize('patch, error', [
     ({'value': 0}, 'positive sourced'),
     ({'value': float('nan')}, 'positive sourced'),
@@ -737,7 +797,7 @@ def small_partial_fixture():
     heavy, _ = build(data, target_count=20)
     data['candidates'] = [c for c in data['candidates']
                           if c['admission']['kind'] != 'satellite'
-                          or c['asset_id'] in {f'BETA{i}' for i in range(7)}]
+                          or c['asset_id'] in {f'BETA{i}' for i in range(5)}]
     return data, heavy
 
 
@@ -756,7 +816,7 @@ def test_partial_contract_recomputes_counts_and_preserves_member_gates():
                  lambda u: next(c for c in u['members'] if c['admission']['kind']=='leader')['admission'].update(quality=''),
                  lambda u: u['members'][0].update(eligible=False),
                  lambda u: u['members'][0]['listing'].update(status='inactive'),
-                 lambda u: u['members'][0]['metrics'].update(beta_strength=1),
+                 lambda u: u['members'][0]['measurement_record'].update(data_sha256='invalid'),
                  lambda u: u['limits'].update(tradingview_token_cap=10)]:
         changed = deepcopy(partial);edit(changed)
         assert not validate_universe(resign(changed))['passed']
@@ -776,17 +836,17 @@ def test_partial_distribution_keeps_planned_quotas_and_never_borrows_slots():
                                     if c['admission']['kind'] in {'leader', 'peer'}
                                     and c['admission']['branch'] == branch['id']]
     heavy, _ = build(data, target_count=20)
-    # Seven tech candidates, no bank candidates: one vacancy remains, planned tech cap is 7.
+    # Five tech candidates, no bank candidates: one vacancy remains, planned tech cap is 5.
     data['candidates'] = [c for c in data['candidates']
                           if c['admission']['kind'] != 'satellite'
-                          or c['asset_id'] in {f'BETA{i}' for i in range(1, 15, 2)}]
+                          or c['asset_id'] in {f'BETA{i}' for i in range(1, 11, 2)}]
     partial, report = build(data, profile='max', seed=heavy)
-    assert len(partial['members']) == 27 and report['passed']
+    assert len(partial['members']) == 25 and report['passed']
     expansion = report['stats']['quality']['expansion']
-    assert expansion['distribution_basis_added'] == 8
-    assert expansion['distribution']['11_A'] == dict(heavy=16, added=7, added_cap=7)
+    assert expansion['distribution_basis_added'] == 6
+    assert expansion['distribution']['11_A'] == dict(heavy=16, added=5, added_cap=5)
     pool = {c['asset_id']:c for c in normalize_snapshot(expansion_fixture())['candidates']}
-    partial['members'].append(pool['BETA15'])
+    partial['members'].append(pool['BETA11'])
     partial.pop('delivery')
     assert not validate_universe(resign(partial))['passed']
 

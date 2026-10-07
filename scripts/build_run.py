@@ -29,7 +29,7 @@ def save(path: Path, value: dict) -> None:
 def diagnostics(spec: dict, snapshot: dict, policy: dict, seed: dict | None = None) -> dict:
     """Admission checks are the core's; these counts never authorize a build."""
     try:
-        normalized = normalize_snapshot(snapshot)
+        normalized = normalize_snapshot(snapshot, coverage_first=policy.get("selection_model") == "coverage_first")
         if policy.get("selection_model") == "coverage_first":
             result = {
                 "selection_model": "coverage_first",
@@ -76,24 +76,23 @@ def diagnostics(spec: dict, snapshot: dict, policy: dict, seed: dict | None = No
                     "strategy": [
                         "Review primary business assignments and peer gauges; correct facts, not fit-chase.",
                         "Research candidates in deficient groups; do not redirect their places to surplus groups.",
-                        "If beta >= 1.1 is the binding gate, compare a disclosed beta >= 1.0 policy offline; "
-                        "do not change thresholds or roles silently.",
+                        "Check broad business, named-core complementarity, sourced market cap and liquidity; "
+                        "price beta is descriptive, not an admission floor.",
                         "Resume with materially revised sourced inputs; keep previous deliveries.",
                     ],
                 }
                 bench = [c for c in normalized["candidates"]
                          if c["asset_id"] not in held
                          and (c.get("admission") or {}).get("kind") == "satellite"]
-                result["recovery"]["beta_gates"] = {
-                    metric: {"threshold": floor,
-                             "below": sum(c["metrics"].get(metric) is not None
-                                          and c["metrics"][metric] < floor for c in bench),
+                result["recovery"]["price_diagnostics"] = {
+                    metric: {"required": False,
+                             "available": sum(c["metrics"].get(metric) is not None for c in bench),
                              "missing": sum(c["metrics"].get(metric) is None for c in bench)}
-                    for metric, floor in (("factor_r2", 30), ("beta_strength", 55), ("beta_stability", 50))
+                    for metric in ("factor_r2", "beta_strength", "beta_stability")
                 }
                 result["recovery"]["metric_count_note"] = (
-                    "Overlapping counts over the researched non-Heavy satellite bench; "
-                    "not a claim that every excluded candidate is otherwise admissible.")
+                    "Auxiliary price metrics over the researched non-Heavy satellite bench; "
+                    "availability is not an admission gate or proof of business quality.")
             return result
         guide = market_guidance(spec["market"], policy, normalized["market_spec"])
         stages = {}

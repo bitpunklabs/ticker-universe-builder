@@ -1328,6 +1328,8 @@ def normalize_candidate(
     market: str | MarketSpec,
     raw: dict[str, Any],
     taxonomy_by_code: dict[str, dict[str, Any]],
+    *,
+    coverage_first: bool = False,
 ) -> dict[str, Any]:
     ticker = str(raw.get("ticker", "")).strip().upper()
     ticker_errors = validate_ticker(market, ticker)
@@ -1376,7 +1378,12 @@ def normalize_candidate(
     if eligible and metrics["liquidity"] is None and role not in {"BENCHMARK", "ANCHOR"}:
         raise UniverseError(f"{ticker}: non-anchor candidate requires a liquidity score")
     spec = _spec(market)
-    if eligible and spec.factor_r2_required and role not in FACTOR_EXEMPT_ROLES:
+    # Coverage satellites describe supplementary businesses, not a price amplifier.
+    # The admission contract is checked independently; legacy roles retain their gates.
+    supplementary_beta = (coverage_first and role == "BETA_SATELLITE"
+                          and isinstance(raw.get("admission"), dict)
+                          and raw["admission"].get("kind") == "satellite")
+    if eligible and spec.factor_r2_required and role not in FACTOR_EXEMPT_ROLES and not supplementary_beta:
         if metrics["factor_r2"] is None:
             raise UniverseError(
                 f"{ticker}: established {spec.code} candidates require factor_r2"
@@ -1385,13 +1392,13 @@ def normalize_candidate(
         metrics["independence"] is None or metrics["independence"] < 50
     ):
         raise UniverseError(f"{ticker}: INDEPENDENT_SENSOR requires independence >= 50")
-    if eligible and role == "BETA_SATELLITE" and (
+    if eligible and role == "BETA_SATELLITE" and not supplementary_beta and (
         metrics["beta_strength"] is None or metrics["beta_stability"] is None
     ):
         raise UniverseError(f"{ticker}: BETA_SATELLITE requires beta_strength and beta_stability")
     if eligible and metrics["independence"] is not None and metrics["factor_r2"] is None:
         raise UniverseError(f"{ticker}: independence requires measured factor_r2")
-    if eligible and role == "BETA_SATELLITE" and (
+    if eligible and role == "BETA_SATELLITE" and not supplementary_beta and (
         metrics["factor_r2"] is None or metrics["factor_r2"] < 30
         or metrics["beta_strength"] < 55 or metrics["beta_stability"] < 50
     ):
@@ -1455,7 +1462,7 @@ def normalize_candidate(
     return candidate
 
 
-def normalize_snapshot(snapshot: dict[str, Any]) -> dict[str, Any]:
+def normalize_snapshot(snapshot: dict[str, Any], *, coverage_first: bool = False) -> dict[str, Any]:
     rules, declaration = resolve_market(
         snapshot.get("market", ""), snapshot.get("market_spec")
     )
@@ -1473,7 +1480,7 @@ def normalize_snapshot(snapshot: dict[str, Any]) -> dict[str, Any]:
         raise UniverseError("snapshot taxonomy is empty")
     taxonomy_by_code = {item["theme_code"]: item for item in taxonomy}
     candidates = [
-        normalize_candidate(rules, item, taxonomy_by_code)
+        normalize_candidate(rules, item, taxonomy_by_code, coverage_first=coverage_first)
         for item in snapshot.get("candidates") or []
     ]
     fact_errors = candidate_date_errors(candidates, str(snapshot["as_of"]))
@@ -1548,7 +1555,8 @@ def candidate_date_errors(candidates: list[dict], as_of: str) -> list[str]:
                 or record["liquidity_observations"] < 1
             ):
                 errors.append(f"{item['ticker']}: liquidity record requires observations")
-            if item["metrics"].get("factor_r2") is not None and (
+            if any(item["metrics"].get(k) is not None
+                   for k in ("factor_r2", "beta_strength", "beta_stability")) and (
                 not isinstance(record.get("observations"), int)
                 or record["observations"] < 30 or not record.get("benchmarks")
             ):
@@ -2070,7 +2078,8 @@ def validate_universe(
         errors.append(str(exc))
     for index, raw in enumerate(members):
         try:
-            item = normalize_candidate(rules or market, raw, taxonomy_by_code)
+            item = normalize_candidate(rules or market, raw, taxonomy_by_code,
+                                       coverage_first=universe.get("selection_model") == "coverage_first")
         except UniverseError as exc:
             errors.append(f"member #{index}: {exc}")
             continue
@@ -2501,7 +2510,8 @@ def render_markdown(
         *([
             f"- {lex['label.partially_scored']}{colon}"
             f"{report['stats']['partially_scored']} / {report['stats']['tickers']}"
-        ] if report["stats"].get("partially_scored") else []),
+        ] if report["stats"].get("partially_scored")
+          and universe.get("selection_model") != "coverage_first" else []),
         # Where the universe concentrated, beside what its own table asked for. Nothing caps a
         # theme any more, so this line is how a reader tells a market that really is one theme
         # deep from a taxonomy whose weights were never revisited.
@@ -2981,7 +2991,8 @@ def apply_change_set(
             taxonomy_by_code = {item["theme_code"]: item for item in universe["taxonomy"]}
         elif name == "REFRESH":
             index, old = locate(op.get("ticker", ""))
-            refreshed = normalize_candidate(rules, op.get("candidate") or {}, taxonomy_by_code)
+            refreshed = normalize_candidate(rules, op.get("candidate") or {}, taxonomy_by_code,
+                                            coverage_first=universe.get("selection_model") == "coverage_first")
             keys = ("ticker", "asset_id", "theme_code", "role", "required")
             if any(refreshed[k] != old[k] for k in keys) or not refreshed["eligible"]:
                 raise UniverseError(f"{subject}: REFRESH must preserve membership and role")
@@ -3014,7 +3025,8 @@ def apply_change_set(
         elif name in {"ADD", "REPLACE"}:
             candidate_input = deepcopy(op.get("candidate") or {})
             candidate_input["evidence"] = deepcopy(evidence)
-            candidate = normalize_candidate(rules, candidate_input, taxonomy_by_code)
+            candidate = normalize_candidate(rules, candidate_input, taxonomy_by_code,
+                                            coverage_first=universe.get("selection_model") == "coverage_first")
             if not candidate["eligible"]:
                 raise UniverseError(f"op #{original_index}: candidate is not eligible")
             candidate["reason"] = reason or candidate["reason"]

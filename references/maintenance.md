@@ -17,7 +17,8 @@ checks. Removing a necessary leader or changing an admission cannot bypass the r
 to the economic plan or Core migration decisions require a researched rebuild of Heavy; then
 rebuild Max against that Heavy. References are part of that immutable plan, so a reference
 substitution also follows this path. Max maintenance may not change its embedded Heavy's
-facts or bindings, fall below 40% growth or exceed 40% growth relative to Heavy's entity count.
+facts or bindings, fall below 30% growth relative to Heavy's entity count. Sector, satellite, entity and export ceilings
+still bound expansion; there is no separate percentage growth ceiling.
 The existing operation engine remains for valid local maintenance.
 
 ## Three review depths

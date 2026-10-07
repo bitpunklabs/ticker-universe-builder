@@ -7,7 +7,7 @@ The run index is updated atomically. Use a single writer per checkpoint.
 
 | Exit | Status | Meaning |
 |---|---|---|
-| 0 | `complete` | All quality gates passed, including Max growth of at least 40%; unused capacity above the minimum is allowed (legacy replay: count filled) |
+| 0 | `complete` | All quality gates passed, including Max growth of at least 30%; unused capacity above the minimum is allowed (legacy replay: count filled) |
 | 2 | `needs_research` | Input, coverage, seed or output error prevented publication |
 | 3 | `partial` | Disclosed valid subset: near-target Max growth gap, or legacy below-size replay |
 
@@ -19,7 +19,7 @@ requests the same delivery branch, while `retry` always requires full growth. CL
 - **Deliver:** the only unmet requirement is growth; deficit is at most 5% of required total
   entities, positive Beta growth, and all other checks pass. Emit `partial` (exit 3), explicit
   actual/required counts, growth and deficit, `qualified: false`, `-partial` filenames, and a
-  continuation. For Heavy 457, minimum 640, selected 613: deficit 27/640=4.22%, so deliver.
+  continuation. For Heavy 457, minimum 595, selected 580: deficit 15/595=2.52%, so deliver.
   Planned group ceilings remain frozen; empty places are not transferred.
 - **Analyze and retry:** larger gaps, invalid facts or explicit retry choice yield
   `needs_research` (exit 2). Diagnostics distinguish candidate supply, group distribution, and
@@ -28,10 +28,9 @@ requests the same delivery branch, while `retry` always requires full growth. CL
   or relax gates automatically. A disclosed threshold-policy change needs methodological
   justification and uniform remeasurement; it must not cherry-pick members or fit.
 
-Current R²>=30, beta strength>=55 (approximately positive beta>=1.1) and stability>=50 stay
-unchanged. Candidate size alone is not proof of a high-beta price response. Lowering strength
-to 50 (approximately beta>=1.0) would redefine the intended price exposure and needs a
-separately disclosed policy; identity, listing, measured data and core coverage stay mandatory.
+Coverage satellites use broad business, named-core complementarity and sourced market cap.
+Price Beta/R²/stability are auxiliary diagnostics, not hard floors. Identity, listing, measured
+liquidity, provenance and core coverage remain mandatory; legacy high-beta gates are unchanged.
 The error/receipt and `diagnostics.expansion` show proposed capacity before remaining caps;
 `diagnostics.recovery` lists deficient groups and research strategies. Outside Max growth,
 target-fill diagnostics apply to legacy replay only.

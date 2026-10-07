@@ -7,7 +7,7 @@ Depth describes representative coverage, not how many codes a data provider can 
 | Light | Concise leader-only skeleton | 0% |
 | Medium | Most reviewed leaders (at least 70% of the declared roster) | 0% |
 | Heavy | All reviewed leaders and necessary differentiated peers | 20% |
-| Max | The same qualified Heavy, expanded by at least 40% with justified measured Beta | 35% total |
+| Max | The same qualified Heavy, expanded by at least 30% with justified supplementary Beta | 35% total |
 
 These proportions are explicit starting constraints, not empirically optimal weights. A leader
 may itself have high measured beta; admission role describes its function, not volatility.
@@ -36,15 +36,15 @@ industries. A shortage of qualified optional candidates leaves Max in `needs_res
 it is not proof that the market has no more candidates.
 
 Max must use `--seed heavy.json`, from the same market, plan and source date. Every retained
-member and instrument binding stays identical. Every new member must be a sourced, measured
-satellite; missing necessary representatives must be repaired in Heavy first. No theme has to
-expand. For Heavy's actual entity count `H`, add at least `ceil(H * 0.40)` Beta entities.
+member and instrument binding stays identical. Every new member must be a sourced satellite
+with measured liquidity; missing necessary representatives must be repaired in Heavy first. No theme has to
+expand. For Heavy's actual entity count `H`, add at least `ceil(H * 0.30)` Beta entities.
 References never enter either count. There is no separate growth upper bound: the plan/spec
 entity ceiling, economic sector caps, total satellite share and export limits still bind.
-A plan/spec ceiling below `H + ceil(H * 0.40)` blocks the build.
+A plan/spec ceiling below `H + ceil(H * 0.30)` blocks the build.
 
 Growth and total satellite share are different constraints. For example, a Heavy already at
-20% satellites cannot grow 40% entirely through Beta while keeping Max at 35% satellites.
+20% satellites cannot grow 30% entirely through Beta while keeping Max at 35% satellites.
 An infeasible pair of constraints, sector/export limits must be reported explicitly; never drop protected members, relabel roles or loosen gates.
 Below-minimum results retain a resumable research checkpoint, not a completed watchlist.
 
@@ -54,5 +54,5 @@ The 60/160/400/580 bases, market breadth multipliers, taxonomy coverage levels a
 remain for archived 0.4/0.5 replay and legacy display-table checks. They do not size or allocate
 new coverage-first builds. Use [legacy-policy.json](../examples/legacy-policy.json) explicitly to
 reproduce historical examples; their validation does not certify current coverage quality.
-Previously published coverage-first Max files below 40% growth are historical outputs;
+Previously published coverage-first Max files below 30% growth are historical outputs;
 they do not pass the current contract and must be expanded before republication.

@@ -50,26 +50,28 @@ number of display headings. Preserve direct indices/yields separately from trada
 | `ANCHOR` | Structural anchor that cannot be dropped casually | core |
 | `THEME_LEADER` | Strongest leadership inside its theme | core |
 | `QUALITY_LEADER` | Business durability or asset quality representative | core |
-| `BETA_SATELLITE` | High-beta amplifier of a theme or market shock | satellite |
+| `BETA_SATELLITE` | Supplementary business/token coverage; price beta is descriptive | satellite |
 | `INDEPENDENT_SENSOR` | Price sensor the main rulers do not explain | satellite |
 | `BREADTH_PROXY` | Cold sector, supply-chain position or market breadth | satellite |
 | `LIQUIDITY_SENSOR` | Short-horizon sensor for turnover and speculative appetite | tactical |
 | `NEW_LISTING` | Recently listed name that already clears the basic trading floor | tactical |
 
-A high-beta claim must report beta, R² and multi-window stability together. A candidate with low R²
-is not high beta; if it genuinely adds information, it belongs in `INDEPENDENT_SENSOR`.
+A high-price-beta claim still needs measured beta, R² and stability together. Coverage satellites
+do not make that claim merely by holding the role: broad business, named-core complementarity
+and sourced market cap determine admission. Low or missing price beta is disclosed, not rejected.
+Legacy replay preserves its separate high-beta and independent-price-sensor roles.
 
 ## Deterministic selection order
 
 1. Validate the sourced market plan, complete core roster, instrument identity and admissions.
 2. Select every necessary leader/peer due at the depth; fail if missing or infeasible.
 3. Check Core migration decisions and economic branch coverage before optional additions.
-4. For Heavy/Max only, add measured Beta with sourced market cap, broad business validity and incremental value,
+4. For Heavy/Max only, add supplementary Beta with measured liquidity, sourced market cap, broad business validity and incremental value,
    within hard sector, satellite-share, entity and TradingView ceilings. Heavy optional seats
    use stable sector weights. Max follows the frozen Heavy display-group entity proportions:
    group h orders increments by h / (2 * added + 1), capped at ceil(h * total_added / Heavy).
    Recent heat and display-label weights do not enter. Stop at the minimum qualified growth.
-5. Validate again, including Max's at least 40% entity growth, then hash and render TXT/JSON/reports.
+5. Validate again, including Max's at least 30% entity growth, then hash and render TXT/JSON/reports.
    Unused capacity above that minimum is allowed. Missing backbone is a research gap. A small count-only expansion gap may be delivered
    as explicit partial under the recovery contract; it is never complete.
 

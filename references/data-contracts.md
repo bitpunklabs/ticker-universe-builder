@@ -9,11 +9,11 @@ before creating a new snapshot. `target_count` is an entity ceiling, excludes re
 defaults to the plan budget. Light/Medium are leader-only; Heavy protects the reviewed backbone;
 Max requires the same-date qualified Heavy seed. Default builds never use legacy bucket
 fallbacks. A qualified under-ceiling result is complete with `unused_capacity` only when all
-gates pass. A complete Max must grow by at least 40% in entities, with all additions admitted as satellites;
+gates pass. A complete Max must grow by at least 30% in entities, with all additions admitted as satellites;
 under-expansion or unresolved coverage is `needs_research`.
 
-`policy.coverage.max_expansion` is `{ "min": 0.40 }`. The minimum must be finite
-and at least `0.40`; a custom policy may tighten it. For actual Heavy entity count `H`,
+`policy.coverage.max_expansion` is `{ "min": 0.30 }`. The minimum must be finite
+and at least `0.30`; a custom policy may tighten it. For actual Heavy entity count `H`,
 require at least `H + ceil(H * min)` entities. There is no separate growth upper bound:
 plan/spec entity budgets, economic sector caps, total satellite share and export limits still bind.
 Reference instruments are excluded. `stats.quality.expansion` reports `heavy_entities`,
@@ -43,9 +43,12 @@ An active quotation is evidence of tradability at the stated date, not proof of 
 Listing checks expire after 30 calendar days; observations dated after the snapshot are refused.
 Ineligible candidates may omit listing facts but must retain their exclusion code and evidence.
 
-`independence` is measured-only and must be derived from `factor_r2`. A `BETA_SATELLITE` needs
-`factor_r2 >= 30`, `beta_strength >= 55` (positive beta >= 1.1) and `beta_stability >= 50`.
-These starting thresholds are disclosed constants, not empirically universal guarantees.
+`independence` is measured-only and must be derived from `factor_r2`. In coverage-first builds,
+`BETA_SATELLITE` with `admission.kind: satellite` means a supplementary business/token observation.
+Price `factor_r2`, `beta_strength` and `beta_stability` are optional descriptors, never admission
+floors or capitalization-ranking inputs. Supplied statistics still need valid measured provenance,
+including at least 30 overlapping returns and gauge legs. Liquidity remains required and measured.
+Legacy high-beta roles retain R² >= 30, strength >= 55 (positive beta >= 1.1) and stability >= 50.
 
 `measure` writes per-ticker `measurement_record`: as-of date, source, input SHA-256, actual
 first/last observation dates, factor legs/model and observation counts. It clears old measured
@@ -285,9 +288,9 @@ Role-specific requirements the builder enforces:
 |---|---|
 | any non-anchor | `liquidity` |
 | `INDEPENDENT_SENSOR` | `independence >= 50` |
-| `BETA_SATELLITE` | `beta_strength` and `beta_stability` |
+| legacy `BETA_SATELLITE` | `beta_strength` and `beta_stability`; coverage satellites require measured liquidity, with factor metrics optional |
 | `LIQUIDITY_SENSOR`, `NEW_LISTING` | `heat` |
-| established Crypto members | `factor_r2` |
+| established Crypto core / legacy members | `factor_r2`; coverage satellites may omit factor metrics |
 
 `null` means not measurable. It is not a bad score, and it must not be replaced by a low one.
 It is also not free: a member is scored against the **full** weight of its bucket's fields, so an
@@ -448,7 +451,7 @@ UTC timestamps, status, diagnostics and output artifact paths when present. Each
 contains the parsed spec/snapshot/resolved policy/seed and language, not executable instructions.
 Statuses are `running`, `needs_research`, `partial`, `complete`. A validated subset remains
 `partial` until it fills the original target in legacy replay. Coverage-first completion instead
-requires quality acceptance, including Max's minimum 40% growth; capacity above the minimum
+requires quality acceptance, including Max's minimum 30% growth; capacity above the minimum
 may remain unused. See [recovery.md](recovery.md) for continuation and
 exit codes; validation success and requested-size completion are different claims.
 

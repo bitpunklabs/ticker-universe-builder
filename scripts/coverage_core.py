@@ -252,7 +252,7 @@ def admission_check(candidate, plan, branches, as_of, market):
         )
         need(
             minimum in {"heavy", "max"} and candidate["role"] == "BETA_SATELLITE",
-            f"{ticker}: satellites need measured Beta and cannot enter Light/Medium",
+            f"{ticker}: satellites need the supplementary Beta role and cannot enter Light/Medium",
         )
         distinct = a.get("distinct_from")
         roster = {x for b in branches.values() for x in b["representatives"]}
@@ -344,8 +344,8 @@ def expansion_minimum(heavy_count, policy):
     )
     minimum = rule["min"]
     need(
-        type(minimum) in (int, float) and math.isfinite(minimum) and minimum >= 0.4,
-        "Max expansion minimum must be at least 40%",
+        type(minimum) in (int, float) and math.isfinite(minimum) and minimum >= 0.3,
+        "Max expansion minimum must be at least 30%",
     )
     return heavy_count + math.ceil(heavy_count * minimum - 1e-9)
 
@@ -530,7 +530,7 @@ def quality_check(universe, policy, *, assembling=False):
 
 def build(spec, raw, policy, previous=None):
     need(spec.get("schema_version") == 1, "build spec schema_version must be 1")
-    snap = normalize_snapshot(raw)
+    snap = normalize_snapshot(raw, coverage_first=True)
     market, profile = snap["market"], spec.get("profile")
     need(spec.get("market") == market and profile in PROFILES, "spec market/profile mismatch")
     shortfall_action = spec.get("shortfall_action", "auto")

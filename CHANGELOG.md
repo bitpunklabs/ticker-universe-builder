@@ -14,6 +14,13 @@ Each released heading below matches a `version:` in `SKILL.md` and a git tag of 
 there, and backfilling a listing for a release nobody could install would be tidier than it is
 true.
 
+## 0.8.0 — unreleased
+
+- Define coverage Beta as supplementary business/token coverage, ranked by sourced market cap.
+  Price beta, R² and stability remain optional measured descriptors; legacy high-beta gates stay intact.
+- Require Max to add at least 30% of Heavy entities, entirely as supplementary Beta.
+  Preserve frozen Heavy facts, proportional groups, core quality, identity, liquidity and export gates.
+
 ## 0.7.1 — unreleased
 
 - Add a Max shortfall handler: auto/deliver emits a disclosed partial for count-only gaps

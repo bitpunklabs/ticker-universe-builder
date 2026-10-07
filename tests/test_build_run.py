@@ -158,7 +158,7 @@ def test_interrupted_attempt_can_retry_same_inputs(tmp_path):
     assert code == 0 and final["number"] == 2
 
 
-def coverage_gap_args(tmp_path, beta_count=7):
+def coverage_gap_args(tmp_path, beta_count=5):
     from test_coverage_core import expansion_fixture, build
     data = expansion_fixture()
     heavy, _ = build(data, target_count=20)
@@ -179,15 +179,15 @@ def test_small_max_gap_delivers_partial_and_can_retry_to_complete(tmp_path):
     assert first['validation_passed'] and not first['qualified']
     assert first['handler']['action'] == 'deliver'
     assert first['diagnostics']['recovery']['cause'] == 'candidate_supply'
-    assert first['diagnostics']['recovery']['beta_gates']['beta_strength']['threshold'] == 55
+    assert first['diagnostics']['recovery']['price_diagnostics']['beta_strength']['required'] is False
     path = Path(first['artifacts']['universe']);before = path.read_bytes()
     assert '-partial.json' in path.name
     u = json.loads(before)
-    assert u['delivery']['required_entities'] == 28
+    assert u['delivery']['required_entities'] == 26
     checked = validate_universe(u)
     assert checked['passed'] and not checked['qualified']
     report = Path(first['artifacts']['reports']['en']).read_text()
-    assert 'PARTIAL: 27 / 28' in report and '35.0%' in report
+    assert 'PARTIAL: 25 / 26' in report and '25.0%' in report
     assert '-partial.txt' in first['artifacts']['watchlist']
     again, code = resume(first)
     assert code == 3 and again['retry_skipped'] and again['artifacts'] == first['artifacts']
@@ -195,13 +195,13 @@ def test_small_max_gap_delivers_partial_and_can_retry_to_complete(tmp_path):
     assert code == 2 and strict['handler']['action'] == 'retry' and 'artifacts' not in strict
     write(Path(args['snapshot']), expansion_fixture())
     repaired, code = resume(strict)
-    assert code == 0 and repaired['status'] == 'complete' and repaired['filled'] == 28
+    assert code == 0 and repaired['status'] == 'complete' and repaired['filled'] == 26
     assert path.read_bytes() == before
     assert '-partial' not in Path(repaired['artifacts']['universe']).name
 
 
 def test_large_max_gap_and_invalid_facts_cannot_be_delivered(tmp_path):
-    args = coverage_gap_args(tmp_path, beta_count=6)
+    args = coverage_gap_args(tmp_path, beta_count=4)
     result, code = run_build(**args, shortfall_action='deliver')
     assert code == 2 and result['handler']['action'] == 'retry'
     assert 'artifacts' not in result

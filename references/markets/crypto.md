@@ -32,7 +32,8 @@ exempt from listing, liquidity or factual checks. Several complementary represen
 a theme. Preserve existing user-supplied assignments as dated hypotheses when fresh business
 research is unavailable; do not describe them as newly verified leadership.
 
-For core leaders/peers, research these questions. Beta needs only correct business/token identity, complementarity and sourced circulating USD market cap, plus the unchanged listing/liquidity/measurement gates:
+For core leaders/peers, research these questions. Beta needs only correct business/token identity, complementarity and sourced circulating USD market cap, plus listing and measured-liquidity gates. Price Beta/R²/stability are auxiliary descriptors,
+not hard admission floors; any supplied statistics still require measured provenance:
 
 - What activity or demand does the protocol serve, and what does this ticker observe?
 - What does its token actually do: pay for service, secure the network, govern, or receive value?

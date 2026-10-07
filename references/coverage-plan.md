@@ -64,7 +64,9 @@ Every selected entity keeps the existing candidate contract plus an `admission` 
 | `distinct_from`, `incremental_value` | Satellites only: nonempty core asset-id list and what is missing without this candidate |
 
 Leaders/peers must carry a compatible core observation role; satellites require
-`BETA_SATELLITE` and all existing R²/beta/stability gates. Entity liquidity must be measured.
+`BETA_SATELLITE` as the supplementary-business observation role. Price R²/beta/stability
+are optional descriptors, not admission floors; supplied values retain measurement integrity checks.
+Entity liquidity must be measured.
 Unannotated eligible candidates remain a research bench and are audited as unverified admission;
 malformed supplied admissions fail rather than silently passing. Breadth/tactical roles remain
 readable in old records but are not a fallback that fills new production lists.
@@ -117,7 +119,7 @@ successful research instead of restarting a broad screen. Do not spend retries o
 
 Max requires `--seed heavy.json`: same market, source date and complete plan, validated Heavy,
 identical retained member facts/bindings, and only satellites added. With `H` Heavy entities,
-Max needs at least `H + ceil(0.40 * H)` entities. References are excluded.
+Max needs at least `H + ceil(0.30 * H)` entities. References are excluded.
 An underfilled bench is `needs_research`; preserve inputs, widen research and resume. The
 effective target remains the plan/spec entity ceiling; growth has no separate maximum. Incompatible
 sector, satellite-share or export ceilings cannot be waived to achieve the minimum.
