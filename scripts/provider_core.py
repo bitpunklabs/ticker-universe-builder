@@ -12,7 +12,10 @@ import hashlib
 import http.client
 import json
 import os
+import re
+import shutil
 import ssl
+import subprocess
 import sys
 import time
 import urllib.error
@@ -77,6 +80,33 @@ def write_json(path: Path, value: Any) -> None:
     temporary.replace(path)
 
 
+def curl_bytes(executable: str, url: str, payload: dict | None) -> bytes:
+    """Optional OS transport for proxy/HTTP incompatibilities, with the same TLS boundary."""
+    argv = [executable, "--fail", "--silent", "--show-error", "--location", "--compressed",
+            "--proto", "=http,https", "--proto-redir", "=http,https",
+            "--max-time", "18", "--connect-timeout", "8", "--user-agent", "Mozilla/5.0"]
+    for variable, option in (("SSL_CERT_FILE", "--cacert"), ("SSL_CERT_DIR", "--capath")):
+        if os.environ.get(variable):
+            argv.extend([option, os.environ[variable]])
+    if payload is not None:
+        argv.extend(["--header", "Content-Type: application/json", "--data-binary", "@-"])
+    argv.extend(["--url", url])
+    try:
+        result = subprocess.run(argv, input=json.dumps(payload).encode()
+                                if payload is not None else None,
+                                capture_output=True, timeout=20, check=False)
+    except subprocess.TimeoutExpired as exc:
+        raise ProviderError("curl transport timed out") from exc
+    if result.returncode:
+        message = result.stderr.decode(errors="replace").strip()
+        status = re.search(r"URL returned error: (\d{3})", message)
+        if result.returncode == 22 and status:
+            raise urllib.error.HTTPError(url, int(status[1]), message, {}, None)
+        raise ProviderError(f"curl exit {result.returncode}: "
+                            + message)
+    return result.stdout
+
+
 def request_json(url: str, cache: Path, payload: dict | None = None) -> Any:
     """A receipt is reusable only for its exact URL/body; its acquisition date is retained."""
     key = hashlib.sha256(json.dumps([url, payload], sort_keys=True).encode()).hexdigest()
@@ -94,6 +124,7 @@ def request_json(url: str, cache: Path, payload: dict | None = None) -> Any:
             return record["response"]
     errors = []
     context = None
+    curl = None
     error_path = cache.with_suffix(cache.suffix + ".error.json")
     for attempt in range(3):
         try:
@@ -101,14 +132,21 @@ def request_json(url: str, cache: Path, payload: dict | None = None) -> Any:
                 url,
                 data=json.dumps(payload).encode() if payload is not None else None,
                 headers={"User-Agent": "Mozilla/5.0", "Content-Type": "application/json",
-                         "Accept-Encoding": "identity"},
+                         "Accept-Encoding": "gzip"},
             )
-            with urllib.request.urlopen(req, timeout=18, context=context) as response:
-                raw = response.read()
-                length = response.headers.get("Content-Length")
-                if length is not None and len(raw) != int(length):
-                    raise ProviderError("truncated response body")
-                encoding = response.headers.get("Content-Encoding", "identity").lower()
+            if curl:
+                raw, encoding = curl_bytes(curl, url, payload), "identity"
+            else:
+                with urllib.request.urlopen(req, timeout=18, context=context) as response:
+                    # Read incrementally; still reject unfinished chunks and mismatched lengths.
+                    chunks = []
+                    while chunk := response.read1(64 * 1024):
+                        chunks.append(chunk)
+                    raw = b"".join(chunks)
+                    length = response.headers.get("Content-Length")
+                    if length is not None and len(raw) != int(length):
+                        raise ProviderError("truncated response body")
+                    encoding = response.headers.get("Content-Encoding", "identity").lower()
             if encoding == "gzip":
                 body = gzip.decompress(raw)
             elif encoding == "deflate":
@@ -129,6 +167,7 @@ def request_json(url: str, cache: Path, payload: dict | None = None) -> Any:
                     "retrieved_at": datetime.now(timezone.utc).isoformat(),
                     "sha256": hashlib.sha256(raw).hexdigest(),
                     "content_encoding": encoding,
+                    "transport": "curl" if curl else "urllib",
                     "response": result,
                 },
             )
@@ -155,6 +194,7 @@ def request_json(url: str, cache: Path, payload: dict | None = None) -> Any:
             permanent = isinstance(exc, urllib.error.HTTPError) and exc.code in (400, 401, 403, 404)
             if permanent or attempt == 2:
                 raise ProviderError(f"{url}: {exc}; diagnostics: {error_path}") from exc
+            curl = curl or shutil.which("curl")
             time.sleep(0.5 * (attempt + 1))
     raise ProviderError(url)
 
@@ -164,7 +204,8 @@ def scan_equities(market: str, output: Path) -> tuple[list[dict], dict]:
         raise ProviderError(f"no equity adapter for {market}")
     url = f"https://scanner.tradingview.com/{SCANNERS[market]}/scan"
     rows, total = [], 1
-    for offset in range(0, 30000, 5000):
+    page_size = 500
+    for offset in range(0, 30000, page_size):
         payload = {
             "filter": [
                 {"left": "type", "operation": "equal", "right": "stock"},
@@ -172,7 +213,7 @@ def scan_equities(market: str, output: Path) -> tuple[list[dict], dict]:
             ],
             "columns": COLUMNS,
             "sort": {"sortBy": "market_cap_basic", "sortOrder": "desc"},
-            "range": [offset, offset + 5000],
+            "range": [offset, offset + page_size],
             "options": {"lang": LANGUAGES.get(market, "en")},
         }
         # A/H dual listings are independent instruments in this skill. A provider's global

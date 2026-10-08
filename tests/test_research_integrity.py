@@ -312,6 +312,7 @@ def test_old_receipts_cannot_be_relabelled_fresh(tmp_path):
     path.write_text(json.dumps(record))
     with (
         patch.object(p.urllib.request, "urlopen", side_effect=OSError("offline")),
+        patch.object(p.shutil, "which", return_value=None),
         patch.object(p.time, "sleep"),
     ):
         with pytest.raises(p.ProviderError, match="offline"):

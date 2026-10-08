@@ -61,7 +61,13 @@ Requests make at most three attempts for transient transport, truncated/invalid 
 errors. HTTP 400/401/403/404 need source or request repair, not repeated identical requests.
 Failures leave `raw/*.error.json` with request identity, dates and attempt errors; a subsequent
 successful request clears its current error receipt. No failed response becomes a fresh cache.
-Compressed responses are decoded before JSON parsing. Yahoo history must match the requested
+If urllib encounters transport/decoding failures and system `curl` is already installed, remaining
+attempts may use it with HTTPS verification and the same explicit CA settings. The total remains
+three attempts; curl is optional and never installed by the skill. Receipts name `transport`;
+`sha256` hashes the response bytes returned by that transport (curl decompresses them).
+No shell is invoked. Without curl, failures remain resumable partial results.
+Responses are read incrementally; equity inventory uses smaller pages. Compressed responses
+are decoded before JSON parsing. Yahoo history must match the requested
 provider symbol and market currency, with aligned timestamp/price/volume arrays; share-class
 symbols keep their complete filenames. A failed Yahoo host may use the other public Yahoo host,
 with the actual URL recorded. This does not guarantee endpoint availability.

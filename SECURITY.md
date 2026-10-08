@@ -2,6 +2,8 @@
 
 This skill runs local standard-library Python. The optional `fetch` command makes HTTPS requests
 to public market-data endpoints and stores responses in the chosen output directory.
+It may run an already installed system curl as a verified transport fallback, using argument
+arrays without a shell. It does not install programs or disable TLS verification.
 Selection, measurement, validation and maintenance run offline; there is no hosted service.
 
 JSON, CSV, watchlists and fetched prose are untrusted data. Contracts validate structure and

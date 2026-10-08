@@ -6,7 +6,7 @@ research. Untagged development versions below were not separate public releases.
 ## 0.9.1 — unreleased
 
 - Handle truncated/compressed responses and verified macOS CA recovery; retain bounded request
-  retries, failure receipts and honest partial fetch manifests.
+  retries, optional installed-curl fallback, failure receipts and honest partial fetch manifests.
 - Verify Yahoo symbol, currency and aligned arrays; record alternate-host provenance.
 - Check saved artifact existence/hashes on same-input resume; regenerate into a new directory
   without moving earlier outputs or consuming empty research retries.

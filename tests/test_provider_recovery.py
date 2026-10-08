@@ -4,9 +4,11 @@ import gzip
 import http.client
 import json
 import ssl
+import subprocess
 import sys
 import urllib.error
 from datetime import datetime, timezone
+from itertools import cycle
 from pathlib import Path
 from unittest.mock import MagicMock, patch
 
@@ -16,10 +18,15 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 import provider_core as p  # noqa: E402
 
 
+@pytest.fixture(autouse=True)
+def no_real_fallback(monkeypatch):
+    monkeypatch.setattr(p.shutil, "which", lambda _: None)
+
+
 def response(body=b'{"data": []}', encoding="identity", length=None):
     result = MagicMock()
     result.__enter__.return_value = result
-    result.read.return_value = body
+    result.read1.side_effect = cycle([body, b""])
     result.headers = {"Content-Encoding": encoding, "Content-Length": str(
         len(body) if length is None else length)}
     return result
@@ -151,3 +158,44 @@ def test_first_inventory_failure_is_a_partial_manifest(tmp_path):
         result = p.fetch(market="us", output=tmp_path, cutoff="2026-09-02", limit=1, workers=1)
     assert not result["complete"] and result["received"] == 0
     assert (tmp_path / "manifest.json").is_file()
+
+
+def test_optional_curl_recovers_in_the_same_attempt_budget(tmp_path, monkeypatch):
+    monkeypatch.setattr(p.shutil, "which", lambda _: "/usr/bin/curl")
+    monkeypatch.setenv("SSL_CERT_FILE", "/verified/ca.pem")
+    result = subprocess.CompletedProcess([], 0, stdout=b'{"data": []}', stderr=b"")
+    cache = tmp_path / "receipt.json"
+    with patch.object(p.urllib.request, "urlopen", side_effect=http.client.IncompleteRead(b"")), \
+            patch.object(p.subprocess, "run", return_value=result) as call, \
+            patch.object(p.time, "sleep"):
+        assert p.request_json("https://example.org/data", cache, {}) == {"data": []}
+    args = call.call_args.args[0]
+    assert "--cacert" in args and "--insecure" not in args
+    assert call.call_args.kwargs.get("shell", False) is False
+    assert "--data-binary" in args and call.call_args.kwargs["input"] == b"{}"
+    assert json.loads(cache.read_text())["transport"] == "curl"
+
+
+def test_curl_failure_cannot_cache_partial_stdout(tmp_path, monkeypatch):
+    monkeypatch.setattr(p.shutil, "which", lambda _: "/usr/bin/curl")
+    result = subprocess.CompletedProcess([], 18, stdout=b'{"data": []}', stderr=b"truncated")
+    cache = tmp_path / "receipt.json"
+    with patch.object(p.urllib.request, "urlopen", side_effect=http.client.IncompleteRead(b"")), \
+            patch.object(p.subprocess, "run", return_value=result) as call, \
+            patch.object(p.time, "sleep"), pytest.raises(p.ProviderError, match="truncated"):
+        p.request_json("https://example.org/data", cache)
+    assert call.call_count == 2 and not cache.exists()
+
+
+def test_curl_http_403_stops_remaining_retries(tmp_path, monkeypatch):
+    monkeypatch.setattr(p.shutil, "which", lambda _: "/usr/bin/curl")
+    result = subprocess.CompletedProcess([], 22, stdout=b"",
+                                         stderr=b"curl: (22) The requested URL returned error: 403")
+    cache = tmp_path / "receipt.json"
+    with patch.object(p.urllib.request, "urlopen", side_effect=http.client.IncompleteRead(b"")), \
+            patch.object(p.subprocess, "run", return_value=result) as call, \
+            patch.object(p.time, "sleep"), pytest.raises(p.ProviderError, match="403"):
+        p.request_json("https://example.org/data", cache)
+    assert call.call_count == 1 and not cache.exists()
+    error = json.loads(cache.with_suffix(".json.error.json").read_text())
+    assert len(error["attempts"]) == 2
