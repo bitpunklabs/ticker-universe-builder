@@ -12,7 +12,9 @@ is not true elsewhere.
 
 ## What this market is
 
-The China internet platforms are the heaviest theme at 3.0, followed by the banks and the insurers. This is not a technology market in the US sense — there is no listed semiconductor complex worth a level-1 seat and the weight reflects it.
+The starter table emphasizes China internet platforms, banks, insurers and property. These are
+display defaults, not current sector quotas. Research foundries and electronics alongside them;
+the worked plan preserves their distinct operating duties instead of excluding them by headline weight.
 
 Property is split from the base's REIT theme: the developers are their own theme because a Hong Kong developer and a Hong Kong landlord are different businesses with different balance sheets.
 
@@ -40,9 +42,10 @@ Starter theme levels/weights do not set current member quotas.
 
 ## Example
 
-Use the closest [current equity example](../../examples/README.md) for the coverage-plan,
-admission and output contracts, then research this market under its own overlay. No dedicated
-current snapshot ships for this market.
+Open [HK Medium](../../examples/hk-medium/build-spec.json) and its
+[research review](../../examples/hk-medium/research-review.json). The dated snapshot includes
+reviewed operating representatives, HKD measurements and separate ETF references;
+its declared scope is not an exhaustive leadership census or a Beta bench.
 
 ## Suggested live fields
 
@@ -53,6 +56,6 @@ Beyond the ones in equity-common.md:
 
 ## Report language
 
-The report is written in Traditional Chinese by default, so write the snapshot in Traditional Chinese
-too — names, `l1_name`, reasons and measurement methods. `--language en` overrides the report
-and changes nothing else about the build.
+English is always generated, with a Traditional Chinese companion by default. Write names and
+brief reasons in Traditional Chinese and supply authored `report_translations.en` for human
+content. `--language` chooses the companion without changing membership or research facts.

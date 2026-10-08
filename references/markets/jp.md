@@ -40,8 +40,9 @@ Starter theme levels/weights do not set current member quotas.
 
 ## Example
 
-Open the closest [worked equity example](../../examples/README.md) for the coverage and output
-contracts, then research Japan under this overlay. There is no current JP worked example.
+Open [JP Medium](../../examples/jp-medium/build-spec.json) and its
+[research review](../../examples/jp-medium/research-review.json). Business review and reused
+listing/price facts retain their separate dates; see [example limits](../../examples/README.md).
 
 ## Suggested live fields
 
@@ -53,5 +54,5 @@ Beyond the ones in equity-common.md:
 ## Report language
 
 English is always generated, with a Japanese companion by default. Write researched names
-and reasons in Japanese; only report headings and closed vocabulary are translated.
+and brief reasons in Japanese, with authored `report_translations.en` for human content.
 `--language` chooses the companion language without changing membership or facts.

@@ -99,3 +99,13 @@ def test_cn_example_english_content_and_direct_chinese_member_briefs():
     assert all('| 观察' not in row for row in rows)
     assert '航空产品。' in next(row for row in rows if 'SSE:600760' in row)
     assert 'Aviation products.' in english
+
+
+def test_all_worked_english_reports_have_authored_english_content():
+    root = Path(__file__).resolve().parents[1] / 'examples'
+    reports = sorted(root.glob('*/output/*.en.md'))
+    assert len(reports) == 10
+    for path in reports:
+        text = path.read_text(encoding='utf-8')
+        assert not re.search(r'[\u3400-\u9fff\u3040-\u30ff\uac00-\ud7af]', text), path
+        assert 'no factor statistics' not in text, path

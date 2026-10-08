@@ -9,11 +9,14 @@ is not true elsewhere.
 
 - One venue, `LSE`. Symbols are two to six characters and may carry a dot.
 - Prices quote in pence for most lines and in pounds for a few. Whatever you use, say which in `measurement.method` — a turnover figure that is silently 100x wrong ranks the whole universe wrong.
-- Dual-listed lines (`LSE:BHP` and its Australian line) are one economic asset across two markets. Build them in whichever market you were asked about, not both.
+- Verify each current listing before binding a dual-listed company. Build the requested market's
+  verified line; an old venue code is not evidence that it still trades.
 
 ## What this market is
 
-Pharma, oil majors and miners at 2.5 each, staples at 2.0. Almost none of the revenue behind those weights is British, which is the single most important fact about this index and the reason regressing against a UK index gauge tells you nothing.
+The starter table emphasizes pharma, oil majors, miners and staples. Many London-listed
+businesses earn internationally; research their actual operations rather than treating listing
+country as revenue geography. Current economic-plan weights are separate from display defaults.
 
 There is no megacap platform theme and no AI infrastructure. They are dropped, not weighted down.
 
@@ -41,9 +44,10 @@ Starter theme levels/weights do not set current member quotas.
 
 ## Example
 
-Use the closest [current equity example](../../examples/README.md) for the coverage-plan,
-admission and output contracts, then research this market under its own overlay. No dedicated
-current snapshot ships for this market.
+Open [UK Medium](../../examples/uk-medium/build-spec.json) and its
+[research review](../../examples/uk-medium/research-review.json). The dated snapshot includes
+reviewed operating representatives, GBP-normalized turnover and separate ETF references;
+its declared scope is not an exhaustive leadership census or a Beta bench.
 
 ## Suggested live fields
 

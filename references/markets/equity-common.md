@@ -83,4 +83,5 @@ The `.md` report is written in the market's own language by default. That means 
 to be written in that language too — `name` is the listed short name as the market prints it,
 and `reason`, `l1_name` and every `measurement.method` are prose in the same language. Theme
 codes and `theme_name` stay ASCII: they are identifiers that have to survive a TradingView
-import.
+import. English is always generated too: supply authored `report_translations.en` for names,
+brief reasons, theme purposes and other human content; translated headings alone are insufficient.

@@ -16,6 +16,8 @@ research. Untagged development versions below were not separate public releases.
   missing-factor logs in JSON. Replace examples with CN Medium and US Light/Medium for format review.
 - Support authored report-content translations; rebuild CN Medium with English names/briefs and
   direct Chinese business summaries, preserving membership, research facts and US examples.
+- Expand worked examples to US Heavy/Max and Crypto/HK/JP/KR/UK Medium; preserve existing
+  examples, add authored English JP/KR/HK content and online-reviewed HK/UK inputs with dated limits.
 
 ## 0.9.0 — development, 2026-10-07
 

@@ -1742,11 +1742,13 @@ class ExampleTests(unittest.TestCase):
         self.assertEqual(before, after)
 
     def test_the_requested_report_review_examples_ship(self) -> None:
-        self.assertEqual(EXAMPLE_MARKETS, ["cn", "us"])
+        self.assertEqual(EXAMPLE_MARKETS, ["cn", "crypto", "hk", "jp", "kr", "uk", "us"])
         summary = read_json(ROOT / "examples" / "build-summary.json")["examples"]
         self.assertEqual(
             [(row["example"], row["entities"]) for row in summary],
-            [("cn-medium", 302), ("us-light", 100), ("us-medium", 294)],
+            [("cn-medium", 302), ("us-light", 100), ("us-medium", 294),
+             ("us-heavy", 370), ("us-max", 481), ("crypto-medium", 35),
+             ("hk-medium", 123), ("jp-medium", 131), ("kr-medium", 108), ("uk-medium", 127)],
         )
         self.assertTrue(all(row["qualified"] for row in summary))
 

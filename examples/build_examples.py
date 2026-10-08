@@ -18,7 +18,10 @@ from universe_core import (  # noqa: E402
     write_artifacts,
 )
 
-EXAMPLES = ("cn-medium", "us-light", "us-medium")
+EXAMPLES = (
+    "cn-medium", "us-light", "us-medium", "us-heavy", "us-max",
+    "crypto-medium", "hk-medium", "jp-medium", "kr-medium", "uk-medium",
+)
 
 
 def write(path: Path, data: dict) -> None:
@@ -31,6 +34,7 @@ def main() -> None:
     # Validate the complete set before replacing any committed output.
     with tempfile.TemporaryDirectory() as temporary:
         staging = Path(temporary)
+        built = {}
         for name in EXAMPLES:
             folder = ROOT / "examples" / name
             market = name.split("-")[0]
@@ -39,9 +43,11 @@ def main() -> None:
                 read_json(folder / "build-spec.json"),
                 read_json(snapshot_folder / "snapshot.json"),
                 policy,
+                built.get("us-heavy") if name == "us-max" else None,
             )
             if not report.get("qualified"):
                 raise RuntimeError(f"{name}: worked examples must be fully qualified")
+            built[name] = universe
             write_artifacts(universe, report, staging / name / "output")
             summary.append({
                 "example": name,

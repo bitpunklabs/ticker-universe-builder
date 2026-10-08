@@ -110,15 +110,20 @@ Python does not perform that research or weaken gates automatically. See
 
 ## Examples
 
-Three [worked examples](examples/README.md) include inputs and script-generated artifacts:
+Ten [worked examples](examples/README.md) include inputs and script-generated artifacts:
 
 | Market | Profiles and entity counts |
 |---|---|
-| US | Light 100 · Medium 294 |
+| US | Light 100 · Medium 294 · Heavy 370 · Max 481 |
 | CN | Medium 302 |
+| Crypto | Medium 35 |
+| HK | Medium 123 |
+| JP | Medium 131 |
+| KR | Medium 108 |
+| UK | Medium 127 |
 
-US Light and Medium share one snapshot. Source dates, research scope and exclusions are
-disclosed in the example documentation. Full research and diagnostics stay in JSON;
+US profiles share one snapshot; Max retains the qualified Heavy and adds 111 Beta. Source dates,
+research scope and exclusions are disclosed in the example documentation. Full research and diagnostics stay in JSON;
 Markdown groups members with short reasons and links to the audit record.
 Rebuilding does not refresh market facts.
 

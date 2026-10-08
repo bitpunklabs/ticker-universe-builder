@@ -87,6 +87,7 @@ keeping selection deterministic and research proportionate to the requested dept
 
 ## Current worked examples
 
-Current [worked examples](../../examples/README.md) demonstrate the shared coverage and output
-contracts using equities. Crypto needs its own researched token/instrument facts under this
-overlay; do not reuse equity admissions. Max requires a qualified Crypto Heavy seed.
+Open [Crypto Medium](../../examples/crypto-medium/build-spec.json) for researched token identity,
+instrument bindings and the shared output contract. Read the dated
+[example limits](../../examples/README.md); do not reuse equity admissions. Max requires a
+qualified Crypto Heavy seed and a sufficient sourced Beta bench.
