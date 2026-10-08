@@ -31345,6 +31345,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察光电器件系列产品、激光加工装备及智能制造产线、敏感元器件。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -31529,6 +31530,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察数据与接入、传输。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -31713,6 +31715,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察光通信收发模块及器件。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -31897,6 +31900,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察无源光器件、有源光器件。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -32081,6 +32085,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察光互联产品。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -32299,6 +32304,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察覆铜板业务、线路板业务、地产业务。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -32517,6 +32523,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察3C电子产品。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -32735,6 +32742,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察IT设备、软件开发、系统集成及技术服务。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -32953,6 +32961,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察服务器类收入、存储类、交换类等产品。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -33171,6 +33180,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察产品销售收入(印制电路板业务)。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -33389,6 +33399,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察印制电路板、封装基板、电子装联。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -33607,6 +33618,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察PCB制造。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -33793,6 +33805,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察AIDC业务、IDC业务。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -33969,6 +33982,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察机房温控节能产品、机柜温控节能产品、轨道交通列车空调及服务。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -34151,6 +34165,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察新能源产品、数据中心产品、IDC服务收入等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -34333,6 +34348,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察智慧电源、数据中心产品、光储充产品及系统等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -34515,6 +34531,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察智慧生活、电源、新能源交通等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -34691,6 +34708,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察智能电网、铜导体、工业与新能源智能等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -34867,6 +34885,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察电网建设、铜产品、光通信及网络等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -35063,6 +35082,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察运营商网络、政企业务、消费者业务。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -35259,6 +35279,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察数字化业务、分销业务。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -35455,6 +35476,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察桌面通信终端、会议产品、云办公终端。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -35651,6 +35673,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察网络设备、网络安全产品、云桌面解决方案。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -35854,6 +35877,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察半导体设备相关产品。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -36057,6 +36081,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察半导体专用设备。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -36260,6 +36285,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察销售商品。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -36463,6 +36489,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察半导体装备、半导体服务。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -36666,6 +36693,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察测试系统、配件。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -36869,6 +36897,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察电子工艺装备、电子元器件。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -37072,6 +37101,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察测试机、分选机。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -37273,6 +37303,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察销售化学机械抛光液、销售功能性湿电子化学品。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -37474,6 +37505,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察半导体化学材料、光刻胶及配套试剂、化工行业。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -37675,6 +37707,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察超高纯靶材、精密零部件。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -37855,6 +37888,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察集成电路晶圆代工、租赁。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -38035,6 +38069,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察产品与方案、制造与服务。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -38215,6 +38250,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察集成电路晶圆代工。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -38398,6 +38434,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察芯片封测。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -38581,6 +38618,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察集成电路封装测试。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -38758,6 +38796,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察互连类芯片、津逮®产品。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -38935,6 +38974,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察高端处理器、技术服务。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -39112,6 +39152,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察云端产品线、边缘产品线。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -39305,6 +39346,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察存储芯片、微控制器、模拟产品等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -39498,6 +39540,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察芯片销售。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -39691,6 +39734,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察存储产品及相关。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -39887,6 +39931,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察信号链产品、电源管理产品、传感器产品。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -40083,6 +40128,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察半导体器件、半导体芯片、半导体硅片。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -40279,6 +40325,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察电源管理产品、信号链产品。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -40475,6 +40522,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察商品销售收入、IP授权及服务。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -40665,6 +40713,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察图像传感器及相关模拟/显示芯片。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -40855,6 +40904,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察智能应用处理器芯片、数模混合芯片。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -41045,6 +41095,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察模组及开发套件、芯片。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -41235,6 +41286,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察销售商品、租赁服务、技术服务。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -41411,6 +41463,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察量产服务收入、设计服务收入、IP授权使用费收入等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -41587,6 +41640,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察EDA软件销售、技术服务。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -41778,6 +41832,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察电子元器件及电子材料。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -41969,6 +42024,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察片式电子元件。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -42160,6 +42216,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察铝电解电容、薄膜电容、超级电容等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -42351,6 +42408,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察催化材料板块、生物医疗材料板块、电子材料板块。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -42542,6 +42600,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察电子、通信元件及材料。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -42725,6 +42784,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察WPS个人业务、WPS软件业务、WPS365业务。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -42908,6 +42968,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察开放平台及消费者业务、教育产品和服务、智慧城市等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -43131,6 +43192,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察许可销售及技术服务收入、金融服务收入、外购商品销售。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -43354,6 +43416,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察软件开发及工程服务、服务外包、系统集成。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -43577,6 +43640,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察工业自动化及智能制造解决方案、工业软件、仪器仪表等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -43759,6 +43823,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察软件业收入、物业出租收入。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -43941,6 +44006,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察增值电信业务、广告及互联网推广服务、软件销售及维护。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -44123,6 +44189,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察党政核心应用解决方案、基础软件。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -44305,6 +44372,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察安全产品、安全服务。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -44487,6 +44555,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察云计算及AI基础设施业务、网络安全业务、基础网络业务。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -44671,6 +44740,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察通信模组、天线、车载等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -44855,6 +44925,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察智慧物联产品及方案、创新业务。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -45039,6 +45110,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察主业1产品及服务、机器人业务、热成像业务等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -45218,6 +45290,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察谐波减速器及金属部件、机电一体化产品。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -45397,6 +45470,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察微型传动系统、精密零件。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -45579,6 +45653,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察暖通电驱动系统解决方案、防爆电驱动系统解决方案、工业电驱动系统解决方案等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -45761,6 +45836,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察工业自动化与数字化、新能源汽车动力系统、新兴产业。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -45937,6 +46013,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察工业机器人及智能制造系统、自动化核心部件及运动控制系统。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -46181,6 +46258,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察平面解决方案、管材解决方案、三维解决方案。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -46425,6 +46503,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察高端数控机床、关键功能部件、自动化生产线。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -46669,6 +46748,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察PCB智能制造装备。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -46913,6 +46993,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察连续光纤激光器、脉冲光纤激光器、超快激光器。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -47098,6 +47179,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察力学传感器及仪表系列、工业物联网及系统集成。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -47283,6 +47365,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察红外热成像业务、微波射频业务。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -47470,6 +47553,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察挖掘机械、混凝土机械、起重机械。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -47657,6 +47741,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察液压油缸、液压泵阀及马达、配件及铸件等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -47844,6 +47929,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察高空作业平台。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -48031,6 +48117,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察起重机械、混凝土机械、土方机械。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -48218,6 +48305,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察土方机械、起重机械、矿业机械。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -48413,6 +48501,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察制冷空调电器零部件、汽车零部件。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -48603,6 +48692,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察航空产品。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -48793,6 +48883,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察航空发动机及衍生产品、外贸出口转包。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -48983,6 +49074,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察航空产品。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -49172,6 +49264,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察航空产品、非航空防务产品。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -49361,6 +49454,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察特种集成电路、智能安全芯片、石英晶体频率器件。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -49550,6 +49644,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察电连接器及集成互连组件。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -49731,6 +49826,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察宇航制造及卫星应用、租赁收入、材料销售。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -49912,6 +50008,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察通信卫星资源运营及网络服务。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -50093,6 +50190,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察系统应用及解决方案、高精度定位装备。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -50271,6 +50369,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察航空新材料、租赁业务、航空相关设备。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -50449,6 +50548,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察高端钛合金材料、超导产品、高性能高温合金材料。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -50627,6 +50727,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察碳纤维及织物、碳梁、预浸料。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -50813,6 +50914,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察客车销售。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -50999,6 +51101,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察销售汽车收入、销售零配件收入。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -51185,6 +51288,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察销售商品。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -51371,6 +51475,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察汽车。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -51615,6 +51720,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察汽车玻璃、浮法玻璃。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -51859,6 +51965,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察轮胎产品。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -52103,6 +52210,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察内饰功能件、底盘系统、减震器等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -52347,6 +52455,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察智能电控产品、机械制动产品、机械转向产品。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -52591,6 +52700,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察发动机和汽车及汽车零部件、智慧物流、农业装备。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -52835,6 +52945,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察乘用车齿轮、工程机械齿轮、智能执行机构。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -53079,6 +53190,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察智能座舱、智能驾驶。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -53259,6 +53371,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察动力电池、储能电池、电池材料等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -53439,6 +53552,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察消费类电池、电动汽车类电池、储能系统类。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -53631,6 +53745,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察动力电池系统、储能电池系统、电池材料及回收等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -53828,6 +53943,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察新能源电池材料与服务、新能源自动化装备与服务、合并抵消项。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -54025,6 +54141,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察钴酸锂、氢能材料。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -54222,6 +54339,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察锂离子电池材料、日化材料及特种化学品。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -54419,6 +54537,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察锂电池隔离膜、无菌包装、BOPP膜。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -54616,6 +54735,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察电池化学品、电子信息化学品、有机氟化学品。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -54797,6 +54917,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察钾产品、锂产品、贸易。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -54978,6 +55099,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察锂系列产品、锂电池系列产品。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -55159,6 +55281,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察锂化合物及衍生品、锂矿。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -55340,6 +55463,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察销售商品、经营租赁、提供服务。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -55523,6 +55647,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察锂电池结构件、汽车结构件。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -55706,6 +55831,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察锂电池智能装备、智能物流系统、光伏智能装备。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -55888,6 +56014,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察光伏相关产品、饲料、食品相关产品。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -56070,6 +56197,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察光伏产品销售、电站业务。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -56252,6 +56380,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察光伏产品、租赁。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -56436,6 +56565,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察光伏胶膜、感光干膜、光伏背板。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -56620,6 +56750,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察设备及其服务、材料。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -56804,6 +56935,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察工艺设备、自动化配套设备。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -56988,6 +57120,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察太阳能电池成套生产设备、单机设备。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -57169,6 +57302,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察销售商品。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -57350,6 +57484,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察储能系统、光伏逆变器等电力电子转换设备、新能源投资开发。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -57531,6 +57666,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察组串式逆变器及配套产品、户用光伏发电系统、新能源电力生产等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -57709,6 +57845,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察电力工程与装备线缆、海底电缆与高压电缆、海洋装备与工程运维。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -57887,6 +58024,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察风机及零部件销售、风电场开发、风电服务。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -58092,6 +58230,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察电气设备产品、电线电缆产品、新能源产品及工程等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -58297,6 +58436,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察输配电设备、开关全生命周期。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -58502,6 +58642,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察能源装备制造、制造服务。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -58707,6 +58848,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察继电器产品、电气产品。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -58912,6 +59054,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察变压器、开关、电力电子器件等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -59117,6 +59260,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察开关类业务、变压器类业务、储能系统及元件类业务等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -59311,6 +59455,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察电网智能、能源低碳、数能融合等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -59505,6 +59650,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察光伏电站工程承包、电站运营、终端电器等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -59699,6 +59845,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察智能变配电系统、智能电表、智能中压供用电设备等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -59893,6 +60040,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察充电业务相关产品及服务、中压预制舱变电站、变配电核心设备等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -60112,6 +60260,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察电力热力收入、租赁收入、港口收入。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -60331,6 +60480,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察电力。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -60550,6 +60700,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察境内水电行业。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -60769,6 +60920,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察风力发电、太阳能发电。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -60988,6 +61140,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察抽水蓄能、调峰水电、新型储能。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -61207,6 +61360,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察核电、光伏、风电。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -61426,6 +61580,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察销售电力、提供劳务、建筑安装和设计服务。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -61627,6 +61782,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察销售商品、许可收入。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -61828,6 +61984,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察BRUKINSA/百悦泽、TEVIMBRA/百泽安、安加维。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -62026,6 +62183,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察化学业务、测试业务、生物学业务。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -62224,6 +62382,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察小分子CDMO解决方案、新兴业务。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -62422,6 +62581,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察临床试验相关服务及实验室服务、临床试验技术服务。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -62620,6 +62780,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察实验室服务、CDMO服务、临床研究服务。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -62836,6 +62997,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察内镜耗材类、肿瘤介入类、可视化类。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -63052,6 +63214,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察销售医学影像诊断设备及放射治疗设备、提供维修收入、软件收入。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -63268,6 +63431,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察探测器、硅基微显示背板、核心部件等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -63484,6 +63648,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察呼吸治疗解决方案、临床器械及康复解决方案、家用健康检测解决方案等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -63700,6 +63865,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察体外诊断类产品、生命信息与支持类产品、新兴业务类产品等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -63916,6 +64082,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察试剂类、仪器类。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -64132,6 +64299,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察溶液类注射产品、凝胶类注射产品、冻干粉类注射产品。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -64313,6 +64481,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察屈光项目、视光服务项目、白内障项目等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -64499,6 +64668,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察医药行业。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -64685,6 +64855,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察阿胶及系列产品、毛驴养殖及贸易。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -64871,6 +65042,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察商业销售收入、工业销售收入、旅店饮食业。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -65057,6 +65229,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察医药行业-处方药、医药行业-自我诊疗(CHC)、药品等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -65277,6 +65450,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察制药、医疗健康服务、医疗器械与医学诊断。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -65497,6 +65671,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察商业、制造业、医美。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -65717,6 +65892,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察非输液、输液、研发项目。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -65908,6 +66084,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察证券投资业务、经纪业务、资产管理业务。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -66099,6 +66276,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察机构与交易、财富管理、投资管理等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -66290,6 +66468,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察财富管理、机构服务、国际业务等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -66481,6 +66660,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察交易及机构业务、财富管理业务、投资管理业务等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -66672,6 +66852,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察证券业务、金融电子商务服务、金融数据服务等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -66861,6 +67042,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察零售金融业务、批发金融业务。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -67050,6 +67232,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察公司金融业务、个人金融业务、资金业务。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -67239,6 +67422,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察公司、零售、同业金融服务。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -67428,6 +67612,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察个人银行业务、公司银行业务、资金运营业务。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -67617,6 +67802,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察公司金融业务、个人金融业务、资金业务。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -67806,6 +67992,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察个人金融业务、公司金融业务、资金资管业务。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -67995,6 +68182,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察批发金融业务、零售金融业务。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -68184,6 +68372,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察公司业务、资金业务、个人业务。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -68362,6 +68551,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察寿险及健康险、财产保险、银行等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -68540,6 +68730,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察财产保险、人寿保险、健康保险。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -68718,6 +68909,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察传统型保险、分红型保险。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -68896,6 +69088,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察人寿及健康保险、财产保险、资产管理。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -69074,6 +69267,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察寿险业务、健康险业务与意外险业务。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -69258,6 +69452,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察冶炼、矿山。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -69442,6 +69637,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察自产金收入、外购金收入、小金条收入等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -69626,6 +69822,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察冶炼产铜。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -69810,6 +70007,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察矿产金、白银贸易、铜贸易等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -70020,6 +70218,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察销售商品、提供劳务、租赁收入。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -70230,6 +70429,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察阴极铜、铜杆线、黄金等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -70440,6 +70640,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察营销板块、原铝板块、氧化铝板块等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -70650,6 +70851,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察精炼金属贸易、矿物金属贸易、铜钴相关产品等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -70860,6 +71062,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察铜产品、黄金等副产品。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -71070,6 +71273,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察电解铝、铝加工产品。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -71269,6 +71473,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察生产业务分部、稀土功能材料及应用产品分部、贸易业务分部。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -71468,6 +71673,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察钨钼等有色金属制品、电池材料、稀土业务等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -71667,6 +71873,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察锡锭、铜产品、供应链业务。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -71866,6 +72073,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察钕铁硼磁钢。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -72047,6 +72255,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察正极材料、镍产品、镍中间品。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -72228,6 +72437,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察三元前驱体、镍资源(MHP、镍板)等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -72420,6 +72630,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察玻纤及其制品相关。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -72612,6 +72823,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察石英管(棒)、石英砂、石英坩埚。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -72804,6 +73016,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察风电叶片、玻璃纤维及制品、锂电池隔膜等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -72989,6 +73202,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察煤炭收入、发电收入、煤化工收入等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -73174,6 +73388,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察自产煤、贸易煤。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -73359,6 +73574,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察煤炭业务、化工业务、煤矿装备业务。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -73544,6 +73760,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察煤炭、电力、热力等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -73730,6 +73947,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察汽油、柴油、原油。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -73916,6 +74134,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察油气销售、贸易。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -74102,6 +74321,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察销售、炼油化工和新材料、油气和新能源等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -74363,6 +74583,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察石化系列、聚氨酯系列、精细化学品及新材料系列。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -74624,6 +74845,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察炼化产品、PTA、聚酯产品。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -74885,6 +75107,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察新能源新材料相关产品、化学肥料、醋酸及衍生品等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -75146,6 +75369,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察原药、贸易、制剂。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -75407,6 +75631,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察烯烃产品、焦化产品、精细化工产品。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -75668,6 +75893,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察涤纶预取向丝、精对苯二甲酸、涤纶牵伸丝等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -75929,6 +76155,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察化工产品、炼油产品、PTA等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -76190,6 +76417,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察钛白粉、海绵钛、铁系产品。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -76451,6 +76679,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察功能化学品、高分子新材料。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -76624,6 +76853,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察油田技术服务、钻井服务、船舶服务等。",
       "scored_on": {
         "present": 1,
         "of": 4
@@ -76808,6 +77038,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察油品运输、外贸油品、内贸油品。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -76992,6 +77223,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察油轮运输、干散货运输、集装箱运输。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -77176,6 +77408,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察集装箱航运业务、码头业务。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -77359,6 +77592,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察船舶造修及海洋工程、船舶配套。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -77542,6 +77776,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察港口机械、重型装备、钢结构及相关收入等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -77725,6 +77960,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察集装箱制造、物流服务、能源等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -77905,6 +78141,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察速运及大件分部、供应链及国际分部。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -78086,6 +78323,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察货运收入、客运收入。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -78267,6 +78505,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察路网服务、客运业务。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -78448,6 +78687,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察投资运营业务、改扩建业务、交通科技业务等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -78654,6 +78894,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察工程业务、实业业务、现代服务业。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -78860,6 +79101,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察基础设施建设、装备制造、房地产开发。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -79066,6 +79308,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察房屋建筑工程、基础设施建设与投资、房地产开发与投资。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -79272,6 +79515,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察工程承包与勘察设计、电力投资与运营。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -79449,6 +79693,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察宽带及移动数据服务。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -79626,6 +79871,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察无线上网业务、应用及信息服务。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -79803,6 +80049,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察移动通信服务收入、产业数字化服务收入、固网及智慧家庭服务收入。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -79984,6 +80231,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察航空服务、地勤服务、贵宾服务等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -80165,6 +80413,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察非航空性收入、航空性收入。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -80346,6 +80595,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察航空客运、航空货运。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -80541,6 +80791,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察污水水处理业务、固废处理业务、供水水处理业务等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -80721,6 +80972,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察42.5级水泥、32.5级水泥、熟料。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -80929,6 +81181,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察房地产销售收。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -81137,6 +81390,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察开发业务、物业服务、资产运营。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -81325,6 +81579,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察茅台酒。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -81513,6 +81768,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察酒类销售。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -81701,6 +81957,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察中高档酒类。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -81889,6 +82146,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察白酒业务、酒店业务。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -82077,6 +82335,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察酒类产品、非酒类产品。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -82265,6 +82524,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察酒类产品、食用香精。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -82469,6 +82729,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察销售啤酒等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -82673,6 +82934,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察液体乳、奶粉及奶制品、冷饮产品。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -82877,6 +83139,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察酱油、蚝油、调味酱。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -83081,6 +83344,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察速冻调制食品、速冻菜肴制品、速冻面米制品。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -83285,6 +83549,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察能量饮料、电解质饮料、茶饮料。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -83489,6 +83754,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察厨房食品、饲料原料及油脂科技。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -83673,6 +83939,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察智慧生活电器、智慧暖通方案。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -83857,6 +84124,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察服务机器人、智能生活电器。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -84041,6 +84309,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察智能清洁产品及配件。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -84225,6 +84494,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察智能家居业务、商业及工业解决方案。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -84409,6 +84679,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察消费电器、工业制品及绿色能源。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -84593,6 +84864,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察电连接、插座与民用电工产品。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -84777,6 +85049,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察沙发、卧室产品、集成产品等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -84961,6 +85234,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察衣柜及配套家具产品、橱柜、木门。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -85140,6 +85414,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察持续加盟及劳务派遣服务、酒店客房、订房渠道等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -85319,6 +85594,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察商品销售业务、商业综合体投资开发业务。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -85496,6 +85772,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察珠宝首饰、黄金交易、笔类。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -85676,6 +85953,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察手工具、工业工具、电动工具等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -85856,6 +86134,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察充电储能类、智能创新类、智能影音类。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -86032,6 +86311,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察珀莱雅品牌。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -86220,6 +86500,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察海澜之家系列、海澜团购定制系列。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -86396,6 +86677,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察造纸业务、制浆业务。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -86632,6 +86914,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察智能机、功能机。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -86868,6 +87151,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察半导体显示器件、电子产品分销、新能源光伏及半导体材料。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -87104,6 +87388,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察显示器件业务、物联网创新业务、MLED业务等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -87340,6 +87625,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察智能硬件、智能声学整机、精密零组件。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -87576,6 +87862,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察消费电子、汽车电子、通讯及数据中心。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -87812,6 +88099,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察AI硬件、汽车及低空经济。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -88048,6 +88336,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察智能手机与电脑类、智能汽车及座舱类、智能头显与智能穿戴类。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -88228,6 +88517,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察自研和代理网络游戏。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -88408,6 +88698,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察移动游戏、用户平台、网页游戏。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -88588,6 +88879,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察移动游戏、网页游戏。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -88768,6 +89060,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察移动端游戏、电脑端游戏、汽车零部件等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -88990,6 +89283,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察发行业务、放映业务、科技业务等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -89212,6 +89506,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察发行分部、出版分部、物资分部等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -89434,6 +89729,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察楼宇媒体、影院媒体。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -89656,6 +89952,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察芒果TV互联网视频业务、内容电商、新媒体互动娱乐内容制作。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -89866,6 +90163,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察土地承包费、农产品销售、农业服务销售。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -90064,6 +90362,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察水稻种子、玉米种子、向日葵种子。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -90262,6 +90561,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察鸡肉、肉制品。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -90460,6 +90760,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察饲料、农产品、贸易业务等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -90658,6 +90959,7 @@
           "units": 1
         }
       },
+      "reason_summary": "观察生猪、屠宰、肉食产品等。",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -91908,5 +92210,5 @@
   ],
   "history": [],
   "version_hash": "ee40a3b353bb",
-  "content_hash": "37765b290b77"
+  "content_hash": "385e05597ba6"
 }

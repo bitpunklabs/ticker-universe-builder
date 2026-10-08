@@ -12,6 +12,8 @@ research. Untagged development versions below were not separate public releases.
   without moving earlier outputs or consuming empty research retries.
 - Document online research checks and actual three-market Codex results; refresh affected examples.
 - Consolidate contribution/security guidance in README; keep CI and remove optional issue/PR templates.
+- Make Markdown a readable brief: short member reasons and linked JSON evidence; keep per-ticker
+  missing-factor logs in JSON. Replace examples with CN Medium and US Light/Medium for format review.
 
 ## 0.9.0 — development, 2026-10-07
 

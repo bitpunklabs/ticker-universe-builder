@@ -19,9 +19,9 @@ Registered markets, each with reviewed rules, its own theme table and a report i
 language: `us`, `cn` (zh-Hans), `jp` (ja), `in`, `hk` (zh-Hant), `kr` (ko), `uk`, `tw` (zh-Hant),
 `de` (de), `fr` (fr), `ca`, `au`, `br` (pt-BR), `crypto`. Anything else builds too — see step 6.
 
-Read [examples/README.md](examples/README.md) first. Examples ship for US Light/Medium/Heavy/Max
-and CN/Crypto/JP/KR Medium. The US ladder shares one snapshot and Max uses its qualified Heavy
-seed. For other markets open the closest worked input and the matching overlay. Read the example spec
+Read [examples/README.md](examples/README.md) first. Examples ship for CN Medium and US
+Light/Medium; US shares one snapshot. For other markets and depths open the closest worked input
+and the matching overlay. Max still requires a qualified Heavy seed. Read the example spec
 and report summary first; inspect relevant candidate rows programmatically rather than loading
 multi-megabyte snapshots into model context. Archived replay uses `assets/legacy-policy.json`
 explicitly and does not certify the current coverage contract.
@@ -178,6 +178,9 @@ reported rather than dropped.
     English is always generated; non-English markets also
     get their market-language report. Write researched names/reasons in that language; only
     report headings and closed vocabularies are translated.
+    Supply a one-sentence `reason_summary` for each candidate: explain the business observation,
+    preferably at most 60 Chinese characters or 160 characters in other languages. Keep detailed
+    reasoning and evidence in `reason`/admission/JSON; Markdown is the readable brief, not a log.
 
 If you have a price table covering the window after a universe was built, run
 `evaluate --universe U --prices P` before proposing the next set of changes. It reports whether

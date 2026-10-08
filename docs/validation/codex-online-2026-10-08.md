@@ -38,8 +38,10 @@ The original CN/US/Crypto economic plans and necessary duties were preserved.
 - US moved final staging artifacts during delivery. Exact copies restored checkpoint paths.
   Version 0.9.1 now checks saved artifact paths/hashes and documents copy-only delivery.
 
-The new [worked examples](../../examples/README.md) carry these research corrections for US
-and CN/Crypto Medium. JP/KR retain their earlier dated facts. Rebuilding examples is offline;
+At this test's completion, worked examples included US's four depths and CN/Crypto/JP/KR Medium.
+The current [format-review examples](../../examples/README.md) retain CN Medium and US Light/Medium;
+the previous example set is archived locally under `temp/report-format-2026-10-08/previous-examples/`.
+Rebuilding examples is offline;
 old valid business evidence keeps its original date. Qualification verifies contracts/coverage,
 not independent leadership truth, complete regulatory review or investment performance.
 

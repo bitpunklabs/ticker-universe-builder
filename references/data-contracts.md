@@ -40,6 +40,11 @@ Eligible measured candidates require a valid per-ticker `measurement_record`.
 Eligible candidates require a non-empty `reason`, tier 1/2 evidence, and `listing` with
 `status: "active"`, an ISO `as_of`, and an http(s) `source` also present in their strong evidence.
 An active quotation is evidence of tradability at the stated date, not proof of financial quality.
+Optional `reason_summary` is a non-empty, single-line string of at most 160 characters, written
+in the report's market language (prefer at most 60 characters for Chinese). It explains the
+business observation briefly, without source URLs or audit narration. It is preserved in JSON
+and used only for presentation; full `reason`, admissions and evidence remain authoritative.
+Without a summary, Markdown uses a bounded first-sentence excerpt of `reason`.
 Listing checks expire after 30 calendar days; observations dated after the snapshot are refused.
 Ineligible candidates may omit listing facts but must retain their exclusion code and evidence.
 
@@ -53,7 +58,8 @@ Legacy high-beta roles retain R² >= 30, strength >= 55 (positive beta >= 1.1) a
 `measure` writes per-ticker `measurement_record`: as-of date, source, input SHA-256, actual
 first/last observation dates, factor legs/model and observation counts. It clears old measured
 values on refresh, including values the replacement table cannot supply. Missing required data
-marks the merged snapshot incomplete; notes and coverage persist into the universe/report.
+marks the merged snapshot incomplete; notes and coverage persist into the universe JSON.
+Per-ticker missing-factor diagnostics stay in JSON rather than the readable Markdown report.
 `measurement_audit` preserves dated theme fit/fund diagnostics through merge and build.
 Snapshot measurement declarations describe common units; ticker records identify distinct gauges.
 `content_hash` covers the complete output record separately from membership `version_hash`;

@@ -96,5 +96,6 @@
   "profile.max": "Max",
   "column.purpose": "Função de observação",
   "column.representatives": "Papéis representativos",
-  "column.weight": "Peso"
+  "column.weight": "Peso",
+  "note.audit_record": "Justificativas completas, fontes e diagnósticos: [JSON]({universe}) · [Validação]({validation})."
 }

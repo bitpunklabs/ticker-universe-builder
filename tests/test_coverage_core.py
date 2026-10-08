@@ -709,7 +709,9 @@ def test_beta_cap_ranking_does_not_require_detailed_quality():
     betas[-2]['admission']['market_cap']['value'] = 1000
     heavy, report = build(data)
     assert report['passed'] and betas[-2]['asset_id'] in {c['asset_id'] for c in heavy['members']}
-    assert 'Market cap (Beta)' in __import__('universe_core').render_markdown(heavy, report)
+    chosen = next(c for c in heavy['members'] if c['asset_id'] == betas[-2]['asset_id'])
+    assert chosen['admission']['market_cap']['value'] == 1000
+    assert 'Market cap (Beta)' not in __import__('universe_core').render_markdown(heavy, report)
 
 
 @pytest.mark.parametrize('price_metrics', [

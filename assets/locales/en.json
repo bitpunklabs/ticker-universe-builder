@@ -135,5 +135,6 @@
   "profile.max": "Max",
   "column.purpose": "Observation duty",
   "column.representatives": "Representative roles",
-  "column.weight": "Weight"
+  "column.weight": "Weight",
+  "note.audit_record": "Full reasoning, sources and measurement diagnostics: [JSON]({universe}) · [Validation]({validation})."
 }

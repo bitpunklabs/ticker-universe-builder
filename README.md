@@ -87,7 +87,7 @@ ticker-universes/<market>/<profile>/<as_of>/
 | `.json` | Authoritative universe: members, admissions, evidence, rejections and hashes; keep for maintenance |
 | `.validation.json` | Qualification, counts, coverage checks, warnings and errors |
 | `.txt` | Grouped TradingView import, including reference instruments |
-| `.en.md` | Readable report |
+| `.en.md` | Readable report with short member reasons; full reasoning/evidence stay in JSON |
 | `.<market-language>.md` | Companion report for non-English markets |
 
 US/Crypto normally produce four files; CN/JP/KR produce five. References are counted separately
@@ -110,18 +110,16 @@ Python does not perform that research or weaken gates automatically. See
 
 ## Examples
 
-Eight [worked examples](examples/README.md) include inputs and script-generated artifacts:
+Three [worked examples](examples/README.md) include inputs and script-generated artifacts:
 
 | Market | Profiles and entity counts |
 |---|---|
-| US | Light 100 · Medium 294 · Heavy 370 · Max 481 |
+| US | Light 100 · Medium 294 |
 | CN | Medium 302 |
-| Crypto | Medium 35 |
-| JP | Medium 131 |
-| KR | Medium 108 |
 
-US shares one snapshot across all four depths; Max uses its matching Heavy seed and adds
-111 Beta. Source dates, research scope and exclusions are disclosed in the example documentation.
+US Light and Medium share one snapshot. Source dates, research scope and exclusions are
+disclosed in the example documentation. Full research and diagnostics stay in JSON;
+Markdown groups members with short reasons and links to the audit record.
 Rebuilding does not refresh market facts.
 
 From the skill repository root:

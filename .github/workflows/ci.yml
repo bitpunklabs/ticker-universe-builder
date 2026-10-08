@@ -56,26 +56,33 @@ jobs:
           done
       - name: build the US ladder and expand a qualified Heavy with sourced Beta
         run: |
+          python - <<'EOF'
+          import json
+          base = json.load(open('examples/us-medium/build-spec.json'))
+          for profile in ('heavy', 'max'):
+              with open(f'/tmp/us-{profile}.spec.json', 'w') as handle:
+                  json.dump(dict(base, profile=profile), handle)
+          EOF
           python scripts/universe.py build \
             --spec examples/us-light/build-spec.json \
             --snapshot examples/us-medium/snapshot.json --output /tmp/us-light
           python scripts/universe.py build \
-            --spec examples/us-heavy/build-spec.json \
+            --spec /tmp/us-heavy.spec.json \
             --snapshot examples/us-medium/snapshot.json --output /tmp/us-heavy
           python scripts/universe.py build \
-            --spec examples/us-max/build-spec.json \
+            --spec /tmp/us-max.spec.json \
             --snapshot examples/us-medium/snapshot.json \
             --seed /tmp/us-heavy/us-heavy-2026-10-08.json --output /tmp/us-max
           python scripts/universe.py validate /tmp/us-light/us-light-2026-10-08.json
           python scripts/universe.py validate /tmp/us-heavy/us-heavy-2026-10-08.json
           python scripts/universe.py validate /tmp/us-max/us-max-2026-10-08.json
-      - name: read a watchlist back in and reach the same tickers
+      - name: import the generated watchlist into a research draft
         run: |
           watchlist=$(python -c \
             "import json,sys; print(json.load(open(sys.argv[1]))['artifacts']['watchlist'])" \
-            /tmp/crypto.result.json)
-          python scripts/universe.py import --watchlist "$watchlist" --market crypto \
-            --output /tmp/crypto.draft.json
+            /tmp/us.result.json)
+          python scripts/universe.py import --watchlist "$watchlist" --market us \
+            --output /tmp/us.draft.json
           python scripts/universe.py taxonomy --market crypto --profile light > /dev/null
       - name: check every starter theme table
         # Every registered market, at every depth, read off the registry rather than listed here
@@ -92,15 +99,13 @@ jobs:
                 --market "$market" --profile "$profile" > /dev/null
             done
           done
-      - name: every market reports in its own language and in English
+      - name: worked markets report in their language and in English
         # Both halves matter. The market report is what the people trading it read; the English
         # one is what someone allocating across six markets reads, and it is the half that used
         # not to exist.
         run: |
           grep -q '^# CN 标的池' "$(dirname "$(cat /tmp/cn.path)")"/cn-medium-*.zh-Hans.md
-          grep -q '^# JP 銘柄ユニバース' "$(dirname "$(cat /tmp/jp.path)")"/jp-medium-*.ja.md
-          grep -q '^# KR 종목 유니버스' "$(dirname "$(cat /tmp/kr.path)")"/kr-medium-*.ko.md
-          for market in cn us crypto jp kr; do
+          for market in cn us; do
             path="$(dirname "$(cat /tmp/$market.path)")"
             grep -q '^# .* Ticker Universe' "$path"/$market-medium-*.en.md \
               || { echo "$market: no English report"; exit 1; }
@@ -114,21 +119,37 @@ jobs:
           # --language names the companion; English is written either way.
           grep -q '^# CN 銘柄ユニバース' /tmp/cn-ja/cn-medium-*.ja.md
           grep -q '^# CN Ticker Universe' /tmp/cn-ja/cn-medium-*.en.md
-      - name: apply the example change set
+          python scripts/universe.py build --language ko \
+            --spec examples/cn-medium/build-spec.json \
+            --snapshot examples/cn-medium/snapshot.json --output /tmp/cn-ko > /dev/null
+          grep -q '^# CN 종목 유니버스' /tmp/cn-ko/cn-medium-*.ko.md
+          grep -q '^# CN Ticker Universe' /tmp/cn-ko/cn-medium-*.en.md
+      - name: apply a same-date NO_CHANGE review
         run: |
+          python - <<'EOF'
+          import json
+          universe = json.load(open(open('/tmp/us.path').read().strip()))
+          changes = dict(schema_version=1, market='us', as_of=universe['as_of'], complete=True,
+                         base_version_hash=universe['version_hash'],
+                         base_content_hash=universe['content_hash'], review_depth='routine',
+                         sources=universe['sources'],
+                         ops=[dict(op='NO_CHANGE', reason='Same-date integration check')])
+          with open('/tmp/us.changes.json', 'w') as handle:
+              json.dump(changes, handle)
+          EOF
           python scripts/universe.py maintain \
-            --universe "$(cat /tmp/crypto.path)" \
-            --changes examples/crypto-medium/changes.json \
-            --output /tmp/crypto-v2
+            --universe "$(cat /tmp/us.path)" \
+            --changes /tmp/us.changes.json \
+            --output /tmp/us-v2
 
       - name: diff the reviewed universe against the one it came from
         run: |
-          reviewed=$(ls /tmp/crypto-v2/crypto-medium-*.json | grep -v validation)
-          python scripts/universe.py diff "$(cat /tmp/crypto.path)" "$reviewed" \
-            > /tmp/crypto.diff.json
+          reviewed=$(ls /tmp/us-v2/us-medium-*.json | grep -v validation)
+          python scripts/universe.py diff "$(cat /tmp/us.path)" "$reviewed" \
+            > /tmp/us.diff.json
           python - <<'EOF'
           import json
-          diff = json.load(open("/tmp/crypto.diff.json"))
+          diff = json.load(open("/tmp/us.diff.json"))
           assert diff["added"] == [], diff["added"]
           assert diff["removed"] == [], diff["removed"]
           assert diff["market_spec"] == "unchanged"
@@ -140,7 +161,7 @@ jobs:
         run: |
           python - <<'EOF'
           import json
-          universe = json.load(open(open("/tmp/crypto.path").read().strip()))
+          universe = json.load(open(open("/tmp/us.path").read().strip()))
           tickers = [m["ticker"] for m in universe["members"]]
           tickers += [a["ticker"] for a in universe["selection_audit"]]
           rows = ["date,ticker,close"]
@@ -151,8 +172,8 @@ jobs:
           open("/tmp/window.csv", "w").write("\n".join(rows) + "\n")
           EOF
           python scripts/universe.py evaluate \
-            --universe "$(cat /tmp/crypto.path)" --prices /tmp/window.csv \
-            --benchmark BINANCE:BTCUSDT.P --output /tmp/evaluation.json
+            --universe "$(cat /tmp/us.path)" --prices /tmp/window.csv \
+            --benchmark NASDAQ:AAPL --output /tmp/evaluation.json
           python - <<'EOF'
           import json
           report = json.load(open("/tmp/evaluation.json"))

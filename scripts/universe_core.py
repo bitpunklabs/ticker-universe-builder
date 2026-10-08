@@ -1466,6 +1466,12 @@ def normalize_candidate(
     }
     if "admission" in raw:
         candidate["admission"] = deepcopy(raw["admission"])
+    if "reason_summary" in raw:
+        summary = raw["reason_summary"]
+        if not isinstance(summary, str) or not summary.strip() or len(summary) > 160 \
+                or "\n" in summary or "\r" in summary:
+            raise UniverseError(f"{ticker}: reason_summary must be one line of 1–160 characters")
+        candidate["reason_summary"] = summary.strip()
     candidate["scored_on"] = score_coverage(candidate)
     return candidate
 
@@ -2460,6 +2466,29 @@ def _glossed(lexicon: dict[str, str], domain: str, code: str) -> str:
     return label if label == code else f"{label} ({code})"
 
 
+def _brief_reason(member: dict[str, Any]) -> str:
+    """A presentation excerpt; never replace the admission reasoning in the record."""
+    text = " ".join(str(member.get("reason_summary") or member.get("reason") or "").split())
+    if not member.get("reason_summary"):
+        first = re.split(r"(?<=[。！？])|(?<=[.!?])\s+(?=[A-Z])", text, maxsplit=1)[0]
+        if len(first) >= 12 or re.search(r"[\u3400-\u9fff]", first):
+            # Short Chinese sentences are useful; an initialism such as U.S. alone is not.
+            text = first
+    if len(text) > 160:
+        cut = text[:159]
+        if " " in cut and not re.search(r"[\u3400-\u9fff]", cut):
+            cut = cut.rsplit(" ", 1)[0]
+        text = cut.rstrip(" ,;，；") + "…"
+    return text.replace("|", "\\|")
+
+
+def _measurement_diagnostic(note: str) -> bool:
+    return bool(re.fullmatch(
+        r"\S+: (?:no factor statistics, \d+ sessions overlap a usable gauge"
+        r"|not covered by the price table)", str(note),
+    ))
+
+
 def render_markdown(
     universe: dict[str, Any], report: dict[str, Any], language: str | None = None
 ) -> str:
@@ -2543,7 +2572,13 @@ def render_markdown(
         f"- {lex['label.validation']}{colon}"
         f"{lex['value.pass'] if report['passed'] else lex['value.fail']}",
         "",
-        *[f"- {note}" for note in universe.get("notes", [])],
+        lex["note.audit_record"].format(
+            universe=f"{artifact_stem(universe)}.json",
+            validation=f"{artifact_stem(universe)}.validation.json",
+        ),
+        "",
+        *[f"- {note}" for note in universe.get("notes", [])
+          if not _measurement_diagnostic(note)],
         "",
         f"## {lex['section.roles']}",
         "",
@@ -2658,12 +2693,12 @@ def render_markdown(
         "",
         f"## {lex['section.members']}",
         "",
-        f"| {lex['column.theme']} | {lex['column.ticker']} | {lex['column.name']} "
-        f"| {lex['column.role']} | {lex['column.reason']} | {lex['column.evidence']} |",
-        "|---|---|---|---|---|---|",
+        f"| {lex['column.ticker']} | {lex['column.name']} "
+        f"| {lex['column.role']} | {lex['column.reason']} |",
+        "|---|---|---|---|",
     ])
     if universe.get("selection_model") == "coverage_first":
-        # Groups simplify reading; the original theme and economic duty stay on each row.
+        # Group headings carry the theme; full economic duties and evidence stay in JSON.
         lines = lines[:-2]
         for code in sorted(groups):
             members = [c for c in groups[code] if "asset_id" in c]
@@ -2674,30 +2709,20 @@ def render_markdown(
                     f"### {code} · {labels[code]} ({len(members)})",
                     "",
                     f"| {lex['column.ticker']} | {lex['column.name']} | "
-                    f"{lex['column.role']} | {lex['column.theme']} | "
-                    f"{lex['column.reason']} | Market cap (Beta) | {lex['column.evidence']} |",
-                    "|---|---|---|---|---|---|---|",
+                    f"{lex['column.role']} | {lex['column.reason']} |",
+                    "|---|---|---|---|",
                 ]
             )
             for member in sorted(members, key=lambda c: c["ticker"]):
-                url = member["evidence"][0]["url"] if member["evidence"] else ""
-                reason = (member.get("reason") or "").replace("|", "\\|").replace("\n", " ")
-                source_theme = taxonomy[member["theme_code"]]["theme_name"]
-                cap = member.get("admission", {}).get("market_cap")
-                cap_text = (f"[{cap['value']:,.0f} {cap['currency']}]({cap['source']}) "
-                            f"({cap['as_of']})" if cap else "—")
                 lines.append(f"| {member['ticker']} | {member['name']} | "
-                             f"{_glossed(lex, 'role', member['role'])} | {source_theme} | "
-                             f"{reason} | {cap_text} | {url} |")
+                             f"{_glossed(lex, 'role', member['role'])} | "
+                             f"{_brief_reason(member)} |")
             lines.append("")
     else:
         for member in universe["members"]:
-            theme = taxonomy[member["theme_code"]]
-            url = member["evidence"][0]["url"] if member["evidence"] else ""
-            reason = member.get("reason") or ""
             lines.append(
-                f"| {member['theme_code']} {theme['theme_name']} | {member['ticker']} | "
-                f"{member['name']} | {_glossed(lex, 'role', member['role'])} | {reason} | {url} |"
+                f"| {member['ticker']} | {member['name']} | "
+                f"{_glossed(lex, 'role', member['role'])} | {_brief_reason(member)} |"
             )
     if universe.get("selection_model") == "coverage_first":
         quality = report["stats"].get("quality") or {}

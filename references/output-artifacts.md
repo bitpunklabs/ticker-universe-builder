@@ -15,10 +15,14 @@ The stem is `{market}-{profile}-{as_of}`; profiles are `light`, `medium`, `heavy
 | `{stem}.json` | Authoritative universe: members, roles, admissions, coverage plan, reference instruments, dated sources, measurements, rejection audit, limits, policy/content/version hashes and review history. Keep it for maintain/diff/evaluate. Max also retains its Heavy base. |
 | `{stem}.validation.json` | Build verdict: `passed`, `qualified`, errors, warnings, entity/reference/export counts and coverage/expansion checks. |
 | `{stem}.txt` | TradingView import: venue-prefixed tickers and `###` display groups, including references; at most 1,000 tokens including headings. |
-| `{stem}.en.md` | Human report: structure, members and reasons, sources, limits, coverage and Max additions/distribution when applicable. |
+| `{stem}.en.md` | Human report: structure, grouped members with brief reasons, material limits, coverage and Max additions/distribution when applicable. |
 | `{stem}.<market-language>.md` | Companion report for non-English markets. CN uses `zh-Hans`. `--language` changes the companion; English remains. Only headings and closed vocabularies are translated, not researched names/reasons. |
 
 US/Crypto normally produce **four files**; CN produces **five**. They are all script-generated.
+Member tables show ticker, name, role and one brief reason. Full reasoning, admissions, source
+URLs, dated market-cap evidence and per-ticker measurement diagnostics stay in JSON, linked once
+from the report. `reason_summary` supplies the short reason; older inputs use a first-sentence
+excerpt capped at 160 characters. Partial delivery and material validation warnings remain visible.
 Maintenance writes the same bundle, with review operations, turnover and deferred decisions in
 its report/history. `snapshot.json`, `build-spec.json`, raw provider receipts and price CSVs are
 research inputs, not extra final watchlists.

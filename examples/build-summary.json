@@ -1,12 +1,21 @@
 {
   "examples": [
     {
+      "example": "cn-medium",
+      "entities": 302,
+      "references": 42,
+      "qualified": true,
+      "version_hash": "ee40a3b353bb",
+      "content_hash": "385e05597ba6",
+      "warnings": []
+    },
+    {
       "example": "us-light",
       "entities": 100,
       "references": 44,
       "qualified": true,
       "version_hash": "649ccb23c4c6",
-      "content_hash": "8126300cf1b2",
+      "content_hash": "fe76c9f76e6b",
       "warnings": []
     },
     {
@@ -15,61 +24,7 @@
       "references": 44,
       "qualified": true,
       "version_hash": "803482441ee9",
-      "content_hash": "831b57b4a3f5",
-      "warnings": []
-    },
-    {
-      "example": "us-heavy",
-      "entities": 370,
-      "references": 44,
-      "qualified": true,
-      "version_hash": "68b375343c18",
-      "content_hash": "d2d4a1f4afff",
-      "warnings": []
-    },
-    {
-      "example": "us-max",
-      "entities": 481,
-      "references": 44,
-      "qualified": true,
-      "version_hash": "a31cfe9d5a09",
-      "content_hash": "5dabac9c96b0",
-      "warnings": []
-    },
-    {
-      "example": "cn-medium",
-      "entities": 302,
-      "references": 42,
-      "qualified": true,
-      "version_hash": "ee40a3b353bb",
-      "content_hash": "37765b290b77",
-      "warnings": []
-    },
-    {
-      "example": "crypto-medium",
-      "entities": 35,
-      "references": 0,
-      "qualified": true,
-      "version_hash": "3b692552b2be",
-      "content_hash": "f69bc32f0c54",
-      "warnings": []
-    },
-    {
-      "example": "jp-medium",
-      "entities": 131,
-      "references": 2,
-      "qualified": true,
-      "version_hash": "4350f3f0796c",
-      "content_hash": "8320546f9de4",
-      "warnings": []
-    },
-    {
-      "example": "kr-medium",
-      "entities": 108,
-      "references": 2,
-      "qualified": true,
-      "version_hash": "6fd6fd9920fc",
-      "content_hash": "3dc0f17b9ad0",
+      "content_hash": "aabc31579a54",
       "warnings": []
     }
   ]

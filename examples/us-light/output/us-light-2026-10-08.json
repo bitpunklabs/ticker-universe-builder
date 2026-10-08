@@ -25433,6 +25433,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Networking/custom silicon and infrastructure software.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -25581,6 +25582,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Accelerated computing platforms and the cuda software ecosystem.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -25716,6 +25718,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Independent advanced-node wafer manufacturing.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -25854,6 +25857,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Deposition and materials engineering equipment.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -25992,6 +25996,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Lithography equipment essential to wafer patterning.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -26123,6 +26128,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Licensed processor architecture and cpu designs.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -26256,6 +26262,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Us-based dram and nand manufacturing.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -26391,6 +26398,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Wireless modem intellectual property and mobile chipsets.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -26526,6 +26534,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Broad analog and embedded semiconductor products.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -26662,6 +26671,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Enterprise servers, storage and personal computing.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -26795,6 +26805,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Consumer devices and the attached services ecosystem.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -26928,6 +26939,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Retail logistics, marketplace services and aws.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -27061,6 +27073,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Search advertising, youtube and cloud infrastructure.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -27194,6 +27207,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Social advertising platforms and messaging networks.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -27327,6 +27341,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Enterprise productivity software and azure cloud.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -27460,6 +27475,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Enterprise databases and cloud infrastructure.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -27597,6 +27613,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Data-centre ethernet switching systems.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -27731,6 +27748,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Electrical distribution and power-management equipment.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -27864,6 +27882,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Data-centre power and thermal infrastructure.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -27998,6 +28017,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Integrated enterprise network and cloud security.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -28154,6 +28174,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Creative tools and document software.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -28310,6 +28331,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Tax preparation and small-business accounting software.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -28466,6 +28488,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Customer-relationship software and application platforms.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -28622,6 +28645,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Enterprise service-management workflow software.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -28756,6 +28780,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Mobile application advertising and monetization infrastructure.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -28895,6 +28920,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Online accommodation and travel distribution.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -29034,6 +29060,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Latin american e-commerce and merchant payments.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -29173,6 +29200,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Merchant commerce software and payment services.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -29312,6 +29340,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Ride-hailing and delivery marketplaces.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -29451,6 +29480,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Subscription video and advertising-supported streaming.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -29590,6 +29620,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Entertainment intellectual property, streaming and theme parks.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -29721,6 +29752,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Chinese commerce platforms and cloud services.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -29853,6 +29885,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Us mobile connectivity and subscriber economics.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -30011,6 +30044,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Deposit-funded retail banking and commercial credit.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -30181,6 +30215,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Diversified consumer banking, investment banking and payments.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -30339,6 +30374,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Us consumer and commercial banking.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -30475,6 +30511,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Investment banking, trading and institutional asset management.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -30611,6 +30648,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Wealth management and institutional securities.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -30738,6 +30776,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Global card-payment network and related data services.",
       "scored_on": {
         "present": 1,
         "of": 4
@@ -30865,6 +30904,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Card-payment network transaction processing.",
       "scored_on": {
         "present": 1,
         "of": 4
@@ -30998,6 +31038,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Integrated card issuance, merchant network and customer credit.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -31136,6 +31177,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Investment management and asset-management technology.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -31274,6 +31316,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Private-market asset management and fundraising.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -31422,6 +31465,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Insurance underwriting, investment assets and operating subsidiaries.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -31570,6 +31614,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Commercial and personal property/casualty insurance.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -31718,6 +31763,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Us motor insurance underwriting and pricing.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -31856,6 +31902,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Listed derivatives trading and central clearing.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -31994,6 +32041,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Credit ratings, indices and financial information.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -32136,6 +32184,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Cystic-fibrosis medicines and additional specialty therapies.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -32278,6 +32327,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Immunology medicines and diversified pharmaceutical franchises.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -32420,6 +32470,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Innovative medicines and medical technology after the consumer separation.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -32562,6 +32613,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Diabetes/obesity medicines and other pharmaceutical franchises.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -32704,6 +32756,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Oncology, vaccines and animal-health medicines.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -32839,6 +32892,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Health insurance and integrated healthcare services.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -32980,6 +33034,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Robot-assisted surgical systems and procedure-linked consumables.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -33121,6 +33176,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Medical devices, diagnostics and nutrition products.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -33259,6 +33315,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Bioprocessing, life-science instruments and diagnostics.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -33397,6 +33454,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Laboratory instruments, consumables and outsourced research services.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -33532,6 +33590,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Hospital operations and clinical-service demand.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -33667,6 +33726,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Pharmaceutical distribution and associated provider services.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -33810,6 +33870,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Membership warehouse retailing.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -33953,6 +34014,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Large-scale grocery/general retail and retail logistics.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -34096,6 +34158,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Home-improvement retail and professional contractor demand.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -34232,6 +34295,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Franchised quick-service restaurants.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -34375,6 +34439,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Athletic footwear and apparel brands.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -34513,6 +34578,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Snack foods and beverages.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -34651,6 +34717,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Branded beverages and concentrate economics.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -34784,6 +34851,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Branded household and personal-care products.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -34914,6 +34982,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Tobacco and smoke-free nicotine products.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -35051,6 +35120,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Hotel brands, management and franchise fees.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -35184,6 +35254,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Electric vehicles and energy-storage products.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -35323,6 +35394,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Commercial aircraft engines and installed-base services.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -35462,6 +35534,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Military aircraft, missiles and defence systems.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -35601,6 +35674,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Aircraft systems and defence products.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -35757,6 +35831,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Construction/mining equipment and aftermarket services.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -35913,6 +35988,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Agricultural equipment and precision-farming systems.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -36058,6 +36134,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Western us freight rail transportation.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -36203,6 +36280,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Parcel delivery and logistics networks.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -36333,6 +36411,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Waste collection, disposal and recycling.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -36474,6 +36553,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Integrated oil/gas operations.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -36615,6 +36695,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Integrated oil/gas production, refining and chemicals.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -36748,6 +36829,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Oilfield technology and reservoir services.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -36886,6 +36968,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Liquefied-natural-gas export infrastructure.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -37026,6 +37109,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Industrial gases and long-term customer supply contracts.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -37166,6 +37250,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Architectural and industrial coatings.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -37297,6 +37382,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Copper mining with associated gold production.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -37431,6 +37517,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Electric-arc-furnace steel and downstream steel products.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -37564,6 +37651,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Gold mining operations.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -37703,6 +37791,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Construction aggregates and regional building demand.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -37854,6 +37943,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Regulated electricity/gas networks and generation.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -38005,6 +38095,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Regulated electricity and renewable generation development.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -38156,6 +38247,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Regulated electric/gas utility operations.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -38287,6 +38379,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Nuclear generation and wholesale power exposure.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -38417,6 +38510,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Uranium supply and nuclear-fuel services.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -38547,6 +38641,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Thin-film solar modules.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -38679,6 +38774,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Interconnection-oriented data-centre property operations.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -38815,6 +38911,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Diversified net-lease property cash flows.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -38951,6 +39048,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Logistics real estate and warehouse rents.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -39087,6 +39185,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Self-storage property rents.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -39217,6 +39316,7 @@
           "units": 1
         }
       },
+      "reason_summary": "Senior-housing and healthcare property operations.",
       "scored_on": {
         "present": 2,
         "of": 4
@@ -43763,5 +43863,5 @@
   ],
   "history": [],
   "version_hash": "649ccb23c4c6",
-  "content_hash": "8126300cf1b2"
+  "content_hash": "fe76c9f76e6b"
 }

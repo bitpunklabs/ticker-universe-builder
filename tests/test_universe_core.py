@@ -1057,12 +1057,17 @@ class DiffTests(unittest.TestCase):
     def test_a_review_and_a_diff_of_it_agree_on_turnover(self) -> None:
         # Two definitions of turnover that drift apart would be worse than one, so they are
         # checked against each other on the shipped example rather than asserted separately.
-        folder = ROOT / "examples" / "crypto-medium"
+        folder = ROOT / "examples" / "us-medium"
         policy = current_policy()
         built, _ = build_universe(
             read_json(folder / "build-spec.json"), read_json(folder / "snapshot.json"), policy
         )
-        reviewed, report = apply_change_set(built, read_json(folder / "changes.json"), policy)
+        changes = dict(schema_version=1, market="us", as_of=built["as_of"], complete=True,
+                       base_version_hash=built["version_hash"],
+                       base_content_hash=built["content_hash"], review_depth="routine",
+                       sources=built["sources"],
+                       ops=[dict(op="NO_CHANGE", reason="Same-date regression review")])
+        reviewed, report = apply_change_set(built, changes, policy)
         compared = diff_universes(built, reviewed)
         self.assertEqual(compared["added"], [])
         self.assertEqual(compared["removed"], [])
@@ -1699,12 +1704,9 @@ class ImportTests(unittest.TestCase):
         self.assertTrue(any("more than once" in note for note in draft["notes"]))
 
     def test_our_own_watchlist_round_trips(self) -> None:
-        universe, _ = build_universe(
-            read_json(ROOT / "examples" / "crypto-medium" / "build-spec.json"),
-            read_json(ROOT / "examples" / "crypto-medium" / "snapshot.json"),
-            current_policy(),
-        )
-        draft = self.draft(render_txt(universe), market="crypto")
+        from test_coverage_core import build
+        universe, _ = build(profile="medium")
+        draft = self.draft(render_txt(universe), market="us")
         self.assertEqual(
             [item["theme_code"] for item in draft["taxonomy"]],
             sorted(display_view(universe)[1]),
@@ -1739,11 +1741,12 @@ class ExampleTests(unittest.TestCase):
         }
         self.assertEqual(before, after)
 
-    def test_five_current_markets_and_the_us_ladder_ship(self) -> None:
-        self.assertEqual(EXAMPLE_MARKETS, ["cn", "crypto", "jp", "kr", "us"])
+    def test_the_requested_report_review_examples_ship(self) -> None:
+        self.assertEqual(EXAMPLE_MARKETS, ["cn", "us"])
         summary = read_json(ROOT / "examples" / "build-summary.json")["examples"]
         self.assertEqual(
-            [row["entities"] for row in summary], [100, 294, 370, 481, 302, 35, 131, 108]
+            [(row["example"], row["entities"]) for row in summary],
+            [("cn-medium", 302), ("us-light", 100), ("us-medium", 294)],
         )
         self.assertTrue(all(row["qualified"] for row in summary))
 
@@ -1773,8 +1776,10 @@ class ExampleTests(unittest.TestCase):
                     )
 
     def test_max_retains_heavy_and_only_adds_beta(self) -> None:
-        heavy = read_json(ROOT / "examples/us-heavy/output/us-heavy-2026-10-08.json")
-        maximum = read_json(ROOT / "examples/us-max/output/us-max-2026-10-08.json")
+        raw = read_json(ROOT / "examples/us-medium/snapshot.json")
+        base = read_json(ROOT / "examples/us-medium/build-spec.json")
+        heavy, _ = build_universe(dict(base, profile="heavy"), raw, current_policy())
+        maximum, _ = build_universe(dict(base, profile="max"), raw, current_policy(), heavy)
         held = {row["ticker"]: row for row in heavy["members"]}
         added = [row for row in maximum["members"] if row["ticker"] not in held]
         self.assertEqual(len(added), 111)
@@ -1783,14 +1788,18 @@ class ExampleTests(unittest.TestCase):
             held, {row["ticker"]: row for row in maximum["members"] if row["ticker"] in held}
         )
 
-    def test_the_crypto_change_set_still_applies_to_its_own_universe(self) -> None:
-        folder = ROOT / "examples/crypto-medium"
+    def test_same_date_maintenance_preserves_qualified_members(self) -> None:
+        folder = ROOT / "examples/us-medium"
         universe, _ = build_universe(
             read_json(folder / "build-spec.json"),
             read_json(folder / "snapshot.json"),
             current_policy(),
         )
-        changes = read_json(folder / "changes.json")
+        changes = dict(schema_version=1, market="us", as_of=universe["as_of"], complete=True,
+                       base_version_hash=universe["version_hash"],
+                       base_content_hash=universe["content_hash"], review_depth="routine",
+                       sources=universe["sources"],
+                       ops=[dict(op="NO_CHANGE", reason="Same-date regression review")])
         self.assertEqual(changes["base_version_hash"], universe["version_hash"])
         updated, report = apply_change_set(universe, changes, current_policy())
         self.assertTrue(report["qualified"], report["errors"])

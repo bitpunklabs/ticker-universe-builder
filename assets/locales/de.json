@@ -96,5 +96,6 @@
   "profile.max": "Max",
   "column.purpose": "Beobachtungszweck",
   "column.representatives": "Repräsentative Rollen",
-  "column.weight": "Gewicht"
+  "column.weight": "Gewicht",
+  "note.audit_record": "Ausführliche Begründungen, Quellen und Messdiagnosen: [JSON]({universe}) · [Validierung]({validation})."
 }

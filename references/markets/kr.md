@@ -40,9 +40,8 @@ Starter theme levels/weights do not set current member quotas.
 
 ## Example
 
-Open the [KR Medium example](../../examples/kr-medium/build-spec.json) and
-[example research limits](../../examples/README.md). Its reviewed roster demonstrates the
-current coverage contract; it is not an exhaustive census of this market’s leaders.
+Open the closest [worked equity example](../../examples/README.md) for the coverage and output
+contracts, then research Korea under this overlay. There is no current KR worked example.
 
 ## Suggested live fields
 

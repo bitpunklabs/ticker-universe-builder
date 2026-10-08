@@ -87,6 +87,6 @@ keeping selection deterministic and research proportionate to the requested dept
 
 ## Current worked examples
 
-[`examples/crypto-medium/`](../../examples/crypto-medium/) demonstrates researched economic
-coverage and admissions. Heavy and Max share that snapshot; Max adds 30% sourced Beta to the
-qualified Heavy. Read [scope and limitations](../../examples/README.md) before reusing facts.
+Current [worked examples](../../examples/README.md) demonstrate the shared coverage and output
+contracts using equities. Crypto needs its own researched token/instrument facts under this
+overlay; do not reuse equity admissions. Max requires a qualified Crypto Heavy seed.

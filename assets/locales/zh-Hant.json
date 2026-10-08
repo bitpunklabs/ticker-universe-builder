@@ -108,5 +108,6 @@
   "profile.max": "Max",
   "column.purpose": "觀察職責",
   "column.representatives": "代表角色",
-  "column.weight": "權重"
+  "column.weight": "權重",
+  "note.audit_record": "完整理由、來源和測量診斷：[JSON]({universe}) · [驗證]({validation})。"
 }

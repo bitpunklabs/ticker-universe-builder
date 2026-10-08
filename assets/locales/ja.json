@@ -96,5 +96,6 @@
   "profile.max": "Max",
   "column.purpose": "観測目的",
   "column.representatives": "代表の役割",
-  "column.weight": "重み"
+  "column.weight": "重み",
+  "note.audit_record": "詳しい理由・出典・測定診断：[JSON]({universe}) · [検証]({validation})。"
 }

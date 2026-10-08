@@ -40,9 +40,8 @@ Starter theme levels/weights do not set current member quotas.
 
 ## Example
 
-Open the [JP Medium example](../../examples/jp-medium/build-spec.json) and
-[example research limits](../../examples/README.md). Its reviewed roster demonstrates the
-current coverage contract; it is not an exhaustive census of this market’s leaders.
+Open the closest [worked equity example](../../examples/README.md) for the coverage and output
+contracts, then research Japan under this overlay. There is no current JP worked example.
 
 ## Suggested live fields
 

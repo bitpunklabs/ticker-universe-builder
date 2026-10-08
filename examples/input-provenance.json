@@ -6,10 +6,10 @@
       "origin": "Actual online Codex CLI research, 2026-10-08",
       "original_snapshot_sha256": "8b656f4bc51e53f795d6a3d8bfd6998f34432b78dcf2b69fef0ae12cd20c0f94",
       "original_hash_convention": "SHA-256 of UTF-8 sorted-key JSON, ensure_ascii=false; no indent",
-      "example_snapshot_sha256": "893c83523e4fab41c259281a7ec7197e6ae49c1854b47ac1ed2001e43e4764df",
+      "example_snapshot_sha256": "12e35d3f832f397dfadf388341ee62434f5fdf3d9aed54894ab9b840a0a6ee61",
       "original_candidates": 1639,
       "example_candidates": 457,
-      "transformation": "Retain final reviewed Heavy candidates; preserve complete plan, original measurement population/dates/hashes and all referenced sources. This compact example cannot supply Max Beta. Normalize CJK-adjacent punctuation in report names/reasons without changing sourced values or identifiers.",
+      "transformation": "Retain final reviewed Heavy candidates; preserve complete plan, original measurement population/dates/hashes and all referenced sources. This compact example cannot supply Max Beta. Normalize CJK-adjacent punctuation in report names/reasons without changing sourced values or identifiers. Add presentation-only reason_summary excerpts from the existing business review; preserve full reason, admissions, dates and measurements.",
       "as_of": "2026-10-08"
     },
     {
@@ -17,53 +17,11 @@
       "origin": "Actual online Codex CLI research, 2026-10-08",
       "original_snapshot_sha256": "432f95076d0704cb1be3e31d90446b6f6214dc10259710e970440fdfb7b2fcc5",
       "original_hash_convention": "SHA-256 of UTF-8 sorted-key JSON, ensure_ascii=false; no indent",
-      "example_snapshot_sha256": "f496af4a9ed4b353708b64ef9bb5abfe120921d519b519f372b8e043e0c3fce3",
+      "example_snapshot_sha256": "ab75cb4959875e1d28220d9d020d90f5934764bfd9e400d160309abeb46ef181",
       "original_candidates": 667,
       "example_candidates": 667,
-      "transformation": "Full final online-reviewed research snapshot; original dates, measurement populations and source hashes preserved. Historical receipt locations use workspace-relative labels; original dates and receipt hashes are unchanged.",
+      "transformation": "Full final online-reviewed research snapshot; original dates, measurement populations and source hashes preserved. Historical receipt locations use workspace-relative labels; original dates and receipt hashes are unchanged. Add presentation-only reason_summary excerpts from the existing business review; preserve full reason, admissions, dates and measurements.",
       "as_of": "2026-10-08"
-    },
-    {
-      "market": "crypto",
-      "origin": "Actual online Codex CLI research, 2026-10-08",
-      "original_snapshot_sha256": "d6ca59585c6ccaf5cd45e51eea94503df97e5c4eafadf276debac0dd3a9febd1",
-      "original_hash_convention": "SHA-256 of UTF-8 sorted-key JSON, ensure_ascii=false; no indent",
-      "example_snapshot_sha256": "62a360131df135b1184908552ec406c17918da087759461626eb97f88064cd9e",
-      "original_candidates": 79,
-      "example_candidates": 79,
-      "transformation": "Full final online-reviewed research snapshot; original dates, measurement populations and source hashes preserved.",
-      "as_of": "2026-10-08"
-    },
-    {
-      "market": "jp",
-      "origin": "Reviewed business proposals and actual public receipts, 2026-10-07; reuse archived measured liquidity/listing facts",
-      "original_snapshot_sha256": "614c112f7b95a98da2e7108fd4254884d3044c79daf05f73b3d5857adec7992f",
-      "example_snapshot_sha256": "7991b6288e86b621f0d5accb565e17e7e8494cd49be57f39f5e244b033dcbce5",
-      "original_candidates": 533,
-      "example_candidates": 131,
-      "transformation": "Individually reviewed operating representatives and new current coverage plan; retain verified instruments and measured liquidity with original dates/hash/population; omit old optional factor statistics after reclassification. ETF gauges move to references.",
-      "as_of": "2026-10-07",
-      "business_profiles": 131,
-      "financial_receipt_sha256": "8d7f6758e98048432a72fdcd52696d2d224dff2cabc71fc8ee1761fd894ef827",
-      "structure_receipt_sha256": "4a1fa0a286f4ef35ae528dfe5436003057c4d2b762dd49a721d5dd53fa62645a",
-      "deferred": [],
-      "primary_business_exception": "TSE:9984 provider description discarded; official 2026 issuer business model read"
-    },
-    {
-      "market": "kr",
-      "origin": "Reviewed business proposals and actual public receipts, 2026-10-07; reuse archived measured liquidity/listing facts",
-      "original_snapshot_sha256": "0e7027ea175accd7a5bf624b1a7a6f25c3ffd9dc5c4e93bb28c727e5e93f05f4",
-      "example_snapshot_sha256": "34cc57762836c5636529080595a19e4407b925c1679d9114be8e2f36a780153c",
-      "original_candidates": 478,
-      "example_candidates": 108,
-      "transformation": "Individually reviewed operating representatives and new current coverage plan; retain verified instruments and measured liquidity with original dates/hash/population; omit old optional factor statistics after reclassification. ETF gauges move to references.",
-      "as_of": "2026-10-07",
-      "business_profiles": 108,
-      "financial_receipt_sha256": "e862f5e0e5be6462aa945e2e8b9c16d1e6df7f68d7ca04f05e5b5f7b62428fde",
-      "structure_receipt_sha256": "964e75e4c8e0430f5925eb1212166152dcba044d1dfa24636536e025d329d2b9",
-      "deferred": [
-        "KRX:122870: absent from the measured inventory; do not invent history"
-      ]
     }
   ]
 }

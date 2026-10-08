@@ -1,7 +1,0 @@
-{
-  "schema_version": 1,
-  "market": "us",
-  "profile": "heavy",
-  "as_of": "2026-10-08",
-  "shortfall_action": "retry"
-}

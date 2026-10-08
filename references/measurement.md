@@ -87,8 +87,9 @@ later excluded by the cutoff). Store the original table locally to reproduce the
 `--into` replaces every measured field and declaration. Missing replacement data clears stale
 scores rather than retaining them under a new method label. Eligible uncovered candidates mark
 the snapshot incomplete; required role metrics still gate the build. Judged fields remain as
-submitted. `measurement_audit` preserves dated theme/fund diagnostics. Coverage and notes persist into the universe; reports expose limitations and partial
-scores. Manual/external measurements must provide equivalent records.
+submitted. `measurement_audit` preserves dated theme/fund diagnostics. Coverage and notes persist
+in JSON; Markdown retains material limitations rather than printing per-ticker missing-factor
+logs. Manual/external measurements must provide equivalent records.
 
 `evaluate` uses the same CSV shape **after** the universe's as-of date. Measurements used to build
 a universe cannot validate its future coverage.
