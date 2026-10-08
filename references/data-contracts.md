@@ -45,6 +45,14 @@ in the report's market language (prefer at most 60 characters for Chinese). It e
 business observation briefly, without source URLs or audit narration. It is preserved in JSON
 and used only for presentation; full `reason`, admissions and evidence remain authoritative.
 Without a summary, Markdown uses a bounded first-sentence excerpt of `reason`.
+Optional snapshot `report_translations` is a supported-language-keyed text map, for example
+`{"en": {"航空产品。": "Aviation products."}}`. Keys match original display text exactly;
+values are non-empty authored translations. Supply names, short reasons, theme labels/purposes,
+notes, measurement descriptions and reference descriptions used by the report. The renderer
+uses this map only in Markdown; selection, ticker codes, original research and TXT are unchanged.
+Translated member reasons retain the 160-character limit. Missing entries retain the original
+text for older inputs; review language completeness before delivering an English report.
+The map is preserved in universe JSON and covered by `content_hash`.
 Listing checks expire after 30 calendar days; observations dated after the snapshot are refused.
 Ineligible candidates may omit listing facts but must retain their exclusion code and evidence.
 
@@ -496,10 +504,10 @@ too, because a universe is also read by someone allocating across several market
 of their languages — the reasons and the evidence are the point of the file, and a table of
 headings they cannot parse withholds exactly that. So both, always; `--language` names the
 companion rather than replacing English, and a market that already reads in English gets one file
-rather than the same file twice. Only the report's chrome is translated — headings, labels and the closed
-vocabularies, printed as `基准 (BENCHMARK)` so the code a reader greps for survives the
-translation. Everything else is the content this file carries: `name`, `l1_name`, `reason` and
-`method` appear exactly as the snapshot wrote them, so write them in the market's language.
+rather than the same file twice. Fixed headings and vocabulary come from locale files, printed
+as `基准 (BENCHMARK)` so the code a reader greps for survives translation. Human content comes
+from the research, with authored `report_translations` for companion languages. Do not label
+Chinese research prose an English report merely because its headings are English.
 `.validation.json` stays English, diagnostics included; it is the machine surface, and its
 messages name policy fields and code paths.
 [markets/adding-a-market.md](markets/adding-a-market.md) carries the language for every

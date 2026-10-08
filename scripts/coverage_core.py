@@ -650,6 +650,8 @@ def build(spec, raw, policy, previous=None):
             )
         },
         "members": selected,
+        **({"report_translations": snap["report_translations"]}
+           if "report_translations" in snap else {}),
         "selection_audit": audit,
         "history": [],
     }

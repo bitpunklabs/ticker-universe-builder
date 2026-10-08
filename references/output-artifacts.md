@@ -16,7 +16,7 @@ The stem is `{market}-{profile}-{as_of}`; profiles are `light`, `medium`, `heavy
 | `{stem}.validation.json` | Build verdict: `passed`, `qualified`, errors, warnings, entity/reference/export counts and coverage/expansion checks. |
 | `{stem}.txt` | TradingView import: venue-prefixed tickers and `###` display groups, including references; at most 1,000 tokens including headings. |
 | `{stem}.en.md` | Human report: structure, grouped members with brief reasons, material limits, coverage and Max additions/distribution when applicable. |
-| `{stem}.<market-language>.md` | Companion report for non-English markets. CN uses `zh-Hans`. `--language` changes the companion; English remains. Only headings and closed vocabularies are translated, not researched names/reasons. |
+| `{stem}.<market-language>.md` | Companion report for non-English markets. CN uses `zh-Hans`. `--language` changes the companion; English remains. Fixed vocabulary comes from locales; human content uses authored snapshot `report_translations`. |
 
 US/Crypto normally produce **four files**; CN produces **five**. They are all script-generated.
 Member tables show ticker, name, role and one brief reason. Full reasoning, admissions, source

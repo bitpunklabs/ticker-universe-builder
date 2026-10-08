@@ -14,6 +14,8 @@ research. Untagged development versions below were not separate public releases.
 - Consolidate contribution/security guidance in README; keep CI and remove optional issue/PR templates.
 - Make Markdown a readable brief: short member reasons and linked JSON evidence; keep per-ticker
   missing-factor logs in JSON. Replace examples with CN Medium and US Light/Medium for format review.
+- Support authored report-content translations; rebuild CN Medium with English names/briefs and
+  direct Chinese business summaries, preserving membership, research facts and US examples.
 
 ## 0.9.0 — development, 2026-10-07
 

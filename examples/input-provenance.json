@@ -6,11 +6,19 @@
       "origin": "Actual online Codex CLI research, 2026-10-08",
       "original_snapshot_sha256": "8b656f4bc51e53f795d6a3d8bfd6998f34432b78dcf2b69fef0ae12cd20c0f94",
       "original_hash_convention": "SHA-256 of UTF-8 sorted-key JSON, ensure_ascii=false; no indent",
-      "example_snapshot_sha256": "12e35d3f832f397dfadf388341ee62434f5fdf3d9aed54894ab9b840a0a6ee61",
+      "example_snapshot_sha256": "f10e23d49aa86e09d3f503aeef9d606590a37b4bca330859ff82297f22ca5183",
       "original_candidates": 1639,
       "example_candidates": 457,
-      "transformation": "Retain final reviewed Heavy candidates; preserve complete plan, original measurement population/dates/hashes and all referenced sources. This compact example cannot supply Max Beta. Normalize CJK-adjacent punctuation in report names/reasons without changing sourced values or identifiers. Add presentation-only reason_summary excerpts from the existing business review; preserve full reason, admissions, dates and measurements.",
-      "as_of": "2026-10-08"
+      "transformation": "Retain final reviewed Heavy candidates; preserve complete plan, original measurement population/dates/hashes and all referenced sources. This compact example cannot supply Max Beta. Normalize CJK-adjacent punctuation in report names/reasons without changing sourced values or identifiers. Add presentation-only reason_summary excerpts from the existing business review; preserve full reason, admissions, dates and measurements. Remove repetitive Chinese brief prefixes. Add authored English display translations and TradingView English names; original research and selection facts remain unchanged.",
+      "as_of": "2026-10-08",
+      "english_name_source": {
+        "url": "https://scanner.tradingview.com/china/scan",
+        "language": "en",
+        "captured_on": "2026-10-08",
+        "rows": 457,
+        "receipt_sha256": "4e7fc4d110c7f9ca73892183b8fa657c78b01865336bdbe203f1a6e0884f7c0f",
+        "purpose": "Display names only; no refresh of admission facts, prices or capitalization."
+      }
     },
     {
       "market": "us",

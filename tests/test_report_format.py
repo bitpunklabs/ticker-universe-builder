@@ -1,10 +1,12 @@
 """Readable reports must not lose the authoritative research/audit record."""
 
+import re
 from copy import deepcopy
+from pathlib import Path
 
 import pytest
 from test_coverage_core import build, researched
-from universe_core import UniverseError, _brief_reason, render_markdown
+from universe_core import UniverseError, _brief_reason, render_markdown, render_txt
 
 
 def test_brief_report_keeps_full_reason_evidence_and_diagnostics_in_json():
@@ -49,3 +51,51 @@ def test_older_reasons_have_a_bounded_readable_excerpt_without_mutation():
     assert _brief_reason(chinese) == '观察信贷与存款。'
     assert _brief_reason(dict(reason_summary='Funding | lending')) == 'Funding \\| lending'
     assert len(_brief_reason(dict(reason='long ' * 100))) <= 160
+
+
+def test_authored_translations_only_change_requested_report_not_research_or_selection():
+    data = researched()
+    member = data['candidates'][0]
+    member['name'] = '测试银行'
+    member['reason_summary'] = '存款与信贷。'
+    data['taxonomy'][0]['purpose'] = '存款与信贷需求。'
+    original, original_report = build(data)
+    data['report_translations'] = {'en': {
+        '测试银行': 'Test Bank', '存款与信贷。': 'Deposits | lending.',
+        data['taxonomy'][0]['purpose']: 'Banking demand and earnings drivers.',
+    }}
+    universe, report = build(data)
+    before = deepcopy(universe)
+    english = render_markdown(universe, report, 'en')
+    chinese = render_markdown(universe, report, 'zh-Hans')
+    row = next(line for line in english.splitlines() if line.startswith('| NYSE:CORE0 |'))
+    assert 'Test Bank' in row and 'Deposits \\| lending.' in row
+    assert '测试银行' in chinese and '存款与信贷。' in chinese
+    assert 'Banking demand and earnings drivers.' in english
+    assert universe == before
+    assert universe['members'] == original['members']
+    assert universe['version_hash'] == original['version_hash']
+    assert universe['content_hash'] != original['content_hash']
+    assert render_txt(universe) == render_txt(original)
+    assert original_report['qualified'] and report['qualified']
+
+
+@pytest.mark.parametrize('translations', [[], {'xx': {}}, {'en': []},
+                                         {'en': {'x': ''}}, {'en': {'x': 42}}])
+def test_translation_contract_rejects_malformed_maps(translations):
+    data = researched()
+    data['report_translations'] = translations
+    with pytest.raises(UniverseError, match='report_translations'):
+        build(data)
+
+
+def test_cn_example_english_content_and_direct_chinese_member_briefs():
+    folder = Path(__file__).resolve().parents[1] / 'examples/cn-medium/output'
+    english = (folder / 'cn-medium-2026-10-08.en.md').read_text(encoding='utf-8')
+    chinese = (folder / 'cn-medium-2026-10-08.zh-Hans.md').read_text(encoding='utf-8')
+    assert not re.search(r'[\u3400-\u9fff]', english)
+    rows = [line for line in chinese.splitlines() if re.match(r'\| (?:SSE|SZSE):', line)]
+    assert len(rows) == 302
+    assert all('| 观察' not in row for row in rows)
+    assert '航空产品。' in next(row for row in rows if 'SSE:600760' in row)
+    assert 'Aviation products.' in english

@@ -92,8 +92,8 @@ ticker-universes/<market>/<profile>/<as_of>/
 
 US/Crypto normally produce four files; CN/JP/KR produce five. References are counted separately
 from entities. The TXT limit is 1,000 tokens, including headings and references.
-Market-language headings and fixed vocabulary are translated; researched names/reasons are not
-automatically translated.
+Headings and fixed vocabulary use locale files; companion-language names, brief reasons and
+descriptions use authored snapshot `report_translations`. The CLI does not translate research prose.
 
 The CLI requires an explicit `--output` path and prints a JSON receipt. Build attempts save
 inputs and diagnostics in the adjacent `DIR.run/` checkpoint. Existing outputs are not overwritten.

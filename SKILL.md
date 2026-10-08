@@ -176,11 +176,13 @@ reported rather than dropped.
     `--output` path. Keep checkpoints, use a new empty directory for revisions, and disclose
     source cutoffs and partial status. Keep rendered paths in place; deliver links or copies.
     English is always generated; non-English markets also
-    get their market-language report. Write researched names/reasons in that language; only
-    report headings and closed vocabularies are translated.
+    get their market-language report. Fixed headings come from locales; supply authored
+    `report_translations.en` for human content (names, brief reasons, themes and descriptions).
+    Check the English report's content as well as its headings; the CLI does not translate prose.
     Supply a one-sentence `reason_summary` for each candidate: explain the business observation,
     preferably at most 60 Chinese characters or 160 characters in other languages. Keep detailed
     reasoning and evidence in `reason`/admission/JSON; Markdown is the readable brief, not a log.
+    State the business directly, without repetitive prefixes such as “观察” or “Observe”.
 
 If you have a price table covering the window after a universe was built, run
 `evaluate --universe U --prices P` before proposing the next set of changes. It reports whether

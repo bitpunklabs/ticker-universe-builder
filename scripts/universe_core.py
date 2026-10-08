@@ -661,14 +661,28 @@ def load_lexicon(language: str) -> dict[str, str]:
     """The words a report is written in, as data.
 
     Only the chrome is translated — headings, labels and the closed vocabularies. Those are
-    finite, so a lexicon can be complete and a test can prove it. The content around them is
-    whatever the research wrote: a Chinese A-share snapshot carries Chinese names and reasons
-    without this file knowing anything about them. Adding a language is one more JSON file.
+    finite, so a lexicon can be complete and a test can prove it. Human content comes from the
+    snapshot and its authored report_translations, not from this fixed vocabulary file.
     """
     path = locales_path() / f"{language}.json"
     if not path.is_file():
         raise UniverseError(f"unknown language {language!r}; available: {', '.join(languages())}")
     return {key: str(value) for key, value in read_json(path).items()}
+
+
+def normalize_report_translations(raw: Any) -> dict[str, dict[str, str]]:
+    """Authored display text, kept separate from research facts and selection inputs."""
+    if not isinstance(raw, dict):
+        raise UniverseError("report_translations must be a language-keyed object")
+    result = {}
+    for language, entries in raw.items():
+        if language not in languages() or not isinstance(entries, dict):
+            raise UniverseError("report_translations requires a supported language and text map")
+        if any(not isinstance(k, str) or not k.strip()
+               or not isinstance(v, str) or not v.strip() for k, v in entries.items()):
+            raise UniverseError("report_translations entries must be non-empty text pairs")
+        result[language] = dict(entries)
+    return result
 
 
 def starter_taxonomy(market: str, profile: str | None = None) -> list[dict[str, Any]]:
@@ -1533,6 +1547,8 @@ def normalize_snapshot(snapshot: dict[str, Any], *, coverage_first: bool = False
         "candidates": candidates,
         "notes": deepcopy(snapshot.get("notes") or []),
         "coverage": deepcopy(snapshot.get("coverage") or {}),
+        **({"report_translations": normalize_report_translations(snapshot["report_translations"])}
+           if "report_translations" in snapshot else {}),
     }
 
 
@@ -2035,6 +2051,8 @@ def build_universe(
         "measurement_audit": snapshot["measurement_audit"],
         "notes": snapshot["notes"],
         "coverage": snapshot["coverage"],
+        **({"report_translations": snapshot["report_translations"]}
+           if "report_translations" in snapshot else {}),
         "members": selected,
         "selection_audit": selection_audit,
         "history": [],
@@ -2060,6 +2078,11 @@ def validate_universe(
     policy = policy or load_policy()
     errors: list[str] = []
     warnings: list[str] = []
+    if "report_translations" in universe:
+        try:
+            normalize_report_translations(universe["report_translations"])
+        except UniverseError as exc:
+            errors.append(str(exc))
     market = str(universe.get("market", "")).lower()
     profile = str(universe.get("profile", "")).lower()
     declaration = universe.get("market_spec")
@@ -2492,7 +2515,20 @@ def _measurement_diagnostic(note: str) -> bool:
 def render_markdown(
     universe: dict[str, Any], report: dict[str, Any], language: str | None = None
 ) -> str:
-    lex = load_lexicon(language or report_language(universe))
+    language = language or report_language(universe)
+    lex = load_lexicon(language)
+    translations = universe.get("report_translations", {}).get(language, {})
+
+    def text(value: str) -> str:
+        return translations.get(value, value).replace("|", "\\|").replace("\n", " ")
+
+    def reason(member: dict[str, Any]) -> str:
+        brief = _brief_reason(member)
+        original = member.get("reason_summary") or brief
+        # Reapply the normal brief limit to authored translations; never change the member.
+        return (_brief_reason({"reason_summary": translations[original]})
+                if original in translations else brief)
+
     taxonomy = {item["theme_code"]: item for item in universe["taxonomy"]}
     per_theme = Counter(member["theme_code"] for member in universe["members"])
     from display_core import display_view, theme_groups
@@ -2506,7 +2542,7 @@ def render_markdown(
     # is the signal; printing "registered" on every other report would bury it.
     declared_line = [
         f"- {lex['label.market_rules']}{colon}{_glossed(lex, 'origin', 'declared')} · "
-        f"{declaration['label']} · {', '.join(declaration['venues'])}"
+        f"{text(declaration['label'])} · {', '.join(declaration['venues'])}"
     ] if declaration else []
     partial_notice = []
     if universe.get("delivery", {}).get("status") == "partial":
@@ -2577,7 +2613,7 @@ def render_markdown(
             validation=f"{artifact_stem(universe)}.validation.json",
         ),
         "",
-        *[f"- {note}" for note in universe.get("notes", [])
+        *[f"- {text(note)}" for note in universe.get("notes", [])
           if not _measurement_diagnostic(note)],
         "",
         f"## {lex['section.roles']}",
@@ -2589,8 +2625,7 @@ def render_markdown(
         lines.append(f"| {_glossed(lex, 'role', role)} | {count} |")
     # The theme table is where a reader sees the shape of the instrument: which parts of the
     # market are covered, at what depth, and which theme is carrying more weight than it should.
-    # It is also the only place the taxonomy's own labels appear, which is why they are authored
-    # in the market's language rather than translated here.
+    # Human labels may have authored translations; economic codes and duties stay unchanged.
     lines.extend([
         "",
         f"## {lex['section.themes']}",
@@ -2606,7 +2641,7 @@ def render_markdown(
         merged = [k for k in taxonomy if mapping.get(k, k) == code]
         count = sum(per_theme[k] for k in merged)
         lines.append(
-            f"| {code} | {theme['l1_name']} | {labels[code]} | "
+            f"| {code} | {text(theme['l1_name'])} | {text(labels[code])} | "
             f"{theme['coverage_level']} | {theme_weight(theme):g} | {count} |"
         )
     duties = [t for t in taxonomy.values() if t.get("purpose")]
@@ -2614,7 +2649,7 @@ def render_markdown(
         lines.extend(["", f"| {lex['column.theme']} | {lex['column.purpose']} | "
                       f"{lex['column.representatives']} |", "|---|---|---|"])
         for theme in sorted(duties, key=lambda t: t["theme_code"]):
-            purpose = theme["purpose"].replace("|", "\\|").replace("\n", " ")
+            purpose = text(theme["purpose"])
             lines.append(f"| {theme['theme_code']} | {purpose} | "
                          f"{', '.join(theme.get('representative_roles', []))} |")
     measurement = universe.get("measurement") or {}
@@ -2630,7 +2665,7 @@ def render_markdown(
         for field, entry in measurement.items():
             window = entry.get("window") or lex["value.na"]
             basis = _glossed(lex, "basis", entry["basis"])
-            lines.append(f"| {field} | {basis} | {entry['method']} | {window} |")
+            lines.append(f"| {field} | {basis} | {text(entry['method'])} | {text(window)} |")
         with_facts = sum(1 for item in universe["members"] if item.get("quality_facts"))
         if with_facts:
             lines.extend([
@@ -2706,7 +2741,7 @@ def render_markdown(
                 continue
             lines.extend(
                 [
-                    f"### {code} · {labels[code]} ({len(members)})",
+                    f"### {code} · {text(labels[code])} ({len(members)})",
                     "",
                     f"| {lex['column.ticker']} | {lex['column.name']} | "
                     f"{lex['column.role']} | {lex['column.reason']} |",
@@ -2714,15 +2749,15 @@ def render_markdown(
                 ]
             )
             for member in sorted(members, key=lambda c: c["ticker"]):
-                lines.append(f"| {member['ticker']} | {member['name']} | "
+                lines.append(f"| {member['ticker']} | {text(member['name'])} | "
                              f"{_glossed(lex, 'role', member['role'])} | "
-                             f"{_brief_reason(member)} |")
+                             f"{reason(member)} |")
             lines.append("")
     else:
         for member in universe["members"]:
             lines.append(
-                f"| {member['ticker']} | {member['name']} | "
-                f"{_glossed(lex, 'role', member['role'])} | {_brief_reason(member)} |"
+                f"| {member['ticker']} | {text(member['name'])} | "
+                f"{_glossed(lex, 'role', member['role'])} | {reason(member)} |"
             )
     if universe.get("selection_model") == "coverage_first":
         quality = report["stats"].get("quality") or {}
@@ -2748,12 +2783,12 @@ def render_markdown(
                           "| Group | Heavy | Added Beta | Rounding ceiling |",
                           "|---|---:|---:|---:|"])
             for code, row in expansion["distribution"].items():
-                lines.append(f"| {code} {labels[code]} | {row['heavy']} | "
+                lines.append(f"| {code} {text(labels[code])} | {row['heavy']} | "
                              f"{row['added']} | {row['added_cap']} |")
         lines.extend(["", "### Reference instruments", ""])
         for ref in universe["coverage_plan"].get("references", []):
-            lines.append(f"- {ref['ticker']} ({ref['kind']}): {ref['observes']}"
-                         + (f"; proxy for {ref['proxy_for']}{colon}{ref['limitation']}"
+            lines.append(f"- {ref['ticker']} ({ref['kind']}): {text(ref['observes'])}"
+                         + (f"; proxy for {text(ref['proxy_for'])}{colon}{text(ref['limitation'])}"
                             if ref.get("proxy_for") else ""))
     return "\n".join(lines).rstrip() + "\n"
 
