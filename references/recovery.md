@@ -59,6 +59,9 @@ The agent owns the research loop; the Python selector is deliberately offline:
    also supported. Unchanged inputs return the last outcome without spending another attempt;
    a run interrupted while `running` may retry those inputs. Completed earlier outputs are kept.
    Later artifacts go in `RUN_DIR/attempt-NNN/artifacts`, unless `--output` names a new empty path.
+   Preserve rendered paths, including staging directories. If saved artifacts were moved or
+   changed, restore exact copies or pass `--output NEW_EMPTY_DIR`; do not report a missing bundle
+   as a successful idempotent resume. See [output-artifacts.md](output-artifacts.md).
 4. Normally try up to three distinct repair rounds. Record what changed and why in the snapshot
    notes. Do not run three identical failing commands. A research bench smaller than the target is not a source capacity ceiling. Check fetched but
    unmapped candidates and alternative verified sources first. When Heavy and Max contain

@@ -70,6 +70,12 @@ python scripts/universe.py build --resume DIR.run --snapshot repaired.json
 ```
 
 Read returned paths instead of assuming a resumed bundle lives in the first output directory.
+Keep the original rendered directories in place: checkpoints and receipts refer to them.
+Deliver through links or copies; do not move artifacts to a prettier directory. Revisions use
+new empty directories. New receipts include `artifact_sha256` keyed by actual file path. A
+same-input resume checks those files; missing/changed files return `needs_research` without
+adding an attempt. Restore exact originals or resume with `--output NEW_EMPTY_DIR` to regenerate
+from the saved inputs; this is delivery repair, not new research.
 See [recovery.md](recovery.md) for the agent repair workflow.
 
 ## Delivery status

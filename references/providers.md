@@ -54,3 +54,22 @@ never assigned invented metrics. Cache reuse requires the exact request and the 
 acquisition date; older responses are refreshed and failure is reported instead of relabelled.
 Raw data stays in the chosen output directory. Do not commit or redistribute provider histories;
 check applicable source terms before wider use. Public endpoints are replaceable and may change.
+
+## Recovery and input checks
+
+Requests make at most three attempts for transient transport, truncated/invalid JSON and server
+errors. HTTP 400/401/403/404 need source or request repair, not repeated identical requests.
+Failures leave `raw/*.error.json` with request identity, dates and attempt errors; a subsequent
+successful request clears its current error receipt. No failed response becomes a fresh cache.
+Compressed responses are decoded before JSON parsing. Yahoo history must match the requested
+provider symbol and market currency, with aligned timestamp/price/volume arrays; share-class
+symbols keep their complete filenames. A failed Yahoo host may use the other public Yahoo host,
+with the actual URL recorded. This does not guarantee endpoint availability.
+
+TLS verification stays enabled. Python uses its configured trust store; on macOS a certificate
+verification failure may retry against `/etc/ssl/cert.pem`, unless an explicit SSL_CERT_FILE or
+SSL_CERT_DIR was supplied. For another trust store, set SSL_CERT_FILE to a verified CA bundle.
+Never use an unverified SSL context. After these attempts, inspect the manifest and research a
+verified alternative; retain its exact instrument, units, cutoff and raw receipts before measure.
+For CN alternative feeds, establish share-versus-lot volume units per instrument; do not assume
+one multiplier for the entire response population.

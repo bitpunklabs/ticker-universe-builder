@@ -1,5 +1,4 @@
-# Tooling configuration only. This skill is not a pip package: it is a directory an agent reads,
-# and it must keep running from a plain checkout with nothing installed.
+# Development tools only; runtime needs Python 3.10+ and no install step.
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

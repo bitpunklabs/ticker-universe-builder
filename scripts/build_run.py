@@ -213,12 +213,29 @@ def run_build(
         and previous["status"] != "running"
         and not changed_destination
     ):
+        problems = []
+        if previous["status"] in ("complete", "partial"):
+            files = [p for value in previous["artifacts"].values()
+                     for p in (value.values() if isinstance(value, dict) else [value])]
+            for name in files:
+                path = Path(name)
+                expected = previous.get("artifact_sha256", {}).get(name)
+                if not path.is_file():
+                    problems.append({"path": name, "reason": "missing"})
+                elif expected and hashlib.sha256(path.read_bytes()).hexdigest() != expected:
+                    problems.append({"path": name, "reason": "changed"})
         result = {
             **previous,
             "checkpoint": str(state_path),
             "resume_command": next_command,
             "retry_skipped": "Inputs unchanged; repair or expand the saved inputs before resuming.",
         }
+        if problems:
+            result.update(status="needs_research", validation_passed=False,
+                          artifact_problems=problems,
+                          error="Saved artifacts are missing or changed. Restore exact originals "
+                                "or resume with --output NEW_EMPTY_DIR.")
+            return result, 2
         return result, (
             0 if previous["status"] == "complete" else 3 if previous["status"] == "partial" else 2
         )
@@ -264,6 +281,12 @@ def run_build(
             k: {lang: str(p) for lang, p in v.items()} if isinstance(v, dict) else str(v)
             for k, v in artifacts.items()
             if k != "directory"
+        }
+        attempt["artifact_sha256"] = {
+            str(p): hashlib.sha256(p.read_bytes()).hexdigest()
+            for value in artifacts.values()
+            for p in (value.values() if isinstance(value, dict) else [value])
+            if isinstance(p, Path) and p.is_file()
         }
         if payload["seed"]:
             held = {c["asset_id"] for c in payload["seed"]["members"]}

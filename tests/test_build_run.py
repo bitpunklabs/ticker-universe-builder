@@ -95,6 +95,27 @@ def test_success_is_idempotent(tmp_path):
     assert second["artifacts"] == first["artifacts"]
 
 
+@pytest.mark.parametrize("damage", ["missing", "changed"])
+def test_delivery_damage_requires_restore_or_new_directory_without_empty_retry(tmp_path, damage):
+    first, code = run_build(**start(tmp_path))
+    assert code == 0
+    original = Path(first["artifacts"]["watchlist"])
+    raw = original.read_bytes()
+    if damage == "missing":
+        original.unlink()
+    else:
+        original.write_text("changed report")
+    blocked, code = resume(first)
+    assert code == 2 and blocked["status"] == "needs_research"
+    assert blocked["artifact_problems"] == [{"path": str(original), "reason": damage}]
+    assert len(json.loads(Path(first["checkpoint"]).read_text())["attempts"]) == 1
+    regenerated, code = run_build(spec=None, snapshot=None, output=str(tmp_path / "revision"),
+                                 resume=str(Path(first["checkpoint"]).parent))
+    assert code == 0 and regenerated["number"] == 2
+    assert Path(regenerated["artifacts"]["watchlist"]).read_bytes() == raw
+    assert regenerated["artifact_sha256"]
+
+
 def test_seeded_expansion_reports_zero_then_researched_additions(tmp_path):
     args = start(tmp_path)
     heavy, code = run_build(**args)

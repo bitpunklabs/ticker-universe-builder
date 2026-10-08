@@ -45,6 +45,14 @@ the facts, the contract in [data-contracts.md](data-contracts.md) is what the bu
 
 ## Reproducibility
 
+Before admission, inspect the actual source content: HTTP 200, a JavaScript shell or a robots
+page does not establish a fact. Separate newly verified facts, dated facts carried forward and
+unknowns in snapshot notes/research receipts. Keep the original evidence date when carried.
+Review primary business against the theme's observation duty, especially optional Beta and
+ambiguous provider labels; complementary businesses do not justify an unrelated assignment.
+Check corporate actions, share classes and exact crypto contracts against instrument identity.
+Record an observed exchange/TradingView namespace conflict rather than guessing a replacement.
+
 Each formal build keeps: the snapshot's `as_of`, sources and completeness; the measurement
 declarations; the policy hash; the final universe hash; machine-readable reasons for every rejected
 candidate; validator errors and warnings; and the maintenance history with its deferred candidates.

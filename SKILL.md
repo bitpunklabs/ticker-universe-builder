@@ -3,7 +3,7 @@ name: ticker-universe-builder
 description: Build and maintain auditable, evidence-gated ticker universes for fourteen markets at four depths, exported as TradingView watchlists. Not stock tips.
 allowed-tools: Read, Write, Bash, WebSearch, WebFetch
 metadata:
-  version: 0.9.0
+  version: 0.9.1
   homepage: https://github.com/bitpunklabs/ticker-universe-builder
   openclaw:
     emoji: "📋"
@@ -174,7 +174,8 @@ reported rather than dropped.
     [the output contract](references/output-artifacts.md). If no destination was requested,
     use `ticker-universes/<market>/<profile>/<as_of>/` in the user's project, passing an absolute
     `--output` path. Keep checkpoints, use a new empty directory for revisions, and disclose
-    source cutoffs and partial status. English is always generated; non-English markets also
+    source cutoffs and partial status. Keep rendered paths in place; deliver links or copies.
+    English is always generated; non-English markets also
     get their market-language report. Write researched names/reasons in that language; only
     report headings and closed vocabularies are translated.
 

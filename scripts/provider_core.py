@@ -7,12 +7,18 @@ by a made-up value or an older cache presented as fresh. Selection does not impo
 from __future__ import annotations
 
 import csv
+import gzip
 import hashlib
+import http.client
 import json
+import os
+import ssl
+import sys
 import time
 import urllib.error
 import urllib.parse
 import urllib.request
+import zlib
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import date, datetime, timezone
 from pathlib import Path
@@ -81,20 +87,39 @@ def request_json(url: str, cache: Path, payload: dict | None = None) -> Any:
             record = {}  # A damaged cache is fetched again, never trusted as evidence.
         if (
             record.get("request_hash") == key
+            and isinstance(record.get("response"), (dict, list))
             and str(record.get("retrieved_at", ""))[:10]
             == datetime.now(timezone.utc).date().isoformat()
         ):
             return record["response"]
+    errors = []
+    context = None
+    error_path = cache.with_suffix(cache.suffix + ".error.json")
     for attempt in range(3):
         try:
             req = urllib.request.Request(
                 url,
                 data=json.dumps(payload).encode() if payload is not None else None,
-                headers={"User-Agent": "Mozilla/5.0", "Content-Type": "application/json"},
+                headers={"User-Agent": "Mozilla/5.0", "Content-Type": "application/json",
+                         "Accept-Encoding": "identity"},
             )
-            with urllib.request.urlopen(req, timeout=18) as response:
+            with urllib.request.urlopen(req, timeout=18, context=context) as response:
                 raw = response.read()
-            result = json.loads(raw)
+                length = response.headers.get("Content-Length")
+                if length is not None and len(raw) != int(length):
+                    raise ProviderError("truncated response body")
+                encoding = response.headers.get("Content-Encoding", "identity").lower()
+            if encoding == "gzip":
+                body = gzip.decompress(raw)
+            elif encoding == "deflate":
+                body = zlib.decompress(raw)
+            elif encoding in ("", "identity"):
+                body = raw
+            else:
+                raise ProviderError(f"unsupported response encoding: {encoding}")
+            result = json.loads(body)
+            if not isinstance(result, (dict, list)):
+                raise ProviderError("expected JSON object or array")
             write_json(
                 cache,
                 {
@@ -103,15 +128,33 @@ def request_json(url: str, cache: Path, payload: dict | None = None) -> Any:
                     "request_hash": key,
                     "retrieved_at": datetime.now(timezone.utc).isoformat(),
                     "sha256": hashlib.sha256(raw).hexdigest(),
+                    "content_encoding": encoding,
                     "response": result,
                 },
             )
+            error_path.unlink(missing_ok=True)
             return result
-        except (OSError, ValueError) as exc:
-            if isinstance(exc, urllib.error.HTTPError) and exc.code in (400, 401, 403, 404):
-                raise ProviderError(f"{url}: HTTP {exc.code}") from exc
-            if attempt == 2:
-                raise ProviderError(f"{url}: {exc}") from exc
+        except (OSError, ValueError, http.client.HTTPException, zlib.error) as exc:
+            errors.append({"attempt": attempt + 1, "error": f"{type(exc).__name__}: {exc}"})
+            write_json(error_path, {"url": url, "request": payload, "request_hash": key,
+                                   "retrieved_at": datetime.now(timezone.utc).isoformat(),
+                                   "attempts": errors})
+            reason = exc.reason if isinstance(exc, urllib.error.URLError) else exc
+            if isinstance(reason, ssl.SSLCertVerificationError):
+                # macOS Python distributions may omit the OS bundle. Never disable verification
+                # or override a trust store deliberately configured by the operator.
+                system_ca = Path("/etc/ssl/cert.pem")
+                if context is None and sys.platform == "darwin" and system_ca.is_file() and not (
+                    os.environ.get("SSL_CERT_FILE") or os.environ.get("SSL_CERT_DIR")
+                ):
+                    context = ssl.create_default_context(cafile=str(system_ca))
+                    continue
+                raise ProviderError(
+                    f"{url}: TLS verification failed; configure SSL_CERT_FILE"
+                ) from exc
+            permanent = isinstance(exc, urllib.error.HTTPError) and exc.code in (400, 401, 403, 404)
+            if permanent or attempt == 2:
+                raise ProviderError(f"{url}: {exc}; diagnostics: {error_path}") from exc
             time.sleep(0.5 * (attempt + 1))
     raise ProviderError(url)
 
@@ -185,26 +228,34 @@ def yahoo_symbols(ticker: str, market: str) -> list[str]:
     return [symbol.replace(".", "-")]
 
 
-def parse_yahoo(payload: dict, ticker: str, cutoff: str) -> tuple[list[tuple], dict]:
+def parse_yahoo(payload: dict, ticker: str, cutoff: str, *, expected_symbol: str | None = None,
+                currencies: set[str] | None = None) -> tuple[list[tuple], dict]:
     result = ((payload.get("chart") or {}).get("result") or [None])[0]
     if not result:
         raise ProviderError(f"{ticker}: chart has no series")
     meta = result.get("meta") or {}
+    if expected_symbol is not None and meta.get("symbol") != expected_symbol:
+        raise ProviderError(f"{ticker}: history identity mismatch: {meta.get('symbol')}")
+    if currencies is not None and meta.get("currency") not in currencies:
+        raise ProviderError(f"{ticker}: unexpected currency: {meta.get('currency')}")
     indicators = result.get("indicators") or {}
     quote = (indicators.get("quote") or [{}])[0]
     adjusted = ((indicators.get("adjclose") or [{}])[0]).get("adjclose")
     if not adjusted:
         raise ProviderError(f"{ticker}: adjusted closes unavailable")
     closes, volumes = quote.get("close") or [], quote.get("volume") or []
+    timestamps = result.get("timestamp") or []
+    if len({len(timestamps), len(adjusted), len(closes), len(volumes)}) != 1:
+        raise ProviderError(f"{ticker}: misaligned history arrays")
     currency = meta.get("currency")
     scale = 0.01 if currency in ("GBp", "GBX") else 1.0
     rows = []
     for stamp, close, raw, volume in zip(
-        result.get("timestamp") or [],
+        timestamps,
         adjusted,
         closes,
         volumes,
-        strict=False,
+        strict=True,
     ):
         # Quote timezone preserves the exchange's calendar day, not the caller's timezone.
         day = datetime.fromtimestamp(stamp + int(meta.get("gmtoffset", 0)), timezone.utc)
@@ -233,20 +284,23 @@ def parse_yahoo(payload: dict, ticker: str, cutoff: str) -> tuple[list[tuple], d
 def fetch_equity_bars(row: dict, market: str, output: Path, cutoff: str) -> tuple[list, dict]:
     errors = []
     for symbol in yahoo_symbols(row["ticker"], market):
-        url = "https://query1.finance.yahoo.com/v8/finance/chart/" + urllib.parse.quote(symbol)
-        url += "?range=2y&interval=1d"
-        cache = output / "raw" / ("bars-" + symbol.replace("/", "_") + ".json")
-        try:
-            payload = request_json(url, cache)
-            bars, details = parse_yahoo(payload, row["ticker"], cutoff)
-            details.update(
-                source=url,
-                ticker=row["ticker"],
-                receipt_sha256=hashlib.sha256(cache.read_bytes()).hexdigest(),
-            )
-            return bars, details
-        except ProviderError as exc:
-            errors.append(str(exc))
+        for host in ("query1", "query2"):
+            url = f"https://{host}.finance.yahoo.com/v8/finance/chart/"
+            url += urllib.parse.quote(symbol) + "?range=2y&interval=1d"
+            cache = output / "raw" / (f"bars-{host}-" + symbol.replace("/", "_") + ".json")
+            try:
+                payload = request_json(url, cache)
+                bars, details = parse_yahoo(payload, row["ticker"], cutoff,
+                                            expected_symbol=symbol, currencies=CURRENCIES[market])
+                details.update(
+                    source=url,
+                    ticker=row["ticker"],
+                    receipt_sha256=hashlib.sha256(cache.read_bytes()).hexdigest(),
+                    fallback_notes=list(errors),
+                )
+                return bars, details
+            except (ProviderError, KeyError, TypeError, ValueError) as exc:
+                errors.append(str(exc))
     raise ProviderError("; ".join(errors))
 
 
@@ -336,15 +390,19 @@ def fetch_gauges(market: str, output: Path, cutoff: str) -> None:
         if row["ticker"] not in held:
             listings["rows"].append(row)
         if row["ticker"] not in receipts:
-            part, receipt = fetch_equity_bars(row, market, output, cutoff)
-            added.extend(part)
-            manifest["receipts"].append(receipt)
             manifest["requested"] += 1
-            manifest["received"] += 1
+            try:
+                part, receipt = fetch_equity_bars(row, market, output, cutoff)
+                added.extend(part)
+                manifest["receipts"].append(receipt)
+                manifest["received"] += 1
+            except ProviderError as exc:
+                manifest["failures"].append({"ticker": row["ticker"], "reason": str(exc)})
     path = output / "prices.csv"
     with path.open("a", encoding="utf-8", newline="") as handle:
         csv.writer(handle).writerows(added)
     manifest["prices_sha256"] = hashlib.sha256(path.read_bytes()).hexdigest()
+    manifest["complete"] = not manifest["failures"]
     write_json(listing_path, listings)
     write_json(output / "manifest.json", manifest)
 
@@ -598,8 +656,22 @@ def fetch(
         raise ProviderError("limit must be positive; workers must be 1..8")
     if crypto_scope not in {"spot-linked", "all-perpetuals"}:
         raise ProviderError("crypto_scope must be spot-linked or all-perpetuals")
-    if market == "crypto":
-        return fetch_crypto(root, cutoff, limit, workers, crypto_scope)
-    fetch_equities(market, root, cutoff, limit, workers, include or set())
-    fetch_gauges(market, root, cutoff)
+    try:
+        if market == "crypto":
+            return fetch_crypto(root, cutoff, limit, workers, crypto_scope)
+        fetch_equities(market, root, cutoff, limit, workers, include or set())
+        fetch_gauges(market, root, cutoff)
+    except (ProviderError, KeyError, TypeError, ValueError) as exc:
+        failure = {"stage": "inventory_or_gauges", "reason": str(exc)}
+        manifest_path = root / "manifest.json"
+        if manifest_path.exists():
+            # Preserve previously acquired bars and their original cutoff on an inventory failure.
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            manifest.update(complete=False, requested_prices_until=cutoff)
+            manifest.setdefault("failures", []).append(failure)
+            write_json(manifest_path, manifest)
+            return manifest
+        return write_fetch_result(root, market, cutoff, [],
+                                  {"requested": 0, "received": 0, "receipts": [],
+                                   "failures": [failure]})
     return json.loads((root / "manifest.json").read_text(encoding="utf-8"))
