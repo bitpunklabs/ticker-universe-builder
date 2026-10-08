@@ -1469,10 +1469,10 @@ class LocalizationTests(unittest.TestCase):
 
     def test_a_market_report_is_written_in_its_own_language(self) -> None:
         chinese = (
-            ROOT / "examples" / "cn-medium" / "output" / "cn-medium-2026-10-07.zh-Hans.md"
+            ROOT / "examples" / "cn-medium" / "output" / "cn-medium-2026-10-08.zh-Hans.md"
         ).read_text(encoding="utf-8")
         english = (
-            ROOT / "examples" / "us-medium" / "output" / "us-medium-2026-10-07.en.md"
+            ROOT / "examples" / "us-medium" / "output" / "us-medium-2026-10-08.en.md"
         ).read_text(encoding="utf-8")
         self.assertIn("# CN 标的池", chinese)
         self.assertIn("## 成员", chinese)
@@ -1507,7 +1507,7 @@ class LocalizationTests(unittest.TestCase):
                 )
         # The example is the demonstration, so it is held to the same standard as the chrome.
         chinese = (
-            ROOT / "examples" / "cn-medium" / "output" / "cn-medium-2026-10-07.zh-Hans.md"
+            ROOT / "examples" / "cn-medium" / "output" / "cn-medium-2026-10-08.zh-Hans.md"
         ).read_text(encoding="utf-8")
         for line in chinese.splitlines():
             self.assertIsNone(_ASCII_NEXT_TO_CJK.search(line), line)
@@ -1773,8 +1773,8 @@ class ExampleTests(unittest.TestCase):
                     )
 
     def test_max_retains_heavy_and_only_adds_beta(self) -> None:
-        heavy = read_json(ROOT / "examples/us-heavy/output/us-heavy-2026-10-07.json")
-        maximum = read_json(ROOT / "examples/us-max/output/us-max-2026-10-07.json")
+        heavy = read_json(ROOT / "examples/us-heavy/output/us-heavy-2026-10-08.json")
+        maximum = read_json(ROOT / "examples/us-max/output/us-max-2026-10-08.json")
         held = {row["ticker"]: row for row in heavy["members"]}
         added = [row for row in maximum["members"] if row["ticker"] not in held]
         self.assertEqual(len(added), 111)

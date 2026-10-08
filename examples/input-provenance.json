@@ -3,33 +3,36 @@
   "inputs": [
     {
       "market": "cn",
-      "origin": "accepted optimization-05 reviewed research, 2026-10-07",
-      "original_snapshot_sha256": "fce6e0be3429c4e516dfed65efb7682c080b820a71b2dd15238a9678009930a1",
-      "example_snapshot_sha256": "aaa24f3d400dc96ace102be20020ddd173ff4d7656e97cc61c6c65a83ddddc1f",
+      "origin": "Actual online Codex CLI research, 2026-10-08",
+      "original_snapshot_sha256": "8b656f4bc51e53f795d6a3d8bfd6998f34432b78dcf2b69fef0ae12cd20c0f94",
+      "original_hash_convention": "SHA-256 of UTF-8 sorted-key JSON, ensure_ascii=false; no indent",
+      "example_snapshot_sha256": "893c83523e4fab41c259281a7ec7197e6ae49c1854b47ac1ed2001e43e4764df",
       "original_candidates": 1639,
       "example_candidates": 457,
-      "transformation": "retain reviewed Heavy entity candidates; preserve plan, original measured populations and provenance; remove source-index entries unused by the retained plan, candidates or measurement provenance",
-      "as_of": "2026-10-07"
+      "transformation": "Retain final reviewed Heavy candidates; preserve complete plan, original measurement population/dates/hashes and all referenced sources. This compact example cannot supply Max Beta. Normalize CJK-adjacent punctuation in report names/reasons without changing sourced values or identifiers.",
+      "as_of": "2026-10-08"
     },
     {
       "market": "us",
-      "origin": "accepted optimization-05 reviewed research, 2026-10-07",
-      "original_snapshot_sha256": "b898c868070c17087e48a5cba91e85dfc335cb6a9000b65694e6ec77a3108595",
-      "example_snapshot_sha256": "b898c868070c17087e48a5cba91e85dfc335cb6a9000b65694e6ec77a3108595",
-      "original_candidates": 666,
-      "example_candidates": 666,
-      "transformation": "unchanged full accepted US research snapshot; preserve eligible Beta bench and rejection audit for the four-depth ladder",
-      "as_of": "2026-10-07"
+      "origin": "Actual online Codex CLI research, 2026-10-08",
+      "original_snapshot_sha256": "432f95076d0704cb1be3e31d90446b6f6214dc10259710e970440fdfb7b2fcc5",
+      "original_hash_convention": "SHA-256 of UTF-8 sorted-key JSON, ensure_ascii=false; no indent",
+      "example_snapshot_sha256": "f496af4a9ed4b353708b64ef9bb5abfe120921d519b519f372b8e043e0c3fce3",
+      "original_candidates": 667,
+      "example_candidates": 667,
+      "transformation": "Full final online-reviewed research snapshot; original dates, measurement populations and source hashes preserved. Historical receipt locations use workspace-relative labels; original dates and receipt hashes are unchanged.",
+      "as_of": "2026-10-08"
     },
     {
       "market": "crypto",
-      "origin": "accepted optimization-05 reviewed research, 2026-10-07",
-      "original_snapshot_sha256": "b3f53be91327146df0179d90496064c83f2b5a6d6af38ca5cab2a03cdaa2c2bd",
-      "example_snapshot_sha256": "b3f53be91327146df0179d90496064c83f2b5a6d6af38ca5cab2a03cdaa2c2bd",
+      "origin": "Actual online Codex CLI research, 2026-10-08",
+      "original_snapshot_sha256": "d6ca59585c6ccaf5cd45e51eea94503df97e5c4eafadf276debac0dd3a9febd1",
+      "original_hash_convention": "SHA-256 of UTF-8 sorted-key JSON, ensure_ascii=false; no indent",
+      "example_snapshot_sha256": "62a360131df135b1184908552ec406c17918da087759461626eb97f88064cd9e",
       "original_candidates": 79,
       "example_candidates": 79,
-      "transformation": "unchanged full Crypto research snapshot",
-      "as_of": "2026-10-07"
+      "transformation": "Full final online-reviewed research snapshot; original dates, measurement populations and source hashes preserved.",
+      "as_of": "2026-10-08"
     },
     {
       "market": "jp",

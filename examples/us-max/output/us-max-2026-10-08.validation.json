@@ -20,8 +20,8 @@
         "energy": 26,
         "finance": 62,
         "health": 54,
-        "industry": 53,
-        "materials": 33,
+        "industry": 52,
+        "materials": 34,
         "real_estate": 27,
         "technology": 110,
         "utilities": 22
@@ -29,7 +29,7 @@
       "entity_count": 481,
       "references": 44,
       "unused_capacity": 99,
-      "plan_hash": "0c6468690a1a",
+      "plan_hash": "7a8d65a19f29",
       "evidence_boundary": "Checks declared research, not independent proof of leadership.",
       "expansion": {
         "heavy_entities": 370,
@@ -357,7 +357,8 @@
     },
     "rejections": {
       "not_selected_under_budget": 173,
-      "other": 12
+      "other": 12,
+      "delisted_or_halted": 1
     }
   }
 }

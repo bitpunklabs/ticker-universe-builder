@@ -16,7 +16,7 @@ updated facts and measurements.
 
 ## watchlist-import.gif
 
-Import the [current generated TXT](../../examples/us-medium/output/us-medium-2026-10-07.txt)
+Import the [current generated TXT](../../examples/us-medium/output/us-medium-2026-10-08.txt)
 into TradingView and hold the populated panel with its display groups visible. Verify the
 imported instrument count and venue prefixes. The TXT includes reference instruments as well
 as entity members. A locally validated TXT is not evidence of successful TradingView UI import.

@@ -65,10 +65,10 @@ jobs:
           python scripts/universe.py build \
             --spec examples/us-max/build-spec.json \
             --snapshot examples/us-medium/snapshot.json \
-            --seed /tmp/us-heavy/us-heavy-2026-10-07.json --output /tmp/us-max
-          python scripts/universe.py validate /tmp/us-light/us-light-2026-10-07.json
-          python scripts/universe.py validate /tmp/us-heavy/us-heavy-2026-10-07.json
-          python scripts/universe.py validate /tmp/us-max/us-max-2026-10-07.json
+            --seed /tmp/us-heavy/us-heavy-2026-10-08.json --output /tmp/us-max
+          python scripts/universe.py validate /tmp/us-light/us-light-2026-10-08.json
+          python scripts/universe.py validate /tmp/us-heavy/us-heavy-2026-10-08.json
+          python scripts/universe.py validate /tmp/us-max/us-max-2026-10-08.json
       - name: read a watchlist back in and reach the same tickers
         run: |
           watchlist=$(python -c \

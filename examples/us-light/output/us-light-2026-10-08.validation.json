@@ -27,7 +27,7 @@
       "entity_count": 100,
       "references": 44,
       "unused_capacity": 25,
-      "plan_hash": "0c6468690a1a",
+      "plan_hash": "7a8d65a19f29",
       "evidence_boundary": "Checks declared research, not independent proof of leadership."
     },
     "themes": 13,
@@ -48,7 +48,8 @@
     },
     "rejections": {
       "not_selected_under_budget": 554,
-      "other": 12
+      "other": 12,
+      "delisted_or_halted": 1
     }
   }
 }
