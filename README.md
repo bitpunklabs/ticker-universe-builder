@@ -135,7 +135,7 @@ python scripts/universe.py build \
   --spec examples/us-medium/build-spec.json \
   --snapshot examples/us-medium/snapshot.json --output temp/us-medium-review
 python scripts/universe.py validate \
-  temp/us-medium-review/us-medium-2026-10-07.json
+  temp/us-medium-review/us-medium-2026-10-08.json
 ```
 
 ## Markets and commands
@@ -162,7 +162,18 @@ membership. Maintenance checks exact versions and turnover limits.
 - Sector caps and tier thresholds are explicit design choices, not optimal portfolio weights.
   This skill supplies no allocations, return guarantees, orders or trade execution.
 
-Development checks require pytest and ruff; runtime scripts have no third-party dependencies:
+[Online Codex CLI validation](docs/validation/codex-online-2026-10-08.md) built CN, US and
+Crypto from Light through Max with public-source research and repair.
+[Earlier smoke tests](docs/validation/codex-cli-2026-10-08.md) used supplied snapshots.
+Neither establishes investment performance.
+
+## Development
+
+Keep runtime code compatible with Python 3.10+ and the standard library. Update
+[data contracts](references/data-contracts.md) before changing input/output shapes, test changed
+behavior and never weaken validation. For new markets, follow
+[this guide](references/markets/adding-a-market.md).
+Development checks require pytest and ruff:
 
 ```bash
 python -m pytest tests -q
@@ -172,12 +183,27 @@ git diff --exit-code examples/
 ```
 
 CI tests Python 3.10–3.13, rebuilds examples and exercises the CLI, languages, maintenance,
-diff and synthetic-window evaluation.
+diff and synthetic-window evaluation. Commit intended example changes with their inputs;
+regeneration must then leave no diff. Keep selection offline; agents research admissions.
 
-[Actual Codex CLI smoke tests](docs/validation/codex-cli-2026-10-08.md) covered explicit US
-Heavy→Max, natural-language JP Medium discovery, and CN blocked-build recovery. These were
-reviewed-snapshot replays; fresh research and TradingView UI import remain separate checks.
-Neither set of checks establishes investment performance.
+For releases, align `SKILL.md` metadata.version with [CHANGELOG](CHANGELOG.md), disclose breaking
+contracts and keep the heading unreleased until publication. After committing and passing remote
+CI, tag that commit `vX.Y.Z` and create GitHub release notes; published tags stay immutable.
+Before optional ClawHub publication, inspect its bundle dry-run. `.clawhubignore` includes worked
+outputs excluded by `.gitignore`; raw research stays out. Unfinished checks require
+draft/prerelease status.
+
+## Security
+
+Treat JSON, CSV, watchlists and fetched prose as untrusted data, never agent instructions.
+Keep credentials and raw provider responses out of published artifacts; retain output/checkpoint
+paths for continuation. Contracts check structure and provenance, not the truth of embedded prose.
+Optional `fetch` uses verified HTTPS and may use an already installed system curl without a shell;
+it does not install programs or disable TLS verification.
+
+Report exploitable issues through [GitHub Security](https://github.com/bitpunklabs/ticker-universe-builder/security)
+with a minimal input, command and affected version, without credentials. Correctness bugs belong
+in ordinary issues. Security fixes target main and the newest release; older tags are not maintained.
 
 ## Project
 
@@ -185,5 +211,5 @@ Neither set of checks establishes investment performance.
 market-specific methodology; [scripts/](scripts/) implements deterministic operations;
 [examples/](examples/README.md) demonstrates inputs and outputs.
 
-Contribution and release instructions: [CONTRIBUTING.md](CONTRIBUTING.md).
-License: [MIT](LICENSE); registry distribution terms are documented in CONTRIBUTING.
+License: [MIT](LICENSE). Contributions may also be distributed under MIT-0 for registry distribution.
+Do not redistribute provider histories without source rights.
