@@ -15,14 +15,16 @@ research. Untagged development versions below were not separate public releases.
 - Verify Yahoo symbol, currency and aligned arrays; record alternate-host provenance.
 - Check saved artifact existence/hashes on same-input resume; regenerate into a new directory
   without moving earlier outputs or consuming empty research retries.
-- Document online research checks and actual three-market Codex results; refresh affected examples.
+- Document online research checks and actual three-market Codex results; refresh dated examples.
 - Consolidate contribution/security guidance in README; keep CI and remove optional issue/PR templates.
 - Make Markdown a readable brief: short member reasons and linked JSON evidence; keep per-ticker
-  missing-factor logs in JSON. Replace examples with CN Medium and US Light/Medium for format review.
+  missing-factor logs in JSON.
 - Support authored report-content translations; rebuild CN Medium with English names/briefs and
   direct Chinese business summaries, preserving membership, research facts and US examples.
 - Expand worked examples to US Heavy/Max and Crypto/HK/JP/KR/UK Medium; preserve existing
   examples, add authored English JP/KR/HK content and online-reviewed HK/UK inputs with dated limits.
+- Prepare reproducible skill and skills-only OpenAI registry packages with bilingual listing
+  metadata, an icon and archive/source hashes; keep publisher verification in the platform.
 
 ## 0.9.0 — development, 2026-10-07
 

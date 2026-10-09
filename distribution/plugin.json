@@ -1,0 +1,40 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "ticker-universe-builder",
+  "version": "0.9.1",
+  "description": "Build and maintain evidence-gated ticker universes and grouped TradingView watchlists.",
+  "homepage": "https://github.com/bitpunklabs/ticker-universe-builder",
+  "repository": "https://github.com/bitpunklabs/ticker-universe-builder",
+  "license": "MIT",
+  "keywords": ["research", "finance", "tradingview", "watchlist"],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Ticker Universe Builder",
+        "shortDescription": "Build auditable watchlists",
+        "longDescription": "Build or maintain a grouped ticker universe for one market at a time. Covers fourteen reviewed markets and four depths: Light, Medium, Heavy and Max. The agent researches business leadership, economic coverage and sourced supplementary Beta; Python validates evidence contracts, selects members and writes TradingView TXT, readable Markdown, a complete offline HTML report, authoritative JSON and validation JSON. Max expands a qualified Heavy while preserving its theme proportions. Incomplete research is diagnosed and saved for continuation, with small count-only gaps explicitly disclosed as partial. Requires a host with Python 3.10+ and filesystem/command access; current builds also require online research and dated market data. Uses the Python standard library, without a hosted service or required API key. Examples are dated research replays. Produces an observation instrument, without return guarantees, portfolio allocations, order instructions or trade execution.",
+        "category": "Productivity",
+        "capabilities": [],
+        "websiteURL": "https://github.com/bitpunklabs/ticker-universe-builder",
+        "supportURL": "https://github.com/bitpunklabs/ticker-universe-builder/issues",
+        "defaultPrompt": [
+          "Build a US Medium ticker universe using current online evidence, with HTML, Markdown and TradingView exports.",
+          "Maintain my existing ticker universe and explain additions, removals and unresolved research.",
+          "Expand my qualified Heavy universe to Max with sourced Beta while preserving its theme distribution."
+        ],
+        "composerIcon": "./assets/icon.png",
+        "logo": "./assets/icon.png"
+      },
+      "publication": {
+        "countries": [],
+        "release_notes": "0.9.1: complete offline HTML waterfall reports, brief multilingual reasons, refreshed worked examples and stronger fetch/resume recovery.",
+        "translations": {
+          "zh-CN": {
+            "subtitle": "构建可核验的标的观察池",
+            "description": "按行业与主题构建和维护标的观察池，覆盖十四个已审查市场及 Light、Medium、Heavy、Max 四个档位。Agent 研究主营、龙头与补充 Beta，Python 验证证据、保护基础覆盖并生成 TradingView TXT、Markdown、完整离线 HTML、JSON 和验证报告。Max 沿用 Heavy 的主题比例；证据不足会保留诊断和续跑记录。需 Python 3.10+、文件及命令访问能力，最新构建还需在线研究和有日期的市场数据。仅提供观察工具，不提供收益承诺、仓位配置或交易执行。"
+          }
+        }
+      }
+    }
+  }
+}
