@@ -11,8 +11,8 @@
   needs no grouping manifest; the CLI writes the host directories and project lock file.
 - [SkillsMP](https://skillsmp.com/creators/bitpunklabs/ticker-universe-builder/skill): already
   indexed, but its preview still shows `0.3.0`. Use the current GitHub source, not cached prose.
-- Tencent SkillHub: materials prepared; personal login and real-name verification are required
-  before submission. No upload yet. OpenAI/Codex marketplace submission is deferred.
+- Tencent SkillHub and OpenAI/Codex marketplace: deferred by the owner; no upload. Tencent
+  materials are prepared; personal login and real-name verification are required to resume.
 
 The smaller ClawHub bundle keeps all ten build specs, seven snapshots, references and runtime.
 It excludes generated example outputs and compacts JSON whitespace; run
