@@ -1,5 +1,28 @@
 # Registry packages
 
+## Distribution channels
+
+- [ClawHub](https://clawhub.ai/bitpunklabs/skills/ticker-universe-builder): `0.9.1`, published
+  under MIT-0. Registry verification returns `pass`; final ClawScan and VirusTotal verdicts are
+  clean. SkillSpector warnings remain visible; final review identifies most as false positives
+  and notes a Korean example content inconsistency. Audit approval does not certify research quality.
+- [skills.sh](https://skills.sh/bitpunklabs/ticker-universe-builder/ticker-universe-builder):
+  public GitHub distribution; project installs verified for Claude Code and Cursor. One skill
+  needs no grouping manifest; the CLI writes the host directories and project lock file.
+- [SkillsMP](https://skillsmp.com/creators/bitpunklabs/ticker-universe-builder/skill): already
+  indexed, but its preview still shows `0.3.0`. Use the current GitHub source, not cached prose.
+- Tencent SkillHub: materials prepared; personal login and real-name verification are required
+  before submission. No upload yet. OpenAI/Codex marketplace submission is deferred.
+
+The smaller ClawHub bundle keeps all ten build specs, seven snapshots, references and runtime.
+It excludes generated example outputs and compacts JSON whitespace; run
+`python examples/build_examples.py` to recreate outputs. Original provenance file hashes refer
+to upstream serialization; registry verification exposes actual uploaded file hashes.
+GitHub retains the complete examples and MIT license. Initial full-bundle registration returned
+server errors; the smaller bundle registered successfully. The server cause was not confirmed.
+
+## Prepare packages
+
 The repository stays a single skill. `plugin.json` is listing metadata; packaging copies the
 same runtime, references and dated worked examples into a skills-only OpenAI plugin.
 There is no MCP server, hosted service or runtime install step.

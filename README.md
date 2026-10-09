@@ -42,6 +42,25 @@ Other hosts can use the same directory:
 - **OpenClaw:** clone into `~/.openclaw/workspace/skills/ticker-universe-builder`.
 - **Other agents:** load [SKILL.md](SKILL.md) and provide file, shell and research tools.
 
+Or use [skills.sh](https://skills.sh/bitpunklabs/ticker-universe-builder/ticker-universe-builder)
+to configure a project for Claude Code and Cursor:
+
+```bash
+npx skills add bitpunklabs/ticker-universe-builder \
+  --skill ticker-universe-builder --agent claude-code cursor
+```
+
+[ClawHub](https://clawhub.ai/bitpunklabs/skills/ticker-universe-builder) hosts version `0.9.1`
+under MIT-0; GitHub remains MIT. Verify and install the exact registry version:
+
+```bash
+clawhub skill verify @bitpunklabs/ticker-universe-builder --version 0.9.1
+clawhub install @bitpunklabs/ticker-universe-builder --version 0.9.1
+```
+
+The ClawHub package includes all worked inputs; run `python examples/build_examples.py`
+inside the installed skill to recreate the dated example reports. [Distribution details](distribution/README.md).
+
 ## Use
 
 ```text

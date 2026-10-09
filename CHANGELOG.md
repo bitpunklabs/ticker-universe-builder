@@ -3,7 +3,7 @@
 Skill versions identify code/contracts. Universe hashes identify generated artifacts and dated
 research. Untagged development versions below were not separate public releases.
 
-## 0.9.1 — unreleased
+## 0.9.1 — ClawHub, 2026-10-09
 
 - Generate complete, self-contained dark HTML reports alongside Markdown in every report
   language; include all members/references, brief reasons, Max additions and delivery limits.
@@ -25,6 +25,8 @@ research. Untagged development versions below were not separate public releases.
   examples, add authored English JP/KR/HK content and online-reviewed HK/UK inputs with dated limits.
 - Prepare reproducible skill and skills-only OpenAI registry packages with bilingual listing
   metadata, an icon and archive/source hashes; keep publisher verification in the platform.
+- Publish the MIT-0 ClawHub distribution with all worked inputs and rebuildable example outputs;
+  verify registry installation and skills.sh installation for Claude Code and Cursor.
 
 ## 0.9.0 — development, 2026-10-07
 
