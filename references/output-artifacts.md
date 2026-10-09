@@ -17,8 +17,9 @@ The stem is `{market}-{profile}-{as_of}`; profiles are `light`, `medium`, `heavy
 | `{stem}.txt` | TradingView import: venue-prefixed tickers and `###` display groups, including references; at most 1,000 tokens including headings. |
 | `{stem}.en.md` | Human report: structure, grouped members with brief reasons, material limits, coverage and Max additions/distribution when applicable. |
 | `{stem}.<market-language>.md` | Companion report for non-English markets. CN uses `zh-Hans`. `--language` changes the companion; English remains. Fixed vocabulary comes from locales; human content uses authored snapshot `report_translations`. |
+| `{stem}.en.html` / `{stem}.<market-language>.html` | Complete dark, responsive browser report in the same languages: every member with name, role and brief reason; separate reference cards, Max additions, visible warnings/partial status, folded research notes and relative artifact links. Inline CSS, no server or external assets needed. |
 
-US/Crypto normally produce **four files**; CN produces **five**. They are all script-generated.
+US/Crypto normally produce **five files**; CN produces **seven**. They are all script-generated.
 Member tables show ticker, name, role and one brief reason. Full reasoning, admissions, source
 URLs, dated market-cap evidence and per-ticker measurement diagnostics stay in JSON, linked once
 from the report. `reason_summary` supplies the short reason; older inputs use a first-sentence
@@ -36,9 +37,11 @@ ticker-universes/cn/medium/2026-10-07/
   cn-medium-2026-10-07.txt
   cn-medium-2026-10-07.zh-Hans.md
   cn-medium-2026-10-07.en.md
+  cn-medium-2026-10-07.zh-Hans.html
+  cn-medium-2026-10-07.en.html
 ```
 
-Link the readable report and importable TXT in the user's reply, and include the JSON record
+Link the HTML report, Markdown and importable TXT in the user's reply, and include the JSON record
 and validation paths. State the entity count separately from references, the effective data
 cutoff, warnings and delivery status. An `as_of` filename is not a claim that every fact was
 refreshed that day; per-source and measurement dates remain authoritative.
@@ -46,8 +49,12 @@ refreshed that day; per-source and measurement dates remain authoritative.
 ## Receipt and checkpoint
 
 The CLI prints a **JSON receipt to stdout**, including `status`, `filled`, `unused_capacity`,
-artifact paths, warnings, checkpoint and continuation command. It is not a fifth/sixth file in
+artifact paths, warnings, checkpoint and continuation command. It is not an additional file in
 the final bundle; callers may redirect it to a receipt file.
+`artifacts.reports` remains the language-keyed Markdown map; `artifacts.html_reports` is the
+matching HTML map. Both participate in artifact hashes and same-input resume checks. Keep the
+bundle together so HTML's relative links resolve. Open the HTML locally in a browser; GitHub
+file views show its source rather than hosting the rendered page.
 
 `build` also stores a resumable checkpoint next to the output, in `DIR.run/`, unless `--run-dir`
 is supplied:

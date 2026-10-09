@@ -195,7 +195,7 @@ def validate(args: argparse.Namespace) -> int:
 
 
 def _paths(value: Any) -> Any:
-    """Paths as strings, one level deep: `reports` is a language → path map, the rest are paths."""
+    """Paths as strings; Markdown and HTML reports are language → path maps."""
     if isinstance(value, dict):
         return {key: str(path) for key, path in value.items()}
     return str(value)

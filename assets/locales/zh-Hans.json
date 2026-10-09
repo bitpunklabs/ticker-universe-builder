@@ -109,5 +109,9 @@
   "column.purpose": "观察职责",
   "column.representatives": "代表角色",
   "column.weight": "权重",
-  "note.audit_record": "完整理由、来源和测量诊断：[JSON]({universe}) · [验证]({validation})。"
+  "note.audit_record": "完整理由、来源和测量诊断：[JSON]({universe}) · [验证]({validation})。",
+  "html.references": "参考工具",
+  "html.notes": "研究说明与边界",
+  "html.new_beta": "新增 Beta",
+  "html.symbols": "导出标的"
 }

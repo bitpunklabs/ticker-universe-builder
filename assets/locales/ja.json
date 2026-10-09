@@ -97,5 +97,9 @@
   "column.purpose": "観測目的",
   "column.representatives": "代表の役割",
   "column.weight": "重み",
-  "note.audit_record": "詳しい理由・出典・測定診断：[JSON]({universe}) · [検証]({validation})。"
+  "note.audit_record": "詳しい理由・出典・測定診断：[JSON]({universe}) · [検証]({validation})。",
+  "html.references": "参考指標",
+  "html.notes": "調査の注記と限界",
+  "html.new_beta": "追加 Beta",
+  "html.symbols": "出力銘柄"
 }

@@ -97,5 +97,9 @@
   "column.purpose": "Função de observação",
   "column.representatives": "Papéis representativos",
   "column.weight": "Peso",
-  "note.audit_record": "Justificativas completas, fontes e diagnósticos: [JSON]({universe}) · [Validação]({validation})."
+  "note.audit_record": "Justificativas completas, fontes e diagnósticos: [JSON]({universe}) · [Validação]({validation}).",
+  "html.references": "Instrumentos de referência",
+  "html.notes": "Notas e limites da pesquisa",
+  "html.new_beta": "Beta adicionado",
+  "html.symbols": "Símbolos exportados"
 }

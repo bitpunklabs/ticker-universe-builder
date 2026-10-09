@@ -1,0 +1,862 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>UK Ticker Universe · Medium</title>
+<style>/* Self-contained report, readable without a network connection. */
+:root { color-scheme: dark; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+  "Noto Sans", "PingFang SC", "Microsoft YaHei", sans-serif; }
+* { box-sizing: border-box; }
+body { margin: 0; background: #090d13; color: #edf3fa; }
+main { width: 940px; max-width: 100%; margin: auto; padding: 34px 30px; }
+.brand { color: #d4deeb; font-size: 13px; letter-spacing: .04em; }
+.brand span { color: #8da0b8; }
+.hero { display: flex; align-items: center; justify-content: space-between;
+  gap: 14px; margin-top: 24px; }
+.hero > div { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+h1 { font-size: 32px; line-height: 1.2; letter-spacing: -.03em; margin: 0; }
+.profile, .verdict { border: 1px solid #34435a; border-radius: 6px; padding: 5px 9px;
+  font-size: 12px; font-weight: 600; white-space: nowrap; }
+.profile { color: #a9cfff; background: #14233b; }
+.verdict.pass { color: #8adebd; background: #10251f; border-color: #285340; }
+.verdict.partial, .notice.partial { color: #f1cd85; border-color: #765e33; }
+.verdict.fail { color: #ffb1b1; border-color: #874545; }
+.meta { color: #a4b5ca; font-size: 13px; line-height: 1.6; overflow-wrap: anywhere; }
+code, .code { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
+a { color: #a9cfff; text-decoration: none; }
+a:hover { text-decoration: underline; }
+a:focus-visible, summary:focus-visible { outline: 2px solid #79b8ff; outline-offset: 4px; }
+.files { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0; }
+.files a { padding: 7px 11px; border: 1px solid #2a3545; border-radius: 6px; font-size: 13px; }
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); background: #101721;
+  border: 1px solid #2a3545; border-radius: 10px; margin-bottom: 24px; }
+.stats > div { padding: 17px 18px; border-right: 1px solid #2a3545; }
+.stats > div:last-child { border-right: 0; }
+.stats strong { display: block; font-size: 27px; font-weight: 650; }
+.stats span { display: block; color: #a4b5ca; font-size: 12px; margin-top: 5px; }
+.section-title { font-size: 18px; margin: 26px 0 14px; font-weight: 600; }
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start; gap: 14px; }
+.card { --accent: #79b8ff; background: #101721; border: 1px solid #2a3545;
+  border-top: 2px solid var(--accent); border-radius: 9px; padding: 18px 19px 4px; }
+.card:nth-child(4n+2) { --accent: #b69cff; }
+.card:nth-child(4n+3) { --accent: #67d8ce; }
+.card:nth-child(4n+4) { --accent: #e7bb76; }
+.card header { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.code { color: var(--accent); font-size: 12px; }
+.count { color: #bccada; font-size: 12px; border: 1px solid #34435a;
+  border-radius: 4px; min-width: 24px; padding: 2px 6px; text-align: center; }
+h3 { font-size: 16px; font-weight: 650; line-height: 1.4; margin: 10px 0 16px;
+  overflow-wrap: anywhere; }
+.entry { border-top: 1px solid #263243; padding: 13px 0; overflow-wrap: anywhere; }
+.ticker { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.ticker b { font-size: 17px; letter-spacing: .01em; }
+.ticker small { font-size: 11px; color: #8da0b8; }
+.role { color: #9bacbf; font-size: 10px; margin-left: auto; }
+.name { color: #c0cede; font-size: 12px; line-height: 1.5; margin-top: 4px; }
+.description { color: #b7c5d8; font-size: 15px; line-height: 1.55; margin: 6px 0 0; }
+.added { display: inline-block; font-size: 11px; color: #8adebd; margin-top: 5px; }
+.notice, .notes { background: #101721; border: 1px solid #3b4757; border-radius: 8px;
+  padding: 15px 18px; margin: 18px 0; font-size: 13px; line-height: 1.6; overflow-wrap: anywhere; }
+.notice h2 { font-size: 14px; margin: 0; }
+.notice ul, .notes ul { padding-left: 20px; margin-bottom: 0; }
+.notes li + li { margin-top: 8px; }
+summary { cursor: pointer; color: #c0cede; }
+.expansion { font-size: 14px; color: #8adebd; }
+footer { border-top: 1px solid #2a3545; margin-top: 28px; padding-top: 18px;
+  font-size: 12px; line-height: 1.6; color: #8da0b8; }
+@media (max-width: 620px) {
+  main { padding: 24px 16px; }
+  h1 { font-size: 26px; }
+  .hero { align-items: start; flex-direction: column; }
+  .grid { grid-template-columns: 1fr; }
+  .stats { grid-template-columns: repeat(2, 1fr); }
+  .stats > div:nth-child(2) { border-right: 0; }
+  .stats > div:nth-child(-n+2) { border-bottom: 1px solid #2a3545; }
+  .card { padding: 16px 17px 3px; }
+}
+</style></head><body><main>
+<div class="brand">ticker-universe-builder <span>/ universe report</span></div>
+<header class="hero"><div>
+<h1>UK Ticker Universe</h1><span class="profile">Medium</span>
+</div>
+<span class="verdict pass">Validation · PASS</span></header>
+<p class="meta">Facts as of 2026-10-08 · <code>c8c395f33517</code></p>
+<nav class="files" aria-label="Artifacts">
+<a href="uk-medium-2026-10-08.en.md" download>Markdown</a>
+<a href="uk-medium-2026-10-08.txt" download>TradingView TXT</a>
+<a href="uk-medium-2026-10-08.json" download>JSON</a>
+<a href="uk-medium-2026-10-08.validation.json" download>Validation</a>
+</nav>
+<div class="stats">
+<div><strong>127</strong><span>Tickers</span></div>
+<div><strong>2</strong><span>Reference instruments</span></div>
+<div><strong>25</strong><span>Themes</span></div>
+<div><strong>129</strong><span>Export symbols</span></div>
+</div>
+<h2 class="section-title">Members</h2>
+<div class="grid">
+<section class="card" data-group="10_D">
+<header><span class="code">10_D</span><span class="count">6</span></header>
+<h3>ENTERPRISE SOFTWARE AND IT SERVICES</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="LSE:ALFA">
+<div class="ticker"><b>ALFA</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Alfa Financial Software Holdings Plc</div>
+<p class="description">Software for asset-finance businesses and related services.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:BYIT">
+<div class="ticker"><b>BYIT</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Bytes Technology Group Plc</div>
+<p class="description">Cloud and enterprise software distribution and IT services.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:CCC">
+<div class="ticker"><b>CCC</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Computacenter Plc</div>
+<p class="description">IT infrastructure services and hardware and software supply.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:KNOS">
+<div class="ticker"><b>KNOS</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Kainos Group PLC</div>
+<p class="description">Digital consulting and enterprise software implementation services.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:SCT">
+<div class="ticker"><b>SCT</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Softcat Plc</div>
+<p class="description">Software licensing, hardware, security and IT services.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:SGE">
+<div class="ticker"><b>SGE</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Sage Group plc</div>
+<p class="description">Accounting, payroll and enterprise business-management software.</p></article>
+</div></section>
+<section class="card" data-group="10_F">
+<header><span class="code">10_F</span><span class="count">4</span></header>
+<h3>ONLINE MARKETPLACES AND DATA</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="LSE:AUTO">
+<div class="ticker"><b>AUTO</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Autotrader Group PLC</div>
+<p class="description">Digital automotive marketplace linking vehicle sellers with buyers.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:EXPN">
+<div class="ticker"><b>EXPN</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Experian PLC</div>
+<p class="description">Credit data and analytics for risk, fraud and customer decisions.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:MONY">
+<div class="ticker"><b>MONY</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Mony Group PLC</div>
+<p class="description">Price comparison, personal finance and cashback platforms.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:RMV">
+<div class="ticker"><b>RMV</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Rightmove plc</div>
+<p class="description">Property search platform representing online housing-market activity.</p></article>
+</div></section>
+<section class="card" data-group="20_A">
+<header><span class="code">20_A</span><span class="count">5</span></header>
+<h3>INFORMATION MEDIA AND ADVERTISING</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="LSE:INF">
+<div class="ticker"><b>INF</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Informa Plc</div>
+<p class="description">Business information, exhibitions and professional events.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:ITV">
+<div class="ticker"><b>ITV</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">ITV PLC</div>
+<p class="description">Broadcasting, online media and television production.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:PSON">
+<div class="ticker"><b>PSON</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Pearson PLC</div>
+<p class="description">Education content, assessment and learning services.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:REL">
+<div class="ticker"><b>REL</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">RELX PLC</div>
+<p class="description">Professional information and analytics across legal, scientific and risk markets.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:WPP">
+<div class="ticker"><b>WPP</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">WPP Plc</div>
+<p class="description">Advertising, public relations and marketing services.</p></article>
+</div></section>
+<section class="card" data-group="20_B">
+<header><span class="code">20_B</span><span class="count">4</span></header>
+<h3>TELECOM OPERATORS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="LSE:AAF">
+<div class="ticker"><b>AAF</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Airtel Africa Plc</div>
+<p class="description">African mobile voice, data and mobile-money services.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:BT.A">
+<div class="ticker"><b>BT.A</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">BT Group plc</div>
+<p class="description">Fixed-line and mobile networks with consumer and enterprise connectivity.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:GAMA">
+<div class="ticker"><b>GAMA</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Gamma Communications PLC</div>
+<p class="description">Business communications and enterprise connectivity services.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:VOD">
+<div class="ticker"><b>VOD</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Vodafone Group Public Limited Company</div>
+<p class="description">Mobile and fixed-line communications across international markets.</p></article>
+</div></section>
+<section class="card" data-group="30_A">
+<header><span class="code">30_A</span><span class="count">5</span></header>
+<h3>FOOD AND GENERAL RETAIL</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="LSE:HWDN">
+<div class="ticker"><b>HWDN</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Howden Joinery Group PLC</div>
+<p class="description">Kitchens and joinery supplied to local builders and trade professionals.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:KGF">
+<div class="ticker"><b>KGF</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Kingfisher Plc</div>
+<p class="description">Home-improvement products sold through retail stores and digital channels.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:MKS">
+<div class="ticker"><b>MKS</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Marks and Spencer Group plc</div>
+<p class="description">Food, clothing and home retail across established consumer channels.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:SBRY">
+<div class="ticker"><b>SBRY</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">J Sainsbury plc</div>
+<p class="description">Food, general merchandise and clothing retail.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:TSCO">
+<div class="ticker"><b>TSCO</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Tesco PLC</div>
+<p class="description">Food and wholesale retail representing everyday grocery demand.</p></article>
+</div></section>
+<section class="card" data-group="30_B">
+<header><span class="code">30_B</span><span class="count">8</span></header>
+<h3>STAPLES AND HOUSEHOLD BRANDS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="LSE:ABF">
+<div class="ticker"><b>ABF</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Associated British Foods plc</div>
+<p class="description">Food, ingredients, sugar and apparel retail across a diversified consumer group.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:BATS">
+<div class="ticker"><b>BATS</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">British American Tobacco p.l.c.</div>
+<p class="description">Tobacco and related consumer products with brand and distribution exposure.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:CCH">
+<div class="ticker"><b>CCH</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Coca-Cola HBC AG</div>
+<p class="description">Non-alcoholic beverage bottling and distribution across multiple markets.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:DGE">
+<div class="ticker"><b>DGE</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Diageo plc</div>
+<p class="description">Spirits and other alcoholic beverages across international brands.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:HLN">
+<div class="ticker"><b>HLN</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Haleon PLC</div>
+<p class="description">Consumer healthcare brands adding everyday self-care products.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:IMB">
+<div class="ticker"><b>IMB</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Imperial Brands PLC</div>
+<p class="description">Tobacco and next-generation consumer products adding brand breadth.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:RKT">
+<div class="ticker"><b>RKT</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Reckitt Benckiser Group plc</div>
+<p class="description">Consumer health and hygiene brands representing household demand.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:ULVR">
+<div class="ticker"><b>ULVR</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Unilever PLC</div>
+<p class="description">Beauty, personal care, home care and food brands representing everyday consumption.</p></article>
+</div></section>
+<section class="card" data-group="30_D">
+<header><span class="code">30_D</span><span class="count">4</span></header>
+<h3>APPAREL AND BRANDED RETAIL</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="LSE:BRBY">
+<div class="ticker"><b>BRBY</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Burberry Group plc</div>
+<p class="description">Luxury apparel and accessories representing branded discretionary demand.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:FRAS">
+<div class="ticker"><b>FRAS</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Frasers Group PLC</div>
+<p class="description">Sports and premium retail spanning multiple consumer brands.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:JD.">
+<div class="ticker"><b>JD.</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">JD Sports Fashion Plc</div>
+<p class="description">Sports fashion and footwear retail across international brands.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:NXT">
+<div class="ticker"><b>NXT</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Next plc</div>
+<p class="description">Apparel and homeware retail through stores and online channels.</p></article>
+</div></section>
+<section class="card" data-group="30_G">
+<header><span class="code">30_G</span><span class="count">8</span></header>
+<h3>TRAVEL BETTING AND LEISURE</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="LSE:ENT">
+<div class="ticker"><b>ENT</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Entain PLC</div>
+<p class="description">Sports betting and gaming across online and retail channels.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:EZJ">
+<div class="ticker"><b>EZJ</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">easyJet plc</div>
+<p class="description">Passenger airlines and package holidays representing travel demand.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:GRG">
+<div class="ticker"><b>GRG</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Greggs plc</div>
+<p class="description">Bakery retail with an integrated production and distribution chain.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:IAG">
+<div class="ticker"><b>IAG</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">International Consolidated Airlines Group SA</div>
+<p class="description">Passenger and cargo airlines across multiple operating brands.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:JDW">
+<div class="ticker"><b>JDW</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">J D Wetherspoon plc</div>
+<p class="description">Pub ownership and operations adding value-led hospitality exposure.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:JET2">
+<div class="ticker"><b>JET2</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Jet2 PLC</div>
+<p class="description">Airlines and package holidays linking transport with leisure bookings.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:MAB">
+<div class="ticker"><b>MAB</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Mitchells &amp; Butlers plc</div>
+<p class="description">Managed restaurants and pubs representing dining and leisure spending.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:WTB">
+<div class="ticker"><b>WTB</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Whitbread PLC</div>
+<p class="description">Hotels and restaurants representing accommodation and dining demand.</p></article>
+</div></section>
+<section class="card" data-group="40_A">
+<header><span class="code">40_A</span><span class="count">5</span></header>
+<h3>NATIONAL AND INTERNATIONAL BANKS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="LSE:BARC">
+<div class="ticker"><b>BARC</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Barclays PLC</div>
+<p class="description">Retail, corporate and investment banking with card and wealth services.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:HSBA">
+<div class="ticker"><b>HSBA</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">HSBC Holdings Plc</div>
+<p class="description">International and local banking connecting retail and corporate finance.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:LLOY">
+<div class="ticker"><b>LLOY</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Lloyds Banking Group plc</div>
+<p class="description">Retail and commercial banking with insurance and pension services.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:NWG">
+<div class="ticker"><b>NWG</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">NatWest Group Plc</div>
+<p class="description">Retail, private and commercial banking across a major UK franchise.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:STAN">
+<div class="ticker"><b>STAN</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Standard Chartered PLC</div>
+<p class="description">Corporate, investment and retail banking across international markets.</p></article>
+</div></section>
+<section class="card" data-group="40_B">
+<header><span class="code">40_B</span><span class="count">3</span></header>
+<h3>BROKERAGE AND INVESTMENT PLATFORMS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="LSE:AJB">
+<div class="ticker"><b>AJB</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">AJ Bell Plc</div>
+<p class="description">Investment platforms for retail clients and financial advisers.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:CMCX">
+<div class="ticker"><b>CMCX</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">CMC Markets Plc</div>
+<p class="description">Online brokerage and trading services across international markets.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:IGG">
+<div class="ticker"><b>IGG</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">IG Group Holdings plc</div>
+<p class="description">Online brokerage and trading platforms connecting retail users with markets.</p></article>
+</div></section>
+<section class="card" data-group="40_C">
+<header><span class="code">40_C</span><span class="count">6</span></header>
+<h3>EXCHANGES AND ASSET MANAGEMENT</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="LSE:ABDN">
+<div class="ticker"><b>ABDN</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Aberdeen Group plc</div>
+<p class="description">Asset management, adviser and savings platforms.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:ICG">
+<div class="ticker"><b>ICG</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">ICG plc</div>
+<p class="description">Alternative asset management and financing across the capital structure.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:III">
+<div class="ticker"><b>III</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">3i Group plc</div>
+<p class="description">Private-equity and infrastructure investment and management.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:LSEG">
+<div class="ticker"><b>LSEG</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">London Stock Exchange Group plc</div>
+<p class="description">Financial data, indices, trading and post-trade infrastructure.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:MNG">
+<div class="ticker"><b>MNG</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">M&amp;G Plc</div>
+<p class="description">Asset management, life and wealth services representing long-term savings.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:STJ">
+<div class="ticker"><b>STJ</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">St. James&#x27;s Place Plc</div>
+<p class="description">Advice-led wealth management, investment and retirement services.</p></article>
+</div></section>
+<section class="card" data-group="40_D">
+<header><span class="code">40_D</span><span class="count">7</span></header>
+<h3>INSURANCE AND PENSIONS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="LSE:ADM">
+<div class="ticker"><b>ADM</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Admiral Group plc</div>
+<p class="description">Motor and other insurance with personal lending services.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:AV.">
+<div class="ticker"><b>AV.</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Aviva plc</div>
+<p class="description">Insurance, long-term savings and investment management.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:HSX">
+<div class="ticker"><b>HSX</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Hiscox Ltd</div>
+<p class="description">Specialist insurance and reinsurance across retail and international markets.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:LGEN">
+<div class="ticker"><b>LGEN</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Legal &amp; General Group Plc</div>
+<p class="description">Retirement, insurance and investment management linking savings with assets.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:LRE">
+<div class="ticker"><b>LRE</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Lancashire Holdings Limited</div>
+<p class="description">Property, casualty and specialty insurance and reinsurance.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:PRU">
+<div class="ticker"><b>PRU</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Prudential plc</div>
+<p class="description">Life and health insurance with savings and retirement products.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:SDLF">
+<div class="ticker"><b>SDLF</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Standard Life plc</div>
+<p class="description">Life insurance and pensions consolidation with ongoing savings businesses.</p></article>
+</div></section>
+<section class="card" data-group="40_E">
+<header><span class="code">40_E</span><span class="count">3</span></header>
+<h3>SPECIALIST BANKING</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="LSE:INVP">
+<div class="ticker"><b>INVP</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Investec plc</div>
+<p class="description">Specialist banking, private banking and investment services.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:OSB">
+<div class="ticker"><b>OSB</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">OSB Group PLC</div>
+<p class="description">Specialist mortgage lending across distinct banking franchises.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:PAG">
+<div class="ticker"><b>PAG</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Paragon Banking Group PLC</div>
+<p class="description">Mortgage and commercial lending adding specialist credit exposure.</p></article>
+</div></section>
+<section class="card" data-group="50_A">
+<header><span class="code">50_A</span><span class="count">7</span></header>
+<h3>PHARMACEUTICALS MEDTECH AND HEALTH SERVICES</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="LSE:AZN">
+<div class="ticker"><b>AZN</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">AstraZeneca PLC</div>
+<p class="description">Prescription medicines across oncology, rare diseases and other major therapies.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:CTEC">
+<div class="ticker"><b>CTEC</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">ConvaTec Group Plc</div>
+<p class="description">Medical products for wound, ostomy and other chronic-care needs.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:CVSG">
+<div class="ticker"><b>CVSG</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">CVS Group plc</div>
+<p class="description">Veterinary practices and related animal healthcare services.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:GSK">
+<div class="ticker"><b>GSK</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">GSK plc</div>
+<p class="description">Pharmaceutical medicines and vaccines representing commercial drug demand.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:HIK">
+<div class="ticker"><b>HIK</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Hikma Pharmaceuticals Plc</div>
+<p class="description">Generic, branded and injectable medicines adding pharmaceutical supply breadth.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:SN.">
+<div class="ticker"><b>SN.</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Smith &amp; Nephew plc</div>
+<p class="description">Orthopaedics, sports medicine and wound-care devices.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:SPI">
+<div class="ticker"><b>SPI</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Spire Healthcare Group PLC</div>
+<p class="description">Private hospitals, diagnostics and specialist treatment services.</p></article>
+</div></section>
+<section class="card" data-group="60_A">
+<header><span class="code">60_A</span><span class="count">5</span></header>
+<h3>DEFENSE AND AEROSPACE</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="LSE:BA.">
+<div class="ticker"><b>BA.</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">BAE Systems plc</div>
+<p class="description">Defense platforms, electronics and support for air, land and naval forces.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:BAB">
+<div class="ticker"><b>BAB</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Babcock International Group PLC</div>
+<p class="description">Engineering support and maintenance across defense and other critical assets.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:MRO">
+<div class="ticker"><b>MRO</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Melrose Industries PLC</div>
+<p class="description">Aerospace structures and engine components across civil and defense platforms.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:QQ.">
+<div class="ticker"><b>QQ.</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">QinetiQ Group plc</div>
+<p class="description">Defense technology, testing and engineering services.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:RR.">
+<div class="ticker"><b>RR.</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Rolls-Royce Holdings plc</div>
+<p class="description">Civil aerospace engines, defense and power systems with recurring service demand.</p></article>
+</div></section>
+<section class="card" data-group="60_B">
+<header><span class="code">60_B</span><span class="count">7</span></header>
+<h3>INDUSTRIAL ENGINEERING</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="LSE:HLMA">
+<div class="ticker"><b>HLMA</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Halma plc</div>
+<p class="description">Safety, environmental and medical technologies across specialized product businesses.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:IMI">
+<div class="ticker"><b>IMI</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">IMI plc</div>
+<p class="description">Fluid and motion-control engineering for industrial applications.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:ROR">
+<div class="ticker"><b>ROR</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Rotork plc</div>
+<p class="description">Actuators and flow-control systems for industrial, water and energy assets.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:RSW">
+<div class="ticker"><b>RSW</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Renishaw plc</div>
+<p class="description">Precision measurement and manufacturing technologies.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:SMIN">
+<div class="ticker"><b>SMIN</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Smiths Group Plc</div>
+<p class="description">Industrial control, detection and engineered products.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:SPX">
+<div class="ticker"><b>SPX</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Spirax Group plc.</div>
+<p class="description">Steam, thermal-energy and fluid-path technologies for industrial customers.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:WEIR">
+<div class="ticker"><b>WEIR</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Weir PLC</div>
+<p class="description">Mining equipment and aftermarket services for mineral production.</p></article>
+</div></section>
+<section class="card" data-group="60_E">
+<header><span class="code">60_E</span><span class="count">5</span></header>
+<h3>CONSTRUCTION AND HOUSING</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="LSE:BBY">
+<div class="ticker"><b>BBY</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Balfour Beatty plc</div>
+<p class="description">Infrastructure construction and engineering services.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:BKG">
+<div class="ticker"><b>BKG</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Berkeley Group Holdings plc</div>
+<p class="description">Residential and mixed-use property development.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:BTRW">
+<div class="ticker"><b>BTRW</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Barratt Redrow plc</div>
+<p class="description">Housing development and construction across UK residential markets.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:PSN">
+<div class="ticker"><b>PSN</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Persimmon Plc</div>
+<p class="description">New-home design and construction across established housing brands.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:TW.">
+<div class="ticker"><b>TW.</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Taylor Wimpey plc</div>
+<p class="description">Residential development, land acquisition and community construction.</p></article>
+</div></section>
+<section class="card" data-group="60_F">
+<header><span class="code">60_F</span><span class="count">5</span></header>
+<h3>BUSINESS SERVICES TRANSPORT AND DISTRIBUTION</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="LSE:BNZL">
+<div class="ticker"><b>BNZL</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Bunzl plc</div>
+<p class="description">Non-food consumables distribution for foodservice, cleaning and healthcare customers.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:CKN">
+<div class="ticker"><b>CKN</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Clarkson PLC</div>
+<p class="description">Shipbroking and related shipping finance, support and research.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:FGP">
+<div class="ticker"><b>FGP</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">FirstGroup plc</div>
+<p class="description">UK bus and passenger rail services representing public transport demand.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:ITRK">
+<div class="ticker"><b>ITRK</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Intertek Group plc</div>
+<p class="description">Testing, inspection and certification across industrial supply chains.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:RTO">
+<div class="ticker"><b>RTO</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Rentokil Initial plc</div>
+<p class="description">Pest-control and hygiene services representing recurring business demand.</p></article>
+</div></section>
+<section class="card" data-group="70_A">
+<header><span class="code">70_A</span><span class="count">6</span></header>
+<h3>OIL GAS AND ENERGY DISTRIBUTION</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="LSE:BP.">
+<div class="ticker"><b>BP.</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">BP PLC</div>
+<p class="description">Oil and gas production, refining and energy marketing.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:DCC">
+<div class="ticker"><b>DCC</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">DCC Energy Plc</div>
+<p class="description">Energy distribution and customer energy services.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:ENOG">
+<div class="ticker"><b>ENOG</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Energean Plc</div>
+<p class="description">Natural gas exploration and production with Mediterranean exposure.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:HBR">
+<div class="ticker"><b>HBR</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Harbour Energy Plc</div>
+<p class="description">Oil and gas exploration and production representing upstream supply.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:SEPL">
+<div class="ticker"><b>SEPL</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Seplat Energy PLC</div>
+<p class="description">Oil and gas exploration and production adding upstream geographic breadth.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:SHEL">
+<div class="ticker"><b>SHEL</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Shell Plc</div>
+<p class="description">Integrated oil, gas, refining and marketing across global energy markets.</p></article>
+</div></section>
+<section class="card" data-group="80_A">
+<header><span class="code">80_A</span><span class="count">3</span></header>
+<h3>PACKAGING AND BUILDING MATERIALS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="LSE:BREE">
+<div class="ticker"><b>BREE</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Breedon Group PLC</div>
+<p class="description">Aggregates, cement, asphalt and concrete for construction demand.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:MNDI">
+<div class="ticker"><b>MNDI</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Mondi plc</div>
+<p class="description">Paper and flexible and corrugated packaging products.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:MSLH">
+<div class="ticker"><b>MSLH</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Marshalls plc</div>
+<p class="description">Landscape, building and roofing materials for the built environment.</p></article>
+</div></section>
+<section class="card" data-group="80_B">
+<header><span class="code">80_B</span><span class="count">3</span></header>
+<h3>ELECTRICITY AND GAS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="LSE:CNA">
+<div class="ticker"><b>CNA</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Centrica plc</div>
+<p class="description">Energy supply, services and infrastructure representing customer energy demand.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:NG.">
+<div class="ticker"><b>NG.</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">National Grid plc</div>
+<p class="description">Electricity and gas transmission and distribution networks.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:SSE">
+<div class="ticker"><b>SSE</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">SSE PLC</div>
+<p class="description">Electricity generation and networks representing power infrastructure.</p></article>
+</div></section>
+<section class="card" data-group="80_C">
+<header><span class="code">80_C</span><span class="count">5</span></header>
+<h3>METALS AND MINING</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="LSE:AAL">
+<div class="ticker"><b>AAL</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Anglo American plc</div>
+<p class="description">Diversified mining representing industrial mineral supply and capital spending.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:ANTO">
+<div class="ticker"><b>ANTO</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Antofagasta plc</div>
+<p class="description">Copper mining representing industrial and electrification metal demand.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:FRES">
+<div class="ticker"><b>FRES</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Fresnillo PLC</div>
+<p class="description">Gold and silver production adding precious-metal supply exposure.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:GLEN">
+<div class="ticker"><b>GLEN</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Glencore plc</div>
+<p class="description">Commodity production and marketing linking mining supply with trading demand.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:RIO">
+<div class="ticker"><b>RIO</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Rio Tinto plc</div>
+<p class="description">Iron ore, copper and other mineral production representing global mining supply.</p></article>
+</div></section>
+<section class="card" data-group="80_D">
+<header><span class="code">80_D</span><span class="count">3</span></header>
+<h3>SPECIALTY CHEMICALS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="LSE:CRDA">
+<div class="ticker"><b>CRDA</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Croda International Plc</div>
+<p class="description">Specialty chemicals for consumer care, life sciences and industrial customers.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:JMAT">
+<div class="ticker"><b>JMAT</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Johnson Matthey Plc</div>
+<p class="description">Catalysts and precious-metal technologies representing specialty chemistry.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:VCT">
+<div class="ticker"><b>VCT</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Victrex plc</div>
+<p class="description">High-performance polymers serving industrial and medical applications.</p></article>
+</div></section>
+<section class="card" data-group="80_E">
+<header><span class="code">80_E</span><span class="count">3</span></header>
+<h3>WATER UTILITIES</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="LSE:PNN">
+<div class="ticker"><b>PNN</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Pennon Group Plc</div>
+<p class="description">Water and sewerage services representing regulated utility demand.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:SVT">
+<div class="ticker"><b>SVT</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Severn Trent Plc</div>
+<p class="description">Regulated water and wastewater services with supporting infrastructure.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:UU.">
+<div class="ticker"><b>UU.</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">United Utilities Group PLC</div>
+<p class="description">Water collection, treatment and wastewater services.</p></article>
+</div></section>
+<section class="card" data-group="90_A">
+<header><span class="code">90_A</span><span class="count">7</span></header>
+<h3>COMMERCIAL AND RESIDENTIAL PROPERTY</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="LSE:BBOX">
+<div class="ticker"><b>BBOX</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Tritax Big Box REIT PLC</div>
+<p class="description">Logistics property investment, development and land sourcing.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:BLND">
+<div class="ticker"><b>BLND</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">British Land Company PLC</div>
+<p class="description">Commercial property investment across campuses, retail and urban logistics.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:GRI">
+<div class="ticker"><b>GRI</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Grainger plc</div>
+<p class="description">Residential rental property ownership, development and management.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:LAND">
+<div class="ticker"><b>LAND</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Land Securities Group PLC</div>
+<p class="description">Office, retail and other commercial property ownership and development.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:LMP">
+<div class="ticker"><b>LMP</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">LondonMetric Property Plc</div>
+<p class="description">Distribution and long-income commercial property investment.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:SGRO">
+<div class="ticker"><b>SGRO</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">SEGRO plc</div>
+<p class="description">Warehouse and light-industrial property ownership and development.</p></article>
+<article class="entry" data-kind="member" data-ticker="LSE:UTG">
+<div class="ticker"><b>UTG</b><small>LSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">UNITE Group plc</div>
+<p class="description">Student accommodation development, ownership and management.</p></article>
+</div></section>
+</div>
+<h2 class="section-title">Reference instruments</h2>
+<div class="grid">
+<section class="card" data-group="00_A">
+<header><span class="code">00_A</span><span class="count">2</span></header>
+<h3>BROAD MARKET ETF</h3><div class="entries">
+<article class="entry" data-kind="reference" data-ticker="LSE:ISF">
+<div class="ticker"><b>ISF</b><small>LSE</small>
+<span class="role">etf</span></div>
+<p class="description">ETF tracking the FTSE 100; the fund price is not the direct index.</p></article>
+<article class="entry" data-kind="reference" data-ticker="LSE:VMID">
+<div class="ticker"><b>VMID</b><small>LSE</small>
+<span class="role">etf</span></div>
+<p class="description">ETF tracking the FTSE 250; the fund price is not the direct index.</p></article>
+</div></section>
+</div>
+<details class="notes">
+<summary>Research notes and limits</summary><ul>
+<li>Beazley and Schroders cancelled lines are excluded. The former PHNX line is replaced with the current sourced SDLF listing; Gamma represents business communications and DCC energy distribution.</li>
+<li>Business profiles, active quotations and standardized financial fields reviewed online on 2026-10-08; price histories end 2026-10-07.</li>
+<li>Financial periods are unspecified by the provider. Losses, missing cash-flow fields and sector-specific risks remain disclosed per entity in research JSON; capitalization is not proof of leadership.</li>
+<li>Liquidity is ranked within the acquired research population, not every security in the market. Turnover is a raw-close times share-volume proxy, not official exchange turnover.</li>
+<li>Major operating-business representatives are researched within the declared scope. Comparative market-share, every issuer filing, all temporary suspensions and regulator/audit records are not independently audited.</li>
+<li>Pure investment funds are excluded from operating-company seats. 3i remains a private-equity investment and management business, with portfolio/NAV exposure.</li>
+<li>Theme factors use same-duty leave-one-out peer baskets where at least three histories are available; missing optional factors remain diagnostics, not admission failures.</li>
+<li>UK turnover is normalized to GBP: Yahoo GBp/GBX raw prices are multiplied by 0.01 before multiplying by share volume. Quote-currency bindings preserve TradingView GBX/GBP.</li>
+</ul></details>
+<footer>Research notes and limits · <a href="uk-medium-2026-10-08.json" download>JSON</a> · <a href="uk-medium-2026-10-08.validation.json" download>Validation</a></footer>
+</main></body></html>

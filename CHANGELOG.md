@@ -5,6 +5,9 @@ research. Untagged development versions below were not separate public releases.
 
 ## 0.9.1 — unreleased
 
+- Generate complete, self-contained dark HTML reports alongside Markdown in every report
+  language; include all members/references, brief reasons, Max additions and delivery limits.
+  Add language-keyed `artifacts.html_reports`, covered by checkpoint hashes and resume checks.
 - Handle truncated/compressed responses and verified macOS CA recovery; retain bounded request
   retries, optional installed-curl fallback, failure receipts and honest partial fetch manifests.
 - Verify Yahoo symbol, currency and aligned arrays; record alternate-host provenance.

@@ -2,19 +2,20 @@
 
 十份示例包含研究输入与脚本生成的标准产物。成员表仅显示代码、名称、角色和简短理由；
 完整推理、证据及逐标的测量诊断保留在 JSON，报告顶部提供链接。
+HTML 为完整暗色响应式页面，下载后用浏览器打开；GitHub 文件页显示源代码。
 
-| 示例 | 主体数 | 参考工具数 | 报告 | TradingView |
-|---|---:|---:|---|---|
-| CN Medium | 302 | 42 | [简体中文](cn-medium/output/cn-medium-2026-10-08.zh-Hans.md) / [English](cn-medium/output/cn-medium-2026-10-08.en.md) | [TXT](cn-medium/output/cn-medium-2026-10-08.txt) |
-| US Light | 100 | 44 | [English](us-light/output/us-light-2026-10-08.en.md) | [TXT](us-light/output/us-light-2026-10-08.txt) |
-| US Medium | 294 | 44 | [English](us-medium/output/us-medium-2026-10-08.en.md) | [TXT](us-medium/output/us-medium-2026-10-08.txt) |
-| US Heavy | 370 | 44 | [English](us-heavy/output/us-heavy-2026-10-08.en.md) | [TXT](us-heavy/output/us-heavy-2026-10-08.txt) |
-| US Max | 481 | 44 | [English](us-max/output/us-max-2026-10-08.en.md) | [TXT](us-max/output/us-max-2026-10-08.txt) |
-| Crypto Medium | 35 | 0 | [English](crypto-medium/output/crypto-medium-2026-10-08.en.md) | [TXT](crypto-medium/output/crypto-medium-2026-10-08.txt) |
-| HK Medium | 123 | 2 | [繁體中文](hk-medium/output/hk-medium-2026-10-08.zh-Hant.md) / [English](hk-medium/output/hk-medium-2026-10-08.en.md) | [TXT](hk-medium/output/hk-medium-2026-10-08.txt) |
-| JP Medium | 131 | 2 | [日本語](jp-medium/output/jp-medium-2026-10-07.ja.md) / [English](jp-medium/output/jp-medium-2026-10-07.en.md) | [TXT](jp-medium/output/jp-medium-2026-10-07.txt) |
-| KR Medium | 108 | 2 | [한국어](kr-medium/output/kr-medium-2026-10-07.ko.md) / [English](kr-medium/output/kr-medium-2026-10-07.en.md) | [TXT](kr-medium/output/kr-medium-2026-10-07.txt) |
-| UK Medium | 127 | 2 | [English](uk-medium/output/uk-medium-2026-10-08.en.md) | [TXT](uk-medium/output/uk-medium-2026-10-08.txt) |
+| 示例 | 主体数 | 参考工具数 | Markdown | HTML | TradingView |
+|---|---:|---:|---|---|---|
+| CN Medium | 302 | 42 | [简体中文](cn-medium/output/cn-medium-2026-10-08.zh-Hans.md) / [English](cn-medium/output/cn-medium-2026-10-08.en.md) | [HTML](cn-medium/output/cn-medium-2026-10-08.zh-Hans.html) | [TXT](cn-medium/output/cn-medium-2026-10-08.txt) |
+| US Light | 100 | 44 | [English](us-light/output/us-light-2026-10-08.en.md) | [HTML](us-light/output/us-light-2026-10-08.en.html) | [TXT](us-light/output/us-light-2026-10-08.txt) |
+| US Medium | 294 | 44 | [English](us-medium/output/us-medium-2026-10-08.en.md) | [HTML](us-medium/output/us-medium-2026-10-08.en.html) | [TXT](us-medium/output/us-medium-2026-10-08.txt) |
+| US Heavy | 370 | 44 | [English](us-heavy/output/us-heavy-2026-10-08.en.md) | [HTML](us-heavy/output/us-heavy-2026-10-08.en.html) | [TXT](us-heavy/output/us-heavy-2026-10-08.txt) |
+| US Max | 481 | 44 | [English](us-max/output/us-max-2026-10-08.en.md) | [HTML](us-max/output/us-max-2026-10-08.en.html) | [TXT](us-max/output/us-max-2026-10-08.txt) |
+| Crypto Medium | 35 | 0 | [English](crypto-medium/output/crypto-medium-2026-10-08.en.md) | [HTML](crypto-medium/output/crypto-medium-2026-10-08.en.html) | [TXT](crypto-medium/output/crypto-medium-2026-10-08.txt) |
+| HK Medium | 123 | 2 | [繁體中文](hk-medium/output/hk-medium-2026-10-08.zh-Hant.md) / [English](hk-medium/output/hk-medium-2026-10-08.en.md) | [HTML](hk-medium/output/hk-medium-2026-10-08.zh-Hant.html) | [TXT](hk-medium/output/hk-medium-2026-10-08.txt) |
+| JP Medium | 131 | 2 | [日本語](jp-medium/output/jp-medium-2026-10-07.ja.md) / [English](jp-medium/output/jp-medium-2026-10-07.en.md) | [HTML](jp-medium/output/jp-medium-2026-10-07.ja.html) | [TXT](jp-medium/output/jp-medium-2026-10-07.txt) |
+| KR Medium | 108 | 2 | [한국어](kr-medium/output/kr-medium-2026-10-07.ko.md) / [English](kr-medium/output/kr-medium-2026-10-07.en.md) | [HTML](kr-medium/output/kr-medium-2026-10-07.ko.html) | [TXT](kr-medium/output/kr-medium-2026-10-07.txt) |
+| UK Medium | 127 | 2 | [English](uk-medium/output/uk-medium-2026-10-08.en.md) | [HTML](uk-medium/output/uk-medium-2026-10-08.en.html) | [TXT](uk-medium/output/uk-medium-2026-10-08.txt) |
 
 成员按主题分组，表格只保留代码、名称、角色和简短理由。`reason_summary` 来自原业务说明；
 完整理由、准入证据、市值来源及逐标的测量诊断保留在 JSON，报告顶部提供链接。
@@ -23,7 +24,7 @@
 
 Medium 目录包含 `build-spec.json`、`snapshot.json` 和 `output/`；US 四个档位共用 US Medium
 快照。Max 保留全部 370 个 Heavy 主体，新增 111 个 Beta（30%）。
-标准产物包含 Markdown、TXT、完整 JSON、验证 JSON，由脚本生成，不手写名单。
+标准产物包含 HTML、Markdown、TXT、完整 JSON、验证 JSON，由脚本生成，不手写名单。
 [build-summary.json](build-summary.json) 保存数量、资格和哈希；
 [input-provenance.json](input-provenance.json) 记录来源及展示摘要的转换。
 

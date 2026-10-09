@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>CRYPTO Ticker Universe · Medium</title>
+<style>/* Self-contained report, readable without a network connection. */
+:root { color-scheme: dark; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+  "Noto Sans", "PingFang SC", "Microsoft YaHei", sans-serif; }
+* { box-sizing: border-box; }
+body { margin: 0; background: #090d13; color: #edf3fa; }
+main { width: 940px; max-width: 100%; margin: auto; padding: 34px 30px; }
+.brand { color: #d4deeb; font-size: 13px; letter-spacing: .04em; }
+.brand span { color: #8da0b8; }
+.hero { display: flex; align-items: center; justify-content: space-between;
+  gap: 14px; margin-top: 24px; }
+.hero > div { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+h1 { font-size: 32px; line-height: 1.2; letter-spacing: -.03em; margin: 0; }
+.profile, .verdict { border: 1px solid #34435a; border-radius: 6px; padding: 5px 9px;
+  font-size: 12px; font-weight: 600; white-space: nowrap; }
+.profile { color: #a9cfff; background: #14233b; }
+.verdict.pass { color: #8adebd; background: #10251f; border-color: #285340; }
+.verdict.partial, .notice.partial { color: #f1cd85; border-color: #765e33; }
+.verdict.fail { color: #ffb1b1; border-color: #874545; }
+.meta { color: #a4b5ca; font-size: 13px; line-height: 1.6; overflow-wrap: anywhere; }
+code, .code { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
+a { color: #a9cfff; text-decoration: none; }
+a:hover { text-decoration: underline; }
+a:focus-visible, summary:focus-visible { outline: 2px solid #79b8ff; outline-offset: 4px; }
+.files { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0; }
+.files a { padding: 7px 11px; border: 1px solid #2a3545; border-radius: 6px; font-size: 13px; }
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); background: #101721;
+  border: 1px solid #2a3545; border-radius: 10px; margin-bottom: 24px; }
+.stats > div { padding: 17px 18px; border-right: 1px solid #2a3545; }
+.stats > div:last-child { border-right: 0; }
+.stats strong { display: block; font-size: 27px; font-weight: 650; }
+.stats span { display: block; color: #a4b5ca; font-size: 12px; margin-top: 5px; }
+.section-title { font-size: 18px; margin: 26px 0 14px; font-weight: 600; }
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start; gap: 14px; }
+.card { --accent: #79b8ff; background: #101721; border: 1px solid #2a3545;
+  border-top: 2px solid var(--accent); border-radius: 9px; padding: 18px 19px 4px; }
+.card:nth-child(4n+2) { --accent: #b69cff; }
+.card:nth-child(4n+3) { --accent: #67d8ce; }
+.card:nth-child(4n+4) { --accent: #e7bb76; }
+.card header { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.code { color: var(--accent); font-size: 12px; }
+.count { color: #bccada; font-size: 12px; border: 1px solid #34435a;
+  border-radius: 4px; min-width: 24px; padding: 2px 6px; text-align: center; }
+h3 { font-size: 16px; font-weight: 650; line-height: 1.4; margin: 10px 0 16px;
+  overflow-wrap: anywhere; }
+.entry { border-top: 1px solid #263243; padding: 13px 0; overflow-wrap: anywhere; }
+.ticker { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.ticker b { font-size: 17px; letter-spacing: .01em; }
+.ticker small { font-size: 11px; color: #8da0b8; }
+.role { color: #9bacbf; font-size: 10px; margin-left: auto; }
+.name { color: #c0cede; font-size: 12px; line-height: 1.5; margin-top: 4px; }
+.description { color: #b7c5d8; font-size: 15px; line-height: 1.55; margin: 6px 0 0; }
+.added { display: inline-block; font-size: 11px; color: #8adebd; margin-top: 5px; }
+.notice, .notes { background: #101721; border: 1px solid #3b4757; border-radius: 8px;
+  padding: 15px 18px; margin: 18px 0; font-size: 13px; line-height: 1.6; overflow-wrap: anywhere; }
+.notice h2 { font-size: 14px; margin: 0; }
+.notice ul, .notes ul { padding-left: 20px; margin-bottom: 0; }
+.notes li + li { margin-top: 8px; }
+summary { cursor: pointer; color: #c0cede; }
+.expansion { font-size: 14px; color: #8adebd; }
+footer { border-top: 1px solid #2a3545; margin-top: 28px; padding-top: 18px;
+  font-size: 12px; line-height: 1.6; color: #8da0b8; }
+@media (max-width: 620px) {
+  main { padding: 24px 16px; }
+  h1 { font-size: 26px; }
+  .hero { align-items: start; flex-direction: column; }
+  .grid { grid-template-columns: 1fr; }
+  .stats { grid-template-columns: repeat(2, 1fr); }
+  .stats > div:nth-child(2) { border-right: 0; }
+  .stats > div:nth-child(-n+2) { border-bottom: 1px solid #2a3545; }
+  .card { padding: 16px 17px 3px; }
+}
+</style></head><body><main>
+<div class="brand">ticker-universe-builder <span>/ universe report</span></div>
+<header class="hero"><div>
+<h1>CRYPTO Ticker Universe</h1><span class="profile">Medium</span>
+</div>
+<span class="verdict pass">Validation · PASS</span></header>
+<p class="meta">Facts as of 2026-10-08 · <code>3b692552b2be</code></p>
+<nav class="files" aria-label="Artifacts">
+<a href="crypto-medium-2026-10-08.en.md" download>Markdown</a>
+<a href="crypto-medium-2026-10-08.txt" download>TradingView TXT</a>
+<a href="crypto-medium-2026-10-08.json" download>JSON</a>
+<a href="crypto-medium-2026-10-08.validation.json" download>Validation</a>
+</nav>
+<div class="stats">
+<div><strong>35</strong><span>Tickers</span></div>
+<div><strong>0</strong><span>Reference instruments</span></div>
+<div><strong>9</strong><span>Themes</span></div>
+<div><strong>35</strong><span>Export symbols</span></div>
+</div>
+<h2 class="section-title">Members</h2>
+<div class="grid">
+<section class="card" data-group="00_A">
+<header><span class="code">00_A</span><span class="count">3</span></header>
+<h3>CORE ASSETS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="BINANCE:BTCUSDT.P">
+<div class="ticker"><b>BTCUSDT.P</b><small>BINANCE</small>
+<span class="role">BENCHMARK</span></div>
+<div class="name">Bitcoin</div>
+<p class="description">Monetary settlement and proof-of-work security; the base crypto market reference</p></article>
+<article class="entry" data-kind="member" data-ticker="BINANCE:ETHUSDT.P">
+<div class="ticker"><b>ETHUSDT.P</b><small>BINANCE</small>
+<span class="role">BENCHMARK</span></div>
+<div class="name">Ethereum</div>
+<p class="description">General smart-contract settlement and proof-of-stake security</p></article>
+<article class="entry" data-kind="member" data-ticker="BINANCE:SOLUSDT.P">
+<div class="ticker"><b>SOLUSDT.P</b><small>BINANCE</small>
+<span class="role">BENCHMARK</span></div>
+<div class="name">Solana</div>
+<p class="description">High-throughput application execution and settlement</p></article>
+</div></section>
+<section class="card" data-group="10_A">
+<header><span class="code">10_A</span><span class="count">6</span></header>
+<h3>TRADING DERIVATIVES DISTRIBUTION</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="BINANCE:BNBUSDT.P">
+<div class="ticker"><b>BNBUSDT.P</b><small>BINANCE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">BNB</div>
+<p class="description">Exchange-linked smart-contract ecosystem and network security</p></article>
+<article class="entry" data-kind="member" data-ticker="BINANCE:CRVUSDT.P">
+<div class="ticker"><b>CRVUSDT.P</b><small>BINANCE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Curve</div>
+<p class="description">Stable-asset liquidity and incentive allocation</p></article>
+<article class="entry" data-kind="member" data-ticker="BINANCE:HYPEUSDT.P">
+<div class="ticker"><b>HYPEUSDT.P</b><small>BINANCE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Hyperliquid</div>
+<p class="description">Order-book derivatives network with its own settlement/security infrastructure</p></article>
+<article class="entry" data-kind="member" data-ticker="BINANCE:JUPUSDT.P">
+<div class="ticker"><b>JUPUSDT.P</b><small>BINANCE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Jupiter</div>
+<p class="description">Solana swap aggregation and trading distribution</p></article>
+<article class="entry" data-kind="member" data-ticker="BINANCE:UNIUSDT.P">
+<div class="ticker"><b>UNIUSDT.P</b><small>BINANCE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Uniswap</div>
+<p class="description">Automated market making and decentralised exchange liquidity</p></article>
+<article class="entry" data-kind="member" data-ticker="OKX:OKBUSDT">
+<div class="ticker"><b>OKBUSDT</b><small>OKX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">OKB</div>
+<p class="description">X Layer gas asset and the OKX-linked ecosystem, distinct from BNB Chain</p></article>
+</div></section>
+<section class="card" data-group="10_B">
+<header><span class="code">10_B</span><span class="count">7</span></header>
+<h3>L1 BITCOIN POW NETWORKS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="BINANCE:AVAXUSDT.P">
+<div class="ticker"><b>AVAXUSDT.P</b><small>BINANCE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Avalanche</div>
+<p class="description">Multi-chain smart-contract infrastructure with a distinct validator architecture</p></article>
+<article class="entry" data-kind="member" data-ticker="BINANCE:GRAMUSDT.P">
+<div class="ticker"><b>GRAMUSDT.P</b><small>BINANCE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">GRAM</div>
+<p class="description">TON network payments and application infrastructure following the TON-to-GRAM rename</p></article>
+<article class="entry" data-kind="member" data-ticker="BINANCE:LTCUSDT.P">
+<div class="ticker"><b>LTCUSDT.P</b><small>BINANCE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Litecoin</div>
+<p class="description">Legacy proof-of-work payments and monetary transfer infrastructure</p></article>
+<article class="entry" data-kind="member" data-ticker="BINANCE:NEARUSDT.P">
+<div class="ticker"><b>NEARUSDT.P</b><small>BINANCE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">NEAR Protocol</div>
+<p class="description">Application-chain infrastructure and chain-abstraction/intents services</p></article>
+<article class="entry" data-kind="member" data-ticker="BINANCE:STXUSDT.P">
+<div class="ticker"><b>STXUSDT.P</b><small>BINANCE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">STX</div>
+<p class="description">Bitcoin-connected smart contracts and signer security</p></article>
+<article class="entry" data-kind="member" data-ticker="BINANCE:SUIUSDT.P">
+<div class="ticker"><b>SUIUSDT.P</b><small>BINANCE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Sui</div>
+<p class="description">Object-oriented execution and on-chain application infrastructure</p></article>
+<article class="entry" data-kind="member" data-ticker="BINANCE:ZECUSDT.P">
+<div class="ticker"><b>ZECUSDT.P</b><small>BINANCE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Zcash</div>
+<p class="description">Optional shielded monetary transactions</p></article>
+</div></section>
+<section class="card" data-group="10_C">
+<header><span class="code">10_C</span><span class="count">3</span></header>
+<h3>SCALING DATA AVAILABILITY</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="BINANCE:ARBUSDT.P">
+<div class="ticker"><b>ARBUSDT.P</b><small>BINANCE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Arbitrum</div>
+<p class="description">Ethereum rollup governance and ecosystem coordination</p></article>
+<article class="entry" data-kind="member" data-ticker="BINANCE:OPUSDT.P">
+<div class="ticker"><b>OPUSDT.P</b><small>BINANCE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Optimism</div>
+<p class="description">Superchain governance and rollup ecosystem coordination</p></article>
+<article class="entry" data-kind="member" data-ticker="BINANCE:POLUSDT.P">
+<div class="ticker"><b>POLUSDT.P</b><small>BINANCE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Polygon Ecosystem Token</div>
+<p class="description">Polygon PoS execution and validator infrastructure</p></article>
+</div></section>
+<section class="card" data-group="11_A">
+<header><span class="code">11_A</span><span class="count">3</span></header>
+<h3>PAYMENTS TOKENIZED ASSETS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="BINANCE:ONDOUSDT.P">
+<div class="ticker"><b>ONDOUSDT.P</b><small>BINANCE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Ondo</div>
+<p class="description">Governance exposure to a tokenisation/credit ecosystem</p></article>
+<article class="entry" data-kind="member" data-ticker="BINANCE:TRXUSDT.P">
+<div class="ticker"><b>TRXUSDT.P</b><small>BINANCE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">TRON</div>
+<p class="description">Resource-priced payment and stablecoin settlement network</p></article>
+<article class="entry" data-kind="member" data-ticker="BINANCE:XRPUSDT.P">
+<div class="ticker"><b>XRPUSDT.P</b><small>BINANCE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">XRP</div>
+<p class="description">Ledger-based payments and settlement infrastructure</p></article>
+</div></section>
+<section class="card" data-group="12_B">
+<header><span class="code">12_B</span><span class="count">4</span></header>
+<h3>LENDING STABLECOIN YIELD</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="BINANCE:AAVEUSDT.P">
+<div class="ticker"><b>AAVEUSDT.P</b><small>BINANCE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Aave</div>
+<p class="description">Pooled decentralised lending markets</p></article>
+<article class="entry" data-kind="member" data-ticker="BINANCE:ENAUSDT.P">
+<div class="ticker"><b>ENAUSDT.P</b><small>BINANCE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Ethena</div>
+<p class="description">Governance exposure to synthetic-dollar infrastructure</p></article>
+<article class="entry" data-kind="member" data-ticker="BINANCE:MORPHOUSDT.P">
+<div class="ticker"><b>MORPHOUSDT.P</b><small>BINANCE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Morpho Token</div>
+<p class="description">Isolated lending markets and curated credit vaults</p></article>
+<article class="entry" data-kind="member" data-ticker="BINANCE:PENDLEUSDT.P">
+<div class="ticker"><b>PENDLEUSDT.P</b><small>BINANCE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Pendle</div>
+<p class="description">Trading and splitting future yield into principal/yield exposures</p></article>
+</div></section>
+<section class="card" data-group="12_D">
+<header><span class="code">12_D</span><span class="count">3</span></header>
+<h3>STAKING RESTAKING</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="BINANCE:ETHFIUSDT.P">
+<div class="ticker"><b>ETHFIUSDT.P</b><small>BINANCE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">ether.fi</div>
+<p class="description">Restaking and service ecosystem, complementary to Lido/Jito liquid-staking governance</p></article>
+<article class="entry" data-kind="member" data-ticker="BINANCE:JTOUSDT.P">
+<div class="ticker"><b>JTOUSDT.P</b><small>BINANCE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">JITO</div>
+<p class="description">Solana liquid-staking and MEV governance</p></article>
+<article class="entry" data-kind="member" data-ticker="BINANCE:LDOUSDT.P">
+<div class="ticker"><b>LDOUSDT.P</b><small>BINANCE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Lido DAO</div>
+<p class="description">Ethereum liquid-staking governance</p></article>
+</div></section>
+<section class="card" data-group="13_A">
+<header><span class="code">13_A</span><span class="count">3</span></header>
+<h3>ORACLES INTEROPERABILITY</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="BINANCE:LINKUSDT.P">
+<div class="ticker"><b>LINKUSDT.P</b><small>BINANCE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">ChainLink</div>
+<p class="description">Oracle services and cross-chain infrastructure</p></article>
+<article class="entry" data-kind="member" data-ticker="BINANCE:PYTHUSDT.P">
+<div class="ticker"><b>PYTHUSDT.P</b><small>BINANCE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Pyth Network</div>
+<p class="description">First-party low-latency market-data distribution</p></article>
+<article class="entry" data-kind="member" data-ticker="BINANCE:ZROUSDT.P">
+<div class="ticker"><b>ZROUSDT.P</b><small>BINANCE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">LayerZero</div>
+<p class="description">Cross-chain messaging and interoperability services</p></article>
+</div></section>
+<section class="card" data-group="14_A">
+<header><span class="code">14_A</span><span class="count">3</span></header>
+<h3>AI DEPIN DATA APPLICATIONS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="BINANCE:RENDERUSDT.P">
+<div class="ticker"><b>RENDERUSDT.P</b><small>BINANCE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Render</div>
+<p class="description">Distributed GPU rendering work and compute supply</p></article>
+<article class="entry" data-kind="member" data-ticker="BINANCE:TAOUSDT.P">
+<div class="ticker"><b>TAOUSDT.P</b><small>BINANCE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Bittensor</div>
+<p class="description">Incentive networks for AI services and subnet competition</p></article>
+<article class="entry" data-kind="member" data-ticker="BINANCE:VIRTUALUSDT.P">
+<div class="ticker"><b>VIRTUALUSDT.P</b><small>BINANCE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Virtuals Protocol</div>
+<p class="description">Agent deployment and token-based agent commerce ecosystem</p></article>
+</div></section>
+</div>
+<details class="notes">
+<summary>Research notes and limits</summary><ul>
+<li>All 50 prior necessary representatives, original branch minimum profiles, sector weights/caps, budgets 20/40/60/85, and Heavy/Max display groups preserved. Original baseline decisions retained with dated evidence.</li>
+<li>Core business and quality judgments are sourced, qualitative observation judgments, not an independently audited leadership census. Original long-term evidence dates remain where source access failed or a document is historical. research/research-review.json distinguishes refreshed, carried and unknown facts.</li>
+<li>GRAM exact perpetual begins 2026-07-02: 97 closes, 96 returns, not 180 returns. No synthetic TON splice. The unchanged formal core metric contract requires at least 30 overlapping returns; measure discloses the actual window.</li>
+<li>No forward evaluation or TradingView UI import performed. Current sources do not establish undisclosed regulatory, security or concentration facts.</li>
+<li>Prices through completed UTC 2026-10-06. Collection begins Beijing 2026-10-08 while UTC 2026-10-07 is incomplete. Market cap provider last_updated is separately retained, mainly UTC 2026-10-07.</li>
+<li>Real online CRYPTO rebuild. Binance 447 research requests yielded 403 history/liquidity-qualified rows; 44 rejected histories are not a claim of market exhaustion. Exact core instruments supplemented separately, preserving OKX OKB and Binance XAUT spot.</li>
+<li>STX has a current Binance Monitoring tag. The adapter excludes it from the generic discovery bench. The incumbent is separately researched and retained as an active exact perpetual observation of Bitcoin execution, with elevated listing risk. No adapter screening policy or builder gate was changed.</li>
+<li>Satellite broad identity and complementarity reused only after online review; circulating USD cap refreshed by explicit project ID. Token ownership is not automatically protocol fee ownership, equity, or a staked receipt.</li>
+<li>USDT quoted turnover treated as USD notional for the single-currency observation population; no peg adjustment, order-book-depth test or execution-quality claim. Liquidity is measured across the full acquired bench, including unmapped candidates.</li>
+</ul></details>
+<footer>Research notes and limits · <a href="crypto-medium-2026-10-08.json" download>JSON</a> · <a href="crypto-medium-2026-10-08.validation.json" download>Validation</a></footer>
+</main></body></html>

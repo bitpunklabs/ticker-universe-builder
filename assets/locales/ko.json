@@ -97,5 +97,9 @@
   "column.purpose": "관찰 목적",
   "column.representatives": "대표 역할",
   "column.weight": "가중치",
-  "note.audit_record": "전체 근거, 출처 및 측정 진단: [JSON]({universe}) · [검증]({validation})."
+  "note.audit_record": "전체 근거, 출처 및 측정 진단: [JSON]({universe}) · [검증]({validation}).",
+  "html.references": "참고 지표",
+  "html.notes": "조사 참고사항 및 한계",
+  "html.new_beta": "추가 Beta",
+  "html.symbols": "내보낸 종목"
 }

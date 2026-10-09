@@ -80,6 +80,8 @@ ticker-universes/<market>/<profile>/<as_of>/
   <market>-<profile>-<as_of>.txt
   <market>-<profile>-<as_of>.en.md
   <market>-<profile>-<as_of>.<market-language>.md  # non-English markets
+  <market>-<profile>-<as_of>.en.html
+  <market>-<profile>-<as_of>.<market-language>.html  # non-English markets
 ```
 
 | File | Purpose |
@@ -89,11 +91,16 @@ ticker-universes/<market>/<profile>/<as_of>/
 | `.txt` | Grouped TradingView import, including reference instruments |
 | `.en.md` | Readable report with short member reasons; full reasoning/evidence stay in JSON |
 | `.<market-language>.md` | Companion report for non-English markets |
+| `.<language>.html` | Dark, responsive browser report with every ticker and brief reason, separate references, Max additions and artifact links; open locally, no server needed |
 
-US/Crypto normally produce four files; CN/JP/KR produce five. References are counted separately
+US/Crypto normally produce five files; CN/JP/KR produce seven. References are counted separately
 from entities. The TXT limit is 1,000 tokens, including headings and references.
 Headings and fixed vocabulary use locale files; companion-language names, brief reasons and
 descriptions use authored snapshot `report_translations`. The CLI does not translate research prose.
+
+Markdown paths are under `artifacts.reports`; HTML paths are under `artifacts.html_reports`,
+both keyed by language. Keep the bundle together for relative links. GitHub shows HTML source;
+download and open the file in a browser to read the formatted report.
 
 The CLI requires an explicit `--output` path and prints a JSON receipt. Build attempts save
 inputs and diagnostics in the adjacent `DIR.run/` checkpoint. Existing outputs are not overwritten.

@@ -1,0 +1,883 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>JP Ticker Universe · Medium</title>
+<style>/* Self-contained report, readable without a network connection. */
+:root { color-scheme: dark; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+  "Noto Sans", "PingFang SC", "Microsoft YaHei", sans-serif; }
+* { box-sizing: border-box; }
+body { margin: 0; background: #090d13; color: #edf3fa; }
+main { width: 940px; max-width: 100%; margin: auto; padding: 34px 30px; }
+.brand { color: #d4deeb; font-size: 13px; letter-spacing: .04em; }
+.brand span { color: #8da0b8; }
+.hero { display: flex; align-items: center; justify-content: space-between;
+  gap: 14px; margin-top: 24px; }
+.hero > div { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+h1 { font-size: 32px; line-height: 1.2; letter-spacing: -.03em; margin: 0; }
+.profile, .verdict { border: 1px solid #34435a; border-radius: 6px; padding: 5px 9px;
+  font-size: 12px; font-weight: 600; white-space: nowrap; }
+.profile { color: #a9cfff; background: #14233b; }
+.verdict.pass { color: #8adebd; background: #10251f; border-color: #285340; }
+.verdict.partial, .notice.partial { color: #f1cd85; border-color: #765e33; }
+.verdict.fail { color: #ffb1b1; border-color: #874545; }
+.meta { color: #a4b5ca; font-size: 13px; line-height: 1.6; overflow-wrap: anywhere; }
+code, .code { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
+a { color: #a9cfff; text-decoration: none; }
+a:hover { text-decoration: underline; }
+a:focus-visible, summary:focus-visible { outline: 2px solid #79b8ff; outline-offset: 4px; }
+.files { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0; }
+.files a { padding: 7px 11px; border: 1px solid #2a3545; border-radius: 6px; font-size: 13px; }
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); background: #101721;
+  border: 1px solid #2a3545; border-radius: 10px; margin-bottom: 24px; }
+.stats > div { padding: 17px 18px; border-right: 1px solid #2a3545; }
+.stats > div:last-child { border-right: 0; }
+.stats strong { display: block; font-size: 27px; font-weight: 650; }
+.stats span { display: block; color: #a4b5ca; font-size: 12px; margin-top: 5px; }
+.section-title { font-size: 18px; margin: 26px 0 14px; font-weight: 600; }
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start; gap: 14px; }
+.card { --accent: #79b8ff; background: #101721; border: 1px solid #2a3545;
+  border-top: 2px solid var(--accent); border-radius: 9px; padding: 18px 19px 4px; }
+.card:nth-child(4n+2) { --accent: #b69cff; }
+.card:nth-child(4n+3) { --accent: #67d8ce; }
+.card:nth-child(4n+4) { --accent: #e7bb76; }
+.card header { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.code { color: var(--accent); font-size: 12px; }
+.count { color: #bccada; font-size: 12px; border: 1px solid #34435a;
+  border-radius: 4px; min-width: 24px; padding: 2px 6px; text-align: center; }
+h3 { font-size: 16px; font-weight: 650; line-height: 1.4; margin: 10px 0 16px;
+  overflow-wrap: anywhere; }
+.entry { border-top: 1px solid #263243; padding: 13px 0; overflow-wrap: anywhere; }
+.ticker { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.ticker b { font-size: 17px; letter-spacing: .01em; }
+.ticker small { font-size: 11px; color: #8da0b8; }
+.role { color: #9bacbf; font-size: 10px; margin-left: auto; }
+.name { color: #c0cede; font-size: 12px; line-height: 1.5; margin-top: 4px; }
+.description { color: #b7c5d8; font-size: 15px; line-height: 1.55; margin: 6px 0 0; }
+.added { display: inline-block; font-size: 11px; color: #8adebd; margin-top: 5px; }
+.notice, .notes { background: #101721; border: 1px solid #3b4757; border-radius: 8px;
+  padding: 15px 18px; margin: 18px 0; font-size: 13px; line-height: 1.6; overflow-wrap: anywhere; }
+.notice h2 { font-size: 14px; margin: 0; }
+.notice ul, .notes ul { padding-left: 20px; margin-bottom: 0; }
+.notes li + li { margin-top: 8px; }
+summary { cursor: pointer; color: #c0cede; }
+.expansion { font-size: 14px; color: #8adebd; }
+footer { border-top: 1px solid #2a3545; margin-top: 28px; padding-top: 18px;
+  font-size: 12px; line-height: 1.6; color: #8da0b8; }
+@media (max-width: 620px) {
+  main { padding: 24px 16px; }
+  h1 { font-size: 26px; }
+  .hero { align-items: start; flex-direction: column; }
+  .grid { grid-template-columns: 1fr; }
+  .stats { grid-template-columns: repeat(2, 1fr); }
+  .stats > div:nth-child(2) { border-right: 0; }
+  .stats > div:nth-child(-n+2) { border-bottom: 1px solid #2a3545; }
+  .card { padding: 16px 17px 3px; }
+}
+</style></head><body><main>
+<div class="brand">ticker-universe-builder <span>/ universe report</span></div>
+<header class="hero"><div>
+<h1>JP Ticker Universe</h1><span class="profile">Medium</span>
+</div>
+<span class="verdict pass">Validation · PASS</span></header>
+<p class="meta">Facts as of 2026-10-07 · <code>4350f3f0796c</code></p>
+<nav class="files" aria-label="Artifacts">
+<a href="jp-medium-2026-10-07.en.md" download>Markdown</a>
+<a href="jp-medium-2026-10-07.txt" download>TradingView TXT</a>
+<a href="jp-medium-2026-10-07.json" download>JSON</a>
+<a href="jp-medium-2026-10-07.validation.json" download>Validation</a>
+</nav>
+<div class="stats">
+<div><strong>131</strong><span>Tickers</span></div>
+<div><strong>2</strong><span>Reference instruments</span></div>
+<div><strong>26</strong><span>Themes</span></div>
+<div><strong>133</strong><span>Export symbols</span></div>
+</div>
+<h2 class="section-title">Members</h2>
+<div class="grid">
+<section class="card" data-group="10_B">
+<header><span class="code">10_B</span><span class="count">3</span></header>
+<h3>SEMICONDUCTORS AND SUBSTRATES</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="TSE:285A">
+<div class="ticker"><b>285A</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Kioxia Holdings Corporation</div>
+<p class="description">Flash memory and related storage products.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:4062">
+<div class="ticker"><b>4062</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">IBIDEN CO., LTD.</div>
+<p class="description">Semiconductor package substrates and ceramic products.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:6723">
+<div class="ticker"><b>6723</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Renesas Electronics Corporation</div>
+<p class="description">Automotive and industrial semiconductor design and supply.</p></article>
+</div></section>
+<section class="card" data-group="10_C">
+<header><span class="code">10_C</span><span class="count">5</span></header>
+<h3>SEMICAP EQUIPMENT</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="TSE:6146">
+<div class="ticker"><b>6146</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Disco Corporation</div>
+<p class="description">Precision cutting, grinding and polishing equipment.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:6857">
+<div class="ticker"><b>6857</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Advantest Corp.</div>
+<p class="description">Semiconductor test systems and measuring instruments.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:6920">
+<div class="ticker"><b>6920</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Lasertec Corp.</div>
+<p class="description">Optical semiconductor inspection and metrology equipment.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:7735">
+<div class="ticker"><b>7735</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">SCREEN Holdings Co., Ltd</div>
+<p class="description">Semiconductor manufacturing and printing equipment.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:8035">
+<div class="ticker"><b>8035</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Tokyo Electron Ltd.</div>
+<p class="description">Semiconductor and display-panel manufacturing equipment.</p></article>
+</div></section>
+<section class="card" data-group="10_F">
+<header><span class="code">10_F</span><span class="count">2</span></header>
+<h3>INTERNET AND ADTECH</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="TSE:4689">
+<div class="ticker"><b>4689</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">LY Corporation</div>
+<p class="description">Online advertising, commerce and related platforms.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:6098">
+<div class="ticker"><b>6098</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Recruit Holdings Co., Ltd.</div>
+<p class="description">HR technology, recruitment and matching services.</p></article>
+</div></section>
+<section class="card" data-group="10_G">
+<header><span class="code">10_G</span><span class="count">4</span></header>
+<h3>IT SERVICES AND CONSULTING</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="TSE:4307">
+<div class="ticker"><b>4307</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Nomura Research Institute,Ltd.</div>
+<p class="description">Research, consulting and systems services.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:4684">
+<div class="ticker"><b>4684</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">OBIC Co., Ltd.</div>
+<p class="description">Business software and systems services.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:6701">
+<div class="ticker"><b>6701</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">NEC Corporation</div>
+<p class="description">Computing, communications systems and solutions.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:6702">
+<div class="ticker"><b>6702</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Fujitsu Limited</div>
+<p class="description">Enterprise IT services and systems.</p></article>
+</div></section>
+<section class="card" data-group="10_H">
+<header><span class="code">10_H</span><span class="count">5</span></header>
+<h3>ELECTRONIC COMPONENTS AND PRECISION</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="TSE:6752">
+<div class="ticker"><b>6752</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Panasonic Holdings Corporation</div>
+<p class="description">Home appliances, automotive, industrial and energy products.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:6762">
+<div class="ticker"><b>6762</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">TDK Corporation</div>
+<p class="description">Electronic components, magnetic materials and batteries.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:6971">
+<div class="ticker"><b>6971</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Kyocera Corporation</div>
+<p class="description">Fine ceramics, electronic components and industrial parts.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:6981">
+<div class="ticker"><b>6981</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Murata Manufacturing Co., Ltd.</div>
+<p class="description">Ceramic electronic components and communications devices.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:7751">
+<div class="ticker"><b>7751</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Canon Inc.</div>
+<p class="description">Printing equipment, cameras and precision machinery.</p></article>
+</div></section>
+<section class="card" data-group="20_B">
+<header><span class="code">20_B</span><span class="count">3</span></header>
+<h3>TELECOM</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="TSE:9432">
+<div class="ticker"><b>9432</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">NTT Inc</div>
+<p class="description">Domestic and international telecom services and networks.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:9433">
+<div class="ticker"><b>9433</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">KDDI Corporation</div>
+<p class="description">Mobile and fixed-line telecom services.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:9434">
+<div class="ticker"><b>9434</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">SoftBank Corp.</div>
+<p class="description">Mobile communications, broadband and ICT services.</p></article>
+</div></section>
+<section class="card" data-group="20_C">
+<header><span class="code">20_C</span><span class="count">5</span></header>
+<h3>GAMES AND MEDIA</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="TSE:6758">
+<div class="ticker"><b>6758</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Sony Group Corporation</div>
+<p class="description">Games, film, music and electronics businesses.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:7832">
+<div class="ticker"><b>7832</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Bandai Namco Holdings Inc.</div>
+<p class="description">Entertainment products and IP, including games and toys.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:7974">
+<div class="ticker"><b>7974</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Nintendo Co., Ltd.</div>
+<p class="description">Home video-game consoles and game software.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:9697">
+<div class="ticker"><b>9697</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Capcom Co., Ltd.</div>
+<p class="description">Console, online and mobile games.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:9766">
+<div class="ticker"><b>9766</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">KONAMI Group Corporation</div>
+<p class="description">Game software and entertainment content.</p></article>
+</div></section>
+<section class="card" data-group="30_A">
+<header><span class="code">30_A</span><span class="count">8</span></header>
+<h3>RETAIL APPAREL AND LEISURE</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="TSE:3382">
+<div class="ticker"><b>3382</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Seven &amp; I Holdings Co., Ltd.</div>
+<p class="description">Retail operations, including convenience stores.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:4661">
+<div class="ticker"><b>4661</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Oriental Land Co., Ltd.</div>
+<p class="description">Theme parks and leisure facilities.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:7453">
+<div class="ticker"><b>7453</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Ryohin Keikaku Co., Ltd.</div>
+<p class="description">MUJI stores and household-goods sales.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:7532">
+<div class="ticker"><b>7532</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Pan Pacific International Holdings Corporation</div>
+<p class="description">General retail of household goods, food and clothing.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:7550">
+<div class="ticker"><b>7550</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Zensho Holdings Co., Ltd.</div>
+<p class="description">Restaurant-chain operations.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:8267">
+<div class="ticker"><b>8267</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">AEON Co., Ltd.</div>
+<p class="description">Supermarkets, shopping centers and related retail.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:9843">
+<div class="ticker"><b>9843</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Nitori Holdings Co. Ltd.</div>
+<p class="description">Furniture and household-goods sales.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:9983">
+<div class="ticker"><b>9983</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">FAST RETAILING CO., LTD.</div>
+<p class="description">Apparel brands and retail stores.</p></article>
+</div></section>
+<section class="card" data-group="30_B">
+<header><span class="code">30_B</span><span class="count">7</span></header>
+<h3>STAPLES</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="TSE:2502">
+<div class="ticker"><b>2502</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Asahi Group Holdings Ltd</div>
+<p class="description">Beer and other alcoholic beverages, drinks and food.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:2503">
+<div class="ticker"><b>2503</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Kirin Holdings Co. Ltd.</div>
+<p class="description">Beverages and pharmaceutical-related businesses.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:2801">
+<div class="ticker"><b>2801</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Kikkoman Corporation</div>
+<p class="description">Seasonings and food manufacturing.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:2802">
+<div class="ticker"><b>2802</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Ajinomoto Co., Inc.</div>
+<p class="description">Food, amino acids and related products.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:2914">
+<div class="ticker"><b>2914</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Japan Tobacco Inc.</div>
+<p class="description">Consumer products centered on tobacco.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:4452">
+<div class="ticker"><b>4452</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Kao Corporation</div>
+<p class="description">Everyday consumer goods and chemical products.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:8113">
+<div class="ticker"><b>8113</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Unicharm Corporation</div>
+<p class="description">Baby, feminine, elder-care and pet hygiene products.</p></article>
+</div></section>
+<section class="card" data-group="30_E">
+<header><span class="code">30_E</span><span class="count">9</span></header>
+<h3>AUTOS AND MOBILITY</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="TSE:5108">
+<div class="ticker"><b>5108</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Bridgestone Corporation</div>
+<p class="description">Tires and rubber products.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:6902">
+<div class="ticker"><b>6902</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">DENSO CORPORATION</div>
+<p class="description">Automotive systems and components.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:7202">
+<div class="ticker"><b>7202</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Isuzu Motors Limited</div>
+<p class="description">Commercial vehicles, trucks and diesel power products.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:7203">
+<div class="ticker"><b>7203</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Toyota Motor Corp.</div>
+<p class="description">Vehicle manufacturing and sales, and related finance.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:7259">
+<div class="ticker"><b>7259</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Aisin Corporation</div>
+<p class="description">Automotive components and drivetrain products.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:7267">
+<div class="ticker"><b>7267</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Honda Motor Co., Ltd.</div>
+<p class="description">Automobiles, motorcycles and general-purpose power products.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:7269">
+<div class="ticker"><b>7269</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Suzuki Motor Corp.</div>
+<p class="description">Small vehicles, motorcycles and related automobiles.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:7270">
+<div class="ticker"><b>7270</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Subaru Corporation</div>
+<p class="description">Automotive and aircraft-related businesses.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:7272">
+<div class="ticker"><b>7272</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Yamaha Motor Co., Ltd.</div>
+<p class="description">Motorcycles, transport equipment and related engines.</p></article>
+</div></section>
+<section class="card" data-group="40_A">
+<header><span class="code">40_A</span><span class="count">8</span></header>
+<h3>BANKS NATIONAL AND REGIONAL</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="TSE:7182">
+<div class="ticker"><b>7182</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Japan Post Bank Co., Ltd.</div>
+<p class="description">Banking based on postal savings.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:7186">
+<div class="ticker"><b>7186</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Yokohama Financial Group, Inc.</div>
+<p class="description">Regional banking and related financial services.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:8306">
+<div class="ticker"><b>8306</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Mitsubishi UFJ Financial Group, Inc.</div>
+<p class="description">Banking and related financial-services holding group.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:8308">
+<div class="ticker"><b>8308</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Resona Holdings, Inc.</div>
+<p class="description">Banking and financial services.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:8309">
+<div class="ticker"><b>8309</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Sumitomo Mitsui Trust Group, Inc.</div>
+<p class="description">Financial services centered on trust banking.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:8316">
+<div class="ticker"><b>8316</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Sumitomo Mitsui Financial Group, Inc.</div>
+<p class="description">Diversified financial group centered on banking.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:8354">
+<div class="ticker"><b>8354</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Fukuoka Financial Group, Inc.</div>
+<p class="description">Regional banking group.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:8411">
+<div class="ticker"><b>8411</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Mizuho Financial Group, Inc.</div>
+<p class="description">Banking and diversified financial services.</p></article>
+</div></section>
+<section class="card" data-group="40_C">
+<header><span class="code">40_C</span><span class="count">6</span></header>
+<h3>SECURITIES EXCHANGES AND FINANCE</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="TSE:8473">
+<div class="ticker"><b>8473</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">SBI Holdings Incorporated</div>
+<p class="description">Financial services spanning securities and banking.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:8591">
+<div class="ticker"><b>8591</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">ORIX Corporation</div>
+<p class="description">Leasing, finance, asset management and diversified investments.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:8601">
+<div class="ticker"><b>8601</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Daiwa Securities Group Inc.</div>
+<p class="description">Investment and financial services centered on securities.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:8604">
+<div class="ticker"><b>8604</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Nomura Holdings, Inc.</div>
+<p class="description">Securities, investment banking and financial services.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:8697">
+<div class="ticker"><b>8697</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Japan Exchange Group, Inc.</div>
+<p class="description">Financial exchanges and market infrastructure.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:9984">
+<div class="ticker"><b>9984</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">SoftBank Group Corp.</div>
+<p class="description">Strategic investment holding company with Arm, Vision Funds and direct investments.</p></article>
+</div></section>
+<section class="card" data-group="40_D">
+<header><span class="code">40_D</span><span class="count">5</span></header>
+<h3>INSURANCE</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="TSE:8630">
+<div class="ticker"><b>8630</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Sompo Holdings,Inc.</div>
+<p class="description">Insurance services, including property and casualty insurance.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:8725">
+<div class="ticker"><b>8725</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">MS&amp;AD Insurance Group Holdings, Inc.</div>
+<p class="description">Property, casualty and life-insurance holding group.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:8750">
+<div class="ticker"><b>8750</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Daiichi Life Group. Inc.</div>
+<p class="description">Life insurance and related asset management.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:8766">
+<div class="ticker"><b>8766</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Tokio Marine Holdings, Inc.</div>
+<p class="description">Domestic property, casualty and life insurance, and overseas insurance.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:8795">
+<div class="ticker"><b>8795</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">T&amp;D Holdings, Inc.</div>
+<p class="description">Life-insurance group.</p></article>
+</div></section>
+<section class="card" data-group="50_A">
+<header><span class="code">50_A</span><span class="count">6</span></header>
+<h3>PHARMA</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="TSE:4502">
+<div class="ticker"><b>4502</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Takeda Pharmaceutical Co. Ltd.</div>
+<p class="description">Pharmaceutical research, development, manufacturing and sales.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:4503">
+<div class="ticker"><b>4503</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Astellas Pharma Inc.</div>
+<p class="description">Pharmaceutical research, development and sales.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:4507">
+<div class="ticker"><b>4507</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Shionogi &amp; Co., Ltd.</div>
+<p class="description">Pharmaceutical research, development, manufacturing and sales.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:4519">
+<div class="ticker"><b>4519</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Chugai Pharmaceutical Co., Ltd.</div>
+<p class="description">Pharmaceutical research, development, manufacturing and sales.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:4568">
+<div class="ticker"><b>4568</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Daiichi Sankyo Company, Limited</div>
+<p class="description">Pharmaceutical research, development, manufacturing and sales.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:4578">
+<div class="ticker"><b>4578</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Otsuka Holdings Co., Ltd.</div>
+<p class="description">Business group centered on pharmaceuticals.</p></article>
+</div></section>
+<section class="card" data-group="50_B">
+<header><span class="code">50_B</span><span class="count">4</span></header>
+<h3>MEDTECH AND DEVICES</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="TSE:4543">
+<div class="ticker"><b>4543</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Terumo Corporation</div>
+<p class="description">Medical devices and products.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:4901">
+<div class="ticker"><b>4901</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">FUJIFILM Holdings Corp</div>
+<p class="description">Healthcare, imaging and information-related products.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:7733">
+<div class="ticker"><b>7733</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Olympus Corp.</div>
+<p class="description">Diagnostic and minimally invasive treatment devices, including endoscopes.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:7741">
+<div class="ticker"><b>7741</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">HOYA CORPORATION</div>
+<p class="description">Medical, optical and electronic precision products.</p></article>
+</div></section>
+<section class="card" data-group="60_A">
+<header><span class="code">60_A</span><span class="count">3</span></header>
+<h3>AEROSPACE AND DEFENSE</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="TSE:7011">
+<div class="ticker"><b>7011</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Mitsubishi Heavy Industries, Ltd.</div>
+<p class="description">Heavy industry spanning ships, industrial equipment and aviation.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:7012">
+<div class="ticker"><b>7012</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Kawasaki Heavy Industries Ltd.</div>
+<p class="description">Transport, aviation and industrial heavy equipment.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:7013">
+<div class="ticker"><b>7013</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">IHI Corporation</div>
+<p class="description">Heavy machinery, aviation and energy-related equipment.</p></article>
+</div></section>
+<section class="card" data-group="60_B">
+<header><span class="code">60_B</span><span class="count">7</span></header>
+<h3>MACHINERY AND RAIL</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="TSE:6273">
+<div class="ticker"><b>6273</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">SMC Corporation</div>
+<p class="description">Pneumatics, automatic controls and factory-automation components.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:6301">
+<div class="ticker"><b>6301</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Komatsu Ltd.</div>
+<p class="description">Construction, mining and industrial machinery.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:6326">
+<div class="ticker"><b>6326</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Kubota Corporation</div>
+<p class="description">Agricultural and construction machinery.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:6367">
+<div class="ticker"><b>6367</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">DAIKIN INDUSTRIES, LTD.</div>
+<p class="description">Air-conditioning equipment and related products.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:6383">
+<div class="ticker"><b>6383</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Daifuku Co., Ltd.</div>
+<p class="description">Material-handling and logistics-system design, manufacturing and maintenance.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:6861">
+<div class="ticker"><b>6861</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Keyence Corporation</div>
+<p class="description">Factory automation, sensors and inspection equipment.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:6954">
+<div class="ticker"><b>6954</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Fanuc Corporation</div>
+<p class="description">CNC systems, industrial robots and machine-tool controls.</p></article>
+</div></section>
+<section class="card" data-group="60_C">
+<header><span class="code">60_C</span><span class="count">5</span></header>
+<h3>TRANSPORT AND LOGISTICS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="TSE:9020">
+<div class="ticker"><b>9020</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">East Japan Railway Company</div>
+<p class="description">Railway and passenger transport.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:9022">
+<div class="ticker"><b>9022</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Central Japan Railway Company</div>
+<p class="description">Railway and Shinkansen operations.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:9101">
+<div class="ticker"><b>9101</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Nippon Yusen Kabushiki Kaisha</div>
+<p class="description">Logistics spanning sea, land and air transport.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:9104">
+<div class="ticker"><b>9104</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Mitsui O.S.K.Lines,Ltd.</div>
+<p class="description">Sea transport and related vessel operations.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:9107">
+<div class="ticker"><b>9107</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Kawasaki Kisen Kaisha, Ltd.</div>
+<p class="description">Sea-transport services.</p></article>
+</div></section>
+<section class="card" data-group="60_D">
+<header><span class="code">60_D</span><span class="count">6</span></header>
+<h3>ELECTRICAL OPTICAL INFRASTRUCTURE</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="TSE:5801">
+<div class="ticker"><b>5801</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Furukawa Electric Co., Ltd.</div>
+<p class="description">Communications and power-transmission infrastructure, and functional materials.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:5802">
+<div class="ticker"><b>5802</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Sumitomo Electric Industries, Ltd.</div>
+<p class="description">Wire, cable and communications wiring products.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:5803">
+<div class="ticker"><b>5803</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Fujikura Ltd</div>
+<p class="description">Optical and power wire and cable.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:6501">
+<div class="ticker"><b>6501</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Hitachi, Ltd.</div>
+<p class="description">Diversified electrical equipment and industrial systems.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:6503">
+<div class="ticker"><b>6503</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Mitsubishi Electric Corp.</div>
+<p class="description">Industrial electrical and electronic equipment.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:6504">
+<div class="ticker"><b>6504</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Fuji Electric Co., Ltd.</div>
+<p class="description">Electrical equipment, controls and related power products.</p></article>
+</div></section>
+<section class="card" data-group="60_E">
+<header><span class="code">60_E</span><span class="count">4</span></header>
+<h3>ENGINEERING AND CONSTRUCTION</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="TSE:1801">
+<div class="ticker"><b>1801</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Taisei Corporation</div>
+<p class="description">Construction and engineering.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:1802">
+<div class="ticker"><b>1802</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Obayashi Corporation</div>
+<p class="description">Construction and property businesses.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:1812">
+<div class="ticker"><b>1812</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Kajima Corporation</div>
+<p class="description">Construction, civil engineering, design and development.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:1928">
+<div class="ticker"><b>1928</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Sekisui House, Ltd.</div>
+<p class="description">Housing construction, sales and management.</p></article>
+</div></section>
+<section class="card" data-group="65_A">
+<header><span class="code">65_A</span><span class="count">6</span></header>
+<h3>TRADING HOUSES</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="TSE:8001">
+<div class="ticker"><b>8001</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Itochu Corporation</div>
+<p class="description">Commodity trading and business investments.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:8002">
+<div class="ticker"><b>8002</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Marubeni Corporation</div>
+<p class="description">Import/export, commodity trading and business investments.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:8015">
+<div class="ticker"><b>8015</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Toyota Tsusho Corp.</div>
+<p class="description">Commodity trading and related services, including automotive activities.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:8031">
+<div class="ticker"><b>8031</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Mitsui &amp; Co.,Ltd</div>
+<p class="description">Diversified trading-house operations and investments.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:8053">
+<div class="ticker"><b>8053</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Sumitomo Corporation</div>
+<p class="description">Diversified trading-house operations.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:8058">
+<div class="ticker"><b>8058</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Mitsubishi Corporation</div>
+<p class="description">Diversified trading-house businesses across resources and non-resource sectors.</p></article>
+</div></section>
+<section class="card" data-group="70_A">
+<header><span class="code">70_A</span><span class="count">3</span></header>
+<h3>OIL GAS AND REFINING</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="TSE:1605">
+<div class="ticker"><b>1605</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Inpex Corporation</div>
+<p class="description">Oil and natural-gas exploration, development and production.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:5019">
+<div class="ticker"><b>5019</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Idemitsu Kosan Co., Ltd.</div>
+<p class="description">Oil refining and supply, basic chemicals and related energy.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:5020">
+<div class="ticker"><b>5020</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">ENEOS Holdings, Inc.</div>
+<p class="description">Holding group spanning energy, resources and materials.</p></article>
+</div></section>
+<section class="card" data-group="80_B">
+<header><span class="code">80_B</span><span class="count">4</span></header>
+<h3>UTILITIES</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="TSE:9502">
+<div class="ticker"><b>9502</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Chubu Electric Power Company,Incorporated</div>
+<p class="description">Electricity, gas and related energy services.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:9503">
+<div class="ticker"><b>9503</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Kansai Electric Power Company, Incorporated</div>
+<p class="description">Electricity supply and related regional public services.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:9531">
+<div class="ticker"><b>9531</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">TOKYO GAS Co., Ltd.</div>
+<p class="description">City-gas and related energy supply.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:9532">
+<div class="ticker"><b>9532</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Osaka Gas Co., Ltd.</div>
+<p class="description">City-gas and related energy supply.</p></article>
+</div></section>
+<section class="card" data-group="80_C">
+<header><span class="code">80_C</span><span class="count">2</span></header>
+<h3>METALS AND MINING</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="TSE:5401">
+<div class="ticker"><b>5401</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">NIPPON STEEL CORP.</div>
+<p class="description">Steel manufacturing and sales.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:5713">
+<div class="ticker"><b>5713</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Sumitomo Metal Mining Co., Ltd.</div>
+<p class="description">Nonferrous resources, smelting, battery and functional materials.</p></article>
+</div></section>
+<section class="card" data-group="80_D">
+<header><span class="code">80_D</span><span class="count">8</span></header>
+<h3>CHEMICALS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="TSE:3402">
+<div class="ticker"><b>3402</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Toray Industries, Inc.</div>
+<p class="description">Fibers, resins and industrial materials.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:3407">
+<div class="ticker"><b>3407</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Asahi Kasei Corporation</div>
+<p class="description">Diversified industrial materials, housing and healthcare group.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:4004">
+<div class="ticker"><b>4004</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Resonac Holdings Corporation</div>
+<p class="description">Chemical and related materials products.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:4063">
+<div class="ticker"><b>4063</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Shin-Etsu Chemical Co., Ltd.</div>
+<p class="description">Industrial chemicals and related materials.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:4091">
+<div class="ticker"><b>4091</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Nippon Sanso Holdings Corporation</div>
+<p class="description">Industrial gases and related equipment.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:4188">
+<div class="ticker"><b>4188</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Mitsubishi Chemical Group Corporation</div>
+<p class="description">Business group centered on chemicals.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:4612">
+<div class="ticker"><b>4612</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Nippon Paint Holdings Co., Ltd.</div>
+<p class="description">Paints and fine chemicals.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:6988">
+<div class="ticker"><b>6988</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Nitto Denko Corp.</div>
+<p class="description">Adhesive materials, optical films and functional materials.</p></article>
+</div></section>
+<section class="card" data-group="90_D">
+<header><span class="code">90_D</span><span class="count">3</span></header>
+<h3>PROPERTY DEVELOPERS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="TSE:8801">
+<div class="ticker"><b>8801</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Mitsui Fudosan Co., Ltd.</div>
+<p class="description">Property development, leasing and related operations.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:8802">
+<div class="ticker"><b>8802</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Mitsubishi Estate Company, Limited</div>
+<p class="description">Property development, leasing and related operations.</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:8830">
+<div class="ticker"><b>8830</b><small>TSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Sumitomo Realty &amp; Development Co., Ltd.</div>
+<p class="description">Property development, leasing and related operations.</p></article>
+</div></section>
+</div>
+<h2 class="section-title">Reference instruments</h2>
+<div class="grid">
+<section class="card" data-group="00_A">
+<header><span class="code">00_A</span><span class="count">2</span></header>
+<h3>BROAD MARKET ETF</h3><div class="entries">
+<article class="entry" data-kind="reference" data-ticker="TSE:1306">
+<div class="ticker"><b>1306</b><small>TSE</small>
+<span class="role">etf</span></div>
+<p class="description">Traded ETF tracking TOPIX; fund price is not the direct index.</p></article>
+<article class="entry" data-kind="reference" data-ticker="TSE:1321">
+<div class="ticker"><b>1321</b><small>TSE</small>
+<span class="role">etf</span></div>
+<p class="description">Traded ETF tracking Nikkei 225; fund price is not the direct index.</p></article>
+</div></section>
+</div>
+<details class="notes">
+<summary>Research notes and limits</summary><ul>
+<li>Business profiles and standardized financial fields read on 2026-10-07. Fiscal periods unspecified by provider; no period inferred.</li>
+<li>Listing status verified on 2026-09-29; measured prices end 2026-09-28. Rebuild does not refresh prices.</li>
+<li>Only liquidity is reused. Old factor metrics are omitted because business assignments were reviewed; old price gauges do not certify the new duties.</li>
+<li>Major operating-business representative judgement uses read business profiles and financial facts; comparative market-share and every issuer filing are not independently audited. Negative income and cash flow remain explicitly disclosed.</li>
+<li>This scoped Medium example demonstrates contracts and broad economic duties, not an exhaustive census of all market leaders.</li>
+</ul></details>
+<footer>Research notes and limits · <a href="jp-medium-2026-10-07.json" download>JSON</a> · <a href="jp-medium-2026-10-07.validation.json" download>Validation</a></footer>
+</main></body></html>

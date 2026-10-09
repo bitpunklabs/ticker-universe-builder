@@ -136,5 +136,9 @@
   "column.purpose": "Observation duty",
   "column.representatives": "Representative roles",
   "column.weight": "Weight",
-  "note.audit_record": "Full reasoning, sources and measurement diagnostics: [JSON]({universe}) · [Validation]({validation})."
+  "note.audit_record": "Full reasoning, sources and measurement diagnostics: [JSON]({universe}) · [Validation]({validation}).",
+  "html.references": "Reference instruments",
+  "html.notes": "Research notes and limits",
+  "html.new_beta": "Added Beta",
+  "html.symbols": "Export symbols"
 }

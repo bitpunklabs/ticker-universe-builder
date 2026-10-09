@@ -97,5 +97,9 @@
   "column.purpose": "Fonction d’observation",
   "column.representatives": "Rôles représentatifs",
   "column.weight": "Poids",
-  "note.audit_record": "Raisonnement complet, sources et diagnostics : [JSON]({universe}) · [Validation]({validation})."
+  "note.audit_record": "Raisonnement complet, sources et diagnostics : [JSON]({universe}) · [Validation]({validation}).",
+  "html.references": "Instruments de référence",
+  "html.notes": "Notes et limites de recherche",
+  "html.new_beta": "Beta ajouté",
+  "html.symbols": "Symboles exportés"
 }

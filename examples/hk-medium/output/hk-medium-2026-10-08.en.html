@@ -1,0 +1,828 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>HK Ticker Universe · Medium</title>
+<style>/* Self-contained report, readable without a network connection. */
+:root { color-scheme: dark; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+  "Noto Sans", "PingFang SC", "Microsoft YaHei", sans-serif; }
+* { box-sizing: border-box; }
+body { margin: 0; background: #090d13; color: #edf3fa; }
+main { width: 940px; max-width: 100%; margin: auto; padding: 34px 30px; }
+.brand { color: #d4deeb; font-size: 13px; letter-spacing: .04em; }
+.brand span { color: #8da0b8; }
+.hero { display: flex; align-items: center; justify-content: space-between;
+  gap: 14px; margin-top: 24px; }
+.hero > div { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+h1 { font-size: 32px; line-height: 1.2; letter-spacing: -.03em; margin: 0; }
+.profile, .verdict { border: 1px solid #34435a; border-radius: 6px; padding: 5px 9px;
+  font-size: 12px; font-weight: 600; white-space: nowrap; }
+.profile { color: #a9cfff; background: #14233b; }
+.verdict.pass { color: #8adebd; background: #10251f; border-color: #285340; }
+.verdict.partial, .notice.partial { color: #f1cd85; border-color: #765e33; }
+.verdict.fail { color: #ffb1b1; border-color: #874545; }
+.meta { color: #a4b5ca; font-size: 13px; line-height: 1.6; overflow-wrap: anywhere; }
+code, .code { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
+a { color: #a9cfff; text-decoration: none; }
+a:hover { text-decoration: underline; }
+a:focus-visible, summary:focus-visible { outline: 2px solid #79b8ff; outline-offset: 4px; }
+.files { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0; }
+.files a { padding: 7px 11px; border: 1px solid #2a3545; border-radius: 6px; font-size: 13px; }
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); background: #101721;
+  border: 1px solid #2a3545; border-radius: 10px; margin-bottom: 24px; }
+.stats > div { padding: 17px 18px; border-right: 1px solid #2a3545; }
+.stats > div:last-child { border-right: 0; }
+.stats strong { display: block; font-size: 27px; font-weight: 650; }
+.stats span { display: block; color: #a4b5ca; font-size: 12px; margin-top: 5px; }
+.section-title { font-size: 18px; margin: 26px 0 14px; font-weight: 600; }
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start; gap: 14px; }
+.card { --accent: #79b8ff; background: #101721; border: 1px solid #2a3545;
+  border-top: 2px solid var(--accent); border-radius: 9px; padding: 18px 19px 4px; }
+.card:nth-child(4n+2) { --accent: #b69cff; }
+.card:nth-child(4n+3) { --accent: #67d8ce; }
+.card:nth-child(4n+4) { --accent: #e7bb76; }
+.card header { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.code { color: var(--accent); font-size: 12px; }
+.count { color: #bccada; font-size: 12px; border: 1px solid #34435a;
+  border-radius: 4px; min-width: 24px; padding: 2px 6px; text-align: center; }
+h3 { font-size: 16px; font-weight: 650; line-height: 1.4; margin: 10px 0 16px;
+  overflow-wrap: anywhere; }
+.entry { border-top: 1px solid #263243; padding: 13px 0; overflow-wrap: anywhere; }
+.ticker { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.ticker b { font-size: 17px; letter-spacing: .01em; }
+.ticker small { font-size: 11px; color: #8da0b8; }
+.role { color: #9bacbf; font-size: 10px; margin-left: auto; }
+.name { color: #c0cede; font-size: 12px; line-height: 1.5; margin-top: 4px; }
+.description { color: #b7c5d8; font-size: 15px; line-height: 1.55; margin: 6px 0 0; }
+.added { display: inline-block; font-size: 11px; color: #8adebd; margin-top: 5px; }
+.notice, .notes { background: #101721; border: 1px solid #3b4757; border-radius: 8px;
+  padding: 15px 18px; margin: 18px 0; font-size: 13px; line-height: 1.6; overflow-wrap: anywhere; }
+.notice h2 { font-size: 14px; margin: 0; }
+.notice ul, .notes ul { padding-left: 20px; margin-bottom: 0; }
+.notes li + li { margin-top: 8px; }
+summary { cursor: pointer; color: #c0cede; }
+.expansion { font-size: 14px; color: #8adebd; }
+footer { border-top: 1px solid #2a3545; margin-top: 28px; padding-top: 18px;
+  font-size: 12px; line-height: 1.6; color: #8da0b8; }
+@media (max-width: 620px) {
+  main { padding: 24px 16px; }
+  h1 { font-size: 26px; }
+  .hero { align-items: start; flex-direction: column; }
+  .grid { grid-template-columns: 1fr; }
+  .stats { grid-template-columns: repeat(2, 1fr); }
+  .stats > div:nth-child(2) { border-right: 0; }
+  .stats > div:nth-child(-n+2) { border-bottom: 1px solid #2a3545; }
+  .card { padding: 16px 17px 3px; }
+}
+</style></head><body><main>
+<div class="brand">ticker-universe-builder <span>/ universe report</span></div>
+<header class="hero"><div>
+<h1>HK Ticker Universe</h1><span class="profile">Medium</span>
+</div>
+<span class="verdict pass">Validation · PASS</span></header>
+<p class="meta">Facts as of 2026-10-08 · <code>7607ca5b7f72</code></p>
+<nav class="files" aria-label="Artifacts">
+<a href="hk-medium-2026-10-08.en.md" download>Markdown</a>
+<a href="hk-medium-2026-10-08.txt" download>TradingView TXT</a>
+<a href="hk-medium-2026-10-08.json" download>JSON</a>
+<a href="hk-medium-2026-10-08.validation.json" download>Validation</a>
+</nav>
+<div class="stats">
+<div><strong>123</strong><span>Tickers</span></div>
+<div><strong>2</strong><span>Reference instruments</span></div>
+<div><strong>22</strong><span>Themes</span></div>
+<div><strong>125</strong><span>Export symbols</span></div>
+</div>
+<h2 class="section-title">Members</h2>
+<div class="grid">
+<section class="card" data-group="10_A">
+<header><span class="code">10_A</span><span class="count">5</span></header>
+<h3>INTERNET PLATFORMS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="HKEX:3690">
+<div class="ticker"><b>3690</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Meituan Class B</div>
+<p class="description">Food delivery and local-commerce platform connecting merchants and consumers.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:700">
+<div class="ticker"><b>700</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Tencent Holdings Ltd</div>
+<p class="description">Social, gaming and fintech platforms linking content and payments.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:9618">
+<div class="ticker"><b>9618</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">JD.com, Inc. Class A</div>
+<p class="description">Retail e-commerce and logistics fulfillment alongside marketplace platforms.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:9888">
+<div class="ticker"><b>9888</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Baidu, Inc. Class A</div>
+<p class="description">Search and online marketing services with AI application exposure.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:9988">
+<div class="ticker"><b>9988</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Alibaba Group Holding Limited</div>
+<p class="description">E-commerce and cloud platforms serving merchants, consumers and enterprises.</p></article>
+</div></section>
+<section class="card" data-group="10_H">
+<header><span class="code">10_H</span><span class="count">7</span></header>
+<h3>HARDWARE COMPONENTS AND FOUNDRIES</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="HKEX:1347">
+<div class="ticker"><b>1347</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Hua Hong Grace Semiconductor Limited</div>
+<p class="description">Wafer manufacturing and process technology adding foundry breadth.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:1810">
+<div class="ticker"><b>1810</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Xiaomi Corporation Class B</div>
+<p class="description">Smartphones and connected hardware representing consumer electronics.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:2018">
+<div class="ticker"><b>2018</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">AAC Technologies Holdings Inc.</div>
+<p class="description">Miniature acoustics and precision components for consumer electronics.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:2382">
+<div class="ticker"><b>2382</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Sunny Optical Technology (Group) Co., Ltd.</div>
+<p class="description">Optical components and lens modules in imaging supply chains.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:285">
+<div class="ticker"><b>285</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">BYD Electronic (International) Co., Ltd.</div>
+<p class="description">Handset components, modules and assembly services.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:981">
+<div class="ticker"><b>981</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Semiconductor Manufacturing International Corp.</div>
+<p class="description">Wafer foundry and process services representing semiconductor manufacturing.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:992">
+<div class="ticker"><b>992</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Lenovo Group Limited</div>
+<p class="description">Personal computers, smart devices and enterprise infrastructure.</p></article>
+</div></section>
+<section class="card" data-group="20_B">
+<header><span class="code">20_B</span><span class="count">4</span></header>
+<h3>TELECOM OPERATORS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="HKEX:6823">
+<div class="ticker"><b>6823</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">HKT Trust and HKT Ltd</div>
+<p class="description">Hong Kong fixed-line and mobile connectivity services.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:728">
+<div class="ticker"><b>728</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">China Telecom Corp. Ltd. Class H</div>
+<p class="description">Fixed-line, mobile and enterprise information services.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:762">
+<div class="ticker"><b>762</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">China Unicom (Hong Kong) Limited</div>
+<p class="description">Mobile, broadband and data services representing telecom competition.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:941">
+<div class="ticker"><b>941</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">China Mobile Limited</div>
+<p class="description">Mobile communications and computing services across a large telecom network.</p></article>
+</div></section>
+<section class="card" data-group="20_C">
+<header><span class="code">20_C</span><span class="count">5</span></header>
+<h3>SOFTWARE GAMES AND ONLINE CONTENT</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="HKEX:1024">
+<div class="ticker"><b>1024</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Kuaishou Technology Class B</div>
+<p class="description">Short video, live streaming and online marketing monetization.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:2400">
+<div class="ticker"><b>2400</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">XD, Inc.</div>
+<p class="description">Game development and the TapTap distribution platform.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:3888">
+<div class="ticker"><b>3888</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Kingsoft Corporation Ltd</div>
+<p class="description">Office software and games combining enterprise tools with entertainment.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:9626">
+<div class="ticker"><b>9626</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Bilibili Inc. Class Z</div>
+<p class="description">Video community and content services with advertising exposure.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:9999">
+<div class="ticker"><b>9999</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Netease Inc</div>
+<p class="description">Game development and operations representing content IP and player demand.</p></article>
+</div></section>
+<section class="card" data-group="20_E">
+<header><span class="code">20_E</span><span class="count">4</span></header>
+<h3>MACAU GAMING</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="HKEX:1128">
+<div class="ticker"><b>1128</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Wynn Macau Ltd.</div>
+<p class="description">Macau hotel and casino operations adding premium resort exposure.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:1928">
+<div class="ticker"><b>1928</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Sands China Ltd.</div>
+<p class="description">Macau gaming, hotels and conventions across integrated resorts.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:2282">
+<div class="ticker"><b>2282</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">MGM China Holdings Limited</div>
+<p class="description">Macau gaming and lodging resorts representing gaming competition.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:27">
+<div class="ticker"><b>27</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Galaxy Entertainment Group Limited</div>
+<p class="description">Macau gaming and hospitality representing integrated-resort demand.</p></article>
+</div></section>
+<section class="card" data-group="30_A">
+<header><span class="code">30_A</span><span class="count">3</span></header>
+<h3>HOME PRODUCTS AND POWER TOOLS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="HKEX:1070">
+<div class="ticker"><b>1070</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">TCL Electronics Holdings Limited</div>
+<p class="description">Televisions and multimedia electronics representing display-device demand.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:1999">
+<div class="ticker"><b>1999</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Man Wah Holdings Limited</div>
+<p class="description">Sofas, mattresses and furniture representing household durable demand.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:669">
+<div class="ticker"><b>669</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Techtronic Industries Co., Ltd.</div>
+<p class="description">Power tools and floor-care equipment serving household and professional users.</p></article>
+</div></section>
+<section class="card" data-group="30_B">
+<header><span class="code">30_B</span><span class="count">5</span></header>
+<h3>FOOD BEVERAGES AND HOUSEHOLD PRODUCTS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="HKEX:1044">
+<div class="ticker"><b>1044</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Hengan International Group Co., Ltd.</div>
+<p class="description">Sanitary products, diapers and tissue representing household essentials.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:1876">
+<div class="ticker"><b>1876</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Budweiser Brewing Co. APAC Ltd.</div>
+<p class="description">Asia-Pacific beer brewing and distribution adding brand and channel breadth.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:2319">
+<div class="ticker"><b>2319</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">China Mengniu Dairy Company Limited</div>
+<p class="description">Dairy production and distribution representing dairy consumption.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:291">
+<div class="ticker"><b>291</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">China Resources Beer (Holdings) Co. Ltd.</div>
+<p class="description">Beer production and distribution representing branded beverage demand.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:322">
+<div class="ticker"><b>322</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Tingyi (Cayman Islands) Holding Corp.</div>
+<p class="description">Instant noodles and beverages representing everyday packaged food demand.</p></article>
+</div></section>
+<section class="card" data-group="30_C">
+<header><span class="code">30_C</span><span class="count">5</span></header>
+<h3>RESTAURANTS AND TRAVEL SERVICES</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="HKEX:1179">
+<div class="ticker"><b>1179</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">H World Group Limited</div>
+<p class="description">Hotel operations representing accommodation demand and room-rate cycles.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:6862">
+<div class="ticker"><b>6862</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Haidilao International Holding Ltd.</div>
+<p class="description">Hotpot restaurants and delivery representing dining traffic and operations.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:780">
+<div class="ticker"><b>780</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Tongcheng Travel Holdings Limited</div>
+<p class="description">Transport ticketing and hotel bookings adding online travel distribution.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:9961">
+<div class="ticker"><b>9961</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Trip.com Group Ltd.</div>
+<p class="description">Hotel, transport and travel booking platform connecting travel demand.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:9987">
+<div class="ticker"><b>9987</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Yum China Holdings, Inc.</div>
+<p class="description">Restaurant chains and franchising representing quick-service dining.</p></article>
+</div></section>
+<section class="card" data-group="30_D">
+<header><span class="code">30_D</span><span class="count">5</span></header>
+<h3>APPAREL BRANDS AND JEWELRY</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="HKEX:1910">
+<div class="ticker"><b>1910</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Samsonite Group S.A.</div>
+<p class="description">Luggage, bags and travel accessories representing travel-related consumption.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:1929">
+<div class="ticker"><b>1929</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Chow Tai Fook Jewellery Group Limited</div>
+<p class="description">Jewelry production and retail representing gold jewelry and discretionary demand.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:2020">
+<div class="ticker"><b>2020</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">ANTA Sports Products Ltd.</div>
+<p class="description">Sports footwear, apparel and branded retail representing athletic consumption.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:2313">
+<div class="ticker"><b>2313</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Shenzhou International Group Holdings Limited</div>
+<p class="description">Knitwear manufacturing representing branded apparel supply chains.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:2331">
+<div class="ticker"><b>2331</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Li Ning Company Limited</div>
+<p class="description">Sports footwear, apparel and equipment adding domestic brand breadth.</p></article>
+</div></section>
+<section class="card" data-group="30_E">
+<header><span class="code">30_E</span><span class="count">7</span></header>
+<h3>VEHICLES AND COMPONENTS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="HKEX:1211">
+<div class="ticker"><b>1211</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">BYD Company Limited Class H</div>
+<p class="description">New-energy vehicles, batteries and electronics linking vehicles with supply chains.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:175">
+<div class="ticker"><b>175</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Geely Automobile Holdings Limited</div>
+<p class="description">Passenger vehicles and components representing vehicle production and sales.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:2015">
+<div class="ticker"><b>2015</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Li Auto, Inc. Class A</div>
+<p class="description">Smart electric vehicles adding family-vehicle product competition.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:2333">
+<div class="ticker"><b>2333</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Great Wall Motor Co., Ltd. Class H</div>
+<p class="description">SUVs, pickups and passenger vehicles adding product breadth.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:3808">
+<div class="ticker"><b>3808</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Sinotruk Hong Kong Ltd.</div>
+<p class="description">Heavy trucks, buses and assemblies adding commercial-vehicle demand.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:9866">
+<div class="ticker"><b>9866</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">NIO Inc. Class A</div>
+<p class="description">Smart electric vehicles and brand services adding EV ecosystem breadth.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:9868">
+<div class="ticker"><b>9868</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">XPeng, Inc. Class A</div>
+<p class="description">Smart electric vehicles and related services representing EV competition.</p></article>
+</div></section>
+<section class="card" data-group="40_A">
+<header><span class="code">40_A</span><span class="count">8</span></header>
+<h3>BANKS NATIONAL AND LOCAL</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="HKEX:1288">
+<div class="ticker"><b>1288</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Agricultural Bank of China Limited Class H</div>
+<p class="description">Corporate and personal banking with agriculture-related credit exposure.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:1398">
+<div class="ticker"><b>1398</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Industrial and Commercial Bank of China Limited Class H</div>
+<p class="description">Corporate and personal banking representing credit and treasury activity.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:23">
+<div class="ticker"><b>23</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Bank of East Asia Ltd.</div>
+<p class="description">Personal, corporate and wealth banking adding Hong Kong banking breadth.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:2388">
+<div class="ticker"><b>2388</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">BOC Hong Kong (Holdings) Limited</div>
+<p class="description">Hong Kong banking and renminbi clearing with cross-border financial services.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:3968">
+<div class="ticker"><b>3968</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">China Merchants Bank Co., Ltd. Class H</div>
+<p class="description">Retail, corporate and wealth banking adding business-model breadth.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:3988">
+<div class="ticker"><b>3988</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Bank of China Limited Class H</div>
+<p class="description">Commercial and cross-border banking with settlement and treasury exposure.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:5">
+<div class="ticker"><b>5</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">HSBC Holdings Plc</div>
+<p class="description">International and local banking connecting Hong Kong with global finance.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:939">
+<div class="ticker"><b>939</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">China Construction Bank Corporation Class H</div>
+<p class="description">Corporate, personal and treasury banking across a major banking franchise.</p></article>
+</div></section>
+<section class="card" data-group="40_C">
+<header><span class="code">40_C</span><span class="count">3</span></header>
+<h3>EXCHANGES AND SECURITIES</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="HKEX:388">
+<div class="ticker"><b>388</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Hong Kong Exchanges &amp; Clearing Ltd.</div>
+<p class="description">Equity, derivatives and commodity exchanges connecting financing and trading.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:3908">
+<div class="ticker"><b>3908</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">China International Capital Corp. Ltd. Class H</div>
+<p class="description">Investment banking, equities and fixed-income services for institutional clients.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:6030">
+<div class="ticker"><b>6030</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">CITIC Securities Co. Ltd. Class H</div>
+<p class="description">Securities brokerage, investment banking and asset management.</p></article>
+</div></section>
+<section class="card" data-group="40_D">
+<header><span class="code">40_D</span><span class="count">6</span></header>
+<h3>LIFE AND PROPERTY INSURANCE</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="HKEX:1299">
+<div class="ticker"><b>1299</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">AIA Group Limited</div>
+<p class="description">Asian life insurance and protection products representing premium demand.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:2318">
+<div class="ticker"><b>2318</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Ping An Insurance (Group) Company of China, Ltd. Class H</div>
+<p class="description">Life, property insurance and financial services across a diversified insurer.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:2328">
+<div class="ticker"><b>2328</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">PICC Property &amp; Casualty Co., Ltd. Class H</div>
+<p class="description">Motor and commercial property insurance representing non-life underwriting.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:2601">
+<div class="ticker"><b>2601</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">China Pacific Insurance (Group) Co., Ltd. Class H</div>
+<p class="description">Life and property insurance adding protection and underwriting breadth.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:2628">
+<div class="ticker"><b>2628</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">China Life Insurance Co. Ltd. Class H</div>
+<p class="description">Life, annuity and health insurance representing long-term protection demand.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:6060">
+<div class="ticker"><b>6060</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Zhongan Online P&amp;C Insurance Co., Ltd. Class H</div>
+<p class="description">Online property insurance and insurance technology adding digital distribution.</p></article>
+</div></section>
+<section class="card" data-group="50_A">
+<header><span class="code">50_A</span><span class="count">6</span></header>
+<h3>PHARMACEUTICALS AND BIOTECH</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="HKEX:1093">
+<div class="ticker"><b>1093</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">CSPC Pharmaceutical Group Limited</div>
+<p class="description">Finished medicines and bulk products representing pharmaceutical commercialization.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:1177">
+<div class="ticker"><b>1177</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Sino Biopharmaceutical Limited</div>
+<p class="description">Chemical and traditional medicines adding commercial pharmaceutical breadth.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:1801">
+<div class="ticker"><b>1801</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Innovent Biologics, Inc.</div>
+<p class="description">Innovative medicine research, manufacturing and commercialization.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:2186">
+<div class="ticker"><b>2186</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Luye Pharma Group Ltd.</div>
+<p class="description">Drug development and sales across oncology, cardiovascular and other therapies.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:3692">
+<div class="ticker"><b>3692</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Hansoh Pharmaceutical Group Company Limited</div>
+<p class="description">Pharmaceutical research, production and sales including oncology therapies.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:9926">
+<div class="ticker"><b>9926</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Akeso, Inc.</div>
+<p class="description">Biopharmaceutical research and commercialization adding innovative therapies.</p></article>
+</div></section>
+<section class="card" data-group="50_E">
+<header><span class="code">50_E</span><span class="count">5</span></header>
+<h3>DRUG SERVICES AND DISTRIBUTION</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="HKEX:1099">
+<div class="ticker"><b>1099</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Sinopharm Group Co., Ltd. Class H</div>
+<p class="description">Pharmaceutical and healthcare distribution representing medical supply chains.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:2269">
+<div class="ticker"><b>2269</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Wuxi Biologics (Cayman) Inc.</div>
+<p class="description">Biologics discovery, development and manufacturing services representing CDMO activity.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:2359">
+<div class="ticker"><b>2359</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">WuXi AppTec Co., Ltd. Class H</div>
+<p class="description">Drug research and manufacturing services representing outsourced development.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:3320">
+<div class="ticker"><b>3320</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">China Resources Pharmaceutical Group Ltd.</div>
+<p class="description">Pharmaceutical manufacturing, distribution and retail adding supply-chain breadth.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:3759">
+<div class="ticker"><b>3759</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Pharmaron Beijing Co., Ltd. Class H</div>
+<p class="description">Drug discovery, development and production services adding outsourcing breadth.</p></article>
+</div></section>
+<section class="card" data-group="60_C">
+<header><span class="code">60_C</span><span class="count">5</span></header>
+<h3>SHIPPING PORTS AND TRANSPORT</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="HKEX:1199">
+<div class="ticker"><b>1199</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">COSCO SHIPPING Ports Limited</div>
+<p class="description">Port terminal operations and management representing logistics infrastructure.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:1519">
+<div class="ticker"><b>1519</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">J&amp;T Global Express Limited</div>
+<p class="description">Express delivery and logistics adding cross-regional e-commerce fulfillment.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:293">
+<div class="ticker"><b>293</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Cathay Pacific Airways Limited</div>
+<p class="description">Passenger and cargo aviation with related services.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:316">
+<div class="ticker"><b>316</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Orient Overseas (International) Limited</div>
+<p class="description">Container shipping and logistics representing ocean freight cycles.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:66">
+<div class="ticker"><b>66</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">MTR Corporation Limited</div>
+<p class="description">Rail operations and station commerce linking public transport with property.</p></article>
+</div></section>
+<section class="card" data-group="60_E">
+<header><span class="code">60_E</span><span class="count">8</span></header>
+<h3>EQUIPMENT CONSTRUCTION AND INFRASTRUCTURE</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="HKEX:1">
+<div class="ticker"><b>1</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">CK Hutchison Holdings Ltd</div>
+<p class="description">Ports, retail, infrastructure and telecom across a diversified holding group.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:1038">
+<div class="ticker"><b>1038</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">CK Infrastructure Holdings Limited</div>
+<p class="description">Power and infrastructure investments representing long-lived infrastructure assets.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:1766">
+<div class="ticker"><b>1766</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">CRRC Corporation Limited Class H</div>
+<p class="description">Rail transit equipment and services representing railway capital spending.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:1800">
+<div class="ticker"><b>1800</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">China Communications Construction Co. Ltd. Class H</div>
+<p class="description">Infrastructure construction, design and dredging representing project investment.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:267">
+<div class="ticker"><b>267</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">CITIC Limited</div>
+<p class="description">Financial services, manufacturing and resources across a diversified group.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:3311">
+<div class="ticker"><b>3311</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">China State Construction International Holdings Limited</div>
+<p class="description">Construction and infrastructure investment services representing contracting demand.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:390">
+<div class="ticker"><b>390</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">China Railway Group Limited Class H</div>
+<p class="description">Infrastructure construction, design and equipment with railway project exposure.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:631">
+<div class="ticker"><b>631</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Sany Heavy Equipment International Holdings Co., Ltd.</div>
+<p class="description">Mining and logistics equipment adding industrial machinery demand.</p></article>
+</div></section>
+<section class="card" data-group="70_A">
+<header><span class="code">70_A</span><span class="count">6</span></header>
+<h3>OIL GAS SERVICES AND COAL</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="HKEX:1088">
+<div class="ticker"><b>1088</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">China Shenhua Energy Co. Ltd. Class H</div>
+<p class="description">Coal, power and supporting transport representing the coal-power value chain.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:1898">
+<div class="ticker"><b>1898</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">China Coal Energy Co. Ltd. Class H</div>
+<p class="description">Coal, coal chemicals and related equipment representing coal demand.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:2883">
+<div class="ticker"><b>2883</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">China Oilfield Services Limited Class H</div>
+<p class="description">Offshore drilling and oilfield services representing energy development spending.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:386">
+<div class="ticker"><b>386</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">China Petroleum &amp; Chemical Corporation Class H</div>
+<p class="description">Refining, chemicals and oil and gas activity adding downstream exposure.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:857">
+<div class="ticker"><b>857</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">PetroChina Co., Ltd. Class H</div>
+<p class="description">Oil and gas production, refining and sales representing integrated energy.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:883">
+<div class="ticker"><b>883</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">CNOOC Limited</div>
+<p class="description">Oil and gas exploration and production representing upstream resources.</p></article>
+</div></section>
+<section class="card" data-group="80_B">
+<header><span class="code">80_B</span><span class="count">7</span></header>
+<h3>POWER AND GAS UTILITIES</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="HKEX:1193">
+<div class="ticker"><b>1193</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">China Resources Gas Group Limited</div>
+<p class="description">Gas supply and distribution representing urban energy demand.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:2">
+<div class="ticker"><b>2</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">CLP Holdings Limited</div>
+<p class="description">Power generation and electricity supply representing utility demand.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:2380">
+<div class="ticker"><b>2380</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">China Power International Development Ltd</div>
+<p class="description">Power plant development and operations across thermal, hydro and other sources.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:2688">
+<div class="ticker"><b>2688</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">ENN Energy Holdings Limited</div>
+<p class="description">Piped gas and integrated energy services adding distribution breadth.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:3">
+<div class="ticker"><b>3</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Hong Kong &amp; China Gas Co. Ltd.</div>
+<p class="description">City gas and energy and water operations representing utility services.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:6">
+<div class="ticker"><b>6</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Power Assets Holdings Limited</div>
+<p class="description">Electricity and gas infrastructure investments adding utility exposure.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:836">
+<div class="ticker"><b>836</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">China Resources Power Holdings Co. Ltd.</div>
+<p class="description">Power asset investment and operations representing electricity production.</p></article>
+</div></section>
+<section class="card" data-group="80_C">
+<header><span class="code">80_C</span><span class="count">8</span></header>
+<h3>METALS CHEMICALS AND BUILDING MATERIALS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="HKEX:1208">
+<div class="ticker"><b>1208</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">MMG Ltd.</div>
+<p class="description">Copper, zinc and other metal mining adding base-metal supply.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:1313">
+<div class="ticker"><b>1313</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">China Resources Building Materials Technology Holdings Limited</div>
+<p class="description">Cement, concrete and aggregates adding building-material supply.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:1818">
+<div class="ticker"><b>1818</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Zhaojin Mining Industry Co., Ltd. Class H</div>
+<p class="description">Gold mining, processing and smelting representing gold supply.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:2899">
+<div class="ticker"><b>2899</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Zijin Mining Group Co., Ltd. Class H</div>
+<p class="description">Gold, copper and other metal mining and smelting representing mineral supply.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:3983">
+<div class="ticker"><b>3983</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">China BlueChemical Ltd. Class H</div>
+<p class="description">Fertilizers and chemical products representing agricultural inputs.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:3993">
+<div class="ticker"><b>3993</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">CMOC Group Limited Class H</div>
+<p class="description">Copper and other mineral production and processing adding mining breadth.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:868">
+<div class="ticker"><b>868</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Xinyi Glass Holdings Limited</div>
+<p class="description">Float, automotive and architectural glass adding material breadth.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:914">
+<div class="ticker"><b>914</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Anhui Conch Cement Company Limited Class H</div>
+<p class="description">Cement, aggregates and concrete representing construction materials.</p></article>
+</div></section>
+<section class="card" data-group="90_C">
+<header><span class="code">90_C</span><span class="count">4</span></header>
+<h3>MAINLAND PROPERTY AND SERVICES</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="HKEX:1109">
+<div class="ticker"><b>1109</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">China Resources Land Limited</div>
+<p class="description">Property development and investment adding mainland rental exposure.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:1209">
+<div class="ticker"><b>1209</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">China Resources Mixc Lifestyle Services Ltd.</div>
+<p class="description">Residential property management and shopping-mall operations.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:6098">
+<div class="ticker"><b>6098</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Country Garden Services Holdings Co. Ltd.</div>
+<p class="description">Property management and community value-added services.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:688">
+<div class="ticker"><b>688</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">China Overseas Land &amp; Investment Limited</div>
+<p class="description">Property development and investment representing mainland real estate.</p></article>
+</div></section>
+<section class="card" data-group="90_D">
+<header><span class="code">90_D</span><span class="count">7</span></header>
+<h3>HONG KONG PROPERTY AND REITS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="HKEX:1113">
+<div class="ticker"><b>1113</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">CK Asset Holdings Limited</div>
+<p class="description">Property development with property and infrastructure assets.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:12">
+<div class="ticker"><b>12</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Henderson Land Development Co. Ltd.</div>
+<p class="description">Property development and investment adding local land and rental exposure.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:16">
+<div class="ticker"><b>16</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Sun Hung Kai Properties Limited</div>
+<p class="description">Residential development and rental properties representing Hong Kong real estate.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:1972">
+<div class="ticker"><b>1972</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Swire Properties Limited</div>
+<p class="description">Commercial property investment and development with office and retail rents.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:1997">
+<div class="ticker"><b>1997</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Wharf Real Estate Investment Company Limited</div>
+<p class="description">Hong Kong investment properties and hotels representing commercial real estate.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:778">
+<div class="ticker"><b>778</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Fortune Real Estate Investment Trust</div>
+<p class="description">Retail property ownership and management adding neighborhood mall exposure.</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:823">
+<div class="ticker"><b>823</b><small>HKEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Link Real Estate Investment Trust</div>
+<p class="description">Retail and commercial property investment representing listed REIT rents.</p></article>
+</div></section>
+</div>
+<h2 class="section-title">Reference instruments</h2>
+<div class="grid">
+<section class="card" data-group="00_A">
+<header><span class="code">00_A</span><span class="count">2</span></header>
+<h3>BROAD MARKET ETF</h3><div class="entries">
+<article class="entry" data-kind="reference" data-ticker="HKEX:2800">
+<div class="ticker"><b>2800</b><small>HKEX</small>
+<span class="role">etf</span></div>
+<p class="description">ETF tracking the Hang Seng Index; the fund price is not the direct index.</p></article>
+<article class="entry" data-kind="reference" data-ticker="HKEX:2828">
+<div class="ticker"><b>2828</b><small>HKEX</small>
+<span class="role">etf</span></div>
+<p class="description">ETF tracking the Hang Seng China Enterprises Index; the fund price is not the direct index.</p></article>
+</div></section>
+</div>
+<details class="notes">
+<summary>Research notes and limits</summary><ul>
+<li>Theme factors use same-duty leave-one-out peer baskets where at least three histories are available; missing optional factors remain diagnostics, not admission failures.</li>
+<li>Financial periods are unspecified by the provider. Losses, missing cash-flow fields and sector-specific risks remain disclosed per entity in research JSON; capitalization is not proof of leadership.</li>
+<li>The cancelled Hang Seng Bank line is excluded. The incorrect Wedge Holdings provider profile for 2388 is discarded and replaced with BOCHK official business evidence. WuXi Biologics represents CDMO services; ZhongAn represents insurance.</li>
+<li>Major operating-business representatives are researched within the declared scope. Comparative market-share, every issuer filing, all temporary suspensions and regulator/audit records are not independently audited.</li>
+<li>Business profiles, active quotations and standardized financial fields reviewed online on 2026-10-08; price histories end 2026-10-07.</li>
+<li>Liquidity is ranked within the acquired research population, not every security in the market. Turnover is a raw-close times share-volume proxy, not official exchange turnover.</li>
+</ul></details>
+<footer>Research notes and limits · <a href="hk-medium-2026-10-08.json" download>JSON</a> · <a href="hk-medium-2026-10-08.validation.json" download>Validation</a></footer>
+</main></body></html>

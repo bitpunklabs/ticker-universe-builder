@@ -1,0 +1,883 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>JP 銘柄ユニバース · Medium</title>
+<style>/* Self-contained report, readable without a network connection. */
+:root { color-scheme: dark; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+  "Noto Sans", "PingFang SC", "Microsoft YaHei", sans-serif; }
+* { box-sizing: border-box; }
+body { margin: 0; background: #090d13; color: #edf3fa; }
+main { width: 940px; max-width: 100%; margin: auto; padding: 34px 30px; }
+.brand { color: #d4deeb; font-size: 13px; letter-spacing: .04em; }
+.brand span { color: #8da0b8; }
+.hero { display: flex; align-items: center; justify-content: space-between;
+  gap: 14px; margin-top: 24px; }
+.hero > div { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+h1 { font-size: 32px; line-height: 1.2; letter-spacing: -.03em; margin: 0; }
+.profile, .verdict { border: 1px solid #34435a; border-radius: 6px; padding: 5px 9px;
+  font-size: 12px; font-weight: 600; white-space: nowrap; }
+.profile { color: #a9cfff; background: #14233b; }
+.verdict.pass { color: #8adebd; background: #10251f; border-color: #285340; }
+.verdict.partial, .notice.partial { color: #f1cd85; border-color: #765e33; }
+.verdict.fail { color: #ffb1b1; border-color: #874545; }
+.meta { color: #a4b5ca; font-size: 13px; line-height: 1.6; overflow-wrap: anywhere; }
+code, .code { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
+a { color: #a9cfff; text-decoration: none; }
+a:hover { text-decoration: underline; }
+a:focus-visible, summary:focus-visible { outline: 2px solid #79b8ff; outline-offset: 4px; }
+.files { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0; }
+.files a { padding: 7px 11px; border: 1px solid #2a3545; border-radius: 6px; font-size: 13px; }
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); background: #101721;
+  border: 1px solid #2a3545; border-radius: 10px; margin-bottom: 24px; }
+.stats > div { padding: 17px 18px; border-right: 1px solid #2a3545; }
+.stats > div:last-child { border-right: 0; }
+.stats strong { display: block; font-size: 27px; font-weight: 650; }
+.stats span { display: block; color: #a4b5ca; font-size: 12px; margin-top: 5px; }
+.section-title { font-size: 18px; margin: 26px 0 14px; font-weight: 600; }
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start; gap: 14px; }
+.card { --accent: #79b8ff; background: #101721; border: 1px solid #2a3545;
+  border-top: 2px solid var(--accent); border-radius: 9px; padding: 18px 19px 4px; }
+.card:nth-child(4n+2) { --accent: #b69cff; }
+.card:nth-child(4n+3) { --accent: #67d8ce; }
+.card:nth-child(4n+4) { --accent: #e7bb76; }
+.card header { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.code { color: var(--accent); font-size: 12px; }
+.count { color: #bccada; font-size: 12px; border: 1px solid #34435a;
+  border-radius: 4px; min-width: 24px; padding: 2px 6px; text-align: center; }
+h3 { font-size: 16px; font-weight: 650; line-height: 1.4; margin: 10px 0 16px;
+  overflow-wrap: anywhere; }
+.entry { border-top: 1px solid #263243; padding: 13px 0; overflow-wrap: anywhere; }
+.ticker { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.ticker b { font-size: 17px; letter-spacing: .01em; }
+.ticker small { font-size: 11px; color: #8da0b8; }
+.role { color: #9bacbf; font-size: 10px; margin-left: auto; }
+.name { color: #c0cede; font-size: 12px; line-height: 1.5; margin-top: 4px; }
+.description { color: #b7c5d8; font-size: 15px; line-height: 1.55; margin: 6px 0 0; }
+.added { display: inline-block; font-size: 11px; color: #8adebd; margin-top: 5px; }
+.notice, .notes { background: #101721; border: 1px solid #3b4757; border-radius: 8px;
+  padding: 15px 18px; margin: 18px 0; font-size: 13px; line-height: 1.6; overflow-wrap: anywhere; }
+.notice h2 { font-size: 14px; margin: 0; }
+.notice ul, .notes ul { padding-left: 20px; margin-bottom: 0; }
+.notes li + li { margin-top: 8px; }
+summary { cursor: pointer; color: #c0cede; }
+.expansion { font-size: 14px; color: #8adebd; }
+footer { border-top: 1px solid #2a3545; margin-top: 28px; padding-top: 18px;
+  font-size: 12px; line-height: 1.6; color: #8da0b8; }
+@media (max-width: 620px) {
+  main { padding: 24px 16px; }
+  h1 { font-size: 26px; }
+  .hero { align-items: start; flex-direction: column; }
+  .grid { grid-template-columns: 1fr; }
+  .stats { grid-template-columns: repeat(2, 1fr); }
+  .stats > div:nth-child(2) { border-right: 0; }
+  .stats > div:nth-child(-n+2) { border-bottom: 1px solid #2a3545; }
+  .card { padding: 16px 17px 3px; }
+}
+</style></head><body><main>
+<div class="brand">ticker-universe-builder <span>/ universe report</span></div>
+<header class="hero"><div>
+<h1>JP 銘柄ユニバース</h1><span class="profile">標準</span>
+</div>
+<span class="verdict pass">検証 · PASS</span></header>
+<p class="meta">事実の基準日 2026-10-07 · <code>4350f3f0796c</code></p>
+<nav class="files" aria-label="Artifacts">
+<a href="jp-medium-2026-10-07.ja.md" download>Markdown</a>
+<a href="jp-medium-2026-10-07.txt" download>TradingView TXT</a>
+<a href="jp-medium-2026-10-07.json" download>JSON</a>
+<a href="jp-medium-2026-10-07.validation.json" download>検証</a>
+</nav>
+<div class="stats">
+<div><strong>131</strong><span>銘柄数</span></div>
+<div><strong>2</strong><span>参考指標</span></div>
+<div><strong>26</strong><span>テーマ数</span></div>
+<div><strong>133</strong><span>出力銘柄</span></div>
+</div>
+<h2 class="section-title">構成銘柄</h2>
+<div class="grid">
+<section class="card" data-group="10_B">
+<header><span class="code">10_B</span><span class="count">3</span></header>
+<h3>SEMICONDUCTORS AND SUBSTRATES</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="TSE:285A">
+<div class="ticker"><b>285A</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">キオクシアホールディングス</div>
+<p class="description">フラッシュメモリと関連記憶製品。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:4062">
+<div class="ticker"><b>4062</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">イビデン</div>
+<p class="description">半導体パッケージ用基板とセラミック製品。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:6723">
+<div class="ticker"><b>6723</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">ルネサスエレクトロニクス</div>
+<p class="description">車載・産業用半導体の設計と供給。</p></article>
+</div></section>
+<section class="card" data-group="10_C">
+<header><span class="code">10_C</span><span class="count">5</span></header>
+<h3>SEMICAP EQUIPMENT</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="TSE:6146">
+<div class="ticker"><b>6146</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">ディスコ</div>
+<p class="description">精密切断、研削と研磨の装置。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:6857">
+<div class="ticker"><b>6857</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">アドバンテスト</div>
+<p class="description">半導体検査システムと計測機器。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:6920">
+<div class="ticker"><b>6920</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">レーザーテック</div>
+<p class="description">光学技術を用いた半導体検査・計測装置。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:7735">
+<div class="ticker"><b>7735</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">ＳＣＲＥＥＮホールディングス</div>
+<p class="description">半導体製造と印刷関連の装置。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:8035">
+<div class="ticker"><b>8035</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">東京エレクトロン</div>
+<p class="description">半導体・表示パネルの製造装置。</p></article>
+</div></section>
+<section class="card" data-group="10_F">
+<header><span class="code">10_F</span><span class="count">2</span></header>
+<h3>INTERNET AND ADTECH</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="TSE:4689">
+<div class="ticker"><b>4689</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">ＬＩＮＥヤフー</div>
+<p class="description">インターネット広告、商取引と関連プラットフォーム。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:6098">
+<div class="ticker"><b>6098</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">リクルートホールディングス</div>
+<p class="description">人材技術、採用・マッチングサービス。</p></article>
+</div></section>
+<section class="card" data-group="10_G">
+<header><span class="code">10_G</span><span class="count">4</span></header>
+<h3>IT SERVICES AND CONSULTING</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="TSE:4307">
+<div class="ticker"><b>4307</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">野村総合研究所</div>
+<p class="description">調査、コンサルティングとシステムサービス。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:4684">
+<div class="ticker"><b>4684</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">オービック</div>
+<p class="description">業務ソフトウェアとシステムサービス。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:6701">
+<div class="ticker"><b>6701</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">日本電気</div>
+<p class="description">計算・通信システムとソリューション。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:6702">
+<div class="ticker"><b>6702</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">富士通</div>
+<p class="description">企業向けITサービスとシステム。</p></article>
+</div></section>
+<section class="card" data-group="10_H">
+<header><span class="code">10_H</span><span class="count">5</span></header>
+<h3>ELECTRONIC COMPONENTS AND PRECISION</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="TSE:6752">
+<div class="ticker"><b>6752</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">パナソニック　ホールディングス</div>
+<p class="description">家電、車載、産業・エネルギー製品の複合事業。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:6762">
+<div class="ticker"><b>6762</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">ＴＤＫ</div>
+<p class="description">電子部品、磁性材料と電池。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:6971">
+<div class="ticker"><b>6971</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">京セラ</div>
+<p class="description">ファインセラミックスと電子・産業部品。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:6981">
+<div class="ticker"><b>6981</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">村田製作所</div>
+<p class="description">セラミック電子部品と通信関連デバイス。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:7751">
+<div class="ticker"><b>7751</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">キヤノン</div>
+<p class="description">印刷機器、カメラと精密装置。</p></article>
+</div></section>
+<section class="card" data-group="20_B">
+<header><span class="code">20_B</span><span class="count">3</span></header>
+<h3>TELECOM</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="TSE:9432">
+<div class="ticker"><b>9432</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">ＮＴＴ</div>
+<p class="description">国内・海外の通信サービスとネットワーク。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:9433">
+<div class="ticker"><b>9433</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">ＫＤＤＩ</div>
+<p class="description">移動・固定通信サービス。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:9434">
+<div class="ticker"><b>9434</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">ソフトバンク</div>
+<p class="description">移動通信、ブロードバンドとICTサービス。</p></article>
+</div></section>
+<section class="card" data-group="20_C">
+<header><span class="code">20_C</span><span class="count">5</span></header>
+<h3>GAMES AND MEDIA</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="TSE:6758">
+<div class="ticker"><b>6758</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">ソニーグループ</div>
+<p class="description">ゲーム、映像・音楽、電子機器の複合事業。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:7832">
+<div class="ticker"><b>7832</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">バンダイナムコホールディングス</div>
+<p class="description">ゲームと玩具を含む娯楽製品・IP。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:7974">
+<div class="ticker"><b>7974</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">任天堂</div>
+<p class="description">家庭用ゲーム機とゲームソフト。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:9697">
+<div class="ticker"><b>9697</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">カプコン</div>
+<p class="description">家庭用、オンライン・モバイルゲーム。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:9766">
+<div class="ticker"><b>9766</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">コナミグループ</div>
+<p class="description">ゲームソフトと娯楽コンテンツ。</p></article>
+</div></section>
+<section class="card" data-group="30_A">
+<header><span class="code">30_A</span><span class="count">8</span></header>
+<h3>RETAIL APPAREL AND LEISURE</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="TSE:3382">
+<div class="ticker"><b>3382</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">セブン＆アイ・ホールディングス</div>
+<p class="description">コンビニエンスストアを含む小売事業。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:4661">
+<div class="ticker"><b>4661</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">オリエンタルランド</div>
+<p class="description">テーマパークとレジャー施設運営。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:7453">
+<div class="ticker"><b>7453</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">良品計画</div>
+<p class="description">無印良品の店舗・生活用品販売。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:7532">
+<div class="ticker"><b>7532</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">パン・パシフィック・インターナショナルホールディングス</div>
+<p class="description">日用品・食品・衣料等の総合小売。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:7550">
+<div class="ticker"><b>7550</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">ゼンショーホールディングス</div>
+<p class="description">外食チェーンの運営。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:8267">
+<div class="ticker"><b>8267</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">イオン</div>
+<p class="description">スーパー、商業施設と関連小売。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:9843">
+<div class="ticker"><b>9843</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">ニトリホールディングス</div>
+<p class="description">家具と住生活用品の販売。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:9983">
+<div class="ticker"><b>9983</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">ファーストリテイリング</div>
+<p class="description">衣料ブランドと小売店舗。</p></article>
+</div></section>
+<section class="card" data-group="30_B">
+<header><span class="code">30_B</span><span class="count">7</span></header>
+<h3>STAPLES</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="TSE:2502">
+<div class="ticker"><b>2502</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">アサヒグループホールディングス</div>
+<p class="description">ビール等の酒類、飲料と食品。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:2503">
+<div class="ticker"><b>2503</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">キリンホールディングス</div>
+<p class="description">飲料と医薬関連事業。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:2801">
+<div class="ticker"><b>2801</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">キッコーマン</div>
+<p class="description">調味料と食品製造。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:2802">
+<div class="ticker"><b>2802</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">味の素</div>
+<p class="description">食品、アミノ酸と関連製品。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:2914">
+<div class="ticker"><b>2914</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">日本たばこ産業</div>
+<p class="description">たばこを中心とする消費財。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:4452">
+<div class="ticker"><b>4452</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">花王</div>
+<p class="description">日用消費財と化学製品。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:8113">
+<div class="ticker"><b>8113</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">ユニ・チャーム</div>
+<p class="description">乳幼児、女性・介護とペット衛生用品。</p></article>
+</div></section>
+<section class="card" data-group="30_E">
+<header><span class="code">30_E</span><span class="count">9</span></header>
+<h3>AUTOS AND MOBILITY</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="TSE:5108">
+<div class="ticker"><b>5108</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">ブリヂストン</div>
+<p class="description">タイヤとゴム製品。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:6902">
+<div class="ticker"><b>6902</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">デンソー</div>
+<p class="description">車載システムと自動車部品。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:7202">
+<div class="ticker"><b>7202</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">いすゞ自動車</div>
+<p class="description">商用車、トラックとディーゼル動力。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:7203">
+<div class="ticker"><b>7203</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">トヨタ自動車</div>
+<p class="description">完成車の製造・販売と関連金融。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:7259">
+<div class="ticker"><b>7259</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">アイシン</div>
+<p class="description">自動車部品・駆動関連製品。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:7267">
+<div class="ticker"><b>7267</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">本田技研工業</div>
+<p class="description">自動車、二輪車と汎用動力製品。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:7269">
+<div class="ticker"><b>7269</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">スズキ</div>
+<p class="description">小型車、二輪車と関連完成車。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:7270">
+<div class="ticker"><b>7270</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">株式会社SUBARU</div>
+<p class="description">自動車と航空機関連事業。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:7272">
+<div class="ticker"><b>7272</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">ヤマハ発動機</div>
+<p class="description">二輪車、輸送機器と関連エンジン。</p></article>
+</div></section>
+<section class="card" data-group="40_A">
+<header><span class="code">40_A</span><span class="count">8</span></header>
+<h3>BANKS NATIONAL AND REGIONAL</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="TSE:7182">
+<div class="ticker"><b>7182</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">ゆうちょ銀行</div>
+<p class="description">郵便貯金を基盤とする銀行。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:7186">
+<div class="ticker"><b>7186</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">横浜フィナンシャルグループ</div>
+<p class="description">地域銀行と関連金融サービス。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:8306">
+<div class="ticker"><b>8306</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">三菱ＵＦＪフィナンシャル・グループ</div>
+<p class="description">銀行・関連金融サービスの持株事業。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:8308">
+<div class="ticker"><b>8308</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">りそなホールディングス</div>
+<p class="description">銀行と金融サービス。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:8309">
+<div class="ticker"><b>8309</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">三井住友トラストグループ</div>
+<p class="description">信託銀行を核とする金融サービス。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:8316">
+<div class="ticker"><b>8316</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">三井住友フィナンシャルグループ</div>
+<p class="description">銀行を中心とする総合金融グループ。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:8354">
+<div class="ticker"><b>8354</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">ふくおかフィナンシャルグループ</div>
+<p class="description">地域銀行グループ。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:8411">
+<div class="ticker"><b>8411</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">みずほフィナンシャルグループ</div>
+<p class="description">銀行と総合金融サービス。</p></article>
+</div></section>
+<section class="card" data-group="40_C">
+<header><span class="code">40_C</span><span class="count">6</span></header>
+<h3>SECURITIES EXCHANGES AND FINANCE</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="TSE:8473">
+<div class="ticker"><b>8473</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">ＳＢＩホールディングス</div>
+<p class="description">証券、銀行等の金融サービス群。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:8591">
+<div class="ticker"><b>8591</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">オリックス</div>
+<p class="description">リース・金融、資産運用と複合投資事業。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:8601">
+<div class="ticker"><b>8601</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">大和証券グループ本社</div>
+<p class="description">証券を中心とする投資・金融サービス。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:8604">
+<div class="ticker"><b>8604</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">野村ホールディングス</div>
+<p class="description">証券、投資銀行と金融サービス。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:8697">
+<div class="ticker"><b>8697</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">日本取引所グループ</div>
+<p class="description">金融取引所と関連市場インフラ。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:9984">
+<div class="ticker"><b>9984</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">ソフトバンクグループ</div>
+<p class="description">Arm、Vision Fundsと直接投資を持つ戦略投資持株会社。</p></article>
+</div></section>
+<section class="card" data-group="40_D">
+<header><span class="code">40_D</span><span class="count">5</span></header>
+<h3>INSURANCE</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="TSE:8630">
+<div class="ticker"><b>8630</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">ＳＯＭＰＯホールディングス</div>
+<p class="description">損害保険を含む保険サービス。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:8725">
+<div class="ticker"><b>8725</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">ＭＳ＆ＡＤインシュアランスグループホールディングス</div>
+<p class="description">損害保険・生命保険の持株グループ。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:8750">
+<div class="ticker"><b>8750</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">第一ライフグループ</div>
+<p class="description">生命保険と関連資産運用。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:8766">
+<div class="ticker"><b>8766</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">東京海上ホールディングス</div>
+<p class="description">国内損害・生命保険と海外保険事業。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:8795">
+<div class="ticker"><b>8795</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">Ｔ＆Ｄホールディングス</div>
+<p class="description">生命保険グループ。</p></article>
+</div></section>
+<section class="card" data-group="50_A">
+<header><span class="code">50_A</span><span class="count">6</span></header>
+<h3>PHARMA</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="TSE:4502">
+<div class="ticker"><b>4502</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">武田薬品工業</div>
+<p class="description">医薬品の研究開発、製造と販売。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:4503">
+<div class="ticker"><b>4503</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">アステラス製薬</div>
+<p class="description">医薬品の研究開発と販売。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:4507">
+<div class="ticker"><b>4507</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">塩野義製薬</div>
+<p class="description">医薬品の研究開発、製造と販売。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:4519">
+<div class="ticker"><b>4519</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">中外製薬</div>
+<p class="description">医薬品の研究開発、製造と販売。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:4568">
+<div class="ticker"><b>4568</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">第一三共</div>
+<p class="description">医薬品の研究開発、製造と販売。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:4578">
+<div class="ticker"><b>4578</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">大塚ホールディングス</div>
+<p class="description">医薬品を核とする事業グループ。</p></article>
+</div></section>
+<section class="card" data-group="50_B">
+<header><span class="code">50_B</span><span class="count">4</span></header>
+<h3>MEDTECH AND DEVICES</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="TSE:4543">
+<div class="ticker"><b>4543</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">テルモ</div>
+<p class="description">医療機器・製品。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:4901">
+<div class="ticker"><b>4901</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">富士フイルムホールディングス</div>
+<p class="description">医療・画像と情報関連製品の複合事業。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:7733">
+<div class="ticker"><b>7733</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">オリンパス</div>
+<p class="description">内視鏡を含む診断・低侵襲治療機器。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:7741">
+<div class="ticker"><b>7741</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">ＨＯＹＡ</div>
+<p class="description">医療・光学と電子関連の精密製品。</p></article>
+</div></section>
+<section class="card" data-group="60_A">
+<header><span class="code">60_A</span><span class="count">3</span></header>
+<h3>AEROSPACE AND DEFENSE</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="TSE:7011">
+<div class="ticker"><b>7011</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">三菱重工業</div>
+<p class="description">船舶、産業設備と航空関連の重工業。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:7012">
+<div class="ticker"><b>7012</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">川崎重工業</div>
+<p class="description">輸送・航空と産業用重工製品。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:7013">
+<div class="ticker"><b>7013</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">ＩＨＩ</div>
+<p class="description">重機、航空・エネルギー関連機械。</p></article>
+</div></section>
+<section class="card" data-group="60_B">
+<header><span class="code">60_B</span><span class="count">7</span></header>
+<h3>MACHINERY AND RAIL</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="TSE:6273">
+<div class="ticker"><b>6273</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">ＳＭＣ</div>
+<p class="description">空気圧・自動制御とFA部品。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:6301">
+<div class="ticker"><b>6301</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">小松製作所</div>
+<p class="description">建設・鉱山機械と産業機械。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:6326">
+<div class="ticker"><b>6326</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">クボタ</div>
+<p class="description">農業・建設機械。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:6367">
+<div class="ticker"><b>6367</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">ダイキン工業</div>
+<p class="description">空調機器と関連製品。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:6383">
+<div class="ticker"><b>6383</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">ダイフク</div>
+<p class="description">搬送、物流システムの設計・製造と保守。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:6861">
+<div class="ticker"><b>6861</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">キーエンス</div>
+<p class="description">工場自動化、センサーと検査装置。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:6954">
+<div class="ticker"><b>6954</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">ファナック</div>
+<p class="description">CNCと産業用ロボット・工作機械制御。</p></article>
+</div></section>
+<section class="card" data-group="60_C">
+<header><span class="code">60_C</span><span class="count">5</span></header>
+<h3>TRANSPORT AND LOGISTICS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="TSE:9020">
+<div class="ticker"><b>9020</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">東日本旅客鉄道</div>
+<p class="description">鉄道と旅客輸送。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:9022">
+<div class="ticker"><b>9022</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">東海旅客鉄道</div>
+<p class="description">鉄道と新幹線関連運営。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:9101">
+<div class="ticker"><b>9101</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">日本郵船</div>
+<p class="description">海運、陸運・航空を含む物流。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:9104">
+<div class="ticker"><b>9104</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">商船三井</div>
+<p class="description">海上輸送と関連船舶運営。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:9107">
+<div class="ticker"><b>9107</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">川崎汽船</div>
+<p class="description">海上輸送サービス。</p></article>
+</div></section>
+<section class="card" data-group="60_D">
+<header><span class="code">60_D</span><span class="count">6</span></header>
+<h3>ELECTRICAL OPTICAL INFRASTRUCTURE</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="TSE:5801">
+<div class="ticker"><b>5801</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">古河電気工業</div>
+<p class="description">通信・電力伝送インフラと機能材料。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:5802">
+<div class="ticker"><b>5802</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">住友電気工業</div>
+<p class="description">電線・ケーブルと通信配線製品。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:5803">
+<div class="ticker"><b>5803</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">フジクラ</div>
+<p class="description">光・電力を含む電線とケーブル。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:6501">
+<div class="ticker"><b>6501</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">日立製作所</div>
+<p class="description">電機・産業システムを含む複合事業。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:6503">
+<div class="ticker"><b>6503</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">三菱電機</div>
+<p class="description">産業用電機と電子設備。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:6504">
+<div class="ticker"><b>6504</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">富士電機</div>
+<p class="description">電機・制御と関連パワー製品。</p></article>
+</div></section>
+<section class="card" data-group="60_E">
+<header><span class="code">60_E</span><span class="count">4</span></header>
+<h3>ENGINEERING AND CONSTRUCTION</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="TSE:1801">
+<div class="ticker"><b>1801</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">大成建設</div>
+<p class="description">建設とエンジニアリング。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:1802">
+<div class="ticker"><b>1802</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">大林組</div>
+<p class="description">建設と不動産事業。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:1812">
+<div class="ticker"><b>1812</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">鹿島建設</div>
+<p class="description">建設、土木・設計と開発事業。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:1928">
+<div class="ticker"><b>1928</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">積水ハウス</div>
+<p class="description">住宅建設、販売と管理。</p></article>
+</div></section>
+<section class="card" data-group="65_A">
+<header><span class="code">65_A</span><span class="count">6</span></header>
+<h3>TRADING HOUSES</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="TSE:8001">
+<div class="ticker"><b>8001</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">伊藤忠商事</div>
+<p class="description">商品取引と事業投資。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:8002">
+<div class="ticker"><b>8002</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">丸紅</div>
+<p class="description">輸出入・商品取引と事業投資。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:8015">
+<div class="ticker"><b>8015</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">豊田通商</div>
+<p class="description">自動車を含む商品取引と関連サービス。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:8031">
+<div class="ticker"><b>8031</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">三井物産</div>
+<p class="description">総合商社と関連投資。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:8053">
+<div class="ticker"><b>8053</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">住友商事</div>
+<p class="description">総合商社事業。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:8058">
+<div class="ticker"><b>8058</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">三菱商事</div>
+<p class="description">資源・非資源の総合商社事業。</p></article>
+</div></section>
+<section class="card" data-group="70_A">
+<header><span class="code">70_A</span><span class="count">3</span></header>
+<h3>OIL GAS AND REFINING</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="TSE:1605">
+<div class="ticker"><b>1605</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">ＩＮＰＥＸ</div>
+<p class="description">石油・天然ガスの探鉱、開発と生産。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:5019">
+<div class="ticker"><b>5019</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">出光興産</div>
+<p class="description">石油精製・供給、基礎化学と関連エネルギー。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:5020">
+<div class="ticker"><b>5020</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">ENEOSホールディングス</div>
+<p class="description">エネルギー、資源と材料事業の持株グループ。</p></article>
+</div></section>
+<section class="card" data-group="80_B">
+<header><span class="code">80_B</span><span class="count">4</span></header>
+<h3>UTILITIES</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="TSE:9502">
+<div class="ticker"><b>9502</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">中部電力</div>
+<p class="description">電力、ガスと関連エネルギーサービス。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:9503">
+<div class="ticker"><b>9503</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">関西電力</div>
+<p class="description">電力供給と関連地域公共サービス。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:9531">
+<div class="ticker"><b>9531</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">東京瓦斯</div>
+<p class="description">都市ガスと関連エネルギー供給。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:9532">
+<div class="ticker"><b>9532</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">大阪瓦斯</div>
+<p class="description">都市ガスと関連エネルギー供給。</p></article>
+</div></section>
+<section class="card" data-group="80_C">
+<header><span class="code">80_C</span><span class="count">2</span></header>
+<h3>METALS AND MINING</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="TSE:5401">
+<div class="ticker"><b>5401</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">日本製鉄</div>
+<p class="description">鉄鋼製造と販売。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:5713">
+<div class="ticker"><b>5713</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">住友金属鉱山</div>
+<p class="description">非鉄資源・製錬と電池・機能材料。</p></article>
+</div></section>
+<section class="card" data-group="80_D">
+<header><span class="code">80_D</span><span class="count">8</span></header>
+<h3>CHEMICALS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="TSE:3402">
+<div class="ticker"><b>3402</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">東レ</div>
+<p class="description">繊維、樹脂と工業材料。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:3407">
+<div class="ticker"><b>3407</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">旭化成</div>
+<p class="description">工業素材・住宅・医療等の複合グループ。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:4004">
+<div class="ticker"><b>4004</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">レゾナック・ホールディングス</div>
+<p class="description">化学と関連材料製品。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:4063">
+<div class="ticker"><b>4063</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">信越化学工業</div>
+<p class="description">工業化学と関連材料。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:4091">
+<div class="ticker"><b>4091</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">日本酸素ホールディングス</div>
+<p class="description">産業ガスと関連装置。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:4188">
+<div class="ticker"><b>4188</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">三菱ケミカルグループ</div>
+<p class="description">化学を核とする事業グループ。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:4612">
+<div class="ticker"><b>4612</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">日本ペイントホールディングス</div>
+<p class="description">塗料とファインケミカル。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:6988">
+<div class="ticker"><b>6988</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">日東電工</div>
+<p class="description">粘着材料、光学フィルムと関連機能材料。</p></article>
+</div></section>
+<section class="card" data-group="90_D">
+<header><span class="code">90_D</span><span class="count">3</span></header>
+<h3>PROPERTY DEVELOPERS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="TSE:8801">
+<div class="ticker"><b>8801</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">三井不動産</div>
+<p class="description">不動産の開発・賃貸と関連運営。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:8802">
+<div class="ticker"><b>8802</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">三菱地所</div>
+<p class="description">不動産の開発・賃貸と関連運営。</p></article>
+<article class="entry" data-kind="member" data-ticker="TSE:8830">
+<div class="ticker"><b>8830</b><small>TSE</small>
+<span class="role">テーマ主導銘柄 (THEME_LEADER)</span></div>
+<div class="name">住友不動産</div>
+<p class="description">不動産の開発・賃貸と関連運営。</p></article>
+</div></section>
+</div>
+<h2 class="section-title">参考指標</h2>
+<div class="grid">
+<section class="card" data-group="00_A">
+<header><span class="code">00_A</span><span class="count">2</span></header>
+<h3>BROAD MARKET ETF</h3><div class="entries">
+<article class="entry" data-kind="reference" data-ticker="TSE:1306">
+<div class="ticker"><b>1306</b><small>TSE</small>
+<span class="role">etf</span></div>
+<p class="description">Traded ETF tracking TOPIX; fund price is not the direct index.</p></article>
+<article class="entry" data-kind="reference" data-ticker="TSE:1321">
+<div class="ticker"><b>1321</b><small>TSE</small>
+<span class="role">etf</span></div>
+<p class="description">Traded ETF tracking Nikkei 225; fund price is not the direct index.</p></article>
+</div></section>
+</div>
+<details class="notes">
+<summary>調査の注記と限界</summary><ul>
+<li>Business profiles and standardized financial fields read on 2026-10-07. Fiscal periods unspecified by provider; no period inferred.</li>
+<li>Listing status verified on 2026-09-29; measured prices end 2026-09-28. Rebuild does not refresh prices.</li>
+<li>Only liquidity is reused. Old factor metrics are omitted because business assignments were reviewed; old price gauges do not certify the new duties.</li>
+<li>Major operating-business representative judgement uses read business profiles and financial facts; comparative market-share and every issuer filing are not independently audited. Negative income and cash flow remain explicitly disclosed.</li>
+<li>This scoped Medium example demonstrates contracts and broad economic duties, not an exhaustive census of all market leaders.</li>
+</ul></details>
+<footer>調査の注記と限界 · <a href="jp-medium-2026-10-07.json" download>JSON</a> · <a href="jp-medium-2026-10-07.validation.json" download>検証</a></footer>
+</main></body></html>

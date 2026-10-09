@@ -1,0 +1,828 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>HK 標的池 · Medium</title>
+<style>/* Self-contained report, readable without a network connection. */
+:root { color-scheme: dark; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+  "Noto Sans", "PingFang SC", "Microsoft YaHei", sans-serif; }
+* { box-sizing: border-box; }
+body { margin: 0; background: #090d13; color: #edf3fa; }
+main { width: 940px; max-width: 100%; margin: auto; padding: 34px 30px; }
+.brand { color: #d4deeb; font-size: 13px; letter-spacing: .04em; }
+.brand span { color: #8da0b8; }
+.hero { display: flex; align-items: center; justify-content: space-between;
+  gap: 14px; margin-top: 24px; }
+.hero > div { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+h1 { font-size: 32px; line-height: 1.2; letter-spacing: -.03em; margin: 0; }
+.profile, .verdict { border: 1px solid #34435a; border-radius: 6px; padding: 5px 9px;
+  font-size: 12px; font-weight: 600; white-space: nowrap; }
+.profile { color: #a9cfff; background: #14233b; }
+.verdict.pass { color: #8adebd; background: #10251f; border-color: #285340; }
+.verdict.partial, .notice.partial { color: #f1cd85; border-color: #765e33; }
+.verdict.fail { color: #ffb1b1; border-color: #874545; }
+.meta { color: #a4b5ca; font-size: 13px; line-height: 1.6; overflow-wrap: anywhere; }
+code, .code { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
+a { color: #a9cfff; text-decoration: none; }
+a:hover { text-decoration: underline; }
+a:focus-visible, summary:focus-visible { outline: 2px solid #79b8ff; outline-offset: 4px; }
+.files { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0; }
+.files a { padding: 7px 11px; border: 1px solid #2a3545; border-radius: 6px; font-size: 13px; }
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); background: #101721;
+  border: 1px solid #2a3545; border-radius: 10px; margin-bottom: 24px; }
+.stats > div { padding: 17px 18px; border-right: 1px solid #2a3545; }
+.stats > div:last-child { border-right: 0; }
+.stats strong { display: block; font-size: 27px; font-weight: 650; }
+.stats span { display: block; color: #a4b5ca; font-size: 12px; margin-top: 5px; }
+.section-title { font-size: 18px; margin: 26px 0 14px; font-weight: 600; }
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start; gap: 14px; }
+.card { --accent: #79b8ff; background: #101721; border: 1px solid #2a3545;
+  border-top: 2px solid var(--accent); border-radius: 9px; padding: 18px 19px 4px; }
+.card:nth-child(4n+2) { --accent: #b69cff; }
+.card:nth-child(4n+3) { --accent: #67d8ce; }
+.card:nth-child(4n+4) { --accent: #e7bb76; }
+.card header { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.code { color: var(--accent); font-size: 12px; }
+.count { color: #bccada; font-size: 12px; border: 1px solid #34435a;
+  border-radius: 4px; min-width: 24px; padding: 2px 6px; text-align: center; }
+h3 { font-size: 16px; font-weight: 650; line-height: 1.4; margin: 10px 0 16px;
+  overflow-wrap: anywhere; }
+.entry { border-top: 1px solid #263243; padding: 13px 0; overflow-wrap: anywhere; }
+.ticker { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.ticker b { font-size: 17px; letter-spacing: .01em; }
+.ticker small { font-size: 11px; color: #8da0b8; }
+.role { color: #9bacbf; font-size: 10px; margin-left: auto; }
+.name { color: #c0cede; font-size: 12px; line-height: 1.5; margin-top: 4px; }
+.description { color: #b7c5d8; font-size: 15px; line-height: 1.55; margin: 6px 0 0; }
+.added { display: inline-block; font-size: 11px; color: #8adebd; margin-top: 5px; }
+.notice, .notes { background: #101721; border: 1px solid #3b4757; border-radius: 8px;
+  padding: 15px 18px; margin: 18px 0; font-size: 13px; line-height: 1.6; overflow-wrap: anywhere; }
+.notice h2 { font-size: 14px; margin: 0; }
+.notice ul, .notes ul { padding-left: 20px; margin-bottom: 0; }
+.notes li + li { margin-top: 8px; }
+summary { cursor: pointer; color: #c0cede; }
+.expansion { font-size: 14px; color: #8adebd; }
+footer { border-top: 1px solid #2a3545; margin-top: 28px; padding-top: 18px;
+  font-size: 12px; line-height: 1.6; color: #8da0b8; }
+@media (max-width: 620px) {
+  main { padding: 24px 16px; }
+  h1 { font-size: 26px; }
+  .hero { align-items: start; flex-direction: column; }
+  .grid { grid-template-columns: 1fr; }
+  .stats { grid-template-columns: repeat(2, 1fr); }
+  .stats > div:nth-child(2) { border-right: 0; }
+  .stats > div:nth-child(-n+2) { border-bottom: 1px solid #2a3545; }
+  .card { padding: 16px 17px 3px; }
+}
+</style></head><body><main>
+<div class="brand">ticker-universe-builder <span>/ universe report</span></div>
+<header class="hero"><div>
+<h1>HK 標的池</h1><span class="profile">標準檔</span>
+</div>
+<span class="verdict pass">校驗 · PASS</span></header>
+<p class="meta">事實截至 2026-10-08 · <code>7607ca5b7f72</code></p>
+<nav class="files" aria-label="Artifacts">
+<a href="hk-medium-2026-10-08.zh-Hant.md" download>Markdown</a>
+<a href="hk-medium-2026-10-08.txt" download>TradingView TXT</a>
+<a href="hk-medium-2026-10-08.json" download>JSON</a>
+<a href="hk-medium-2026-10-08.validation.json" download>校驗</a>
+</nav>
+<div class="stats">
+<div><strong>123</strong><span>標的數</span></div>
+<div><strong>2</strong><span>參考工具</span></div>
+<div><strong>22</strong><span>主題數</span></div>
+<div><strong>125</strong><span>匯出標的</span></div>
+</div>
+<h2 class="section-title">成員</h2>
+<div class="grid">
+<section class="card" data-group="10_A">
+<header><span class="code">10_A</span><span class="count">5</span></header>
+<h3>INTERNET PLATFORMS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="HKEX:3690">
+<div class="ticker"><b>3690</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">美團點評－Ｗ</div>
+<p class="description">外賣與到店服務平台，連接本地商家和消費需求。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:700">
+<div class="ticker"><b>700</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">騰訊控股</div>
+<p class="description">社交、遊戲與金融科技平台，連接內容和支付生態。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:9618">
+<div class="ticker"><b>9618</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">京東集團－ＳＷ</div>
+<p class="description">自營電商與物流履約，補充平台型電商的供應鏈視角。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:9888">
+<div class="ticker"><b>9888</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">百度集團－ＳＷ</div>
+<p class="description">搜尋與線上營銷服務，提供廣告和人工智能應用視角。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:9988">
+<div class="ticker"><b>9988</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">阿里巴巴－ＳＷ</div>
+<p class="description">電商與雲計算平台，連接商家、消費者與企業需求。</p></article>
+</div></section>
+<section class="card" data-group="10_H">
+<header><span class="code">10_H</span><span class="count">7</span></header>
+<h3>HARDWARE COMPONENTS AND FOUNDRIES</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="HKEX:1347">
+<div class="ticker"><b>1347</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">華虹半導體</div>
+<p class="description">晶圓製造與工藝技術，補充特色代工供應。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:1810">
+<div class="ticker"><b>1810</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">小米集團－Ｗ</div>
+<p class="description">智能手機與智能硬件，連接消費電子產品生態。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:2018">
+<div class="ticker"><b>2018</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">瑞聲科技</div>
+<p class="description">微型聲學與精密零件，補充消費電子核心組件。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:2382">
+<div class="ticker"><b>2382</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">舜宇光學科技</div>
+<p class="description">光學零件與鏡頭模組，提供影像硬件供應鏈視角。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:285">
+<div class="ticker"><b>285</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">比亞迪電子</div>
+<p class="description">手機零件、模組與裝配，提供電子製造服務視角。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:981">
+<div class="ticker"><b>981</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">中芯國際</div>
+<p class="description">晶圓代工與工藝服務，提供半導體製造視角。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:992">
+<div class="ticker"><b>992</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">聯想集團</div>
+<p class="description">個人電腦、智能設備與企業基礎設施。</p></article>
+</div></section>
+<section class="card" data-group="20_B">
+<header><span class="code">20_B</span><span class="count">4</span></header>
+<h3>TELECOM OPERATORS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="HKEX:6823">
+<div class="ticker"><b>6823</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">香港電訊－ＳＳ</div>
+<p class="description">香港固網與移動通信，提供本地連接服務視角。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:728">
+<div class="ticker"><b>728</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">中國電信</div>
+<p class="description">固網、移動通信與企業信息服務。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:762">
+<div class="ticker"><b>762</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">中國聯通</div>
+<p class="description">移動、寬帶與數據服務，補充通信網絡競爭格局。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:941">
+<div class="ticker"><b>941</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">中國移動</div>
+<p class="description">移動通信與算力服務，提供大型通信網絡視角。</p></article>
+</div></section>
+<section class="card" data-group="20_C">
+<header><span class="code">20_C</span><span class="count">5</span></header>
+<h3>SOFTWARE GAMES AND ONLINE CONTENT</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="HKEX:1024">
+<div class="ticker"><b>1024</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">快手－Ｗ</div>
+<p class="description">短視頻、直播與線上營銷，連接內容和商業化需求。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:2400">
+<div class="ticker"><b>2400</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">心動公司</div>
+<p class="description">遊戲研發與TapTap平台，連接遊戲內容和分發。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:3888">
+<div class="ticker"><b>3888</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">金山軟件</div>
+<p class="description">辦公軟件與遊戲業務，提供企業工具和內容雙重視角。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:9626">
+<div class="ticker"><b>9626</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">嗶哩嗶哩－Ｗ</div>
+<p class="description">視頻社區與內容服務，提供用戶內容和廣告視角。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:9999">
+<div class="ticker"><b>9999</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">網易－Ｓ</div>
+<p class="description">自研與營運遊戲，提供內容IP與長期玩家需求視角。</p></article>
+</div></section>
+<section class="card" data-group="20_E">
+<header><span class="code">20_E</span><span class="count">4</span></header>
+<h3>MACAU GAMING</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="HKEX:1128">
+<div class="ticker"><b>1128</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">永利澳門</div>
+<p class="description">澳門酒店與賭場營運，補充高端度假消費。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:1928">
+<div class="ticker"><b>1928</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">金沙中國有限公司</div>
+<p class="description">澳門博彩、酒店與會展，補充綜合度假村業務。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:2282">
+<div class="ticker"><b>2282</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">美高梅中國</div>
+<p class="description">澳門博彩與住宿度假村，補充博彩市場競爭。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:27">
+<div class="ticker"><b>27</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">銀河娛樂</div>
+<p class="description">澳門博彩與酒店服務，提供綜合度假村需求視角。</p></article>
+</div></section>
+<section class="card" data-group="30_A">
+<header><span class="code">30_A</span><span class="count">3</span></header>
+<h3>HOME PRODUCTS AND POWER TOOLS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="HKEX:1070">
+<div class="ticker"><b>1070</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">ＴＣＬ電子</div>
+<p class="description">電視與多媒體電子產品，補充顯示終端需求。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:1999">
+<div class="ticker"><b>1999</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">敏華控股</div>
+<p class="description">沙發、床墊與家具，提供家居耐用品需求視角。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:669">
+<div class="ticker"><b>669</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">創科實業</div>
+<p class="description">電動工具與地板清潔設備，提供家居和專業工具視角。</p></article>
+</div></section>
+<section class="card" data-group="30_B">
+<header><span class="code">30_B</span><span class="count">5</span></header>
+<h3>FOOD BEVERAGES AND HOUSEHOLD PRODUCTS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="HKEX:1044">
+<div class="ticker"><b>1044</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">恒安國際</div>
+<p class="description">衛生巾、紙尿褲與紙巾，提供生活必需品視角。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:1876">
+<div class="ticker"><b>1876</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">百威亞太</div>
+<p class="description">亞太啤酒釀造與分銷，補充飲料品牌和渠道。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:2319">
+<div class="ticker"><b>2319</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">蒙牛乳業</div>
+<p class="description">乳品製造與分銷，補充乳製品消費需求。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:291">
+<div class="ticker"><b>291</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">華潤啤酒</div>
+<p class="description">啤酒製造與分銷，提供品牌飲料需求視角。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:322">
+<div class="ticker"><b>322</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">康師傅控股</div>
+<p class="description">方便麵與飲料，提供日常包裝食品需求視角。</p></article>
+</div></section>
+<section class="card" data-group="30_C">
+<header><span class="code">30_C</span><span class="count">5</span></header>
+<h3>RESTAURANTS AND TRAVEL SERVICES</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="HKEX:1179">
+<div class="ticker"><b>1179</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">華住集團－Ｓ</div>
+<p class="description">酒店營運，補充住宿需求和房價週期。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:6862">
+<div class="ticker"><b>6862</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">海底撈</div>
+<p class="description">火鍋餐廳與配送，補充餐飲客流和門店運營。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:780">
+<div class="ticker"><b>780</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">同程藝龍</div>
+<p class="description">交通票務與酒店預訂，補充線上旅遊分銷渠道。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:9961">
+<div class="ticker"><b>9961</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">攜程集團－Ｓ</div>
+<p class="description">酒店、交通與旅遊預訂平台，連接出行需求。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:9987">
+<div class="ticker"><b>9987</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">百勝中國</div>
+<p class="description">連鎖餐飲與加盟，提供快餐門店需求視角。</p></article>
+</div></section>
+<section class="card" data-group="30_D">
+<header><span class="code">30_D</span><span class="count">5</span></header>
+<h3>APPAREL BRANDS AND JEWELRY</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="HKEX:1910">
+<div class="ticker"><b>1910</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">新秀麗</div>
+<p class="description">行李箱、背包與旅遊用品，補充出行消費。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:1929">
+<div class="ticker"><b>1929</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">周大福</div>
+<p class="description">珠寶製造與零售，提供金飾和可選消費視角。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:2020">
+<div class="ticker"><b>2020</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">安踏體育</div>
+<p class="description">運動鞋服與品牌零售，提供體育消費需求視角。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:2313">
+<div class="ticker"><b>2313</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">申洲國際</div>
+<p class="description">針織服裝製造，提供品牌服裝供應鏈視角。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:2331">
+<div class="ticker"><b>2331</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">李寧</div>
+<p class="description">運動鞋服與裝備，補充本土體育品牌。</p></article>
+</div></section>
+<section class="card" data-group="30_E">
+<header><span class="code">30_E</span><span class="count">7</span></header>
+<h3>VEHICLES AND COMPONENTS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="HKEX:1211">
+<div class="ticker"><b>1211</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">比亞迪股份</div>
+<p class="description">新能源汽車、電池與電子業務，連接整車和供應鏈。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:175">
+<div class="ticker"><b>175</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">吉利汽車</div>
+<p class="description">乘用車與汽車零件，提供整車產品和銷售視角。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:2015">
+<div class="ticker"><b>2015</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">理想汽車－Ｗ</div>
+<p class="description">智能電動汽車，補充家庭用車產品競爭。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:2333">
+<div class="ticker"><b>2333</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">長城汽車</div>
+<p class="description">SUV、皮卡與乘用車，補充汽車產品結構。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:3808">
+<div class="ticker"><b>3808</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">中國重汽</div>
+<p class="description">重卡、客車與總成零件，補充商用車需求。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:9866">
+<div class="ticker"><b>9866</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">蔚來－ＳＷ</div>
+<p class="description">智能電動汽車與品牌服務，補充電動車產品生態。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:9868">
+<div class="ticker"><b>9868</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">小鵬汽車－Ｗ</div>
+<p class="description">智能電動汽車與相關服務，補充新能源整車競爭。</p></article>
+</div></section>
+<section class="card" data-group="40_A">
+<header><span class="code">40_A</span><span class="count">8</span></header>
+<h3>BANKS NATIONAL AND LOCAL</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="HKEX:1288">
+<div class="ticker"><b>1288</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">農業銀行</div>
+<p class="description">企業與個人銀行，提供農業相關信貸視角。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:1398">
+<div class="ticker"><b>1398</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">工商銀行</div>
+<p class="description">企業與個人銀行，提供信貸與資金業務視角。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:23">
+<div class="ticker"><b>23</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">東亞銀行</div>
+<p class="description">個人、企業與財富銀行，補充香港本地銀行服務。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:2388">
+<div class="ticker"><b>2388</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">中銀香港</div>
+<p class="description">香港本地銀行與人民幣清算，提供跨境金融視角。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:3968">
+<div class="ticker"><b>3968</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">招商銀行</div>
+<p class="description">零售、企業銀行與財富服務，補充銀行業務結構。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:3988">
+<div class="ticker"><b>3988</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">中國銀行</div>
+<p class="description">商業銀行與跨境金融，補充國際結算和資金需求。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:5">
+<div class="ticker"><b>5</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">匯豐控股</div>
+<p class="description">跨境與本地銀行服務，連接香港和國際金融需求。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:939">
+<div class="ticker"><b>939</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">建設銀行</div>
+<p class="description">企業與個人銀行、資金業務，提供大型銀行視角。</p></article>
+</div></section>
+<section class="card" data-group="40_C">
+<header><span class="code">40_C</span><span class="count">3</span></header>
+<h3>EXCHANGES AND SECURITIES</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="HKEX:388">
+<div class="ticker"><b>388</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">香港交易所</div>
+<p class="description">股票、衍生品與商品交易所，連接融資和交易活動。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:3908">
+<div class="ticker"><b>3908</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">中金公司</div>
+<p class="description">投行與股票、固收服務，補充機構資本市場需求。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:6030">
+<div class="ticker"><b>6030</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">中信証券</div>
+<p class="description">證券經紀、投行與資產管理，提供資本市場服務視角。</p></article>
+</div></section>
+<section class="card" data-group="40_D">
+<header><span class="code">40_D</span><span class="count">6</span></header>
+<h3>LIFE AND PROPERTY INSURANCE</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="HKEX:1299">
+<div class="ticker"><b>1299</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">友邦保險</div>
+<p class="description">亞洲壽險與保障產品，提供保險需求和保費視角。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:2318">
+<div class="ticker"><b>2318</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">中國平安</div>
+<p class="description">壽險、財險與金融服務，提供綜合保險集團視角。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:2328">
+<div class="ticker"><b>2328</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">中國財險</div>
+<p class="description">車險與商業財險，提供非壽險承保視角。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:2601">
+<div class="ticker"><b>2601</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">中國太保</div>
+<p class="description">壽險與財險，補充保障產品和承保結構。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:2628">
+<div class="ticker"><b>2628</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">中國人壽</div>
+<p class="description">壽險、年金與健康保障，提供長期保險需求視角。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:6060">
+<div class="ticker"><b>6060</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">眾安在綫</div>
+<p class="description">線上財險與保險科技，補充數字化承保渠道。</p></article>
+</div></section>
+<section class="card" data-group="50_A">
+<header><span class="code">50_A</span><span class="count">6</span></header>
+<h3>PHARMACEUTICALS AND BIOTECH</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="HKEX:1093">
+<div class="ticker"><b>1093</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">石藥集團</div>
+<p class="description">成藥與原料產品，提供藥品生產和商業化視角。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:1177">
+<div class="ticker"><b>1177</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">中國生物製藥</div>
+<p class="description">化學藥與中藥產品，補充商用藥品業務。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:1801">
+<div class="ticker"><b>1801</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">信達生物－Ｂ</div>
+<p class="description">創新藥研發、製造與商業化，提供生物製藥視角。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:2186">
+<div class="ticker"><b>2186</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">綠葉製藥</div>
+<p class="description">腫瘤、心血管等藥品研發與銷售，補充治療領域。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:3692">
+<div class="ticker"><b>3692</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">翰森製藥</div>
+<p class="description">藥品研發、生產與銷售，補充腫瘤等治療領域。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:9926">
+<div class="ticker"><b>9926</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">康方生物</div>
+<p class="description">生物製藥研發與產品商業化，補充創新藥供應。</p></article>
+</div></section>
+<section class="card" data-group="50_E">
+<header><span class="code">50_E</span><span class="count">5</span></header>
+<h3>DRUG SERVICES AND DISTRIBUTION</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="HKEX:1099">
+<div class="ticker"><b>1099</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">國藥控股</div>
+<p class="description">藥品與醫療產品分銷，提供醫藥供應鏈需求視角。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:2269">
+<div class="ticker"><b>2269</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">藥明生物</div>
+<p class="description">生物藥發現、開發與生產服務，提供CDMO視角。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:2359">
+<div class="ticker"><b>2359</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">藥明康德</div>
+<p class="description">藥物研發與生產服務，連接新藥開發和外包需求。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:3320">
+<div class="ticker"><b>3320</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">華潤醫藥</div>
+<p class="description">藥品製造、分銷與零售，補充醫藥供應鏈。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:3759">
+<div class="ticker"><b>3759</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">康龍化成</div>
+<p class="description">藥物發現、開發與生產服務，補充研發外包流程。</p></article>
+</div></section>
+<section class="card" data-group="60_C">
+<header><span class="code">60_C</span><span class="count">5</span></header>
+<h3>SHIPPING PORTS AND TRANSPORT</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="HKEX:1199">
+<div class="ticker"><b>1199</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">中遠海運港口</div>
+<p class="description">港口碼頭營運與管理，補充物流基礎設施。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:1519">
+<div class="ticker"><b>1519</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">極兔速遞－Ｗ</div>
+<p class="description">快遞與物流服務，補充跨區域電商履約。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:293">
+<div class="ticker"><b>293</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">國泰航空</div>
+<p class="description">航空客貨運與相關服務，提供航空需求視角。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:316">
+<div class="ticker"><b>316</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">東方海外國際</div>
+<p class="description">集裝箱運輸與物流，提供海運運價週期視角。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:66">
+<div class="ticker"><b>66</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">港鐵公司</div>
+<p class="description">鐵路運營與車站商業，提供公共交通與地產聯動視角。</p></article>
+</div></section>
+<section class="card" data-group="60_E">
+<header><span class="code">60_E</span><span class="count">8</span></header>
+<h3>EQUIPMENT CONSTRUCTION AND INFRASTRUCTURE</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="HKEX:1">
+<div class="ticker"><b>1</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">長和</div>
+<p class="description">港口、零售、基建與通信，提供多元控股視角。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:1038">
+<div class="ticker"><b>1038</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">長江基建集團</div>
+<p class="description">電力與基建資產投資，補充長期基礎設施視角。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:1766">
+<div class="ticker"><b>1766</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">中國中車</div>
+<p class="description">軌道交通設備與服務，提供鐵路裝備需求視角。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:1800">
+<div class="ticker"><b>1800</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">中國交通建設</div>
+<p class="description">基建施工、設計與疏浚，提供工程投資視角。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:267">
+<div class="ticker"><b>267</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">中信股份</div>
+<p class="description">金融、製造與資源業務，提供綜合企業視角。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:3311">
+<div class="ticker"><b>3311</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">中國建築國際</div>
+<p class="description">建築與基建投資服務，補充工程承包需求。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:390">
+<div class="ticker"><b>390</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">中國中鐵</div>
+<p class="description">基建施工、設計與工程設備，補充鐵路工程需求。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:631">
+<div class="ticker"><b>631</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">三一國際</div>
+<p class="description">礦山與物流設備，補充工業機械投資。</p></article>
+</div></section>
+<section class="card" data-group="70_A">
+<header><span class="code">70_A</span><span class="count">6</span></header>
+<h3>OIL GAS SERVICES AND COAL</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="HKEX:1088">
+<div class="ticker"><b>1088</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">中國神華</div>
+<p class="description">煤炭、電力與配套運輸，提供煤電產業鏈視角。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:1898">
+<div class="ticker"><b>1898</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">中煤能源</div>
+<p class="description">煤炭、煤化工與相關設備，補充煤炭產業需求。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:2883">
+<div class="ticker"><b>2883</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">中海油田服務</div>
+<p class="description">海上鑽井與油田技術服務，補充能源開發支出。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:386">
+<div class="ticker"><b>386</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">中國石油化工股份</div>
+<p class="description">煉油、化工與油氣業務，補充下游能源需求。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:857">
+<div class="ticker"><b>857</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">中國石油股份</div>
+<p class="description">油氣開採、煉化與銷售，提供綜合能源視角。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:883">
+<div class="ticker"><b>883</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">中國海洋石油</div>
+<p class="description">石油天然氣勘探與生產，提供上游資源視角。</p></article>
+</div></section>
+<section class="card" data-group="80_B">
+<header><span class="code">80_B</span><span class="count">7</span></header>
+<h3>POWER AND GAS UTILITIES</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="HKEX:1193">
+<div class="ticker"><b>1193</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">華潤燃氣</div>
+<p class="description">燃氣供應與分銷，補充城市能源需求。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:2">
+<div class="ticker"><b>2</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">中電控股</div>
+<p class="description">發電與電力供應，提供公用事業需求視角。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:2380">
+<div class="ticker"><b>2380</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">中國電力</div>
+<p class="description">電廠開發與營運，補充火電、水電等電源。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:2688">
+<div class="ticker"><b>2688</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">新奧能源</div>
+<p class="description">管道燃氣與綜合能源服務，補充能源分銷渠道。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:3">
+<div class="ticker"><b>3</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">香港中華煤氣</div>
+<p class="description">城市燃氣及能源、水務業務，提供公用服務視角。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:6">
+<div class="ticker"><b>6</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">電能實業</div>
+<p class="description">電力與燃氣資產投資，補充能源公用事業視角。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:836">
+<div class="ticker"><b>836</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">華潤電力</div>
+<p class="description">發電資產投資與營運，提供電力生產視角。</p></article>
+</div></section>
+<section class="card" data-group="80_C">
+<header><span class="code">80_C</span><span class="count">8</span></header>
+<h3>METALS CHEMICALS AND BUILDING MATERIALS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="HKEX:1208">
+<div class="ticker"><b>1208</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">五礦資源</div>
+<p class="description">銅、鋅等金屬開採，補充基礎金屬供應。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:1313">
+<div class="ticker"><b>1313</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">華潤水泥控股</div>
+<p class="description">水泥、混凝土與骨料，補充建材供應。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:1818">
+<div class="ticker"><b>1818</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">招金礦業</div>
+<p class="description">黃金開採、加工與冶煉，補充黃金供應。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:2899">
+<div class="ticker"><b>2899</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">紫金礦業</div>
+<p class="description">金、銅等金屬開採與冶煉，提供礦業供應視角。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:3983">
+<div class="ticker"><b>3983</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">中海石油化學</div>
+<p class="description">化肥與化工產品，提供農業投入品需求視角。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:3993">
+<div class="ticker"><b>3993</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">洛陽鉬業</div>
+<p class="description">銅等金屬資源開採與加工，補充礦產品供應。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:868">
+<div class="ticker"><b>868</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">信義玻璃</div>
+<p class="description">浮法、汽車與工程玻璃，補充建築和交通材料。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:914">
+<div class="ticker"><b>914</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">海螺水泥</div>
+<p class="description">水泥、骨料與混凝土，提供建築材料需求視角。</p></article>
+</div></section>
+<section class="card" data-group="90_C">
+<header><span class="code">90_C</span><span class="count">4</span></header>
+<h3>MAINLAND PROPERTY AND SERVICES</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="HKEX:1109">
+<div class="ticker"><b>1109</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">華潤置地</div>
+<p class="description">物業開發與投資，補充內地開發和租賃業務。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:1209">
+<div class="ticker"><b>1209</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">華潤萬象生活</div>
+<p class="description">住宅物管與商場運營，提供持續物業服務視角。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:6098">
+<div class="ticker"><b>6098</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">碧桂園服務</div>
+<p class="description">物管與社區增值服務，補充住宅服務需求。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:688">
+<div class="ticker"><b>688</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">中國海外發展</div>
+<p class="description">物業開發與投資，提供內地住宅和商業地產視角。</p></article>
+</div></section>
+<section class="card" data-group="90_D">
+<header><span class="code">90_D</span><span class="count">7</span></header>
+<h3>HONG KONG PROPERTY AND REITS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="HKEX:1113">
+<div class="ticker"><b>1113</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">長實集團</div>
+<p class="description">地產開發與物業、基建資產，提供多元資產視角。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:12">
+<div class="ticker"><b>12</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">恒基地產</div>
+<p class="description">地產開發與物業投資，補充本地土地和租金需求。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:16">
+<div class="ticker"><b>16</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">新鴻基地產</div>
+<p class="description">住宅開發與租賃物業，提供香港地產需求視角。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:1972">
+<div class="ticker"><b>1972</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">太古地產</div>
+<p class="description">商業物業投資與開發，提供辦公和零售租金視角。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:1997">
+<div class="ticker"><b>1997</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">九龍倉置業</div>
+<p class="description">香港投資物業與酒店，提供核心商業物業視角。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:778">
+<div class="ticker"><b>778</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">置富產業信託</div>
+<p class="description">零售物業持有與管理，補充本地社區商場租金。</p></article>
+<article class="entry" data-kind="member" data-ticker="HKEX:823">
+<div class="ticker"><b>823</b><small>HKEX</small>
+<span class="role">主題龍頭 (THEME_LEADER)</span></div>
+<div class="name">領展房產基金</div>
+<p class="description">零售與商業物業投資，提供上市REIT租金視角。</p></article>
+</div></section>
+</div>
+<h2 class="section-title">參考工具</h2>
+<div class="grid">
+<section class="card" data-group="00_A">
+<header><span class="code">00_A</span><span class="count">2</span></header>
+<h3>BROAD MARKET ETF</h3><div class="entries">
+<article class="entry" data-kind="reference" data-ticker="HKEX:2800">
+<div class="ticker"><b>2800</b><small>HKEX</small>
+<span class="role">etf</span></div>
+<p class="description">ETF tracking the Hang Seng Index; the fund price is not the direct index.</p></article>
+<article class="entry" data-kind="reference" data-ticker="HKEX:2828">
+<div class="ticker"><b>2828</b><small>HKEX</small>
+<span class="role">etf</span></div>
+<p class="description">ETF tracking the Hang Seng China Enterprises Index; the fund price is not the direct index.</p></article>
+</div></section>
+</div>
+<details class="notes">
+<summary>研究說明與邊界</summary><ul>
+<li>主題因子使用同職責留一法籃子；不足三條有效歷史時只保留缺失診斷。</li>
+<li>供應商未提供財務期間；虧損、缺少現金流和分業風險在研究JSON逐標的披露。</li>
+<li>剔除已退市恒生銀行；中銀香港錯誤供應商簡介改用官方資料。藥明生物歸CDMO，眾安歸保險。</li>
+<li>名單為已研究範圍的主要業務代表；市場份額、全部公告及監管審計紀錄未逐一獨立查遍。</li>
+<li>業務、有效報價與財務欄位於2026-10-08在線核對；價格截至2026-10-07。</li>
+<li>流動性按本次採集母集團排序；成交額為原價乘股數代理值，並非交易所官方成交額。</li>
+</ul></details>
+<footer>研究說明與邊界 · <a href="hk-medium-2026-10-08.json" download>JSON</a> · <a href="hk-medium-2026-10-08.validation.json" download>校驗</a></footer>
+</main></body></html>

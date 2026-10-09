@@ -1,0 +1,3081 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>US Ticker Universe · Max</title>
+<style>/* Self-contained report, readable without a network connection. */
+:root { color-scheme: dark; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+  "Noto Sans", "PingFang SC", "Microsoft YaHei", sans-serif; }
+* { box-sizing: border-box; }
+body { margin: 0; background: #090d13; color: #edf3fa; }
+main { width: 940px; max-width: 100%; margin: auto; padding: 34px 30px; }
+.brand { color: #d4deeb; font-size: 13px; letter-spacing: .04em; }
+.brand span { color: #8da0b8; }
+.hero { display: flex; align-items: center; justify-content: space-between;
+  gap: 14px; margin-top: 24px; }
+.hero > div { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+h1 { font-size: 32px; line-height: 1.2; letter-spacing: -.03em; margin: 0; }
+.profile, .verdict { border: 1px solid #34435a; border-radius: 6px; padding: 5px 9px;
+  font-size: 12px; font-weight: 600; white-space: nowrap; }
+.profile { color: #a9cfff; background: #14233b; }
+.verdict.pass { color: #8adebd; background: #10251f; border-color: #285340; }
+.verdict.partial, .notice.partial { color: #f1cd85; border-color: #765e33; }
+.verdict.fail { color: #ffb1b1; border-color: #874545; }
+.meta { color: #a4b5ca; font-size: 13px; line-height: 1.6; overflow-wrap: anywhere; }
+code, .code { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
+a { color: #a9cfff; text-decoration: none; }
+a:hover { text-decoration: underline; }
+a:focus-visible, summary:focus-visible { outline: 2px solid #79b8ff; outline-offset: 4px; }
+.files { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0; }
+.files a { padding: 7px 11px; border: 1px solid #2a3545; border-radius: 6px; font-size: 13px; }
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); background: #101721;
+  border: 1px solid #2a3545; border-radius: 10px; margin-bottom: 24px; }
+.stats > div { padding: 17px 18px; border-right: 1px solid #2a3545; }
+.stats > div:last-child { border-right: 0; }
+.stats strong { display: block; font-size: 27px; font-weight: 650; }
+.stats span { display: block; color: #a4b5ca; font-size: 12px; margin-top: 5px; }
+.section-title { font-size: 18px; margin: 26px 0 14px; font-weight: 600; }
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start; gap: 14px; }
+.card { --accent: #79b8ff; background: #101721; border: 1px solid #2a3545;
+  border-top: 2px solid var(--accent); border-radius: 9px; padding: 18px 19px 4px; }
+.card:nth-child(4n+2) { --accent: #b69cff; }
+.card:nth-child(4n+3) { --accent: #67d8ce; }
+.card:nth-child(4n+4) { --accent: #e7bb76; }
+.card header { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.code { color: var(--accent); font-size: 12px; }
+.count { color: #bccada; font-size: 12px; border: 1px solid #34435a;
+  border-radius: 4px; min-width: 24px; padding: 2px 6px; text-align: center; }
+h3 { font-size: 16px; font-weight: 650; line-height: 1.4; margin: 10px 0 16px;
+  overflow-wrap: anywhere; }
+.entry { border-top: 1px solid #263243; padding: 13px 0; overflow-wrap: anywhere; }
+.ticker { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.ticker b { font-size: 17px; letter-spacing: .01em; }
+.ticker small { font-size: 11px; color: #8da0b8; }
+.role { color: #9bacbf; font-size: 10px; margin-left: auto; }
+.name { color: #c0cede; font-size: 12px; line-height: 1.5; margin-top: 4px; }
+.description { color: #b7c5d8; font-size: 15px; line-height: 1.55; margin: 6px 0 0; }
+.added { display: inline-block; font-size: 11px; color: #8adebd; margin-top: 5px; }
+.notice, .notes { background: #101721; border: 1px solid #3b4757; border-radius: 8px;
+  padding: 15px 18px; margin: 18px 0; font-size: 13px; line-height: 1.6; overflow-wrap: anywhere; }
+.notice h2 { font-size: 14px; margin: 0; }
+.notice ul, .notes ul { padding-left: 20px; margin-bottom: 0; }
+.notes li + li { margin-top: 8px; }
+summary { cursor: pointer; color: #c0cede; }
+.expansion { font-size: 14px; color: #8adebd; }
+footer { border-top: 1px solid #2a3545; margin-top: 28px; padding-top: 18px;
+  font-size: 12px; line-height: 1.6; color: #8da0b8; }
+@media (max-width: 620px) {
+  main { padding: 24px 16px; }
+  h1 { font-size: 26px; }
+  .hero { align-items: start; flex-direction: column; }
+  .grid { grid-template-columns: 1fr; }
+  .stats { grid-template-columns: repeat(2, 1fr); }
+  .stats > div:nth-child(2) { border-right: 0; }
+  .stats > div:nth-child(-n+2) { border-bottom: 1px solid #2a3545; }
+  .card { padding: 16px 17px 3px; }
+}
+</style></head><body><main>
+<div class="brand">ticker-universe-builder <span>/ universe report</span></div>
+<header class="hero"><div>
+<h1>US Ticker Universe</h1><span class="profile">Max</span>
+</div>
+<span class="verdict pass">Validation · PASS</span></header>
+<p class="meta">Facts as of 2026-10-08 · <code>a31cfe9d5a09</code></p>
+<nav class="files" aria-label="Artifacts">
+<a href="us-max-2026-10-08.en.md" download>Markdown</a>
+<a href="us-max-2026-10-08.txt" download>TradingView TXT</a>
+<a href="us-max-2026-10-08.json" download>JSON</a>
+<a href="us-max-2026-10-08.validation.json" download>Validation</a>
+</nav>
+<div class="stats">
+<div><strong>481</strong><span>Tickers</span></div>
+<div><strong>44</strong><span>Reference instruments</span></div>
+<div><strong>59</strong><span>Themes</span></div>
+<div><strong>525</strong><span>Export symbols</span></div>
+</div>
+<p class="expansion">Heavy → Max · 370 → 481 · +111 Beta (30.0%)</p>
+<h2 class="section-title">Members</h2>
+<div class="grid">
+<section class="card" data-group="10_A">
+<header><span class="code">10_A</span><span class="count">19</span></header>
+<h3>COMPUTE HARDWARE SYSTEMS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="NASDAQ:AAOI">
+<div class="ticker"><b>AAOI</b><small>NASDAQ</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Applied Optoelectronics, Inc.</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Optical devices and communications products, including lasers, modules and circuitry.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:AEIS">
+<div class="ticker"><b>AEIS</b><small>NASDAQ</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Advanced Energy Industries, Inc.</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Power conversion electronics</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:ALAB">
+<div class="ticker"><b>ALAB</b><small>NASDAQ</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Astera Labs, Inc.</div>
+<p class="description">Pcie/cxl and rack-scale connectivity semiconductors.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:AMD">
+<div class="ticker"><b>AMD</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Advanced Micro Devices, Inc.</div>
+<p class="description">Cpu and gpu designs across computing markets.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:AVGO">
+<div class="ticker"><b>AVGO</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Broadcom Inc.</div>
+<p class="description">Networking/custom silicon and infrastructure software.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:FLEX">
+<div class="ticker"><b>FLEX</b><small>NASDAQ</small>
+<span class="role">ANCHOR</span></div>
+<div class="name">Flex Ltd</div>
+<p class="description">Diversified electronics manufacturing services.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:LITE">
+<div class="ticker"><b>LITE</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Lumentum Holdings, Inc.</div>
+<p class="description">Optical components and laser products.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:MRVL">
+<div class="ticker"><b>MRVL</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Marvell Technology, Inc.</div>
+<p class="description">Data-infrastructure and custom semiconductor products.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:NVDA">
+<div class="ticker"><b>NVDA</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">NVIDIA Corporation</div>
+<p class="description">Accelerated computing platforms and the cuda software ecosystem.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:PENG">
+<div class="ticker"><b>PENG</b><small>NASDAQ</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Penguin Solutions Incorporation</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Advanced computing solutions and integrated memory</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:SMCI">
+<div class="ticker"><b>SMCI</b><small>NASDAQ</small>
+<span class="role">ANCHOR</span></div>
+<div class="name">Super Micro Computer, Inc.</div>
+<p class="description">Customised servers and rack-scale integration.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:VICR">
+<div class="ticker"><b>VICR</b><small>NASDAQ</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Vicor Corporation</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Modular power converters</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:CLS">
+<div class="ticker"><b>CLS</b><small>NYSE</small>
+<span class="role">ANCHOR</span></div>
+<div class="name">Celestica Inc.</div>
+<p class="description">Electronics manufacturing with communication infrastructure exposure.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:COHR">
+<div class="ticker"><b>COHR</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Coherent Corp.</div>
+<p class="description">Lasers, optical materials and communications components.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:DELL">
+<div class="ticker"><b>DELL</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Dell Technologies, Inc. Class C</div>
+<p class="description">Enterprise servers, storage and personal computing.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:FN">
+<div class="ticker"><b>FN</b><small>NYSE</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Fabrinet</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Optical packaging and precision optical/electromechanical manufacturing services for OEMs.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:HPE">
+<div class="ticker"><b>HPE</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Hewlett Packard Enterprise Co.</div>
+<p class="description">Enterprise servers, networking and infrastructure services.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:IONQ">
+<div class="ticker"><b>IONQ</b><small>NYSE</small>
+<span class="role">ANCHOR</span></div>
+<div class="name">IonQ, Inc.</div>
+<p class="description">Trapped-ion quantum computing systems and services.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:JBL">
+<div class="ticker"><b>JBL</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Jabil Inc.</div>
+<p class="description">Electronics manufacturing and supply-chain services.</p></article>
+</div></section>
+<section class="card" data-group="10_B">
+<header><span class="code">10_B</span><span class="count">8</span></header>
+<h3>FOUNDRY IDM</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="NASDAQ:GFS">
+<div class="ticker"><b>GFS</b><small>NASDAQ</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">GlobalFoundries Inc.</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Semiconductor foundry services, including mask, post-fab and turnkey services.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:INTC">
+<div class="ticker"><b>INTC</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Intel Corporation</div>
+<p class="description">Integrated processor manufacturing and foundry transition.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:MCHP">
+<div class="ticker"><b>MCHP</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Microchip Technology Incorporated</div>
+<p class="description">Microcontrollers and embedded systems.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:ON">
+<div class="ticker"><b>ON</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">ON Semiconductor Corporation</div>
+<p class="description">Power and sensing semiconductors.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:TSEM">
+<div class="ticker"><b>TSEM</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Tower Semiconductor Ltd</div>
+<p class="description">Specialty analog wafer foundry services.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:STM">
+<div class="ticker"><b>STM</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">STMicroelectronics NV Sponsored ADR RegS</div>
+<p class="description">Automotive, industrial and power semiconductors.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:TSM">
+<div class="ticker"><b>TSM</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Taiwan Semiconductor Manufacturing Co., Ltd. Sponsored ADR</div>
+<p class="description">Independent advanced-node wafer manufacturing.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:UMC">
+<div class="ticker"><b>UMC</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">United Microelectronics Corp. Sponsored ADR</div>
+<p class="description">Mature-node wafer foundry services.</p></article>
+</div></section>
+<section class="card" data-group="10_C">
+<header><span class="code">10_C</span><span class="count">8</span></header>
+<h3>EQUIPMENT TEST</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="NASDAQ:AMAT">
+<div class="ticker"><b>AMAT</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Applied Materials, Inc.</div>
+<p class="description">Deposition and materials engineering equipment.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:ASML">
+<div class="ticker"><b>ASML</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">ASML Holding NV Sponsored ADR</div>
+<p class="description">Lithography equipment essential to wafer patterning.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:KLAC">
+<div class="ticker"><b>KLAC</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">KLA Corporation</div>
+<p class="description">Semiconductor process control and inspection.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:LRCX">
+<div class="ticker"><b>LRCX</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Lam Research Corporation</div>
+<p class="description">Wafer etch and deposition equipment.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:NVMI">
+<div class="ticker"><b>NVMI</b><small>NASDAQ</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Nova Ltd.</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Semiconductor metrology systems</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:TER">
+<div class="ticker"><b>TER</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Teradyne, Inc.</div>
+<p class="description">Automated semiconductor testing.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:ASX">
+<div class="ticker"><b>ASX</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">ASE Technology Holding Co., Ltd. Sponsored ADR</div>
+<p class="description">Outsourced semiconductor packaging and testing.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:ONTO">
+<div class="ticker"><b>ONTO</b><small>NYSE</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Onto Innovation, Inc.</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Semiconductor metrology, inspection and process-control systems</p></article>
+</div></section>
+<section class="card" data-group="10_D">
+<header><span class="code">10_D</span><span class="count">4</span></header>
+<h3>IP EDA</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="NASDAQ:ARM">
+<div class="ticker"><b>ARM</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">ARM Holdings PLC Sponsored ADR</div>
+<p class="description">Licensed processor architecture and cpu designs.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:CDNS">
+<div class="ticker"><b>CDNS</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Cadence Design Systems, Inc.</div>
+<p class="description">Electronic design automation and system design software.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:RMBS">
+<div class="ticker"><b>RMBS</b><small>NASDAQ</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Rambus Inc.</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Memory-interface chips and silicon interface/security IP</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:SNPS">
+<div class="ticker"><b>SNPS</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Synopsys, Inc.</div>
+<p class="description">Electronic design automation and semiconductor ip.</p></article>
+</div></section>
+<section class="card" data-group="10_E">
+<header><span class="code">10_E</span><span class="count">6</span></header>
+<h3>MEMORY STORAGE</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="NASDAQ:MU">
+<div class="ticker"><b>MU</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Micron Technology, Inc.</div>
+<p class="description">Us-based dram and nand manufacturing.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:NTAP">
+<div class="ticker"><b>NTAP</b><small>NASDAQ</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">NetApp, Inc.</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Enterprise storage systems, software and services across hybrid and public cloud.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:SKHY">
+<div class="ticker"><b>SKHY</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">SK hynix Inc. Sponsored ADR</div>
+<p class="description">Hbm/dram and nand manufacturing through newly listed us adrs.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:SNDK">
+<div class="ticker"><b>SNDK</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Sandisk Corporation</div>
+<p class="description">Nand-based storage devices after separation from wdc.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:STX">
+<div class="ticker"><b>STX</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Seagate Technology Holdings PLC</div>
+<p class="description">Hard-disk storage products.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:WDC">
+<div class="ticker"><b>WDC</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Western Digital Corporation</div>
+<p class="description">Hard-disk storage after its flash business separation.</p></article>
+</div></section>
+<section class="card" data-group="10_F">
+<header><span class="code">10_F</span><span class="count">8</span></header>
+<h3>ANALOG AUTO EDGE</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="NASDAQ:ADI">
+<div class="ticker"><b>ADI</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Analog Devices, Inc.</div>
+<p class="description">Precision analog and mixed-signal semiconductors.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:DIOD">
+<div class="ticker"><b>DIOD</b><small>NASDAQ</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Diodes Incorporated</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Discrete, logic, analog and power semiconductors</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:LSCC">
+<div class="ticker"><b>LSCC</b><small>NASDAQ</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Lattice Semiconductor Corporation</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Low-power programmable logic semiconductors and related software</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:MPWR">
+<div class="ticker"><b>MPWR</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Monolithic Power Systems, Inc.</div>
+<p class="description">Power-management integrated circuits.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:NXPI">
+<div class="ticker"><b>NXPI</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">NXP Semiconductors NV</div>
+<p class="description">Automotive and industrial embedded semiconductors.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:QCOM">
+<div class="ticker"><b>QCOM</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">QUALCOMM Incorporated</div>
+<p class="description">Wireless modem intellectual property and mobile chipsets.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:SWKS">
+<div class="ticker"><b>SWKS</b><small>NASDAQ</small>
+<span class="role">ANCHOR</span></div>
+<div class="name">Skyworks Solutions, Inc.</div>
+<p class="description">Radio-frequency semiconductor components.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:TXN">
+<div class="ticker"><b>TXN</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Texas Instruments Incorporated</div>
+<p class="description">Broad analog and embedded semiconductor products.</p></article>
+</div></section>
+<section class="card" data-group="11_A">
+<header><span class="code">11_A</span><span class="count">6</span></header>
+<h3>MEGACAP PLATFORMS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="NASDAQ:AAPL">
+<div class="ticker"><b>AAPL</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Apple Inc.</div>
+<p class="description">Consumer devices and the attached services ecosystem.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:AMZN">
+<div class="ticker"><b>AMZN</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Amazon.com, Inc.</div>
+<p class="description">Retail logistics, marketplace services and aws.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:GOOGL">
+<div class="ticker"><b>GOOGL</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Alphabet Inc. Class A</div>
+<p class="description">Search advertising, youtube and cloud infrastructure.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:META">
+<div class="ticker"><b>META</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Meta Platforms Inc Class A</div>
+<p class="description">Social advertising platforms and messaging networks.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:MSFT">
+<div class="ticker"><b>MSFT</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Microsoft Corporation</div>
+<p class="description">Enterprise productivity software and azure cloud.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:ORCL">
+<div class="ticker"><b>ORCL</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Oracle Corporation</div>
+<p class="description">Enterprise databases and cloud infrastructure.</p></article>
+</div></section>
+<section class="card" data-group="11_B">
+<header><span class="code">11_B</span><span class="count">8</span></header>
+<h3>ENTERPRISE AI SERVICES</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="NASDAQ:CRWV">
+<div class="ticker"><b>CRWV</b><small>NASDAQ</small>
+<span class="role">ANCHOR</span></div>
+<div class="name">CoreWeave, Inc. Class A</div>
+<p class="description">Specialised gpu cloud infrastructure.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:CTSH">
+<div class="ticker"><b>CTSH</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Cognizant Technology Solutions Corporation Class A</div>
+<p class="description">It services and business-process outsourcing.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:NBIS">
+<div class="ticker"><b>NBIS</b><small>NASDAQ</small>
+<span class="role">ANCHOR</span></div>
+<div class="name">Nebius Group N.V. Class A</div>
+<p class="description">Ai-focused cloud computing capacity.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:PLTR">
+<div class="ticker"><b>PLTR</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Palantir Technologies Inc. Class A</div>
+<p class="description">Operational data integration and analytics software.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:ACN">
+<div class="ticker"><b>ACN</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Accenture Plc Class A</div>
+<p class="description">It consulting, systems integration and managed services.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:EPAM">
+<div class="ticker"><b>EPAM</b><small>NYSE</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">EPAM Systems, Inc.</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Digital engineering, cloud and AI-enabled transformation services.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:G">
+<div class="ticker"><b>G</b><small>NYSE</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Genpact Limited</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Business-process outsourcing and technology services</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:IBM">
+<div class="ticker"><b>IBM</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">International Business Machines Corporation</div>
+<p class="description">Hybrid-cloud software, consulting and enterprise infrastructure.</p></article>
+</div></section>
+<section class="card" data-group="12_A">
+<header><span class="code">12_A</span><span class="count">10</span></header>
+<h3>NETWORK CONNECTIVITY</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="NASDAQ:BELFA">
+<div class="ticker"><b>BELFA</b><small>NASDAQ</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Bel Fuse Inc. Class A</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Power and connectivity electronic components</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:CRDO">
+<div class="ticker"><b>CRDO</b><small>NASDAQ</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Credo Technology Group Holding Ltd.</div>
+<p class="description">High-speed electrical/optical connectivity silicon.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:CSCO">
+<div class="ticker"><b>CSCO</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Cisco Systems, Inc.</div>
+<p class="description">Enterprise networking and security.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:FFIV">
+<div class="ticker"><b>FFIV</b><small>NASDAQ</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">F5, Inc.</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Multi-cloud application services through distributed cloud, NGINX, BIG-IP and systems.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:TTMI">
+<div class="ticker"><b>TTMI</b><small>NASDAQ</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">TTM Technologies, Inc.</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Printed circuit boards, RF and backplane assemblies</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:ANET">
+<div class="ticker"><b>ANET</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Arista Networks Inc</div>
+<p class="description">Data-centre ethernet switching systems.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:APH">
+<div class="ticker"><b>APH</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Amphenol Corporation Class A</div>
+<p class="description">Electrical/optical connectors and interconnect systems.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:CIEN">
+<div class="ticker"><b>CIEN</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Ciena Corporation</div>
+<p class="description">Optical networking systems.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:GLW">
+<div class="ticker"><b>GLW</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Corning Inc</div>
+<p class="description">Optical fibre, specialty glass and display materials.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:KEYS">
+<div class="ticker"><b>KEYS</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Keysight Technologies Inc</div>
+<p class="description">Electronic design, measurement and testing instruments.</p></article>
+</div></section>
+<section class="card" data-group="12_B">
+<header><span class="code">12_B</span><span class="count">7</span></header>
+<h3>POWER GRID</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="NASDAQ:AMSC">
+<div class="ticker"><b>AMSC</b><small>NASDAQ</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">American Superconductor Corporation</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Grid and wind power-control technologies</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:POWL">
+<div class="ticker"><b>POWL</b><small>NASDAQ</small>
+<span class="role">ANCHOR</span></div>
+<div class="name">Powell Industries, Inc.</div>
+<p class="description">Engineered electrical distribution systems.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:ETN">
+<div class="ticker"><b>ETN</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Eaton Corp. Plc</div>
+<p class="description">Electrical distribution and power-management equipment.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:GEV">
+<div class="ticker"><b>GEV</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">GE Vernova Inc.</div>
+<p class="description">Power-generation equipment and grid systems.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:HUBB">
+<div class="ticker"><b>HUBB</b><small>NYSE</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Hubbell Incorporated</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Electrical and utility solutions, including distribution, transmission and substation products.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:NVT">
+<div class="ticker"><b>NVT</b><small>NYSE</small>
+<span class="role">ANCHOR</span></div>
+<div class="name">nVent Electric plc</div>
+<p class="description">Electrical enclosures, connection and protection equipment.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:PWR">
+<div class="ticker"><b>PWR</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Quanta Services, Inc.</div>
+<p class="description">Utility network construction and infrastructure services.</p></article>
+</div></section>
+<section class="card" data-group="12_C">
+<header><span class="code">12_C</span><span class="count">6</span></header>
+<h3>COOLING HVAC</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="NASDAQ:AAON">
+<div class="ticker"><b>AAON</b><small>NASDAQ</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">AAON, Inc.</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Commercial HVAC equipment</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:FIX">
+<div class="ticker"><b>FIX</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Comfort Systems USA, Inc.</div>
+<p class="description">Mechanical/electrical installation for complex buildings.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:JCI">
+<div class="ticker"><b>JCI</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Johnson Controls International plc</div>
+<p class="description">Building controls and hvac systems.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:MOD">
+<div class="ticker"><b>MOD</b><small>NYSE</small>
+<span class="role">ANCHOR</span></div>
+<div class="name">Modine Manufacturing Company</div>
+<p class="description">Thermal management for industrial and data-centre applications.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:TT">
+<div class="ticker"><b>TT</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Trane Technologies plc</div>
+<p class="description">Hvac equipment and energy-efficiency services.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:VRT">
+<div class="ticker"><b>VRT</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Vertiv Holdings Co. Class A</div>
+<p class="description">Data-centre power and thermal infrastructure.</p></article>
+</div></section>
+<section class="card" data-group="13_A">
+<header><span class="code">13_A</span><span class="count">7</span></header>
+<h3>CYBERSECURITY</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="NASDAQ:CHKP">
+<div class="ticker"><b>CHKP</b><small>NASDAQ</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Check Point Software Technologies Ltd.</div>
+<span class="added">+ Added Beta</span>
+<p class="description">IT security software and hardware with Quantum, CloudGuard, Harmony and Infinity products.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:CRWD">
+<div class="ticker"><b>CRWD</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">CrowdStrike Holdings, Inc. Class A</div>
+<p class="description">Endpoint and cloud security subscriptions.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:FTNT">
+<div class="ticker"><b>FTNT</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Fortinet, Inc.</div>
+<p class="description">Network security appliances and services.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:OKTA">
+<div class="ticker"><b>OKTA</b><small>NASDAQ</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Okta, Inc. Class A</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Enterprise identity and access management software</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:PANW">
+<div class="ticker"><b>PANW</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Palo Alto Networks, Inc.</div>
+<p class="description">Integrated enterprise network and cloud security.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:ZS">
+<div class="ticker"><b>ZS</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Zscaler, Inc.</div>
+<p class="description">Cloud-based zero-trust security.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:NET">
+<div class="ticker"><b>NET</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Cloudflare Inc Class A</div>
+<p class="description">Internet edge delivery and security services.</p></article>
+</div></section>
+<section class="card" data-group="13_B">
+<header><span class="code">13_B</span><span class="count">7</span></header>
+<h3>DATA DEVOPS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="NASDAQ:DDOG">
+<div class="ticker"><b>DDOG</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Datadog, Inc. Class A</div>
+<p class="description">Cloud observability and application monitoring.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:FROG">
+<div class="ticker"><b>FROG</b><small>NASDAQ</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">JFrog Ltd.</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Hybrid DevOps platform controlling the software supply chain and software delivery.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:GTLB">
+<div class="ticker"><b>GTLB</b><small>NASDAQ</small>
+<span class="role">ANCHOR</span></div>
+<div class="name">Gitlab, Inc. Class A</div>
+<p class="description">Integrated software development and security workflows.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:MDB">
+<div class="ticker"><b>MDB</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">MongoDB, Inc. Class A</div>
+<p class="description">Database software and managed database services.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:DT">
+<div class="ticker"><b>DT</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Dynatrace, Inc.</div>
+<p class="description">Application observability and monitoring.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:ESTC">
+<div class="ticker"><b>ESTC</b><small>NYSE</small>
+<span class="role">ANCHOR</span></div>
+<div class="name">Elastic NV</div>
+<p class="description">Search and analytics software.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:SNOW">
+<div class="ticker"><b>SNOW</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Snowflake, Inc.</div>
+<p class="description">Cloud data warehousing and data platforms.</p></article>
+</div></section>
+<section class="card" data-group="13_C">
+<header><span class="code">13_C</span><span class="count">12</span></header>
+<h3>WORKFLOW VERTICAL</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="NASDAQ:ADBE">
+<div class="ticker"><b>ADBE</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Adobe Inc.</div>
+<p class="description">Creative tools and document software.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:ADSK">
+<div class="ticker"><b>ADSK</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Autodesk, Inc.</div>
+<p class="description">Engineering, architecture and design software.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:DOCU">
+<div class="ticker"><b>DOCU</b><small>NASDAQ</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">DocuSign, Inc.</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Electronic signatures and agreement workflow software</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:INTU">
+<div class="ticker"><b>INTU</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Intuit Inc.</div>
+<p class="description">Tax preparation and small-business accounting software.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:TEAM">
+<div class="ticker"><b>TEAM</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Atlassian Corp Class A</div>
+<p class="description">Software development and team collaboration applications.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:WDAY">
+<div class="ticker"><b>WDAY</b><small>NASDAQ</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Workday, Inc. Class A</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Cloud finance and human-capital applications</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:CRM">
+<div class="ticker"><b>CRM</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Salesforce, Inc.</div>
+<p class="description">Customer-relationship software and application platforms.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:GWRE">
+<div class="ticker"><b>GWRE</b><small>NYSE</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Guidewire Software, Inc.</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Insurance workflow and analytics software</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:NOW">
+<div class="ticker"><b>NOW</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">ServiceNow, Inc.</div>
+<p class="description">Enterprise service-management workflow software.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:PATH">
+<div class="ticker"><b>PATH</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">UiPath, Inc. Class A</div>
+<p class="description">Software-based business-process automation.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:SAP">
+<div class="ticker"><b>SAP</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">SAP SE Sponsored ADR</div>
+<p class="description">Enterprise resource planning software.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:VEEV">
+<div class="ticker"><b>VEEV</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Veeva Systems Inc. Class A</div>
+<p class="description">Life-science industry cloud applications.</p></article>
+</div></section>
+<section class="card" data-group="13_D">
+<header><span class="code">13_D</span><span class="count">7</span></header>
+<h3>ADTECH</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="NASDAQ:APP">
+<div class="ticker"><b>APP</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">AppLovin Corp. Class A</div>
+<p class="description">Mobile application advertising and monetization infrastructure.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:MGNI">
+<div class="ticker"><b>MGNI</b><small>NASDAQ</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Magnite, Inc.</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Technology automating digital-advertising inventory purchase and sale for publishers and buyers.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:TTD">
+<div class="ticker"><b>TTD</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Trade Desk, Inc. Class A</div>
+<p class="description">Independent advertising buying infrastructure.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:DV">
+<div class="ticker"><b>DV</b><small>NYSE</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">DoubleVerify Holdings, Inc.</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Digital-media measurement, data and analytics software integrated across advertising platforms and publishers.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:OMC">
+<div class="ticker"><b>OMC</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Omnicom Group Inc</div>
+<p class="description">Advertising and marketing agency services.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:PINS">
+<div class="ticker"><b>PINS</b><small>NYSE</small>
+<span class="role">ANCHOR</span></div>
+<div class="name">Pinterest, Inc. Class A</div>
+<p class="description">Visual discovery and purchase-intent advertising.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:ZETA">
+<div class="ticker"><b>ZETA</b><small>NYSE</small>
+<span class="role">ANCHOR</span></div>
+<div class="name">Zeta Global Holdings Corp. Class A</div>
+<p class="description">Data-driven marketing software.</p></article>
+</div></section>
+<section class="card" data-group="14_A">
+<header><span class="code">14_A</span><span class="count">11</span></header>
+<h3>ECOM TRAVEL MOBILITY</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="NASDAQ:ABNB">
+<div class="ticker"><b>ABNB</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Airbnb, Inc. Class A</div>
+<p class="description">Alternative accommodation marketplace.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:BKNG">
+<div class="ticker"><b>BKNG</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Booking Holdings Inc.</div>
+<p class="description">Online accommodation and travel distribution.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:DASH">
+<div class="ticker"><b>DASH</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">DoorDash, Inc. Class A</div>
+<p class="description">Local commerce and food delivery marketplaces.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:GLBE">
+<div class="ticker"><b>GLBE</b><small>NASDAQ</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Global-e Online Ltd.</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Cross-border ecommerce checkout and localization services</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:LYFT">
+<div class="ticker"><b>LYFT</b><small>NASDAQ</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Lyft, Inc. Class A</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Rideshare, bike and scooter platform services</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:MELI">
+<div class="ticker"><b>MELI</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">MercadoLibre, Inc.</div>
+<p class="description">Latin american e-commerce and merchant payments.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:SHOP">
+<div class="ticker"><b>SHOP</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Shopify, Inc. Class A</div>
+<p class="description">Merchant commerce software and payment services.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:CHWY">
+<div class="ticker"><b>CHWY</b><small>NYSE</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Chewy, Inc. Class A</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Online pet products and pet-health services</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:CVNA">
+<div class="ticker"><b>CVNA</b><small>NYSE</small>
+<span class="role">ANCHOR</span></div>
+<div class="name">Carvana Co. Class A</div>
+<p class="description">Online used-car retailing and logistics.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:SE">
+<div class="ticker"><b>SE</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Sea Limited Sponsored ADR Class A</div>
+<p class="description">Southeast asian commerce, payments and gaming platforms.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:UBER">
+<div class="ticker"><b>UBER</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Uber Technologies, Inc.</div>
+<p class="description">Ride-hailing and delivery marketplaces.</p></article>
+</div></section>
+<section class="card" data-group="14_B">
+<header><span class="code">14_B</span><span class="count">12</span></header>
+<h3>CONTENT GAMING</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="NASDAQ:DUOL">
+<div class="ticker"><b>DUOL</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Duolingo, Inc. Class A</div>
+<p class="description">Subscription language learning.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:NFLX">
+<div class="ticker"><b>NFLX</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Netflix, Inc.</div>
+<p class="description">Subscription video and advertising-supported streaming.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:NXST">
+<div class="ticker"><b>NXST</b><small>NASDAQ</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Nexstar Media Group, Inc.</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Television station broadcasting, digital media and publishing platforms.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:SIRI">
+<div class="ticker"><b>SIRI</b><small>NASDAQ</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">SiriusXM Holdings Inc.</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Subscription audio entertainment plus Pandora/off-platform advertising.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:TTWO">
+<div class="ticker"><b>TTWO</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Take-Two Interactive Software, Inc.</div>
+<p class="description">Video-game publishing and franchises.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:DIS">
+<div class="ticker"><b>DIS</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Walt Disney Company</div>
+<p class="description">Entertainment intellectual property, streaming and theme parks.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:LYV">
+<div class="ticker"><b>LYV</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Live Nation Entertainment, Inc.</div>
+<p class="description">Concert promotion, venues and ticketing.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:RBLX">
+<div class="ticker"><b>RBLX</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Roblox Corp. Class A</div>
+<p class="description">User-generated gaming platform and virtual economy.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:RDDT">
+<div class="ticker"><b>RDDT</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Reddit, Inc. Class A</div>
+<p class="description">Online communities and advertising distribution.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:SKYD">
+<div class="ticker"><b>SKYD</b><small>NYSE</small>
+<span class="role">ANCHOR</span></div>
+<div class="name">Skydance Corporation Class B</div>
+<p class="description">Film/television libraries, studios, linear networks and direct-to-consumer media distribution after the acquisition of Warner Bros.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:SPOT">
+<div class="ticker"><b>SPOT</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Spotify Technology SA</div>
+<p class="description">Audio subscriptions and advertising distribution.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:TKO">
+<div class="ticker"><b>TKO</b><small>NYSE</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">TKO Group Holdings, Inc. Class A</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Sports and entertainment through UFC, WWE and IMG businesses.</p></article>
+</div></section>
+<section class="card" data-group="14_C">
+<header><span class="code">14_C</span><span class="count">4</span></header>
+<h3>CHINA INTERNET</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="NASDAQ:BIDU">
+<div class="ticker"><b>BIDU</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Baidu, Inc. Sponsored ADR Class A</div>
+<p class="description">Chinese search advertising, cloud and autonomous-driving development.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:NTES">
+<div class="ticker"><b>NTES</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Netease Inc Sponsored ADR</div>
+<p class="description">Chinese video-game publishing and online services.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:PDD">
+<div class="ticker"><b>PDD</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">PDD Holdings Inc. Sponsored ADR Class A</div>
+<p class="description">Online commerce and merchant distribution.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:BABA">
+<div class="ticker"><b>BABA</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Alibaba Group Holding Limited Sponsored ADR</div>
+<p class="description">Chinese commerce platforms and cloud services.</p></article>
+</div></section>
+<section class="card" data-group="14_D">
+<header><span class="code">14_D</span><span class="count">5</span></header>
+<h3>TELECOM</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="NASDAQ:CHTR">
+<div class="ticker"><b>CHTR</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Charter Communications, Inc. Class A</div>
+<p class="description">Us cable broadband services.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:CMCSA">
+<div class="ticker"><b>CMCSA</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Comcast Corporation Class A</div>
+<p class="description">Broadband distribution and media businesses.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:TMUS">
+<div class="ticker"><b>TMUS</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">T-Mobile US, Inc.</div>
+<p class="description">Us mobile connectivity and subscriber economics.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:T">
+<div class="ticker"><b>T</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">AT&amp;T Inc</div>
+<p class="description">Us wireless and fibre connectivity.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:VZ">
+<div class="ticker"><b>VZ</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Verizon Communications Inc.</div>
+<p class="description">Us wireless/fixed-line communications.</p></article>
+</div></section>
+<section class="card" data-group="15_A">
+<header><span class="code">15_A</span><span class="count">7</span></header>
+<h3>BANKS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="NYSE:BAC">
+<div class="ticker"><b>BAC</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Bank of America Corp</div>
+<p class="description">Deposit-funded retail banking and commercial credit.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:C">
+<div class="ticker"><b>C</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Citigroup Inc.</div>
+<p class="description">International banking and institutional transaction services.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:FITB">
+<div class="ticker"><b>FITB</b><small>NYSE</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Fifth Third Bancorp</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Commercial, consumer and small-business banking</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:JPM">
+<div class="ticker"><b>JPM</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">JPMorgan Chase &amp; Co.</div>
+<p class="description">Diversified consumer banking, investment banking and payments.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:TFC">
+<div class="ticker"><b>TFC</b><small>NYSE</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Truist Financial Corporation</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Regional consumer/commercial banking and wealth services</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:USB">
+<div class="ticker"><b>USB</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">U.S. Bancorp</div>
+<p class="description">Us regional/commercial banking and payment services.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:WFC">
+<div class="ticker"><b>WFC</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Wells Fargo &amp; Company</div>
+<p class="description">Us consumer and commercial banking.</p></article>
+</div></section>
+<section class="card" data-group="15_B">
+<header><span class="code">15_B</span><span class="count">5</span></header>
+<h3>IB BROKERAGE</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="NASDAQ:IBKR">
+<div class="ticker"><b>IBKR</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Interactive Brokers Group, Inc. Class A</div>
+<p class="description">Electronic brokerage and multi-market execution.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:EVR">
+<div class="ticker"><b>EVR</b><small>NYSE</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Evercore Inc. Class A</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Independent corporate and capital-markets advisory</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:GS">
+<div class="ticker"><b>GS</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Goldman Sachs Group, Inc.</div>
+<p class="description">Investment banking, trading and institutional asset management.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:MS">
+<div class="ticker"><b>MS</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Morgan Stanley</div>
+<p class="description">Wealth management and institutional securities.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:SCHW">
+<div class="ticker"><b>SCHW</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Charles Schwab Corp</div>
+<p class="description">Retail brokerage, custody and deposit balances.</p></article>
+</div></section>
+<section class="card" data-group="15_C">
+<header><span class="code">15_C</span><span class="count">19</span></header>
+<h3>PAYMENTS FINTECH CONSUMER CREDIT</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="NASDAQ:AFRM">
+<div class="ticker"><b>AFRM</b><small>NASDAQ</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Affirm Holdings, Inc. Class A</div>
+<p class="description">Instalment-payment underwriting at the point of sale.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:EEFT">
+<div class="ticker"><b>EEFT</b><small>NASDAQ</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Euronet Worldwide, Inc.</div>
+<span class="added">+ Added Beta</span>
+<p class="description">ATM processing, electronic distribution and money transfer</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:FISV">
+<div class="ticker"><b>FISV</b><small>NASDAQ</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Fiserv, Inc.</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Merchant acceptance and financial-institution processing technology</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:HOOD">
+<div class="ticker"><b>HOOD</b><small>NASDAQ</small>
+<span class="role">ANCHOR</span></div>
+<div class="name">Robinhood Markets, Inc. Class A</div>
+<p class="description">Mobile-first retail brokerage.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:PYPL">
+<div class="ticker"><b>PYPL</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">PayPal Holdings, Inc.</div>
+<p class="description">Digital wallets and merchant payments.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:SOFI">
+<div class="ticker"><b>SOFI</b><small>NASDAQ</small>
+<span class="role">ANCHOR</span></div>
+<div class="name">SoFi Technologies Inc</div>
+<p class="description">Digital banking, consumer lending and financial platforms.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:AXP">
+<div class="ticker"><b>AXP</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">American Express Company</div>
+<p class="description">Integrated card issuance, merchant network and customer credit.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:COF">
+<div class="ticker"><b>COF</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Capital One Financial Corp</div>
+<p class="description">Consumer credit cards and banking.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:ENVA">
+<div class="ticker"><b>ENVA</b><small>NYSE</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Enova International Inc</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Digital consumer and small-business credit</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:FIS">
+<div class="ticker"><b>FIS</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Fidelity National Information Services, Inc.</div>
+<p class="description">Banking and financial-transaction technology.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:FOUR">
+<div class="ticker"><b>FOUR</b><small>NYSE</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Shift4 Payments, Inc. Class A</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Payment acceptance and processing technology</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:GPN">
+<div class="ticker"><b>GPN</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Global Payments Inc.</div>
+<p class="description">Merchant acquiring and payment processing.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:MA">
+<div class="ticker"><b>MA</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Mastercard Incorporated Class A</div>
+<p class="description">Global card-payment network and related data services.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:NU">
+<div class="ticker"><b>NU</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Nu Holdings Ltd. Class A</div>
+<p class="description">Latin american digital retail banking.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:PAY">
+<div class="ticker"><b>PAY</b><small>NYSE</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Paymentus Holdings, Inc Class A</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Electronic bill-payment services</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:SYF">
+<div class="ticker"><b>SYF</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Synchrony Financial</div>
+<p class="description">Retail-linked consumer credit.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:TOST">
+<div class="ticker"><b>TOST</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Toast, Inc. Class A</div>
+<p class="description">Restaurant operating software and payments.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:V">
+<div class="ticker"><b>V</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Visa Inc. Class A</div>
+<p class="description">Card-payment network transaction processing.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:XYZ">
+<div class="ticker"><b>XYZ</b><small>NYSE</small>
+<span class="role">ANCHOR</span></div>
+<div class="name">Block, Inc. Class A</div>
+<p class="description">Merchant software/payments and consumer financial applications.</p></article>
+</div></section>
+<section class="card" data-group="15_E">
+<header><span class="code">15_E</span><span class="count">7</span></header>
+<h3>ASSET MANAGERS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="NYSE:AMP">
+<div class="ticker"><b>AMP</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Ameriprise Financial, Inc.</div>
+<p class="description">Financial advice and asset management.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:APO">
+<div class="ticker"><b>APO</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Apollo Global Management Inc</div>
+<p class="description">Alternative investments and retirement-related capital.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:ARES">
+<div class="ticker"><b>ARES</b><small>NYSE</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Ares Management Corporation Class A</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Alternative investment management with a large credit business</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:BAM">
+<div class="ticker"><b>BAM</b><small>NYSE</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Brookfield Asset Management Ltd. Class A</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Alternative asset management focused on real assets and essential services</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:BLK">
+<div class="ticker"><b>BLK</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">BlackRock, Inc.</div>
+<p class="description">Investment management and asset-management technology.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:BX">
+<div class="ticker"><b>BX</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Blackstone Inc.</div>
+<p class="description">Private-market asset management and fundraising.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:KKR">
+<div class="ticker"><b>KKR</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">KKR &amp; Co Inc</div>
+<p class="description">Private-market asset management and insurance capital.</p></article>
+</div></section>
+<section class="card" data-group="15_F">
+<header><span class="code">15_F</span><span class="count">10</span></header>
+<h3>INSURANCE</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="NASDAQ:WTW">
+<div class="ticker"><b>WTW</b><small>NASDAQ</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Willis Towers Watson Public Limited Company</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Insurance broking and employee-benefits advisory</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:AJG">
+<div class="ticker"><b>AJG</b><small>NYSE</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Arthur J. Gallagher &amp; Co.</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Insurance and reinsurance brokerage plus claims administration</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:ALL">
+<div class="ticker"><b>ALL</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Allstate Corporation</div>
+<p class="description">Personal-property and motor insurance.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:AON">
+<div class="ticker"><b>AON</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Aon Plc Class A</div>
+<p class="description">Insurance brokerage and risk advisory.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:BRK.B">
+<div class="ticker"><b>BRK.B</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Berkshire Hathaway Inc. Class B</div>
+<p class="description">Insurance underwriting, investment assets and operating subsidiaries.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:BRO">
+<div class="ticker"><b>BRO</b><small>NYSE</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Brown &amp; Brown, Inc.</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Insurance brokerage and agency services</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:CB">
+<div class="ticker"><b>CB</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Chubb Limited</div>
+<p class="description">Commercial and personal property/casualty insurance.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:MET">
+<div class="ticker"><b>MET</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">MetLife, Inc.</div>
+<p class="description">Life insurance and employee benefits.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:PGR">
+<div class="ticker"><b>PGR</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Progressive Corporation</div>
+<p class="description">Us motor insurance underwriting and pricing.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:TRV">
+<div class="ticker"><b>TRV</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Travelers Companies, Inc.</div>
+<p class="description">Commercial and personal property/casualty insurance.</p></article>
+</div></section>
+<section class="card" data-group="15_G">
+<header><span class="code">15_G</span><span class="count">10</span></header>
+<h3>MARKET INFRA DATA</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="NASDAQ:CME">
+<div class="ticker"><b>CME</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">CME Group Inc. Class A</div>
+<p class="description">Listed derivatives trading and central clearing.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:NDAQ">
+<div class="ticker"><b>NDAQ</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Nasdaq, Inc.</div>
+<p class="description">Exchange operations and financial technology.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:EFX">
+<div class="ticker"><b>EFX</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Equifax Inc.</div>
+<p class="description">Consumer credit information and verification services.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:FDS">
+<div class="ticker"><b>FDS</b><small>NYSE</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">FactSet Research Systems Inc.</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Financial data and investment-workflow platforms</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:FICO">
+<div class="ticker"><b>FICO</b><small>NYSE</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Fair Isaac Corporation</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Credit scores and analytic decision software</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:ICE">
+<div class="ticker"><b>ICE</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Intercontinental Exchange, Inc.</div>
+<p class="description">Exchange trading, clearing and mortgage technology.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:MCO">
+<div class="ticker"><b>MCO</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Moody&#x27;s Corporation</div>
+<p class="description">Credit ratings and risk analytics.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:MSCI">
+<div class="ticker"><b>MSCI</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">MSCI Inc. Class A</div>
+<p class="description">Indices and portfolio/risk analytics.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:SPGI">
+<div class="ticker"><b>SPGI</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">S&amp;P Global, Inc.</div>
+<p class="description">Credit ratings, indices and financial information.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:TRU">
+<div class="ticker"><b>TRU</b><small>NYSE</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">TransUnion</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Consumer credit information and risk analytics</p></article>
+</div></section>
+<section class="card" data-group="15_I">
+<header><span class="code">15_I</span><span class="count">4</span></header>
+<h3>CRYPTO EQUITIES</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="NASDAQ:COIN">
+<div class="ticker"><b>COIN</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Coinbase Global, Inc. Class A</div>
+<p class="description">Crypto exchange, custody and related services.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:MSTR">
+<div class="ticker"><b>MSTR</b><small>NASDAQ</small>
+<span class="role">ANCHOR</span></div>
+<div class="name">Strategy Inc Class A</div>
+<p class="description">Leveraged bitcoin treasury and capital-market financing.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:RIOT">
+<div class="ticker"><b>RIOT</b><small>NASDAQ</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Riot Platforms, Inc.</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Bitcoin mining and electrical engineering operations.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:CRCL">
+<div class="ticker"><b>CRCL</b><small>NYSE</small>
+<span class="role">ANCHOR</span></div>
+<div class="name">Circle Internet Group, Inc. Class A</div>
+<p class="description">Stablecoin issuance and reserve-related services.</p></article>
+</div></section>
+<section class="card" data-group="16_A">
+<header><span class="code">16_A</span><span class="count">15</span></header>
+<h3>PHARMA BIOTECH</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="NASDAQ:ALNY">
+<div class="ticker"><b>ALNY</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Alnylam Pharmaceuticals, Inc</div>
+<p class="description">Rna-interference medicines.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:AMGN">
+<div class="ticker"><b>AMGN</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Amgen Inc.</div>
+<p class="description">Biotechnology medicines and biologic franchises.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:GILD">
+<div class="ticker"><b>GILD</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Gilead Sciences, Inc.</div>
+<p class="description">Antiviral medicines and oncology products.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:MNKD">
+<div class="ticker"><b>MNKD</b><small>NASDAQ</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">MannKind Corporation</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Commercial drug delivery and endocrine and pulmonary products</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:MRNA">
+<div class="ticker"><b>MRNA</b><small>NASDAQ</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Moderna, Inc.</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Medicines and vaccine development using messenger RNA.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:NBIX">
+<div class="ticker"><b>NBIX</b><small>NASDAQ</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Neurocrine Biosciences, Inc.</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Neuroscience-focused pharmaceutical research, development and commercialization.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:REGN">
+<div class="ticker"><b>REGN</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Regeneron Pharmaceuticals, Inc.</div>
+<p class="description">Antibody medicines and biotechnology discovery.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:UTHR">
+<div class="ticker"><b>UTHR</b><small>NASDAQ</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">United Therapeutics Corporation</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Development and commercialization of treatments for chronic and life-threatening conditions.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:VRTX">
+<div class="ticker"><b>VRTX</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Vertex Pharmaceuticals Incorporated</div>
+<p class="description">Cystic-fibrosis medicines and additional specialty therapies.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:ABBV">
+<div class="ticker"><b>ABBV</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">AbbVie, Inc.</div>
+<p class="description">Immunology medicines and diversified pharmaceutical franchises.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:AZN">
+<div class="ticker"><b>AZN</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">AstraZeneca PLC</div>
+<p class="description">Oncology and other specialty pharmaceuticals.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:JNJ">
+<div class="ticker"><b>JNJ</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Johnson &amp; Johnson</div>
+<p class="description">Innovative medicines and medical technology after the consumer separation.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:LLY">
+<div class="ticker"><b>LLY</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Eli Lilly and Company</div>
+<p class="description">Diabetes/obesity medicines and other pharmaceutical franchises.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:MRK">
+<div class="ticker"><b>MRK</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Merck &amp; Co., Inc.</div>
+<p class="description">Oncology, vaccines and animal-health medicines.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:NVO">
+<div class="ticker"><b>NVO</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Novo Nordisk A/S Sponsored ADR Class B</div>
+<p class="description">Diabetes and obesity medicines.</p></article>
+</div></section>
+<section class="card" data-group="16_B">
+<header><span class="code">16_B</span><span class="count">8</span></header>
+<h3>MANAGED CARE</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="NYSE:CI">
+<div class="ticker"><b>CI</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Cigna Group</div>
+<p class="description">Health insurance and pharmacy services.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:CNC">
+<div class="ticker"><b>CNC</b><small>NYSE</small>
+<span class="role">ANCHOR</span></div>
+<div class="name">Centene Corporation</div>
+<p class="description">Government-sponsored health insurance programmes.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:CVS">
+<div class="ticker"><b>CVS</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">CVS Health Corporation</div>
+<p class="description">Pharmacy retail, benefit management and health insurance.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:ELV">
+<div class="ticker"><b>ELV</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Elevance Health, Inc.</div>
+<p class="description">Health insurance and associated care services.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:HUM">
+<div class="ticker"><b>HUM</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Humana Inc.</div>
+<p class="description">Health insurance with medicare exposure.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:MOH">
+<div class="ticker"><b>MOH</b><small>NYSE</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Molina Healthcare, Inc.</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Managed healthcare services through Medicaid, Medicare and Marketplace segments.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:OSCR">
+<div class="ticker"><b>OSCR</b><small>NYSE</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Oscar Health, Inc. Class A</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Health insurance delivered through a technology-enabled service platform.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:UNH">
+<div class="ticker"><b>UNH</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">UnitedHealth Group Incorporated</div>
+<p class="description">Health insurance and integrated healthcare services.</p></article>
+</div></section>
+<section class="card" data-group="16_C">
+<header><span class="code">16_C</span><span class="count">20</span></header>
+<h3>HEALTHCARE DATA DIAGNOSTICS SERVICES</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="NASDAQ:GH">
+<div class="ticker"><b>GH</b><small>NASDAQ</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Guardant Health, Inc.</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Precision-oncology testing using blood-based tests, data and analytics.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:IDXX">
+<div class="ticker"><b>IDXX</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">IDEXX Laboratories, Inc.</div>
+<p class="description">Veterinary diagnostics.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:ILMN">
+<div class="ticker"><b>ILMN</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Illumina, Inc.</div>
+<p class="description">Genetic sequencing instruments and consumables.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:NTRA">
+<div class="ticker"><b>NTRA</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Natera, Inc.</div>
+<p class="description">Genetic testing and oncology diagnostics.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:RGEN">
+<div class="ticker"><b>RGEN</b><small>NASDAQ</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Repligen Corporation</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Bioprocessing technologies for biological-drug manufacture</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:TECH">
+<div class="ticker"><b>TECH</b><small>NASDAQ</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Bio-Techne Corporation</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Life-science tools, bioactive reagents, protein sciences and diagnostics/spatial biology.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:TEM">
+<div class="ticker"><b>TEM</b><small>NASDAQ</small>
+<span class="role">ANCHOR</span></div>
+<div class="name">Tempus AI, Inc. Class A</div>
+<p class="description">Clinical data and precision-medicine diagnostics.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:CAH">
+<div class="ticker"><b>CAH</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Cardinal Health, Inc.</div>
+<p class="description">Drug distribution and medical products.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:COR">
+<div class="ticker"><b>COR</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Cencora, Inc.</div>
+<p class="description">Pharmaceutical distribution and specialty services.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:DGX">
+<div class="ticker"><b>DGX</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Quest Diagnostics Incorporated</div>
+<p class="description">Clinical laboratory testing.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:DHR">
+<div class="ticker"><b>DHR</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Danaher Corporation</div>
+<p class="description">Bioprocessing, life-science instruments and diagnostics.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:HCA">
+<div class="ticker"><b>HCA</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">HCA Healthcare Inc</div>
+<p class="description">Hospital operations and clinical-service demand.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:HIMS">
+<div class="ticker"><b>HIMS</b><small>NYSE</small>
+<span class="role">ANCHOR</span></div>
+<div class="name">Hims &amp; Hers Health, Inc. Class A</div>
+<p class="description">Direct-to-consumer telehealth and treatment access.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:IQV">
+<div class="ticker"><b>IQV</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">IQVIA Holdings Inc</div>
+<p class="description">Clinical research services and healthcare data.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:LH">
+<div class="ticker"><b>LH</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Labcorp Holdings Inc.</div>
+<p class="description">Clinical diagnostics and laboratory services.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:MCK">
+<div class="ticker"><b>MCK</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">McKesson Corporation</div>
+<p class="description">Pharmaceutical distribution and associated provider services.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:RVTY">
+<div class="ticker"><b>RVTY</b><small>NYSE</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Revvity, Inc.</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Life-science research tools and diagnostic systems/reagents</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:THC">
+<div class="ticker"><b>THC</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Tenet Healthcare Corporation</div>
+<p class="description">Hospitals and ambulatory surgery services.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:TMO">
+<div class="ticker"><b>TMO</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Thermo Fisher Scientific Inc.</div>
+<p class="description">Laboratory instruments, consumables and outsourced research services.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:WAT">
+<div class="ticker"><b>WAT</b><small>NYSE</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Waters Corporation</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Liquid chromatography, mass spectrometry and thermal-analysis workflow instruments and consumables.</p></article>
+</div></section>
+<section class="card" data-group="16_D">
+<header><span class="code">16_D</span><span class="count">11</span></header>
+<h3>MEDTECH DEVICES</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="NASDAQ:DXCM">
+<div class="ticker"><b>DXCM</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">DexCom, Inc.</div>
+<p class="description">Continuous glucose monitoring.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:GEHC">
+<div class="ticker"><b>GEHC</b><small>NASDAQ</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">GE Healthcare Technologies Inc.</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Medical imaging systems, patient-care equipment and diagnostic agents</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:ISRG">
+<div class="ticker"><b>ISRG</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Intuitive Surgical, Inc.</div>
+<p class="description">Robot-assisted surgical systems and procedure-linked consumables.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:PODD">
+<div class="ticker"><b>PODD</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Insulet Corporation</div>
+<p class="description">Insulin delivery systems.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:ABT">
+<div class="ticker"><b>ABT</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Abbott Laboratories</div>
+<p class="description">Medical devices, diagnostics and nutrition products.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:BSX">
+<div class="ticker"><b>BSX</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Boston Scientific Corporation</div>
+<p class="description">Interventional medical devices.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:EW">
+<div class="ticker"><b>EW</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Edwards Lifesciences Corporation</div>
+<p class="description">Structural-heart treatment devices.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:GMED">
+<div class="ticker"><b>GMED</b><small>NYSE</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Globus Medical Inc Class A</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Musculoskeletal implants and related surgical technology</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:MDT">
+<div class="ticker"><b>MDT</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Medtronic Plc</div>
+<p class="description">Diversified medical devices.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:SYK">
+<div class="ticker"><b>SYK</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Stryker Corporation</div>
+<p class="description">Orthopaedic implants and surgical equipment.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:WST">
+<div class="ticker"><b>WST</b><small>NYSE</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">West Pharmaceutical Services, Inc.</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Containment and delivery systems for injectable drugs and healthcare products.</p></article>
+</div></section>
+<section class="card" data-group="17_A">
+<header><span class="code">17_A</span><span class="count">12</span></header>
+<h3>HOME RETAIL DISTRIBUTION BUILDERS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="NASDAQ:COST">
+<div class="ticker"><b>COST</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Costco Wholesale Corporation</div>
+<p class="description">Membership warehouse retailing.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:DLTR">
+<div class="ticker"><b>DLTR</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Dollar Tree, Inc.</div>
+<p class="description">Value-oriented retailing.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:ORLY">
+<div class="ticker"><b>ORLY</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">O&#x27;Reilly Automotive, Inc.</div>
+<p class="description">Automotive replacement parts distribution.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:ULTA">
+<div class="ticker"><b>ULTA</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Ulta Beauty Inc.</div>
+<p class="description">Beauty retailing and services.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:WMT">
+<div class="ticker"><b>WMT</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Walmart Inc.</div>
+<p class="description">Large-scale grocery/general retail and retail logistics.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:DG">
+<div class="ticker"><b>DG</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Dollar General Corporation</div>
+<p class="description">Small-format discount stores.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:DHI">
+<div class="ticker"><b>DHI</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">D.R. Horton, Inc.</div>
+<p class="description">Residential home construction and housing demand.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:FND">
+<div class="ticker"><b>FND</b><small>NYSE</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Floor &amp; Decor Holdings, Inc. Class A</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Hard-surface flooring retail and installation materials</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:HD">
+<div class="ticker"><b>HD</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Home Depot, Inc.</div>
+<p class="description">Home-improvement retail and professional contractor demand.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:TJX">
+<div class="ticker"><b>TJX</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">TJX Companies Inc</div>
+<p class="description">Off-price retailing.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:TOL">
+<div class="ticker"><b>TOL</b><small>NYSE</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Toll Brothers, Inc.</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Residential homebuilding</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:WSM">
+<div class="ticker"><b>WSM</b><small>NYSE</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Williams-Sonoma, Inc.</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Branded home furnishing and kitchenware retail</p></article>
+</div></section>
+<section class="card" data-group="17_B">
+<header><span class="code">17_B</span><span class="count">8</span></header>
+<h3>RESTAURANTS COFFEE</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="NASDAQ:CAKE">
+<div class="ticker"><b>CAKE</b><small>NASDAQ</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Cheesecake Factory Incorporated</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Cheesecake Factory, North Italia and other restaurant concepts</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:SBUX">
+<div class="ticker"><b>SBUX</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Starbucks Corporation</div>
+<p class="description">Coffee shops and branded beverages.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:BROS">
+<div class="ticker"><b>BROS</b><small>NYSE</small>
+<span class="role">ANCHOR</span></div>
+<div class="name">Dutch Bros, Inc. Class A</div>
+<p class="description">Drive-through beverage retailing.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:CAVA">
+<div class="ticker"><b>CAVA</b><small>NYSE</small>
+<span class="role">ANCHOR</span></div>
+<div class="name">CAVA Group, Inc.</div>
+<p class="description">Mediterranean fast-casual restaurants.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:CMG">
+<div class="ticker"><b>CMG</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Chipotle Mexican Grill, Inc.</div>
+<p class="description">Fast-casual restaurant operations.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:EAT">
+<div class="ticker"><b>EAT</b><small>NYSE</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Brinker International, Inc.</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Chili&#x27;s and Maggiano&#x27;s restaurant operations</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:MCD">
+<div class="ticker"><b>MCD</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">McDonald&#x27;s Corporation</div>
+<p class="description">Franchised quick-service restaurants.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:YUM">
+<div class="ticker"><b>YUM</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Yum! Brands, Inc.</div>
+<p class="description">Franchised restaurant brands.</p></article>
+</div></section>
+<section class="card" data-group="17_C">
+<header><span class="code">17_C</span><span class="count">8</span></header>
+<h3>APPAREL BEAUTY LUXURY</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="NASDAQ:LULU">
+<div class="ticker"><b>LULU</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">lululemon athletica inc.</div>
+<p class="description">Athletic apparel and direct retail.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:AS">
+<div class="ticker"><b>AS</b><small>NYSE</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Amer Sports, Inc.</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Technical outdoor and sporting brands</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:DECK">
+<div class="ticker"><b>DECK</b><small>NYSE</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Deckers Outdoor Corporation</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Footwear and apparel led by HOKA and UGG</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:EL">
+<div class="ticker"><b>EL</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Estee Lauder Companies Inc. Class A</div>
+<p class="description">Prestige cosmetics and skincare.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:NKE">
+<div class="ticker"><b>NKE</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">NIKE, Inc. Class B</div>
+<p class="description">Athletic footwear and apparel brands.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:ONON">
+<div class="ticker"><b>ONON</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">On Holding AG Class A</div>
+<p class="description">Premium performance footwear and apparel.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:RL">
+<div class="ticker"><b>RL</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Ralph Lauren Corporation Class A</div>
+<p class="description">Premium apparel licensing and retail.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:TPR">
+<div class="ticker"><b>TPR</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Tapestry, Inc.</div>
+<p class="description">Accessible-luxury handbags and accessories.</p></article>
+</div></section>
+<section class="card" data-group="17_D">
+<header><span class="code">17_D</span><span class="count">11</span></header>
+<h3>FOOD BEVERAGE</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="NASDAQ:CPB">
+<div class="ticker"><b>CPB</b><small>NASDAQ</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Campbell&#x27;s Company</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Packaged meals, soups and snack brands</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:KDP">
+<div class="ticker"><b>KDP</b><small>NASDAQ</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Keurig Dr Pepper Inc.</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Coffee systems and non-alcoholic refreshment beverages</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:MDLZ">
+<div class="ticker"><b>MDLZ</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Mondelez International, Inc. Class A</div>
+<p class="description">Branded biscuits, chocolate and snacks.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:PEP">
+<div class="ticker"><b>PEP</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">PepsiCo, Inc.</div>
+<p class="description">Snack foods and beverages.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:ADM">
+<div class="ticker"><b>ADM</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Archer-Daniels-Midland Company</div>
+<p class="description">Agricultural processing and commodity supply chains.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:GIS">
+<div class="ticker"><b>GIS</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">General Mills, Inc.</div>
+<p class="description">Packaged food brands.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:HSY">
+<div class="ticker"><b>HSY</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Hershey Company</div>
+<p class="description">Confectionery products.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:KHC">
+<div class="ticker"><b>KHC</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Kraft Heinz Company</div>
+<p class="description">Packaged foods and condiments; nyse listing from september 2026.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:KO">
+<div class="ticker"><b>KO</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Coca-Cola Company</div>
+<p class="description">Branded beverages and concentrate economics.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:MKC">
+<div class="ticker"><b>MKC</b><small>NYSE</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">McCormick &amp; Company, Incorporated</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Spices, seasonings, condiments and flavour solutions</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:STZ">
+<div class="ticker"><b>STZ</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Constellation Brands, Inc. Class A</div>
+<p class="description">Beer and alcoholic-beverage brands.</p></article>
+</div></section>
+<section class="card" data-group="17_E">
+<header><span class="code">17_E</span><span class="count">6</span></header>
+<h3>HOUSEHOLD CARE</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="NASDAQ:KMB">
+<div class="ticker"><b>KMB</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Kimberly-Clark Corporation</div>
+<p class="description">Tissue and personal-care products.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:CL">
+<div class="ticker"><b>CL</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Colgate-Palmolive Company</div>
+<p class="description">Oral-care and household products.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:CLX">
+<div class="ticker"><b>CLX</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Clorox Company</div>
+<p class="description">Cleaning products and household brands.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:EPC">
+<div class="ticker"><b>EPC</b><small>NYSE</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Edgewell Personal Care Co.</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Personal-care products including shaving and skin protection</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:KVUE">
+<div class="ticker"><b>KVUE</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Kenvue, Inc.</div>
+<p class="description">Consumer healthcare and self-care brands.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:PG">
+<div class="ticker"><b>PG</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Procter &amp; Gamble Company</div>
+<p class="description">Branded household and personal-care products.</p></article>
+</div></section>
+<section class="card" data-group="17_F">
+<header><span class="code">17_F</span><span class="count">3</span></header>
+<h3>TOBACCO</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="NYSE:BTI">
+<div class="ticker"><b>BTI</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">British American Tobacco PLC Sponsored ADR</div>
+<p class="description">International tobacco and nicotine products.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:MO">
+<div class="ticker"><b>MO</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Altria Group, Inc.</div>
+<p class="description">Us tobacco and oral nicotine products.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:PM">
+<div class="ticker"><b>PM</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Philip Morris International Inc.</div>
+<p class="description">Tobacco and smoke-free nicotine products.</p></article>
+</div></section>
+<section class="card" data-group="17_G">
+<header><span class="code">17_G</span><span class="count">8</span></header>
+<h3>TRAVEL LEISURE</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="NASDAQ:AAL">
+<div class="ticker"><b>AAL</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">American Airlines Group Inc.</div>
+<p class="description">Network airline operations.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:EXPE">
+<div class="ticker"><b>EXPE</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Expedia Group, Inc.</div>
+<p class="description">Online travel distribution.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:MAR">
+<div class="ticker"><b>MAR</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Marriott International, Inc. Class A</div>
+<p class="description">Hotel brands, management and franchise fees.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:UAL">
+<div class="ticker"><b>UAL</b><small>NASDAQ</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">United Airlines Holdings, Inc.</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Passenger airline transportation</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:DAL">
+<div class="ticker"><b>DAL</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Delta Air Lines, Inc.</div>
+<p class="description">Network airline operations and travel demand.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:LUV">
+<div class="ticker"><b>LUV</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Southwest Airlines Co.</div>
+<p class="description">Domestic-focused airline operations.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:RCL">
+<div class="ticker"><b>RCL</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Royal Caribbean Group</div>
+<p class="description">Cruise operations and onboard consumer spending.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:VIK">
+<div class="ticker"><b>VIK</b><small>NYSE</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Viking Holdings Ltd</div>
+<span class="added">+ Added Beta</span>
+<p class="description">River, ocean and expedition travel experiences</p></article>
+</div></section>
+<section class="card" data-group="17_H">
+<header><span class="code">17_H</span><span class="count">6</span></header>
+<h3>AUTOMAKERS COMPONENTS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="NASDAQ:GTX">
+<div class="ticker"><b>GTX</b><small>NASDAQ</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Garrett Motion Inc</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Automotive turbochargers and related electric compression products</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:RIVN">
+<div class="ticker"><b>RIVN</b><small>NASDAQ</small>
+<span class="role">ANCHOR</span></div>
+<div class="name">Rivian Automotive, Inc. Class A</div>
+<p class="description">Electric pickup/suv and commercial-vehicle manufacturing.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:TSLA">
+<div class="ticker"><b>TSLA</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Tesla, Inc.</div>
+<p class="description">Electric vehicles and energy-storage products.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:GM">
+<div class="ticker"><b>GM</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">General Motors Company</div>
+<p class="description">Mass-market automotive manufacturing and financing.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:RACE">
+<div class="ticker"><b>RACE</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Ferrari NV</div>
+<p class="description">Luxury sports cars and brand scarcity.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:XPEV">
+<div class="ticker"><b>XPEV</b><small>NYSE</small>
+<span class="role">ANCHOR</span></div>
+<div class="name">XPeng, Inc. ADR Sponsored Class A</div>
+<p class="description">Chinese smart-electric vehicle manufacturing.</p></article>
+</div></section>
+<section class="card" data-group="18_A">
+<header><span class="code">18_A</span><span class="count">11</span></header>
+<h3>AERO DEFENSE SECURITY</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="NASDAQ:AXON">
+<div class="ticker"><b>AXON</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Axon Enterprise Inc</div>
+<p class="description">Public-safety devices and evidence-management software.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:KTOS">
+<div class="ticker"><b>KTOS</b><small>NASDAQ</small>
+<span class="role">ANCHOR</span></div>
+<div class="name">Kratos Defense &amp; Security Solutions, Inc.</div>
+<p class="description">Unmanned defence systems and mission technology.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:AMTM">
+<div class="ticker"><b>AMTM</b><small>NYSE</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Amentum Holdings, Inc.</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Government engineering, technology and mission support</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:BA">
+<div class="ticker"><b>BA</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Boeing Company</div>
+<p class="description">Commercial aircraft manufacturing and defence systems.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:CW">
+<div class="ticker"><b>CW</b><small>NYSE</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Curtiss-Wright Corporation</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Engineered aerospace/defence products, naval/power systems and demanding industrial applications.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:GD">
+<div class="ticker"><b>GD</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">General Dynamics Corporation</div>
+<p class="description">Defence platforms and business jets.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:GE">
+<div class="ticker"><b>GE</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">GE Aerospace</div>
+<p class="description">Commercial aircraft engines and installed-base services.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:HEI">
+<div class="ticker"><b>HEI</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">HEICO Corporation</div>
+<p class="description">Aerospace replacement parts and electronic products.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:LMT">
+<div class="ticker"><b>LMT</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Lockheed Martin Corporation</div>
+<p class="description">Military aircraft, missiles and defence systems.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:RTX">
+<div class="ticker"><b>RTX</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">RTX Corporation</div>
+<p class="description">Aircraft systems and defence products.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:TDY">
+<div class="ticker"><b>TDY</b><small>NYSE</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Teledyne Technologies Incorporated</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Instrumentation, digital imaging, aerospace/defence electronics and engineered systems.</p></article>
+</div></section>
+<section class="card" data-group="18_B">
+<header><span class="code">18_B</span><span class="count">5</span></header>
+<h3>SPACE EVTOL</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="NASDAQ:ASTS">
+<div class="ticker"><b>ASTS</b><small>NASDAQ</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">AST SpaceMobile, Inc. Class A</div>
+<p class="description">Satellite-to-handset connectivity deployment.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:LUNR">
+<div class="ticker"><b>LUNR</b><small>NASDAQ</small>
+<span class="role">ANCHOR</span></div>
+<div class="name">Intuitive Machines, Inc. Class A</div>
+<p class="description">Lunar delivery and cislunar infrastructure.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:RKLB">
+<div class="ticker"><b>RKLB</b><small>NASDAQ</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Rocket Lab Corporation</div>
+<p class="description">Small launch vehicles and space systems.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:SPCX">
+<div class="ticker"><b>SPCX</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Space Exploration Technologies Corp</div>
+<p class="description">Orbital launch systems and satellite connectivity.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:RDW">
+<div class="ticker"><b>RDW</b><small>NYSE</small>
+<span class="role">ANCHOR</span></div>
+<div class="name">Redwire Corp</div>
+<p class="description">Space components and mission technology.</p></article>
+</div></section>
+<section class="card" data-group="18_C">
+<header><span class="code">18_C</span><span class="count">12</span></header>
+<h3>MACHINERY AUTOMATION</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="NASDAQ:LECO">
+<div class="ticker"><b>LECO</b><small>NASDAQ</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Lincoln Electric Holdings, Inc.</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Welding equipment, consumables and cutting products</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:PCAR">
+<div class="ticker"><b>PCAR</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">PACCAR Inc</div>
+<p class="description">Commercial trucks and aftermarket parts.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:SYM">
+<div class="ticker"><b>SYM</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Symbotic, Inc. Class A</div>
+<p class="description">Warehouse robotic automation.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:CAT">
+<div class="ticker"><b>CAT</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Caterpillar Inc.</div>
+<p class="description">Construction/mining equipment and aftermarket services.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:CMI">
+<div class="ticker"><b>CMI</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Cummins Inc.</div>
+<p class="description">Engines and powertrain systems.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:DE">
+<div class="ticker"><b>DE</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Deere &amp; Company</div>
+<p class="description">Agricultural equipment and precision-farming systems.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:EMR">
+<div class="ticker"><b>EMR</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Emerson Electric Co.</div>
+<p class="description">Process automation and measurement systems.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:IR">
+<div class="ticker"><b>IR</b><small>NYSE</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Ingersoll Rand Inc.</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Compressors, vacuum, fluid-handling and precision technologies</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:ITT">
+<div class="ticker"><b>ITT</b><small>NYSE</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">ITT, Inc.</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Motion, industrial-process and connection technologies</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:PH">
+<div class="ticker"><b>PH</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Parker-Hannifin Corporation</div>
+<p class="description">Motion-control and aerospace components.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:ROK">
+<div class="ticker"><b>ROK</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Rockwell Automation, Inc.</div>
+<p class="description">Factory automation and industrial software.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:URI">
+<div class="ticker"><b>URI</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">United Rentals, Inc.</div>
+<p class="description">Industrial/construction equipment rental.</p></article>
+</div></section>
+<section class="card" data-group="18_D">
+<header><span class="code">18_D</span><span class="count">7</span></header>
+<h3>TRANSPORT LOGISTICS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="NASDAQ:CSX">
+<div class="ticker"><b>CSX</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">CSX Corporation</div>
+<p class="description">Eastern us freight rail transport.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:JBHT">
+<div class="ticker"><b>JBHT</b><small>NASDAQ</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">J.B. Hunt Transport Services, Inc.</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Intermodal rail-truck logistics and dedicated contract carriage</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:ODFL">
+<div class="ticker"><b>ODFL</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Old Dominion Freight Line, Inc.</div>
+<p class="description">Less-than-truckload freight transport.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:FDX">
+<div class="ticker"><b>FDX</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">FedEx Corporation</div>
+<p class="description">Express delivery and freight logistics.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:UNP">
+<div class="ticker"><b>UNP</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Union Pacific Corporation</div>
+<p class="description">Western us freight rail transportation.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:UPS">
+<div class="ticker"><b>UPS</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">United Parcel Service, Inc. Class B</div>
+<p class="description">Parcel delivery and logistics networks.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:XPO">
+<div class="ticker"><b>XPO</b><small>NYSE</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">XPO, Inc.</div>
+<span class="added">+ Added Beta</span>
+<p class="description">LTL freight and European transport services</p></article>
+</div></section>
+<section class="card" data-group="18_E">
+<header><span class="code">18_E</span><span class="count">13</span></header>
+<h3>PUBLIC UTILITIES ENVIRONMENTAL SERVICES</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="NASDAQ:AEP">
+<div class="ticker"><b>AEP</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">American Electric Power Company, Inc.</div>
+<p class="description">Regulated electricity transmission and distribution.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:XEL">
+<div class="ticker"><b>XEL</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Xcel Energy Inc.</div>
+<p class="description">Regulated electric and gas utilities.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:AEE">
+<div class="ticker"><b>AEE</b><small>NYSE</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Ameren Corporation</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Regulated electricity, gas and transmission utilities</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:DTE">
+<div class="ticker"><b>DTE</b><small>NYSE</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">DTE Energy Company</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Electric and gas utility operations with energy-related businesses</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:DUK">
+<div class="ticker"><b>DUK</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Duke Energy Corporation</div>
+<p class="description">Regulated electricity/gas networks and generation.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:EIX">
+<div class="ticker"><b>EIX</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Edison International</div>
+<p class="description">California electricity utility operations.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:ETR">
+<div class="ticker"><b>ETR</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Entergy Corporation</div>
+<p class="description">Regulated electric utilities and generation.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:NEE">
+<div class="ticker"><b>NEE</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">NextEra Energy, Inc.</div>
+<p class="description">Regulated electricity and renewable generation development.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:PCG">
+<div class="ticker"><b>PCG</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">PG&amp;E Corporation</div>
+<p class="description">California electric and gas utility infrastructure.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:RSG">
+<div class="ticker"><b>RSG</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Republic Services, Inc.</div>
+<p class="description">Waste collection, recycling and disposal.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:SO">
+<div class="ticker"><b>SO</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Southern Company</div>
+<p class="description">Regulated electric/gas utility operations.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:SRE">
+<div class="ticker"><b>SRE</b><small>NYSE</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Sempra</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Electric/gas utilities and energy infrastructure</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:WM">
+<div class="ticker"><b>WM</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Waste Management, Inc.</div>
+<p class="description">Waste collection, disposal and recycling.</p></article>
+</div></section>
+<section class="card" data-group="18_F">
+<header><span class="code">18_F</span><span class="count">7</span></header>
+<h3>CONSTRUCTION ENGINEERING MATERIALS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="NASDAQ:STRL">
+<div class="ticker"><b>STRL</b><small>NASDAQ</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Sterling Infrastructure, Inc.</div>
+<span class="added">+ Added Beta</span>
+<p class="description">E-infrastructure site work and transport/building construction</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:ACM">
+<div class="ticker"><b>ACM</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">AECOM</div>
+<p class="description">Infrastructure design, engineering and programme management.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:CRH">
+<div class="ticker"><b>CRH</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">CRH public limited company</div>
+<p class="description">Diversified construction materials.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:CSL">
+<div class="ticker"><b>CSL</b><small>NYSE</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Carlisle Companies Incorporated</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Roofing, insulation and building-envelope products</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:JHX">
+<div class="ticker"><b>JHX</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">James Hardie Industries PLC</div>
+<p class="description">Fibre-cement building products.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:MLM">
+<div class="ticker"><b>MLM</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Martin Marietta Materials, Inc.</div>
+<p class="description">Aggregates and construction materials.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:VMC">
+<div class="ticker"><b>VMC</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Vulcan Materials Company</div>
+<p class="description">Construction aggregates and regional building demand.</p></article>
+</div></section>
+<section class="card" data-group="19_A">
+<header><span class="code">19_A</span><span class="count">6</span></header>
+<h3>OIL GAS PRODUCERS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="NASDAQ:APA">
+<div class="ticker"><b>APA</b><small>NASDAQ</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">APA Corporation</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Oil and gas exploration and production with international operations</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:FANG">
+<div class="ticker"><b>FANG</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Diamondback Energy, Inc.</div>
+<p class="description">Permian basin upstream oil and gas.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:COP">
+<div class="ticker"><b>COP</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">ConocoPhillips</div>
+<p class="description">Upstream oil and gas production.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:CVX">
+<div class="ticker"><b>CVX</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Chevron Corporation</div>
+<p class="description">Integrated oil/gas operations.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:OXY">
+<div class="ticker"><b>OXY</b><small>NYSE</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Occidental Petroleum Corporation</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Oil and gas production with midstream activities</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:XOM">
+<div class="ticker"><b>XOM</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Exxonmobil Holdings Corporation</div>
+<p class="description">Integrated oil/gas production, refining and chemicals.</p></article>
+</div></section>
+<section class="card" data-group="19_B">
+<header><span class="code">19_B</span><span class="count">5</span></header>
+<h3>OILFIELD SERVICES</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="NASDAQ:BKR">
+<div class="ticker"><b>BKR</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Baker Hughes Company Class A</div>
+<p class="description">Oilfield services and industrial energy technology.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:FTI">
+<div class="ticker"><b>FTI</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">TechnipFMC plc</div>
+<p class="description">Subsea production systems and offshore services.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:HAL">
+<div class="ticker"><b>HAL</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Halliburton Company</div>
+<p class="description">Well completion and oilfield services.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:LBRT">
+<div class="ticker"><b>LBRT</b><small>NYSE</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Liberty Energy, Inc. Class A</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Oilfield completion services and distributed power</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:SLB">
+<div class="ticker"><b>SLB</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">SLB Limited</div>
+<p class="description">Oilfield technology and reservoir services.</p></article>
+</div></section>
+<section class="card" data-group="19_C">
+<header><span class="code">19_C</span><span class="count">10</span></header>
+<h3>LNG MIDSTREAM</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="AMEX:ET">
+<div class="ticker"><b>ET</b><small>AMEX</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Energy Transfer LP</div>
+<p class="description">Diversified energy pipelines and terminals.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:ENB">
+<div class="ticker"><b>ENB</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Enbridge Inc.</div>
+<p class="description">Oil/gas pipelines and gas utility infrastructure.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:KMI">
+<div class="ticker"><b>KMI</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Kinder Morgan Inc Class P</div>
+<p class="description">Natural-gas/product pipelines and terminals.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:LNG">
+<div class="ticker"><b>LNG</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Cheniere Energy, Inc.</div>
+<p class="description">Liquefied-natural-gas export infrastructure.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:MPLX">
+<div class="ticker"><b>MPLX</b><small>NYSE</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">MPLX LP</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Midstream crude/product logistics plus natural-gas and natural-gas-liquids services.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:OKE">
+<div class="ticker"><b>OKE</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">ONEOK, Inc.</div>
+<p class="description">Natural-gas liquids processing and logistics.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:TRGP">
+<div class="ticker"><b>TRGP</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Targa Resources Corp.</div>
+<p class="description">Natural-gas gathering, processing and liquids logistics.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:VG">
+<div class="ticker"><b>VG</b><small>NYSE</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Venture Global, Inc. Class A</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Liquefied natural gas projects and sales</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:WES">
+<div class="ticker"><b>WES</b><small>NYSE</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Western Midstream Partners, LP</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Natural-gas and liquids gathering, processing, treating and transportation assets.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:WMB">
+<div class="ticker"><b>WMB</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Williams Companies, Inc.</div>
+<p class="description">Natural-gas transmission and gathering infrastructure.</p></article>
+</div></section>
+<section class="card" data-group="19_D">
+<header><span class="code">19_D</span><span class="count">5</span></header>
+<h3>REFINING MARKETING</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="NYSE:CVI">
+<div class="ticker"><b>CVI</b><small>NYSE</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">CVR Energy, Inc.</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Petroleum refining and nitrogen fertilizer</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:MPC">
+<div class="ticker"><b>MPC</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Marathon Petroleum Corporation</div>
+<p class="description">Refining and associated midstream operations.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:PBF">
+<div class="ticker"><b>PBF</b><small>NYSE</small>
+<span class="role">ANCHOR</span></div>
+<div class="name">PBF Energy, Inc. Class A</div>
+<p class="description">Independent petroleum refining.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:PSX">
+<div class="ticker"><b>PSX</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Phillips 66</div>
+<p class="description">Refining, chemicals and midstream infrastructure.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:VLO">
+<div class="ticker"><b>VLO</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Valero Energy Corporation</div>
+<p class="description">Refining and transportation fuels.</p></article>
+</div></section>
+<section class="card" data-group="20_A">
+<header><span class="code">20_A</span><span class="count">10</span></header>
+<h3>CHEMICALS PAPER PACKAGING</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="NASDAQ:LIN">
+<div class="ticker"><b>LIN</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Linde plc</div>
+<p class="description">Industrial gases and long-term customer supply contracts.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:AMCR">
+<div class="ticker"><b>AMCR</b><small>NYSE</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Amcor PLC</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Flexible and rigid consumer packaging</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:APD">
+<div class="ticker"><b>APD</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Air Products and Chemicals, Inc.</div>
+<p class="description">Industrial gas supply and large-project execution.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:DOW">
+<div class="ticker"><b>DOW</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Dow, Inc.</div>
+<p class="description">Commodity chemicals and performance materials.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:ECL">
+<div class="ticker"><b>ECL</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Ecolab Inc.</div>
+<p class="description">Water treatment, hygiene and process services.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:IP">
+<div class="ticker"><b>IP</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">International Paper Company</div>
+<p class="description">Fibre-based packaging and paper supply chains.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:LYB">
+<div class="ticker"><b>LYB</b><small>NYSE</small>
+<span class="role">ANCHOR</span></div>
+<div class="name">LyondellBasell Industries NV</div>
+<p class="description">Petrochemicals and polymer production.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:PPG">
+<div class="ticker"><b>PPG</b><small>NYSE</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">PPG Industries, Inc.</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Architectural, performance and industrial coatings</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:SHW">
+<div class="ticker"><b>SHW</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Sherwin-Williams Company</div>
+<p class="description">Architectural and industrial coatings.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:SW">
+<div class="ticker"><b>SW</b><small>NYSE</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Smurfit Westrock PLC</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Corrugated and other fibre-based packaging</p></article>
+</div></section>
+<section class="card" data-group="20_B">
+<header><span class="code">20_B</span><span class="count">4</span></header>
+<h3>COPPER MINERS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="NYSE:FCX">
+<div class="ticker"><b>FCX</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Freeport-McMoRan, Inc.</div>
+<p class="description">Copper mining with associated gold production.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:RIO">
+<div class="ticker"><b>RIO</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Rio Tinto plc Sponsored ADR</div>
+<p class="description">Diversified mining and bulk commodity supply.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:SCCO">
+<div class="ticker"><b>SCCO</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Southern Copper Corporation</div>
+<p class="description">Copper mining and smelting.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:TECK">
+<div class="ticker"><b>TECK</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Teck Resources Limited Class B</div>
+<p class="description">Base-metal mining.</p></article>
+</div></section>
+<section class="card" data-group="20_C">
+<header><span class="code">20_C</span><span class="count">7</span></header>
+<h3>STEEL ALUMINUM</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="NASDAQ:KALU">
+<div class="ticker"><b>KALU</b><small>NASDAQ</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Kaiser Aluminum Corporation</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Semi-fabricated specialty aluminium products</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:STLD">
+<div class="ticker"><b>STLD</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Steel Dynamics, Inc.</div>
+<p class="description">Electric-furnace steel production and metals recycling.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:AA">
+<div class="ticker"><b>AA</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Alcoa Corporation</div>
+<p class="description">Alumina and primary aluminium production.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:ATI">
+<div class="ticker"><b>ATI</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">ATI Inc</div>
+<p class="description">Aerospace and industrial specialty materials.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:CRS">
+<div class="ticker"><b>CRS</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Carpenter Technology Corporation</div>
+<p class="description">Specialty metal alloys.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:MT">
+<div class="ticker"><b>MT</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">ArcelorMittal SA ADR</div>
+<p class="description">Integrated global steel production.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:NUE">
+<div class="ticker"><b>NUE</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Nucor Corporation</div>
+<p class="description">Electric-arc-furnace steel and downstream steel products.</p></article>
+</div></section>
+<section class="card" data-group="20_D">
+<header><span class="code">20_D</span><span class="count">5</span></header>
+<h3>GOLD MINERS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="NYSE:AEM">
+<div class="ticker"><b>AEM</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Agnico Eagle Mines Limited</div>
+<p class="description">Gold mining with regional operating diversification.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:B">
+<div class="ticker"><b>B</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Barrick Mining Corporation</div>
+<p class="description">Gold and copper mining.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:CDE">
+<div class="ticker"><b>CDE</b><small>NYSE</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Coeur Mining, Inc.</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Gold and silver mining</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:NEM">
+<div class="ticker"><b>NEM</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Newmont Corporation</div>
+<p class="description">Gold mining operations.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:WPM">
+<div class="ticker"><b>WPM</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Wheaton Precious Metals Corp</div>
+<p class="description">Precious-metal streaming contracts.</p></article>
+</div></section>
+<section class="card" data-group="20_E">
+<header><span class="code">20_E</span><span class="count">3</span></header>
+<h3>LITHIUM RARE EARTH</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="NYSE:ALB">
+<div class="ticker"><b>ALB</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Albemarle Corporation</div>
+<p class="description">Lithium chemicals and specialty materials.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:MP">
+<div class="ticker"><b>MP</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">MP Materials Corp Class A</div>
+<p class="description">Rare-earth mining and downstream processing.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:SQM">
+<div class="ticker"><b>SQM</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Sociedad Quimica y Minera de Chile S.A. Sponsored ADR Pfd Series B</div>
+<p class="description">Lithium and agricultural/industrial chemicals.</p></article>
+</div></section>
+<section class="card" data-group="21_B">
+<header><span class="code">21_B</span><span class="count">5</span></header>
+<h3>POWER GENERATION SUPPLY SYSTEMS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="NASDAQ:CEG">
+<div class="ticker"><b>CEG</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Constellation Energy Corporation</div>
+<p class="description">Nuclear generation and wholesale power exposure.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:TLN">
+<div class="ticker"><b>TLN</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Talen Energy Corp</div>
+<p class="description">Wholesale power generation and capacity sales.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:BE">
+<div class="ticker"><b>BE</b><small>NYSE</small>
+<span class="role">ANCHOR</span></div>
+<div class="name">Bloom Energy Corporation Class A</div>
+<p class="description">Stationary solid-oxide fuel-cell power systems.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:NRG">
+<div class="ticker"><b>NRG</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">NRG Energy, Inc.</div>
+<p class="description">Retail electricity and generation.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:VST">
+<div class="ticker"><b>VST</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Vistra Corp.</div>
+<p class="description">Merchant generation and retail electricity.</p></article>
+</div></section>
+<section class="card" data-group="21_C">
+<header><span class="code">21_C</span><span class="count">3</span></header>
+<h3>NUCLEAR FUEL</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="AMEX:UUUU">
+<div class="ticker"><b>UUUU</b><small>AMEX</small>
+<span class="role">ANCHOR</span></div>
+<div class="name">Energy Fuels Inc.</div>
+<p class="description">Uranium and rare-earth processing development.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:CCJ">
+<div class="ticker"><b>CCJ</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Cameco Corporation</div>
+<p class="description">Uranium supply and nuclear-fuel services.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:LEU">
+<div class="ticker"><b>LEU</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Centrus Energy Corp. Class A</div>
+<p class="description">Nuclear-fuel supply and enrichment services.</p></article>
+</div></section>
+<section class="card" data-group="21_E">
+<header><span class="code">21_E</span><span class="count">3</span></header>
+<h3>SOLAR</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="NASDAQ:ENPH">
+<div class="ticker"><b>ENPH</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Enphase Energy, Inc.</div>
+<p class="description">Distributed solar power electronics and energy systems.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:FSLR">
+<div class="ticker"><b>FSLR</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">First Solar, Inc.</div>
+<p class="description">Thin-film solar modules.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:NXT">
+<div class="ticker"><b>NXT</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Nextpower Inc.</div>
+<p class="description">Utility-scale solar tracking systems.</p></article>
+</div></section>
+<section class="card" data-group="22_A">
+<header><span class="code">22_A</span><span class="count">5</span></header>
+<h3>DATACENTER TOWER REIT</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="NASDAQ:EQIX">
+<div class="ticker"><b>EQIX</b><small>NASDAQ</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Equinix, Inc.</div>
+<p class="description">Interconnection-oriented data-centre property operations.</p></article>
+<article class="entry" data-kind="member" data-ticker="NASDAQ:SBAC">
+<div class="ticker"><b>SBAC</b><small>NASDAQ</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">SBA Communications Corp. Class A</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Wireless communication infrastructure site leasing and site development.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:AMT">
+<div class="ticker"><b>AMT</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">American Tower Corporation</div>
+<p class="description">Wireless communication tower leasing.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:CCI">
+<div class="ticker"><b>CCI</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Crown Castle Inc.</div>
+<p class="description">Us communication infrastructure leasing.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:DLR">
+<div class="ticker"><b>DLR</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Digital Realty Trust, Inc.</div>
+<p class="description">Wholesale/colocation data-centre properties.</p></article>
+</div></section>
+<section class="card" data-group="22_B">
+<header><span class="code">22_B</span><span class="count">10</span></header>
+<h3>INCOME PROPERTY REITS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="NYSE:AHR">
+<div class="ticker"><b>AHR</b><small>NYSE</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">American Healthcare REIT, Inc.</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Healthcare and senior-housing real estate</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:CUBE">
+<div class="ticker"><b>CUBE</b><small>NYSE</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">CubeSmart</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Self-storage ownership and third-party property management</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:EXR">
+<div class="ticker"><b>EXR</b><small>NYSE</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Extra Space Storage Inc.</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Self-storage operations and tenant reinsurance</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:KIM">
+<div class="ticker"><b>KIM</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Kimco Realty Corporation</div>
+<p class="description">Grocery-anchored shopping centre properties.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:O">
+<div class="ticker"><b>O</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Realty Income Corporation</div>
+<p class="description">Diversified net-lease property cash flows.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:PLD">
+<div class="ticker"><b>PLD</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Prologis, Inc.</div>
+<p class="description">Logistics real estate and warehouse rents.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:PSA">
+<div class="ticker"><b>PSA</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Public Storage</div>
+<p class="description">Self-storage property rents.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:SPG">
+<div class="ticker"><b>SPG</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Simon Property Group, Inc.</div>
+<p class="description">Shopping malls and outlet property operations.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:VTR">
+<div class="ticker"><b>VTR</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Ventas, Inc.</div>
+<p class="description">Senior housing and outpatient healthcare properties.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:WELL">
+<div class="ticker"><b>WELL</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Welltower Inc.</div>
+<p class="description">Senior-housing and healthcare property operations.</p></article>
+</div></section>
+<section class="card" data-group="22_D">
+<header><span class="code">22_D</span><span class="count">12</span></header>
+<h3>PROPERTY FINANCING SPECIALTY REITS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="NASDAQ:AGNC">
+<div class="ticker"><b>AGNC</b><small>NASDAQ</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">AGNC Investment Corp.</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Agency mortgage-backed securities financed with leverage</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:CPT">
+<div class="ticker"><b>CPT</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Camden Property Trust</div>
+<p class="description">Multifamily rental housing.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:ELS">
+<div class="ticker"><b>ELS</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Equity LifeStyle Properties, Inc.</div>
+<p class="description">Manufactured-home and recreational-vehicle property operations.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:ESS">
+<div class="ticker"><b>ESS</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Essex Property Trust, Inc.</div>
+<p class="description">West coast apartment rents.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:INVH">
+<div class="ticker"><b>INVH</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Invitation Homes, Inc.</div>
+<p class="description">Single-family rental housing.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:IRM">
+<div class="ticker"><b>IRM</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Iron Mountain, Inc.</div>
+<p class="description">Records management and data-centre services.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:MAA">
+<div class="ticker"><b>MAA</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Mid-America Apartment Communities, Inc.</div>
+<p class="description">Sunbelt apartment rents.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:NLY">
+<div class="ticker"><b>NLY</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Annaly Capital Management, Inc.</div>
+<p class="description">Leveraged residential mortgage investment and financing.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:SUI">
+<div class="ticker"><b>SUI</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Sun Communities, Inc.</div>
+<p class="description">Manufactured-housing community and recreational property operations.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:UDR">
+<div class="ticker"><b>UDR</b><small>NYSE</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">UDR, Inc.</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Multifamily apartment ownership and operation</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:VICI">
+<div class="ticker"><b>VICI</b><small>NYSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">VICI Properties Inc</div>
+<p class="description">Gaming and hospitality property net leases.</p></article>
+<article class="entry" data-kind="member" data-ticker="NYSE:VMRK">
+<div class="ticker"><b>VMRK</b><small>NYSE</small>
+<span class="role">BETA_SATELLITE</span></div>
+<div class="name">Vivmark Residential</div>
+<span class="added">+ Added Beta</span>
+<p class="description">Multifamily residential development and operation</p></article>
+</div></section>
+</div>
+<h2 class="section-title">Reference instruments</h2>
+<div class="grid">
+<section class="card" data-group="00_A">
+<header><span class="code">00_A</span><span class="count">4</span></header>
+<h3>EQUITY INDEX</h3><div class="entries">
+<article class="entry" data-kind="reference" data-ticker="SP:SPX">
+<div class="ticker"><b>SPX</b><small>SP</small>
+<span class="role">index</span></div>
+<p class="description">S&amp;P 500; Separate reference instrument; does not consume an operating-entity seat.</p></article>
+<article class="entry" data-kind="reference" data-ticker="TVC:NDQ">
+<div class="ticker"><b>NDQ</b><small>TVC</small>
+<span class="role">index</span></div>
+<p class="description">US 100 Index; Separate reference instrument; does not consume an operating-entity seat.</p></article>
+<article class="entry" data-kind="reference" data-ticker="TVC:RUT">
+<div class="ticker"><b>RUT</b><small>TVC</small>
+<span class="role">index</span></div>
+<p class="description">US Small Cap 2000 Index; Separate reference instrument; does not consume an operating-entity seat.</p></article>
+<article class="entry" data-kind="reference" data-ticker="TVC:SOX">
+<div class="ticker"><b>SOX</b><small>TVC</small>
+<span class="role">index</span></div>
+<p class="description">PHLX Semiconductor; Separate reference instrument; does not consume an operating-entity seat.</p></article>
+</div></section>
+<section class="card" data-group="00_B">
+<header><span class="code">00_B</span><span class="count">5</span></header>
+<h3>VOL FX RATES</h3><div class="entries">
+<article class="entry" data-kind="reference" data-ticker="TVC:DXY">
+<div class="ticker"><b>DXY</b><small>TVC</small>
+<span class="role">index</span></div>
+<p class="description">U.S. Dollar Currency Index; Separate reference instrument; does not consume an operating-entity seat.</p></article>
+<article class="entry" data-kind="reference" data-ticker="TVC:US02Y">
+<div class="ticker"><b>US02Y</b><small>TVC</small>
+<span class="role">yield</span></div>
+<p class="description">United States 2 Year Government Bonds Yield; Separate reference instrument; does not consume an operating-entity seat.</p></article>
+<article class="entry" data-kind="reference" data-ticker="TVC:US10Y">
+<div class="ticker"><b>US10Y</b><small>TVC</small>
+<span class="role">yield</span></div>
+<p class="description">United States 10 Year Government Bonds Yield; Separate reference instrument; does not consume an operating-entity seat.</p></article>
+<article class="entry" data-kind="reference" data-ticker="TVC:US30Y">
+<div class="ticker"><b>US30Y</b><small>TVC</small>
+<span class="role">yield</span></div>
+<p class="description">United States 30 Year Government Bonds Yield; Separate reference instrument; does not consume an operating-entity seat.</p></article>
+<article class="entry" data-kind="reference" data-ticker="TVC:VIX">
+<div class="ticker"><b>VIX</b><small>TVC</small>
+<span class="role">index</span></div>
+<p class="description">VOLATILITY S&amp;P 500; Separate reference instrument; does not consume an operating-entity seat.</p></article>
+</div></section>
+<section class="card" data-group="01_A">
+<header><span class="code">01_A</span><span class="count">5</span></header>
+<h3>CORE BETA ETF</h3><div class="entries">
+<article class="entry" data-kind="reference" data-ticker="AMEX:DIA">
+<div class="ticker"><b>DIA</b><small>AMEX</small>
+<span class="role">etf</span></div>
+<p class="description">State Street SPDR Dow Jones Industrial Average ETF Trust; Separate reference instrument; does not consume an operating-entity seat.</p></article>
+<article class="entry" data-kind="reference" data-ticker="AMEX:IWM">
+<div class="ticker"><b>IWM</b><small>AMEX</small>
+<span class="role">etf</span></div>
+<p class="description">iShares Russell 2000 ETF; Separate reference instrument; does not consume an operating-entity seat.</p></article>
+<article class="entry" data-kind="reference" data-ticker="AMEX:RSP">
+<div class="ticker"><b>RSP</b><small>AMEX</small>
+<span class="role">etf</span></div>
+<p class="description">Invesco S&amp;P 500 Equal Weight ETF; Separate reference instrument; does not consume an operating-entity seat.</p></article>
+<article class="entry" data-kind="reference" data-ticker="AMEX:SPY">
+<div class="ticker"><b>SPY</b><small>AMEX</small>
+<span class="role">etf</span></div>
+<p class="description">State Street SPDR S&amp;P 500 ETF; Separate reference instrument; does not consume an operating-entity seat.</p></article>
+<article class="entry" data-kind="reference" data-ticker="NASDAQ:QQQ">
+<div class="ticker"><b>QQQ</b><small>NASDAQ</small>
+<span class="role">etf</span></div>
+<p class="description">Invesco QQQ Trust Series I; Separate reference instrument; does not consume an operating-entity seat.</p></article>
+</div></section>
+<section class="card" data-group="01_B">
+<header><span class="code">01_B</span><span class="count">4</span></header>
+<h3>FACTOR ETF</h3><div class="entries">
+<article class="entry" data-kind="reference" data-ticker="AMEX:SCHD">
+<div class="ticker"><b>SCHD</b><small>AMEX</small>
+<span class="role">etf</span></div>
+<p class="description">Schwab US Dividend Equity ETF; Separate reference instrument; does not consume an operating-entity seat.</p></article>
+<article class="entry" data-kind="reference" data-ticker="AMEX:VIG">
+<div class="ticker"><b>VIG</b><small>AMEX</small>
+<span class="role">etf</span></div>
+<p class="description">Vanguard Dividend Appreciation ETF; Separate reference instrument; does not consume an operating-entity seat.</p></article>
+<article class="entry" data-kind="reference" data-ticker="AMEX:VTV">
+<div class="ticker"><b>VTV</b><small>AMEX</small>
+<span class="role">etf</span></div>
+<p class="description">Vanguard Morningstar Value ETF; Separate reference instrument; does not consume an operating-entity seat.</p></article>
+<article class="entry" data-kind="reference" data-ticker="CBOE:USMV">
+<div class="ticker"><b>USMV</b><small>CBOE</small>
+<span class="role">etf</span></div>
+<p class="description">iShares MSCI USA Min Vol Factor ETF; Separate reference instrument; does not consume an operating-entity seat.</p></article>
+</div></section>
+<section class="card" data-group="01_C">
+<header><span class="code">01_C</span><span class="count">6</span></header>
+<h3>SECTOR ETF</h3><div class="entries">
+<article class="entry" data-kind="reference" data-ticker="AMEX:XLC">
+<div class="ticker"><b>XLC</b><small>AMEX</small>
+<span class="role">etf</span></div>
+<p class="description">State Street Communication Services Select Sector SPDR ETF; Separate reference instrument; does not consume an operating-entity seat.</p></article>
+<article class="entry" data-kind="reference" data-ticker="AMEX:XLE">
+<div class="ticker"><b>XLE</b><small>AMEX</small>
+<span class="role">etf</span></div>
+<p class="description">State Street Energy Select Sector SPDR ETF; Separate reference instrument; does not consume an operating-entity seat.</p></article>
+<article class="entry" data-kind="reference" data-ticker="AMEX:XLP">
+<div class="ticker"><b>XLP</b><small>AMEX</small>
+<span class="role">etf</span></div>
+<p class="description">State Street Consumer Staples Select Sector SPDR ETF; Separate reference instrument; does not consume an operating-entity seat.</p></article>
+<article class="entry" data-kind="reference" data-ticker="AMEX:XLU">
+<div class="ticker"><b>XLU</b><small>AMEX</small>
+<span class="role">etf</span></div>
+<p class="description">State Street Utilities Select Sector SPDR ETF; Separate reference instrument; does not consume an operating-entity seat.</p></article>
+<article class="entry" data-kind="reference" data-ticker="AMEX:XLV">
+<div class="ticker"><b>XLV</b><small>AMEX</small>
+<span class="role">etf</span></div>
+<p class="description">State Street Health Care Select Sector SPDR ETF; Separate reference instrument; does not consume an operating-entity seat.</p></article>
+<article class="entry" data-kind="reference" data-ticker="AMEX:XLY">
+<div class="ticker"><b>XLY</b><small>AMEX</small>
+<span class="role">etf</span></div>
+<p class="description">State Street Consumer Discretionary Select Sector SPDR ETF; Separate reference instrument; does not consume an operating-entity seat.</p></article>
+</div></section>
+<section class="card" data-group="01_D">
+<header><span class="code">01_D</span><span class="count">13</span></header>
+<h3>THEME ETF</h3><div class="entries">
+<article class="entry" data-kind="reference" data-ticker="AMEX:COPX">
+<div class="ticker"><b>COPX</b><small>AMEX</small>
+<span class="role">etf</span></div>
+<p class="description">Global X Copper Miners ETF; Separate reference instrument; does not consume an operating-entity seat.</p></article>
+<article class="entry" data-kind="reference" data-ticker="AMEX:EWY">
+<div class="ticker"><b>EWY</b><small>AMEX</small>
+<span class="role">etf</span></div>
+<p class="description">iShares MSCI South Korea ETF; Separate reference instrument; does not consume an operating-entity seat.</p></article>
+<article class="entry" data-kind="reference" data-ticker="AMEX:GDX">
+<div class="ticker"><b>GDX</b><small>AMEX</small>
+<span class="role">etf</span></div>
+<p class="description">VanEck Gold Miners ETF; Separate reference instrument; does not consume an operating-entity seat.</p></article>
+<article class="entry" data-kind="reference" data-ticker="AMEX:KRE">
+<div class="ticker"><b>KRE</b><small>AMEX</small>
+<span class="role">etf</span></div>
+<p class="description">State Street SPDR S&amp;P Regional Banking ETF; Separate reference instrument; does not consume an operating-entity seat.</p></article>
+<article class="entry" data-kind="reference" data-ticker="AMEX:KWEB">
+<div class="ticker"><b>KWEB</b><small>AMEX</small>
+<span class="role">etf</span></div>
+<p class="description">KraneShares CSI China Internet ETF; Separate reference instrument; does not consume an operating-entity seat.</p></article>
+<article class="entry" data-kind="reference" data-ticker="AMEX:TAN">
+<div class="ticker"><b>TAN</b><small>AMEX</small>
+<span class="role">etf</span></div>
+<p class="description">Invesco Solar ETF; Separate reference instrument; does not consume an operating-entity seat.</p></article>
+<article class="entry" data-kind="reference" data-ticker="AMEX:URA">
+<div class="ticker"><b>URA</b><small>AMEX</small>
+<span class="role">etf</span></div>
+<p class="description">Global X Uranium ETF; Separate reference instrument; does not consume an operating-entity seat.</p></article>
+<article class="entry" data-kind="reference" data-ticker="AMEX:XBI">
+<div class="ticker"><b>XBI</b><small>AMEX</small>
+<span class="role">etf</span></div>
+<p class="description">State Street SPDR S&amp;P Biotech ETF; Separate reference instrument; does not consume an operating-entity seat.</p></article>
+<article class="entry" data-kind="reference" data-ticker="CBOE:IGV">
+<div class="ticker"><b>IGV</b><small>CBOE</small>
+<span class="role">etf</span></div>
+<p class="description">iShares Expanded Tech-Software Sector ETF; Separate reference instrument; does not consume an operating-entity seat.</p></article>
+<article class="entry" data-kind="reference" data-ticker="CBOE:ITA">
+<div class="ticker"><b>ITA</b><small>CBOE</small>
+<span class="role">etf</span></div>
+<p class="description">iShares U.S. Aerospace &amp; Defense ETF; Separate reference instrument; does not consume an operating-entity seat.</p></article>
+<article class="entry" data-kind="reference" data-ticker="CBOE:ITB">
+<div class="ticker"><b>ITB</b><small>CBOE</small>
+<span class="role">etf</span></div>
+<p class="description">iShares U.S. Home Construction ETF; Separate reference instrument; does not consume an operating-entity seat.</p></article>
+<article class="entry" data-kind="reference" data-ticker="NASDAQ:BOTZ">
+<div class="ticker"><b>BOTZ</b><small>NASDAQ</small>
+<span class="role">etf</span></div>
+<p class="description">Global X Robotics &amp; Artificial Intelligence ETF; Separate reference instrument; does not consume an operating-entity seat.</p></article>
+<article class="entry" data-kind="reference" data-ticker="NASDAQ:SMH">
+<div class="ticker"><b>SMH</b><small>NASDAQ</small>
+<span class="role">etf</span></div>
+<p class="description">VanEck Semiconductor ETF; Separate reference instrument; does not consume an operating-entity seat.</p></article>
+</div></section>
+<section class="card" data-group="02_A">
+<header><span class="code">02_A</span><span class="count">4</span></header>
+<h3>METALS</h3><div class="entries">
+<article class="entry" data-kind="reference" data-ticker="CAPITALCOM:XCUUSD">
+<div class="ticker"><b>XCUUSD</b><small>CAPITALCOM</small>
+<span class="role">commodity</span></div>
+<p class="description">Copper; Separate reference instrument; does not consume an operating-entity seat.</p></article>
+<article class="entry" data-kind="reference" data-ticker="OANDA:XAGUSD">
+<div class="ticker"><b>XAGUSD</b><small>OANDA</small>
+<span class="role">commodity</span></div>
+<p class="description">Silver; Separate reference instrument; does not consume an operating-entity seat.</p></article>
+<article class="entry" data-kind="reference" data-ticker="OANDA:XAUUSD">
+<div class="ticker"><b>XAUUSD</b><small>OANDA</small>
+<span class="role">commodity</span></div>
+<p class="description">Gold; Separate reference instrument; does not consume an operating-entity seat.</p></article>
+<article class="entry" data-kind="reference" data-ticker="OANDA:XAUXAG">
+<div class="ticker"><b>XAUXAG</b><small>OANDA</small>
+<span class="role">ratio</span></div>
+<p class="description">Gold/Silver; Separate reference instrument; does not consume an operating-entity seat.</p></article>
+</div></section>
+<section class="card" data-group="02_B">
+<header><span class="code">02_B</span><span class="count">3</span></header>
+<h3>ENERGY</h3><div class="entries">
+<article class="entry" data-kind="reference" data-ticker="OANDA:NATGASUSD">
+<div class="ticker"><b>NATGASUSD</b><small>OANDA</small>
+<span class="role">commodity</span></div>
+<p class="description">Natural Gas; Separate reference instrument; does not consume an operating-entity seat.</p></article>
+<article class="entry" data-kind="reference" data-ticker="TVC:UKOIL">
+<div class="ticker"><b>UKOIL</b><small>TVC</small>
+<span class="role">commodity</span></div>
+<p class="description">BRENT CRUDE OIL; Separate reference instrument; does not consume an operating-entity seat.</p></article>
+<article class="entry" data-kind="reference" data-ticker="TVC:USOIL">
+<div class="ticker"><b>USOIL</b><small>TVC</small>
+<span class="role">commodity</span></div>
+<p class="description">WTI CRUDE OIL; Separate reference instrument; does not consume an operating-entity seat.</p></article>
+</div></section>
+</div>
+<details class="notes">
+<summary>Research notes and limits</summary><ul>
+<li>All reference identities were checked online separately; vendor CFDs and commodity price gauges retain basis limitations. References do not consume entity budgets.</li>
+<li>Core leadership remains a reviewed representative judgement within the declared roster, not an exhaustive census or independently audited market-share ranking. Banks, insurance, consumer staples/discretionary, regulated utilities and property branches remain protected.</li>
+<li>Corporate-action repair: NYSE:ET is no longer used; exact provider AMEX:ET code and identity checked against issuer TXSE filing/StockAnalysis. Physical venue remains TXSE; AMEX is the observed vendor namespace, not an invented equivalence.</li>
+<li>ET Yahoo history only has eight effective completed bars. Public StockAnalysis/S&amp;P table restores 49 real completed sessions, with 30-session turnover and a shorter disclosed factor window; no old metric or history backfill reused.</li>
+<li>Each admitted candidate was compared with a freshly acquired broad business profile; original business/continuity judgement and original evidence dates are retained where still supported. Current listing, market cap, standardized financial fields and raw daily bars refreshed. Provider underlying business publication date and financial period are unknown; stale segment lists were not adopted.</li>
+<li>Identity normalization repair: obsolete NYSE:ET row archived separately in research/retired-instruments.json; one ET economic entity remains as verified provider AMEX:ET. Price table/population, measured scores and new representative facts are unchanged.</li>
+<li>Independent provenance audit found local raw-filename share-class collisions. All affected base/classes were independently refetched with exact Yahoo meta.symbol verification and unique filenames; real cohort was remeasured. Business identity for admitted BRK.B separately refreshed. Installed CLI/validator unchanged; prior outputs archived.</li>
+<li>Liquidity is a single USD turnover cohort computed from actual public bars. Return close is adjusted; turnover is raw close times volume proxy. Prices exclude the incomplete 2026-10-07 US session.</li>
+<li>Live US online test 2026-10-08 BJT; collection timestamps, source cutoffs and raw replies are retained in research/online and receipts. Original snapshot only supplied discovery, duties and reviewed long-lived business judgements.</li>
+<li>Live quote/cap observations are intraday Oct 7 UTC / Oct 8 BJT, distinct from price cutoff Oct 6 and financial/report periods. No complete SEC adverse-flag/filing audit or future evaluation/TradingView UI import test is claimed.</li>
+<li>Research conversion attaches per-ticker source URLs/raw receipt hashes and computed turnover population metadata to formal CLI measurement results. All metric scores, dates, factor legs/counts and input hashes are unchanged; ET source attribution points to the actual public table.</li>
+<li>Stable 91-branch economic coverage, sector weights/caps, 330-leader +35-peer roster, budgets 125/330/400/580 and all 44 reference duties are preserved. Corporate-action replacements are explicit; no min_profile change or policy relaxation.</li>
+<li>WBD was suspended after completed acquisition. Necessary peer replaced by sourced NYSE:SKYD without changing its Heavy min_profile, business branch or seat count. Historical SKYD adjusted-price lineage/legacy financials predate the new combination.</li>
+</ul></details>
+<footer>Research notes and limits · <a href="us-max-2026-10-08.json" download>JSON</a> · <a href="us-max-2026-10-08.validation.json" download>Validation</a></footer>
+</main></body></html>

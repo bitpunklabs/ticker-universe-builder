@@ -2827,7 +2827,9 @@ def write_artifacts(
     report: dict[str, Any],
     output: str | Path,
     language: str | None = None,
-) -> dict[str, Path]:
+) -> dict[str, Any]:
+    from report_html import render_html
+
     stem = artifact_stem(universe)
     written = report_languages(universe, language)
     files = {
@@ -2837,6 +2839,7 @@ def write_artifacts(
     }
     for code in written:
         files[f"{stem}.{code}.md"] = render_markdown(universe, report, code)
+        files[f"{stem}.{code}.html"] = render_html(universe, report, code)
     destination = _write_atomic(output, files)
     return {
         "directory": destination,
@@ -2846,6 +2849,7 @@ def write_artifacts(
         # Keyed by language, so a caller that wants the English one asks for it by name instead
         # of reconstructing a filename.
         "reports": {code: destination / f"{stem}.{code}.md" for code in written},
+        "html_reports": {code: destination / f"{stem}.{code}.html" for code in written},
     }
 
 

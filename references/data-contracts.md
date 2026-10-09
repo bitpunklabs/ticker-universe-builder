@@ -48,8 +48,9 @@ Without a summary, Markdown uses a bounded first-sentence excerpt of `reason`.
 Optional snapshot `report_translations` is a supported-language-keyed text map, for example
 `{"en": {"航空产品。": "Aviation products."}}`. Keys match original display text exactly;
 values are non-empty authored translations. Supply names, short reasons, theme labels/purposes,
-notes, measurement descriptions and reference descriptions used by the report. The renderer
-uses this map only in Markdown; selection, ticker codes, original research and TXT are unchanged.
+notes, measurement descriptions and reference descriptions used by the report. The Markdown and
+HTML renderers use this map only for presentation; selection, ticker codes, original research
+and TXT are unchanged.
 Translated member reasons retain the 160-character limit. Missing entries retain the original
 text for older inputs; review language completeness before delivering an English report.
 The map is preserved in universe JSON and covered by `content_hash`.
@@ -455,13 +456,16 @@ may remain unused. See [recovery.md](recovery.md) for continuation and
 exit codes; validation success and requested-size completion are different claims.
 
 All stemmed `{market}-{profile}-{as_of}` — `crypto-light-2026-09-17.json`, `.validation.json`,
-`.txt`, and one `.md` per report language: `.en.md` always, plus `.zh-Hans.md`, `.ja.md` and so
+`.txt`, and one `.md` and `.html` per report language: `.en.md`/`.en.html` always,
+plus `.zh-Hans.md`/`.zh-Hans.html`, `.ja.md`/`.ja.html` and so
 on where the market reads in something else. The watchlist leaves its directory as soon as it is
 useful, so the name has to say which universe and when without the directory around it; the
 reports carry their language for the same reason, and carry it even when there is only one, so
 that `{stem}.en.md` is where the English report lives in all fourteen markets rather than in nine
 of them. The command prints every path it wrote under `artifacts`, with the reports keyed by
-language under `artifacts.reports`; read them from there instead of reconstructing them.
+language under `artifacts.reports` (Markdown) and `artifacts.html_reports` (HTML);
+read them from there instead of reconstructing them. HTML is a self-contained, escaped rendering
+of all members/references with the same display groups and short reasons, not a separate selector.
 
 The `.json` is the record: spec limits, policy hash, sources, measurement, taxonomy, members, the
 selection audit and the review history. For coverage-first, `version_hash` additionally covers the coverage plan and admissions.

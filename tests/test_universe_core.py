@@ -261,6 +261,7 @@ class BuildTests(unittest.TestCase):
             self.assertEqual(
                 sorted(path.name for path in output.iterdir()),
                 [
+                    "crypto-light-2026-09-09.en.html",
                     "crypto-light-2026-09-09.en.md",
                     "crypto-light-2026-09-09.json",
                     "crypto-light-2026-09-09.txt",
@@ -1731,13 +1732,13 @@ class ExampleTests(unittest.TestCase):
         before = {
             path: path.read_bytes()
             for path in (ROOT / "examples").rglob("*")
-            if path.is_file() and path.suffix in {".json", ".txt", ".md"}
+            if path.is_file() and path.suffix in {".json", ".txt", ".md", ".html"}
         }
         build_examples.main()
         after = {
             path: path.read_bytes()
             for path in (ROOT / "examples").rglob("*")
-            if path.is_file() and path.suffix in {".json", ".txt", ".md"}
+            if path.is_file() and path.suffix in {".json", ".txt", ".md", ".html"}
         }
         self.assertEqual(before, after)
 
@@ -1769,6 +1770,7 @@ class ExampleTests(unittest.TestCase):
                 stem = f"{market}-medium-{universe['as_of']}"
                 expected = {f"{stem}.json", f"{stem}.validation.json", f"{stem}.txt"}
                 expected |= {f"{stem}.{code}.md" for code in report_languages(market)}
+                expected |= {f"{stem}.{code}.html" for code in report_languages(market)}
                 self.assertEqual({path.name for path in (folder / "output").iterdir()}, expected)
                 for code in report_languages(market):
                     text = (folder / "output" / f"{stem}.{code}.md").read_text()

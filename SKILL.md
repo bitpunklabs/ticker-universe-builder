@@ -170,18 +170,20 @@ reported rather than dropped.
    economic duty still has a qualified representative, gauges remain observable, and role
    shortages are understood. A filled count with poor duty coverage is not a completed research
    result. Core supply far below its policy target calls for role/business research, not padding.
-10. Deliver the report, TradingView TXT, authoritative JSON and validation paths following
+10. Deliver the HTML report, Markdown, TradingView TXT, authoritative JSON and validation paths following
     [the output contract](references/output-artifacts.md). If no destination was requested,
     use `ticker-universes/<market>/<profile>/<as_of>/` in the user's project, passing an absolute
     `--output` path. Keep checkpoints, use a new empty directory for revisions, and disclose
     source cutoffs and partial status. Keep rendered paths in place; deliver links or copies.
     English is always generated; non-English markets also
-    get their market-language report. Fixed headings come from locales; supply authored
+    get their market-language report, in both HTML and Markdown. HTML is a complete, offline
+    browser report; keep it beside its companion artifacts for relative links. Read paths from
+    `artifacts.html_reports` / `artifacts.reports`, keyed by language. Fixed headings come from locales; supply authored
     `report_translations.en` for human content (names, brief reasons, themes and descriptions).
     Check the English report's content as well as its headings; the CLI does not translate prose.
     Supply a one-sentence `reason_summary` for each candidate: explain the business observation,
     preferably at most 60 Chinese characters or 160 characters in other languages. Keep detailed
-    reasoning and evidence in `reason`/admission/JSON; Markdown is the readable brief, not a log.
+    reasoning and evidence in `reason`/admission/JSON; HTML and Markdown are readable briefs, not logs.
     State the business directly, without repetitive prefixes such as “观察” or “Observe”.
 
 If you have a price table covering the window after a universe was built, run

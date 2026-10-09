@@ -1,0 +1,764 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>KR 종목 유니버스 · Medium</title>
+<style>/* Self-contained report, readable without a network connection. */
+:root { color-scheme: dark; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+  "Noto Sans", "PingFang SC", "Microsoft YaHei", sans-serif; }
+* { box-sizing: border-box; }
+body { margin: 0; background: #090d13; color: #edf3fa; }
+main { width: 940px; max-width: 100%; margin: auto; padding: 34px 30px; }
+.brand { color: #d4deeb; font-size: 13px; letter-spacing: .04em; }
+.brand span { color: #8da0b8; }
+.hero { display: flex; align-items: center; justify-content: space-between;
+  gap: 14px; margin-top: 24px; }
+.hero > div { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+h1 { font-size: 32px; line-height: 1.2; letter-spacing: -.03em; margin: 0; }
+.profile, .verdict { border: 1px solid #34435a; border-radius: 6px; padding: 5px 9px;
+  font-size: 12px; font-weight: 600; white-space: nowrap; }
+.profile { color: #a9cfff; background: #14233b; }
+.verdict.pass { color: #8adebd; background: #10251f; border-color: #285340; }
+.verdict.partial, .notice.partial { color: #f1cd85; border-color: #765e33; }
+.verdict.fail { color: #ffb1b1; border-color: #874545; }
+.meta { color: #a4b5ca; font-size: 13px; line-height: 1.6; overflow-wrap: anywhere; }
+code, .code { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
+a { color: #a9cfff; text-decoration: none; }
+a:hover { text-decoration: underline; }
+a:focus-visible, summary:focus-visible { outline: 2px solid #79b8ff; outline-offset: 4px; }
+.files { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0; }
+.files a { padding: 7px 11px; border: 1px solid #2a3545; border-radius: 6px; font-size: 13px; }
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); background: #101721;
+  border: 1px solid #2a3545; border-radius: 10px; margin-bottom: 24px; }
+.stats > div { padding: 17px 18px; border-right: 1px solid #2a3545; }
+.stats > div:last-child { border-right: 0; }
+.stats strong { display: block; font-size: 27px; font-weight: 650; }
+.stats span { display: block; color: #a4b5ca; font-size: 12px; margin-top: 5px; }
+.section-title { font-size: 18px; margin: 26px 0 14px; font-weight: 600; }
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start; gap: 14px; }
+.card { --accent: #79b8ff; background: #101721; border: 1px solid #2a3545;
+  border-top: 2px solid var(--accent); border-radius: 9px; padding: 18px 19px 4px; }
+.card:nth-child(4n+2) { --accent: #b69cff; }
+.card:nth-child(4n+3) { --accent: #67d8ce; }
+.card:nth-child(4n+4) { --accent: #e7bb76; }
+.card header { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.code { color: var(--accent); font-size: 12px; }
+.count { color: #bccada; font-size: 12px; border: 1px solid #34435a;
+  border-radius: 4px; min-width: 24px; padding: 2px 6px; text-align: center; }
+h3 { font-size: 16px; font-weight: 650; line-height: 1.4; margin: 10px 0 16px;
+  overflow-wrap: anywhere; }
+.entry { border-top: 1px solid #263243; padding: 13px 0; overflow-wrap: anywhere; }
+.ticker { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.ticker b { font-size: 17px; letter-spacing: .01em; }
+.ticker small { font-size: 11px; color: #8da0b8; }
+.role { color: #9bacbf; font-size: 10px; margin-left: auto; }
+.name { color: #c0cede; font-size: 12px; line-height: 1.5; margin-top: 4px; }
+.description { color: #b7c5d8; font-size: 15px; line-height: 1.55; margin: 6px 0 0; }
+.added { display: inline-block; font-size: 11px; color: #8adebd; margin-top: 5px; }
+.notice, .notes { background: #101721; border: 1px solid #3b4757; border-radius: 8px;
+  padding: 15px 18px; margin: 18px 0; font-size: 13px; line-height: 1.6; overflow-wrap: anywhere; }
+.notice h2 { font-size: 14px; margin: 0; }
+.notice ul, .notes ul { padding-left: 20px; margin-bottom: 0; }
+.notes li + li { margin-top: 8px; }
+summary { cursor: pointer; color: #c0cede; }
+.expansion { font-size: 14px; color: #8adebd; }
+footer { border-top: 1px solid #2a3545; margin-top: 28px; padding-top: 18px;
+  font-size: 12px; line-height: 1.6; color: #8da0b8; }
+@media (max-width: 620px) {
+  main { padding: 24px 16px; }
+  h1 { font-size: 26px; }
+  .hero { align-items: start; flex-direction: column; }
+  .grid { grid-template-columns: 1fr; }
+  .stats { grid-template-columns: repeat(2, 1fr); }
+  .stats > div:nth-child(2) { border-right: 0; }
+  .stats > div:nth-child(-n+2) { border-bottom: 1px solid #2a3545; }
+  .card { padding: 16px 17px 3px; }
+}
+</style></head><body><main>
+<div class="brand">ticker-universe-builder <span>/ universe report</span></div>
+<header class="hero"><div>
+<h1>KR 종목 유니버스</h1><span class="profile">표준</span>
+</div>
+<span class="verdict pass">검증 · PASS</span></header>
+<p class="meta">사실 기준일 2026-10-07 · <code>6fd6fd9920fc</code></p>
+<nav class="files" aria-label="Artifacts">
+<a href="kr-medium-2026-10-07.ko.md" download>Markdown</a>
+<a href="kr-medium-2026-10-07.txt" download>TradingView TXT</a>
+<a href="kr-medium-2026-10-07.json" download>JSON</a>
+<a href="kr-medium-2026-10-07.validation.json" download>검증</a>
+</nav>
+<div class="stats">
+<div><strong>108</strong><span>종목 수</span></div>
+<div><strong>2</strong><span>참고 지표</span></div>
+<div><strong>25</strong><span>테마 수</span></div>
+<div><strong>110</strong><span>내보낸 종목</span></div>
+</div>
+<h2 class="section-title">구성 종목</h2>
+<div class="grid">
+<section class="card" data-group="10_B">
+<header><span class="code">10_B</span><span class="count">5</span></header>
+<h3>SEMICONDUCTORS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="KRX:000660">
+<div class="ticker"><b>000660</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">에스케이하이닉스보통주</div>
+<p class="description">메모리 반도체 설계·제조와 판매.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:000990">
+<div class="ticker"><b>000990</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">DB하이텍보통주</div>
+<p class="description">반도체 제조와 파운드리.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:005930">
+<div class="ticker"><b>005930</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">삼성전자보통주</div>
+<p class="description">메모리·전자제품과 관련 반도체 사업.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:009150">
+<div class="ticker"><b>009150</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">삼성전기보통주</div>
+<p class="description">전자·전기 부품.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:011070">
+<div class="ticker"><b>011070</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">LG이노텍보통주</div>
+<p class="description">전자부품과 모듈.</p></article>
+</div></section>
+<section class="card" data-group="10_C">
+<header><span class="code">10_C</span><span class="count">6</span></header>
+<h3>SEMICAP EQUIPMENT</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="KRX:036930">
+<div class="ticker"><b>036930</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">주성엔지니어링</div>
+<p class="description">반도체·디스플레이 공정 장비.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:039030">
+<div class="ticker"><b>039030</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">이오테크닉스</div>
+<p class="description">레이저 응용·가공 장비.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:042700">
+<div class="ticker"><b>042700</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">한미반도체보통주</div>
+<p class="description">반도체 제조·후공정 장비.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:058470">
+<div class="ticker"><b>058470</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">리노공업</div>
+<p class="description">반도체 검사 소켓과 접촉 부품.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:064760">
+<div class="ticker"><b>064760</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">티씨케이</div>
+<p class="description">반도체 공정 관련 부품·소재.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:240810">
+<div class="ticker"><b>240810</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">원익아이피에스</div>
+<p class="description">반도체·디스플레이 제조 장비.</p></article>
+</div></section>
+<section class="card" data-group="10_D">
+<header><span class="code">10_D</span><span class="count">5</span></header>
+<h3>IT SERVICES AND INTERNET</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="KRX:018260">
+<div class="ticker"><b>018260</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">삼성에스디에스보통주</div>
+<p class="description">기업 정보통신·IT 서비스.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:035420">
+<div class="ticker"><b>035420</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">NAVER보통주</div>
+<p class="description">검색·인터넷 광고와 포털 플랫폼.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:035720">
+<div class="ticker"><b>035720</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">카카오보통주</div>
+<p class="description">메신저·포털과 인터넷 플랫폼.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:064400">
+<div class="ticker"><b>064400</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">엘지씨엔에스보통주</div>
+<p class="description">기업 IT 시스템과 서비스.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:307950">
+<div class="ticker"><b>307950</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">현대오토에버보통주</div>
+<p class="description">시스템 통합·구축 서비스.</p></article>
+</div></section>
+<section class="card" data-group="20_B">
+<header><span class="code">20_B</span><span class="count">3</span></header>
+<h3>TELECOM</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="KRX:017670">
+<div class="ticker"><b>017670</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">SK텔레콤보통주</div>
+<p class="description">이동통신과 인터넷 서비스.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:030200">
+<div class="ticker"><b>030200</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">케이티보통주</div>
+<p class="description">유무선 통신 서비스.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:032640">
+<div class="ticker"><b>032640</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">LG유플러스보통주</div>
+<p class="description">통신 서비스와 네트워크.</p></article>
+</div></section>
+<section class="card" data-group="20_C">
+<header><span class="code">20_C</span><span class="count">3</span></header>
+<h3>GAMING AND INTERACTIVE</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="KRX:036570">
+<div class="ticker"><b>036570</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">엔씨소프트보통주</div>
+<p class="description">게임 소프트웨어 개발·서비스.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:251270">
+<div class="ticker"><b>251270</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">넷마블보통주</div>
+<p class="description">온라인 게임 개발·배급.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:259960">
+<div class="ticker"><b>259960</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">크래프톤보통주</div>
+<p class="description">상용 게임 개발·배급.</p></article>
+</div></section>
+<section class="card" data-group="20_E">
+<header><span class="code">20_E</span><span class="count">3</span></header>
+<h3>ENTERTAINMENT AND MUSIC</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="KRX:035900">
+<div class="ticker"><b>035900</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">제이와이피엔터테인먼트</div>
+<p class="description">아티스트 육성·음악 콘텐츠 제작.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:041510">
+<div class="ticker"><b>041510</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">에스엠엔터테인먼트</div>
+<p class="description">아티스트·음악 콘텐츠 사업.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:352820">
+<div class="ticker"><b>352820</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">하이브보통주</div>
+<p class="description">음악·아티스트 IP와 엔터테인먼트 플랫폼.</p></article>
+</div></section>
+<section class="card" data-group="30_A">
+<header><span class="code">30_A</span><span class="count">6</span></header>
+<h3>RETAIL AND HOME APPLIANCES</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="KRX:004170">
+<div class="ticker"><b>004170</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">신세계보통주</div>
+<p class="description">백화점과 관련 유통.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:021240">
+<div class="ticker"><b>021240</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">코웨이보통주</div>
+<p class="description">생활가전 제조·판매와 렌털.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:023530">
+<div class="ticker"><b>023530</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">롯데쇼핑 보통주</div>
+<p class="description">백화점·슈퍼마켓 등 유통.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:066570">
+<div class="ticker"><b>066570</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">LG전자보통주</div>
+<p class="description">가전·디스플레이와 관련 전자제품.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:069960">
+<div class="ticker"><b>069960</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">현대백화점보통주</div>
+<p class="description">백화점과 관련 유통.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:139480">
+<div class="ticker"><b>139480</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">이마트보통주</div>
+<p class="description">대형마트·온라인과 유통.</p></article>
+</div></section>
+<section class="card" data-group="30_B">
+<header><span class="code">30_B</span><span class="count">8</span></header>
+<h3>STAPLES</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="KRX:000080">
+<div class="ticker"><b>000080</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">하이트진로보통주</div>
+<p class="description">주류 제조·판매.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:003230">
+<div class="ticker"><b>003230</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">삼양식품보통주</div>
+<p class="description">면류·스낵과 식품.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:004370">
+<div class="ticker"><b>004370</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">농심보통주</div>
+<p class="description">식품 제조·판매.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:005300">
+<div class="ticker"><b>005300</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">롯데칠성음료보통주</div>
+<p class="description">음료·주류 제조와 유통.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:033780">
+<div class="ticker"><b>033780</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">케이티앤지보통주</div>
+<p class="description">담배와 관련 소비재.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:051900">
+<div class="ticker"><b>051900</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">LG생활건강보통주</div>
+<p class="description">생활용품과 화장품.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:097950">
+<div class="ticker"><b>097950</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">씨제이제일제당 주식회사 보통주</div>
+<p class="description">가공식품과 관련 제품.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:271560">
+<div class="ticker"><b>271560</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">오리온보통주</div>
+<p class="description">제과·식품 제조·판매.</p></article>
+</div></section>
+<section class="card" data-group="30_D">
+<header><span class="code">30_D</span><span class="count">5</span></header>
+<h3>APPAREL AND LUXURY</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="KRX:090430">
+<div class="ticker"><b>090430</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">아모레퍼시픽 보통주</div>
+<p class="description">화장품과 생활·건강 제품.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:111770">
+<div class="ticker"><b>111770</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">영원무역보통주</div>
+<p class="description">아웃도어·스포츠 의류와 신발.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:161890">
+<div class="ticker"><b>161890</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">한국콜마보통주</div>
+<p class="description">화장품·의약품 위탁제조.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:192820">
+<div class="ticker"><b>192820</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">코스맥스보통주</div>
+<p class="description">화장품 개발·위탁제조.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:383220">
+<div class="ticker"><b>383220</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">F&amp;F보통주</div>
+<p class="description">의류 제조·브랜드 판매.</p></article>
+</div></section>
+<section class="card" data-group="30_E">
+<header><span class="code">30_E</span><span class="count">4</span></header>
+<h3>AUTOS AND MOBILITY</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="KRX:000270">
+<div class="ticker"><b>000270</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">기아보통주</div>
+<p class="description">완성차 제조와 판매.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:005380">
+<div class="ticker"><b>005380</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">현대자동차보통주</div>
+<p class="description">완성차와 관련 부품·금융.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:012330">
+<div class="ticker"><b>012330</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">현대모비스보통주</div>
+<p class="description">핵심 자동차 부품과 시스템.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:161390">
+<div class="ticker"><b>161390</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">한국타이어앤테크놀로지보통주</div>
+<p class="description">타이어 제조·판매.</p></article>
+</div></section>
+<section class="card" data-group="35_A">
+<header><span class="code">35_A</span><span class="count">4</span></header>
+<h3>SHIPBUILDING</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="KRX:009540">
+<div class="ticker"><b>009540</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">에이치디한국조선해양보통주</div>
+<p class="description">조선·해양 사업의 지주·관리.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:010140">
+<div class="ticker"><b>010140</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">삼성중공업보통주</div>
+<p class="description">조선과 관련 사업.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:042660">
+<div class="ticker"><b>042660</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">한화오션보통주</div>
+<p class="description">조선과 해양 사업.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:329180">
+<div class="ticker"><b>329180</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">에이치디현대중공업보통주</div>
+<p class="description">선박·해양구조물과 엔진.</p></article>
+</div></section>
+<section class="card" data-group="35_B">
+<header><span class="code">35_B</span><span class="count">5</span></header>
+<h3>DEFENSE AND HEAVY</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="KRX:012450">
+<div class="ticker"><b>012450</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">한화에어로스페이스보통주</div>
+<p class="description">항공 엔진과 관련 방산 사업.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:047810">
+<div class="ticker"><b>047810</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">한국항공우주산업보통주</div>
+<p class="description">항공기·우주 관련 제품.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:064350">
+<div class="ticker"><b>064350</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">현대로템보통주</div>
+<p class="description">철도차량과 지상 방산 제품.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:079550">
+<div class="ticker"><b>079550</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">LIG넥스원보통주</div>
+<p class="description">방산·보안 장비와 기술.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:272210">
+<div class="ticker"><b>272210</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">한화시스템보통주</div>
+<p class="description">방산 전자·장비.</p></article>
+</div></section>
+<section class="card" data-group="40_A">
+<header><span class="code">40_A</span><span class="count">8</span></header>
+<h3>BANKS NATIONAL REGIONAL DIGITAL</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="KRX:024110">
+<div class="ticker"><b>024110</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">중소기업은행보통주</div>
+<p class="description">중소기업 중심 은행 서비스.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:055550">
+<div class="ticker"><b>055550</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">신한금융지주회사보통주</div>
+<p class="description">은행과 금융 자회사 그룹.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:086790">
+<div class="ticker"><b>086790</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">하나금융지주보통주</div>
+<p class="description">은행을 포함한 금융그룹.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:105560">
+<div class="ticker"><b>105560</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">KB금융지주 보통주</div>
+<p class="description">은행을 포함한 종합 금융그룹.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:138930">
+<div class="ticker"><b>138930</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">BNK금융지주보통주</div>
+<p class="description">지역 은행과 금융 서비스.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:175330">
+<div class="ticker"><b>175330</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">JB금융지주보통주</div>
+<p class="description">지역 은행과 금융 서비스.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:316140">
+<div class="ticker"><b>316140</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">우리금융지주보통주</div>
+<p class="description">은행과 금융 서비스.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:323410">
+<div class="ticker"><b>323410</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">카카오뱅크보통주</div>
+<p class="description">인터넷 은행과 전자 금융.</p></article>
+</div></section>
+<section class="card" data-group="40_C">
+<header><span class="code">40_C</span><span class="count">5</span></header>
+<h3>ASSET MANAGERS AND EXCHANGES</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="KRX:005940">
+<div class="ticker"><b>005940</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">엔에이치투자증권보통주</div>
+<p class="description">증권 중개와 관련 금융.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:006800">
+<div class="ticker"><b>006800</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">미래에셋증권보통주</div>
+<p class="description">자산관리·증권 중개.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:016360">
+<div class="ticker"><b>016360</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">삼성증권보통주</div>
+<p class="description">증권·투자은행 서비스.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:039490">
+<div class="ticker"><b>039490</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">키움증권보통주</div>
+<p class="description">자본시장·금융투자 서비스.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:071050">
+<div class="ticker"><b>071050</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">한국투자금융지주보통주</div>
+<p class="description">증권·투자와 금융 서비스.</p></article>
+</div></section>
+<section class="card" data-group="40_D">
+<header><span class="code">40_D</span><span class="count">5</span></header>
+<h3>INSURANCE</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="KRX:000810">
+<div class="ticker"><b>000810</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">삼성화재해상보험보통주</div>
+<p class="description">손해보험과 관련 보장.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:005830">
+<div class="ticker"><b>005830</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">DB손해보험보통주</div>
+<p class="description">손해보험 서비스.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:032830">
+<div class="ticker"><b>032830</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">삼성생명보험보통주</div>
+<p class="description">생명보험과 퇴직연금.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:088350">
+<div class="ticker"><b>088350</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">한화생명보험보통주</div>
+<p class="description">생명보험과 자산관리.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:138040">
+<div class="ticker"><b>138040</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">메리츠금융지주회사보통주</div>
+<p class="description">보험·증권 등 금융 자회사 그룹.</p></article>
+</div></section>
+<section class="card" data-group="50_A">
+<header><span class="code">50_A</span><span class="count">5</span></header>
+<h3>PHARMA</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="KRX:000100">
+<div class="ticker"><b>000100</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">유한양행보통주</div>
+<p class="description">의약품 제조·판매와 관련 제품.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:068270">
+<div class="ticker"><b>068270</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">셀트리온보통주</div>
+<p class="description">항체 의약품과 바이오시밀러.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:128940">
+<div class="ticker"><b>128940</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">한미약품보통주</div>
+<p class="description">의약품 제조·판매.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:207940">
+<div class="ticker"><b>207940</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">삼성바이오로직스보통주</div>
+<p class="description">의약품 위탁개발·생산.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:326030">
+<div class="ticker"><b>326030</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">에스케이바이오팜보통주</div>
+<p class="description">신약 연구개발과 상용 의약품.</p></article>
+</div></section>
+<section class="card" data-group="60_B">
+<header><span class="code">60_B</span><span class="count">2</span></header>
+<h3>MACHINERY AND RAIL</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="KRX:241560">
+<div class="ticker"><b>241560</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">두산밥캣보통주</div>
+<p class="description">소형 건설·작업 장비.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:267270">
+<div class="ticker"><b>267270</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">에이치디현대건설기계보통주</div>
+<p class="description">건설기계와 부품.</p></article>
+</div></section>
+<section class="card" data-group="60_C">
+<header><span class="code">60_C</span><span class="count">4</span></header>
+<h3>TRANSPORT AND LOGISTICS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="KRX:003490">
+<div class="ticker"><b>003490</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">대한항공보통주</div>
+<p class="description">국내·국제 항공 운송과 정비.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:011200">
+<div class="ticker"><b>011200</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">에이치엠엠보통주</div>
+<p class="description">해상 물류와 운송.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:028670">
+<div class="ticker"><b>028670</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">팬오션보통주</div>
+<p class="description">해상 운송.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:086280">
+<div class="ticker"><b>086280</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">현대글로비스보통주</div>
+<p class="description">운송·물류 중개와 지원.</p></article>
+</div></section>
+<section class="card" data-group="60_D">
+<header><span class="code">60_D</span><span class="count">4</span></header>
+<h3>POWER AND GENERATION EQUIPMENT</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="KRX:010120">
+<div class="ticker"><b>010120</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">LS ELECTRIC보통주</div>
+<p class="description">전력 기기와 시스템.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:034020">
+<div class="ticker"><b>034020</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">두산에너빌리티보통주</div>
+<p class="description">발전 시설·설비 제작과 건설.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:267260">
+<div class="ticker"><b>267260</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">에이치디현대일렉트릭보통주</div>
+<p class="description">전력·전기 장비.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:298040">
+<div class="ticker"><b>298040</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">효성중공업보통주</div>
+<p class="description">전력·중공업과 에너지 설비.</p></article>
+</div></section>
+<section class="card" data-group="60_E">
+<header><span class="code">60_E</span><span class="count">4</span></header>
+<h3>ENGINEERING AND CONSTRUCTION</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="KRX:000720">
+<div class="ticker"><b>000720</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">현대건설보통주</div>
+<p class="description">토목·건설 서비스.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:006360">
+<div class="ticker"><b>006360</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">GS건설보통주</div>
+<p class="description">건설·토목 서비스.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:028050">
+<div class="ticker"><b>028050</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">삼성E&amp;A보통주</div>
+<p class="description">플랜트 설계·건설과 프로젝트 관리.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:047040">
+<div class="ticker"><b>047040</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">대우건설보통주</div>
+<p class="description">건설·토목 사업.</p></article>
+</div></section>
+<section class="card" data-group="70_A">
+<header><span class="code">70_A</span><span class="count">3</span></header>
+<h3>INTEGRATED ENERGY</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="KRX:010950">
+<div class="ticker"><b>010950</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">S-OIL보통주</div>
+<p class="description">정유와 석유제품.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:078930">
+<div class="ticker"><b>078930</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">GS보통주</div>
+<p class="description">에너지 등을 포함한 사업 지주회사.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:096770">
+<div class="ticker"><b>096770</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">SK이노베이션 보통주</div>
+<p class="description">석유제품과 복합 에너지 사업.</p></article>
+</div></section>
+<section class="card" data-group="80_B">
+<header><span class="code">80_B</span><span class="count">2</span></header>
+<h3>UTILITIES</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="KRX:015760">
+<div class="ticker"><b>015760</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">한국전력공사보통주</div>
+<p class="description">전력 공급과 관련 발전 자회사.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:036460">
+<div class="ticker"><b>036460</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">한국가스공사보통주</div>
+<p class="description">가스 도입·공급.</p></article>
+</div></section>
+<section class="card" data-group="80_C">
+<header><span class="code">80_C</span><span class="count">3</span></header>
+<h3>METALS AND MINING</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="KRX:004020">
+<div class="ticker"><b>004020</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">현대제철 보통주</div>
+<p class="description">철강 제조·판매.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:005490">
+<div class="ticker"><b>005490</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">포스코홀딩스보통주</div>
+<p class="description">철강 생산과 관련 소재 그룹.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:010130">
+<div class="ticker"><b>010130</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">고려아연보통주</div>
+<p class="description">비철금속 생산·판매.</p></article>
+</div></section>
+<section class="card" data-group="80_D">
+<header><span class="code">80_D</span><span class="count">2</span></header>
+<h3>CHEMICALS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="KRX:002380">
+<div class="ticker"><b>002380</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">주식회사케이씨씨</div>
+<p class="description">산업·건축용 소재.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:051910">
+<div class="ticker"><b>051910</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">LG화학보통주</div>
+<p class="description">석유화학과 전자·에너지 소재.</p></article>
+</div></section>
+<section class="card" data-group="80_F">
+<header><span class="code">80_F</span><span class="count">4</span></header>
+<h3>BATTERY CHAIN</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="KRX:003670">
+<div class="ticker"><b>003670</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">포스코퓨처엠보통주</div>
+<p class="description">내화물과 배터리 소재.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:006400">
+<div class="ticker"><b>006400</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">삼성SDI보통주</div>
+<p class="description">이차전지 제조·판매.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:247540">
+<div class="ticker"><b>247540</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">에코프로비엠</div>
+<p class="description">배터리 소재 개발·생산.</p></article>
+<article class="entry" data-kind="member" data-ticker="KRX:373220">
+<div class="ticker"><b>373220</b><small>KRX</small>
+<span class="role">테마 주도주 (THEME_LEADER)</span></div>
+<div class="name">LG에너지솔루션보통주</div>
+<p class="description">배터리 셀과 에너지 솔루션.</p></article>
+</div></section>
+</div>
+<h2 class="section-title">참고 지표</h2>
+<div class="grid">
+<section class="card" data-group="00_A">
+<header><span class="code">00_A</span><span class="count">2</span></header>
+<h3>BROAD MARKET ETF</h3><div class="entries">
+<article class="entry" data-kind="reference" data-ticker="KRX:069500">
+<div class="ticker"><b>069500</b><small>KRX</small>
+<span class="role">etf</span></div>
+<p class="description">Traded ETF tracking KOSPI 200; fund price is not the direct index.</p></article>
+<article class="entry" data-kind="reference" data-ticker="KRX:229200">
+<div class="ticker"><b>229200</b><small>KRX</small>
+<span class="role">etf</span></div>
+<p class="description">Traded ETF tracking KOSDAQ 150; fund price is not the direct index.</p></article>
+</div></section>
+</div>
+<details class="notes">
+<summary>조사 참고사항 및 한계</summary><ul>
+<li>Business profiles and standardized financial fields read on 2026-10-07. Fiscal periods unspecified by provider; no period inferred.</li>
+<li>Listing status verified on 2026-09-29; measured prices end 2026-09-28. Rebuild does not refresh prices.</li>
+<li>Only liquidity is reused. Old factor metrics are omitted because business assignments were reviewed; old price gauges do not certify the new duties.</li>
+<li>Major operating-business representative judgement uses read business profiles and financial facts; comparative market-share and every issuer filing are not independently audited. Negative income and cash flow remain explicitly disclosed.</li>
+<li>This scoped Medium example demonstrates contracts and broad economic duties, not an exhaustive census of all market leaders.</li>
+</ul></details>
+<footer>조사 참고사항 및 한계 · <a href="kr-medium-2026-10-07.json" download>JSON</a> · <a href="kr-medium-2026-10-07.validation.json" download>검증</a></footer>
+</main></body></html>

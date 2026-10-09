@@ -1,0 +1,2073 @@
+<!doctype html>
+<html lang="zh-Hans"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>CN 标的池 · Medium</title>
+<style>/* Self-contained report, readable without a network connection. */
+:root { color-scheme: dark; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+  "Noto Sans", "PingFang SC", "Microsoft YaHei", sans-serif; }
+* { box-sizing: border-box; }
+body { margin: 0; background: #090d13; color: #edf3fa; }
+main { width: 940px; max-width: 100%; margin: auto; padding: 34px 30px; }
+.brand { color: #d4deeb; font-size: 13px; letter-spacing: .04em; }
+.brand span { color: #8da0b8; }
+.hero { display: flex; align-items: center; justify-content: space-between;
+  gap: 14px; margin-top: 24px; }
+.hero > div { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+h1 { font-size: 32px; line-height: 1.2; letter-spacing: -.03em; margin: 0; }
+.profile, .verdict { border: 1px solid #34435a; border-radius: 6px; padding: 5px 9px;
+  font-size: 12px; font-weight: 600; white-space: nowrap; }
+.profile { color: #a9cfff; background: #14233b; }
+.verdict.pass { color: #8adebd; background: #10251f; border-color: #285340; }
+.verdict.partial, .notice.partial { color: #f1cd85; border-color: #765e33; }
+.verdict.fail { color: #ffb1b1; border-color: #874545; }
+.meta { color: #a4b5ca; font-size: 13px; line-height: 1.6; overflow-wrap: anywhere; }
+code, .code { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
+a { color: #a9cfff; text-decoration: none; }
+a:hover { text-decoration: underline; }
+a:focus-visible, summary:focus-visible { outline: 2px solid #79b8ff; outline-offset: 4px; }
+.files { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0; }
+.files a { padding: 7px 11px; border: 1px solid #2a3545; border-radius: 6px; font-size: 13px; }
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); background: #101721;
+  border: 1px solid #2a3545; border-radius: 10px; margin-bottom: 24px; }
+.stats > div { padding: 17px 18px; border-right: 1px solid #2a3545; }
+.stats > div:last-child { border-right: 0; }
+.stats strong { display: block; font-size: 27px; font-weight: 650; }
+.stats span { display: block; color: #a4b5ca; font-size: 12px; margin-top: 5px; }
+.section-title { font-size: 18px; margin: 26px 0 14px; font-weight: 600; }
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start; gap: 14px; }
+.card { --accent: #79b8ff; background: #101721; border: 1px solid #2a3545;
+  border-top: 2px solid var(--accent); border-radius: 9px; padding: 18px 19px 4px; }
+.card:nth-child(4n+2) { --accent: #b69cff; }
+.card:nth-child(4n+3) { --accent: #67d8ce; }
+.card:nth-child(4n+4) { --accent: #e7bb76; }
+.card header { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.code { color: var(--accent); font-size: 12px; }
+.count { color: #bccada; font-size: 12px; border: 1px solid #34435a;
+  border-radius: 4px; min-width: 24px; padding: 2px 6px; text-align: center; }
+h3 { font-size: 16px; font-weight: 650; line-height: 1.4; margin: 10px 0 16px;
+  overflow-wrap: anywhere; }
+.entry { border-top: 1px solid #263243; padding: 13px 0; overflow-wrap: anywhere; }
+.ticker { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.ticker b { font-size: 17px; letter-spacing: .01em; }
+.ticker small { font-size: 11px; color: #8da0b8; }
+.role { color: #9bacbf; font-size: 10px; margin-left: auto; }
+.name { color: #c0cede; font-size: 12px; line-height: 1.5; margin-top: 4px; }
+.description { color: #b7c5d8; font-size: 15px; line-height: 1.55; margin: 6px 0 0; }
+.added { display: inline-block; font-size: 11px; color: #8adebd; margin-top: 5px; }
+.notice, .notes { background: #101721; border: 1px solid #3b4757; border-radius: 8px;
+  padding: 15px 18px; margin: 18px 0; font-size: 13px; line-height: 1.6; overflow-wrap: anywhere; }
+.notice h2 { font-size: 14px; margin: 0; }
+.notice ul, .notes ul { padding-left: 20px; margin-bottom: 0; }
+.notes li + li { margin-top: 8px; }
+summary { cursor: pointer; color: #c0cede; }
+.expansion { font-size: 14px; color: #8adebd; }
+footer { border-top: 1px solid #2a3545; margin-top: 28px; padding-top: 18px;
+  font-size: 12px; line-height: 1.6; color: #8da0b8; }
+@media (max-width: 620px) {
+  main { padding: 24px 16px; }
+  h1 { font-size: 26px; }
+  .hero { align-items: start; flex-direction: column; }
+  .grid { grid-template-columns: 1fr; }
+  .stats { grid-template-columns: repeat(2, 1fr); }
+  .stats > div:nth-child(2) { border-right: 0; }
+  .stats > div:nth-child(-n+2) { border-bottom: 1px solid #2a3545; }
+  .card { padding: 16px 17px 3px; }
+}
+</style></head><body><main>
+<div class="brand">ticker-universe-builder <span>/ universe report</span></div>
+<header class="hero"><div>
+<h1>CN 标的池</h1><span class="profile">标准档</span>
+</div>
+<span class="verdict pass">校验 · PASS</span></header>
+<p class="meta">事实截至 2026-10-08 · <code>ee40a3b353bb</code></p>
+<nav class="files" aria-label="Artifacts">
+<a href="cn-medium-2026-10-08.zh-Hans.md" download>Markdown</a>
+<a href="cn-medium-2026-10-08.txt" download>TradingView TXT</a>
+<a href="cn-medium-2026-10-08.json" download>JSON</a>
+<a href="cn-medium-2026-10-08.validation.json" download>校验</a>
+</nav>
+<div class="stats">
+<div><strong>302</strong><span>标的数</span></div>
+<div><strong>42</strong><span>参考工具</span></div>
+<div><strong>58</strong><span>主题数</span></div>
+<div><strong>344</strong><span>导出标的</span></div>
+</div>
+<h2 class="section-title">成员</h2>
+<div class="grid">
+<section class="card" data-group="10_A">
+<header><span class="code">10_A</span><span class="count">5</span></header>
+<h3>OPTICAL MODULES COMPONENTS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SZSE:000988">
+<div class="ticker"><b>000988</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">华工科技</div>
+<p class="description">光电器件系列产品、激光加工装备及智能制造产线、敏感元器件。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002281">
+<div class="ticker"><b>002281</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">光迅科技</div>
+<p class="description">数据与接入、传输。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300308">
+<div class="ticker"><b>300308</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">中际旭创</div>
+<p class="description">光通信收发模块及器件。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300394">
+<div class="ticker"><b>300394</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">天孚通信</div>
+<p class="description">无源光器件、有源光器件。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300502">
+<div class="ticker"><b>300502</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">新易盛</div>
+<p class="description">光互联产品。</p></article>
+</div></section>
+<section class="card" data-group="10_B">
+<header><span class="code">10_B</span><span class="count">7</span></header>
+<h3>AI SERVERS PCB</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600183">
+<div class="ticker"><b>600183</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">生益科技</div>
+<p class="description">覆铜板业务、线路板业务、地产业务。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601138">
+<div class="ticker"><b>601138</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">工业富联</div>
+<p class="description">3C电子产品。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:603019">
+<div class="ticker"><b>603019</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">中科曙光</div>
+<p class="description">IT设备、软件开发、系统集成及技术服务。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:000977">
+<div class="ticker"><b>000977</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">浪潮信息</div>
+<p class="description">服务器类收入、存储类、交换类等产品。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002463">
+<div class="ticker"><b>002463</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">沪电股份</div>
+<p class="description">产品销售收入(印制电路板业务)。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002916">
+<div class="ticker"><b>002916</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">深南电路</div>
+<p class="description">印制电路板、封装基板、电子装联。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300476">
+<div class="ticker"><b>300476</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">胜宏科技</div>
+<p class="description">PCB制造。</p></article>
+</div></section>
+<section class="card" data-group="10_C">
+<header><span class="code">10_C</span><span class="count">5</span></header>
+<h3>DATACENTRE COOLING POWER</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SZSE:002335">
+<div class="ticker"><b>002335</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">科华数据</div>
+<p class="description">新能源产品、数据中心产品、IDC服务收入等。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002518">
+<div class="ticker"><b>002518</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">科士达</div>
+<p class="description">智慧电源、数据中心产品、光储充产品及系统等。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002837">
+<div class="ticker"><b>002837</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">英维克</div>
+<p class="description">机房温控节能产品、机柜温控节能产品、轨道交通列车空调及服务。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002851">
+<div class="ticker"><b>002851</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">麦格米特</div>
+<p class="description">智慧生活、电源、新能源交通等。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300442">
+<div class="ticker"><b>300442</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">润泽科技</div>
+<p class="description">AIDC业务、IDC业务。</p></article>
+</div></section>
+<section class="card" data-group="10_F">
+<header><span class="code">10_F</span><span class="count">6</span></header>
+<h3>NETWORK COMMUNICATION FIBRE</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600487">
+<div class="ticker"><b>600487</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">亨通光电</div>
+<p class="description">智能电网、铜导体、工业与新能源智能等。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:600522">
+<div class="ticker"><b>600522</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">中天科技</div>
+<p class="description">电网建设、铜产品、光通信及网络等。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:000063">
+<div class="ticker"><b>000063</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">中兴通讯</div>
+<p class="description">运营商网络、政企业务、消费者业务。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:000938">
+<div class="ticker"><b>000938</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">紫光股份</div>
+<p class="description">数字化业务、分销业务。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300628">
+<div class="ticker"><b>300628</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">亿联网络</div>
+<p class="description">桌面通信终端、会议产品、云办公终端。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:301165">
+<div class="ticker"><b>301165</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">锐捷网络</div>
+<p class="description">网络设备、网络安全产品、云桌面解决方案。</p></article>
+</div></section>
+<section class="card" data-group="11_A">
+<header><span class="code">11_A</span><span class="count">9</span></header>
+<h3>SEMICONDUCTOR EQUIPMENT PACKAGING</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600584">
+<div class="ticker"><b>600584</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">长电科技</div>
+<p class="description">芯片封测。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:688012">
+<div class="ticker"><b>688012</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">中微半导体设备</div>
+<p class="description">半导体设备相关产品。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:688072">
+<div class="ticker"><b>688072</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">拓荆科技</div>
+<p class="description">半导体专用设备。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:688082">
+<div class="ticker"><b>688082</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">盛美上海半导体</div>
+<p class="description">销售商品。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:688120">
+<div class="ticker"><b>688120</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">华海清科</div>
+<p class="description">半导体装备、半导体服务。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:688200">
+<div class="ticker"><b>688200</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">华峰测控</div>
+<p class="description">测试系统、配件。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002156">
+<div class="ticker"><b>002156</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">通富微电</div>
+<p class="description">集成电路封装测试。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002371">
+<div class="ticker"><b>002371</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">北方华创</div>
+<p class="description">电子工艺装备、电子元器件。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300604">
+<div class="ticker"><b>300604</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">长川科技</div>
+<p class="description">测试机、分选机。</p></article>
+</div></section>
+<section class="card" data-group="11_B">
+<header><span class="code">11_B</span><span class="count">3</span></header>
+<h3>SEMICONDUCTOR MATERIALS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:688019">
+<div class="ticker"><b>688019</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">安集科技</div>
+<p class="description">销售化学机械抛光液、销售功能性湿电子化学品。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002409">
+<div class="ticker"><b>002409</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">雅克科技</div>
+<p class="description">半导体化学材料、光刻胶及配套试剂、化工行业。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300666">
+<div class="ticker"><b>300666</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">江丰电子</div>
+<p class="description">超高纯靶材、精密零部件。</p></article>
+</div></section>
+<section class="card" data-group="11_C">
+<header><span class="code">11_C</span><span class="count">3</span></header>
+<h3>FOUNDRIES</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:688347">
+<div class="ticker"><b>688347</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">华虹宏力半导体</div>
+<p class="description">集成电路晶圆代工、租赁。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:688396">
+<div class="ticker"><b>688396</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">华润微电子</div>
+<p class="description">产品与方案、制造与服务。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:688981">
+<div class="ticker"><b>688981</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">中芯国际</div>
+<p class="description">集成电路晶圆代工。</p></article>
+</div></section>
+<section class="card" data-group="11_E">
+<header><span class="code">11_E</span><span class="count">5</span></header>
+<h3>COMPUTE CHIPS DESIGN IP</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:688008">
+<div class="ticker"><b>688008</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">澜起科技</div>
+<p class="description">互连类芯片、津逮®产品。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:688041">
+<div class="ticker"><b>688041</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">海光信息</div>
+<p class="description">高端处理器、技术服务。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:688256">
+<div class="ticker"><b>688256</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">寒武纪科技</div>
+<p class="description">云端产品线、边缘产品线。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:688521">
+<div class="ticker"><b>688521</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">芯原微电子</div>
+<p class="description">量产服务收入、设计服务收入、IP授权使用费收入等。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:301269">
+<div class="ticker"><b>301269</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">华大九天</div>
+<p class="description">EDA软件销售、技术服务。</p></article>
+</div></section>
+<section class="card" data-group="11_F">
+<header><span class="code">11_F</span><span class="count">3</span></header>
+<h3>MEMORY CONTROLLERS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:603986">
+<div class="ticker"><b>603986</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">兆易创新</div>
+<p class="description">存储芯片、微控制器、模拟产品等。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:688123">
+<div class="ticker"><b>688123</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">聚辰半导体</div>
+<p class="description">芯片销售。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:301308">
+<div class="ticker"><b>301308</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">江波龙</div>
+<p class="description">存储产品及相关。</p></article>
+</div></section>
+<section class="card" data-group="11_G">
+<header><span class="code">11_G</span><span class="count">4</span></header>
+<h3>ANALOG POWER RF</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:688052">
+<div class="ticker"><b>688052</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">纳芯微电子</div>
+<p class="description">信号链产品、电源管理产品、传感器产品。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300373">
+<div class="ticker"><b>300373</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">扬杰科技</div>
+<p class="description">半导体器件、半导体芯片、半导体硅片。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300661">
+<div class="ticker"><b>300661</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">圣邦股份</div>
+<p class="description">电源管理产品、信号链产品。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300782">
+<div class="ticker"><b>300782</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">卓胜微</div>
+<p class="description">商品销售收入、IP授权及服务。</p></article>
+</div></section>
+<section class="card" data-group="11_H">
+<header><span class="code">11_H</span><span class="count">4</span></header>
+<h3>IMAGE COMMUNICATION SOC</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:603501">
+<div class="ticker"><b>603501</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">豪威集团</div>
+<p class="description">图像传感器及相关模拟/显示芯片。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:603893">
+<div class="ticker"><b>603893</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">瑞芯微</div>
+<p class="description">智能应用处理器芯片、数模混合芯片。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:688018">
+<div class="ticker"><b>688018</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">乐鑫科技</div>
+<p class="description">模组及开发套件、芯片。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:688099">
+<div class="ticker"><b>688099</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">晶晨半导体</div>
+<p class="description">销售商品、租赁服务、技术服务。</p></article>
+</div></section>
+<section class="card" data-group="11_J">
+<header><span class="code">11_J</span><span class="count">5</span></header>
+<h3>PASSIVE COMPONENTS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SZSE:000636">
+<div class="ticker"><b>000636</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">风华高科</div>
+<p class="description">电子元器件及电子材料。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002138">
+<div class="ticker"><b>002138</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">顺络电子</div>
+<p class="description">片式电子元件。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002484">
+<div class="ticker"><b>002484</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">江海股份</div>
+<p class="description">铝电解电容、薄膜电容、超级电容等。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300285">
+<div class="ticker"><b>300285</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">国瓷材料</div>
+<p class="description">催化材料板块、生物医疗材料板块、电子材料板块。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300408">
+<div class="ticker"><b>300408</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">三环集团</div>
+<p class="description">电子、通信元件及材料。</p></article>
+</div></section>
+<section class="card" data-group="12_A">
+<header><span class="code">12_A</span><span class="count">5</span></header>
+<h3>AI APPLICATIONS MACHINE VISION</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:603236">
+<div class="ticker"><b>603236</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">移远通信</div>
+<p class="description">通信模组、天线、车载等。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:688111">
+<div class="ticker"><b>688111</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">金山办公</div>
+<p class="description">WPS个人业务、WPS软件业务、WPS365业务。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002230">
+<div class="ticker"><b>002230</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">科大讯飞</div>
+<p class="description">开放平台及消费者业务、教育产品和服务、智慧城市等。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002236">
+<div class="ticker"><b>002236</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">大华股份</div>
+<p class="description">智慧物联产品及方案、创新业务。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002415">
+<div class="ticker"><b>002415</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">海康威视</div>
+<p class="description">主业1产品及服务、机器人业务、热成像业务等。</p></article>
+</div></section>
+<section class="card" data-group="12_B">
+<header><span class="code">12_B</span><span class="count">5</span></header>
+<h3>ENTERPRISE FINANCIAL SOFTWARE</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600570">
+<div class="ticker"><b>600570</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">恒生电子</div>
+<p class="description">软件业收入、物业出租收入。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:600588">
+<div class="ticker"><b>600588</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">用友网络</div>
+<p class="description">许可销售及技术服务收入、金融服务收入、外购商品销售。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:600845">
+<div class="ticker"><b>600845</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">宝信软件</div>
+<p class="description">软件开发及工程服务、服务外包、系统集成。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:688777">
+<div class="ticker"><b>688777</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">中控技术</div>
+<p class="description">工业自动化及智能制造解决方案、工业软件、仪器仪表等。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300033">
+<div class="ticker"><b>300033</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">同花顺</div>
+<p class="description">增值电信业务、广告及互联网推广服务、软件销售及维护。</p></article>
+</div></section>
+<section class="card" data-group="12_D">
+<header><span class="code">12_D</span><span class="count">3</span></header>
+<h3>DOMESTIC IT SECURITY QUANTUM</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600536">
+<div class="ticker"><b>600536</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">中国软件</div>
+<p class="description">党政核心应用解决方案、基础软件。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:688561">
+<div class="ticker"><b>688561</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">奇安信集团</div>
+<p class="description">安全产品、安全服务。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300454">
+<div class="ticker"><b>300454</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">深信服</div>
+<p class="description">云计算及AI基础设施业务、网络安全业务、基础网络业务。</p></article>
+</div></section>
+<section class="card" data-group="13_A">
+<header><span class="code">13_A</span><span class="count">7</span></header>
+<h3>ROBOTICS MOTION SENSORS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600580">
+<div class="ticker"><b>600580</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">卧龙电驱</div>
+<p class="description">暖通电驱动系统解决方案、防爆电驱动系统解决方案、工业电驱动系统解决方案等。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:603662">
+<div class="ticker"><b>603662</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">柯力传感</div>
+<p class="description">力学传感器及仪表系列、工业物联网及系统集成。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:688002">
+<div class="ticker"><b>688002</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">睿创微纳</div>
+<p class="description">红外热成像业务、微波射频业务。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:688017">
+<div class="ticker"><b>688017</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">绿的谐波</div>
+<p class="description">谐波减速器及金属部件、机电一体化产品。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002747">
+<div class="ticker"><b>002747</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">埃斯顿</div>
+<p class="description">工业机器人及智能制造系统、自动化核心部件及运动控制系统。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:003021">
+<div class="ticker"><b>003021</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">兆威机电</div>
+<p class="description">微型传动系统、精密零件。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300124">
+<div class="ticker"><b>300124</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">汇川技术</div>
+<p class="description">工业自动化与数字化、新能源汽车动力系统、新兴产业。</p></article>
+</div></section>
+<section class="card" data-group="13_D">
+<header><span class="code">13_D</span><span class="count">5</span></header>
+<h3>INDUSTRIAL EQUIPMENT THERMAL COMPONENTS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:688188">
+<div class="ticker"><b>688188</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">上海柏楚电子科技</div>
+<p class="description">平面解决方案、管材解决方案、三维解决方案。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:688305">
+<div class="ticker"><b>688305</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">科德数控</div>
+<p class="description">高端数控机床、关键功能部件、自动化生产线。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002008">
+<div class="ticker"><b>002008</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">大族激光</div>
+<p class="description">PCB智能制造装备。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002050">
+<div class="ticker"><b>002050</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">三花智控</div>
+<p class="description">制冷空调电器零部件、汽车零部件。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300747">
+<div class="ticker"><b>300747</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">锐科激光</div>
+<p class="description">连续光纤激光器、脉冲光纤激光器、超快激光器。</p></article>
+</div></section>
+<section class="card" data-group="13_F">
+<header><span class="code">13_F</span><span class="count">5</span></header>
+<h3>MACHINERY INDUSTRIAL CASTINGS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600031">
+<div class="ticker"><b>600031</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">三一重工</div>
+<p class="description">挖掘机械、混凝土机械、起重机械。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601100">
+<div class="ticker"><b>601100</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">恒立液压</div>
+<p class="description">液压油缸、液压泵阀及马达、配件及铸件等。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:603338">
+<div class="ticker"><b>603338</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">浙江鼎力</div>
+<p class="description">高空作业平台。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:000157">
+<div class="ticker"><b>000157</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">中联重科</div>
+<p class="description">起重机械、混凝土机械、土方机械。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:000425">
+<div class="ticker"><b>000425</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">徐工机械</div>
+<p class="description">土方机械、起重机械、矿业机械。</p></article>
+</div></section>
+<section class="card" data-group="14_A">
+<header><span class="code">14_A</span><span class="count">3</span></header>
+<h3>MILITARY AIRCRAFT ENGINES</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600760">
+<div class="ticker"><b>600760</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">中航沈飞</div>
+<p class="description">航空产品。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:600893">
+<div class="ticker"><b>600893</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">航发动力</div>
+<p class="description">航空发动机及衍生产品、外贸出口转包。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:000768">
+<div class="ticker"><b>000768</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">中航西飞</div>
+<p class="description">航空产品。</p></article>
+</div></section>
+<section class="card" data-group="14_B">
+<header><span class="code">14_B</span><span class="count">3</span></header>
+<h3>DEFENCE ELECTRONICS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600372">
+<div class="ticker"><b>600372</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">中航机载</div>
+<p class="description">航空产品、非航空防务产品。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002049">
+<div class="ticker"><b>002049</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">紫光国微</div>
+<p class="description">特种集成电路、智能安全芯片、石英晶体频率器件。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002179">
+<div class="ticker"><b>002179</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">中航光电</div>
+<p class="description">电连接器及集成互连组件。</p></article>
+</div></section>
+<section class="card" data-group="14_C">
+<header><span class="code">14_C</span><span class="count">3</span></header>
+<h3>SATELLITE COMMUNICATIONS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600118">
+<div class="ticker"><b>600118</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">中国卫星</div>
+<p class="description">宇航制造及卫星应用、租赁收入、材料销售。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601698">
+<div class="ticker"><b>601698</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">中国卫通</div>
+<p class="description">通信卫星资源运营及网络服务。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300627">
+<div class="ticker"><b>300627</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">华测导航</div>
+<p class="description">系统应用及解决方案、高精度定位装备。</p></article>
+</div></section>
+<section class="card" data-group="14_E">
+<header><span class="code">14_E</span><span class="count">3</span></header>
+<h3>DEFENCE MATERIALS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600862">
+<div class="ticker"><b>600862</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">中航高科</div>
+<p class="description">航空新材料、租赁业务、航空相关设备。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:688122">
+<div class="ticker"><b>688122</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">西部超导</div>
+<p class="description">高端钛合金材料、超导产品、高性能高温合金材料。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300699">
+<div class="ticker"><b>300699</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">光威复材</div>
+<p class="description">碳纤维及织物、碳梁、预浸料。</p></article>
+</div></section>
+<section class="card" data-group="15_A">
+<header><span class="code">15_A</span><span class="count">4</span></header>
+<h3>AUTOMAKERS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600066">
+<div class="ticker"><b>600066</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">宇通客车</div>
+<p class="description">客车销售。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601633">
+<div class="ticker"><b>601633</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">长城汽车</div>
+<p class="description">销售汽车收入、销售零配件收入。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:000625">
+<div class="ticker"><b>000625</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">长安汽车</div>
+<p class="description">销售商品。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002594">
+<div class="ticker"><b>002594</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">比亚迪</div>
+<p class="description">汽车。</p></article>
+</div></section>
+<section class="card" data-group="15_B">
+<header><span class="code">15_B</span><span class="count">7</span></header>
+<h3>AUTO COMPONENTS POWERTRAIN</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600660">
+<div class="ticker"><b>600660</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">福耀玻璃</div>
+<p class="description">汽车玻璃、浮法玻璃。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601058">
+<div class="ticker"><b>601058</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">赛轮轮胎</div>
+<p class="description">轮胎产品。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601689">
+<div class="ticker"><b>601689</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">拓普集团</div>
+<p class="description">内饰功能件、底盘系统、减震器等。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:603596">
+<div class="ticker"><b>603596</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">伯特利</div>
+<p class="description">智能电控产品、机械制动产品、机械转向产品。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:000338">
+<div class="ticker"><b>000338</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">潍柴动力</div>
+<p class="description">发动机和汽车及汽车零部件、智慧物流、农业装备。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002472">
+<div class="ticker"><b>002472</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">双环传动</div>
+<p class="description">乘用车齿轮、工程机械齿轮、智能执行机构。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002920">
+<div class="ticker"><b>002920</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">德赛西威</div>
+<p class="description">智能座舱、智能驾驶。</p></article>
+</div></section>
+<section class="card" data-group="16_A">
+<header><span class="code">16_A</span><span class="count">10</span></header>
+<h3>BATTERY MATERIALS EQUIPMENT</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:603659">
+<div class="ticker"><b>603659</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">璞泰来</div>
+<p class="description">新能源电池材料与服务、新能源自动化装备与服务、合并抵消项。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:688778">
+<div class="ticker"><b>688778</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">厦钨新能源</div>
+<p class="description">钴酸锂、氢能材料。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002709">
+<div class="ticker"><b>002709</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">天赐材料</div>
+<p class="description">锂离子电池材料、日化材料及特种化学品。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002812">
+<div class="ticker"><b>002812</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">恩捷股份</div>
+<p class="description">锂电池隔离膜、无菌包装、BOPP膜。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002850">
+<div class="ticker"><b>002850</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">科达利</div>
+<p class="description">锂电池结构件、汽车结构件。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300014">
+<div class="ticker"><b>300014</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">亿纬锂能</div>
+<p class="description">动力电池、储能电池、电池材料等。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300037">
+<div class="ticker"><b>300037</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">新宙邦</div>
+<p class="description">电池化学品、电子信息化学品、有机氟化学品。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300207">
+<div class="ticker"><b>300207</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">欣旺达</div>
+<p class="description">消费类电池、电动汽车类电池、储能系统类。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300450">
+<div class="ticker"><b>300450</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">先导智能</div>
+<p class="description">锂电池智能装备、智能物流系统、光伏智能装备。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300750">
+<div class="ticker"><b>300750</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">宁德时代</div>
+<p class="description">动力电池系统、储能电池系统、电池材料及回收等。</p></article>
+</div></section>
+<section class="card" data-group="16_C">
+<header><span class="code">16_C</span><span class="count">4</span></header>
+<h3>LITHIUM RESOURCES</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SZSE:000792">
+<div class="ticker"><b>000792</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">盐湖股份</div>
+<p class="description">钾产品、锂产品、贸易。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002460">
+<div class="ticker"><b>002460</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">赣锋锂业</div>
+<p class="description">锂系列产品、锂电池系列产品。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002466">
+<div class="ticker"><b>002466</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">天齐锂业</div>
+<p class="description">锂化合物及衍生品、锂矿。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002738">
+<div class="ticker"><b>002738</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">中矿资源</div>
+<p class="description">销售商品、经营租赁、提供服务。</p></article>
+</div></section>
+<section class="card" data-group="16_E">
+<header><span class="code">16_E</span><span class="count">12</span></header>
+<h3>SOLAR WIND STORAGE EQUIPMENT</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600438">
+<div class="ticker"><b>600438</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">通威股份</div>
+<p class="description">光伏相关产品、饲料、食品相关产品。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601012">
+<div class="ticker"><b>601012</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">隆基绿能</div>
+<p class="description">光伏产品销售、电站业务。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:603606">
+<div class="ticker"><b>603606</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">东方电缆</div>
+<p class="description">电力工程与装备线缆、海底电缆与高压电缆、海洋装备与工程运维。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:603806">
+<div class="ticker"><b>603806</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">福斯特</div>
+<p class="description">光伏胶膜、感光干膜、光伏背板。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:605117">
+<div class="ticker"><b>605117</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">德业股份</div>
+<p class="description">销售商品。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:688223">
+<div class="ticker"><b>688223</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">晶科能源</div>
+<p class="description">光伏产品、租赁。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002202">
+<div class="ticker"><b>002202</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">金风科技</div>
+<p class="description">风机及零部件销售、风电场开发、风电服务。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300274">
+<div class="ticker"><b>300274</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">阳光电源</div>
+<p class="description">储能系统、光伏逆变器等电力电子转换设备、新能源投资开发。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300316">
+<div class="ticker"><b>300316</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">晶盛机电</div>
+<p class="description">设备及其服务、材料。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300724">
+<div class="ticker"><b>300724</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">捷佳伟创</div>
+<p class="description">工艺设备、自动化配套设备。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300751">
+<div class="ticker"><b>300751</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">迈为股份</div>
+<p class="description">太阳能电池成套生产设备、单机设备。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300763">
+<div class="ticker"><b>300763</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">锦浪科技</div>
+<p class="description">组串式逆变器及配套产品、户用光伏发电系统、新能源电力生产等。</p></article>
+</div></section>
+<section class="card" data-group="17_A">
+<header><span class="code">17_A</span><span class="count">6</span></header>
+<h3>GRID GENERATION EQUIPMENT</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600089">
+<div class="ticker"><b>600089</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">特变电工</div>
+<p class="description">电气设备产品、电线电缆产品、新能源产品及工程等。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:600312">
+<div class="ticker"><b>600312</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">平高电气</div>
+<p class="description">输配电设备、开关全生命周期。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:600875">
+<div class="ticker"><b>600875</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">东方电气</div>
+<p class="description">能源装备制造、制造服务。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:600885">
+<div class="ticker"><b>600885</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">宏发股份</div>
+<p class="description">继电器产品、电气产品。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601179">
+<div class="ticker"><b>601179</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">中国西电</div>
+<p class="description">变压器、开关、电力电子器件等。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002028">
+<div class="ticker"><b>002028</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">思源电气</div>
+<p class="description">开关类业务、变压器类业务、储能系统及元件类业务等。</p></article>
+</div></section>
+<section class="card" data-group="17_B">
+<header><span class="code">17_B</span><span class="count">4</span></header>
+<h3>DISTRIBUTION CHARGING METERS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600406">
+<div class="ticker"><b>600406</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">国电南瑞</div>
+<p class="description">电网智能、能源低碳、数能融合等。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601877">
+<div class="ticker"><b>601877</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">正泰电器</div>
+<p class="description">光伏电站工程承包、电站运营、终端电器等。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:000400">
+<div class="ticker"><b>000400</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">许继电气</div>
+<p class="description">智能变配电系统、智能电表、智能中压供用电设备等。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300001">
+<div class="ticker"><b>300001</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">特锐德</div>
+<p class="description">充电业务相关产品及服务、中压预制舱变电站、变配电核心设备等。</p></article>
+</div></section>
+<section class="card" data-group="17_C">
+<header><span class="code">17_C</span><span class="count">8</span></header>
+<h3>POWER WATER UTILITIES</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600008">
+<div class="ticker"><b>600008</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">首创环保</div>
+<p class="description">污水水处理业务、固废处理业务、供水水处理业务等。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:600011">
+<div class="ticker"><b>600011</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">华能国际</div>
+<p class="description">电力热力收入、租赁收入、港口收入。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:600886">
+<div class="ticker"><b>600886</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">国投电力</div>
+<p class="description">电力。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:600900">
+<div class="ticker"><b>600900</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">长江电力</div>
+<p class="description">境内水电行业。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:600905">
+<div class="ticker"><b>600905</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">三峡能源</div>
+<p class="description">风力发电、太阳能发电。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:600995">
+<div class="ticker"><b>600995</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">南网储能</div>
+<p class="description">抽水蓄能、调峰水电、新型储能。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601985">
+<div class="ticker"><b>601985</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">中国核电</div>
+<p class="description">核电、光伏、风电。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:003816">
+<div class="ticker"><b>003816</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">中国广核</div>
+<p class="description">销售电力、提供劳务、建筑安装和设计服务。</p></article>
+</div></section>
+<section class="card" data-group="18_A">
+<header><span class="code">18_A</span><span class="count">9</span></header>
+<h3>MEDICINES BIOTECH PHARMA</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600196">
+<div class="ticker"><b>600196</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">复星医药</div>
+<p class="description">制药、医疗健康服务、医疗器械与医学诊断。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:600276">
+<div class="ticker"><b>600276</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">恒瑞医药</div>
+<p class="description">销售商品、许可收入。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:600436">
+<div class="ticker"><b>600436</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">片仔癀</div>
+<p class="description">医药行业。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:688235">
+<div class="ticker"><b>688235</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">百济神州</div>
+<p class="description">BRUKINSA/百悦泽、TEVIMBRA/百泽安、安加维。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:000423">
+<div class="ticker"><b>000423</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">东阿阿胶</div>
+<p class="description">阿胶及系列产品、毛驴养殖及贸易。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:000538">
+<div class="ticker"><b>000538</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">云南白药</div>
+<p class="description">商业销售收入、工业销售收入、旅店饮食业。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:000963">
+<div class="ticker"><b>000963</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">华东医药</div>
+<p class="description">商业、制造业、医美。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:000999">
+<div class="ticker"><b>000999</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">华润三九</div>
+<p class="description">医药行业-处方药、医药行业-自我诊疗(CHC)、药品等。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002422">
+<div class="ticker"><b>002422</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">科伦药业</div>
+<p class="description">非输液、输液、研发项目。</p></article>
+</div></section>
+<section class="card" data-group="18_B">
+<header><span class="code">18_B</span><span class="count">4</span></header>
+<h3>CRO CDMO</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:603259">
+<div class="ticker"><b>603259</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">药明康德</div>
+<p class="description">化学业务、测试业务、生物学业务。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002821">
+<div class="ticker"><b>002821</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">凯莱英</div>
+<p class="description">小分子CDMO解决方案、新兴业务。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300347">
+<div class="ticker"><b>300347</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">泰格医药</div>
+<p class="description">临床试验相关服务及实验室服务、临床试验技术服务。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300759">
+<div class="ticker"><b>300759</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">康龙化成</div>
+<p class="description">实验室服务、CDMO服务、临床研究服务。</p></article>
+</div></section>
+<section class="card" data-group="18_C">
+<header><span class="code">18_C</span><span class="count">8</span></header>
+<h3>MEDICAL DEVICES SERVICES</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:688029">
+<div class="ticker"><b>688029</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">南微医学科技</div>
+<p class="description">内镜耗材类、肿瘤介入类、可视化类。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:688271">
+<div class="ticker"><b>688271</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">联影医疗</div>
+<p class="description">销售医学影像诊断设备及放射治疗设备、提供维修收入、软件收入。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:688301">
+<div class="ticker"><b>688301</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">奕瑞科技股份</div>
+<p class="description">探测器、硅基微显示背板、核心部件等。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002223">
+<div class="ticker"><b>002223</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">鱼跃医疗</div>
+<p class="description">呼吸治疗解决方案、临床器械及康复解决方案、家用健康检测解决方案等。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300015">
+<div class="ticker"><b>300015</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">爱尔眼科</div>
+<p class="description">屈光项目、视光服务项目、白内障项目等。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300760">
+<div class="ticker"><b>300760</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">迈瑞医疗</div>
+<p class="description">体外诊断类产品、生命信息与支持类产品、新兴业务类产品等。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300832">
+<div class="ticker"><b>300832</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">新产业</div>
+<p class="description">试剂类、仪器类。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300896">
+<div class="ticker"><b>300896</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">爱美客</div>
+<p class="description">溶液类注射产品、凝胶类注射产品、冻干粉类注射产品。</p></article>
+</div></section>
+<section class="card" data-group="19_A">
+<header><span class="code">19_A</span><span class="count">5</span></header>
+<h3>BROKERS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600030">
+<div class="ticker"><b>600030</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">中信证券</div>
+<p class="description">证券投资业务、经纪业务、资产管理业务。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601211">
+<div class="ticker"><b>601211</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">国泰海通</div>
+<p class="description">机构与交易、财富管理、投资管理等。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601688">
+<div class="ticker"><b>601688</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">华泰证券</div>
+<p class="description">财富管理、机构服务、国际业务等。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:000776">
+<div class="ticker"><b>000776</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">广发证券</div>
+<p class="description">交易及机构业务、财富管理业务、投资管理业务等。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300059">
+<div class="ticker"><b>300059</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">东方财富</div>
+<p class="description">证券业务、金融电子商务服务、金融数据服务等。</p></article>
+</div></section>
+<section class="card" data-group="19_B">
+<header><span class="code">19_B</span><span class="count">8</span></header>
+<h3>BANKS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600036">
+<div class="ticker"><b>600036</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">招商银行</div>
+<p class="description">零售金融业务、批发金融业务。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:600919">
+<div class="ticker"><b>600919</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">江苏银行</div>
+<p class="description">公司金融业务、个人金融业务、资金业务。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601166">
+<div class="ticker"><b>601166</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">兴业银行</div>
+<p class="description">公司、零售、同业金融服务。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601288">
+<div class="ticker"><b>601288</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">农业银行</div>
+<p class="description">个人银行业务、公司银行业务、资金运营业务。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601398">
+<div class="ticker"><b>601398</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">工商银行</div>
+<p class="description">公司金融业务、个人金融业务、资金业务。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601939">
+<div class="ticker"><b>601939</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">建设银行</div>
+<p class="description">个人金融业务、公司金融业务、资金资管业务。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:000001">
+<div class="ticker"><b>000001</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">平安银行</div>
+<p class="description">批发金融业务、零售金融业务。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002142">
+<div class="ticker"><b>002142</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">宁波银行</div>
+<p class="description">公司业务、资金业务、个人业务。</p></article>
+</div></section>
+<section class="card" data-group="19_C">
+<header><span class="code">19_C</span><span class="count">5</span></header>
+<h3>INSURANCE</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:601318">
+<div class="ticker"><b>601318</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">中国平安</div>
+<p class="description">寿险及健康险、财产保险、银行等。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601319">
+<div class="ticker"><b>601319</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">中国人保</div>
+<p class="description">财产保险、人寿保险、健康保险。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601336">
+<div class="ticker"><b>601336</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">新华保险</div>
+<p class="description">传统型保险、分红型保险。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601601">
+<div class="ticker"><b>601601</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">中国太保</div>
+<p class="description">人寿及健康保险、财产保险、资产管理。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601628">
+<div class="ticker"><b>601628</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">中国人寿</div>
+<p class="description">寿险业务、健康险业务与意外险业务。</p></article>
+</div></section>
+<section class="card" data-group="20_A">
+<header><span class="code">20_A</span><span class="count">4</span></header>
+<h3>GOLD MINING</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600489">
+<div class="ticker"><b>600489</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">中金黄金</div>
+<p class="description">冶炼、矿山。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:600547">
+<div class="ticker"><b>600547</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">山东黄金</div>
+<p class="description">自产金收入、外购金收入、小金条收入等。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601899">
+<div class="ticker"><b>601899</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">紫金矿业</div>
+<p class="description">冶炼产铜。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:000975">
+<div class="ticker"><b>000975</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">山金国际</div>
+<p class="description">矿产金、白银贸易、铜贸易等。</p></article>
+</div></section>
+<section class="card" data-group="20_B">
+<header><span class="code">20_B</span><span class="count">12</span></header>
+<h3>INDUSTRIAL METALS RECYCLING</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600019">
+<div class="ticker"><b>600019</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">宝钢股份</div>
+<p class="description">销售商品、提供劳务、租赁收入。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:600111">
+<div class="ticker"><b>600111</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">北方稀土</div>
+<p class="description">生产业务分部、稀土功能材料及应用产品分部、贸易业务分部。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:600362">
+<div class="ticker"><b>600362</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">江西铜业</div>
+<p class="description">阴极铜、铜杆线、黄金等。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:600549">
+<div class="ticker"><b>600549</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">厦门钨业</div>
+<p class="description">钨钼等有色金属制品、电池材料、稀土业务等。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601600">
+<div class="ticker"><b>601600</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">中国铝业</div>
+<p class="description">营销板块、原铝板块、氧化铝板块等。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:603799">
+<div class="ticker"><b>603799</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">华友钴业</div>
+<p class="description">正极材料、镍产品、镍中间品。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:603993">
+<div class="ticker"><b>603993</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">洛阳钼业</div>
+<p class="description">精炼金属贸易、矿物金属贸易、铜钴相关产品等。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:000630">
+<div class="ticker"><b>000630</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">铜陵有色</div>
+<p class="description">铜产品、黄金等副产品。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:000807">
+<div class="ticker"><b>000807</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">云铝股份</div>
+<p class="description">电解铝、铝加工产品。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:000960">
+<div class="ticker"><b>000960</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">锡业股份</div>
+<p class="description">锡锭、铜产品、供应链业务。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002340">
+<div class="ticker"><b>002340</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">格林美</div>
+<p class="description">三元前驱体、镍资源(MHP、镍板)等。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300748">
+<div class="ticker"><b>300748</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">金力永磁</div>
+<p class="description">钕铁硼磁钢。</p></article>
+</div></section>
+<section class="card" data-group="20_E">
+<header><span class="code">20_E</span><span class="count">3</span></header>
+<h3>ADVANCED NONMETALS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600176">
+<div class="ticker"><b>600176</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">中国巨石</div>
+<p class="description">玻纤及其制品相关。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:603688">
+<div class="ticker"><b>603688</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">石英股份</div>
+<p class="description">石英管(棒)、石英砂、石英坩埚。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002080">
+<div class="ticker"><b>002080</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">中材科技</div>
+<p class="description">风电叶片、玻璃纤维及制品、锂电池隔膜等。</p></article>
+</div></section>
+<section class="card" data-group="21_A">
+<header><span class="code">21_A</span><span class="count">4</span></header>
+<h3>COAL</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:601088">
+<div class="ticker"><b>601088</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">中国神华</div>
+<p class="description">煤炭收入、发电收入、煤化工收入等。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601225">
+<div class="ticker"><b>601225</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">陕西煤业</div>
+<p class="description">自产煤、贸易煤。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601898">
+<div class="ticker"><b>601898</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">中煤能源</div>
+<p class="description">煤炭业务、化工业务、煤矿装备业务。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:000983">
+<div class="ticker"><b>000983</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">山西焦煤</div>
+<p class="description">煤炭、电力、热力等。</p></article>
+</div></section>
+<section class="card" data-group="21_B">
+<header><span class="code">21_B</span><span class="count">4</span></header>
+<h3>OIL GAS SERVICES</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600028">
+<div class="ticker"><b>600028</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">中国石化</div>
+<p class="description">汽油、柴油、原油。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:600938">
+<div class="ticker"><b>600938</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">中国海油</div>
+<p class="description">油气销售、贸易。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601808">
+<div class="ticker"><b>601808</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">中海油服</div>
+<p class="description">油田技术服务、钻井服务、船舶服务等。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601857">
+<div class="ticker"><b>601857</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">中国石油</div>
+<p class="description">销售、炼油化工和新材料、油气和新能源等。</p></article>
+</div></section>
+<section class="card" data-group="21_C">
+<header><span class="code">21_C</span><span class="count">9</span></header>
+<h3>CHEMICAL MATERIALS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600309">
+<div class="ticker"><b>600309</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">万华化学</div>
+<p class="description">石化系列、聚氨酯系列、精细化学品及新材料系列。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:600346">
+<div class="ticker"><b>600346</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">恒力石化</div>
+<p class="description">炼化产品、PTA、聚酯产品。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:600426">
+<div class="ticker"><b>600426</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">华鲁恒升</div>
+<p class="description">新能源新材料相关产品、化学肥料、醋酸及衍生品等。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:600486">
+<div class="ticker"><b>600486</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">扬农化工</div>
+<p class="description">原药、贸易、制剂。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:600989">
+<div class="ticker"><b>600989</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">宝丰能源</div>
+<p class="description">烯烃产品、焦化产品、精细化工产品。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601233">
+<div class="ticker"><b>601233</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">桐昆股份</div>
+<p class="description">涤纶预取向丝、精对苯二甲酸、涤纶牵伸丝等。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002493">
+<div class="ticker"><b>002493</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">荣盛石化</div>
+<p class="description">化工产品、炼油产品、PTA等。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002601">
+<div class="ticker"><b>002601</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">龙佰集团</div>
+<p class="description">钛白粉、海绵钛、铁系产品。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002648">
+<div class="ticker"><b>002648</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">卫星化学</div>
+<p class="description">功能化学品、高分子新材料。</p></article>
+</div></section>
+<section class="card" data-group="22_A">
+<header><span class="code">22_A</span><span class="count">4</span></header>
+<h3>SHIPPING LOGISTICS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600026">
+<div class="ticker"><b>600026</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">中远海能</div>
+<p class="description">油品运输、外贸油品、内贸油品。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601872">
+<div class="ticker"><b>601872</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">招商轮船</div>
+<p class="description">油轮运输、干散货运输、集装箱运输。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601919">
+<div class="ticker"><b>601919</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">中远海控</div>
+<p class="description">集装箱航运业务、码头业务。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002352">
+<div class="ticker"><b>002352</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">顺丰控股</div>
+<p class="description">速运及大件分部、供应链及国际分部。</p></article>
+</div></section>
+<section class="card" data-group="22_B">
+<header><span class="code">22_B</span><span class="count">3</span></header>
+<h3>SHIPBUILDING OFFSHORE</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600150">
+<div class="ticker"><b>600150</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">中国船舶</div>
+<p class="description">船舶造修及海洋工程、船舶配套。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:600320">
+<div class="ticker"><b>600320</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">振华重工</div>
+<p class="description">港口机械、重型装备、钢结构及相关收入等。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:000039">
+<div class="ticker"><b>000039</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">中集集团</div>
+<p class="description">集装箱制造、物流服务、能源等。</p></article>
+</div></section>
+<section class="card" data-group="22_D">
+<header><span class="code">22_D</span><span class="count">3</span></header>
+<h3>RAIL ROADS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:601006">
+<div class="ticker"><b>601006</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">大秦铁路</div>
+<p class="description">货运收入、客运收入。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601816">
+<div class="ticker"><b>601816</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">京沪高铁</div>
+<p class="description">路网服务、客运业务。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:001965">
+<div class="ticker"><b>001965</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">招商公路</div>
+<p class="description">投资运营业务、改扩建业务、交通科技业务等。</p></article>
+</div></section>
+<section class="card" data-group="22_E">
+<header><span class="code">22_E</span><span class="count">7</span></header>
+<h3>CONSTRUCTION PROPERTY MATERIALS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600048">
+<div class="ticker"><b>600048</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">保利发展</div>
+<p class="description">房地产销售收。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:600585">
+<div class="ticker"><b>600585</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">海螺水泥</div>
+<p class="description">42.5级水泥、32.5级水泥、熟料。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601117">
+<div class="ticker"><b>601117</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">中国化学</div>
+<p class="description">工程业务、实业业务、现代服务业。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601390">
+<div class="ticker"><b>601390</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">中国中铁</div>
+<p class="description">基础设施建设、装备制造、房地产开发。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601668">
+<div class="ticker"><b>601668</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">中国建筑</div>
+<p class="description">房屋建筑工程、基础设施建设与投资、房地产开发与投资。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601669">
+<div class="ticker"><b>601669</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">中国电建</div>
+<p class="description">工程承包与勘察设计、电力投资与运营。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:001979">
+<div class="ticker"><b>001979</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">招商蛇口</div>
+<p class="description">开发业务、物业服务、资产运营。</p></article>
+</div></section>
+<section class="card" data-group="22_F">
+<header><span class="code">22_F</span><span class="count">3</span></header>
+<h3>TELECOM OPERATORS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600050">
+<div class="ticker"><b>600050</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">中国联通</div>
+<p class="description">宽带及移动数据服务。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:600941">
+<div class="ticker"><b>600941</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">中国移动</div>
+<p class="description">无线上网业务、应用及信息服务。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601728">
+<div class="ticker"><b>601728</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">中国电信</div>
+<p class="description">移动通信服务收入、产业数字化服务收入、固网及智慧家庭服务收入。</p></article>
+</div></section>
+<section class="card" data-group="22_G">
+<header><span class="code">22_G</span><span class="count">3</span></header>
+<h3>AIRLINES AIRPORTS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600004">
+<div class="ticker"><b>600004</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">白云机场</div>
+<p class="description">航空服务、地勤服务、贵宾服务等。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:600009">
+<div class="ticker"><b>600009</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">上海机场</div>
+<p class="description">非航空性收入、航空性收入。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601021">
+<div class="ticker"><b>601021</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">春秋航空</div>
+<p class="description">航空客运、航空货运。</p></article>
+</div></section>
+<section class="card" data-group="24_A">
+<header><span class="code">24_A</span><span class="count">6</span></header>
+<h3>ALCOHOL</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600519">
+<div class="ticker"><b>600519</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">贵州茅台</div>
+<p class="description">茅台酒。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:600809">
+<div class="ticker"><b>600809</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">山西汾酒</div>
+<p class="description">酒类销售。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:000568">
+<div class="ticker"><b>000568</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">泸州老窖</div>
+<p class="description">中高档酒类。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:000596">
+<div class="ticker"><b>000596</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">古井贡酒</div>
+<p class="description">白酒业务、酒店业务。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:000858">
+<div class="ticker"><b>000858</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">五 粮 液</div>
+<p class="description">酒类产品、非酒类产品。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002568">
+<div class="ticker"><b>002568</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">百润股份</div>
+<p class="description">酒类产品、食用香精。</p></article>
+</div></section>
+<section class="card" data-group="24_B">
+<header><span class="code">24_B</span><span class="count">6</span></header>
+<h3>FOOD BEVERAGES</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600600">
+<div class="ticker"><b>600600</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">青岛啤酒</div>
+<p class="description">销售啤酒等。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:600887">
+<div class="ticker"><b>600887</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">伊利股份</div>
+<p class="description">液体乳、奶粉及奶制品、冷饮产品。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:603288">
+<div class="ticker"><b>603288</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">海天味业</div>
+<p class="description">酱油、蚝油、调味酱。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:603345">
+<div class="ticker"><b>603345</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">安井食品</div>
+<p class="description">速冻调制食品、速冻菜肴制品、速冻面米制品。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:605499">
+<div class="ticker"><b>605499</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">东鹏饮料</div>
+<p class="description">能量饮料、电解质饮料、茶饮料。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300999">
+<div class="ticker"><b>300999</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">金龙鱼</div>
+<p class="description">厨房食品、饲料原料及油脂科技。</p></article>
+</div></section>
+<section class="card" data-group="24_C">
+<header><span class="code">24_C</span><span class="count">5</span></header>
+<h3>HOME APPLIANCES</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600690">
+<div class="ticker"><b>600690</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">海尔智家</div>
+<p class="description">智慧生活电器、智慧暖通方案。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:603486">
+<div class="ticker"><b>603486</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">科沃斯</div>
+<p class="description">服务机器人、智能生活电器。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:688169">
+<div class="ticker"><b>688169</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">石头科技</div>
+<p class="description">智能清洁产品及配件。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:000333">
+<div class="ticker"><b>000333</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">美的集团</div>
+<p class="description">智能家居业务、商业及工业解决方案。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:000651">
+<div class="ticker"><b>000651</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">格力电器</div>
+<p class="description">消费电器、工业制品及绿色能源。</p></article>
+</div></section>
+<section class="card" data-group="24_D">
+<header><span class="code">24_D</span><span class="count">4</span></header>
+<h3>HOUSEHOLD PAPER PACKAGING</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:603195">
+<div class="ticker"><b>603195</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">公牛集团</div>
+<p class="description">电连接、插座与民用电工产品。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:603816">
+<div class="ticker"><b>603816</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">顾家家居</div>
+<p class="description">沙发、卧室产品、集成产品等。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:603833">
+<div class="ticker"><b>603833</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">欧派家居</div>
+<p class="description">衣柜及配套家具产品、橱柜、木门。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002078">
+<div class="ticker"><b>002078</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">太阳纸业</div>
+<p class="description">造纸业务、制浆业务。</p></article>
+</div></section>
+<section class="card" data-group="24_E">
+<header><span class="code">24_E</span><span class="count">3</span></header>
+<h3>TRAVEL DISCRETIONARY RETAIL</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600612">
+<div class="ticker"><b>600612</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">老凤祥</div>
+<p class="description">珠宝首饰、黄金交易、笔类。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:600754">
+<div class="ticker"><b>600754</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">锦江酒店</div>
+<p class="description">持续加盟及劳务派遣服务、酒店客房、订房渠道等。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601888">
+<div class="ticker"><b>601888</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">中国中免</div>
+<p class="description">商品销售业务、商业综合体投资开发业务。</p></article>
+</div></section>
+<section class="card" data-group="24_G">
+<header><span class="code">24_G</span><span class="count">4</span></header>
+<h3>CONSUMER BRANDS BEAUTY APPAREL</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600398">
+<div class="ticker"><b>600398</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">海澜之家</div>
+<p class="description">海澜之家系列、海澜团购定制系列。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:603605">
+<div class="ticker"><b>603605</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">珀莱雅</div>
+<p class="description">珀莱雅品牌。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002444">
+<div class="ticker"><b>002444</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">巨星科技</div>
+<p class="description">手工具、工业工具、电动工具等。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300866">
+<div class="ticker"><b>300866</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">安克创新</div>
+<p class="description">充电储能类、智能创新类、智能影音类。</p></article>
+</div></section>
+<section class="card" data-group="25_A">
+<header><span class="code">25_A</span><span class="count">7</span></header>
+<h3>CONSUMER ELECTRONICS DISPLAYS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:688036">
+<div class="ticker"><b>688036</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">传音控股</div>
+<p class="description">智能机、功能机。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:000100">
+<div class="ticker"><b>000100</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">TCL科技</div>
+<p class="description">半导体显示器件、电子产品分销、新能源光伏及半导体材料。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:000725">
+<div class="ticker"><b>000725</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">京东方Ａ</div>
+<p class="description">显示器件业务、物联网创新业务、MLED业务等。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002241">
+<div class="ticker"><b>002241</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">歌尔股份</div>
+<p class="description">智能硬件、智能声学整机、精密零组件。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002475">
+<div class="ticker"><b>002475</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">立讯精密</div>
+<p class="description">消费电子、汽车电子、通讯及数据中心。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002600">
+<div class="ticker"><b>002600</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">领益智造</div>
+<p class="description">AI硬件、汽车及低空经济。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300433">
+<div class="ticker"><b>300433</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">蓝思科技</div>
+<p class="description">智能手机与电脑类、智能汽车及座舱类、智能头显与智能穿戴类。</p></article>
+</div></section>
+<section class="card" data-group="25_B">
+<header><span class="code">25_B</span><span class="count">4</span></header>
+<h3>GAMES</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:603444">
+<div class="ticker"><b>603444</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">吉比特</div>
+<p class="description">自研和代理网络游戏。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002517">
+<div class="ticker"><b>002517</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">恺英网络</div>
+<p class="description">移动游戏、用户平台、网页游戏。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002555">
+<div class="ticker"><b>002555</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">三七互娱</div>
+<p class="description">移动游戏、网页游戏。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002602">
+<div class="ticker"><b>002602</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">世纪华通</div>
+<p class="description">移动端游戏、电脑端游戏、汽车零部件等。</p></article>
+</div></section>
+<section class="card" data-group="25_C">
+<header><span class="code">25_C</span><span class="count">4</span></header>
+<h3>MEDIA ADVERTISING EDUCATION</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600977">
+<div class="ticker"><b>600977</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">中国电影</div>
+<p class="description">发行业务、放映业务、科技业务等。</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601098">
+<div class="ticker"><b>601098</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">中南传媒</div>
+<p class="description">发行分部、出版分部、物资分部等。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002027">
+<div class="ticker"><b>002027</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">分众传媒</div>
+<p class="description">楼宇媒体、影院媒体。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300413">
+<div class="ticker"><b>300413</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">芒果超媒</div>
+<p class="description">芒果TV互联网视频业务、内容电商、新媒体互动娱乐内容制作。</p></article>
+</div></section>
+<section class="card" data-group="26_A">
+<header><span class="code">26_A</span><span class="count">5</span></header>
+<h3>AGRICULTURE</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600598">
+<div class="ticker"><b>600598</b><small>SSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">北大荒</div>
+<p class="description">土地承包费、农产品销售、农业服务销售。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:000998">
+<div class="ticker"><b>000998</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">隆平高科</div>
+<p class="description">水稻种子、玉米种子、向日葵种子。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002299">
+<div class="ticker"><b>002299</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">圣农发展</div>
+<p class="description">鸡肉、肉制品。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002311">
+<div class="ticker"><b>002311</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">海大集团</div>
+<p class="description">饲料、农产品、贸易业务等。</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002714">
+<div class="ticker"><b>002714</b><small>SZSE</small>
+<span class="role">主题龙头 (THEME_LEADER)</span></div>
+<div class="name">牧原股份</div>
+<p class="description">生猪、屠宰、肉食产品等。</p></article>
+</div></section>
+</div>
+<h2 class="section-title">参考工具</h2>
+<div class="grid">
+<section class="card" data-group="00_A">
+<header><span class="code">00_A</span><span class="count">6</span></header>
+<h3>EQUITY INDEX</h3><div class="entries">
+<article class="entry" data-kind="reference" data-ticker="SSE:000300">
+<div class="ticker"><b>000300</b><small>SSE</small>
+<span class="role">index</span></div>
+<p class="description">CSI 300 Index; 独立参考量尺，不计作经营主体或龙头名额。</p></article>
+<article class="entry" data-kind="reference" data-ticker="SSE:000510">
+<div class="ticker"><b>000510</b><small>SSE</small>
+<span class="role">index</span></div>
+<p class="description">CSI A500 Index; 独立参考量尺，不计作经营主体或龙头名额。</p></article>
+<article class="entry" data-kind="reference" data-ticker="SSE:000688">
+<div class="ticker"><b>000688</b><small>SSE</small>
+<span class="role">index</span></div>
+<p class="description">SSE Science and Technology Innovation Board 50 Index; 独立参考量尺，不计作经营主体或龙头名额。</p></article>
+<article class="entry" data-kind="reference" data-ticker="SSE:000852">
+<div class="ticker"><b>000852</b><small>SSE</small>
+<span class="role">index</span></div>
+<p class="description">CSI 1000 Index; 独立参考量尺，不计作经营主体或龙头名额。</p></article>
+<article class="entry" data-kind="reference" data-ticker="SSE:000905">
+<div class="ticker"><b>000905</b><small>SSE</small>
+<span class="role">index</span></div>
+<p class="description">CSI 500 Index; 独立参考量尺，不计作经营主体或龙头名额。</p></article>
+<article class="entry" data-kind="reference" data-ticker="SZSE:399006">
+<div class="ticker"><b>399006</b><small>SZSE</small>
+<span class="role">index</span></div>
+<p class="description">ChiNext Index; 独立参考量尺，不计作经营主体或龙头名额。</p></article>
+</div></section>
+<section class="card" data-group="01_A">
+<header><span class="code">01_A</span><span class="count">8</span></header>
+<h3>BROAD STYLE ETF</h3><div class="entries">
+<article class="entry" data-kind="reference" data-ticker="SSE:510300">
+<div class="ticker"><b>510300</b><small>SSE</small>
+<span class="role">etf</span></div>
+<p class="description">Huatai-PineBridge CSI 300 ETF; 独立参考量尺，不计作经营主体或龙头名额。</p></article>
+<article class="entry" data-kind="reference" data-ticker="SSE:510500">
+<div class="ticker"><b>510500</b><small>SSE</small>
+<span class="role">etf</span></div>
+<p class="description">China Southern CSI 500 ETF Fund; 独立参考量尺，不计作经营主体或龙头名额。</p></article>
+<article class="entry" data-kind="reference" data-ticker="SSE:512100">
+<div class="ticker"><b>512100</b><small>SSE</small>
+<span class="role">etf</span></div>
+<p class="description">China Southern CSI 1000 Exchange Traded Fund; 独立参考量尺，不计作经营主体或龙头名额。</p></article>
+<article class="entry" data-kind="reference" data-ticker="SSE:512890">
+<div class="ticker"><b>512890</b><small>SSE</small>
+<span class="role">etf</span></div>
+<p class="description">Huatai-PB CSI Dividend Low Volatility Exchange Traded Fund Units; 独立参考量尺，不计作经营主体或龙头名额。</p></article>
+<article class="entry" data-kind="reference" data-ticker="SSE:513180">
+<div class="ticker"><b>513180</b><small>SSE</small>
+<span class="role">etf</span></div>
+<p class="description">ChinaAMC Hang Seng TECH Index ETEF; 独立参考量尺，不计作经营主体或龙头名额。</p></article>
+<article class="entry" data-kind="reference" data-ticker="SSE:563360">
+<div class="ticker"><b>563360</b><small>SSE</small>
+<span class="role">etf</span></div>
+<p class="description">Huatai-PineBridge CSI A500 Fund Units; 独立参考量尺，不计作经营主体或龙头名额。</p></article>
+<article class="entry" data-kind="reference" data-ticker="SSE:588000">
+<div class="ticker"><b>588000</b><small>SSE</small>
+<span class="role">etf</span></div>
+<p class="description">China AMC SSE STAR 50 Index ETF; 独立参考量尺，不计作经营主体或龙头名额。</p></article>
+<article class="entry" data-kind="reference" data-ticker="SZSE:159915">
+<div class="ticker"><b>159915</b><small>SZSE</small>
+<span class="role">etf</span></div>
+<p class="description">E Fund ChiNext ETF; 独立参考量尺，不计作经营主体或龙头名额。</p></article>
+</div></section>
+<section class="card" data-group="01_B">
+<header><span class="code">01_B</span><span class="count">6</span></header>
+<h3>TECH AI ETF</h3><div class="entries">
+<article class="entry" data-kind="reference" data-ticker="SSE:512480">
+<div class="ticker"><b>512480</b><small>SSE</small>
+<span class="role">etf</span></div>
+<p class="description">GTJA Allianz CSI All-Share Semiconductor Products &amp; EQPT ETF; 独立参考量尺，不计作经营主体或龙头名额。</p></article>
+<article class="entry" data-kind="reference" data-ticker="SSE:515880">
+<div class="ticker"><b>515880</b><small>SSE</small>
+<span class="role">etf</span></div>
+<p class="description">Guotai CSI All Share Communications ETF; 独立参考量尺，不计作经营主体或龙头名额。</p></article>
+<article class="entry" data-kind="reference" data-ticker="SSE:562500">
+<div class="ticker"><b>562500</b><small>SSE</small>
+<span class="role">etf</span></div>
+<p class="description">China AMC Robot ETF; 独立参考量尺，不计作经营主体或龙头名额。</p></article>
+<article class="entry" data-kind="reference" data-ticker="SSE:588200">
+<div class="ticker"><b>588200</b><small>SSE</small>
+<span class="role">etf</span></div>
+<p class="description">Harvest SSE Science &amp; Technology Innovation Board Chip ETF; 独立参考量尺，不计作经营主体或龙头名额。</p></article>
+<article class="entry" data-kind="reference" data-ticker="SZSE:159516">
+<div class="ticker"><b>159516</b><small>SZSE</small>
+<span class="role">etf</span></div>
+<p class="description">Guotai CSI Semiconductor Material &amp; Equipment Thematic Exchange Traded Fund Units; 独立参考量尺，不计作经营主体或龙头名额。</p></article>
+<article class="entry" data-kind="reference" data-ticker="SZSE:159819">
+<div class="ticker"><b>159819</b><small>SZSE</small>
+<span class="role">etf</span></div>
+<p class="description">E Fund CSI Artificial Intelligence ETF; 独立参考量尺，不计作经营主体或龙头名额。</p></article>
+</div></section>
+<section class="card" data-group="01_C">
+<header><span class="code">01_C</span><span class="count">3</span></header>
+<h3>SOFTWARE MEDIA ETF</h3><div class="entries">
+<article class="entry" data-kind="reference" data-ticker="SSE:512980">
+<div class="ticker"><b>512980</b><small>SSE</small>
+<span class="role">etf</span></div>
+<p class="description">GF CSI Media ETF; 独立参考量尺，不计作经营主体或龙头名额。</p></article>
+<article class="entry" data-kind="reference" data-ticker="SZSE:159852">
+<div class="ticker"><b>159852</b><small>SZSE</small>
+<span class="role">etf</span></div>
+<p class="description">Harvest CSI Software &amp; Services Exchange Traded Fund; 独立参考量尺，不计作经营主体或龙头名额。</p></article>
+<article class="entry" data-kind="reference" data-ticker="SZSE:159869">
+<div class="ticker"><b>159869</b><small>SZSE</small>
+<span class="role">etf</span></div>
+<p class="description">China Securities Animation Game ETF; 独立参考量尺，不计作经营主体或龙头名额。</p></article>
+</div></section>
+<section class="card" data-group="01_D">
+<header><span class="code">01_D</span><span class="count">4</span></header>
+<h3>CLEAN ENERGY POWER ETF</h3><div class="entries">
+<article class="entry" data-kind="reference" data-ticker="SSE:515790">
+<div class="ticker"><b>515790</b><small>SSE</small>
+<span class="role">etf</span></div>
+<p class="description">Huatai-PB CSI Photovoltaic Industry Index Exchange Traded Fund Units; 独立参考量尺，不计作经营主体或龙头名额。</p></article>
+<article class="entry" data-kind="reference" data-ticker="SZSE:159326">
+<div class="ticker"><b>159326</b><small>SZSE</small>
+<span class="role">etf</span></div>
+<p class="description">ChinaAMC CSI Grid Equipment Thematic Exchange Traded Fund Units; 独立参考量尺，不计作经营主体或龙头名额。</p></article>
+<article class="entry" data-kind="reference" data-ticker="SZSE:159566">
+<div class="ticker"><b>159566</b><small>SZSE</small>
+<span class="role">etf</span></div>
+<p class="description">E Fund CNI Energy Storage Battery Index Exchange Traded Fund Units; 独立参考量尺，不计作经营主体或龙头名额。</p></article>
+<article class="entry" data-kind="reference" data-ticker="SZSE:159755">
+<div class="ticker"><b>159755</b><small>SZSE</small>
+<span class="role">etf</span></div>
+<p class="description">GF CNI New Energy Vehicles Battery Exchange Traded Fund; 独立参考量尺，不计作经营主体或龙头名额。</p></article>
+</div></section>
+<section class="card" data-group="01_E">
+<header><span class="code">01_E</span><span class="count">2</span></header>
+<h3>HEALTHCARE ETF</h3><div class="entries">
+<article class="entry" data-kind="reference" data-ticker="SSE:512170">
+<div class="ticker"><b>512170</b><small>SSE</small>
+<span class="role">etf</span></div>
+<p class="description">Hwabao WP CSI Medical Exchange Traded Fund Units; 独立参考量尺，不计作经营主体或龙头名额。</p></article>
+<article class="entry" data-kind="reference" data-ticker="SZSE:159992">
+<div class="ticker"><b>159992</b><small>SZSE</small>
+<span class="role">etf</span></div>
+<p class="description">Yinhua CSI Brand Name Drug Industry ETF; 独立参考量尺，不计作经营主体或龙头名额。</p></article>
+</div></section>
+<section class="card" data-group="01_F">
+<header><span class="code">01_F</span><span class="count">2</span></header>
+<h3>FINANCIALS ETF</h3><div class="entries">
+<article class="entry" data-kind="reference" data-ticker="SSE:512800">
+<div class="ticker"><b>512800</b><small>SSE</small>
+<span class="role">etf</span></div>
+<p class="description">Hwabao WP CSI Bank ETF; 独立参考量尺，不计作经营主体或龙头名额。</p></article>
+<article class="entry" data-kind="reference" data-ticker="SSE:512880">
+<div class="ticker"><b>512880</b><small>SSE</small>
+<span class="role">etf</span></div>
+<p class="description">Guotai All-Share Index Securities Companies ETF; 独立参考量尺，不计作经营主体或龙头名额。</p></article>
+</div></section>
+<section class="card" data-group="01_G">
+<header><span class="code">01_G</span><span class="count">3</span></header>
+<h3>DEFENSE PROPERTY ETF</h3><div class="entries">
+<article class="entry" data-kind="reference" data-ticker="SSE:512200">
+<div class="ticker"><b>512200</b><small>SSE</small>
+<span class="role">etf</span></div>
+<p class="description">China Southern CSI All Share Real Estate Index Exchange Traded Fund Units; 独立参考量尺，不计作经营主体或龙头名额。</p></article>
+<article class="entry" data-kind="reference" data-ticker="SSE:512660">
+<div class="ticker"><b>512660</b><small>SSE</small>
+<span class="role">etf</span></div>
+<p class="description">Guotai CSI National Defense Industry Index ETF; 独立参考量尺，不计作经营主体或龙头名额。</p></article>
+<article class="entry" data-kind="reference" data-ticker="SZSE:159206">
+<div class="ticker"><b>159206</b><small>SZSE</small>
+<span class="role">etf</span></div>
+<p class="description">Maxwealth CNI Commercial Satellite Communication Industry Index ETF Units; 独立参考量尺，不计作经营主体或龙头名额。</p></article>
+</div></section>
+<section class="card" data-group="01_H">
+<header><span class="code">01_H</span><span class="count">2</span></header>
+<h3>CONSUMER AGRICULTURE ETF</h3><div class="entries">
+<article class="entry" data-kind="reference" data-ticker="SSE:512690">
+<div class="ticker"><b>512690</b><small>SSE</small>
+<span class="role">etf</span></div>
+<p class="description">Penghua CSI Liquor Index ETF; 独立参考量尺，不计作经营主体或龙头名额。</p></article>
+<article class="entry" data-kind="reference" data-ticker="SZSE:159865">
+<div class="ticker"><b>159865</b><small>SZSE</small>
+<span class="role">etf</span></div>
+<p class="description">Guotai CSI Livestock Breeding Exchange Traded Fund; 独立参考量尺，不计作经营主体或龙头名额。</p></article>
+</div></section>
+<section class="card" data-group="01_I">
+<header><span class="code">01_I</span><span class="count">4</span></header>
+<h3>RESOURCES ETF</h3><div class="entries">
+<article class="entry" data-kind="reference" data-ticker="SSE:512400">
+<div class="ticker"><b>512400</b><small>SSE</small>
+<span class="role">etf</span></div>
+<p class="description">China Southern CSI SWS Non-ferrous Metal Index Exchange Traded Fund Units; 独立参考量尺，不计作经营主体或龙头名额。</p></article>
+<article class="entry" data-kind="reference" data-ticker="SSE:515220">
+<div class="ticker"><b>515220</b><small>SSE</small>
+<span class="role">etf</span></div>
+<p class="description">Guotai CSI Coal Exchange Traded Fund; 独立参考量尺，不计作经营主体或龙头名额。</p></article>
+<article class="entry" data-kind="reference" data-ticker="SSE:516150">
+<div class="ticker"><b>516150</b><small>SSE</small>
+<span class="role">etf</span></div>
+<p class="description">Harvest CSI Rare Earth Industry ETF; 独立参考量尺，不计作经营主体或龙头名额。</p></article>
+<article class="entry" data-kind="reference" data-ticker="SZSE:159870">
+<div class="ticker"><b>159870</b><small>SZSE</small>
+<span class="role">etf</span></div>
+<p class="description">Penghua CSI Chemicals Sub-Industry ETF; 独立参考量尺，不计作经营主体或龙头名额。</p></article>
+</div></section>
+<section class="card" data-group="01_J">
+<header><span class="code">01_J</span><span class="count">2</span></header>
+<h3>GOLD DURATION ETF</h3><div class="entries">
+<article class="entry" data-kind="reference" data-ticker="SSE:511090">
+<div class="ticker"><b>511090</b><small>SSE</small>
+<span class="role">etf</span></div>
+<p class="description">鹏扬中债-30年期国债 ETF，观察超长期国债价格和久期；以交易所和基金管理人中文全名为准，不将供应商英文缩写 CDB 误解为国开债。</p></article>
+<article class="entry" data-kind="reference" data-ticker="SSE:518880">
+<div class="ticker"><b>518880</b><small>SSE</small>
+<span class="role">etf</span></div>
+<p class="description">HuaAn Gold ETF Fund; 独立参考量尺，不计作经营主体或龙头名额。</p></article>
+</div></section>
+</div>
+<details class="notes">
+<summary>研究说明与边界</summary><ul>
+<li>Beta只核对大体主营、对具名核心的业务补充与有来源CNY总股权市值；价格Beta/R²/稳定度只作辅助描述。</li>
+<li>上市是本次供应商active_symbol与最新有效报价观察，不声称逐公司监管询问、审计意见或全部临时停牌记录已独立查遍。</li>
+<li>主题回归使用同主题已审查候选的留一法等权篮子，不使用全市场指数替代。</li>
+<li>原Yahoo长窗口响应失败，已保存失败回执并替换Tencent qfq价格；流动性用30个有效交易日原价乘成交股数的CNY代理额。成交量逐标的与scanner股数交叉核实：科创板等以股计，其他以手计，采用实际验证的1或100倍换算；最新报价金额另作合理性核对。</li>
+<li>未做未来走势评估或TradingView界面导入验证。English伴随报告由CLI渲染，研究文字保持简体中文。</li>
+<li>本次为10-08凌晨真实在线重建；价格及市值有效日09-30，10-08尚未开盘。实际采集时间保存在逐请求原始回执。</li>
+<li>核心财务为本次在线标准化字段，期间标签未知。亏损/负现金流逐标的披露，不把盈利或规模作为龙头的充分条件。</li>
+<li>第二轮内容修复：保留完整经济计划和455名必要龙头/同行；铜箔Beta从16_D移至16_B，LED补充比较对象改为显示面板核心。已核实业务但职责不相符的少数可选Beta列入deferred，不用泛行业标签代替原职责。待映射候选和来源完整保留。</li>
+<li>经济计划及全部455名必要龙头/同行不缩减；SSE/SZSE原观察范围、105分支、42参考工具与140/340/480/700主体上限保留。</li>
+<li>逐候选重新读取业务分部；原始报告期间分别披露。长期领导/互补职责经核对保留，旧证据原日期未重贴。provider分部资料不是独立审计或市场份额证明。</li>
+<li>本次统一测量人口为2613条有效CNY股票/参考ETF历史，合格候选1612条全部覆盖。未映射的已抓取候选不声称具有主题回归；完整缺失描述另存research/round-2/measurement.notes.full.json。</li>
+<li>合格候选未获得辅助主题因子指标：SSE:601808。统计用于描述，不建立收益独立或高价格Beta的准入假设。</li>
+</ul></details>
+<footer>研究说明与边界 · <a href="cn-medium-2026-10-08.json" download>JSON</a> · <a href="cn-medium-2026-10-08.validation.json" download>校验</a></footer>
+</main></body></html>

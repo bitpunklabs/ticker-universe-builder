@@ -1,0 +1,2073 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>CN Ticker Universe · Medium</title>
+<style>/* Self-contained report, readable without a network connection. */
+:root { color-scheme: dark; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+  "Noto Sans", "PingFang SC", "Microsoft YaHei", sans-serif; }
+* { box-sizing: border-box; }
+body { margin: 0; background: #090d13; color: #edf3fa; }
+main { width: 940px; max-width: 100%; margin: auto; padding: 34px 30px; }
+.brand { color: #d4deeb; font-size: 13px; letter-spacing: .04em; }
+.brand span { color: #8da0b8; }
+.hero { display: flex; align-items: center; justify-content: space-between;
+  gap: 14px; margin-top: 24px; }
+.hero > div { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+h1 { font-size: 32px; line-height: 1.2; letter-spacing: -.03em; margin: 0; }
+.profile, .verdict { border: 1px solid #34435a; border-radius: 6px; padding: 5px 9px;
+  font-size: 12px; font-weight: 600; white-space: nowrap; }
+.profile { color: #a9cfff; background: #14233b; }
+.verdict.pass { color: #8adebd; background: #10251f; border-color: #285340; }
+.verdict.partial, .notice.partial { color: #f1cd85; border-color: #765e33; }
+.verdict.fail { color: #ffb1b1; border-color: #874545; }
+.meta { color: #a4b5ca; font-size: 13px; line-height: 1.6; overflow-wrap: anywhere; }
+code, .code { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
+a { color: #a9cfff; text-decoration: none; }
+a:hover { text-decoration: underline; }
+a:focus-visible, summary:focus-visible { outline: 2px solid #79b8ff; outline-offset: 4px; }
+.files { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0; }
+.files a { padding: 7px 11px; border: 1px solid #2a3545; border-radius: 6px; font-size: 13px; }
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); background: #101721;
+  border: 1px solid #2a3545; border-radius: 10px; margin-bottom: 24px; }
+.stats > div { padding: 17px 18px; border-right: 1px solid #2a3545; }
+.stats > div:last-child { border-right: 0; }
+.stats strong { display: block; font-size: 27px; font-weight: 650; }
+.stats span { display: block; color: #a4b5ca; font-size: 12px; margin-top: 5px; }
+.section-title { font-size: 18px; margin: 26px 0 14px; font-weight: 600; }
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start; gap: 14px; }
+.card { --accent: #79b8ff; background: #101721; border: 1px solid #2a3545;
+  border-top: 2px solid var(--accent); border-radius: 9px; padding: 18px 19px 4px; }
+.card:nth-child(4n+2) { --accent: #b69cff; }
+.card:nth-child(4n+3) { --accent: #67d8ce; }
+.card:nth-child(4n+4) { --accent: #e7bb76; }
+.card header { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.code { color: var(--accent); font-size: 12px; }
+.count { color: #bccada; font-size: 12px; border: 1px solid #34435a;
+  border-radius: 4px; min-width: 24px; padding: 2px 6px; text-align: center; }
+h3 { font-size: 16px; font-weight: 650; line-height: 1.4; margin: 10px 0 16px;
+  overflow-wrap: anywhere; }
+.entry { border-top: 1px solid #263243; padding: 13px 0; overflow-wrap: anywhere; }
+.ticker { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.ticker b { font-size: 17px; letter-spacing: .01em; }
+.ticker small { font-size: 11px; color: #8da0b8; }
+.role { color: #9bacbf; font-size: 10px; margin-left: auto; }
+.name { color: #c0cede; font-size: 12px; line-height: 1.5; margin-top: 4px; }
+.description { color: #b7c5d8; font-size: 15px; line-height: 1.55; margin: 6px 0 0; }
+.added { display: inline-block; font-size: 11px; color: #8adebd; margin-top: 5px; }
+.notice, .notes { background: #101721; border: 1px solid #3b4757; border-radius: 8px;
+  padding: 15px 18px; margin: 18px 0; font-size: 13px; line-height: 1.6; overflow-wrap: anywhere; }
+.notice h2 { font-size: 14px; margin: 0; }
+.notice ul, .notes ul { padding-left: 20px; margin-bottom: 0; }
+.notes li + li { margin-top: 8px; }
+summary { cursor: pointer; color: #c0cede; }
+.expansion { font-size: 14px; color: #8adebd; }
+footer { border-top: 1px solid #2a3545; margin-top: 28px; padding-top: 18px;
+  font-size: 12px; line-height: 1.6; color: #8da0b8; }
+@media (max-width: 620px) {
+  main { padding: 24px 16px; }
+  h1 { font-size: 26px; }
+  .hero { align-items: start; flex-direction: column; }
+  .grid { grid-template-columns: 1fr; }
+  .stats { grid-template-columns: repeat(2, 1fr); }
+  .stats > div:nth-child(2) { border-right: 0; }
+  .stats > div:nth-child(-n+2) { border-bottom: 1px solid #2a3545; }
+  .card { padding: 16px 17px 3px; }
+}
+</style></head><body><main>
+<div class="brand">ticker-universe-builder <span>/ universe report</span></div>
+<header class="hero"><div>
+<h1>CN Ticker Universe</h1><span class="profile">Medium</span>
+</div>
+<span class="verdict pass">Validation · PASS</span></header>
+<p class="meta">Facts as of 2026-10-08 · <code>ee40a3b353bb</code></p>
+<nav class="files" aria-label="Artifacts">
+<a href="cn-medium-2026-10-08.en.md" download>Markdown</a>
+<a href="cn-medium-2026-10-08.txt" download>TradingView TXT</a>
+<a href="cn-medium-2026-10-08.json" download>JSON</a>
+<a href="cn-medium-2026-10-08.validation.json" download>Validation</a>
+</nav>
+<div class="stats">
+<div><strong>302</strong><span>Tickers</span></div>
+<div><strong>42</strong><span>Reference instruments</span></div>
+<div><strong>58</strong><span>Themes</span></div>
+<div><strong>344</strong><span>Export symbols</span></div>
+</div>
+<h2 class="section-title">Members</h2>
+<div class="grid">
+<section class="card" data-group="10_A">
+<header><span class="code">10_A</span><span class="count">5</span></header>
+<h3>OPTICAL MODULES COMPONENTS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SZSE:000988">
+<div class="ticker"><b>000988</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Huagong Tech Co., Ltd. Class A</div>
+<p class="description">Optoelectronic devices, laser-processing equipment, smart production lines and sensing components.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002281">
+<div class="ticker"><b>002281</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Accelink Technologies Co., Ltd. Class A</div>
+<p class="description">Data, access and transmission products.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300308">
+<div class="ticker"><b>300308</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Zhongji Innolight Co., Ltd. Class A</div>
+<p class="description">Optical communications transceiver modules and components.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300394">
+<div class="ticker"><b>300394</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Suzhou TFC Optical Communication Co., Ltd. Class A</div>
+<p class="description">Passive and active optical components.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300502">
+<div class="ticker"><b>300502</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Eoptolink Technology Inc., Ltd. Class A</div>
+<p class="description">Optical interconnect products.</p></article>
+</div></section>
+<section class="card" data-group="10_B">
+<header><span class="code">10_B</span><span class="count">7</span></header>
+<h3>AI SERVERS PCB</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600183">
+<div class="ticker"><b>600183</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Shengyi Technology Co., Ltd. Class A</div>
+<p class="description">Copper-clad laminates, circuit boards and property business.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601138">
+<div class="ticker"><b>601138</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Foxconn Industrial Internet Co., Ltd. Class A</div>
+<p class="description">Computer, communications and consumer-electronics products.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:603019">
+<div class="ticker"><b>603019</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Dawning Information Industry Co., Ltd. Class A</div>
+<p class="description">IT equipment, software development, systems integration and technical services.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:000977">
+<div class="ticker"><b>000977</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">IEIT SYSTEMS Co., Ltd.Class A</div>
+<p class="description">Servers, storage and switching products.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002463">
+<div class="ticker"><b>002463</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Wus Printed Circuit (Kunshan) Co., Ltd. Class A</div>
+<p class="description">Printed-circuit-board sales.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002916">
+<div class="ticker"><b>002916</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Shennan Circuit Co., Ltd. Class A</div>
+<p class="description">Printed circuit boards, package substrates and electronics assembly.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300476">
+<div class="ticker"><b>300476</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Victory Giant Technology (HuiZhou) Co., Ltd. Class A</div>
+<p class="description">PCB manufacturing.</p></article>
+</div></section>
+<section class="card" data-group="10_C">
+<header><span class="code">10_C</span><span class="count">5</span></header>
+<h3>DATACENTRE COOLING POWER</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SZSE:002335">
+<div class="ticker"><b>002335</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Kehua Data Co., Ltd. Class A</div>
+<p class="description">Renewable-energy and data-center products, and IDC services.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002518">
+<div class="ticker"><b>002518</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Shenzhen Kstar Science and Technology Co., Ltd. Class A</div>
+<p class="description">Power supplies, data-center products, photovoltaic, storage and charging systems.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002837">
+<div class="ticker"><b>002837</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Shenzhen Envicool Technology Co., Ltd. Class A</div>
+<p class="description">Data-center and cabinet cooling, energy efficiency, and rail air-conditioning services.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002851">
+<div class="ticker"><b>002851</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Shenzhen Megmeet Electrical Co., Ltd. Class A</div>
+<p class="description">Smart-living products, power supplies and renewable-energy transport.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300442">
+<div class="ticker"><b>300442</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Range Intelligent Computing Technology Group Company Limited Class A</div>
+<p class="description">AI data centers and conventional internet data centers.</p></article>
+</div></section>
+<section class="card" data-group="10_F">
+<header><span class="code">10_F</span><span class="count">6</span></header>
+<h3>NETWORK COMMUNICATION FIBRE</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600487">
+<div class="ticker"><b>600487</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Hengtong Optic-Electric Co., Ltd. Class A</div>
+<p class="description">Smart grids, copper conductors, industrial and renewable-energy intelligent systems.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:600522">
+<div class="ticker"><b>600522</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Jiangsu Zhongtian Technology Co., Ltd. Class A</div>
+<p class="description">Grid construction, copper products, optical communications and networking.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:000063">
+<div class="ticker"><b>000063</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">ZTE Corporation Class A</div>
+<p class="description">Carrier networks, government and enterprise services, and consumer business.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:000938">
+<div class="ticker"><b>000938</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Unisplendour Co., Ltd. Class A</div>
+<p class="description">Digitalization and distribution.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300628">
+<div class="ticker"><b>300628</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Yealink Network Technology Co. Ltd. Class A</div>
+<p class="description">Desktop communications, conferencing and cloud-office terminals.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:301165">
+<div class="ticker"><b>301165</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Ruijie Networks Co., Ltd. Class A</div>
+<p class="description">Networking equipment, cybersecurity products and cloud-desktop solutions.</p></article>
+</div></section>
+<section class="card" data-group="11_A">
+<header><span class="code">11_A</span><span class="count">9</span></header>
+<h3>SEMICONDUCTOR EQUIPMENT PACKAGING</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600584">
+<div class="ticker"><b>600584</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">JCET Group Co., Ltd. Class A</div>
+<p class="description">Chip packaging and testing.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:688012">
+<div class="ticker"><b>688012</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Advanced Micro-Fabrication Equipment Inc. China Class A</div>
+<p class="description">Semiconductor equipment products.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:688072">
+<div class="ticker"><b>688072</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Piotech, Inc. Class A</div>
+<p class="description">Specialized semiconductor equipment.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:688082">
+<div class="ticker"><b>688082</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">ACM Research (Shanghai), Inc. Class A</div>
+<p class="description">Goods sales.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:688120">
+<div class="ticker"><b>688120</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Hwatsing Technology Co. Ltd. Class A</div>
+<p class="description">Semiconductor equipment and services.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:688200">
+<div class="ticker"><b>688200</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Beijing Huafeng Test &amp; Control Technology Co. Ltd. Class A</div>
+<p class="description">Test systems and accessories.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002156">
+<div class="ticker"><b>002156</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">TongFu Microelectronics Co., Ltd. Class A</div>
+<p class="description">Integrated-circuit packaging and testing.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002371">
+<div class="ticker"><b>002371</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">NAURA Technology Group Co Ltd Class A</div>
+<p class="description">Electronics process equipment and components.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300604">
+<div class="ticker"><b>300604</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Hangzhou Changchuan Technology Co. Ltd. Class A</div>
+<p class="description">Testers and handlers.</p></article>
+</div></section>
+<section class="card" data-group="11_B">
+<header><span class="code">11_B</span><span class="count">3</span></header>
+<h3>SEMICONDUCTOR MATERIALS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:688019">
+<div class="ticker"><b>688019</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Anji Microelectronics Technology (Shanghai) Co.Ltd. Class A</div>
+<p class="description">Chemical-mechanical polishing slurry and functional wet electronic chemicals.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002409">
+<div class="ticker"><b>002409</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Jiangsu Yoke Technology Co., Ltd. Class A</div>
+<p class="description">Semiconductor chemicals, photoresists, supporting reagents and chemical products.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300666">
+<div class="ticker"><b>300666</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Konfoong Materials International Co. Ltd. Class A</div>
+<p class="description">Ultra-high-purity sputtering targets and precision components.</p></article>
+</div></section>
+<section class="card" data-group="11_C">
+<header><span class="code">11_C</span><span class="count">3</span></header>
+<h3>FOUNDRIES</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:688347">
+<div class="ticker"><b>688347</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Hua Hong Grace Semiconductor Limited Class A</div>
+<p class="description">Integrated-circuit foundry services and leasing.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:688396">
+<div class="ticker"><b>688396</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">China Resources Microelectronics Ltd. Class A</div>
+<p class="description">Products and solutions, manufacturing and services.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:688981">
+<div class="ticker"><b>688981</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Semiconductor Manufacturing International Corp. Class A</div>
+<p class="description">Integrated-circuit foundry services.</p></article>
+</div></section>
+<section class="card" data-group="11_E">
+<header><span class="code">11_E</span><span class="count">5</span></header>
+<h3>COMPUTE CHIPS DESIGN IP</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:688008">
+<div class="ticker"><b>688008</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Montage Technology Co., Ltd. Class A</div>
+<p class="description">Interconnect chips and Jindai-branded products.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:688041">
+<div class="ticker"><b>688041</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Hygon Information Technology Co., Ltd. Class A</div>
+<p class="description">High-end processors and technical services.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:688256">
+<div class="ticker"><b>688256</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Cambricon Technologies Corp. Ltd. Class A</div>
+<p class="description">Cloud and edge product lines.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:688521">
+<div class="ticker"><b>688521</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">VeriSilicon Microelectronics (Shanghai) Co., Ltd. Class A</div>
+<p class="description">Volume-production and design services, and IP licensing.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:301269">
+<div class="ticker"><b>301269</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Empyrean Technology Co., Ltd. Class A</div>
+<p class="description">EDA software sales and technical services.</p></article>
+</div></section>
+<section class="card" data-group="11_F">
+<header><span class="code">11_F</span><span class="count">3</span></header>
+<h3>MEMORY CONTROLLERS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:603986">
+<div class="ticker"><b>603986</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Giga Device Semiconductor Inc. Class A</div>
+<p class="description">Memory chips, microcontrollers and analog products.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:688123">
+<div class="ticker"><b>688123</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Giantec Semiconductor Corporation Class A</div>
+<p class="description">Chip sales.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:301308">
+<div class="ticker"><b>301308</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Shenzhen Longsys Electronics Co., Ltd. Class A</div>
+<p class="description">Memory and related products.</p></article>
+</div></section>
+<section class="card" data-group="11_G">
+<header><span class="code">11_G</span><span class="count">4</span></header>
+<h3>ANALOG POWER RF</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:688052">
+<div class="ticker"><b>688052</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Suzhou Novosense Microelectronics Co., Ltd. Class A</div>
+<p class="description">Signal-chain, power-management and sensor products.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300373">
+<div class="ticker"><b>300373</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Yangzhou Yangjie Electronic Technology Co., Ltd. Class A</div>
+<p class="description">Semiconductor devices, chips and silicon wafers.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300661">
+<div class="ticker"><b>300661</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">SG Micro Corp. Class A</div>
+<p class="description">Power-management and signal-chain products.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300782">
+<div class="ticker"><b>300782</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Maxscend Microelectronics Company Limited Class A</div>
+<p class="description">Goods sales, IP licensing and services.</p></article>
+</div></section>
+<section class="card" data-group="11_H">
+<header><span class="code">11_H</span><span class="count">4</span></header>
+<h3>IMAGE COMMUNICATION SOC</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:603501">
+<div class="ticker"><b>603501</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">OmniVision Integrated Circuits Group, Inc. Class A</div>
+<p class="description">Image sensors and related analog and display chips.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:603893">
+<div class="ticker"><b>603893</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Rockchip Electronics Co., Ltd. Class A</div>
+<p class="description">Application processors and mixed-signal chips.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:688018">
+<div class="ticker"><b>688018</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Espressif Systems (Shanghai) Co. Ltd. Class A</div>
+<p class="description">Modules, development kits and chips.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:688099">
+<div class="ticker"><b>688099</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Amlogic (Shanghai) Co., Ltd. Class A</div>
+<p class="description">Goods sales, leasing and technical services.</p></article>
+</div></section>
+<section class="card" data-group="11_J">
+<header><span class="code">11_J</span><span class="count">5</span></header>
+<h3>PASSIVE COMPONENTS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SZSE:000636">
+<div class="ticker"><b>000636</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Guangdong Fenghua Advanced Technology (Holding) Co., Ltd. Class A</div>
+<p class="description">Electronic components and materials.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002138">
+<div class="ticker"><b>002138</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Shenzhen Sunlord Electronics Co., Ltd. Class A</div>
+<p class="description">Chip-type electronic components.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002484">
+<div class="ticker"><b>002484</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Nantong Jianghai Capacitor Co., Ltd. Class A</div>
+<p class="description">Aluminum electrolytic capacitors, film capacitors and supercapacitors.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300285">
+<div class="ticker"><b>300285</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Shandong Sinocera Functional Material Co., Ltd. Class A</div>
+<p class="description">Catalysts, biomedical materials and electronic materials.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300408">
+<div class="ticker"><b>300408</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Chaozhou Three-Circle (Group) Co., Ltd. Class A</div>
+<p class="description">Electronics, communications components and materials.</p></article>
+</div></section>
+<section class="card" data-group="12_A">
+<header><span class="code">12_A</span><span class="count">5</span></header>
+<h3>AI APPLICATIONS MACHINE VISION</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:603236">
+<div class="ticker"><b>603236</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Quectel Wireless Solutions Co. Ltd. Class A</div>
+<p class="description">Communications modules, antennas and in-vehicle products.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:688111">
+<div class="ticker"><b>688111</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Beijing Kingsoft Office Software. Inc. Class A</div>
+<p class="description">WPS consumer software, WPS software and WPS365.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002230">
+<div class="ticker"><b>002230</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">iflytek Co., Ltd. Class A</div>
+<p class="description">Open-platform and consumer services, education products and smart-city solutions.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002236">
+<div class="ticker"><b>002236</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Zhejiang Dahua Technology Co. Ltd. Class A</div>
+<p class="description">Intelligent IoT products, solutions and innovative businesses.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002415">
+<div class="ticker"><b>002415</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Hangzhou Hikvision Digital Technology Co., Ltd Class A</div>
+<p class="description">Core products and services, robotics and thermal imaging.</p></article>
+</div></section>
+<section class="card" data-group="12_B">
+<header><span class="code">12_B</span><span class="count">5</span></header>
+<h3>ENTERPRISE FINANCIAL SOFTWARE</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600570">
+<div class="ticker"><b>600570</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Hundsun Technologies Inc. Class A</div>
+<p class="description">Software revenue and property leasing.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:600588">
+<div class="ticker"><b>600588</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Yonyou Network Technology Co. Ltd. Class A</div>
+<p class="description">Software licensing, technical services, financial services and purchased-goods sales.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:600845">
+<div class="ticker"><b>600845</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Shanghai Baosight Software Co., Ltd. Class A</div>
+<p class="description">Software development, engineering services, outsourcing and systems integration.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:688777">
+<div class="ticker"><b>688777</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">SUPCON Technology Co., Ltd. Class A</div>
+<p class="description">Industrial automation, intelligent manufacturing, industrial software and instruments.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300033">
+<div class="ticker"><b>300033</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Hithink RoyalFlush Information Network Co., Ltd. Class A</div>
+<p class="description">Value-added telecom, advertising, online promotion, software sales and maintenance.</p></article>
+</div></section>
+<section class="card" data-group="12_D">
+<header><span class="code">12_D</span><span class="count">3</span></header>
+<h3>DOMESTIC IT SECURITY QUANTUM</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600536">
+<div class="ticker"><b>600536</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">China National Software &amp; Service Company Limited Class A</div>
+<p class="description">Government core-application solutions and foundational software.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:688561">
+<div class="ticker"><b>688561</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Qi An Xin Technology Group Inc. Class A</div>
+<p class="description">Security products and services.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300454">
+<div class="ticker"><b>300454</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Sangfor Technologies, Inc. Class A</div>
+<p class="description">Cloud and AI infrastructure, cybersecurity and foundational networks.</p></article>
+</div></section>
+<section class="card" data-group="13_A">
+<header><span class="code">13_A</span><span class="count">7</span></header>
+<h3>ROBOTICS MOTION SENSORS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600580">
+<div class="ticker"><b>600580</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Wolong Electric Group Co., Ltd. Class A</div>
+<p class="description">HVAC, explosion-proof and industrial electric-drive solutions.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:603662">
+<div class="ticker"><b>603662</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Keli Sensing Technology (Ningbo) Co., Ltd. Class A</div>
+<p class="description">Force sensors, instruments, industrial IoT and systems integration.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:688002">
+<div class="ticker"><b>688002</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Raytron Technology Co., Ltd. Class A</div>
+<p class="description">Infrared thermal imaging and microwave radio-frequency products.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:688017">
+<div class="ticker"><b>688017</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Leader Harmonious Drive Systems Co., Ltd. Class A</div>
+<p class="description">Harmonic reducers, metal components and mechatronics.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002747">
+<div class="ticker"><b>002747</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Estun Automation Co. Ltd. Class A</div>
+<p class="description">Industrial robots, smart-manufacturing systems, automation components and motion controls.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:003021">
+<div class="ticker"><b>003021</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Shenzhen Zhaowei Machinery &amp; Electronics Co., Ltd. Class A</div>
+<p class="description">Micro-transmission systems and precision parts.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300124">
+<div class="ticker"><b>300124</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Shenzhen Inovance Technology Co., Ltd Class A</div>
+<p class="description">Industrial automation, digitalization, electric-vehicle powertrains and emerging industries.</p></article>
+</div></section>
+<section class="card" data-group="13_D">
+<header><span class="code">13_D</span><span class="count">5</span></header>
+<h3>INDUSTRIAL EQUIPMENT THERMAL COMPONENTS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:688188">
+<div class="ticker"><b>688188</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Shanghai BOCHU Electronic Technology Corporation Limited Class A</div>
+<p class="description">Flat-sheet, tube and three-dimensional processing solutions.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:688305">
+<div class="ticker"><b>688305</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">KEDE Numerical Control Co. Ltd. Class A</div>
+<p class="description">High-end CNC machine tools, key functional components and automated production lines.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002008">
+<div class="ticker"><b>002008</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Han&#x27;s Laser Technology Industry Group Co., Ltd. Class A</div>
+<p class="description">PCB smart-manufacturing equipment.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002050">
+<div class="ticker"><b>002050</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Zhejiang Sanhua Intelligent Controls Co., Ltd. Class A</div>
+<p class="description">Refrigeration and air-conditioning components, and automotive parts.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300747">
+<div class="ticker"><b>300747</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Wuhan Raycus Fiber Laser Technologies Co., Ltd. Class A</div>
+<p class="description">Continuous-wave and pulsed fiber lasers, and ultrafast lasers.</p></article>
+</div></section>
+<section class="card" data-group="13_F">
+<header><span class="code">13_F</span><span class="count">5</span></header>
+<h3>MACHINERY INDUSTRIAL CASTINGS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600031">
+<div class="ticker"><b>600031</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Sany Heavy Industry Co., Ltd. Class A</div>
+<p class="description">Excavators, concrete machinery and cranes.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601100">
+<div class="ticker"><b>601100</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Jiangsu Hengli Hydraulic Co., Ltd. Class A</div>
+<p class="description">Hydraulic cylinders, pumps, valves, motors, parts and castings.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:603338">
+<div class="ticker"><b>603338</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Zhejiang Dingli Machinery Co., Ltd. Class A</div>
+<p class="description">Aerial work platforms.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:000157">
+<div class="ticker"><b>000157</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Zoomlion Heavy Industry Science &amp; Technology Co. Ltd. Class A</div>
+<p class="description">Cranes, concrete machinery and earthmoving machinery.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:000425">
+<div class="ticker"><b>000425</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">XCMG Construction Machinery Co., Ltd. Class A</div>
+<p class="description">Earthmoving machinery, cranes and mining machinery.</p></article>
+</div></section>
+<section class="card" data-group="14_A">
+<header><span class="code">14_A</span><span class="count">3</span></header>
+<h3>MILITARY AIRCRAFT ENGINES</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600760">
+<div class="ticker"><b>600760</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">AVIC Shenyang Aircraft Co., Ltd. Class A</div>
+<p class="description">Aviation products.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:600893">
+<div class="ticker"><b>600893</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">AECC Aviation Power Co Ltd Class A</div>
+<p class="description">Aero-engines, derivative products and export subcontracting.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:000768">
+<div class="ticker"><b>000768</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">AVIC Xi&#x27;an Aircraft Industry Group Co., Ltd. Class A</div>
+<p class="description">Aviation products.</p></article>
+</div></section>
+<section class="card" data-group="14_B">
+<header><span class="code">14_B</span><span class="count">3</span></header>
+<h3>DEFENCE ELECTRONICS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600372">
+<div class="ticker"><b>600372</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">AVIC Airborne Systems Co. Ltd. Class A</div>
+<p class="description">Aviation products and non-aviation defense products.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002049">
+<div class="ticker"><b>002049</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Unigroup Guoxin Microelectronics Co., Ltd. Class A</div>
+<p class="description">Special-purpose integrated circuits, smart-security chips and quartz frequency devices.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002179">
+<div class="ticker"><b>002179</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Jonhon Optronic Technology Co., Ltd. Class A</div>
+<p class="description">Electrical connectors and integrated interconnect assemblies.</p></article>
+</div></section>
+<section class="card" data-group="14_C">
+<header><span class="code">14_C</span><span class="count">3</span></header>
+<h3>SATELLITE COMMUNICATIONS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600118">
+<div class="ticker"><b>600118</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">China Spacesat Co., Ltd. Class A</div>
+<p class="description">Spacecraft manufacturing, satellite applications, leasing and materials sales.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601698">
+<div class="ticker"><b>601698</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">China Satellite Communications Co. Ltd Class A</div>
+<p class="description">Communications-satellite operations and network services.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300627">
+<div class="ticker"><b>300627</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Shanghai HuaCe Navigation Technology Ltd. Class A</div>
+<p class="description">System applications, solutions and high-precision positioning equipment.</p></article>
+</div></section>
+<section class="card" data-group="14_E">
+<header><span class="code">14_E</span><span class="count">3</span></header>
+<h3>DEFENCE MATERIALS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600862">
+<div class="ticker"><b>600862</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Avic Aviation High-Technology Co., Ltd. Class A</div>
+<p class="description">Aerospace materials, leasing and aviation equipment.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:688122">
+<div class="ticker"><b>688122</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Western Superconducting Technologies Co Ltd Class A</div>
+<p class="description">High-end titanium alloys, superconducting products and high-performance superalloys.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300699">
+<div class="ticker"><b>300699</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Weihai Guangwei Composites Co., Ltd. Class A</div>
+<p class="description">Carbon fiber, fabrics, carbon beams and prepregs.</p></article>
+</div></section>
+<section class="card" data-group="15_A">
+<header><span class="code">15_A</span><span class="count">4</span></header>
+<h3>AUTOMAKERS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600066">
+<div class="ticker"><b>600066</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Yutong Bus Co., Ltd. Class A</div>
+<p class="description">Bus sales.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601633">
+<div class="ticker"><b>601633</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Great Wall Motor Co., Ltd. Class A</div>
+<p class="description">Vehicle and spare-parts sales.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:000625">
+<div class="ticker"><b>000625</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Chongqing Changan Automobile Company Limited Class A</div>
+<p class="description">Goods sales.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002594">
+<div class="ticker"><b>002594</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">BYD Company Limited Class A</div>
+<p class="description">Automobiles.</p></article>
+</div></section>
+<section class="card" data-group="15_B">
+<header><span class="code">15_B</span><span class="count">7</span></header>
+<h3>AUTO COMPONENTS POWERTRAIN</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600660">
+<div class="ticker"><b>600660</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Fuyao Glass Industry Group Co., Ltd. Class A</div>
+<p class="description">Automotive glass and float glass.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601058">
+<div class="ticker"><b>601058</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Sailun Group Co., Ltd. Class A</div>
+<p class="description">Tires.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601689">
+<div class="ticker"><b>601689</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Ningbo Tuopu Group Co., Ltd. Class A</div>
+<p class="description">Interior functional components, chassis systems and shock absorbers.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:603596">
+<div class="ticker"><b>603596</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Bethel Automotive Safety Systems Co., Ltd. Class A</div>
+<p class="description">Electronic controls, mechanical braking and steering products.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:000338">
+<div class="ticker"><b>000338</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Weichai Power Co., Ltd. Class A</div>
+<p class="description">Engines, vehicles, automotive components, smart logistics and agricultural equipment.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002472">
+<div class="ticker"><b>002472</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Zhejiang Shuanghuan Driveline Co., Ltd. Class A</div>
+<p class="description">Passenger-vehicle and construction-machinery gears, and intelligent actuators.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002920">
+<div class="ticker"><b>002920</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Huizhou Desay SV Automotive Co., Ltd. Class A</div>
+<p class="description">Intelligent cockpits and driving systems.</p></article>
+</div></section>
+<section class="card" data-group="16_A">
+<header><span class="code">16_A</span><span class="count">10</span></header>
+<h3>BATTERY MATERIALS EQUIPMENT</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:603659">
+<div class="ticker"><b>603659</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Shanghai Putailai New Energy Technology Co., Ltd. Class A</div>
+<p class="description">Battery materials and services, renewable-energy automation equipment; consolidation eliminations.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:688778">
+<div class="ticker"><b>688778</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">XTC New Energy Materials (Xiamen) Co. Ltd. Class A</div>
+<p class="description">Lithium cobalt oxide and hydrogen-energy materials.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002709">
+<div class="ticker"><b>002709</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Guangzhou Tinci Materials Technology Co., Ltd</div>
+<p class="description">Lithium-battery materials, personal-care ingredients and specialty chemicals.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002812">
+<div class="ticker"><b>002812</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Yunnan Energy New Material (Group) Co., Ltd. Class A</div>
+<p class="description">Lithium-battery separators, aseptic packaging and BOPP film.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002850">
+<div class="ticker"><b>002850</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Shenzhen Kedali Industry Co Ltd Class A</div>
+<p class="description">Lithium-battery and automotive structural components.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300014">
+<div class="ticker"><b>300014</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">EVE Energy Co. Ltd. Class A</div>
+<p class="description">Traction batteries, energy-storage batteries and battery materials.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300037">
+<div class="ticker"><b>300037</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Shenzhen Capchem Technology Co., Ltd. Class A</div>
+<p class="description">Battery chemicals, electronic chemicals and organic fluorochemicals.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300207">
+<div class="ticker"><b>300207</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Sunwoda Electronic Co., Ltd. Class A</div>
+<p class="description">Consumer batteries, electric-vehicle batteries and energy-storage systems.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300450">
+<div class="ticker"><b>300450</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Wuxi Lead Intelligent Equipment Co. Ltd. Class A</div>
+<p class="description">Lithium-battery manufacturing equipment, smart logistics and photovoltaic equipment.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300750">
+<div class="ticker"><b>300750</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Contemporary Amperex Technology Co., Limited Class A</div>
+<p class="description">Traction-battery and energy-storage systems, battery materials and recycling.</p></article>
+</div></section>
+<section class="card" data-group="16_C">
+<header><span class="code">16_C</span><span class="count">4</span></header>
+<h3>LITHIUM RESOURCES</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SZSE:000792">
+<div class="ticker"><b>000792</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Qinghai Salt Lake Industry Co., Ltd. Class A</div>
+<p class="description">Potash, lithium products and trading.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002460">
+<div class="ticker"><b>002460</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Ganfeng Lithium Group Co., Ltd. Class A</div>
+<p class="description">Lithium products and lithium batteries.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002466">
+<div class="ticker"><b>002466</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Tianqi Lithium Corp. Class A</div>
+<p class="description">Lithium compounds, derivatives and lithium ore.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002738">
+<div class="ticker"><b>002738</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Sinomine Resource Group Co., Ltd. Class A</div>
+<p class="description">Goods sales, operating leases and services.</p></article>
+</div></section>
+<section class="card" data-group="16_E">
+<header><span class="code">16_E</span><span class="count">12</span></header>
+<h3>SOLAR WIND STORAGE EQUIPMENT</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600438">
+<div class="ticker"><b>600438</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Tongwei Co. Ltd. Class A</div>
+<p class="description">Photovoltaic products, animal feed and food products.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601012">
+<div class="ticker"><b>601012</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">LONGi Green Energy Technology Co., Ltd. Class A</div>
+<p class="description">Photovoltaic product sales and power-station business.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:603606">
+<div class="ticker"><b>603606</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Ningbo Orient Wires &amp; Cables Co Ltd Class A</div>
+<p class="description">Power cables and equipment, submarine and high-voltage cables, offshore equipment and maintenance.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:603806">
+<div class="ticker"><b>603806</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">HANGZHOU FIRST APPLIED MATERIAL CO.,LTD. Class A</div>
+<p class="description">Photovoltaic encapsulation films, photosensitive dry films and photovoltaic backsheets.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:605117">
+<div class="ticker"><b>605117</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Ningbo Deye Technology Co., Ltd. Class A</div>
+<p class="description">Goods sales.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:688223">
+<div class="ticker"><b>688223</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Jinko Solar Co., Ltd. Class A</div>
+<p class="description">Photovoltaic products and leasing.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002202">
+<div class="ticker"><b>002202</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Goldwind Science &amp; Technology Co. Ltd. Class A</div>
+<p class="description">Wind turbines, components, wind-farm development and services.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300274">
+<div class="ticker"><b>300274</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Sungrow Power Supply Co., Ltd. Class A</div>
+<p class="description">Energy-storage systems, photovoltaic inverters, power-conversion equipment and energy investments.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300316">
+<div class="ticker"><b>300316</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Zhejiang Jingsheng Mechanical &amp; Electrical Co., Ltd. Class A</div>
+<p class="description">Equipment, associated services and materials.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300724">
+<div class="ticker"><b>300724</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Shenzhen S.C New Energy Technology Corp. Class A</div>
+<p class="description">Process equipment and supporting automation equipment.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300751">
+<div class="ticker"><b>300751</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Suzhou Maxwell Technologies Co., Ltd. Class A</div>
+<p class="description">Solar-cell production lines and standalone equipment.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300763">
+<div class="ticker"><b>300763</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Ginlong Technologies Co., Ltd. Class A</div>
+<p class="description">String inverters, household photovoltaic systems and renewable-power generation.</p></article>
+</div></section>
+<section class="card" data-group="17_A">
+<header><span class="code">17_A</span><span class="count">6</span></header>
+<h3>GRID GENERATION EQUIPMENT</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600089">
+<div class="ticker"><b>600089</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">TBEA Co., Ltd. Class A</div>
+<p class="description">Electrical equipment, wire and cable, renewable-energy products and projects.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:600312">
+<div class="ticker"><b>600312</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Henan Pinggao Electric Co., Ltd. Class A</div>
+<p class="description">Power transmission and distribution equipment; switchgear lifecycle services.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:600875">
+<div class="ticker"><b>600875</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Dongfang Electric Corporation Limited Class A</div>
+<p class="description">Energy equipment manufacturing and manufacturing services.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:600885">
+<div class="ticker"><b>600885</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Hongfa Technology Co., Ltd. Class A</div>
+<p class="description">Relays and electrical products.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601179">
+<div class="ticker"><b>601179</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">China XD Electric Co., Ltd. Class A</div>
+<p class="description">Transformers, switches and power-electronics devices.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002028">
+<div class="ticker"><b>002028</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Sieyuan Electric Co., Ltd. Class A</div>
+<p class="description">Switchgear, transformers, energy-storage systems and components.</p></article>
+</div></section>
+<section class="card" data-group="17_B">
+<header><span class="code">17_B</span><span class="count">4</span></header>
+<h3>DISTRIBUTION CHARGING METERS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600406">
+<div class="ticker"><b>600406</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">NARI Technology Co., Ltd. Class A</div>
+<p class="description">Smart grids, low-carbon energy and digital-energy integration.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601877">
+<div class="ticker"><b>601877</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Zhejiang Chint Electrics Co., Ltd Class A</div>
+<p class="description">Photovoltaic project contracting, power-station operations and low-voltage electrical products.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:000400">
+<div class="ticker"><b>000400</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">XJ Electric Co., Ltd. Class A</div>
+<p class="description">Intelligent power-distribution systems, smart meters and medium-voltage electrical equipment.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300001">
+<div class="ticker"><b>300001</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Qingdao TGOOD Electric Co., Ltd. Class A</div>
+<p class="description">Charging products and services, prefabricated medium-voltage substations and power equipment.</p></article>
+</div></section>
+<section class="card" data-group="17_C">
+<header><span class="code">17_C</span><span class="count">8</span></header>
+<h3>POWER WATER UTILITIES</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600008">
+<div class="ticker"><b>600008</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Beijing Capital Eco-Environment Protection Group Co.,Ltd. Class A</div>
+<p class="description">Wastewater treatment, solid-waste disposal and water supply.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:600011">
+<div class="ticker"><b>600011</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Huaneng Power International, Inc. Class A</div>
+<p class="description">Power and heat sales, leasing and port services.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:600886">
+<div class="ticker"><b>600886</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">SDIC Power Holdings Co., Ltd. Class A</div>
+<p class="description">Electric power.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:600900">
+<div class="ticker"><b>600900</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">China Yangtze Power Co., Ltd. Class A</div>
+<p class="description">Domestic hydropower.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:600905">
+<div class="ticker"><b>600905</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">China Three Gorges Renewables (Group) Co., Ltd. Class A</div>
+<p class="description">Wind and solar power generation.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:600995">
+<div class="ticker"><b>600995</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">China Southern Power Grid Energy Storage Co., Ltd. Class A</div>
+<p class="description">Pumped storage, peak-shaving hydropower and new energy storage.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601985">
+<div class="ticker"><b>601985</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">China National Nuclear Power Co. Ltd. Class A</div>
+<p class="description">Nuclear, solar and wind power.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:003816">
+<div class="ticker"><b>003816</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">CGN Power Co., Ltd. Class A</div>
+<p class="description">Power sales, labor, building installation and design services.</p></article>
+</div></section>
+<section class="card" data-group="18_A">
+<header><span class="code">18_A</span><span class="count">9</span></header>
+<h3>MEDICINES BIOTECH PHARMA</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600196">
+<div class="ticker"><b>600196</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Shanghai Fosun Pharmaceutical (Group) Co., Ltd. Class A</div>
+<p class="description">Pharmaceuticals, healthcare services, medical devices and diagnostics.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:600276">
+<div class="ticker"><b>600276</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Jiangsu Hengrui Pharmaceuticals Co., Ltd. Class A</div>
+<p class="description">Goods sales and licensing.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:600436">
+<div class="ticker"><b>600436</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Zhangzhou Pientzehuang Pharmaceutical Co., Ltd. Class A</div>
+<p class="description">Pharmaceutical business.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:688235">
+<div class="ticker"><b>688235</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">BeOne Medicines Ltd. Class A</div>
+<p class="description">BRUKINSA, TEVIMBRA and Anjiawei-branded products.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:000423">
+<div class="ticker"><b>000423</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Dong-E-E-Jiao Co., Ltd. Class A</div>
+<p class="description">Ejiao products, donkey farming and trading.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:000538">
+<div class="ticker"><b>000538</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Yunnan Baiyao Group Co. Ltd. Class A</div>
+<p class="description">Commercial and industrial sales, lodging and catering.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:000963">
+<div class="ticker"><b>000963</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Huadong Medicine Co., Ltd. Class A</div>
+<p class="description">Commercial operations, manufacturing and medical aesthetics.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:000999">
+<div class="ticker"><b>000999</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">China Resources Sanjiu Medical &amp; Pharmaceutical Co., Ltd. Class A</div>
+<p class="description">Prescription medicines, consumer healthcare and other pharmaceutical products.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002422">
+<div class="ticker"><b>002422</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Sichuan Kelun Pharmaceutical Co., Ltd. Class A</div>
+<p class="description">Infusion and non-infusion products, and R&amp;D projects.</p></article>
+</div></section>
+<section class="card" data-group="18_B">
+<header><span class="code">18_B</span><span class="count">4</span></header>
+<h3>CRO CDMO</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:603259">
+<div class="ticker"><b>603259</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">WuXi AppTec Co., Ltd. Class A</div>
+<p class="description">Chemistry, testing and biology services.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002821">
+<div class="ticker"><b>002821</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Asymchem Laboratories (Tianjin) Co., Ltd. Class A</div>
+<p class="description">Small-molecule CDMO services and emerging businesses.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300347">
+<div class="ticker"><b>300347</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Hangzhou Tigermed Consulting Co., Ltd. Class A</div>
+<p class="description">Clinical-trial, laboratory and clinical-trial technical services.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300759">
+<div class="ticker"><b>300759</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Pharmaron Beijing Co., Ltd. Class A</div>
+<p class="description">Laboratory, CDMO and clinical-research services.</p></article>
+</div></section>
+<section class="card" data-group="18_C">
+<header><span class="code">18_C</span><span class="count">8</span></header>
+<h3>MEDICAL DEVICES SERVICES</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:688029">
+<div class="ticker"><b>688029</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Micro-Tech (Nanjing) Co., Ltd. Class A</div>
+<p class="description">Endoscopic consumables, interventional oncology and visualization products.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:688271">
+<div class="ticker"><b>688271</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Shanghai United Imaging Healthcare Co., Ltd. Class A</div>
+<p class="description">Medical imaging and radiotherapy equipment, maintenance and software.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:688301">
+<div class="ticker"><b>688301</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">iRay Technology Company Limited Class A</div>
+<p class="description">Detectors, silicon-based microdisplay backplanes and core components.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002223">
+<div class="ticker"><b>002223</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Jiangsu Yuyue Medical Equipment &amp; Supply Co., Ltd. Class A</div>
+<p class="description">Respiratory therapy, clinical and rehabilitation devices, and home health testing.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300015">
+<div class="ticker"><b>300015</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Aier Eye Hospital Group Co., Ltd. Class A</div>
+<p class="description">Refractive, optometry and cataract services.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300760">
+<div class="ticker"><b>300760</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Shenzhen Mindray Bio-Medical Electronics Co., Ltd. Class A</div>
+<p class="description">In-vitro diagnostics, life-information and support products, and emerging products.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300832">
+<div class="ticker"><b>300832</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Shenzhen New Industries Biomedical Engineering Co. Ltd. Class A</div>
+<p class="description">Reagents and instruments.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300896">
+<div class="ticker"><b>300896</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">IMEIK Technology Development Co., Ltd. Class A</div>
+<p class="description">Solution, gel and freeze-dried powder injections.</p></article>
+</div></section>
+<section class="card" data-group="19_A">
+<header><span class="code">19_A</span><span class="count">5</span></header>
+<h3>BROKERS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600030">
+<div class="ticker"><b>600030</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">CITIC Securities Co. Ltd. Class A</div>
+<p class="description">Securities investments, brokerage and asset management.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601211">
+<div class="ticker"><b>601211</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Guotai Haitong Securities Co., Ltd. Class A</div>
+<p class="description">Institutional trading, wealth management and investment management.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601688">
+<div class="ticker"><b>601688</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Huatai Securities Co., Ltd. Class A</div>
+<p class="description">Wealth management, institutional services and international business.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:000776">
+<div class="ticker"><b>000776</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">GF Securities Co., Ltd. Class A</div>
+<p class="description">Trading and institutional services, wealth management and investment management.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300059">
+<div class="ticker"><b>300059</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">East Money Information Co., Ltd Class A</div>
+<p class="description">Securities, financial e-commerce and financial-data services.</p></article>
+</div></section>
+<section class="card" data-group="19_B">
+<header><span class="code">19_B</span><span class="count">8</span></header>
+<h3>BANKS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600036">
+<div class="ticker"><b>600036</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">China Merchants Bank Co., Ltd. Class A</div>
+<p class="description">Retail and wholesale banking.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:600919">
+<div class="ticker"><b>600919</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Bank of Jiangsu Co., Ltd. Class A</div>
+<p class="description">Corporate banking, personal banking and treasury services.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601166">
+<div class="ticker"><b>601166</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Industrial Bank Co., Ltd. Class A</div>
+<p class="description">Corporate banking, retail banking and interbank services.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601288">
+<div class="ticker"><b>601288</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Agricultural Bank of China Limited Class A</div>
+<p class="description">Personal banking, corporate banking and treasury operations.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601398">
+<div class="ticker"><b>601398</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Industrial and Commercial Bank of China Limited Class A</div>
+<p class="description">Corporate banking, personal banking and treasury services.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601939">
+<div class="ticker"><b>601939</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">China Construction Bank Corporation Class A</div>
+<p class="description">Personal banking, corporate banking, treasury and asset management.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:000001">
+<div class="ticker"><b>000001</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Ping An Bank Co. Ltd. Class A</div>
+<p class="description">Wholesale and retail banking.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002142">
+<div class="ticker"><b>002142</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Bank of Ningbo Co., Ltd. Class A</div>
+<p class="description">Corporate banking, treasury and personal banking.</p></article>
+</div></section>
+<section class="card" data-group="19_C">
+<header><span class="code">19_C</span><span class="count">5</span></header>
+<h3>INSURANCE</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:601318">
+<div class="ticker"><b>601318</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Ping An Insurance (Group) Company of China, Ltd. Class A</div>
+<p class="description">Life, health and property insurance, and banking.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601319">
+<div class="ticker"><b>601319</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">People&#x27;s Insurance Co. (Group) of China Ltd. Class A</div>
+<p class="description">Property, life and health insurance.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601336">
+<div class="ticker"><b>601336</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">New China Life Insurance Co., Ltd. Class A</div>
+<p class="description">Traditional and participating insurance.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601601">
+<div class="ticker"><b>601601</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">China Pacific Insurance (Group) Co., Ltd. Class A</div>
+<p class="description">Life, health and property insurance, and asset management.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601628">
+<div class="ticker"><b>601628</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">China Life Insurance Co. Ltd. Class A</div>
+<p class="description">Life, health and accident insurance.</p></article>
+</div></section>
+<section class="card" data-group="20_A">
+<header><span class="code">20_A</span><span class="count">4</span></header>
+<h3>GOLD MINING</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600489">
+<div class="ticker"><b>600489</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Zhongjin Gold Corp., Ltd. Class A</div>
+<p class="description">Smelting and mining.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:600547">
+<div class="ticker"><b>600547</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Shandong Gold Mining Co., Ltd. Class A</div>
+<p class="description">Gold production, purchased gold and small gold bars.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601899">
+<div class="ticker"><b>601899</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Zijin Mining Group Co., Ltd. Class A</div>
+<p class="description">Copper smelting.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:000975">
+<div class="ticker"><b>000975</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Shanjin International Gold Co., Ltd. Class A</div>
+<p class="description">Mined gold, silver trading and copper trading.</p></article>
+</div></section>
+<section class="card" data-group="20_B">
+<header><span class="code">20_B</span><span class="count">12</span></header>
+<h3>INDUSTRIAL METALS RECYCLING</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600019">
+<div class="ticker"><b>600019</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Baoshan Iron &amp; Steel Co., Ltd. Class A</div>
+<p class="description">Goods sales, labor services and leasing.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:600111">
+<div class="ticker"><b>600111</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">China Northern Rare Earth (Group) High-Tech Co., Ltd. Class A</div>
+<p class="description">Rare-earth production, functional materials, applications and trading.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:600362">
+<div class="ticker"><b>600362</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Jiangxi Copper Company Limited Class A</div>
+<p class="description">Copper cathodes, copper rod and wire, and gold.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:600549">
+<div class="ticker"><b>600549</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Xiamen Tungsten Co. Ltd. Class A</div>
+<p class="description">Tungsten and molybdenum products, battery materials and rare earths.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601600">
+<div class="ticker"><b>601600</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Aluminum Corporation of China Limited Class A</div>
+<p class="description">Marketing, primary aluminum and alumina.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:603799">
+<div class="ticker"><b>603799</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Zhejiang Huayou Cobalt Co., Ltd. Class A</div>
+<p class="description">Cathode materials, nickel products and nickel intermediates.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:603993">
+<div class="ticker"><b>603993</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">CMOC Group Limited Class A</div>
+<p class="description">Refined-metal and mineral trading, copper and cobalt products.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:000630">
+<div class="ticker"><b>000630</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Tongling Nonferrous Metals Group Co., Ltd. Class A</div>
+<p class="description">Copper products, gold and other by-products.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:000807">
+<div class="ticker"><b>000807</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Yunnan Aluminium Co. Ltd. Class A</div>
+<p class="description">Electrolytic aluminum and processed aluminum products.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:000960">
+<div class="ticker"><b>000960</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Yunnan Tin Co., Ltd. Class A</div>
+<p class="description">Tin ingots, copper products and supply-chain services.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002340">
+<div class="ticker"><b>002340</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">GEM Co., Ltd. Class A</div>
+<p class="description">Ternary battery precursors and nickel resources, including MHP and nickel metal.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300748">
+<div class="ticker"><b>300748</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">JL Mag Rare-Earth Co., Ltd. Class A</div>
+<p class="description">Neodymium-iron-boron magnets.</p></article>
+</div></section>
+<section class="card" data-group="20_E">
+<header><span class="code">20_E</span><span class="count">3</span></header>
+<h3>ADVANCED NONMETALS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600176">
+<div class="ticker"><b>600176</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">China Jushi Co., Ltd. Class A</div>
+<p class="description">Glass fiber and related products.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:603688">
+<div class="ticker"><b>603688</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Jiangsu Pacific Quartz Co Ltd Class A</div>
+<p class="description">Quartz tubes and rods, quartz sand and crucibles.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002080">
+<div class="ticker"><b>002080</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Sinoma Science &amp; Technology Co., Ltd. Class A</div>
+<p class="description">Wind-turbine blades, glass fiber products and lithium-battery separators.</p></article>
+</div></section>
+<section class="card" data-group="21_A">
+<header><span class="code">21_A</span><span class="count">4</span></header>
+<h3>COAL</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:601088">
+<div class="ticker"><b>601088</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">China Shenhua Energy Co. Ltd. Class A</div>
+<p class="description">Coal, power generation and coal chemicals.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601225">
+<div class="ticker"><b>601225</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Shaanxi Coal Industry Co., Ltd. Class A</div>
+<p class="description">Own-produced coal and traded coal.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601898">
+<div class="ticker"><b>601898</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">China Coal Energy Co. Ltd. Class A</div>
+<p class="description">Coal, chemicals and coal-mining equipment.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:000983">
+<div class="ticker"><b>000983</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Shanxi Coking Coal Energy Group Co., Ltd Class A</div>
+<p class="description">Coal, electricity and heat.</p></article>
+</div></section>
+<section class="card" data-group="21_B">
+<header><span class="code">21_B</span><span class="count">4</span></header>
+<h3>OIL GAS SERVICES</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600028">
+<div class="ticker"><b>600028</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">China Petroleum &amp; Chemical Corporation Class A</div>
+<p class="description">Gasoline, diesel and crude oil.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:600938">
+<div class="ticker"><b>600938</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">CNOOC Limited Class A</div>
+<p class="description">Oil and gas sales and trading.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601808">
+<div class="ticker"><b>601808</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">China Oilfield Services Limited Class A</div>
+<p class="description">Oilfield technical services, drilling and vessel services.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601857">
+<div class="ticker"><b>601857</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">PetroChina Co., Ltd. Class A</div>
+<p class="description">Sales, refining, petrochemicals, new materials, oil, gas and renewable energy.</p></article>
+</div></section>
+<section class="card" data-group="21_C">
+<header><span class="code">21_C</span><span class="count">9</span></header>
+<h3>CHEMICAL MATERIALS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600309">
+<div class="ticker"><b>600309</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Wanhua Chemical Group Co. Ltd. Class A</div>
+<p class="description">Petrochemicals, polyurethanes, fine chemicals and new materials.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:600346">
+<div class="ticker"><b>600346</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Hengli Petrochemical Co., Ltd. Class A</div>
+<p class="description">Refining and petrochemicals, PTA and polyester.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:600426">
+<div class="ticker"><b>600426</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Shandong Hualu-Hengsheng Chemical Co., Ltd. Class A</div>
+<p class="description">Renewable-energy materials, fertilizers, acetic acid and derivatives.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:600486">
+<div class="ticker"><b>600486</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Jiangsu Yangnong Chemical Co. Ltd. Class A</div>
+<p class="description">Technical-grade pesticides, formulations and trading.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:600989">
+<div class="ticker"><b>600989</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Ningxia Baofeng Energy Group Co., Ltd. Class A</div>
+<p class="description">Olefins, coking products and fine chemicals.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601233">
+<div class="ticker"><b>601233</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Tongkun Group Co., Ltd. Class A</div>
+<p class="description">Polyester pre-oriented yarn, purified terephthalic acid and drawn yarn.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002493">
+<div class="ticker"><b>002493</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Rongsheng Petrochemical Co., Ltd. Class A</div>
+<p class="description">Chemicals, refined petroleum products and PTA.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002601">
+<div class="ticker"><b>002601</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">LB Group Co., Ltd. Class A</div>
+<p class="description">Titanium dioxide, titanium sponge and iron products.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002648">
+<div class="ticker"><b>002648</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Satellite Chemical Co. Ltd. Class A</div>
+<p class="description">Functional chemicals and advanced polymer materials.</p></article>
+</div></section>
+<section class="card" data-group="22_A">
+<header><span class="code">22_A</span><span class="count">4</span></header>
+<h3>SHIPPING LOGISTICS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600026">
+<div class="ticker"><b>600026</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">COSCO SHIPPING Energy Transportation Co., Ltd. Class A</div>
+<p class="description">Domestic and international oil transport.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601872">
+<div class="ticker"><b>601872</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">China Merchants Energy Shipping Co., Ltd. Class A</div>
+<p class="description">Tanker, dry-bulk and container shipping.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601919">
+<div class="ticker"><b>601919</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">COSCO SHIPPING Holdings Co., Ltd. Class A</div>
+<p class="description">Container shipping and terminal operations.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002352">
+<div class="ticker"><b>002352</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">S.F. Holding Co., Ltd. Class A</div>
+<p class="description">Express and bulky-item delivery, supply-chain and international services.</p></article>
+</div></section>
+<section class="card" data-group="22_B">
+<header><span class="code">22_B</span><span class="count">3</span></header>
+<h3>SHIPBUILDING OFFSHORE</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600150">
+<div class="ticker"><b>600150</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">China CSSC Holdings Limited Class A</div>
+<p class="description">Shipbuilding, ship repair, offshore engineering and marine equipment.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:600320">
+<div class="ticker"><b>600320</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Shanghai Zhenhua Heavy Industries Co., Ltd. Class A</div>
+<p class="description">Port machinery, heavy equipment and steel structures.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:000039">
+<div class="ticker"><b>000039</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">China International Marine Containers (Group) Co., Ltd Class A</div>
+<p class="description">Container manufacturing, logistics and energy.</p></article>
+</div></section>
+<section class="card" data-group="22_D">
+<header><span class="code">22_D</span><span class="count">3</span></header>
+<h3>RAIL ROADS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:601006">
+<div class="ticker"><b>601006</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Daqin Railway Co., Ltd. Class A</div>
+<p class="description">Freight and passenger transport revenue.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601816">
+<div class="ticker"><b>601816</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Beijing-Shanghai High-Speed Railway Co., Ltd. Class A</div>
+<p class="description">Rail-network services and passenger transport.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:001965">
+<div class="ticker"><b>001965</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">China Merchants Expressway Network &amp; Technology Holdings Co., Ltd. Class A</div>
+<p class="description">Investment operations, road reconstruction and expansion, and transport technology.</p></article>
+</div></section>
+<section class="card" data-group="22_E">
+<header><span class="code">22_E</span><span class="count">7</span></header>
+<h3>CONSTRUCTION PROPERTY MATERIALS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600048">
+<div class="ticker"><b>600048</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Poly Developments &amp; Holdings Group Co., Ltd. Class A</div>
+<p class="description">Property sales.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:600585">
+<div class="ticker"><b>600585</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Anhui Conch Cement Company Limited Class A</div>
+<p class="description">Grade 42.5 and 32.5 cement, and clinker.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601117">
+<div class="ticker"><b>601117</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">China National Chemical Engineering Co., Ltd Class A</div>
+<p class="description">Engineering, industrial operations and modern services.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601390">
+<div class="ticker"><b>601390</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">China Railway Group Limited Class A</div>
+<p class="description">Infrastructure construction, equipment manufacturing and property development.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601668">
+<div class="ticker"><b>601668</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">China State Construction Engineering Corp. Ltd. Class A</div>
+<p class="description">Building construction, infrastructure investment and property development.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601669">
+<div class="ticker"><b>601669</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Power Construction Corporation of China, Ltd. Class A</div>
+<p class="description">Engineering contracting, surveying and design, and power investment and operations.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:001979">
+<div class="ticker"><b>001979</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">China Merchants Shekou Industrial Zone Holdings Co., Ltd. Class A</div>
+<p class="description">Property development, property services and asset operations.</p></article>
+</div></section>
+<section class="card" data-group="22_F">
+<header><span class="code">22_F</span><span class="count">3</span></header>
+<h3>TELECOM OPERATORS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600050">
+<div class="ticker"><b>600050</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">China United Network Communications Limited Class A</div>
+<p class="description">Broadband and mobile data services.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:600941">
+<div class="ticker"><b>600941</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">China Mobile Limited Class A</div>
+<p class="description">Wireless internet, applications and information services.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601728">
+<div class="ticker"><b>601728</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">China Telecom Corp. Ltd. Class A</div>
+<p class="description">Mobile communications, industrial digitalization, fixed networks and smart-home services.</p></article>
+</div></section>
+<section class="card" data-group="22_G">
+<header><span class="code">22_G</span><span class="count">3</span></header>
+<h3>AIRLINES AIRPORTS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600004">
+<div class="ticker"><b>600004</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Guangzhou Baiyun International Airport Company Limited Class A</div>
+<p class="description">Airport, ground-handling and VIP services.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:600009">
+<div class="ticker"><b>600009</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Shanghai International Airport Co., Ltd. Class A</div>
+<p class="description">Aeronautical and non-aeronautical airport revenue.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601021">
+<div class="ticker"><b>601021</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Spring Airlines Co., Ltd. Class A</div>
+<p class="description">Air passenger and cargo transport.</p></article>
+</div></section>
+<section class="card" data-group="24_A">
+<header><span class="code">24_A</span><span class="count">6</span></header>
+<h3>ALCOHOL</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600519">
+<div class="ticker"><b>600519</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Kweichow Moutai Co., Ltd. Class A</div>
+<p class="description">Moutai liquor.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:600809">
+<div class="ticker"><b>600809</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Shanxi Xinghuacun Fen Wine Factory Co. Ltd. Class A</div>
+<p class="description">Liquor sales.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:000568">
+<div class="ticker"><b>000568</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Luzhou Laojiao Company Limited Class A</div>
+<p class="description">Mid-range and premium liquor.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:000596">
+<div class="ticker"><b>000596</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Anhui Gujing Distillery Co., Ltd. Class A</div>
+<p class="description">Baijiu and hotel operations.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:000858">
+<div class="ticker"><b>000858</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Wuliangye Yibin Co., Ltd. Class A</div>
+<p class="description">Liquor and non-liquor products.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002568">
+<div class="ticker"><b>002568</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Shanghai Bairun Investment Holding Group Co. Ltd. Class A</div>
+<p class="description">Liquor and food flavorings.</p></article>
+</div></section>
+<section class="card" data-group="24_B">
+<header><span class="code">24_B</span><span class="count">6</span></header>
+<h3>FOOD BEVERAGES</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600600">
+<div class="ticker"><b>600600</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Tsingtao Brewery Co., Ltd. Class A</div>
+<p class="description">Beer sales.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:600887">
+<div class="ticker"><b>600887</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Inner Mongolia Yili Industrial Group Co., Ltd. Class A</div>
+<p class="description">Liquid milk, milk powder, dairy products and frozen treats.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:603288">
+<div class="ticker"><b>603288</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Foshan Haitian Flavouring and Food Company Ltd. Class A</div>
+<p class="description">Soy sauce, oyster sauce and seasoning sauces.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:603345">
+<div class="ticker"><b>603345</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Anjoy Foods Group Co., Ltd. Class A</div>
+<p class="description">Frozen prepared foods, dishes, rice and wheat products.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:605499">
+<div class="ticker"><b>605499</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Eastroc Beverage (Group) Co. Ltd. Class A</div>
+<p class="description">Energy drinks, electrolyte drinks and tea beverages.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300999">
+<div class="ticker"><b>300999</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Yihai Kerry Arawana Holdings Co. Ltd. Class A</div>
+<p class="description">Kitchen foods, feed ingredients and oils technology.</p></article>
+</div></section>
+<section class="card" data-group="24_C">
+<header><span class="code">24_C</span><span class="count">5</span></header>
+<h3>HOME APPLIANCES</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600690">
+<div class="ticker"><b>600690</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Haier Smart Home Co., Ltd. Class A</div>
+<p class="description">Home appliances and HVAC solutions.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:603486">
+<div class="ticker"><b>603486</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Ecovacs Robotics Co., Ltd. Class A</div>
+<p class="description">Service robots and home appliances.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:688169">
+<div class="ticker"><b>688169</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Beijing Roborock Technology Co. Ltd. Class A</div>
+<p class="description">Smart cleaning products and accessories.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:000333">
+<div class="ticker"><b>000333</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Midea Group Co. Ltd. Class A</div>
+<p class="description">Smart-home, commercial and industrial solutions.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:000651">
+<div class="ticker"><b>000651</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Gree Electric Appliances, Inc. of Zhuhai Class A</div>
+<p class="description">Consumer appliances, industrial products and green energy.</p></article>
+</div></section>
+<section class="card" data-group="24_D">
+<header><span class="code">24_D</span><span class="count">4</span></header>
+<h3>HOUSEHOLD PAPER PACKAGING</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:603195">
+<div class="ticker"><b>603195</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Goneo Group Co., Ltd.Class A</div>
+<p class="description">Electrical connections, sockets and household electrical products.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:603816">
+<div class="ticker"><b>603816</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Jason Furniture (Hangzhou) Co., Ltd. Class A</div>
+<p class="description">Sofas, bedroom products and integrated home products.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:603833">
+<div class="ticker"><b>603833</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Oppein Home Group, Inc. Class A</div>
+<p class="description">Wardrobes, furniture, cabinets and wooden doors.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002078">
+<div class="ticker"><b>002078</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Shandong Sunpaper Co., Ltd. Class A</div>
+<p class="description">Paper and pulp manufacturing.</p></article>
+</div></section>
+<section class="card" data-group="24_E">
+<header><span class="code">24_E</span><span class="count">3</span></header>
+<h3>TRAVEL DISCRETIONARY RETAIL</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600612">
+<div class="ticker"><b>600612</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Lao Feng Xiang Co., Ltd. Class A</div>
+<p class="description">Jewelry, gold trading and writing instruments.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:600754">
+<div class="ticker"><b>600754</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Shanghai Jin Jiang International Hotels Co., Ltd. Class A</div>
+<p class="description">Franchise and staffing services, hotel rooms and booking channels.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601888">
+<div class="ticker"><b>601888</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">China Tourism Group Duty Free Corporation Limited Class A</div>
+<p class="description">Merchandise sales and commercial-complex investment and development.</p></article>
+</div></section>
+<section class="card" data-group="24_G">
+<header><span class="code">24_G</span><span class="count">4</span></header>
+<h3>CONSUMER BRANDS BEAUTY APPAREL</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600398">
+<div class="ticker"><b>600398</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">HLA Group Corp. Ltd. Class A</div>
+<p class="description">HLA-branded apparel and group custom orders.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:603605">
+<div class="ticker"><b>603605</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Proya Cosmetics Co., Ltd. Class A</div>
+<p class="description">Proya-branded products.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002444">
+<div class="ticker"><b>002444</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Hangzhou GreatStar Industrial Co., Ltd. Class A</div>
+<p class="description">Hand tools, industrial tools and power tools.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300866">
+<div class="ticker"><b>300866</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Anker Innovations Technology Co., Ltd. Class A</div>
+<p class="description">Charging and storage, intelligent products, and audiovisual products.</p></article>
+</div></section>
+<section class="card" data-group="25_A">
+<header><span class="code">25_A</span><span class="count">7</span></header>
+<h3>CONSUMER ELECTRONICS DISPLAYS</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:688036">
+<div class="ticker"><b>688036</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Shenzhen Transsion Holdings Co., Ltd. Class A</div>
+<p class="description">Smartphones and feature phones.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:000100">
+<div class="ticker"><b>000100</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">TCL Technology Group Corporation Class A</div>
+<p class="description">Semiconductor displays, electronics distribution, photovoltaic and semiconductor materials.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:000725">
+<div class="ticker"><b>000725</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">BOE Technology Group Co., Ltd. Class A</div>
+<p class="description">Display devices, IoT innovation and MLED business.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002241">
+<div class="ticker"><b>002241</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">GoerTek Inc. Class A</div>
+<p class="description">Smart hardware, acoustic devices and precision components.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002475">
+<div class="ticker"><b>002475</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Luxshare Precision Industry Co., Ltd. Class A</div>
+<p class="description">Consumer and automotive electronics, communications and data-center products.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002600">
+<div class="ticker"><b>002600</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Lingyi iTech (Guangdong) Company Class A</div>
+<p class="description">AI hardware, automotive and low-altitude-economy products.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300433">
+<div class="ticker"><b>300433</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Lens Technology Co. Ltd. Class A</div>
+<p class="description">Smartphones, computers, automotive cockpits, headsets and wearable devices.</p></article>
+</div></section>
+<section class="card" data-group="25_B">
+<header><span class="code">25_B</span><span class="count">4</span></header>
+<h3>GAMES</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:603444">
+<div class="ticker"><b>603444</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">G-Bits Network Technology (Xiamen) Co., Ltd. Class A</div>
+<p class="description">Self-developed and licensed online games.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002517">
+<div class="ticker"><b>002517</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Kingnet Network Co., Ltd. Class A</div>
+<p class="description">Mobile games, user platforms and browser games.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002555">
+<div class="ticker"><b>002555</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">37 Interactive Entertainment Network Technology Group Co., Ltd.</div>
+<p class="description">Mobile and browser games.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002602">
+<div class="ticker"><b>002602</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Zhejiang Century Huatong Group Co., Ltd. Class A</div>
+<p class="description">Mobile and PC games, and automotive components.</p></article>
+</div></section>
+<section class="card" data-group="25_C">
+<header><span class="code">25_C</span><span class="count">4</span></header>
+<h3>MEDIA ADVERTISING EDUCATION</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600977">
+<div class="ticker"><b>600977</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">China Film Group Co., Ltd. Class A</div>
+<p class="description">Film distribution, exhibition and technology services.</p></article>
+<article class="entry" data-kind="member" data-ticker="SSE:601098">
+<div class="ticker"><b>601098</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">China South Publishing &amp; Media Group Co., Ltd Class A</div>
+<p class="description">Publishing, distribution and materials supply.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002027">
+<div class="ticker"><b>002027</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Focus Media Information Technology Co Ltd Class A</div>
+<p class="description">Building and cinema advertising media.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:300413">
+<div class="ticker"><b>300413</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Mango Excellent Media Co., Ltd. Class A</div>
+<p class="description">Mango TV online video, content commerce and interactive entertainment production.</p></article>
+</div></section>
+<section class="card" data-group="26_A">
+<header><span class="code">26_A</span><span class="count">5</span></header>
+<h3>AGRICULTURE</h3><div class="entries">
+<article class="entry" data-kind="member" data-ticker="SSE:600598">
+<div class="ticker"><b>600598</b><small>SSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Heilongjiang Agriculture Company Limited Class A</div>
+<p class="description">Land-contract fees, agricultural products and agricultural services.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:000998">
+<div class="ticker"><b>000998</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Yuan Longping High-Tech Agriculture Co., Ltd. Class A</div>
+<p class="description">Rice, corn and sunflower seeds.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002299">
+<div class="ticker"><b>002299</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Fujian Sunner Development Co., Ltd. Class A</div>
+<p class="description">Chicken and processed meat.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002311">
+<div class="ticker"><b>002311</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Guangdong Haid Group Co., Limited Class A</div>
+<p class="description">Animal feed, agricultural products and trading.</p></article>
+<article class="entry" data-kind="member" data-ticker="SZSE:002714">
+<div class="ticker"><b>002714</b><small>SZSE</small>
+<span class="role">THEME_LEADER</span></div>
+<div class="name">Muyuan Foods Group Co Ltd Class A</div>
+<p class="description">Pig farming, slaughtering and meat products.</p></article>
+</div></section>
+</div>
+<h2 class="section-title">Reference instruments</h2>
+<div class="grid">
+<section class="card" data-group="00_A">
+<header><span class="code">00_A</span><span class="count">6</span></header>
+<h3>EQUITY INDEX</h3><div class="entries">
+<article class="entry" data-kind="reference" data-ticker="SSE:000300">
+<div class="ticker"><b>000300</b><small>SSE</small>
+<span class="role">index</span></div>
+<p class="description">CSI 300 Index; independent reference, excluded from entity and leader counts.</p></article>
+<article class="entry" data-kind="reference" data-ticker="SSE:000510">
+<div class="ticker"><b>000510</b><small>SSE</small>
+<span class="role">index</span></div>
+<p class="description">CSI A500 Index; independent reference, excluded from entity and leader counts.</p></article>
+<article class="entry" data-kind="reference" data-ticker="SSE:000688">
+<div class="ticker"><b>000688</b><small>SSE</small>
+<span class="role">index</span></div>
+<p class="description">SSE Science and Technology Innovation Board 50 Index; independent reference, excluded from entity and leader counts.</p></article>
+<article class="entry" data-kind="reference" data-ticker="SSE:000852">
+<div class="ticker"><b>000852</b><small>SSE</small>
+<span class="role">index</span></div>
+<p class="description">CSI 1000 Index; independent reference, excluded from entity and leader counts.</p></article>
+<article class="entry" data-kind="reference" data-ticker="SSE:000905">
+<div class="ticker"><b>000905</b><small>SSE</small>
+<span class="role">index</span></div>
+<p class="description">CSI 500 Index; independent reference, excluded from entity and leader counts.</p></article>
+<article class="entry" data-kind="reference" data-ticker="SZSE:399006">
+<div class="ticker"><b>399006</b><small>SZSE</small>
+<span class="role">index</span></div>
+<p class="description">ChiNext Index; independent reference, excluded from entity and leader counts.</p></article>
+</div></section>
+<section class="card" data-group="01_A">
+<header><span class="code">01_A</span><span class="count">8</span></header>
+<h3>BROAD STYLE ETF</h3><div class="entries">
+<article class="entry" data-kind="reference" data-ticker="SSE:510300">
+<div class="ticker"><b>510300</b><small>SSE</small>
+<span class="role">etf</span></div>
+<p class="description">Huatai-PineBridge CSI 300 ETF; independent reference, excluded from entity and leader counts.</p></article>
+<article class="entry" data-kind="reference" data-ticker="SSE:510500">
+<div class="ticker"><b>510500</b><small>SSE</small>
+<span class="role">etf</span></div>
+<p class="description">China Southern CSI 500 ETF Fund; independent reference, excluded from entity and leader counts.</p></article>
+<article class="entry" data-kind="reference" data-ticker="SSE:512100">
+<div class="ticker"><b>512100</b><small>SSE</small>
+<span class="role">etf</span></div>
+<p class="description">China Southern CSI 1000 Exchange Traded Fund; independent reference, excluded from entity and leader counts.</p></article>
+<article class="entry" data-kind="reference" data-ticker="SSE:512890">
+<div class="ticker"><b>512890</b><small>SSE</small>
+<span class="role">etf</span></div>
+<p class="description">Huatai-PB CSI Dividend Low Volatility Exchange Traded Fund Units; independent reference, excluded from entity and leader counts.</p></article>
+<article class="entry" data-kind="reference" data-ticker="SSE:513180">
+<div class="ticker"><b>513180</b><small>SSE</small>
+<span class="role">etf</span></div>
+<p class="description">ChinaAMC Hang Seng TECH Index ETEF; independent reference, excluded from entity and leader counts.</p></article>
+<article class="entry" data-kind="reference" data-ticker="SSE:563360">
+<div class="ticker"><b>563360</b><small>SSE</small>
+<span class="role">etf</span></div>
+<p class="description">Huatai-PineBridge CSI A500 Fund Units; independent reference, excluded from entity and leader counts.</p></article>
+<article class="entry" data-kind="reference" data-ticker="SSE:588000">
+<div class="ticker"><b>588000</b><small>SSE</small>
+<span class="role">etf</span></div>
+<p class="description">China AMC SSE STAR 50 Index ETF; independent reference, excluded from entity and leader counts.</p></article>
+<article class="entry" data-kind="reference" data-ticker="SZSE:159915">
+<div class="ticker"><b>159915</b><small>SZSE</small>
+<span class="role">etf</span></div>
+<p class="description">E Fund ChiNext ETF; independent reference, excluded from entity and leader counts.</p></article>
+</div></section>
+<section class="card" data-group="01_B">
+<header><span class="code">01_B</span><span class="count">6</span></header>
+<h3>TECH AI ETF</h3><div class="entries">
+<article class="entry" data-kind="reference" data-ticker="SSE:512480">
+<div class="ticker"><b>512480</b><small>SSE</small>
+<span class="role">etf</span></div>
+<p class="description">GTJA Allianz CSI All-Share Semiconductor Products &amp; EQPT ETF; independent reference, excluded from entity and leader counts.</p></article>
+<article class="entry" data-kind="reference" data-ticker="SSE:515880">
+<div class="ticker"><b>515880</b><small>SSE</small>
+<span class="role">etf</span></div>
+<p class="description">Guotai CSI All Share Communications ETF; independent reference, excluded from entity and leader counts.</p></article>
+<article class="entry" data-kind="reference" data-ticker="SSE:562500">
+<div class="ticker"><b>562500</b><small>SSE</small>
+<span class="role">etf</span></div>
+<p class="description">China AMC Robot ETF; independent reference, excluded from entity and leader counts.</p></article>
+<article class="entry" data-kind="reference" data-ticker="SSE:588200">
+<div class="ticker"><b>588200</b><small>SSE</small>
+<span class="role">etf</span></div>
+<p class="description">Harvest SSE Science &amp; Technology Innovation Board Chip ETF; independent reference, excluded from entity and leader counts.</p></article>
+<article class="entry" data-kind="reference" data-ticker="SZSE:159516">
+<div class="ticker"><b>159516</b><small>SZSE</small>
+<span class="role">etf</span></div>
+<p class="description">Guotai CSI Semiconductor Material &amp; Equipment Thematic Exchange Traded Fund Units; independent reference, excluded from entity and leader counts.</p></article>
+<article class="entry" data-kind="reference" data-ticker="SZSE:159819">
+<div class="ticker"><b>159819</b><small>SZSE</small>
+<span class="role">etf</span></div>
+<p class="description">E Fund CSI Artificial Intelligence ETF; independent reference, excluded from entity and leader counts.</p></article>
+</div></section>
+<section class="card" data-group="01_C">
+<header><span class="code">01_C</span><span class="count">3</span></header>
+<h3>SOFTWARE MEDIA ETF</h3><div class="entries">
+<article class="entry" data-kind="reference" data-ticker="SSE:512980">
+<div class="ticker"><b>512980</b><small>SSE</small>
+<span class="role">etf</span></div>
+<p class="description">GF CSI Media ETF; independent reference, excluded from entity and leader counts.</p></article>
+<article class="entry" data-kind="reference" data-ticker="SZSE:159852">
+<div class="ticker"><b>159852</b><small>SZSE</small>
+<span class="role">etf</span></div>
+<p class="description">Harvest CSI Software &amp; Services Exchange Traded Fund; independent reference, excluded from entity and leader counts.</p></article>
+<article class="entry" data-kind="reference" data-ticker="SZSE:159869">
+<div class="ticker"><b>159869</b><small>SZSE</small>
+<span class="role">etf</span></div>
+<p class="description">China Securities Animation Game ETF; independent reference, excluded from entity and leader counts.</p></article>
+</div></section>
+<section class="card" data-group="01_D">
+<header><span class="code">01_D</span><span class="count">4</span></header>
+<h3>CLEAN ENERGY POWER ETF</h3><div class="entries">
+<article class="entry" data-kind="reference" data-ticker="SSE:515790">
+<div class="ticker"><b>515790</b><small>SSE</small>
+<span class="role">etf</span></div>
+<p class="description">Huatai-PB CSI Photovoltaic Industry Index Exchange Traded Fund Units; independent reference, excluded from entity and leader counts.</p></article>
+<article class="entry" data-kind="reference" data-ticker="SZSE:159326">
+<div class="ticker"><b>159326</b><small>SZSE</small>
+<span class="role">etf</span></div>
+<p class="description">ChinaAMC CSI Grid Equipment Thematic Exchange Traded Fund Units; independent reference, excluded from entity and leader counts.</p></article>
+<article class="entry" data-kind="reference" data-ticker="SZSE:159566">
+<div class="ticker"><b>159566</b><small>SZSE</small>
+<span class="role">etf</span></div>
+<p class="description">E Fund CNI Energy Storage Battery Index Exchange Traded Fund Units; independent reference, excluded from entity and leader counts.</p></article>
+<article class="entry" data-kind="reference" data-ticker="SZSE:159755">
+<div class="ticker"><b>159755</b><small>SZSE</small>
+<span class="role">etf</span></div>
+<p class="description">GF CNI New Energy Vehicles Battery Exchange Traded Fund; independent reference, excluded from entity and leader counts.</p></article>
+</div></section>
+<section class="card" data-group="01_E">
+<header><span class="code">01_E</span><span class="count">2</span></header>
+<h3>HEALTHCARE ETF</h3><div class="entries">
+<article class="entry" data-kind="reference" data-ticker="SSE:512170">
+<div class="ticker"><b>512170</b><small>SSE</small>
+<span class="role">etf</span></div>
+<p class="description">Hwabao WP CSI Medical Exchange Traded Fund Units; independent reference, excluded from entity and leader counts.</p></article>
+<article class="entry" data-kind="reference" data-ticker="SZSE:159992">
+<div class="ticker"><b>159992</b><small>SZSE</small>
+<span class="role">etf</span></div>
+<p class="description">Yinhua CSI Brand Name Drug Industry ETF; independent reference, excluded from entity and leader counts.</p></article>
+</div></section>
+<section class="card" data-group="01_F">
+<header><span class="code">01_F</span><span class="count">2</span></header>
+<h3>FINANCIALS ETF</h3><div class="entries">
+<article class="entry" data-kind="reference" data-ticker="SSE:512800">
+<div class="ticker"><b>512800</b><small>SSE</small>
+<span class="role">etf</span></div>
+<p class="description">Hwabao WP CSI Bank ETF; independent reference, excluded from entity and leader counts.</p></article>
+<article class="entry" data-kind="reference" data-ticker="SSE:512880">
+<div class="ticker"><b>512880</b><small>SSE</small>
+<span class="role">etf</span></div>
+<p class="description">Guotai All-Share Index Securities Companies ETF; independent reference, excluded from entity and leader counts.</p></article>
+</div></section>
+<section class="card" data-group="01_G">
+<header><span class="code">01_G</span><span class="count">3</span></header>
+<h3>DEFENSE PROPERTY ETF</h3><div class="entries">
+<article class="entry" data-kind="reference" data-ticker="SSE:512200">
+<div class="ticker"><b>512200</b><small>SSE</small>
+<span class="role">etf</span></div>
+<p class="description">China Southern CSI All Share Real Estate Index Exchange Traded Fund Units; independent reference, excluded from entity and leader counts.</p></article>
+<article class="entry" data-kind="reference" data-ticker="SSE:512660">
+<div class="ticker"><b>512660</b><small>SSE</small>
+<span class="role">etf</span></div>
+<p class="description">Guotai CSI National Defense Industry Index ETF; independent reference, excluded from entity and leader counts.</p></article>
+<article class="entry" data-kind="reference" data-ticker="SZSE:159206">
+<div class="ticker"><b>159206</b><small>SZSE</small>
+<span class="role">etf</span></div>
+<p class="description">Maxwealth CNI Commercial Satellite Communication Industry Index ETF Units; independent reference, excluded from entity and leader counts.</p></article>
+</div></section>
+<section class="card" data-group="01_H">
+<header><span class="code">01_H</span><span class="count">2</span></header>
+<h3>CONSUMER AGRICULTURE ETF</h3><div class="entries">
+<article class="entry" data-kind="reference" data-ticker="SSE:512690">
+<div class="ticker"><b>512690</b><small>SSE</small>
+<span class="role">etf</span></div>
+<p class="description">Penghua CSI Liquor Index ETF; independent reference, excluded from entity and leader counts.</p></article>
+<article class="entry" data-kind="reference" data-ticker="SZSE:159865">
+<div class="ticker"><b>159865</b><small>SZSE</small>
+<span class="role">etf</span></div>
+<p class="description">Guotai CSI Livestock Breeding Exchange Traded Fund; independent reference, excluded from entity and leader counts.</p></article>
+</div></section>
+<section class="card" data-group="01_I">
+<header><span class="code">01_I</span><span class="count">4</span></header>
+<h3>RESOURCES ETF</h3><div class="entries">
+<article class="entry" data-kind="reference" data-ticker="SSE:512400">
+<div class="ticker"><b>512400</b><small>SSE</small>
+<span class="role">etf</span></div>
+<p class="description">China Southern CSI SWS Non-ferrous Metal Index Exchange Traded Fund Units; independent reference, excluded from entity and leader counts.</p></article>
+<article class="entry" data-kind="reference" data-ticker="SSE:515220">
+<div class="ticker"><b>515220</b><small>SSE</small>
+<span class="role">etf</span></div>
+<p class="description">Guotai CSI Coal Exchange Traded Fund; independent reference, excluded from entity and leader counts.</p></article>
+<article class="entry" data-kind="reference" data-ticker="SSE:516150">
+<div class="ticker"><b>516150</b><small>SSE</small>
+<span class="role">etf</span></div>
+<p class="description">Harvest CSI Rare Earth Industry ETF; independent reference, excluded from entity and leader counts.</p></article>
+<article class="entry" data-kind="reference" data-ticker="SZSE:159870">
+<div class="ticker"><b>159870</b><small>SZSE</small>
+<span class="role">etf</span></div>
+<p class="description">Penghua CSI Chemicals Sub-Industry ETF; independent reference, excluded from entity and leader counts.</p></article>
+</div></section>
+<section class="card" data-group="01_J">
+<header><span class="code">01_J</span><span class="count">2</span></header>
+<h3>GOLD DURATION ETF</h3><div class="entries">
+<article class="entry" data-kind="reference" data-ticker="SSE:511090">
+<div class="ticker"><b>511090</b><small>SSE</small>
+<span class="role">etf</span></div>
+<p class="description">Pengyang ChinaBond 30-year Treasury Bond ETF: tracks ultra-long treasury prices and duration. The exchange and fund-manager name is authoritative; the provider abbreviation CDB does not mean China Development Bank debt.</p></article>
+<article class="entry" data-kind="reference" data-ticker="SSE:518880">
+<div class="ticker"><b>518880</b><small>SSE</small>
+<span class="role">etf</span></div>
+<p class="description">HuaAn Gold ETF Fund; independent reference, excluded from entity and leader counts.</p></article>
+</div></section>
+</div>
+<details class="notes">
+<summary>Research notes and limits</summary><ul>
+<li>Supplementary Beta review checks broad business, complementarity to a named core member, and sourced CNY equity capitalization. Price beta, R² and stability are descriptive only.</li>
+<li>Listing checks use the provider active_symbol field and latest valid quotations; company-by-company regulatory inquiries, audit opinions and all temporary suspensions were not independently verified.</li>
+<li>Theme regressions use leave-one-out equal-weight baskets of reviewed same-theme candidates, not a broad-market index.</li>
+<li>The Yahoo long-window request failed; failure receipts were saved and Tencent forward-adjusted prices substituted. Liquidity uses 30 valid sessions of raw close times share volume as a CNY turnover proxy. Volume units were cross-checked against scanner share volumes: STAR-board volumes and other boards may use different units, with verified 1x or 100x conversion and quotation-value plausibility checks.</li>
+<li>Future returns and TradingView UI import were not evaluated. The CLI renders the English companion; original research remains in Simplified Chinese.</li>
+<li>Research was rebuilt online early on October 8; prices and capitalization are effective September 30, before the October 8 opening. Actual collection times are in request receipts.</li>
+<li>Core financials are standardized fields collected online; fiscal-period labels are unknown. Losses and negative cash flow are disclosed by ticker; profitability or size alone does not establish leadership.</li>
+<li>Round two retained the complete economic plan and all 455 necessary leaders/peers. Copper-foil Beta moved from 16_D to 16_B; LED comparison cores changed to display-panel leaders. Optional Beta with verified business but mismatched duties was deferred. Unmapped candidates and sources were retained.</li>
+<li>The economic plan and all 455 necessary leaders/peers are retained, together with the SSE/SZSE scope, 105 branches, 42 references and entity ceilings of 140/340/480/700.</li>
+<li>Business segments were reread for each candidate, with original report periods disclosed. Long-term leadership and complementary roles were retained after checks; older evidence dates were not relabeled. Provider segment data is neither an independent audit nor market-share proof.</li>
+<li>The measurement population contains 2,613 valid CNY stock/reference-ETF histories and covers all 1,612 eligible candidates. Unmapped fetched candidates have no claimed theme regression. Full missing-data notes are in research/round-2/measurement.notes.full.json.</li>
+<li>Eligible candidate SSE:601808 lacks auxiliary theme-factor statistics. These statistics are descriptive; admission assumes neither return independence nor high price beta.</li>
+</ul></details>
+<footer>Research notes and limits · <a href="cn-medium-2026-10-08.json" download>JSON</a> · <a href="cn-medium-2026-10-08.validation.json" download>Validation</a></footer>
+</main></body></html>
