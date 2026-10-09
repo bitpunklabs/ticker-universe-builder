@@ -1,25 +1,43 @@
-# README image
+# README illustration
 
-[universe-report.jpg](universe-report.jpg) is a dark presentation excerpt of the
-[US Medium example](../../examples/us-medium/), version `803482441ee9`.
-It shows 41 original tickers across six complete display themes: compute/AI hardware,
-megacap platforms, networking, enterprise software, cybersecurity and power technology.
-Ticker codes, short reasons and merged display-group counts come from the generated
-English Markdown; overall counts and validation status come from its validation receipt.
-Featured themes are an editorial presentation choice, not a live popularity ranking or
-changes to the universe's economic coverage.
+The dark [desktop image](universe-report.jpg) is designed for **880 px display width**,
+using two columns, 17 px ticker labels and 16 px reasoning text. The
+[mobile image](universe-report-mobile.jpg) uses a **390 px single-column** design with
+16 px ticker labels and 15 px reasoning text. These are design targets, not fixed
+GitHub README dimensions. Increasing export resolution alone does not enlarge text
+when a wide image is scaled down.
 
-The complete example contains 294 company tickers, 44 reference instruments and
-51 company themes, exporting 338 TradingView symbols. Facts: 2026-10-08;
-historical price cutoff: 2026-10-06. The screenshot was captured on 2026-10-09.
-Full sources and research limits remain in the generated artifacts.
+Both images show 41 original tickers across six complete US Medium display themes,
+with one original short-reason example per theme. Full per-ticker reasoning remains in
+the [generated Markdown](../../examples/us-medium/output/us-medium-2026-10-08.en.md).
+Ticker identities, merged group counts and reasons were checked against that report
+and its JSON. Featured themes are an editorial choice, not a live popularity ranking.
 
-[universe-report.html](universe-report.html) retains the editable presentation source.
-This is a README illustration, not an additional CLI output or a product dashboard.
-The TradingView static image has been removed; a user-recorded watchlist GIF will replace it.
+Source: [US Medium example](../../examples/us-medium/), version `803482441ee9`:
+294 company tickers, 44 references, 51 company themes and 338 exported symbols.
+Facts: 2026-10-08; historical price cutoff: 2026-10-06; captured: 2026-10-09.
+[Editable HTML](universe-report.html) renders both layouts from the same presentation.
+It is a README illustration, not an additional CLI output or product dashboard.
 
-Use from the root README:
+## Embed from the root README
+
+Use repository-relative paths and descriptive alt text. The mobile source is selected
+below a 600 px viewport; the desktop fallback is capped at 880 px. Link to the full
+Markdown underneath so the image is not the only route to its information.
+
+```html
+<picture>
+  <source media="(max-width: 600px)" srcset="docs/media/universe-report-mobile.jpg">
+  <img src="docs/media/universe-report.jpg" width="880" alt="US Medium universe: 294 company tickers and 44 references, with six featured theme excerpts.">
+</picture>
+```
 
 ```markdown
-![US Medium ticker universe — featured theme excerpt](docs/media/universe-report.jpg)
+[View the full universe and reasoning](examples/us-medium/output/us-medium-2026-10-08.en.md)
 ```
+
+References: [GitHub image and relative-path documentation](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#images)
+and [Primer Markdown image width rules](https://github.com/primer/css/blob/main/src/markdown/images.scss).
+Local browser checks cover 900, 720 and 390 px viewport widths; no GitHub publication
+or live README rendering is claimed. The TradingView still remains removed; its GIF
+will be recorded by the user.
