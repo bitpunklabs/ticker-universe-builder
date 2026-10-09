@@ -1,14 +1,16 @@
 # README illustration
 
 The dark [desktop image](universe-report.jpg) is designed for **880 px display width**,
-using two columns, 17 px ticker labels and 16 px reasoning text. The
+using two columns, 17 px ticker labels and 16 px descriptions. The
 [mobile image](universe-report-mobile.jpg) uses a **390 px single-column** design with
-16 px ticker labels and 15 px reasoning text. These are design targets, not fixed
+16 px ticker labels and 15 px descriptions. These are design targets, not fixed
 GitHub README dimensions. Increasing export resolution alone does not enlarge text
 when a wide image is scaled down.
 
-Both images show 41 original tickers across six complete US Medium display themes,
-with one original short-reason example per theme. Full per-ticker reasoning remains in
+Both images show **12 tickers across four US Medium theme excerpts**, with an
+original short description beside **every ticker**. Each theme shows three selected
+rows and discloses its full display-group count. The four excerpts cover compute/AI
+hardware, megacap platforms, cybersecurity and power technology. Full reasoning remains in
 the [generated Markdown](../../examples/us-medium/output/us-medium-2026-10-08.en.md).
 Ticker identities, merged group counts and reasons were checked against that report
 and its JSON. Featured themes are an editorial choice, not a live popularity ranking.
@@ -28,7 +30,7 @@ Markdown underneath so the image is not the only route to its information.
 ```html
 <picture>
   <source media="(max-width: 600px)" srcset="docs/media/universe-report-mobile.jpg">
-  <img src="docs/media/universe-report.jpg" width="880" alt="US Medium universe: 294 company tickers and 44 references, with six featured theme excerpts.">
+  <img src="docs/media/universe-report.jpg" width="880" alt="US Medium universe: 294 company tickers and 44 references, with four theme excerpts and descriptions for all 12 displayed tickers.">
 </picture>
 ```
 
