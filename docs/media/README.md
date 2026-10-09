@@ -1,25 +1,26 @@
-# README imagery
+# README images
 
-Optional release recordings: `demo.gif` and `watchlist-import.gif`. Add them to the root README
-only after a real capture has been reviewed. Do not substitute a synthetic terminal/UI result.
+Captured on 2026-10-09 from the [US Medium example](../../examples/us-medium/),
+version `803482441ee9`: 294 company tickers, 44 reference instruments,
+51 company themes and 338 exported symbols. Research facts are dated 2026-10-08;
+the historical price cutoff is 2026-10-06.
 
-## demo.gif
+- **[universe-report.jpg](universe-report.jpg)** — a styled excerpt of the generated
+  report: three complete themes and their 19 original tickers and short reasons.
+  Counts and validation status come from the example's JSON and validation receipt.
+  The [HTML presentation source](universe-report.html) is retained for visual edits;
+  this presentation is not an additional CLI output or a product dashboard.
+- **[tradingview-watchlist.jpg](tradingview-watchlist.jpg)** — a real TradingView
+  capture after importing the generated TXT into a separate watchlist, using the
+  `Universe Demo` layout. The UI reports 338 symbols and shows the imported theme
+  sections. Sharing remains off. Only the viewport's bottom edge is cropped;
+  no UI or values were synthesized. Displayed quotes are TradingView's capture-time
+  values, not the example's historical measurement inputs. The visible count and
+  groups were checked; a full symbol/venue export round trip was not completed.
 
-Record a US Medium agent session: user request, skill routing, `taxonomy`, `build`, returned
-artifact paths, validation and entity/reference counts. Keep the short recording focused on the
-build/delivery step; explain when the researched snapshot was prepared beforehand.
+Both JPEGs are below 1 MB. Use these paths from the root README:
 
-The [current US example](../../examples/us-medium/) produces 294 entities plus 44 references
-from a dated reviewed roster. Counts are results, not a policy floor. Use its committed inputs
-for an offline demonstration and disclose the price cutoff; a fresh research session requires
-updated facts and measurements.
-
-## watchlist-import.gif
-
-Import the [current generated TXT](../../examples/us-medium/output/us-medium-2026-10-08.txt)
-into TradingView and hold the populated panel with its display groups visible. Verify the
-imported instrument count and venue prefixes. The TXT includes reference instruments as well
-as entity members. A locally validated TXT is not evidence of successful TradingView UI import.
-
-Keep both recordings legible, under 5 MB each, and free of private data. Put them in this
-folder and add a README image link only after reviewing the real capture.
+```markdown
+![US Medium universe report excerpt](docs/media/universe-report.jpg)
+![Generated universe imported into TradingView](docs/media/tradingview-watchlist.jpg)
+```
