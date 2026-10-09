@@ -8,6 +8,8 @@ research. Untagged development versions below were not separate public releases.
 - Generate complete, self-contained dark HTML reports alongside Markdown in every report
   language; include all members/references, brief reasons, Max additions and delivery limits.
   Add language-keyed `artifacts.html_reports`, covered by checkpoint hashes and resume checks.
+- Use a CSS waterfall for HTML theme cards: independent desktop columns and a single mobile
+  column, without JavaScript or model calls.
 - Handle truncated/compressed responses and verified macOS CA recovery; retain bounded request
   retries, optional installed-curl fallback, failure receipts and honest partial fetch manifests.
 - Verify Yahoo symbol, currency and aligned arrays; record alternate-host provenance.

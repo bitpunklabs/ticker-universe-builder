@@ -20,6 +20,9 @@ The stem is `{market}-{profile}-{as_of}`; profiles are `light`, `medium`, `heavy
 | `{stem}.en.html` / `{stem}.<market-language>.html` | Complete dark, responsive browser report in the same languages: every member with name, role and brief reason; separate reference cards, Max additions, visible warnings/partial status, folded research notes and relative artifact links. Inline CSS, no server or external assets needed. |
 
 US/Crypto normally produce **five files**; CN produces **seven**. They are all script-generated.
+HTML uses a CSS column waterfall: two independent columns on desktop, one on mobile, with
+each theme card kept intact. Read down the left column, then the right. Rendering runs locally
+without model calls; names, descriptions and translations come from existing researched inputs.
 Member tables show ticker, name, role and one brief reason. Full reasoning, admissions, source
 URLs, dated market-cap evidence and per-ticker measurement diagnostics stay in JSON, linked once
 from the report. `reason_summary` supplies the short reason; older inputs use a first-sentence

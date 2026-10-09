@@ -91,7 +91,7 @@ ticker-universes/<market>/<profile>/<as_of>/
 | `.txt` | Grouped TradingView import, including reference instruments |
 | `.en.md` | Readable report with short member reasons; full reasoning/evidence stay in JSON |
 | `.<market-language>.md` | Companion report for non-English markets |
-| `.<language>.html` | Dark, responsive browser report with every ticker and brief reason, separate references, Max additions and artifact links; open locally, no server needed |
+| `.<language>.html` | Dark, responsive waterfall report with every ticker and brief reason, separate references, Max additions and artifact links; open locally, no server needed |
 
 US/Crypto normally produce five files; CN/JP/KR produce seven. References are counted separately
 from entities. The TXT limit is 1,000 tokens, including headings and references.
