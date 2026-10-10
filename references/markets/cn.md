@@ -1,8 +1,6 @@
 # CN overlay
 
-Read [equity-common.md](equity-common.md) first: the universe boundary, the fund-versus-basket
-redundancy test, the cash-management exclusion and the rule about regressing against the
-theme rather than the index are the same in every equity market.
+Read [shared equity rules](equity-common.md) first.
 
 ## Universe boundary
 
@@ -16,22 +14,7 @@ theme rather than the index are the same in every equity market.
   the default `asset_id` keeps the venue prefix.
 - ETFs and single names are compared separately. ETFs carry structural gauges; single names carry
   company and supply-chain information.
-- The report is written in Simplified Chinese, so write the snapshot in Simplified Chinese:
-  `name` is the listed short name (`贵州茅台`, not `Kweichow Moutai`), and `l1_name`, `reason`
-  and every `measurement.method` are Chinese prose. Theme codes and `theme_name` stay ASCII —
-  they are identifiers that have to survive a TradingView import.
-
-## Build focus
-
-- Light is leader-only; Medium covers most reviewed leaders; Heavy completes all necessary
-  leaders and differentiated peers before a small measured satellite tail. Max adds only
-  qualified satellites to the same Heavy. Use the shared [coverage contract](../coverage-plan.md).
-- Compare at the old Core's observation budget, and reconcile every original instrument.
-  Recent heat, display-theme count and market-cap rank alone cannot define representation.
-- Review nationwide/shareholding/regional banking, insurance types, power-generation business
-  models, food/drink/retail branches and agriculture before optional semiconductor depth.
-  Separate fibre/optical communications from grid equipment; multiple business lines need
-  evidence for the chosen primary branch, not a keyword match.
+- Report language: `zh-Hans`, with authored English content for the companion.
 
 ## CN economic map
 
@@ -61,32 +44,16 @@ stand in for an index observation only with a disclosed proxy reason. Quote acti
 name string do not complete ST, halt, inquiry or issuer-quality checks. Policy news changes
 research priority, not permanent membership without a durable industrial link.
 
-## A size and turnover floor comes before any other judgement
+## Research fields
 
-Below a minimum fund size and daily turnover, the instrument's own price series is too noisy to
-read a signal from — the spread alone moves the daily bar. Such a name is not "slightly worse
-coverage", it is a **false sector anchor**: it will be quoted as if it represented its sector.
-
-The only defensible exception is a theme's sole pure-play leader, and that exception is recorded
-with its reason.
-
-## Cash-management instruments
-
-Short-term financing bond ETFs and money-market funds are excluded by instrument type. They post
-the largest turnover in the entire ETF market, the tightest spreads and the best tracking, so every
-quality ranking puts them first — which is exactly why the exclusion has to be written down rather
-than left to whoever happens to be reviewing.
+Prioritize nationwide/shareholding/regional banks, insurance classes, power-operation models,
+food/drink/retail and agriculture before optional semiconductor depth. Check listing, ST/halt
+status, local turnover, theme factors and evidence dates. Small/noisy gauges need a disclosed
+size/turnover floor; any sole-pure-play exception requires a reason and still obeys validation.
+Short-term financing bond and money-market funds are cash substitutes, excluded by type.
 
 ## Example
 
 [`examples/cn-medium/`](../../examples/cn-medium/) contains a current coverage-first Medium
 research snapshot, measured statistics, dated listing evidence, reports and script-generated watchlist.
 Read [the scope and limitations](../../examples/README.md) before reusing it.
-
-## Suggested live fields
-
-- Listing, risk-warning and halt status.
-- 20-day and 60-day turnover percentiles.
-- 63 / 126 / 252-day beta, R² and downside beta against the theme's own ETF or theme leader.
-- Relative return, max drawdown and residual volatility.
-- The update time of sector, core-business and theme evidence.

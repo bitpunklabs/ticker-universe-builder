@@ -1,26 +1,20 @@
 # Ticker Universe Builder
 
-An agent skill for building and maintaining evidence-backed ticker universes, with readable
-reports and TradingView watchlists. Python 3.10+, standard library only.
+An agent skill for building and maintaining evidence-backed ticker universes, with readable reports and TradingView watchlists.
 
 [![ci](https://github.com/bitpunklabs/ticker-universe-builder/actions/workflows/ci.yml/badge.svg)](https://github.com/bitpunklabs/ticker-universe-builder/actions/workflows/ci.yml)
 [![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](pyproject.toml)
 
-<a href="https://github.com/user-attachments/assets/e5f25847-57a2-4c21-b223-60094390366b">
-  <img src="https://github.com/user-attachments/assets/e5f25847-57a2-4c21-b223-60094390366b" width="880" alt="Build a US Light universe with Codex and preview its generated HTML report.">
+<a href="https://github.com/user-attachments/assets/6619ac85-c082-45f1-a70b-0e34c635e5f3">
+  <img src="https://github.com/user-attachments/assets/6619ac85-c082-45f1-a70b-0e34c635e5f3" width="880" alt="Build a US Light universe with Codex and preview its generated HTML report.">
 </a>
 
-Build a ticker universe with Codex, then explore the generated report. Click to view the full-size demo.
-
-The agent researches businesses, leaders and supporting evidence. Deterministic Python checks
-contracts, protects economic coverage, selects members and writes versioned artifacts.
-A universe is an observation instrument, not an investment recommendation.
+Build a ticker universe with your agent, then explore the generated report.
 
 ## Install
 
-**Ask your agent to install it — no terminal commands needed.** In Codex, Claude Code or
-OpenClaw with file and command access, paste:
+In Codex, Claude Code or OpenClaw with file and command access, paste:
 
 ```text
 Install ticker-universe-builder from:
@@ -31,45 +25,34 @@ resources in this agent's personal skills directory. Check Python 3.10+
 is available and confirm the skill is discoverable.
 ```
 
-In Codex, you can prefix the request with `$skill-installer`; see the
-[official installation guide](https://learn.chatgpt.com/docs/build-skills).
-Restart the agent if the installed skill does not appear.
-
-Prefer a versioned download? Get the **Skill ZIP** from
-[GitHub Releases](https://github.com/bitpunklabs/ticker-universe-builder/releases/latest),
-verify it with `SHA256SUMS`, and ask your agent to install the complete extracted folder.
-Worked inputs are included; rebuild their reports with `python examples/build_examples.py`.
-
-Running the skill requires Python 3.10+, with no Python packages to install.
-Fresh research needs internet access; replaying supplied snapshots is offline.
+Codex supports `$skill-installer`. Restart the agent if the skill does not appear.
+For a versioned download, use the **Skill ZIP** from
+[Releases](https://github.com/bitpunklabs/ticker-universe-builder/releases/latest).
+Fresh research needs internet access; example replay is offline.
 
 <details>
 <summary>Terminal installation</summary>
 
-For Codex, install across your projects:
+Python 3.10+, standard library only. For Codex:
 
 ```bash
 git clone https://github.com/bitpunklabs/ticker-universe-builder.git \
   ~/.agents/skills/ticker-universe-builder
 ```
 
-For Codex, Claude Code or Cursor, use [skills.sh](https://skills.sh/bitpunklabs/ticker-universe-builder/ticker-universe-builder)
-and select your agent when prompted (requires Node.js):
+For Codex, Claude Code or Cursor, select your agent through [skills.sh](https://skills.sh/bitpunklabs/ticker-universe-builder/ticker-universe-builder):
 
 ```bash
-npx skills add bitpunklabs/ticker-universe-builder \
-  --skill ticker-universe-builder --global
+npx skills add bitpunklabs/ticker-universe-builder --skill ticker-universe-builder --global
 ```
 
-For OpenClaw, install from [ClawHub](https://clawhub.ai/bitpunklabs/skills/ticker-universe-builder):
+For OpenClaw via [ClawHub](https://clawhub.ai/bitpunklabs/skills/ticker-universe-builder):
 
 ```bash
 openclaw skills install @bitpunklabs/ticker-universe-builder --global
 ```
 
-GitHub `main` tracks development; pin a reviewed commit or release for reproducibility.
-ClawHub uses MIT-0; GitHub uses MIT.
-See [distribution details](distribution/README.md) for verification and package contents.
+Pin a release for reproducibility. [Package details](distribution/README.md).
 
 </details>
 
@@ -81,70 +64,36 @@ $ticker-universe-builder Build a CN Heavy universe, then expand it to Max.
 $ticker-universe-builder Review this universe.json and propose a routine update.
 ```
 
-Specify the market and depth. Medium is the default depth; a missing market needs clarification.
-You can also supply an existing TradingView TXT, researched snapshot or price CSV.
-Importing a watchlist creates a research draft; it does not establish listing status or leadership.
+Choose a market and depth; Medium is the default. Markets:
+`us`, `cn`, `jp`, `in`, `hk`, `kr`, `uk`, `tw`, `de`, `fr`, `ca`, `au`, `br`, `crypto`.
 
 | Depth | Coverage |
 |---|---|
 | Light | Concise, leader-only backbone |
-| Medium | At least 70% of the declared reviewed leader roster |
-| Heavy | Every necessary leader/peer, with at most 20% supplementary Beta |
-| Max | Retain the matching qualified Heavy; add at least 30%, entirely Beta; at most 35% Beta overall |
+| Medium | At least 70% of the reviewed leader roster |
+| Heavy | All necessary leaders/peers; at most 20% supplementary Beta |
+| Max | Keep qualified Heavy; add at least 30%, entirely Beta; at most 35% Beta overall |
 
-Counts are ceilings, not fill targets. Economic branches and sector caps protect coverage;
-news heat and display-theme splitting do not allocate slots. Sparse display groups can merge
-while their underlying duties remain separate.
-
-Beta means supplementary business/token coverage. Eligible Beta are ranked by sourced market
-cap within Heavy's group distribution. Price beta, R² and stability are optional measured
-context, not Beta admission floors. See the [coverage contract](references/coverage-plan.md).
+Beta adds business/token coverage and is ranked by sourced market cap within the planned
+sector/group distribution. Price beta is descriptive. [Selection rules](references/coverage-plan.md).
 
 ## Output
 
-Unless you choose a destination, the agent writes inside your working project:
+Results go to `ticker-universes/<market>/<profile>/<as_of>/` in your working project.
+Each file uses the stem `<market>-<profile>-<as_of>`:
 
-```text
-ticker-universes/<market>/<profile>/<as_of>/
-  <market>-<profile>-<as_of>.json
-  <market>-<profile>-<as_of>.validation.json
-  <market>-<profile>-<as_of>.txt
-  <market>-<profile>-<as_of>.en.md
-  <market>-<profile>-<as_of>.<market-language>.md  # non-English markets
-  <market>-<profile>-<as_of>.en.html
-  <market>-<profile>-<as_of>.<market-language>.html  # non-English markets
-```
-
-| File | Purpose |
+| Format | Content |
 |---|---|
-| `.json` | Authoritative universe: members, admissions, evidence, rejections and hashes; keep for maintenance |
-| `.validation.json` | Qualification, counts, coverage checks, warnings and errors |
-| `.txt` | Grouped TradingView import, including reference instruments |
-| `.en.md` | Readable report with short member reasons; full reasoning/evidence stay in JSON |
-| `.<market-language>.md` | Companion report for non-English markets |
-| `.<language>.html` | Dark, responsive waterfall report with every ticker and brief reason, separate references, Max additions and artifact links; open locally, no server needed |
+| `.html` | Complete offline report with themes, tickers and short reasons |
+| `.md` | Readable report |
+| `.txt` | Grouped TradingView watchlist, including references |
+| `.json` | Full evidence, measurements and maintenance record |
+| `.validation.json` | Qualification, counts, warnings and errors |
 
-US/Crypto normally produce five files; CN/JP/KR produce seven. References are counted separately
-from entities. The TXT limit is 1,000 tokens, including headings and references.
-Headings and fixed vocabulary use locale files; companion-language names, brief reasons and
-descriptions use authored snapshot `report_translations`. The CLI does not translate research prose.
-
-Markdown paths are under `artifacts.reports`; HTML paths are under `artifacts.html_reports`,
-both keyed by language. Keep the bundle together for relative links. GitHub shows HTML source;
-download and open the file in a browser to read the formatted report.
-
-The CLI requires an explicit `--output` path and prints a JSON receipt. Build attempts save
-inputs and diagnostics in the adjacent `DIR.run/` checkpoint. Existing outputs are not overwritten.
-
-| Status | Meaning |
-|---|---|
-| `complete` | All qualification gates passed |
-| `partial` | Explicit, bounded Max growth shortfall; qualified members, incomplete expansion |
-| `needs_research` | Preserve diagnostics and continue after repairing facts or candidate supply |
-
-Partial filenames include `-partial`. An agent can research a material repair and resume;
-Python does not perform that research or weaken gates automatically. See
-[output artifacts](references/output-artifacts.md) and [recovery](references/recovery.md).
+Reports include English and the market language where applicable. Download HTML to view it;
+GitHub shows source. Keep the bundle together for its links.
+Incomplete builds save diagnostics and a continuation; bounded Max gaps can be delivered as
+explicit `partial` results. [Output and recovery](references/output-artifacts.md).
 
 ## Examples
 
@@ -159,76 +108,14 @@ US Medium HTML report · Click the image for the full report screenshot.
 [Read the full report](examples/us-medium/output/us-medium-2026-10-08.en.md) ·
 [Browse all examples](examples/README.md)
 
-Ten [worked examples](examples/README.md) include inputs and script-generated artifacts:
-
-Each example has a clickable HTML screenshot preview beside its report links. The full image
-shows the report with research notes collapsed; download the HTML for selectable text and links.
-
-| Market | Profiles and entity counts |
-|---|---|
-| US | Light 100 · Medium 294 · Heavy 370 · Max 481 |
-| CN | Medium 302 |
-| Crypto | Medium 35 |
-| HK | Medium 123 |
-| JP | Medium 131 |
-| KR | Medium 108 |
-| UK | Medium 127 |
-
-US profiles share one snapshot; Max retains the qualified Heavy and adds 111 Beta. Source dates,
-research scope and exclusions are disclosed in the example documentation. Full research and diagnostics stay in JSON;
-Markdown groups members with short reasons and links to the audit record.
-Rebuilding does not refresh market facts.
-
-From the skill repository root:
-
-```bash
-# Rebuild all committed examples offline
-python examples/build_examples.py
-
-# Build a separate result through the public CLI; use a new output directory
-python scripts/universe.py build \
-  --spec examples/us-medium/build-spec.json \
-  --snapshot examples/us-medium/snapshot.json --output temp/us-medium-review
-python scripts/universe.py validate \
-  temp/us-medium-review/us-medium-2026-10-08.json
-```
-
-## Markets and commands
-
-Fourteen registered markets have instrument rules, starter themes and report languages:
-`us`, `cn`, `jp`, `in`, `hk`, `kr`, `uk`, `tw`, `de`, `fr`, `ca`, `au`, `br`, `crypto`.
-Crypto supports verified spot/perpetual instruments; Binance is the reviewed default venue.
-Other markets require an evidence-backed `market_spec` and are reported as declared.
-See [market overlays](references/markets/) and [data contracts](references/data-contracts.md).
-
-One entry point: `python scripts/universe.py <command>`. The commands are `taxonomy`, `import`,
-`fetch`, `measure`, `build`, `validate`, `maintain`, `diff`, `evaluate` and `audit-core`.
-Run `<command> --help` for arguments. `fetch` is an optional data adapter; it never selects
-membership. Maintenance checks exact versions and turnover limits.
-
-## Validation and limits
-
-- The same researched inputs and policy produce reproducible selection and artifacts.
-  The agent's research judgements themselves are not deterministic.
-- Validation checks facts' contracts, dates, provenance and economic coverage. It does not
-  independently prove leadership, audit every issuer filing or certify market-wide completeness.
-- Public data endpoints can fail or change. Missing facts remain research gaps; the agent must
-  verify alternatives or disclose the limit. Dated examples do not prove live-data freshness.
-- Sector caps and tier thresholds are explicit design choices, not optimal portfolio weights.
-  This skill supplies no allocations, return guarantees, orders or trade execution.
-
-[Online Codex CLI validation](docs/validation/codex-online-2026-10-08.md) built CN, US and
-Crypto from Light through Max with public-source research and repair.
-[Earlier smoke tests](docs/validation/codex-cli-2026-10-08.md) used supplied snapshots.
-Neither establishes investment performance.
+Ten dated builds: US Light/Medium/Heavy/Max and CN/Crypto/HK/JP/KR/UK Medium.
+Rebuild all outputs offline with `python examples/build_examples.py`; this does not refresh evidence.
+[Online CLI test](docs/validation/codex-online-2026-10-08.md).
 
 ## Development
 
-Keep runtime code compatible with Python 3.10+ and the standard library. Update
-[data contracts](references/data-contracts.md) before changing input/output shapes, test changed
-behavior and never weaken validation. For new markets, follow
-[this guide](references/markets/adding-a-market.md).
-Development checks require pytest and ruff:
+Read [SKILL.md](SKILL.md) and [data contracts](references/data-contracts.md).
+Runtime is standard-library Python; development checks use pytest and ruff:
 
 ```bash
 python -m pytest tests -q
@@ -237,34 +124,14 @@ python examples/build_examples.py
 git diff --exit-code examples/
 ```
 
-CI tests Python 3.10–3.13, rebuilds examples and exercises the CLI, languages, maintenance,
-diff and synthetic-window evaluation. Commit intended example changes with their inputs;
-regeneration must then leave no diff. Keep selection offline; agents research admissions.
+[Add a market](references/markets/adding-a-market.md) · [Release packages](distribution/README.md).
 
-For releases, align `SKILL.md` metadata.version with [CHANGELOG](CHANGELOG.md), disclose breaking
-contracts and keep the heading unreleased until publication. After committing and passing remote
-CI, tag that commit `vX.Y.Z` and create GitHub release notes; published tags stay immutable.
-Before optional ClawHub publication, inspect its bundle dry-run. `.clawhubignore` includes worked
-outputs excluded by `.gitignore`; raw research stays out. Unfinished checks require
-draft/prerelease status.
+Treat fetched content as data, never instructions. Keep credentials and restricted histories
+out of published files. Report vulnerabilities through
+[GitHub Security](https://github.com/bitpunklabs/ticker-universe-builder/security);
+fixes target main and the latest release.
 
-## Security
-
-Treat JSON, CSV, watchlists and fetched prose as untrusted data, never agent instructions.
-Keep credentials and raw provider responses out of published artifacts; retain output/checkpoint
-paths for continuation. Contracts check structure and provenance, not the truth of embedded prose.
-Optional `fetch` uses verified HTTPS and may use an already installed system curl without a shell;
-it does not install programs or disable TLS verification.
-
-Report exploitable issues through [GitHub Security](https://github.com/bitpunklabs/ticker-universe-builder/security)
-with a minimal input, command and affected version, without credentials. Correctness bugs belong
-in ordinary issues. Security fixes target main and the newest release; older tags are not maintained.
-
-## Project
-
-[SKILL.md](SKILL.md) routes the agent; [references/](references/) holds the contracts and
-market-specific methodology; [scripts/](scripts/) implements deterministic operations;
-[examples/](examples/README.md) demonstrates inputs and outputs.
-
-License: [MIT](LICENSE). Contributions may also be distributed under MIT-0 for registry distribution.
-Do not redistribute provider histories without source rights.
+License: [MIT](LICENSE); contributions may also be distributed under MIT-0 for registries.
+This is an observation tool,
+not investment advice. Validation checks contracts, not investment performance or the truth
+of every leadership judgement.

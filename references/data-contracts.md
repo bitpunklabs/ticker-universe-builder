@@ -1,91 +1,58 @@
 # Data contracts
 
-Build inputs and output records use `schema_version: 1`; the policy has its own version.
+Inputs/output records use `schema_version: 1`; policy and skill versions are separate.
+JSON examples below illustrate fields and omit the complete current plan/admissions.
+Use [worked inputs](../examples/README.md) for buildable snapshots.
 
 ## Coverage-first default (0.6)
 
-New builds require [coverage_plan and candidate admission](coverage-plan.md). Read that contract
-before creating a new snapshot. `target_count` is an entity ceiling, excludes references, and
-defaults to the plan budget. Light/Medium are leader-only; Heavy protects the reviewed backbone;
-Max requires the same-date qualified Heavy seed. Default builds never use legacy bucket
-fallbacks. A qualified under-ceiling result is complete with `unused_capacity` only when all
-gates pass. A complete Max must grow by at least 30% in entities, with all additions admitted as satellites;
-under-expansion or unresolved coverage is `needs_research`.
+[coverage-plan.md](coverage-plan.md) defines plan/admission shapes, selection, references and Core migration.
+`target_count` is an entity ceiling excluding references, defaulting to plan budget. No legacy
+bucket fallback. Under-ceiling output is complete if every gate passes; Max requires matching
+qualified Heavy and Beta-only growth. [Partial delivery](#max-shortfall-delivery-071) waives growth only.
 
-`policy.coverage.max_expansion` is `{ "min": 0.30 }`. The minimum must be finite
-and at least `0.30`; a custom policy may tighten it. For actual Heavy entity count `H`,
-require at least `H + ceil(H * min)` entities. There is no separate growth upper bound:
-plan/spec entity budgets, economic sector caps, total satellite share and export limits still bind.
-Reference instruments are excluded. `stats.quality.expansion` reports `heavy_entities`,
-`added_beta`, `growth` (a fraction), `min_entities` and `max_entities` (the plan/spec entity ceiling,
-not a promise of available eligible capacity).
-Max follows Heavy display-group entity proportions. For Heavy H and actual additions A,
-a group with h Heavy entities may add at most ceil(h*A/H), including only integer rounding
-surplus. Build selects ceil(H*min) additions and then stops; target_count remains a ceiling.
-Optional profile-keyed display_groups are documented in coverage-plan.md.
+`policy.coverage.max_expansion` is `{"min": 0.30}`; finite minimum >=0.30, custom policies may
+only tighten it. Heavy count H requires `H + ceil(H*min)` entities. Sector/share/entity/export
+caps bind; no separate growth maximum. Build stops after minimum additions. Max group h adds
+at most `ceil(h*A/H)` for actual additions A; only rounding permits surplus.
 
-The same rules apply to stored validation and maintenance. A new explicitly marked `delivery`
-partial is an authorized exception to growth only, as specified below. Unmarked underfilled
-outputs remain invalid. Older below-minimum coverage-first
-Max files remain historical artifacts, not current-contract completions. Legacy 0.4/0.5
-records remain readable with a legacy-certification warning and their explicit replay policy.
-
-The measurement/listing/identity contracts below remain mandatory. Sections discussing bucket
-quotas, default breadth counts and theme-presence selection describe archived 0.4/0.5 replay,
-not the coverage-first selector.
+`stats.quality.expansion` reports `heavy_entities`, `added_beta`, fractional `growth`, `min_entities`
+and `max_entities` (plan/spec ceiling, not available capacity). Stored validation/maintenance use
+these rules. Older below-minimum outputs are historical, not current completions.
+Explicit legacy 0.4/0.5 replay retains bucket sizing/gates and warns that coverage is uncertified.
 
 ## Research integrity (0.4)
 
-Eligible measured candidates require a valid per-ticker `measurement_record`.
-Eligible candidates require a non-empty `reason`, tier 1/2 evidence, and `listing` with
-`status: "active"`, an ISO `as_of`, and an http(s) `source` also present in their strong evidence.
-An active quotation is evidence of tradability at the stated date, not proof of financial quality.
-Optional `reason_summary` is a non-empty, single-line string of at most 160 characters, written
-in the report's market language (prefer at most 60 characters for Chinese). It explains the
-business observation briefly, without source URLs or audit narration. It is preserved in JSON
-and used only for presentation; full `reason`, admissions and evidence remain authoritative.
-Without a summary, Markdown uses a bounded first-sentence excerpt of `reason`.
-Optional snapshot `report_translations` is a supported-language-keyed text map, for example
-`{"en": {"航空产品。": "Aviation products."}}`. Keys match original display text exactly;
-values are non-empty authored translations. Supply names, short reasons, theme labels/purposes,
-notes, measurement descriptions and reference descriptions used by the report. The Markdown and
-HTML renderers use this map only for presentation; selection, ticker codes, original research
-and TXT are unchanged.
-Translated member reasons retain the 160-character limit. Missing entries retain the original
-text for older inputs; review language completeness before delivering an English report.
-The map is preserved in universe JSON and covered by `content_hash`.
-Listing checks expire after 30 calendar days; observations dated after the snapshot are refused.
-Ineligible candidates may omit listing facts but must retain their exclusion code and evidence.
+Eligible candidates need a nonempty `reason`, T1/T2 evidence and
+`listing: {status: "active", as_of: ISO date, source: http(s) URL}`. The listing URL must occur
+in strong evidence; observations cannot be future-dated and expire after 30 calendar days.
+Ineligible candidates may omit listing facts but retain exclusion reasons/evidence.
+An active quote does not establish financial quality.
 
-`independence` is measured-only and must be derived from `factor_r2`. In coverage-first builds,
-`BETA_SATELLITE` with `admission.kind: satellite` means a supplementary business/token observation.
-Price `factor_r2`, `beta_strength` and `beta_stability` are optional descriptors, never admission
-floors or capitalization-ranking inputs. Supplied statistics still need valid measured provenance,
-including at least 30 overlapping returns and gauge legs. Liquidity remains required and measured.
-Legacy high-beta roles retain R² >= 30, strength >= 55 (positive beta >= 1.1) and stability >= 50.
+Optional `reason_summary`: nonempty single-line text <=160 characters, preferably <=60 Chinese
+characters; business description without URLs/audit narration. Reports use it, or a bounded
+first-sentence excerpt. Full `reason`/admission/evidence remains authoritative.
 
-`measure` writes per-ticker `measurement_record`: as-of date, source, input SHA-256, actual
-first/last observation dates, factor legs/model and observation counts. It clears old measured
-values on refresh, including values the replacement table cannot supply. Missing required data
-marks the merged snapshot incomplete; notes and coverage persist into the universe JSON.
-Per-ticker missing-factor diagnostics stay in JSON rather than the readable Markdown report.
-`measurement_audit` preserves dated theme fit/fund diagnostics through merge and build.
-Snapshot measurement declarations describe common units; ticker records identify distinct gauges.
-`content_hash` covers the complete output record separately from membership `version_hash`;
-both hashes are required when validating a stored universe. Version 0.3 snapshots need listing
-checks, reasons and measurement records before rebuilding; declared market guidance needs four tiers.
+Optional `report_translations`: supported-language maps of exact source text to nonempty authored
+translations. Include names, summaries, labels/purposes, notes, measurements and references.
+Missing entries preserve original text for compatibility; review English content before delivery.
+Translated summaries retain 160-character limits. Maps affect presentation/content hash, not
+selection, codes or TXT. The CLI does not translate research.
 
-Profiles are `light`, `medium`, `heavy`, `max`. The 0.6 coverage contract defines their
-selection roles and hard ceilings. Historical replay alone retains the former 45% expansion
-and 70% incremental-beta preference. The 1,000-token file limit applies to entities, references
-and headers together.
+Eligible measured candidates require a dated `measurement_record`: source, input SHA-256, actual
+first/last dates, liquidity/factor counts and gauge legs/model. `measure` clears replaced fields,
+including unsupported old scores; missing required data makes the merged snapshot incomplete.
+`measurement_audit` retains theme/fund diagnostics. Missing-factor logs stay in JSON.
 
-Maintenance also accepts `UPDATE_THEME` (`theme`, one or more of `weight`, `theme_name`,
-`purpose`, `representative_roles`, reason, evidence)
-and `REFRESH` (`ticker`, complete `candidate`, reason, evidence). REFRESH preserves ticker,
-asset identity, theme, role and required status and records a fact refresh without membership churn.
-ADD_THEME accepts weight. Hysteresis is a research requirement; the script guarantees turnover
-limits and flip-flop disclosure, not an unimplemented two-snapshot decision rule.
+`independence = 100 - factor_r2` is measured-only. Current coverage Beta uses measured liquidity,
+sourced cap and business complementarity; factor R²/strength/stability are optional, with provenance
+and at least 30 overlapping returns when supplied. Legacy Beta requires R² >=30, strength >=55
+(positive price beta >=1.1), stability >=50. Core/legacy role requirements still apply.
+
+Both `version_hash` and `content_hash` are required for stored validation. Version 0.3 inputs need
+listing, reasons and measurement records before rebuilding. Four current profiles are Light/Medium/
+Heavy/Max. Former 45% growth/70% incremental-beta preference belongs only to archived replay.
+Entities, references and headers together must fit the 1,000-token TradingView file cap.
 
 ## build-spec.json
 
@@ -102,61 +69,38 @@ limits and flip-flop disclosure, not an unimplemented two-snapshot decision rule
 }
 ```
 
-`target_count` may be omitted: the coverage-plan ceiling applies (legacy replay uses policy
-guidance). One market per run. `allow_outside_guidance` only affects legacy replay; it cannot
-bypass economic coverage or raise a coverage-plan ceiling.
+One market per run. Omit `target_count` to use plan budget; it may lower, never raise the ceiling.
+`allow_outside_guidance` affects legacy replay only and cannot bypass economic coverage.
 
 ## Importing an existing watchlist
 
-`import` reads a TradingView `.txt` — comma separated on one line, or one ticker per line — and
-writes a snapshot skeleton. Sections become a draft taxonomy at coverage level 1; a section
-already named in this skill's own format (`00_A_CORE_ASSETS`) keeps its codes, so the output of a
-build round-trips back into an input.
-
-Everything a txt file cannot carry is left empty rather than guessed: `role` is blank, `metrics`
-and `evidence` are empty, every candidate is `eligible: false` with the reason
-`unverifiable_fact: imported from a watchlist, not yet researched`, and `complete` is false. The
-draft will not build until it has been researched, which is the correct behaviour — the import
-saves the transcription, not the work. Tickers that do not match the named market are listed in
-`notes` instead of being dropped.
+`import` accepts comma-separated or one-code-per-line TradingView TXT. Sections become draft
+level-1 themes; native headings such as `00_A_CORE_ASSETS` retain codes. Unmatched market tickers
+enter notes. Candidates have blank role, empty metrics/evidence, `eligible: false`,
+`unverifiable_fact: imported from a watchlist, not yet researched`; `complete: false` blocks build.
 
 ## Checking a theme table
 
-`taxonomy --check FILE --market M [--profile P] [--target N]` reads a bare taxonomy list or
-the `{schema_version, market, taxonomy}` object written by `taxonomy --output`.
-
-Default coverage-first checks structure only (`scope: "display_structure_only"`). Errors are
-malformed/duplicate themes, conflicting parent labels or no Level-1 theme. Warnings identify
-non-ASCII export headers and groups that first appear beyond Light. `stats.capacity[profile]`
-contains the visible theme count and optional informational target. It does **not** infer a
-member floor, economic budget or weighted expected membership from display headings.
-Economic feasibility, duties and merged export capacity are validated at build time against
-`coverage_plan` and researched admissions.
-
-Explicit archived policies additionally check legacy per-theme presence, size guidance,
-weighted concentration and `floor_share`. Those diagnostics never certify the current model.
-Exit 0 with warnings, 2 with errors.
+`taxonomy --check FILE --market M [--profile P] [--target N]` accepts a taxonomy list or
+`{schema_version, market, taxonomy}`. Default `scope: "display_structure_only"` checks duplicate/
+malformed themes, parent-label conflicts and a Level-1 theme. Non-ASCII headers and late-appearing
+groups warn. `stats.capacity[profile]` shows visible themes and optional target, not member floors
+or expected allocations. Build checks economic feasibility/merged export capacity.
+Explicit legacy policies also check theme presence/guidance/concentration/`floor_share`.
+Exit 0 permits warnings; errors exit 2.
 
 ## snapshot.json
 
 ### Theme observation duties
 
-New research tables declare `purpose` (a non-empty sentence explaining the economic variable
-being observed) and `representative_roles` (a non-empty list drawn from `BENCHMARK`, `ANCHOR`,
-`THEME_LEADER`, `QUALITY_LEADER`). In archived selection, at least one eligible member
-with one of these roles must
-represent each reachable theme (an OR condition). Coverage-first protects necessary
-representatives and branch duties declared in `coverage_plan`; a display theme does not
-create another seat floor. Satellites cannot silently replace those required representatives.
-A role declaration needs a purpose. Legacy tables may omit both and retain their old
-coverage checks, with missing duties disclosed in validation statistics/warnings.
+Research themes declare nonempty `purpose` and `representative_roles`, drawn from BENCHMARK/ANCHOR/
+THEME_LEADER/QUALITY_LEADER. Legacy reachable themes need one eligible member with any declared role;
+current builds protect plan branches/representatives, not a floor for every display label.
+A role declaration needs a purpose. Legacy tables can omit both, disclosing missing duties.
 
-`purpose` describes a duty, not a promise about a company's business. Candidate `reason` and
-strong `evidence` must explain why that member serves it. Source classification, liquidity rank
-or low R² alone is not leadership evidence. A duty may have multiple representatives; it does
-not impose a one-leader limit. Both fields survive hashing, rendering and `ADD_THEME`.
-`UPDATE_THEME` may explicitly revise them with reason/evidence; retire an obsolete duty with
-`REMOVE_THEME`, never empty it to conceal a coverage gap.
+Candidate reason/evidence explains the duty; several representatives are allowed. Fields survive
+hashing/rendering/ADD_THEME. UPDATE_THEME revises duties explicitly with evidence; REMOVE_THEME
+retires obsolete duties. Emptying them cannot hide missing coverage.
 
 ```json
 {
@@ -211,9 +155,7 @@ not impose a one-leader limit. Both fields survive hashing, rendering and `ADD_T
 
 ### market_spec
 
-Only for a market this skill does not register. `cn`, `us` and `crypto` carry reviewed rules and
-refuse a declaration; anything else is buildable by researching the same handful of facts a
-registry row would have held:
+Only unregistered markets can declare rules; every registered market rejects overrides.
 
 ```json
 "market_spec": {
@@ -231,81 +173,46 @@ registry row would have held:
 }
 ```
 
-The declaration still requires exactly one of `breadth` or four-tier `guidance` for
-compatibility with archived records. These describe legacy sizing only. Coverage-first always
-sizes from `coverage_plan.budgets`; neither field overrides it. `breadth` scales historical
-60/160/400/580 bases only when an explicit legacy policy is used.
+Require T1/T2 evidence, a supported locale (omission defaults to English), and exactly one legacy
+`breadth` or four-profile `guidance`. These compatibility fields do not override current plan budgets;
+`breadth` scales historical 60/160/400/580 bases only under explicit legacy policy.
 
-The same coverage-plan, admissions, evidence tiers,
-measurement rules, turnover budgets and hashing apply as for a registered market. This
-block is the *only* thing a market gets to decide for itself, which is why it is checked like any
-other researched fact:
-
-- **Strong evidence is required.** A venue code and a symbol shape are easier to invent than a
-  ticker, and a wrong one changes what counts as the same asset for every member at once.
-- **A size is not optional.** The deeper tiers are defined relative to the shallower ones, so
-  a build with no stated Light size would have to invent one — and an invented range reports
-  nothing when a universe comes out the wrong size.
-- **`language` must have a locale.** Omit it for English rather than naming a language this skill
-  cannot write.
-- **It is recorded and hashed.** The universe carries the declaration, `validate` re-resolves the
-  rules from that record rather than from the registry, and `version_hash` covers it — two
-  universes built under different identity rules are not the same universe. A change set may not
-  redeclare it; different rules mean a rebuild.
-- **Every report says so.** A build and every later validation both warn that the rules were
-  declared rather than reviewed, and `.md` carries a `Market rules: declared` line that a
-  registered market never prints.
+The declaration is stored/hashed, re-resolved by validate and disclosed as `Market rules: declared`.
+Changed rules need a rebuild; maintenance cannot redeclare them. General admission, measurement,
+turnover and evidence contracts remain unchanged.
 
 ### measurement
 
-Every metric that appears on any candidate needs a declaration, and a metric with no declaration
-stops the build. `basis` is `measured`, `judged` or `blended`:
+Every supplied metric needs a `method` and `basis`:
 
-- `measured` additionally requires `window` and a `source` URL.
-- `judged` requires only `method`, and is **refused** for `liquidity`, `factor_r2`,
-  `beta_strength` and `beta_stability`. Those are window-dependent statistics: a model that has
-  not run the computation does not have the number, and a filled-in guess is indistinguishable
-  from one that was measured. [measurement.md](measurement.md) is how you compute them.
-- `blended` applies to `quality` alone and requires a `source` for the facts. It is not optional:
-  if any candidate carries `quality_facts` the declaration must say `blended`, and if none does
-  it may not claim otherwise.
+| Basis | Requirements |
+|---|---|
+| `measured` | Window and source URL |
+| `judged` | Method; prohibited for liquidity, factor_r2, beta_strength, beta_stability |
+| `blended` | Quality only, sourced facts; required iff any candidate has `quality_facts` |
 
-This block is the difference between a universe whose numbers can be re-derived and one whose
-numbers merely look quantitative.
+Compute statistics with [measure](measurement.md); never substitute guessed values.
 
 ### metrics
 
-All scores are `0..100`. `factor_r2` is stored as a percentage, and the builder recomputes
-`independence = 100 - factor_r2` from it so the two cannot contradict each other. Unknown metric
-fields are rejected rather than ignored.
+Scores are 0..100; factor_r2 is a percentage. Python derives independence; unknown keys fail.
+`null` means unmeasurable, not poor, and cannot be replaced with a guessed score.
 
-Role-specific requirements the builder enforces:
-
-| Role | Requires |
+| Role | Required metrics |
 |---|---|
-| any non-anchor | `liquidity` |
-| `INDEPENDENT_SENSOR` | `independence >= 50` |
-| legacy `BETA_SATELLITE` | `beta_strength` and `beta_stability`; coverage satellites require measured liquidity, with factor metrics optional |
-| `LIQUIDITY_SENSOR`, `NEW_LISTING` | `heat` |
-| established Crypto core / legacy members | `factor_r2`; coverage satellites may omit factor metrics |
+| Non-anchor | liquidity |
+| INDEPENDENT_SENSOR | independence >=50 |
+| Legacy BETA_SATELLITE | beta_strength/stability; current Beta factors are optional |
+| LIQUIDITY_SENSOR / NEW_LISTING | heat |
+| Established Crypto core / legacy | factor_r2; coverage Beta can omit it |
 
-`null` means not measurable. It is not a bad score, and it must not be replaced by a low one.
-In explicit legacy replay, a member is scored against the **full** weight of its bucket's fields, so an
-absent field costs exactly what it weighs. Renormalizing over the fields that happen to be
-present would make silence profitable — a candidate carrying only `liquidity 0.95` would outrank
-one carrying `0.90 / 0.85 / 0.80 / 0.75` — and the silence is manufactured by the rule above,
-which forbids replacing an unmeasurable number with a guess.
-
-Normalized members retain legacy metadata `scored_on`, `{"present": n, "of": m}`: how many of its bucket's
-weighted fields carried a value. `0.62` from four fields and `0.62` from two are not the same
-claim, and only the second is partly a statement about missing research. Only legacy build reports count partially scored members. Coverage-first selection does not
-use composite scores or interpret absent optional price metrics as incomplete Beta research.
+Legacy composite scores divide by full bucket field weight, including missing fields.
+Normalized members retain `scored_on: {present: n, of: m}`; only legacy reports count partial
+scoring. Current Beta ranks by cap and does not treat missing optional factors as incomplete research.
 
 ### quality_facts
 
-Core requires researched quality; coverage satellites may omit it. Optional `quality_facts`
-retain separately checkable facts and historical blended metadata. The blend ranks only in
-explicit legacy replay, not coverage-first Beta selection.
+Core requires researched `metrics.quality`; satellites may omit it. Optional historical blended facts:
 
 ```json
 "quality_facts": {
@@ -315,78 +222,49 @@ explicit legacy replay, not coverage-first Beta selection.
 }
 ```
 
-The rule half is the mean of the components present, less 25 points per adverse flag, clamped to
-`0..100`. Listing age is banded — five years scores 100, three 85, two 70, one 50, half a year 30,
-anything shorter 10 — because the difference between four and five years of listing is not
-information. `size_rank_pct` is a cross-sectional percentile within the market.
+Require listing age or size percentile; flags alone cannot produce a score. Age bands:
+>=5y:100, >=3y:85, >=2y:70, >=1y:50, >=0.5y:30, shorter:10. Rule score averages present components,
+subtracts 25 per adverse flag and clamps to 0..100. `size_rank_pct` uses a declared market population.
+`metrics.quality` remains separate, with `quality_rule_score`/`quality_score` in normalized records.
+Only legacy selection ranks the blend; validation does not compound it. Missing facts warn.
 
-`adverse_flags` is a closed vocabulary, for the same reason the exclusion codes are. Seven codes
-are universal, because every market states them in some form:
+Universal flag codes:
 
 ```text
-risk_warning   going_concern   regulatory_action   audit_qualification
-monitoring_tag restructuring   loss_making
+risk_warning going_concern regulatory_action audit_qualification
+monitoring_tag restructuring loss_making
 ```
 
-Beyond those, the vocabulary follows the market. A regime issues flags no other regime has, and
-a vocabulary wide enough to cover all of them would be too coarse to record any of them — an ST
-designation is not `risk_warning` in general, and an NT 10-K is not a thing the A-share market
-can have. So each market spec names its own, and they are accepted only in that market:
-
-| Market | Adds |
-|---|---|
-| `cn` | `special_treatment`, `share_pledge_risk`, `exchange_inquiry` |
-| `us` | `late_filing`, `listing_deficiency`, `material_weakness` |
-| `crypto` | `unlock_overhang`, `supply_concentration`, `unaudited_contract` |
-
-What the flag costs does not follow the market: every flag, universal or not, is the same 25
-points. The rule stays one rule; only the vocabulary is local. A flag belonging to another market
-is refused by name — a CN snapshot carrying `late_filing` is not a typo, it is a researcher
-reaching for the wrong regime — and no two markets may claim the same code, because then a count
-in two reports would look comparable when it is not. A declared market may name up to six of its
-own in `market_spec.quality_flags`, may not redefine a universal one, and its codes are part of
-`version_hash`. The report counts the flags it found, translated where a locale knows the code
-and printed as the bare code where it cannot.
-
-The block is optional, and needs at least one of `listing_age_days` or `size_rank_pct` — flags
-alone do not make a score. It does not replace the judged value: `metrics.quality` is still
-required for core and stays in the record exactly as supplied, while the built member carries
-`quality_rule_score` and the blended `quality_score` beside it. Legacy selection reads the blend; the
-inputs stay separable, so re-validating a built universe reaches the same number rather than
-compounding it. A universe where no member carries facts validates, with a warning saying so.
+Market-specific codes are in overlays/registry (CN special_treatment/share_pledge_risk/exchange_inquiry;
+US late_filing/listing_deficiency/material_weakness; Crypto unlock_overhang/supply_concentration/
+unaudited_contract). Wrong-market codes fail; registered markets cannot share local codes.
+A declared market may add <=6 codes, cannot redefine universal ones and hashes them in version_hash.
+Unknown locale translations print bare codes and warn. Every flag has the same 25-point penalty.
 
 ### asset_id
 
-The economic identity, which is not the same as the symbol. Crypto merges a spot pair and its
-perpetual; US can merge two share classes of one company; CN keeps the venue by default, so
-`SSE:000001` and `SZSE:000001` stay distinct. Two candidates sharing an `asset_id` are one
-information source and the second is rejected.
+One economic entity may have several instruments. Crypto merges spot/perpetual, US can merge
+share classes; CN keeps venue (`SSE:000001` differs from `SZSE:000001`). Duplicate asset_ids
+are rejected. Verify actual identity rather than inferring aliases from ticker strings.
 
 ### eligibility
 
-`complete: false` blocks a formal build. An ineligible candidate must carry `exclusion_reasons`,
-which enter the selection audit instead of disappearing. Each reason starts with one of these
-codes, optionally followed by `: detail`:
+`complete: false` blocks formal build. Ineligible candidates retain coded `exclusion_reasons`,
+optionally followed by `: detail`:
 
 ```text
-not_listed            delisted_or_halted      risk_warning_status    wrong_venue
-excluded_instrument_type                      insufficient_liquidity insufficient_history
-redundant_with_member unverifiable_fact       duplicate_asset        other
+not_listed delisted_or_halted risk_warning_status wrong_venue
+excluded_instrument_type insufficient_liquidity insufficient_history
+redundant_with_member unverifiable_fact duplicate_asset other
 ```
 
-The audit also carries reasons the builder writes itself: `outside_profile_coverage`,
-`not_selected_under_budget`, `removed_by_maintenance`.
-
-Counting these is the point of the closed vocabulary, so the `.md` reports and the CLI's JSON line
-both report rejections by code. A universe losing most of its candidates to `unverifiable_fact`
-has a research problem; one losing them to `not_selected_under_budget` has a budget
-problem. Free text cannot tell you which.
+Python also records `outside_profile_coverage`, `not_selected_under_budget`, `removed_by_maintenance`.
+Reports/receipts aggregate codes so research gaps and capacity exclusions remain distinguishable.
 
 ### evidence
 
-Every item needs an `http(s)` URL, an `as_of`, and a `tier` of 1, 2 or 3 (see
-[source-policy.md](source-policy.md)). Evidence older than the policy window, or dated after the
-snapshot, is reported as a warning rather than silently trusted.
+Each item needs an http(s) URL, `as_of` and tier 1/2/3. General evidence freshness warns;
+mandatory listing/admission gates are stricter. [Source policy](source-policy.md).
 
 ## changes.json
 
@@ -414,130 +292,72 @@ snapshot, is reported as a warning rather than silently trusted.
 }
 ```
 
-`measurement` may be omitted, in which case the universe keeps the declarations it already carries.
-Supply it when the method or the window changed.
+Optional measurement declarations retain existing ones when omitted; supply them for changed methods/windows.
+Include `base_content_hash` as well as `base_version_hash` to prevent applying over another fact refresh.
 
 ### Operations
 
-| Op | Fields | Notes |
-|---|---|---|
-| `ADD` | `candidate`, `reason`, `evidence` | `candidate` carries every snapshot candidate field |
-| `REMOVE` | `ticker`, `reason`, `evidence` | Refused for a benchmark, anchor or `required` member |
-| `REPLACE` | `ticker`, `candidate`, `reason`, `evidence` | An anchor may only be replaced by an anchor |
-| `MOVE` | `ticker`, `to_theme` | Re-files a member without changing membership |
-| `ADD_THEME` | `l1_code`, `l1_name`, `theme_code`, `theme_name`, `coverage_level`, `reason`, `evidence` | Its coverage level must be reachable by the current profile |
-| `REMOVE_THEME` | `theme`, `reason`, `evidence` | Refused while the theme still holds members |
-| `NO_CHANGE` | `reason` | A first-class result, recorded in the history |
+| Op | Fields / constraints |
+|---|---|
+| ADD | Complete candidate, reason, evidence |
+| REMOVE | ticker, reason, evidence; protected benchmark/anchor/required members cannot be removed |
+| REPLACE | ticker, complete candidate, reason, evidence; anchor successor must be anchor |
+| MOVE | ticker, to_theme |
+| ADD_THEME | l1_code/name, theme_code/name, reachable coverage_level, reason/evidence; accepts weight and duties |
+| REMOVE_THEME | theme, reason/evidence; empty theme only |
+| UPDATE_THEME | theme, one or more of weight/theme_name/purpose/representative_roles, reason/evidence |
+| REFRESH | ticker, complete candidate, reason/evidence; preserve identity/theme/role/required status |
+| NO_CHANGE | reason; recorded in history |
 
-Operations are applied in a fixed order regardless of how they are listed: `ADD_THEME`, then
-`REMOVE` / `MOVE` / `REPLACE` / `ADD`, then `REMOVE_THEME`. A theme created this round can be
-populated this round, and a theme can only be retired once its members have been placed. Merging
-two themes is `MOVE` plus `REMOVE_THEME`; splitting one is `ADD_THEME` plus `MOVE`.
-
-`ADD`, `REMOVE`, `REPLACE`, `ADD_THEME` and `REMOVE_THEME` all require at least one tier 1 or
-tier 2 evidence item. Market narrative alone cannot admit or remove anything.
+Apply ADD_THEME before member operations, then REMOVE_THEME. Merge using MOVE + REMOVE_THEME;
+split using ADD_THEME + MOVE. ADD/REMOVE/REPLACE/ADD_THEME/REMOVE_THEME require T1/T2 evidence.
+UPDATE_THEME/REFRESH also need strong evidence. Hysteresis is research policy; Python enforces
+turnover/flip-flop disclosure, not a two-snapshot state machine. [Maintenance](maintenance.md).
 
 ## Output
 
-See [output-artifacts.md](output-artifacts.md) for the standard bundle, destination convention,
-receipt and delivery status. The following defines hashing/checkpoint compatibility.
+[Output-artifacts.md](output-artifacts.md) defines bundle formats, paths and status.
+Derived TXT/validation/MD/HTML are script outputs, never hand-edited.
 
 ### Build-run checkpoint
 
-The CLI's `OUTPUT.run/run.json` is `{schema_version: 1, kind: "build_run", inputs, status,
-attempts, resume_command}`. `inputs` stores absolute spec/snapshot/policy/seed/output paths and
-optional language; `attempts` holds numbered receipts with input SHA-256, archived `inputs.json`,
-UTC timestamps, status, diagnostics and output artifact paths when present. Each archived input
-contains the parsed spec/snapshot/resolved policy/seed and language, not executable instructions.
-Statuses are `running`, `needs_research`, `partial`, `complete`. A validated subset remains
-`partial` until it fills the original target in legacy replay. Coverage-first completion instead
-requires quality acceptance, including Max's minimum 30% growth; capacity above the minimum
-may remain unused. See [recovery.md](recovery.md) for continuation and
-exit codes; validation success and requested-size completion are different claims.
+`OUTPUT.run/run.json` is `{schema_version: 1, kind: "build_run", inputs, status, attempts,
+resume_command}`. Inputs store absolute spec/snapshot/policy/seed/output paths and language;
+attempts store numbered receipts, input SHA-256, archived parsed inputs, UTC dates, diagnostics
+and artifact paths. Statuses: running/needs_research/partial/complete.
+Legacy partial stays partial until its target fills; current completion requires coverage and Max
+minimum growth, allowing unused ceiling capacity. [Recovery](recovery.md) defines continuation.
 
-All stemmed `{market}-{profile}-{as_of}` — `crypto-light-2026-09-17.json`, `.validation.json`,
-`.txt`, and one `.md` and `.html` per report language: `.en.md`/`.en.html` always,
-plus `.zh-Hans.md`/`.zh-Hans.html`, `.ja.md`/`.ja.html` and so
-on where the market reads in something else. The watchlist leaves its directory as soon as it is
-useful, so the name has to say which universe and when without the directory around it; the
-reports carry their language for the same reason, and carry it even when there is only one, so
-that `{stem}.en.md` is where the English report lives in all fourteen markets rather than in nine
-of them. The command prints every path it wrote under `artifacts`, with the reports keyed by
-language under `artifacts.reports` (Markdown) and `artifacts.html_reports` (HTML);
-read them from there instead of reconstructing them. HTML is a self-contained, escaped rendering
-of all members/references with the same display groups and short reasons, not a separate selector.
+`artifacts.reports` and `artifacts.html_reports` map languages to actual paths. English is always
+present, with market companions where applicable. The authoritative JSON retains all facts,
+selection audit and history. Content hash covers the full record; current version hash also covers
+plan/admissions, while legacy version hash covers membership/taxonomy without metric drift.
+Skill version is separate; upgrading does not rewrite historical artifacts. Policy_version records
+the producing policy. Changed contracts may require archived replay or renewed research.
 
-The `.json` is the record: spec limits, policy hash, sources, measurement, taxonomy, members, the
-selection audit and the review history. For coverage-first, `version_hash` additionally covers the coverage plan and admissions.
-For legacy replay, `version_hash` covers membership and taxonomy only, so
-re-running with fresher metrics does not churn the version. The TXT, validation and reports are derived from it
-and are never edited by hand.
-
-An explicit legacy build’s `.validation.json` carries `stats.stability` and omits it on re-validation:
-`{shift, draws, survived, of, share}` — how much of the membership two independently perturbed
-re-runs agree on. Answering it needs the whole bench, including the candidates that lost, and the
-universe file keeps only the members and the codes the rest were turned down under. So `validate`
-on a stored file reports no stability rather than a stale one, and a reader has to treat the field
-as absent, not as zero.
-
-`version_hash` is not the skill's release number and does not move with it. The skill is
-versioned in `SKILL.md` so a registry and a git tag have something to point at; a universe is
-versioned by its own content so two files can be compared. Upgrading does not rewrite old artifacts. Changed contracts can require an explicit archived
-policy or renewed research to revalidate them. `policy_version` records the producing policy,
-and `diff` is what answers whether two universes are the same instrument.
+Legacy build-only `stats.stability: {shift, draws, survived, of, share}` needs the full bench;
+stored validation omits it rather than reporting zero or an old result.
 
 ## Comparing two universes
 
-`diff before.json after.json` answers the question a maintenance report cannot: not "what did
-this review change" but "are these two the same instrument at all". Two universes of one market
-built in different sessions, months apart, or by two people.
-
-`market_spec` comes first in the output on purpose. For a declared market the venue list and the
-symbol shape were researched at run time, so a session that researched them differently did not
-build a later version of the same universe — it built something incomparable, and every other
-line of the diff would be misleading.
-
-`identical` is about the instrument: membership, themes, roles and the declared rules. Metric
-drift is reported separately and does not make two universes different, because metrics move on
-every refresh and that is the design working rather than the universe changing. Only the largest
-twenty moves are listed; the tail of a 250-member drift list is noise.
-
-The `.md` is written in the market's own language, because a universe is read by the people who
-trade that market: CN is Simplified Chinese, US and Crypto are English. It is written in English
-too, because a universe is also read by someone allocating across several markets who reads none
-of their languages — the reasons and the evidence are the point of the file, and a table of
-headings they cannot parse withholds exactly that. So both, always; `--language` names the
-companion rather than replacing English, and a market that already reads in English gets one file
-rather than the same file twice. Fixed headings and vocabulary come from locale files, printed
-as `基准 (BENCHMARK)` so the code a reader greps for survives translation. Human content comes
-from the research, with authored `report_translations` for companion languages. Do not label
-Chinese research prose an English report merely because its headings are English.
-`.validation.json` stays English, diagnostics included; it is the machine surface, and its
-messages name policy fields and code paths.
-[markets/adding-a-market.md](markets/adding-a-market.md) carries the language for every
-above-scale market, decided ahead of implementation.
-
-Coverage-first satellite admission requires `market_cap` as specified in [coverage-plan.md](coverage-plan.md): positive sourced equity/native quote-currency capitalization or Crypto circulating USD capitalization, dated within 30 days. FDV is rejected. `quality` is optional for satellites; core still requires it. Ranking uses cap within the fixed distribution, not the legacy composite Beta score.
+`diff before.json after.json` reports rules, membership, themes and roles. Declared market_spec
+differences come first because changed identity rules can make records incomparable.
+`identical` concerns the observation instrument, not metric drift; only the twenty largest metric
+moves are listed. Locales translate fixed labels, authored maps translate content, and validation
+messages remain English.
 
 ## Max shortfall delivery (0.7.1)
 
-`build-spec.shortfall_action` is `auto` (default), `deliver` or `retry`; CLI `--shortfall-action`
-overrides and persists in the checkpoint. Auto/deliver can emit partial only when the sole
-unmet requirement is Max minimum growth, at least one Beta was added, and
-`required_entities - actual_entities <= 0.05 * required_entities`. Deliver cannot waive this
-bound. Retry preserves full-growth requirements and returns diagnostics for an agent repair.
+`build-spec.shortfall_action`: auto (default), deliver or retry. CLI overrides persist on resume.
+Auto/deliver may publish partial only for a growth-only deficit, at least one new Beta, and
+`required_entities - actual_entities <= 0.05 * required_entities`. Retry requires full growth.
 
-A partial universe includes `delivery: {status: "partial", reason: "max_growth_shortfall",
-required_entities: int, shortfall: int, allowed_gap_ratio: 0.05}`. All values are recomputed
-by validation; this field is valid only for an underfilled Max within the bound. Membership,
-listing, identity, measurements, admission, Heavy retention, core coverage and all other caps
-still apply. Partial group ceilings use the original planned addition count
-`required_entities - Heavy_entities`, keeping vacancies instead of transferring seats. Complete
-Max uses actual additions as before. References do not count as growth.
+Partial output adds `delivery: {status: "partial", reason: "max_growth_shortfall",
+required_entities: int, shortfall: int, allowed_gap_ratio: 0.05}`. Validation recomputes values;
+identity/listing/measurement/admission/core/Heavy-retention/cap gates remain mandatory.
+Partial group ceilings use planned additions (`required_entities - Heavy_entities`), keeping
+vacancies. Complete Max uses actual additions. References never count as growth.
 
-Validation has `passed: true` for a contract-valid partial, `qualified: false`, and
-`stats.quality.status: "partial"`. Full qualification remains `qualified: true`. The runner
-returns exit 3/status partial, a continuation, and MD/TXT/JSON filenames ending `-partial`
-before their extension/language. The Markdown and JSON show actual growth, required count
-and shortfall; TXT stays TradingView-compatible and carries partial status in its filename.
-Never change a stored partial to complete by relabeling metadata; rebuild with revised inputs.
+Valid partial: passed true, qualified false, stats.quality.status partial; exit 3 with continuation.
+Stems carry `-partial` before extension/language. Reports/JSON disclose actual growth/required/gap;
+TXT remains importable. Rebuild revised inputs to complete it; metadata relabeling is invalid.

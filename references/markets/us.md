@@ -1,33 +1,10 @@
 # US overlay
 
-Read [equity-common.md](equity-common.md) first: the universe boundary, the fund-versus-
-basket redundancy test, the cash-management exclusion and the rule about regressing
-against the theme rather than the index are the same in every equity market.
+Read [shared equity rules](equity-common.md) first.
 
 ## Universe boundary
 
-- Common stock and the ETFs needed as gauges. Warrants, rights, units, preferred shares and shell
-  SPACs are excluded by default.
-- Confirm the TradingView venue, an active listing and sufficient turnover.
 - Flag ADRs. Never treat two securities of one economic entity as two information sources.
-
-## Build focus
-
-- Light is leader-only; Medium covers most reviewed leaders; Heavy completes all necessary
-  leaders and differentiated peers before a small measured satellite tail. Max adds only
-  qualified satellites to the same Heavy. Use the shared [coverage contract](../coverage-plan.md).
-- Compare at the old Core's observation budget, and reconcile every original instrument.
-  Recent heat, display-theme count and market-cap rank alone cannot define representation.
-- Preserve US-listed foreign businesses when in scope. Review banking business models,
-  underwriting versus brokerage, software functions, drug/device roles, parcel logistics,
-  regulated utilities and consumer formats. Toys/IP do not count as household-care coverage.
-- Measure against the appropriate sector/theme ETF, not SPY; a bad gauge does not justify
-  dropping a necessary representative.
-
-## Cash-management instruments
-
-Money-market, ultra-short and cash-management funds are the ones that win every US liquidity
-ranking and carry no signal. They are excluded by instrument type — see equity-common.md.
 
 ## US economic map
 
@@ -63,14 +40,8 @@ remain excluded; duration, currency and commodity signals require actual observa
 research snapshot, measured statistics, dated listing evidence, reports and script-generated watchlist.
 Read [the scope and limitations](../../examples/README.md) before reusing it.
 
-## Suggested live fields
+## Research fields
 
-- Listing and quote status, 20 / 60-day dollar turnover.
-- Beta, downside beta, R², excess return, volatility and max drawdown against the theme's own ETF.
-- Beta stability across 63 / 126 / 252 days.
-- Sector-appropriate quality fields, not one threshold applied across every industry.
-- Earnings dates, company filings or ETF holdings as evidence.
-
-Public sector classifications routinely place companies with entirely different drivers in one
-bucket. When the classification is ambiguous, map ticker by ticker and record the reason; never let
-a wrong sector label decide the theme.
+Use shared equity fields, SEC/exchange disclosures and current ETF holdings; review US-listed
+foreign businesses, banking models, underwriting/brokerage, software functions, drugs/devices,
+logistics, regulated utilities and consumer formats. Toys/IP are not household-care coverage.

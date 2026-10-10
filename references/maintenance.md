@@ -1,96 +1,39 @@
-# Maintenance contract
+# Maintenance
 
-## Maintenance is not regeneration
+Submit operations against one exact `base_version_hash` and `base_content_hash`; Python applies
+and revalidates them atomically. A hard finding publishes no new universe.
 
-The agent emits operations, never a rewritten universe. The script applies them to one exact
-`base_version_hash`, then revalidates and re-renders. A hard finding produces no new version at
-all — a partially applied universe is worse than an unchanged one.
+## Coverage invariants
 
-Rewriting a full membership list cannot be reviewed: silently dropping twenty names, reordering
-sections or mistyping a venue would all pass unnoticed. Operations can each be checked, rejected
-individually and reversed.
+Build, validation and maintenance share coverage, identity and capacity checks. Necessary leaders
+cannot be removed through local operations. Changes to the plan, references or Core decisions
+require a researched Heavy rebuild and then a new Max. Max preserves its embedded Heavy facts/
+bindings, minimum 30% growth and sector/satellite/entity/export ceilings.
 
-## Coverage-first invariants
-
-Build, validate and maintenance share the same economic-coverage, satellite-share and sector-cap
-checks. Removing a necessary leader or changing an admission cannot bypass the roster. Changes
-to the economic plan or Core migration decisions require a researched rebuild of Heavy; then
-rebuild Max against that Heavy. References are part of that immutable plan, so a reference
-substitution also follows this path. Max maintenance may not change its embedded Heavy's
-facts or bindings, fall below 30% growth relative to Heavy's entity count. Sector, satellite, entity and export ceilings
-still bound expansion; there is no separate percentage growth ceiling.
-The existing operation engine remains for valid local maintenance.
-
-## Three review depths
-
-| depth | Purpose | Turnover warning |
+| Review depth | Scope | Turnover warning |
 |---|---|---:|
-| `routine` | Liveness, venue, liquidity, recent leadership, tactical slots | 5% |
-| `deep` | Taxonomy, sector structure, quality, redundancy, coverage gaps | 10% |
-| `event` | Delisting, merger, regime or theme break with a dated cause | 20% |
+| `routine` | Liveness, venue, liquidity and recent leadership | 5% |
+| `deep` | Economic structure, quality, redundancy and coverage gaps | 10% |
+| `event` | Dated delisting, merger or structural break | 20% |
 
-These are how deep to dig, not calendar periods you must wait for. Exceeding the warning line
-produces a warning; exceeding twice the line is a hard failure. An urgent delisting still needs
-evidence.
+More than twice the warning threshold fails. Review depth is scope, not a required schedule.
 
-## A verdict comes with an operation
+## Research and operations
 
-Judging a theme overweight means issuing `REMOVE` or `MOVE` in the same round. Judging it
-underweight or missing means issuing `ADD` or `ADD_THEME` in the same round. A note that says "to
-be handled in the next deep review" is a verdict nobody owns, and it is the mechanism by which a
-universe quietly rots.
+Prioritize listing/contract/halts, turnover and data completeness, factor statistics, filings/
+protocol disclosures, then news context. Suggested windows: turnover 7/20/30/60 days;
+factors 30/63/90/126/180/252 days. Crypto needs exact venue status and sustained turnover.
 
-The turnover budget is a ranking pressure, not a reason to do nothing: take the highest-information
-changes first, spend the budget, and write the rest into `deferred` with a stated reason so the
-next round inherits them as machine-readable input.
+Act on a supported finding with `ADD`, `REMOVE`, `REPLACE`, `MOVE`, `ADD_THEME`, `REMOVE_THEME`,
+`UPDATE_THEME` or `REFRESH`; place unfunded changes in `deferred` with a reason. `REFRESH` changes
+facts without membership churn. `NO_CHANGE` is appropriate when information gain is insufficient.
+See [operation fields](data-contracts.md#operations).
 
-Restraint applies to chasing heat — do not create a permanent theme out of three months of price —
-not to fixing a known defect.
+Before REMOVE/REPLACE/MOVE, read the theme purpose and explain how observation survives.
+A reachable legacy theme needs a member in its representative roles; current builds protect the
+plan's economic duties. Several complementary core representatives are allowed. Do not empty
+purpose/roles to hide a gap; retire an obsolete theme explicitly after moving/removing its members.
 
-## Live-information priority
-
-1. Listing, contract or spot status, halts, delistings, venue changes.
-2. 7 / 20 / 30 / 60-day turnover and data completeness.
-3. 30 / 63 / 90 / 126 / 180 / 252-day correlation, beta, R² and residual stability.
-4. ETF holdings, company disclosures, protocol and exchange announcements.
-5. Theme heat and news — used to explain priority, never to decide permanent membership alone.
-
-## Low turnover and hysteresis
-
-- A challenger must clearly beat the entry threshold, not merely edge past the incumbent.
-- Incumbents are held to a looser exit threshold.
-- Outside a hard event, a failure should be confirmed by two consecutive snapshots.
-- Re-adding a ticker removed within the last four rounds raises a flip-flop warning.
-- High-value candidates that did not fit this round's budget go into `deferred`.
-- When there is not enough information gain, `NO_CHANGE` is the correct result.
-
-The first three hysteresis bullets are research policy, not a numerical state machine in Python.
-The script enforces turnover budgets and the recorded flip-flop warning.
-
-`REFRESH` updates verified facts without membership churn; `UPDATE_THEME` updates a theme
-weight/name. Both require reason and strong evidence. Supply `base_content_hash` alongside
-`base_version_hash` so a proposal cannot apply over another fact-only refresh.
-
-## Review checklist
-
-- Is every existing member still live, tradable and on the right venue?
-- Is a current theme leader or a genuinely new sector missing?
-- Is a highly redundant member occupying a seat?
-- Do cold sectors and market breadth still have representation?
-- Is every high-beta label still supported by stable beta and R²?
-- For Crypto: is each member still active on its Binance market with sustained turnover?
-- Do tier, theme, role and concentration still match the policy?
-- Has any bucket drifted above its target share? The validator reports this; act on it.
-
-## Preserve observation duties
-
-Read the current taxonomy's `purpose` before proposing REMOVE, REPLACE or MOVE. Explain in the
-operation reason how the remaining/new member preserves the business, supply-chain or gauge
-function. Final validation refuses a reachable theme without a member in its declared
-`representative_roles`, including after maintenance. Several complementary core representatives
-are allowed; this is a coverage floor, not a quota per role or a permanent ticker whitelist.
-
-`UPDATE_THEME` can change purpose or representative roles only as an explicit evidence-backed
-research decision. It cannot clear a duty to conceal a missing representative. Obsolete themes
-use the existing REMOVE_THEME operation after their members have been dealt with. Avoid
-recency-driven replacement; retain NO_CHANGE when incremental information is not established.
+Require a stronger entry case than retention, and normally confirm non-event failures in two
+snapshots. These are research policies, not a Python state machine. Code enforces turnover and
+warns when a ticker returns within four review rounds. News heat alone cannot justify churn.

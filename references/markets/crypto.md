@@ -1,93 +1,50 @@
 # Crypto overlay
 
-## Universe boundary
+## Scope and identity
 
-Declare the user's venues, spot/perpetual preference and quote currency explicitly. Preserve
-an existing multi-venue Core's scope: the bundled fetch adapter covers Binance only, which is
-not a reason to omit OKX incumbents. The registry accepts Binance and OKX USDT spot/perpetual
-symbols; the fetch adapter still covers Binance only. Acquire OKX listing/price evidence
-separately ([instrument API](https://www.okx.com/docs-v5/en/#public-data-rest-api-get-instruments)).
-Registered-market rules cannot be overridden by a snapshot `market_spec`; another venue needs
-a reviewed registry change. Never guess venue syntax or copy Binance facts.
-Resolve asset identity across venues and contract units; choose one instrument per entity.
-Exclude delisted assets and leveraged tokens. Stablecoins are normally excluded as price sensors;
-tokenized gold has a distinct gold-price observation role, not RWA protocol exposure. Record any
-scope exclusion and Core replacement explicitly.
+Declare venues, spot/perpetual preference and quote currency; preserve an existing Core's scope.
+Registry accepts Binance/OKX USDT spot/perpetual symbols. [Fetch](../providers.md) covers Binance;
+[OKX evidence](https://www.okx.com/docs-v5/en/#public-data-rest-api-get-instruments) is acquired separately.
+Other venues require registry review, not a snapshot override. Verify contract units/aliases and
+one instrument per entity; never copy another venue's facts. Exclude delisted/leveraged products.
+Stablecoins normally supply no price signal; tokenized gold observes gold, not RWA protocols.
+Record scope exclusions and Core replacements.
 
-## Economic duties before product tags
+## Economic duties
 
-Use the legacy pool's economic map: core factors; exchange ecosystems; L1, L2, privacy, Bitcoin
-ecosystem and other PoW; payments and RWA; DEX, lending, stablecoin/yield, staking and derivatives;
-oracles and interoperability; AI/identity, agents/information and DePIN; speculative risk appetite.
-The starter is a display map; economic branches and necessary representatives live in the coverage plan.
-Do not collapse lending, DEX and yield into `DEFI`, or oracles and interoperability into `INFRA`.
-Tags discover names; they do not prove business leadership, token economics or independent return
-information. Gaming or another emerging function needs its own researched duty before admission;
-it is neither permanently banned nor parked in an OTHERS group.
+Preserve core factors, exchange ecosystems, L1/L2/privacy/Bitcoin/PoW, payments/RWA, DEX/lending/
+yield/staking/derivatives, oracle/interoperability, AI/identity/agents/DePIN and speculative
+risk appetite. Do not collapse distinct functions into generic DEFI/INFRA or invent OTHERS.
+New functions need researched duties. Tags discover candidates, not leadership/value capture.
 
-BTC/ETH/SOL are common market rulers in `00_A`. BNB, UNI, AAVE and LINK illustrate different
-exchange, exchange-protocol, credit and data-service duties; their roles are researched separately,
-not determined by whichever tag bucket has the highest-turnover token. No ticker is permanently
-exempt from listing, liquidity or factual checks. Several complementary representatives may share
-a theme. Preserve existing user-supplied assignments as dated hypotheses when fresh business
-research is unavailable; do not describe them as newly verified leadership.
+BTC/ETH/SOL are common factors in `00_A`, counted as entities. Exchange, DEX, credit and data
+services need separate representatives. No token is exempt from listing/liquidity checks.
+Risk-appetite anchors can represent speculation without claiming durable utility/revenue.
+Weights reflect functions, not API inventory. Carried assignments remain dated hypotheses.
 
-For core leaders/peers, research these questions. Beta needs only correct business/token identity, complementarity and sourced circulating USD market cap, plus listing and measured-liquidity gates. Price Beta/R²/stability are auxiliary descriptors,
-not hard admission floors; any supplied statistics still require measured provenance:
+Core research covers use/demand, token function/value capture, current evidence, liquidity/supply/
+regulatory risk and surviving coverage. TVL, fees and holder revenue differ; missing revenue is
+unknown. Beta needs broad token identity, named-core complementarity and sourced circulating USD
+cap, plus listing/measured liquidity. Detailed tokenomics is optional; price factors are descriptive.
 
-- What activity or demand does the protocol serve, and what does this ticker observe?
-- What does its token actually do: pay for service, secure the network, govern, or receive value?
-- What current source supports that relationship? TVL, protocol fees and token-holder revenue are
-  different facts. Missing revenue is unknown, not zero and not an invented quality score.
-- What listing, liquidity, unlock/concentration or regulatory risk could impair observation?
-- Which incumbent covers the duty if this member is removed? A low-R² token in the same broad tag
-  does not answer that question.
+Bind evidence to project identity, not symbol: ARC/AI Rig Complex is not Archly, STRK/Starknet
+is not Strike, SONIC/Sonic SVM is not Sonic EVM. Binance's
+[LUNA2 contract underlying is LUNA](https://www.binance.com/en/support/announcement/detail/3b7184c80d544586993045a0e6e36e57),
+not a second entity. Distinguish gaming/launch/application infrastructure and sidechains/rollups.
+Use ecosystem_id/token_role to separate network/gas/governance/asset-backed exposures.
 
-Risk-appetite tokens are explicitly speculative sensors, not quality leaders. A researched
-structural anchor can represent this duty without claiming utility, revenue or durable value.
-Weights reflect importance of the observed functions, not the number of tokens an API returns.
+## Admission and measurements
 
-Bind protocol evidence to the project identity, not only its ticker string. For example, the
-exchange's ARC (AI Rig Complex), STRK (Starknet), and SONIC (Sonic SVM) must not inherit facts
-from Archly, Strike lending, or Sonic EVM merely because a source returns the same symbol.
-Resolve spot/perpetual aliases to one economic asset before measuring and selecting.
-[Binance identifies LUNA as the underlying of LUNA2USDT](https://www.binance.com/en/support/announcement/detail/3b7184c80d544586993045a0e6e36e57);
-these are one asset, not two observations. Gaming,
-launch services and application infrastructure have their own observation duties; do not put
-every exchange AI/RWA tag into a narrow function without business evidence. Scaling ecosystems
-include different security models: a sidechain is not an Ethereum-secured rollup.
+Check sustained 7/30-day quoted turnover, history and venue state; disclose the absolute floor,
+not one 24-hour spike. Fetch's history/30-day floor is an acquisition screen, not order-book or
+protocol due diligence. Research core duties before Beta under the [coverage contract](../coverage-plan.md).
+New/unresolved listings remain deferred; there is no tactical fill budget.
 
-## Admission and extension order
+Use actual `00_A` factors for BTC/ETH/SOL joint R² and beta/stability over documented 30/90/180
+windows. Inspect flat/zero-volume histories and spot/perpetual continuity. Factor fit, residual
+volatility and pairwise overlap do not independently establish usefulness. Verify heat with
+turnover/open interest/events, not price alone. Legacy revenue/float/residual thresholds need
+source definitions and calibration before reuse; never turn missing facts into passing scores.
 
-1. Verify listing, sessions and quoted turnover. Use cross-sectional 7/30-day observations and
-   disclose the actual absolute floor; neither ranking nor a single 24-hour spike is sufficient.
-   `fetch` currently screens 30-day mean turnover and history as documented in providers.md;
-   it does not perform order-book or protocol due diligence.
-2. Preserve market factors and research structural representatives across economic duties.
-3. Light/Medium select researched leaders; Heavy completes every necessary leader and peer,
-   then adds at most 20% measured satellites. Low R² or a provider category is not admission.
-4. Max extends a qualified same-plan Heavy, capped at 35% satellites overall. Compare every
-   increment to named core members and residual peers; do not fill broad meme/gaming buckets.
-5. Use ecosystem_id/token_role to separate network, gas, governance and asset-backed exposures.
-   New listings or unresolved economics remain deferred, without a tactical fill budget.
-
-## Measurements and uncertainty
-
-Measure BTC/ETH/SOL joint factor R² and beta/stability over the documented 30/90/180 windows;
-take factor symbols from the snapshot's `00_A`. Distinguish factor fit, residual volatility and
-pairwise residual overlap: none alone establishes the usefulness of a token. Check histories,
-zero-volume sessions, flat lines and spot/perpetual continuity. Confirm heat through turnover,
-open interest or a verified event, never price change alone.
-
-Do not transplant the old pool's revenue, float or residual thresholds as universal constants.
-First establish source availability, definition, window and calibration. Keep unknown economics
-and unlock checks explicit in notes/deferred research. Never convert missing facts to a passing
-score. This preserves the old pool's liquidity-first and information-density principles while
-keeping selection deterministic and research proportionate to the requested depth.
-
-## Current worked examples
-
-Open [Crypto Medium](../../examples/crypto-medium/build-spec.json) for researched token identity,
-instrument bindings and the shared output contract. Read the dated
-[example limits](../../examples/README.md); do not reuse equity admissions. Max requires a
-qualified Crypto Heavy seed and a sufficient sourced Beta bench.
+[Crypto Medium input](../../examples/crypto-medium/build-spec.json) ·
+[Dated limits](../../examples/README.md). Max requires qualified Crypto Heavy and a sourced Beta bench.

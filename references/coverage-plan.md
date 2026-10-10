@@ -1,12 +1,12 @@
 # Coverage-first research contract (0.6)
 
-Read with [data-contracts.md](data-contracts.md). The default builder requires this plan. It does
-not infer leadership from Core membership, market cap, ANCHOR, provider tags or a high score.
-Historical replay alone uses [the archived policy](../assets/legacy-policy.json).
+The default selector requires this plan and researched admissions. Read with
+[data contracts](data-contracts.md). Core membership, provider tags, size and observation roles
+alone do not establish leadership. [Archived replay](../assets/legacy-policy.json) is separate.
 
 ## Plan before candidates
 
-`snapshot.coverage_plan` is an object with these required fields:
+`snapshot.coverage_plan` requires:
 
 | Field | Shape / meaning |
 |---|---|
@@ -21,34 +21,26 @@ Historical replay alone uses [the archived policy](../assets/legacy-policy.json)
 | `references` | List described below, may be empty; BTC/ETH/SOL are Crypto entities, not references |
 | `display_groups` | Optional four-profile object; rows have constituent `id`, ASCII `name`, disjoint known `themes`, and economic-similarity `reason`; Heavy/Max maps must match |
 
-Economic sectors/branches remain separate from presentation. Merge sparse one/two-entity
-groups with economically adjacent duties for readability, preserving member facts and duties.
-Light/Medium may use broader display groups; Heavy/Max use identical groups. Max follows Heavy
-entity proportions: for total added A and Heavy H, group h can add at most ceil(h*A/H).
-Rounding is the only surplus; split headings cannot create capacity. A branch's `min_profile` is Light,
-Medium or Heavy; when reached, it needs a researched core representative. All roster entries
-must exist as eligible, researched candidates before building the ladder. The budget must fit
-all representatives due at that depth. Do not silently change their tier to fit.
 
-Leader `min_profile` describes the breadth of necessary leaders: Light is concise and leader-only;
-Medium contains at least 70% of the reviewed leader roster; Heavy contains every reviewed leader
-and necessary differentiated peer. Peers enter at Heavy. This denominator is the **declared
-research roster**, not a claim to know every leader in the market. Audit Core blind spots too.
+All branch representatives occur exactly once in the roster and must be eligible, researched
+candidates before building the ladder. Leaders' `min_profile` is Light/Medium/Heavy; peers enter
+Heavy. Branch minimum depth needs a qualified core representative. Budgets/caps must fit every
+representative due at that depth; never shift a tier to fit capacity.
 
-Heavy satellite share is at most 20%, Max at most 35%, measured on selected entities. These
-are transparent initial engineering limits, not empirically optimal market weights. Policy may
-tighten them. Sector caps also bind necessary representatives: an infeasible plan is returned for
-research, never resolved by evicting a leader. Heavy optional allocation uses stable sector weights and existing counts. Max uses Heavy
-group proportions; candidate shortages are research gaps, not permission to overweight another
-group. Stop at the minimum qualified expansion. Recent heat and label weights do not enter.
+Economic branches are independent of display groups. Merge sparse related groups while preserving
+duties/facts; Light/Medium can be broader, Heavy/Max maps must match. Heading splits create no seats.
+Light is leader-only, Medium covers at least 70% of declared leaders, Heavy selects all leaders/peers.
+The roster is a researched denominator, not a market-wide leadership census.
 
-Use roughly comparable Core budgets for the first migration: the supplied review has CN 463,
-US 378 security-layer entries and Crypto 53 asset/tool entries. These are comparison scales,
-not pre-approved counts or an assertion that all entries are distinct verified leaders.
+Heavy optional seats follow stable sector weights; Max follows frozen Heavy group entity proportions.
+For H Heavy entities and A additions, a group with h entities may add at most `ceil(h*A/H)`.
+Only integer rounding creates surplus; shortages cannot transfer seats. Stop at minimum qualified
+expansion. Heavy satellites are at most 20%, Max at most 35%; sector caps also bind protected core.
+These engineering limits are not optimal portfolio weights. Recent heat and display weights do not enter.
 
 ## Candidate admission
 
-Every selected entity keeps the existing candidate contract plus an `admission` object:
+Each selected entity adds this object to the candidate contract:
 
 | Field | Meaning |
 |---|---|
@@ -63,76 +55,51 @@ Every selected entity keeps the existing candidate contract plus an `admission` 
 | `market_cap` | Satellites: `{value, currency, basis, as_of, source}`; positive finite capitalization, equity/native quote currency for stocks, circulating/USD for Crypto (never FDV); within 30 days, matching dated tier 1/2 admission evidence |
 | `distinct_from`, `incremental_value` | Satellites only: nonempty core asset-id list and what is missing without this candidate |
 
-Leaders/peers must carry a compatible core observation role; satellites require
-`BETA_SATELLITE` as the supplementary-business observation role. Price R²/beta/stability
-are optional descriptors, not admission floors; supplied values retain measurement integrity checks.
-Entity liquidity must be measured.
-Unannotated eligible candidates remain a research bench and are audited as unverified admission;
-malformed supplied admissions fail rather than silently passing. Breadth/tactical roles remain
-readable in old records but are not a fallback that fills new production lists.
 
-Evidence validation checks provenance shape and dates; it cannot verify that a cited document
-actually proves a business claim. The agent must read it and compare the candidate against peers.
-Beta research stops after broad business/token identity and complementarity checks plus sourced market cap. Rank eligible Beta by capitalization within the planned distribution; equal caps break ties by ticker. Detailed profitability, tokenomics, supply unlock or revenue analyses are not Beta prerequisites. Core research remains unchanged. For Crypto core representatives, research use, token value capture, supply, liquidity and residual redundancy; a token
-with no holder revenue can still represent a network, but is not a revenue-producing protocol by
-analogy. Old strict new-token thresholds are research context, not universal leader criteria.
+Core admissions need compatible core observation roles; satellites use `BETA_SATELLITE`.
+Entity liquidity is measured. Supplied price R²/beta/stability require valid measurements but
+are optional Beta descriptors, never admission floors. Unannotated candidates remain an unverified
+bench; malformed supplied admissions fail. Legacy breadth/tactical roles cannot fill new lists.
+
+Read evidence and compare core representatives against peers; schema validity does not prove
+leadership. Beta research stops at broad business/token identity, named-core complementarity and
+sourced cap. Rank eligible Beta by cap, ties by ticker; detailed profitability/tokenomics is optional.
+Crypto core research still covers use, token value capture, supply, liquidity and residual redundancy.
+Protocol fees, holder revenue and TVL are different facts; missing revenue does not exclude every network.
 
 ## Reference instruments
 
-Each row: `{id, ticker, theme_code, kind, observes, evidence}`. `kind` is index/yield/fx/commodity/
-etf/spot/future/ratio. Use the exact observed instrument, full venue-prefixed ticker and existing
-display theme. Evidence must verify the instrument and its observation meaning. Do not fabricate
-a trading-volume requirement for a direct yield or index series. For an intentional proxy, add
-`proxy_for` and a nonempty `limitation`; an ETF remains an ETF, never rename it to an index.
-
-References do not consume entity/sector/satellite budgets. They do consume export ticker and
-TradingView token caps, appear in the same script-rendered TXT and are listed in the report.
-Do not use this layer for companies, protocols or otherwise eligible entities to evade ceilings.
+Rows are `{id, ticker, theme_code, kind, observes, evidence}`; kind is
+index/yield/fx/commodity/etf/spot/future/ratio. Verify the exact venue-prefixed instrument and
+observation duty. Proxies add `proxy_for` and `limitation`; never rename an ETF as an index.
+Direct indices/yields need no invented volume. References use export capacity, not entity/sector/
+satellite seats. Companies and protocols cannot be moved here to evade ceilings.
 
 ## Core migration
 
-Start a reproducible queue without guessing identities:
-
 ```bash
-python scripts/universe.py audit-core --watchlist core.txt --universe old-heavy.json \
-  --output core-audit.json
+python scripts/universe.py audit-core --watchlist core.txt --universe old-heavy.json --output core-audit.json
 ```
 
-The audit contains the exact original text/SHA-256, full-code differences and one `pending`
-decision per original symbol. It does not mark a retained code as a verified leader. For the
-researched plan, `baseline` holds `{watchlist, sha256, decisions}`. Each decision holds
-`{ticker, action, reason, evidence}`; retain/replace additionally binds exactly one `asset_id`
-or `reference_id`. Allowed actions: retain/replace/remove/pending. Retain preserves the full
-code; venue or spot/perpetual conversion requires replace and a sourced explanation of identity,
-units and observation changes. Deletion needs a sourced reason and surviving branch coverage.
-Every original symbol must occur exactly once. Pending blocks Heavy/Max; a retained or
-replaced target must actually be selected in Heavy. There is no automatic alias resolution.
+The audit preserves original text/SHA-256, full-code differences and pending decisions. The plan's
+`baseline` is `{watchlist, sha256, decisions}`. Every original code appears exactly once as
+`{ticker, action, reason, evidence}`; retain/replace binds one `asset_id` or `reference_id`.
+Actions: retain/replace/remove/pending. Retain preserves the exact code; venue or spot/perpetual
+conversion requires sourced identity/unit/duty explanation. Removal explains surviving coverage.
+Pending blocks Heavy/Max, and retained/replacement targets must enter Heavy. No automatic aliases.
+Historical Core scales and budget constraints are in [tier profiles](tier-profiles.md).
 
 ## Building and continuing
 
-Default `target_count` is the plan's entity ceiling; a spec can lower it, never expand the plan.
-A qualified result below the ceiling is **complete** with `unused_capacity` only when all gates
-pass, including Max's minimum growth.
-Unresolved backbone, identity or Core decisions are `needs_research` with archived inputs and
-resume command. Repair the failed assertions, remeasure affected candidates, then resume; retain
-successful research instead of restarting a broad screen. Do not spend retries on unchanged input.
+`target_count` defaults to the plan ceiling and may only lower it. Under-ceiling output is complete
+when every gate passes. Missing backbone, identity or Core decisions preserve inputs/checkpoints as
+`needs_research`; repair the facts, remeasure affected candidates and [resume](recovery.md).
 
-Max requires `--seed heavy.json`: same market, source date and complete plan, validated Heavy,
-identical retained member facts/bindings, and only satellites added. With `H` Heavy entities,
-Max needs at least `H + ceil(0.30 * H)` entities. References are excluded.
-An underfilled bench is `needs_research`; preserve inputs, widen research and resume. The
-effective target remains the plan/spec entity ceiling; growth has no separate maximum. Incompatible
-sector, satellite-share or export ceilings cannot be waived to achieve the minimum.
-The embedded `heavy_base`
-allows standalone validate to recheck this without external files. Updating Heavy requires
-rebuilding Max; maintenance cannot silently diverge the pair.
+Max requires qualified `--seed heavy.json`, identical market/date/plan and retained facts/bindings.
+Its embedded `heavy_base` supports standalone validation. Add at least `ceil(0.30*H)` satellites;
+references do not count. Sector/share/export caps still bind; changing Heavy requires rebuilding Max.
+A growth-only gap within 5% of required total entities can be explicit partial, with positive
+Beta growth and frozen planned group quotas. See [delivery](data-contracts.md#max-shortfall-delivery-071).
 
-Legacy `taxonomy --check` remains a display-table compatibility/preflight diagnostic, not the
-0.6 economic feasibility test. Formal build/validate checks the coverage plan instead. Existing
-`measure`, qualification gates, content/version hashes, atomic artifacts and retry receipts remain
-in use. `validate` of a legacy record explicitly discloses the absence of coverage certification.
-
-A small growth-only shortfall may now be delivered as an explicit validated `partial`, never
-complete: gap <=5% of the required total entities, all member/core/identity/evidence and cap
-checks passed, planned group quotas retained. See [delivery contract](data-contracts.md#max-shortfall-delivery-071)
-and [recovery handler](recovery.md). Unmarked or larger shortfalls remain needs_research.
+Legacy `taxonomy --check` is a display preflight, not economic feasibility certification.
+Build/validate check the plan; legacy validation discloses absent coverage certification.

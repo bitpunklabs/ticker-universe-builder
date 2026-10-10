@@ -2,7 +2,7 @@
 
 `liquidity`, `factor_r2`, `beta_strength`, `beta_stability` and derived `independence` cannot be
 judgement scores. Each eligible measured candidate requires a dated `measurement_record`, input
-SHA-256 and source. This is reproducible provenance, not proof against fabricated inputs.
+SHA-256 and source. Provenance does not independently verify inputs.
 
 ```bash
 python scripts/universe.py measure --prices prices.csv \
@@ -36,7 +36,7 @@ At least 30 overlapping returns are required. No overlap/constant gauge produces
 `--benchmark` repeats for an equal-weight daily-rebalanced basket. `--factor-model multivariate`
 fits R² jointly on the individual legs with an intercept; beta strength/stability still describe
 the equal-weight basket. Singular factor matrices produce no score. Crypto should declare its
-actual core anchors as factor legs. These models are different and the record states which ran.
+actual core anchors as factor legs. Records identify the model.
 
 Coverage satellites use price Beta/R²/stability as optional descriptors. Missing factor statistics
 do not block business-complementary admission when listing, measured liquidity, identity and
@@ -75,14 +75,14 @@ Optional `funds` diagnostics compare the equal-weight theme basket with the ETF 
 both; `robust` additionally drops the largest compounded contributor and repeats those checks.
 Missing full horizons produce `measured=false`, never a shortened horizon presented as two years.
 These diagnostics do not remove a fund automatically: coverage, investability and research still
-matter. A daily-rebalanced frictionless basket is a comparison instrument, not a strategy return.
+matter. Basket diagnostics are not strategy returns.
 
 ## Outputs and refresh
 
 A bundle carries `measurement`, per-ticker `metrics`/`records`, `coverage`, `theme_checks`,
 `fund_comparisons` and `notes`. Records name actual first/last bars, factor observation counts,
 liquidity counts, gauge legs/model, cutoff, source and hash of the input file (including any rows
-later excluded by the cutoff). Store the original table locally to reproduce the calculation.
+later excluded by the cutoff). Retain the original table locally.
 
 `--into` replaces every measured field and declaration. Missing replacement data clears stale
 scores rather than retaining them under a new method label. Eligible uncovered candidates mark
