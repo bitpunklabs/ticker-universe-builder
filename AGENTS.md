@@ -17,6 +17,9 @@ Everything below is only the part `SKILL.md` assumes you already know.
   builds, with standard outputs and disclosed research limits. Open the
   matching example, or the closest available one, before writing a snapshot from scratch.
 - **Tests:** `python -m pytest tests -q`.
+- **Documentation:** write project instructions, references and design records in English.
+  Generated market reports retain their supported language companions. Example screenshots
+  are refreshed separately with `examples/render_previews.cjs`; they are static previews.
 
 Hard boundaries, repeated here because they are the ones that matter if you read nothing else:
 

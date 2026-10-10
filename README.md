@@ -7,12 +7,14 @@ reports and TradingView watchlists. Python 3.10+, standard library only.
 [![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](pyproject.toml)
 
-<picture>
-  <source media="(max-width: 600px)" srcset="docs/media/universe-report-mobile.jpg">
-  <img src="docs/media/universe-report.jpg" width="880" alt="US Medium universe: 294 company tickers and 44 references, with four theme excerpts and a short description for every displayed ticker.">
-</picture>
+<a href="examples/us-medium/preview/us-medium-2026-10-08.en.full.jpg">
+  <picture>
+    <source media="(max-width: 600px)" srcset="docs/media/us-medium-preview-mobile.jpg">
+    <img src="docs/media/us-medium-preview.jpg" width="880" alt="Screenshot of the generated US Medium HTML report: 294 tickers, 44 reference instruments, and grouped members with brief business descriptions.">
+  </picture>
+</a>
 
-US Medium report preview · Selected theme excerpts.
+US Medium HTML report · Click the image for the full report screenshot.
 [Read the full report](examples/us-medium/output/us-medium-2026-10-08.en.md) ·
 [Browse all examples](examples/README.md)
 
@@ -146,6 +148,9 @@ Python does not perform that research or weaken gates automatically. See
 ## Examples
 
 Ten [worked examples](examples/README.md) include inputs and script-generated artifacts:
+
+Each example has a clickable HTML screenshot preview beside its report links. The full image
+shows the report with research notes collapsed; download the HTML for selectable text and links.
 
 | Market | Profiles and entity counts |
 |---|---|
