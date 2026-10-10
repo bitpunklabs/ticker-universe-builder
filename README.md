@@ -40,6 +40,11 @@ In Codex, you can prefix the request with `$skill-installer`; see the
 [official installation guide](https://learn.chatgpt.com/docs/build-skills).
 Restart the agent if the installed skill does not appear.
 
+Prefer a versioned download? Get the **Skill ZIP** from
+[GitHub Releases](https://github.com/bitpunklabs/ticker-universe-builder/releases/latest),
+verify it with `SHA256SUMS`, and ask your agent to install the complete extracted folder.
+Worked inputs are included; rebuild their reports with `python examples/build_examples.py`.
+
 Running the skill requires Python 3.10+, with no Python packages to install.
 Fresh research needs internet access; replaying supplied snapshots is offline.
 

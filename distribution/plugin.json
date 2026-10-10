@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "ticker-universe-builder",
-  "version": "0.9.1",
+  "version": "0.9.2",
   "description": "Build and maintain evidence-gated ticker universes and grouped TradingView watchlists.",
   "homepage": "https://github.com/bitpunklabs/ticker-universe-builder",
   "repository": "https://github.com/bitpunklabs/ticker-universe-builder",
@@ -27,7 +27,7 @@
       },
       "publication": {
         "countries": [],
-        "release_notes": "0.9.1: complete offline HTML waterfall reports, brief multilingual reasons, refreshed worked examples and stronger fetch/resume recovery.",
+        "release_notes": "0.9.2: compact installable skill ZIP, SHA-256 checksums, report previews and simpler installation; research inputs and selection rules unchanged.",
         "translations": {
           "zh-CN": {
             "subtitle": "构建可核验的标的观察池",

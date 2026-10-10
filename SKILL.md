@@ -3,7 +3,7 @@ name: ticker-universe-builder
 description: Build and maintain auditable, evidence-gated ticker universes for fourteen markets at four depths, exported as TradingView watchlists. Not stock tips.
 allowed-tools: Read, Write, Bash, WebSearch, WebFetch
 metadata:
-  version: 0.9.1
+  version: 0.9.2
   homepage: https://github.com/bitpunklabs/ticker-universe-builder
   openclaw:
     emoji: "📋"
@@ -25,6 +25,8 @@ the closest worked input and the matching overlay. Max still requires a qualifie
 and report summary first; inspect relevant candidate rows programmatically rather than loading
 multi-megabyte snapshots into model context. Archived replay uses `assets/legacy-policy.json`
 explicitly and does not certify the current coverage contract.
+The compact release ZIP ships worked inputs; run `python examples/build_examples.py` from
+the skill root first if the generated example reports are absent.
 
 ## Route the request
 

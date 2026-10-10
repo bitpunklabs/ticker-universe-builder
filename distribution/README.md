@@ -23,6 +23,17 @@ server errors; the smaller bundle registered successfully. The server cause was 
 
 ## Prepare packages
 
+For a GitHub Release, build the compact skill ZIP and `SHA256SUMS`:
+
+```bash
+python scripts/package_release.py --compact --output temp/release-packages
+```
+
+It preserves all worked inputs byte-for-byte, excludes generated reports/screenshots and
+uses package-specific READMEs. Recreate reports with `python examples/build_examples.py`.
+Publish the ZIP and checksum file; GitHub also supplies the tagged source archives.
+The local receipt records copied and rewritten file hashes and the source commit.
+
 The repository stays a single skill. `plugin.json` is listing metadata; packaging copies the
 same runtime, references and dated worked examples into a skills-only OpenAI plugin.
 There is no MCP server, hosted service or runtime install step.

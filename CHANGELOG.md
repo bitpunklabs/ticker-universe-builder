@@ -3,6 +3,14 @@
 Skill versions identify code/contracts. Universe hashes identify generated artifacts and dated
 research. Untagged development versions below were not separate public releases.
 
+## 0.9.2 — 2026-10-10
+
+- Publish a compact skill ZIP with SHA-256 checksums, complete runtime and all worked inputs;
+  omit generated reports/screenshots and recreate examples offline without altering evidence.
+- Add report previews for every example, responsive README imagery and English documentation.
+- Put agent-assisted installation first; keep terminal installation concise.
+- Research dates, selection rules and existing universe membership remain unchanged.
+
 ## 0.9.1 — ClawHub, 2026-10-09
 
 - Generate complete, self-contained dark HTML reports alongside Markdown in every report

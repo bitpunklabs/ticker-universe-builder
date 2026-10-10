@@ -29,3 +29,24 @@ def test_release_archive(tmp_path):
         assert f"{NAME}/skills/{NAME}/assets/report.css" in archive.namelist()
         assert f"{NAME}/skills/{NAME}/examples/us-medium/snapshot.json" in archive.namelist()
         assert not any("/temp/" in p or "/.git/" in p for p in archive.namelist())
+
+
+def test_compact_release_preserves_inputs_and_checksum(tmp_path):
+    receipt = package(tmp_path, compact=True)
+    assert set(receipt["archives"]) == {"skill"}
+    item = receipt["archives"]["skill"]
+    assert (tmp_path / "SHA256SUMS").read_text() == f"{item['sha256']}  {Path(item['path']).name}\n"
+    with ZipFile(item["path"]) as archive:
+        names = archive.namelist()
+        assert not any("/output/" in p or "/preview/" in p or "/docs/media/" in p for p in names)
+        assert len([p for p in names if p.endswith("/snapshot.json")]) == 7
+        assert len([p for p in names if p.endswith("/build-spec.json")]) == 10
+        for relative, digest in receipt["source_files"].items():
+            data = archive.read(f"{NAME}/{relative}")
+            assert data == (ROOT / relative).read_bytes()
+            assert hashlib.sha256(data).hexdigest() == digest
+        for relative, digest in receipt["rewritten_files"].items():
+            assert hashlib.sha256(archive.read(f"{NAME}/{relative}")).hexdigest() == digest
+        assert f"{NAME}/scripts/universe.py" in names
+        assert f"{NAME}/assets/report.css" in names
+        assert f"{NAME}/examples/build_examples.py" in names
