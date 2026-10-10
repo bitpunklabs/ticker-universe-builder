@@ -7,6 +7,15 @@ reports and TradingView watchlists. Python 3.10+, standard library only.
 [![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](pyproject.toml)
 
+<picture>
+  <source media="(max-width: 600px)" srcset="docs/media/universe-report-mobile.jpg">
+  <img src="docs/media/universe-report.jpg" width="880" alt="US Medium universe: 294 company tickers and 44 references, with four theme excerpts and a short description for every displayed ticker.">
+</picture>
+
+US Medium report preview · Selected theme excerpts.
+[Read the full report](examples/us-medium/output/us-medium-2026-10-08.en.md) ·
+[Browse all examples](examples/README.md)
+
 The agent researches businesses, leaders and supporting evidence. Deterministic Python checks
 contracts, protects economic coverage, selects members and writes versioned artifacts.
 A universe is an observation instrument, not an investment recommendation.
