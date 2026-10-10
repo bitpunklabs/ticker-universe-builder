@@ -7,16 +7,11 @@ reports and TradingView watchlists. Python 3.10+, standard library only.
 [![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](pyproject.toml)
 
-<a href="examples/us-medium/preview/us-medium-2026-10-08.en.full.jpg">
-  <picture>
-    <source media="(max-width: 600px)" srcset="docs/media/us-medium-preview-mobile.jpg">
-    <img src="docs/media/us-medium-preview.jpg" width="880" alt="Screenshot of the generated US Medium HTML report: 294 tickers, 44 reference instruments, and grouped members with brief business descriptions.">
-  </picture>
+<a href="https://github.com/user-attachments/assets/e5f25847-57a2-4c21-b223-60094390366b">
+  <img src="https://github.com/user-attachments/assets/e5f25847-57a2-4c21-b223-60094390366b" width="880" alt="Build a US Light universe with Codex and preview its generated HTML report.">
 </a>
 
-US Medium HTML report · Click the image for the full report screenshot.
-[Read the full report](examples/us-medium/output/us-medium-2026-10-08.en.md) ·
-[Browse all examples](examples/README.md)
+Build a ticker universe with Codex, then explore the generated report. Click to view the full-size demo.
 
 The agent researches businesses, leaders and supporting evidence. Deterministic Python checks
 contracts, protects economic coverage, selects members and writes versioned artifacts.
@@ -152,6 +147,17 @@ Python does not perform that research or weaken gates automatically. See
 [output artifacts](references/output-artifacts.md) and [recovery](references/recovery.md).
 
 ## Examples
+
+<a href="examples/us-medium/preview/us-medium-2026-10-08.en.full.jpg">
+  <picture>
+    <source media="(max-width: 600px)" srcset="docs/media/us-medium-preview-mobile.jpg">
+    <img src="docs/media/us-medium-preview.jpg" width="880" alt="Screenshot of the generated US Medium HTML report: 294 tickers, 44 reference instruments, and grouped members with brief business descriptions.">
+  </picture>
+</a>
+
+US Medium HTML report · Click the image for the full report screenshot.
+[Read the full report](examples/us-medium/output/us-medium-2026-10-08.en.md) ·
+[Browse all examples](examples/README.md)
 
 Ten [worked examples](examples/README.md) include inputs and script-generated artifacts:
 

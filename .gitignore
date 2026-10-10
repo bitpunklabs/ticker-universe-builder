@@ -13,6 +13,9 @@ venv/
 # OS
 .DS_Store
 
+# README demo is hosted as a GitHub attachment; retain the local recording.
+/docs/media/Cap 2026-10-10 at 19.19.06.gif
+
 # Build output written by scripts/universe.py --output
 output/
 
