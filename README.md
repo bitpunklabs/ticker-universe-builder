@@ -24,53 +24,54 @@ A universe is an observation instrument, not an investment recommendation.
 
 ## Install
 
-Codex needs access to a shell with Python 3.10+. Fresh market research also needs access to
-credible public sources; rebuilding a supplied snapshot is offline.
+**Ask your agent to install it — no terminal commands needed.** In Codex, Claude Code or
+OpenClaw with file and command access, paste:
 
-Choose one installation scope:
+```text
+Install ticker-universe-builder from:
+https://github.com/bitpunklabs/ticker-universe-builder
 
-```bash
-# Codex: available across your projects
-git clone https://github.com/bitpunklabs/ticker-universe-builder.git \
-  ~/.agents/skills/ticker-universe-builder
-
-# Or install inside one project, from that project's root
-git clone https://github.com/bitpunklabs/ticker-universe-builder.git \
-  .agents/skills/ticker-universe-builder
+SKILL.md is at the repository root. Install the complete skill and its
+resources in this agent's personal skills directory. Check Python 3.10+
+is available and confirm the skill is discoverable.
 ```
 
-Invoke `$ticker-universe-builder` or select it through `/skills`. Codex also discovers relevant
-skills from their descriptions. Restart if a newly installed skill is absent. See
-[official Codex skill documentation](https://learn.chatgpt.com/docs/build-skills).
+In Codex, you can prefix the request with `$skill-installer`; see the
+[official installation guide](https://learn.chatgpt.com/docs/build-skills).
+Restart the agent if the installed skill does not appear.
 
-`main` tracks development. For reproducible deployments, pin a reviewed commit or published
-release tag; the version in `SKILL.md` does not by itself mean a registry release exists.
+Running the skill requires Python 3.10+, with no Python packages to install.
+Fresh research needs internet access; replaying supplied snapshots is offline.
 
-Other hosts can use the same directory:
+<details>
+<summary>Terminal installation</summary>
 
-- **Claude Code:** clone into `~/.claude/skills/ticker-universe-builder` or project-local
-  `.claude/skills/ticker-universe-builder`.
-- **OpenClaw:** clone into `~/.openclaw/workspace/skills/ticker-universe-builder`.
-- **Other agents:** load [SKILL.md](SKILL.md) and provide file, shell and research tools.
+For Codex, install across your projects:
 
-Or use [skills.sh](https://skills.sh/bitpunklabs/ticker-universe-builder/ticker-universe-builder)
-to configure a project for Claude Code and Cursor:
+```bash
+git clone https://github.com/bitpunklabs/ticker-universe-builder.git \
+  ~/.agents/skills/ticker-universe-builder
+```
+
+For Codex, Claude Code or Cursor, use [skills.sh](https://skills.sh/bitpunklabs/ticker-universe-builder/ticker-universe-builder)
+and select your agent when prompted (requires Node.js):
 
 ```bash
 npx skills add bitpunklabs/ticker-universe-builder \
-  --skill ticker-universe-builder --agent claude-code cursor
+  --skill ticker-universe-builder --global
 ```
 
-[ClawHub](https://clawhub.ai/bitpunklabs/skills/ticker-universe-builder) hosts version `0.9.1`
-under MIT-0; GitHub remains MIT. Verify and install the exact registry version:
+For OpenClaw, install from [ClawHub](https://clawhub.ai/bitpunklabs/skills/ticker-universe-builder):
 
 ```bash
-clawhub skill verify @bitpunklabs/ticker-universe-builder --version 0.9.1
-clawhub install @bitpunklabs/ticker-universe-builder --version 0.9.1
+openclaw skills install @bitpunklabs/ticker-universe-builder --global
 ```
 
-The ClawHub package includes all worked inputs; run `python examples/build_examples.py`
-inside the installed skill to recreate the dated example reports. [Distribution details](distribution/README.md).
+GitHub `main` tracks development; pin a reviewed commit or release for reproducibility.
+ClawHub uses MIT-0; GitHub uses MIT.
+See [distribution details](distribution/README.md) for verification and package contents.
+
+</details>
 
 ## Use
 
