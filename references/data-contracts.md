@@ -340,6 +340,10 @@ stored validation omits it rather than reporting zero or an old result.
 
 ## Comparing two universes
 
+Global compositions use a separate [Global input/output contract](global.md), preserving qualified
+native universes rather than declaring a new market. Their expected coverage contract, source
+hashes, identity mapping, ETF observations and TXT views are independently revalidated.
+
 `diff before.json after.json` reports rules, membership, themes and roles. Declared market_spec
 differences come first because changed identity rules can make records incomparable.
 `identical` concerns the observation instrument, not metric drift; only the twenty largest metric

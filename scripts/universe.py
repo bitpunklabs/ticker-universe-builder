@@ -9,6 +9,9 @@
     python scripts/universe.py diff     before.json after.json
     python scripts/universe.py evaluate --universe U --prices P [--benchmark B]
     python scripts/universe.py validate universe.json
+    python scripts/universe.py compose-global --spec S --contract C --output DIR
+    python scripts/universe.py validate-global global.json --contract C
+    python scripts/universe.py check-watchlist list.txt [--ticker-only]
 
 Build exits 0 when coverage is qualified (unused capacity allowed), 2 for blocked research,
 and 3 for an explicit partial delivery. Checkpoints preserve attempts; invalid universes
@@ -27,6 +30,7 @@ from typing import Any
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import evaluate_core  # noqa: E402
+import global_core  # noqa: E402
 import measure_core  # noqa: E402
 import provider_core  # noqa: E402
 from build_run import run_build  # noqa: E402
@@ -194,6 +198,37 @@ def validate(args: argparse.Namespace) -> int:
     return 0 if report["passed"] else 2
 
 
+def compose_global(args: argparse.Namespace) -> int:
+    try:
+        receipt = global_core.compose(
+            args.spec, args.contract, args.output, load_policy(args.policy)
+        )
+    except (OSError, ValueError, TypeError, KeyError, AttributeError) as exc:
+        raise UniverseError(f"Global research/input error: {exc}") from exc
+    print(json.dumps(receipt, ensure_ascii=False, indent=2))
+    return 0
+
+
+def validate_global(args: argparse.Namespace) -> int:
+    checked = global_core.validate(args.universe, args.contract, load_policy(args.policy))
+    print(json.dumps(checked, ensure_ascii=False, indent=2))
+    return 0 if checked["passed"] else 2
+
+
+def check_watchlist_command(args: argparse.Namespace) -> int:
+    from watchlist_core import check_watchlist
+    try:
+        path = Path(args.watchlist)
+        if path.suffix.lower() != ".txt":
+            raise UniverseError("TradingView watchlist must have a .txt extension")
+        result = check_watchlist(path.read_bytes().decode("utf-8"),
+                                 ticker_only=args.ticker_only, cap=args.cap)
+    except (OSError, UnicodeError) as exc:
+        raise UniverseError(f"cannot read watchlist: {exc}") from exc
+    print(json.dumps(result, ensure_ascii=False, indent=2))
+    return 0 if result["passed"] else 2
+
+
 def _paths(value: Any) -> Any:
     """Paths as strings; Markdown and HTML reports are language → path maps."""
     if isinstance(value, dict):
@@ -331,6 +366,33 @@ def parser() -> argparse.ArgumentParser:
     check = sub.add_parser("validate", help="validate a standalone universe.json")
     check.add_argument("universe", help="universe.json")
     check.set_defaults(handler=validate)
+
+    global_build = sub.add_parser("compose-global", help="compose an evidence-gated Global view")
+    global_build.add_argument("--spec", required=True)
+    global_build.add_argument(
+        "--contract", required=True, help="independent frozen coverage contract"
+    )
+    global_build.add_argument(
+        "--output", required=True, help="new, empty portable bundle directory"
+    )
+    global_build.set_defaults(handler=compose_global)
+
+    global_check = sub.add_parser(
+        "validate-global", help="revalidate sources, contract and TXT views"
+    )
+    global_check.add_argument("universe")
+    global_check.add_argument(
+        "--contract", required=True, help="caller's expected coverage contract"
+    )
+    global_check.set_defaults(handler=validate_global)
+
+    watchlist_check = sub.add_parser("check-watchlist", help="strict TradingView TXT format checks")
+    watchlist_check.add_argument("watchlist")
+    watchlist_check.add_argument("--ticker-only", action="store_true")
+    watchlist_check.add_argument(
+        "--cap", type=int, default=1000, help="symbols plus section headers"
+    )
+    watchlist_check.set_defaults(handler=check_watchlist_command)
     return value
 
 

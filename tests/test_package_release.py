@@ -2,6 +2,7 @@
 
 import hashlib
 import json
+import subprocess
 import sys
 from pathlib import Path
 from zipfile import ZipFile
@@ -50,3 +51,24 @@ def test_compact_release_preserves_inputs_and_checksum(tmp_path):
         assert f"{NAME}/scripts/universe.py" in names
         assert f"{NAME}/assets/report.css" in names
         assert f"{NAME}/examples/build_examples.py" in names
+
+
+def test_compact_package_contains_runnable_global_mode(tmp_path):
+    receipt = package(tmp_path / "package", compact=True)
+    with ZipFile(receipt["archives"]["skill"]["path"]) as archive:
+        for name in [
+            "scripts/global_core.py",
+            "scripts/watchlist_core.py",
+            "references/global.md",
+            "examples/global/build_example.py",
+            "examples/global/reference-catalog.json",
+        ]:
+            assert f"{NAME}/{name}" in archive.namelist()
+        archive.extractall(tmp_path / "installed")
+    result = subprocess.run(
+        [sys.executable, str(tmp_path / "installed" / NAME / "scripts/universe.py"), "--help"],
+        capture_output=True,
+        text=True,
+    )
+    assert result.returncode == 0, result.stderr
+    assert "compose-global" in result.stdout and "check-watchlist" in result.stdout

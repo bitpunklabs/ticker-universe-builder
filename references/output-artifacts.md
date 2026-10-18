@@ -1,5 +1,8 @@
 # Standard output and delivery
 
+For cross-market selections, use the separate [Global bundle and TXT contract](global.md).
+The native-market artifacts below retain their existing names and behavior.
+
 Pass `--output DIR` explicitly; the CLI has no default. If unspecified by the user, the agent
 uses an absolute `ticker-universes/<market>/<profile>/<as_of>/` in the user's project, outside
 installed skills. Revisions require a new empty directory; existing artifacts are not overwritten.
