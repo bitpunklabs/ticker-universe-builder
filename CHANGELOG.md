@@ -3,6 +3,14 @@
 Skill versions identify code/contracts; universe hashes identify dated artifacts.
 Development versions below were not separate public releases.
 
+## 0.11.1 — 2026-10-19
+
+- Document complementary Global scope: audit native ticker/issuer overlap, preserve major
+  home-market indices and exceptional franchises, and record scope changes before selection.
+- Default maintained human Global/Core watchlists to the generated thematic TXT view;
+  preserve ticker-only bundle companions, exact view/hash registration and all validation gates.
+- Existing native selection, Global/Core runtime contracts and frozen bundles remain compatible.
+
 ## 0.11.0 — 2026-10-18
 
 - Reviewed Global Core composition and independent validation against exact qualified parent

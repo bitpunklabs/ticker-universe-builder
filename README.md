@@ -82,11 +82,16 @@ sector/group distribution. Price beta is descriptive. [Selection rules](referenc
 Global compositions have a separate [research and validation contract](references/global.md):
 qualified native sources, verified references, issuer deduplication, ETF quality/overlap and frozen
 geographic/theme duties. They export one ticker-only TXT plus two equivalent grouped views.
+Maintained human watchlists default to the thematic view, with the exact view and hash pinned
+in the current registry. Global can explicitly complement existing native lists: retain major
+indices and exceptional franchises while auditing issuer overlap and prioritizing international
+observation. Scope changes must be reviewed before selection; Core inherits the revised parent.
 Try the [bounded five-market pilot](examples/global/README.md); it is dated research, not a full
 worldwide screen. `check-watchlist` validates the strict TradingView export syntax independently.
 The [Global Core workflow](references/global-core.md) produces a reviewed strict subset, preserves
-all market/theme/child duties and pins its qualified Global parent. Both main TXT files contain
-tickers only; complete reviews explain the difference without treating market cap as a hard gate.
+all market/theme/child duties and pins its qualified Global parent. Complete reviews explain
+the difference without treating market cap as a hard gate; grouped and ticker-only views use
+the same members.
 
 ## Output
 
