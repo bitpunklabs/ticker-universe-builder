@@ -3,7 +3,7 @@ name: ticker-universe-builder
 description: Build evidence-gated native and Global/Core ticker universes, with audited coverage and validated TradingView TXT exports. Not stock tips.
 allowed-tools: Read, Write, Bash, WebSearch, WebFetch
 metadata:
-  version: 0.11.1
+  version: 0.12.0
   homepage: https://github.com/bitpunklabs/ticker-universe-builder
   openclaw:
     emoji: "📋"
@@ -116,6 +116,13 @@ shows no useful change. Failed validation publishes no new universe. Plan/refere
 require rebuilding Heavy and then Max. Use forward-window `evaluate` before proposing changes
 when a wider price table is available; it measures observation coverage, not portfolio returns.
 
+When full and Core converge, review primary anchors versus additional representatives before
+adding names. Preserve original category headings; normally start Core with one primary leader,
+adding genuine important complements rather than automatic second/third seats. Full-only status
+does not demote a qualified leader to Beta or establish failed quality. Record omitted subfunctions
+explicitly and preserve the complete migration audit. Compare company/entity counts separately
+from the common index/reference base; no fixed Core/full ratio is a quality gate.
+
 ## Global compositions
 
 For Global requests, read [Global](references/global.md) and its worked input. Freeze separate
@@ -141,11 +148,16 @@ the destination basename. Failed gates publish no watchlist. Declare pilot/synth
 scope, dated evidence and unverified TradingView UI import explicitly.
 
 Global Core requires the [complete Core review](references/global-core.md), not a top-cap filter.
-Review every parent ticker and theme; preserve every parent market/child duty and qualified
-ETF gate. Prefer business relevance and genuine leadership before size/profit: an adjacent
+Review every parent ticker and theme; preserve every market/theme group and qualified ETF gate.
+Default to all parent duties. When the user requests focused Core, use the complete optional
+coverage-decision ledger to assign non-leader operating depth to full only; market, leader,
+index and context duties and all retained minima stay binding. Never claim those omitted
+functions as Core coverage. Prefer business relevance and genuine leadership before size/profit: an adjacent
 advertising business cannot alone replace content/platform coverage. Concentrated franchises
 favor leaders; dispersed functions favor credible baskets and essential distinct leaders.
-Counts are guidance, not quotas. Explain omissions with surviving coverage; verify holdings
+Counts are guidance, not quotas. Review essential reference protection individually; do not freeze
+every parent ETF when a retained index serves the same Core observation. Explain omissions with
+surviving Core coverage and explicit full-only depth; verify holdings
 when a basket is used to retain an omitted company's exposure.
 
 Use `compose-global-core --parent G --parent-contract C --contract R --output DIR`, then

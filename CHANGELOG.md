@@ -3,6 +3,15 @@
 Skill versions identify code/contracts; universe hashes identify dated artifacts.
 Development versions below were not separate public releases.
 
+## 0.12.0 — 2026-10-19
+
+- Explicit focused Global Core reviews: audit every parent duty, retain all market/theme groups
+  and protected leader/index/context minima, and name permitted full-only operating depth.
+- Preserve exact parent facts while trimming only reviewed duty claims; independent validation
+  and reports distinguish focused scope from complete parent-duty inheritance.
+- Refine Core selection guidance, individual reference protection, category preservation and
+  full/Core comparisons; existing complete-inheritance bundles remain compatible.
+
 ## 0.11.1 — 2026-10-19
 
 - Document complementary Global scope: audit native ticker/issuer overlap, preserve major

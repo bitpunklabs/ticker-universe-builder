@@ -345,7 +345,9 @@ native universes rather than declaring a new market. Their expected coverage con
 hashes, identity mapping, ETF observations and TXT views are independently revalidated.
 [Global Core](global-core.md#core-review-contract) adds a complete parent-ticker/theme review,
 pinned parent file hashes, protected tickers and evidenced surviving coverage. Its complete
-parent contract and source qualification remain binding.
+parent contract and source qualification remain binding. An optional complete Core
+`coverage_decisions` ledger can explicitly leave permitted non-leader operating depth in full;
+market/theme groups, protected minima, required tickers, facts and ETF gates remain binding.
 
 `diff before.json after.json` reports rules, membership, themes and roles. Declared market_spec
 differences come first because changed identity rules can make records incomparable.

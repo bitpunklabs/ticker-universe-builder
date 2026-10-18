@@ -4,8 +4,8 @@ Use this mode for a researched Global selection across native-market universes a
 index/ETF references. It is a separate composition, not a fifteenth market or another depth.
 Read [data contracts](data-contracts.md), [source policy](source-policy.md) and the closest
 [worked input](../examples/global/README.md). [Implementation design](../docs/design/0.10.0-global.md).
-For the smaller reviewed companion, use [Global Core](global-core.md); it preserves the full
-parent coverage denominator and adds a complete retain/omit review rather than a new market.
+For the smaller reviewed companion, use [Global Core](global-core.md); it preserves the parent
+market/theme map and adds complete member reviews, with optional explicit full-only operating depth.
 
 ## Research before composition
 
@@ -24,7 +24,8 @@ world franchises, while prioritizing incremental international businesses and cr
 An ETF's listing venue is not its holdings geography. Record any retired/reassigned child duties
 in a scope-review ledger before selecting a new parent; preserve every original source-theme
 disposition. Detailed native duties can remain native responsibilities without being claimed as
-Global coverage. Core must then preserve every duty of the revised qualified parent.
+Global coverage. Core normally preserves every parent duty; an explicitly requested focused
+review can assign permitted operating depth to full only under the separate Core contract.
 
 Concentrated businesses often warrant leaders first; dispersed industries may warrant a basket
 and essential differentiated leaders. A fund name is not holdings evidence. Preserve financial,

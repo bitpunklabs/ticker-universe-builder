@@ -89,7 +89,8 @@ observation. Scope changes must be reviewed before selection; Core inherits the 
 Try the [bounded five-market pilot](examples/global/README.md); it is dated research, not a full
 worldwide screen. `check-watchlist` validates the strict TradingView export syntax independently.
 The [Global Core workflow](references/global-core.md) produces a reviewed strict subset, preserves
-all market/theme/child duties and pins its qualified Global parent. Complete reviews explain
+all market/theme groups and pins its qualified Global parent. Complete inheritance is the default;
+a requested focused view audits every detailed function left exclusively in full. Complete reviews explain
 the difference without treating market cap as a hard gate; grouped and ticker-only views use
 the same members.
 
