@@ -10,3 +10,7 @@ Read [SKILL.md](SKILL.md) first. This repository contains one skill: **ticker-un
   Refresh static screenshots separately with `examples/render_previews.cjs`.
 - Never invent facts or sources, hand-write final watchlists, or weaken validation.
 - No return guarantees, allocations, order instructions or trade execution.
+
+For work inside `my-universe-maintenance/`, read its `maintenance/AGENTS.md` and
+`maintenance/README.md` first. Its root contains current TXT exports only; dated releases,
+maintenance records and development history belong in their respective subfolders.

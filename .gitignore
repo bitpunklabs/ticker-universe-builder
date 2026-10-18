@@ -25,3 +25,5 @@ temp/
 
 # uv writes this even for a repo with no [project] table and no dependencies.
 uv.lock
+
+/my-universe-maintenance/
