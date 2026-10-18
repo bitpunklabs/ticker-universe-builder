@@ -1,18 +1,23 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "ticker-universe-builder",
-  "version": "0.9.2",
-  "description": "Build and maintain evidence-gated ticker universes and grouped TradingView watchlists.",
+  "version": "0.10.0",
+  "description": "Build evidence-gated native and Global ticker universes with validated TradingView exports.",
   "homepage": "https://github.com/bitpunklabs/ticker-universe-builder",
   "repository": "https://github.com/bitpunklabs/ticker-universe-builder",
   "license": "MIT",
-  "keywords": ["research", "finance", "tradingview", "watchlist"],
+  "keywords": [
+    "research",
+    "finance",
+    "tradingview",
+    "watchlist"
+  ],
   "extensions": {
     "com.openai": {
       "interface": {
         "displayName": "Ticker Universe Builder",
         "shortDescription": "Build auditable watchlists",
-        "longDescription": "Build or maintain a grouped ticker universe for one market at a time. Covers fourteen reviewed markets and four depths: Light, Medium, Heavy and Max. The agent researches business leadership, economic coverage and sourced supplementary Beta; Python validates evidence contracts, selects members and writes TradingView TXT, readable Markdown, a complete offline HTML report, authoritative JSON and validation JSON. Max expands a qualified Heavy while preserving its theme proportions. Incomplete research is diagnosed and saved for continuation, with small count-only gaps explicitly disclosed as partial. Requires a host with Python 3.10+ and filesystem/command access; current builds also require online research and dated market data. Uses the Python standard library, without a hosted service or required API key. Examples are dated research replays. Produces an observation instrument, without return guarantees, portfolio allocations, order instructions or trade execution.",
+        "longDescription": "Compose audited Global observations from qualified native-market universes and verified references, or build and maintain fourteen native markets at four depths. Research issuer identities, ETF quality, economic coverage and dated measurements. Python validates contracts and writes portable JSON, TradingView TXT, Markdown and HTML. Global validation checks independent coverage duties, exact source hashes, issuer duplicates and ETF evidence. Pilot scope and source cutoffs remain explicit. Standard library, Python 3.10+, no service or required API key. No return guarantees, allocations or trade execution.",
         "category": "Productivity",
         "capabilities": [],
         "websiteURL": "https://github.com/bitpunklabs/ticker-universe-builder",
@@ -20,14 +25,15 @@
         "defaultPrompt": [
           "Build a US Medium ticker universe using current online evidence, with HTML, Markdown and TradingView exports.",
           "Maintain my existing ticker universe and explain additions, removals and unresolved research.",
-          "Expand my qualified Heavy universe to Max with sourced Beta while preserving its theme distribution."
+          "Expand my qualified Heavy universe to Max with sourced Beta while preserving its theme distribution.",
+          "Compose a researched Global universe with issuer deduplication, ETF quality and TradingView TXT exports."
         ],
         "composerIcon": "./assets/icon.png",
         "logo": "./assets/icon.png"
       },
       "publication": {
         "countries": [],
-        "release_notes": "0.9.2: compact installable skill ZIP, SHA-256 checksums, report previews and simpler installation; research inputs and selection rules unchanged.",
+        "release_notes": "0.10.0: audited Global compositions, ETF evidence gates and strict TradingView TXT validation.",
         "translations": {
           "zh-CN": {
             "subtitle": "构建可核验的标的观察池",

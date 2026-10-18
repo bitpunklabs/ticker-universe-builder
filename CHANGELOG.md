@@ -3,6 +3,16 @@
 Skill versions identify code/contracts; universe hashes identify dated artifacts.
 Development versions below were not separate public releases.
 
+## 0.10.0 — 2026-10-18
+
+- Audited Global composition mode with independently pinned coverage contracts, qualified
+  native sources, reference catalogs, issuer identities and complete source-theme dispositions.
+- Dated ETF floors, recomputed 30-session turnover, full-holdings overlap and duplicate-wrapper
+  rejection; separate pilot/synthetic scope from worldwide research completion.
+- Strict TradingView TXT checker and atomic portable Global bundles with ticker-only,
+  thematic and economic-market views; independent source and export revalidation.
+- Single-market selection rules and the approved personal r6 universe remain unchanged.
+
 ## 0.9.2 — 2026-10-10
 
 - Compact installable Skill ZIP, SHA-256 checksums and byte-preserved worked inputs.

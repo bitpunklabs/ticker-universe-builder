@@ -1,9 +1,9 @@
 ---
 name: ticker-universe-builder
-description: Build and maintain auditable, evidence-gated ticker universes for fourteen markets at four depths, exported as TradingView watchlists. Not stock tips.
+description: Build evidence-gated ticker universes for fourteen markets or audited Global compositions, with validated TradingView TXT exports. Not stock tips.
 allowed-tools: Read, Write, Bash, WebSearch, WebFetch
 metadata:
-  version: 0.9.2
+  version: 0.10.0
   homepage: https://github.com/bitpunklabs/ticker-universe-builder
   openclaw:
     emoji: "📋"
@@ -12,8 +12,9 @@ metadata:
 
 # Ticker Universe Builder
 
-Research one market at a time. The agent supplies sourced facts and judgements;
-Python validates, selects, hashes and renders. Run commands from the skill root.
+Research native markets individually; compose Global views from validated sources. The agent
+supplies sourced facts and judgements; Python validates, selects, hashes and renders.
+Run commands from the skill root.
 
 ## Route the request
 
@@ -24,6 +25,7 @@ inspect relevant snapshot rows programmatically. Compact ZIPs omit reports: recr
 | Task | Read |
 |---|---|
 | New build | [Methodology](references/methodology.md), [depths](references/tier-profiles.md), [coverage plan](references/coverage-plan.md) |
+| Global universe | [Global research, identity, coverage and export contract](references/global.md) |
 | Market rules | `references/markets/<market>.md`; equities also read [shared rules](references/markets/equity-common.md) |
 | Write input JSON | [Data contracts](references/data-contracts.md) |
 | Research / acquire data | [Sources](references/source-policy.md); optional [fetch adapters](references/providers.md) |
@@ -113,6 +115,20 @@ Apply justified operations now or record them in `deferred`. Prefer `NO_CHANGE` 
 shows no useful change. Failed validation publishes no new universe. Plan/reference/Core changes
 require rebuilding Heavy and then Max. Use forward-window `evaluate` before proposing changes
 when a wider price table is available; it measures observation coverage, not portfolio returns.
+
+## Global compositions
+
+For Global requests, read [Global](references/global.md) and its worked input. Freeze separate
+geographic/theme duties before selection, preserve source-theme dispositions, and research
+global issuer identities and ETF quality/overlap. Use exceptional leaders and credible baskets;
+do not fill national quotas, infer ADR aliases or call a distinctive index proven alpha.
+
+Use `compose-global --spec S --contract C --output DIR`, then independently run
+`validate-global DIR/global-DATE.json --contract C` against the original reviewed contract.
+The portable bundle retains qualified source JSON and separately checked references. Main TXT
+is ticker-only; two grouped views preserve the same members. Run `check-watchlist FILE
+--ticker-only` on the main file. Failed gates publish no watchlist. Declare pilot/synthetic
+scope, dated evidence and unverified TradingView UI import explicitly.
 
 ## Boundaries
 

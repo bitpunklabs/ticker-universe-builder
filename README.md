@@ -62,6 +62,7 @@ Pin a release for reproducibility. [Package details](distribution/README.md).
 $ticker-universe-builder Build a US Medium universe for observation.
 $ticker-universe-builder Build a CN Heavy universe, then expand it to Max.
 $ticker-universe-builder Review this universe.json and propose a routine update.
+$ticker-universe-builder Research a Global universe of distinctive indices, credible ETFs and leaders.
 ```
 
 Choose a market and depth; Medium is the default. Markets:
@@ -76,6 +77,12 @@ Choose a market and depth; Medium is the default. Markets:
 
 Beta adds business/token coverage and is ranked by sourced market cap within the planned
 sector/group distribution. Price beta is descriptive. [Selection rules](references/coverage-plan.md).
+
+Global compositions have a separate [research and validation contract](references/global.md):
+qualified native sources, verified references, issuer deduplication, ETF quality/overlap and frozen
+geographic/theme duties. They export one ticker-only TXT plus two equivalent grouped views.
+Try the [bounded five-market pilot](examples/global/README.md); it is dated research, not a full
+worldwide screen. `check-watchlist` validates the strict TradingView export syntax independently.
 
 ## Output
 
