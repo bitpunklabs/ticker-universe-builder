@@ -63,6 +63,7 @@ $ticker-universe-builder Build a US Medium universe for observation.
 $ticker-universe-builder Build a CN Heavy universe, then expand it to Max.
 $ticker-universe-builder Review this universe.json and propose a routine update.
 $ticker-universe-builder Research a Global universe of distinctive indices, credible ETFs and leaders.
+$ticker-universe-builder Build its Global Core companion, preserving coverage and reviewing every omission.
 ```
 
 Choose a market and depth; Medium is the default. Markets:
@@ -83,6 +84,9 @@ qualified native sources, verified references, issuer deduplication, ETF quality
 geographic/theme duties. They export one ticker-only TXT plus two equivalent grouped views.
 Try the [bounded five-market pilot](examples/global/README.md); it is dated research, not a full
 worldwide screen. `check-watchlist` validates the strict TradingView export syntax independently.
+The [Global Core workflow](references/global-core.md) produces a reviewed strict subset, preserves
+all market/theme/child duties and pins its qualified Global parent. Both main TXT files contain
+tickers only; complete reviews explain the difference without treating market cap as a hard gate.
 
 ## Output
 

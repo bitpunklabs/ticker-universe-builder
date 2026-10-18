@@ -3,6 +3,15 @@
 Skill versions identify code/contracts; universe hashes identify dated artifacts.
 Development versions below were not separate public releases.
 
+## 0.11.0 — 2026-10-18
+
+- Reviewed Global Core composition and independent validation against exact qualified parent
+  bytes, its original coverage contract and complete ticker/theme decisions.
+- Preserve every parent coverage duty, protected ticker, ETF gate and source row; verify
+  explicit basket holdings claims and reject additions, role promotion or silently emptied themes.
+- Portable full/Core proof bundles, ticker-only primary exports, a worked Core replay and
+  packaged CLI coverage. Existing Global and native selection behavior remains unchanged.
+
 ## 0.10.0 — 2026-10-18
 
 - Audited Global composition mode with independently pinned coverage contracts, qualified

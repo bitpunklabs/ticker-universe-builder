@@ -1,4 +1,4 @@
 interface:
   display_name: "Ticker Universe Builder"
   short_description: "Build and maintain auditable TradingView ticker universes."
-  default_prompt: "Build or maintain a researched native-market ticker universe, or compose an audited Global view with verified issuer identities, ETF quality, coverage duties and TradingView TXT exports."
+  default_prompt: "Use $ticker-universe-builder to build or maintain a native, Global or Global Core universe with researched leaders, ETF quality, preserved coverage and validated TradingView TXT exports."

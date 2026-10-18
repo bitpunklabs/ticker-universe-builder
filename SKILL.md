@@ -1,9 +1,9 @@
 ---
 name: ticker-universe-builder
-description: Build evidence-gated ticker universes for fourteen markets or audited Global compositions, with validated TradingView TXT exports. Not stock tips.
+description: Build evidence-gated native and Global/Core ticker universes, with audited coverage and validated TradingView TXT exports. Not stock tips.
 allowed-tools: Read, Write, Bash, WebSearch, WebFetch
 metadata:
-  version: 0.10.0
+  version: 0.11.0
   homepage: https://github.com/bitpunklabs/ticker-universe-builder
   openclaw:
     emoji: "📋"
@@ -25,7 +25,7 @@ inspect relevant snapshot rows programmatically. Compact ZIPs omit reports: recr
 | Task | Read |
 |---|---|
 | New build | [Methodology](references/methodology.md), [depths](references/tier-profiles.md), [coverage plan](references/coverage-plan.md) |
-| Global universe | [Global research, identity, coverage and export contract](references/global.md) |
+| Global / Global Core | [Global research and export contract](references/global.md); [reviewed Core subset](references/global-core.md) |
 | Market rules | `references/markets/<market>.md`; equities also read [shared rules](references/markets/equity-common.md) |
 | Write input JSON | [Data contracts](references/data-contracts.md) |
 | Research / acquire data | [Sources](references/source-policy.md); optional [fetch adapters](references/providers.md) |
@@ -129,6 +129,21 @@ The portable bundle retains qualified source JSON and separately checked referen
 is ticker-only; two grouped views preserve the same members. Run `check-watchlist FILE
 --ticker-only` on the main file. Failed gates publish no watchlist. Declare pilot/synthetic
 scope, dated evidence and unverified TradingView UI import explicitly.
+
+Global Core requires the [complete Core review](references/global-core.md), not a top-cap filter.
+Review every parent ticker and theme; preserve every parent market/child duty and qualified
+ETF gate. Prefer business relevance and genuine leadership before size/profit: an adjacent
+advertising business cannot alone replace content/platform coverage. Concentrated franchises
+favor leaders; dispersed functions favor credible baskets and essential distinct leaders.
+Counts are guidance, not quotas. Explain omissions with surviving coverage; verify holdings
+when a basket is used to retain an omitted company's exposure.
+
+Use `compose-global-core --parent G --parent-contract C --contract R --output DIR`, then
+`validate-global-core DIR/global-core-DATE.json --contract R`. Core must be strictly smaller,
+contain only unchanged parent members, and retain protected tickers. Its portable bundle pins
+and revalidates the complete parent. Inherit evidence dates; refresh Global before refreshing
+Core. Both main TXT files are ticker-only. Publish a maintained pair only after checking that
+Core references the currently selected Global parent.
 
 ## Boundaries
 
