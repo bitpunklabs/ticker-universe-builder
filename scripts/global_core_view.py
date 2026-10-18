@@ -1,4 +1,4 @@
-"""Reviewed, coverage-preserving Core subsets of independently qualified Global compositions."""
+"""Reviewed Core subsets with complete inheritance or explicitly focused operating duties."""
 
 from __future__ import annotations
 
@@ -15,8 +15,46 @@ PARENT_CONTRACT = "parent-contract.json"
 CORE_CONTRACT = "global-core-contract.json"
 
 
+def coverage_scope(parent_contract, review, as_of):
+    """Keep all markets/themes and protected minima; audit every optional full-only function."""
+    contract = deepcopy(parent_contract)
+    if "coverage_decisions" not in review:
+        return contract, set()
+    ledger = review["coverage_decisions"]
+    duties = keyed(parent_contract["duties"], "id", "parent duties")
+    decisions = keyed(ledger, "id", "Core coverage decisions")
+    need(set(decisions) == set(duties), "every parent duty needs exactly one coverage decision")
+    full_only = set()
+    for key, decision in decisions.items():
+        full.fields(
+            decision, {"id", "action", "reason", "evidence"}, set(), "Core coverage decision"
+        )
+        need(
+            decision["action"] in {"retain", "full_only"} and sentence(decision["reason"]),
+            "Core coverage decision needs a resolved action and reason",
+        )
+        evidence(decision["evidence"], key + " Core coverage decision", as_of)
+        if decision["action"] == "full_only":
+            duty = duties[key]
+            need(
+                duty["dimension"] == "theme"
+                and duty.get("leader_minimum", 0) == 0
+                and set(duty["allowed_kinds"]) <= {"equity", "etf"},
+                key + ": market, leader, index and context duties cannot become full-only",
+            )
+            full_only.add(key)
+    need(bool(full_only), "focused coverage needs an explicit full-only operating function")
+    contract["duties"] = [d for d in contract["duties"] if d["id"] not in full_only]
+    need(
+        {d["group"] for d in contract["duties"] if d["dimension"] == "theme"}
+        == {t["id"] for t in parent_contract["themes"]},
+        "focused Core cannot erase an original theme",
+    )
+    return contract, full_only
+
+
 def derive(parent, parent_contract, review, sources, policy=None):
-    """Apply a complete authored review; inherit the parent's entire coverage denominator."""
+    """Apply complete member/theme decisions and an optional complete duty-scope review."""
     full.fields(
         review,
         {
@@ -29,7 +67,7 @@ def derive(parent, parent_contract, review, sources, policy=None):
             "decisions",
             "theme_reviews",
         },
-        {"basket_exposures"},
+        {"basket_exposures", "coverage_decisions"},
         "Global Core review",
     )
     need(
@@ -40,6 +78,7 @@ def derive(parent, parent_contract, review, sources, policy=None):
     )
     need(parent["kind"] == "global_composition", "Core requires a full Global parent")
     need(sentence(review["scope"]), "Core scope required")
+    contract, full_only = coverage_scope(parent_contract, review, parent["as_of"])
     rows = keyed(parent["members"], "ticker", "parent members")
     decisions = keyed(review["decisions"], "ticker", "Core decisions")
     need(set(decisions) == set(rows), "every parent ticker needs exactly one Core decision")
@@ -85,9 +124,9 @@ def derive(parent, parent_contract, review, sources, policy=None):
                 bool(targets) and set(targets) <= retained,
                 ticker + ": omitted ticker needs retained coverage targets",
             )
-            duties = {d for target in targets for d in rows[target]["duties"]}
+            duties = {d for target in targets for d in rows[target]["duties"]} - full_only
             need(
-                set(rows[ticker]["duties"]) <= duties,
+                set(rows[ticker]["duties"]) - full_only <= duties,
                 ticker + ": surviving targets lose declared observation duties",
             )
     themes = keyed(review["theme_reviews"], "id", "Core theme reviews")
@@ -133,11 +172,13 @@ def derive(parent, parent_contract, review, sources, policy=None):
 
     spec = deepcopy(parent["spec"])
     spec["selections"] = [r for r in spec["selections"] if r["ticker"] in retained]
+    if full_only:
+        for row in spec["selections"]:
+            row["duties"] = [d for d in row["duties"] if d not in full_only]
     if "coexistence_reviews" in spec:
         spec["coexistence_reviews"] = [
             r for r in spec["coexistence_reviews"] if set(r["pair"]) <= retained
         ]
-    contract = deepcopy(parent_contract)
     contract["scope"] = review["scope"]
     lookups = {
         key: {
@@ -163,12 +204,21 @@ def derive(parent, parent_contract, review, sources, policy=None):
             themes=mapped,
             reason="Core retains representatives from this original native source theme."
             if mapped
-            else "No Core representative from this native source slice; all Global "
-            "duties remain mandatory. See the complete parent-ticker decision ledger.",
+            else (
+                "No Core representative from this native source slice; focused Core duties "
+                "remain mandatory and full-only functions are explicit in the coverage ledger."
+                if full_only else
+                "No Core representative from this native source slice; all Global "
+                "duties remain mandatory. See the complete parent-ticker decision ledger."
+            ),
         )
     composition = full.evaluate(spec, contract, sources, policy)
+    expected = deepcopy([r for r in parent["members"] if r["ticker"] in retained])
+    if full_only:
+        for row in expected:
+            row["duties"] = [d for d in row["duties"] if d not in full_only]
     need(
-        composition["members"] == [r for r in parent["members"] if r["ticker"] in retained],
+        composition["members"] == expected,
         "Core cannot alter parent members, roles, identities or duties",
     )
     composition.update(
@@ -183,6 +233,13 @@ def derive(parent, parent_contract, review, sources, policy=None):
         parent_symbols=len(rows),
         basket_exposures=exposure_rows,
     )
+    if full_only:
+        composition["coverage_scope"] = {
+            "mode": "focused",
+            "parent_duties": len(parent_contract["duties"]),
+            "full_only": sorted(full_only),
+            "decisions": deepcopy(review["coverage_decisions"]),
+        }
     return composition, contract
 
 
@@ -209,10 +266,22 @@ def report(composition, contract):
         parent_symbols=composition["parent_symbols"],
         omitted_symbols=composition["parent_symbols"] - len(composition["members"]),
         strict_subset_verified=True,
-        parent_coverage_preserved=True,
+        parent_coverage_preserved="coverage_scope" not in composition,
         basket_exposure_reviews=len(composition["basket_exposures"]),
         review_sha256=composition["review_sha256"],
     )
+    if "coverage_scope" in composition:
+        checked.update(
+            coverage_mode="focused",
+            parent_markets_and_themes_preserved=True,
+            parent_duties=composition["coverage_scope"]["parent_duties"],
+            full_only_duties=composition["coverage_scope"]["full_only"],
+        )
+        checked["warnings"].append(
+            "Focused Core preserves all market/theme groups; listed full-only operating "
+            "functions remain in Global and are not claimed as Core coverage: "
+            + ", ".join(composition["coverage_scope"]["full_only"])
+        )
     return checked
 
 
