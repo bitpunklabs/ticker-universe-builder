@@ -4,6 +4,8 @@ Use this mode for a researched Global selection across native-market universes a
 index/ETF references. It is a separate composition, not a fifteenth market or another depth.
 Read [data contracts](data-contracts.md), [source policy](source-policy.md) and the closest
 [worked input](../examples/global/README.md). [Implementation design](../docs/design/0.10.0-global.md).
+For the smaller reviewed companion, use [Global Core](global-core.md); it preserves the full
+parent coverage denominator and adds a complete retain/omit review rather than a new market.
 
 ## Research before composition
 

@@ -58,8 +58,10 @@ def test_compact_package_contains_runnable_global_mode(tmp_path):
     with ZipFile(receipt["archives"]["skill"]["path"]) as archive:
         for name in [
             "scripts/global_core.py",
+            "scripts/global_core_view.py",
             "scripts/watchlist_core.py",
             "references/global.md",
+            "references/global-core.md",
             "examples/global/build_example.py",
             "examples/global/reference-catalog.json",
         ]:
@@ -72,3 +74,4 @@ def test_compact_package_contains_runnable_global_mode(tmp_path):
     )
     assert result.returncode == 0, result.stderr
     assert "compose-global" in result.stdout and "check-watchlist" in result.stdout
+    assert "compose-global-core" in result.stdout and "validate-global-core" in result.stdout

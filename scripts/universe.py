@@ -11,6 +11,9 @@
     python scripts/universe.py validate universe.json
     python scripts/universe.py compose-global --spec S --contract C --output DIR
     python scripts/universe.py validate-global global.json --contract C
+    python scripts/universe.py compose-global-core --parent G --parent-contract C --contract R
+                                                 --output DIR
+    python scripts/universe.py validate-global-core global-core.json --contract R
     python scripts/universe.py check-watchlist list.txt [--ticker-only]
 
 Build exits 0 when coverage is qualified (unused capacity allowed), 2 for blocked research,
@@ -31,6 +34,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import evaluate_core  # noqa: E402
 import global_core  # noqa: E402
+import global_core_view  # noqa: E402
 import measure_core  # noqa: E402
 import provider_core  # noqa: E402
 from build_run import run_build  # noqa: E402
@@ -215,6 +219,23 @@ def validate_global(args: argparse.Namespace) -> int:
     return 0 if checked["passed"] else 2
 
 
+def compose_global_core(args: argparse.Namespace) -> int:
+    try:
+        receipt = global_core_view.compose(
+            args.parent, args.parent_contract, args.contract, args.output, load_policy(args.policy)
+        )
+    except (OSError, ValueError, TypeError, KeyError, AttributeError) as exc:
+        raise UniverseError(f"Global Core research/input error: {exc}") from exc
+    print(json.dumps(receipt, ensure_ascii=False, indent=2))
+    return 0
+
+
+def validate_global_core(args: argparse.Namespace) -> int:
+    checked = global_core_view.validate(args.universe, args.contract, load_policy(args.policy))
+    print(json.dumps(checked, ensure_ascii=False, indent=2))
+    return 0 if checked["passed"] else 2
+
+
 def check_watchlist_command(args: argparse.Namespace) -> int:
     from watchlist_core import check_watchlist
     try:
@@ -385,6 +406,22 @@ def parser() -> argparse.ArgumentParser:
         "--contract", required=True, help="caller's expected coverage contract"
     )
     global_check.set_defaults(handler=validate_global)
+
+    core_build = sub.add_parser("compose-global-core", help="build a reviewed Global Core subset")
+    core_build.add_argument("--parent", required=True, help="qualified full Global JSON")
+    core_build.add_argument(
+        "--parent-contract", required=True, help="pinned parent coverage contract"
+    )
+    core_build.add_argument("--contract", required=True, help="independent complete Core review")
+    core_build.add_argument("--output", required=True, help="new empty portable Core bundle")
+    core_build.set_defaults(handler=compose_global_core)
+
+    core_check = sub.add_parser(
+        "validate-global-core", help="revalidate Core and its Global parent"
+    )
+    core_check.add_argument("universe")
+    core_check.add_argument("--contract", required=True, help="caller's expected Core review")
+    core_check.set_defaults(handler=validate_global_core)
 
     watchlist_check = sub.add_parser("check-watchlist", help="strict TradingView TXT format checks")
     watchlist_check.add_argument("watchlist")

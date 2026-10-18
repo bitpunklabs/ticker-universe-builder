@@ -2,6 +2,8 @@
 
 For cross-market selections, use the separate [Global bundle and TXT contract](global.md).
 The native-market artifacts below retain their existing names and behavior.
+[Global Core](global-core.md#portable-artifacts-and-validation) additionally retains its exact
+qualified Global parent, expected parent contract, complete Core review and source copies.
 
 Pass `--output DIR` explicitly; the CLI has no default. If unspecified by the user, the agent
 uses an absolute `ticker-universes/<market>/<profile>/<as_of>/` in the user's project, outside

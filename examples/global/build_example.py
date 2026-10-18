@@ -12,6 +12,8 @@ ROOT = Path(__file__).resolve().parents[2]
 BASE = Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT / "scripts"))
 from global_core import compose, file_hash, validate  # noqa: E402
+from global_core_view import compose as compose_core  # noqa: E402
+from global_core_view import validate as validate_core  # noqa: E402
 
 AS_OF = "2026-10-18"
 SOURCES = {
@@ -195,6 +197,9 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, required=True, help="new empty pilot directory")
     parser.add_argument("--fund-catalog", type=Path, help="optional researched SOXX catalog")
+    parser.add_argument(
+        "--with-core", action="store_true", help="also replay a reviewed Core subset"
+    )
     args = parser.parse_args()
     if args.output.exists() and any(args.output.iterdir()):
         parser.error("output must be new or empty")
@@ -203,6 +208,41 @@ def main():
     checked = validate(receipt["artifacts"]["universe"], contract)
     if not checked["passed"]:
         raise ValueError(checked)
+    if args.with_core:
+        parent = Path(receipt["artifacts"]["universe"])
+        parent_data = json.loads(parent.read_text())
+        parent_contract = json.loads(contract.read_text())
+        # A bounded memory-peer choice; this does not establish a worldwide Core roster.
+        omitted, survivor = "KRX:005930", "KRX:000660"
+        review = dict(
+            schema_version=1, kind="global_core_review",
+            parent_sha256=file_hash(parent), parent_contract_sha256=file_hash(contract),
+            scope="Bounded pilot Core: retain all pilot duties and prioritize SK hynix as the "
+            "direct memory representative. Samsung stays in the full pilot; not a world screen.",
+            protected_tickers=parent_contract.get("required_tickers", []),
+            decisions=[dict(
+                ticker=r["ticker"], action="omit" if r["ticker"] == omitted else "retain",
+                reason="Keep SK hynix's direct memory observation; Samsung remains full-only "
+                "additional memory/electronics depth." if r["ticker"] == omitted else
+                "Retain the pilot observation: " + r["reason"],
+                evidence=r["evidence"],
+                covered_by=[survivor] if r["ticker"] == omitted else [],
+            ) for r in parent_data["members"]],
+            theme_reviews=[dict(
+                id=t["id"], emphasis="gauge" if t["id"] == "GAUGES" else "leaders",
+                reason="Preserve the bounded pilot's " + t["id"] + " duty; this small replay "
+                "does not replace production child-function research.",
+                evidence=next(r["evidence"] for r in parent_data["members"]
+                              if r["theme"] == t["id"]),
+            ) for t in parent_contract["themes"]],
+        )
+        review_path = args.output / "inputs/core-review.json"
+        review_path.write_text(json.dumps(review, ensure_ascii=False, indent=2) + "\n")
+        core_receipt = compose_core(parent, contract, review_path, args.output / "core-bundle")
+        core_check = validate_core(core_receipt["artifacts"]["universe"], review_path)
+        if not core_check["passed"]:
+            raise ValueError(core_check)
+        (args.output / "core-receipt.json").write_text(json.dumps(core_receipt, indent=2) + "\n")
     (args.output / "receipt.json").write_text(json.dumps(receipt, indent=2) + "\n")
     print(json.dumps(receipt, indent=2))
 

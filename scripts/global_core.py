@@ -708,8 +708,10 @@ def _readable(composition, checked, stem):
     def safe(value):
         return str(value).replace("|", "\\|").replace("\n", " ")
 
+    title = "Global Core observation universe" if composition["kind"] == "global_core_composition" \
+        else "Global observation universe"
     lines = [
-        "# Global observation universe",
+        "# " + title,
         "",
         "Scope: " + safe(composition["scope"]),
         "",
@@ -744,11 +746,11 @@ def _readable(composition, checked, stem):
     page = (
         '<!doctype html><html lang="en"><meta charset="utf-8">'
         '<meta name="viewport" content="width=device-width,initial-scale=1">'
-        "<title>Global observation universe</title><style>"
+        "<title>" + title + "</title><style>"
         "body{max-width:1100px;margin:30px auto;padding:0 16px;font:16px/1.5 system-ui}"
         "td,th{text-align:left;padding:8px;border-bottom:1px solid #ccc}table{width:100%}"
         ".table{overflow:auto}p{overflow-wrap:anywhere}</style>"
-        "<h1>Global observation universe</h1><p>"
+        "<h1>" + title + "</h1><p>"
         + html.escape(composition["scope"])
         + f"</p><p>Scope: {composition['scope_level']}. Instruments: {checked['symbols']}.</p>"
         + "".join("<p>" + html.escape(w) + "</p>" for w in checked["warnings"])

@@ -28,3 +28,19 @@ requires it in the pilot contract. That catalog must satisfy every [Global fund 
 Missing histories, full holdings or dated costs/spreads block publication. Synthetic adverse
 ETF cases live in the tests and do not become market-research records. Neither this bounded
 pilot nor those tests establish live TradingView import or complete Global coverage.
+
+## Reviewed Core companion
+
+```bash
+python examples/global/build_example.py --output temp/global-core-pilot --with-core
+python scripts/universe.py validate-global-core \
+  temp/global-core-pilot/core-bundle/global-core-2026-10-18.json \
+  --contract temp/global-core-pilot/inputs/core-review.json
+```
+
+This bounded example reviews all parent tickers and themes, then keeps SK hynix as the direct
+memory representative while Samsung remains full-only additional depth. Default full/Core
+counts are 21/20, or 22/21 with the optional qualified SOXX catalog. All original pilot duties
+remain mandatory. The portable Core bundle revalidates its complete copied parent and native
+sources. It is a worked [Core contract](../../references/global-core.md), not an automatically
+generated production selection or a finding that one company has better returns.
