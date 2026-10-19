@@ -24,6 +24,7 @@ KINDS = REFERENCE_KINDS | {"equity", "perpetual"}
 SAFE_ID = re.compile(r"[A-Z0-9][A-Z0-9_]{0,39}")
 SOURCE_ID = re.compile(r"[a-z][a-z0-9_-]{0,39}")
 FUND_LIMITS = {"broad": 0.25, "country": 0.65, "theme": 0.75}
+VIEW_SUFFIXES = {"watchlist": "", "by_theme": "-by-theme", "by_market": "-by-market"}
 
 
 def digest(value: object) -> str:
@@ -784,7 +785,7 @@ def compose(spec_path, contract_path, output, policy=None):
         "global-contract.json": contract_path.read_text(encoding="utf-8"),
     }
     for key, text in exports(composition, contract).items():
-        suffix = {"watchlist": "", "by_theme": "-by-theme", "by_market": "-by-market"}[key]
+        suffix = VIEW_SUFFIXES[key]
         files[stem + suffix + ".txt"] = text
     files[stem + ".en.md"], files[stem + ".en.html"] = _readable(composition, checked, stem)
     files.update({f"source-{key}.json": text for key, text in texts.items()})
@@ -831,7 +832,7 @@ def validate(path, contract_path, policy=None):
         recomputed = evaluate(spec, contract, sources, policy)
         need(recomputed == unsigned, "stored composition differs from recomputed source selection")
         for key, text in exports(recomputed, contract).items():
-            suffix = {"watchlist": "", "by_theme": "-by-theme", "by_market": "-by-market"}[key]
+            suffix = VIEW_SUFFIXES[key]
             need(
                 (path.parent / (path.stem + suffix + ".txt")).read_bytes().decode("utf-8") == text,
                 key + ": published TXT differs from exact validated composition",

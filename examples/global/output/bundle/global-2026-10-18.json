@@ -1,0 +1,2226 @@
+{
+  "schema_version": 1,
+  "kind": "global_composition",
+  "as_of": "2026-10-18",
+  "contract_sha256": "2698a72b41f4202e1443673f6463b51f37b44e40c8466ae86bd9c444df85a551",
+  "scope": "Bounded CN/US/JP/HK/KR pilot; dated company research and index identity checks. Not a completed worldwide universe or refreshed leadership census.",
+  "scope_level": "pilot",
+  "spec": {
+    "schema_version": 1,
+    "kind": "global_spec",
+    "as_of": "2026-10-18",
+    "sources": [
+      {
+        "id": "us",
+        "kind": "universe",
+        "file": "source-us.json",
+        "sha256": "eeda436576a62a425b599620c8ef72f1250af4c48b0e859cf5a3abc2c52f6eb4"
+      },
+      {
+        "id": "cn",
+        "kind": "universe",
+        "file": "source-cn.json",
+        "sha256": "d7c2cd969b6a3b258c917b3efd3b8563a447c9d8f83d2fa2f1a99affb19f82f8"
+      },
+      {
+        "id": "jp",
+        "kind": "universe",
+        "file": "source-jp.json",
+        "sha256": "238c130bce97b1097a9192aba084f38b517ec1aadaccde966a6552d84cc40361"
+      },
+      {
+        "id": "hk",
+        "kind": "universe",
+        "file": "source-hk.json",
+        "sha256": "1bc8a251ab06b382ddfe37e26e842522bde6df1f032ba8969280b230ee4b1f58"
+      },
+      {
+        "id": "kr",
+        "kind": "universe",
+        "file": "source-kr.json",
+        "sha256": "1603a1c484f2c7f4ec0e3d101892b20a92642871a4a81552f5d39281269c75e6"
+      },
+      {
+        "id": "refs",
+        "kind": "catalog",
+        "file": "source-refs.json",
+        "sha256": "20e82f5ab788e5a2f5fdf9f053bd1abe5b9cb006545e6c629d1e3a99defba536"
+      }
+    ],
+    "identities": [
+      {
+        "ticker": "NASDAQ:NVDA",
+        "entity_id": "ISSUER:NVIDIA",
+        "name": "NVIDIA",
+        "economic_market": "US",
+        "coverage_type": "entity",
+        "legal_ids": [],
+        "evidence": [
+          {
+            "url": "https://www.tradingview.com/symbols/NASDAQ-NVDA/",
+            "as_of": "2026-10-05",
+            "tier": 2,
+            "kind": "reviewed_business",
+            "detail": "Company business profile read; outdated segment labels not reused"
+          },
+          {
+            "url": "https://scanner.tradingview.com/america/scan",
+            "as_of": "2026-10-05",
+            "tier": 2,
+            "kind": "listing_and_financial_snapshot",
+            "detail": "Provider standardized latest fields; fiscal period is not supplied, not labelled H1 or TTM."
+          },
+          {
+            "url": "https://s201.q4cdn.com/141608511/files/doc_financials/2026/ar/2026-annual-report-web-Hyperlinks.pdf",
+            "as_of": "2026-10-05",
+            "tier": 1,
+            "kind": "issuer_disclosure"
+          },
+          {
+            "url": "https://scanner.tradingview.com/america/scan",
+            "as_of": "2026-10-08",
+            "tier": 2,
+            "kind": "listing_financial_cap",
+            "detail": "Exact incumbent scan raw/scan/incumbents-references and full inventory retained; active=True; market_cap_basic=5708446631070.777 USD; live observation, financial period unknown."
+          },
+          {
+            "url": "https://www.tradingview.com/symbols/NASDAQ-NVDA/",
+            "as_of": "2026-10-08",
+            "tier": 2,
+            "kind": "online_business_review",
+            "detail": "Broad function compared with prior reviewed duty; full description and identity retained at research/online/raw/business/NASDAQ-NVDA.receipt.json. Publication/update date unknown; old segment lists are not treated as current."
+          }
+        ]
+      },
+      {
+        "ticker": "NASDAQ:AVGO",
+        "entity_id": "ISSUER:BROADCOM",
+        "name": "Broadcom",
+        "economic_market": "US",
+        "coverage_type": "entity",
+        "legal_ids": [],
+        "evidence": [
+          {
+            "url": "https://www.tradingview.com/symbols/NASDAQ-AVGO/",
+            "as_of": "2026-10-05",
+            "tier": 2,
+            "kind": "reviewed_business",
+            "detail": "Company business profile read; outdated segment labels not reused"
+          },
+          {
+            "url": "https://scanner.tradingview.com/america/scan",
+            "as_of": "2026-10-05",
+            "tier": 2,
+            "kind": "listing_and_financial_snapshot",
+            "detail": "Provider standardized latest fields; fiscal period is not supplied, not labelled H1 or TTM."
+          },
+          {
+            "url": "https://scanner.tradingview.com/america/scan",
+            "as_of": "2026-10-08",
+            "tier": 2,
+            "kind": "listing_financial_cap",
+            "detail": "Exact incumbent scan raw/scan/incumbents-references and full inventory retained; active=True; market_cap_basic=1781041297706.6213 USD; live observation, financial period unknown."
+          },
+          {
+            "url": "https://www.tradingview.com/symbols/NASDAQ-AVGO/",
+            "as_of": "2026-10-08",
+            "tier": 2,
+            "kind": "online_business_review",
+            "detail": "Broad function compared with prior reviewed duty; full description and identity retained at research/online/raw/business/NASDAQ-AVGO.receipt.json. Publication/update date unknown; old segment lists are not treated as current."
+          }
+        ]
+      },
+      {
+        "ticker": "NASDAQ:MSFT",
+        "entity_id": "ISSUER:MICROSOFT",
+        "name": "Microsoft",
+        "economic_market": "US",
+        "coverage_type": "entity",
+        "legal_ids": [],
+        "evidence": [
+          {
+            "url": "https://www.tradingview.com/symbols/NASDAQ-MSFT/",
+            "as_of": "2026-10-05",
+            "tier": 2,
+            "kind": "reviewed_business",
+            "detail": "Company business profile read; outdated segment labels not reused"
+          },
+          {
+            "url": "https://scanner.tradingview.com/america/scan",
+            "as_of": "2026-10-05",
+            "tier": 2,
+            "kind": "listing_and_financial_snapshot",
+            "detail": "Provider standardized latest fields; fiscal period is not supplied, not labelled H1 or TTM."
+          },
+          {
+            "url": "https://scanner.tradingview.com/america/scan",
+            "as_of": "2026-10-08",
+            "tier": 2,
+            "kind": "listing_financial_cap",
+            "detail": "Exact incumbent scan raw/scan/incumbents-references and full inventory retained; active=True; market_cap_basic=3917680540319.669 USD; live observation, financial period unknown."
+          },
+          {
+            "url": "https://www.tradingview.com/symbols/NASDAQ-MSFT/",
+            "as_of": "2026-10-08",
+            "tier": 2,
+            "kind": "online_business_review",
+            "detail": "Broad function compared with prior reviewed duty; full description and identity retained at research/online/raw/business/NASDAQ-MSFT.receipt.json. Publication/update date unknown; old segment lists are not treated as current."
+          }
+        ]
+      },
+      {
+        "ticker": "NASDAQ:GOOGL",
+        "entity_id": "ISSUER:ALPHABET",
+        "name": "Alphabet",
+        "economic_market": "US",
+        "coverage_type": "entity",
+        "legal_ids": [],
+        "evidence": [
+          {
+            "url": "https://www.tradingview.com/symbols/NASDAQ-GOOGL/",
+            "as_of": "2026-10-05",
+            "tier": 2,
+            "kind": "reviewed_business",
+            "detail": "Company business profile read; outdated segment labels not reused"
+          },
+          {
+            "url": "https://scanner.tradingview.com/america/scan",
+            "as_of": "2026-10-05",
+            "tier": 2,
+            "kind": "listing_and_financial_snapshot",
+            "detail": "Provider standardized latest fields; fiscal period is not supplied, not labelled H1 or TTM."
+          },
+          {
+            "url": "https://scanner.tradingview.com/america/scan",
+            "as_of": "2026-10-08",
+            "tier": 2,
+            "kind": "listing_financial_cap",
+            "detail": "Exact incumbent scan raw/scan/incumbents-references and full inventory retained; active=True; market_cap_basic=4207275497266.714 USD; live observation, financial period unknown."
+          },
+          {
+            "url": "https://www.tradingview.com/symbols/NASDAQ-GOOGL/",
+            "as_of": "2026-10-08",
+            "tier": 2,
+            "kind": "online_business_review",
+            "detail": "Broad function compared with prior reviewed duty; full description and identity retained at research/online/raw/business/NASDAQ-GOOGL.receipt.json. Publication/update date unknown; old segment lists are not treated as current."
+          }
+        ]
+      },
+      {
+        "ticker": "NYSE:JPM",
+        "entity_id": "ISSUER:JPMORGAN",
+        "name": "JPMorgan Chase",
+        "economic_market": "US",
+        "coverage_type": "entity",
+        "legal_ids": [],
+        "evidence": [
+          {
+            "url": "https://www.tradingview.com/symbols/NYSE-JPM/",
+            "as_of": "2026-10-05",
+            "tier": 2,
+            "kind": "reviewed_business",
+            "detail": "Company business profile read; outdated segment labels not reused"
+          },
+          {
+            "url": "https://scanner.tradingview.com/america/scan",
+            "as_of": "2026-10-05",
+            "tier": 2,
+            "kind": "listing_and_financial_snapshot",
+            "detail": "Provider standardized latest fields; fiscal period is not supplied, not labelled H1 or TTM."
+          },
+          {
+            "url": "https://www.jpmorganchase.com/ir/annual-report/2025",
+            "as_of": "2026-10-05",
+            "tier": 1,
+            "kind": "issuer_disclosure"
+          },
+          {
+            "url": "https://scanner.tradingview.com/america/scan",
+            "as_of": "2026-10-08",
+            "tier": 2,
+            "kind": "listing_financial_cap",
+            "detail": "Exact incumbent scan raw/scan/incumbents-references and full inventory retained; active=True; market_cap_basic=872589515758.448 USD; live observation, financial period unknown."
+          },
+          {
+            "url": "https://www.tradingview.com/symbols/NYSE-JPM/",
+            "as_of": "2026-10-08",
+            "tier": 2,
+            "kind": "online_business_review",
+            "detail": "Broad function compared with prior reviewed duty; full description and identity retained at research/online/raw/business/NYSE-JPM.receipt.json. Publication/update date unknown; old segment lists are not treated as current."
+          }
+        ]
+      },
+      {
+        "ticker": "NYSE:XOM",
+        "entity_id": "ISSUER:EXXON_MOBIL",
+        "name": "Exxon Mobil",
+        "economic_market": "US",
+        "coverage_type": "entity",
+        "legal_ids": [],
+        "evidence": [
+          {
+            "url": "https://www.tradingview.com/symbols/NYSE-XOM/",
+            "as_of": "2026-10-05",
+            "tier": 2,
+            "kind": "reviewed_business",
+            "detail": "Company business profile read; outdated segment labels not reused"
+          },
+          {
+            "url": "https://scanner.tradingview.com/america/scan",
+            "as_of": "2026-10-05",
+            "tier": 2,
+            "kind": "listing_and_financial_snapshot",
+            "detail": "Provider standardized latest fields; fiscal period is not supplied, not labelled H1 or TTM."
+          },
+          {
+            "url": "https://scanner.tradingview.com/america/scan",
+            "as_of": "2026-10-08",
+            "tier": 2,
+            "kind": "listing_financial_cap",
+            "detail": "Exact incumbent scan raw/scan/incumbents-references and full inventory retained; active=True; market_cap_basic=673531186020.2554 USD; live observation, financial period unknown."
+          },
+          {
+            "url": "https://www.tradingview.com/symbols/NYSE-XOM/",
+            "as_of": "2026-10-08",
+            "tier": 2,
+            "kind": "online_business_review",
+            "detail": "Broad function compared with prior reviewed duty; full description and identity retained at research/online/raw/business/NYSE-XOM.receipt.json. Publication/update date unknown; old segment lists are not treated as current."
+          }
+        ]
+      },
+      {
+        "ticker": "SSE:600519",
+        "entity_id": "ISSUER:MOUTAI",
+        "name": "Kweichow Moutai",
+        "economic_market": "CN",
+        "coverage_type": "entity",
+        "legal_ids": [],
+        "evidence": [
+          {
+            "url": "https://emweb.securities.eastmoney.com/PC_HSF10/BusinessAnalysis/PageAjax?code=SH600519",
+            "as_of": "2026-10-05",
+            "tier": 2,
+            "kind": "reviewed_business",
+            "detail": "Business review read; CN issuer report period 2026-06-30 00:00:00"
+          },
+          {
+            "url": "https://scanner.tradingview.com/china/scan",
+            "as_of": "2026-10-05",
+            "tier": 2,
+            "kind": "listing_and_financial_snapshot",
+            "detail": "Provider standardized latest fields; fiscal period is not supplied, not labelled H1 or TTM."
+          },
+          {
+            "url": "https://scanner.tradingview.com/china/scan",
+            "as_of": "2026-10-08",
+            "tier": 2,
+            "kind": "listing_and_financial_snapshot",
+            "detail": "10-08 实际在线采集；active_symbol/六位代码/venue/CNY/有效最近成交已查。报价及股权市值截面截至09-30；财务报表期间标签未提供，不称为2026半年或TTM。原始回执 research/network/financial-250.json"
+          },
+          {
+            "url": "https://emweb.securities.eastmoney.com/PC_HSF10/BusinessAnalysis/PageAjax?code=SH600519",
+            "as_of": "2026-10-08",
+            "tier": 2,
+            "kind": "reviewed_business",
+            "detail": "在线审查主营/分部；原始报告期间 2026-06-30 00:00:00；产品 茅台酒、其他系列酒、其他(补充)；原始回执 research/network/business-SSE-600519.json"
+          }
+        ]
+      },
+      {
+        "ticker": "SSE:601899",
+        "entity_id": "ISSUER:ZIJIN",
+        "name": "Zijin Mining",
+        "economic_market": "CN",
+        "coverage_type": "entity",
+        "legal_ids": [],
+        "evidence": [
+          {
+            "url": "https://emweb.securities.eastmoney.com/PC_HSF10/BusinessAnalysis/PageAjax?code=SH601899",
+            "as_of": "2026-10-05",
+            "tier": 2,
+            "kind": "reviewed_business",
+            "detail": "Business review read; CN issuer report period 2026-06-30 00:00:00"
+          },
+          {
+            "url": "https://scanner.tradingview.com/china/scan",
+            "as_of": "2026-10-05",
+            "tier": 2,
+            "kind": "listing_and_financial_snapshot",
+            "detail": "Provider standardized latest fields; fiscal period is not supplied, not labelled H1 or TTM."
+          },
+          {
+            "url": "https://scanner.tradingview.com/china/scan",
+            "as_of": "2026-10-08",
+            "tier": 2,
+            "kind": "listing_and_financial_snapshot",
+            "detail": "10-08 实际在线采集；active_symbol/六位代码/venue/CNY/有效最近成交已查。报价及股权市值截面截至09-30；财务报表期间标签未提供，不称为2026半年或TTM。原始回执 research/network/financial-350.json"
+          },
+          {
+            "url": "https://emweb.securities.eastmoney.com/PC_HSF10/BusinessAnalysis/PageAjax?code=SH601899",
+            "as_of": "2026-10-08",
+            "tier": 2,
+            "kind": "reviewed_business",
+            "detail": "在线审查主营/分部；原始报告期间 2026-06-30 00:00:00；产品 贸易精炼等其他销售收入、其他主营业务、冶炼产铜、冶炼产锌、矿山产银；原始回执 research/network/business-SSE-601899.json"
+          }
+        ]
+      },
+      {
+        "ticker": "SZSE:300750",
+        "entity_id": "ISSUER:CATL",
+        "name": "CATL",
+        "economic_market": "CN",
+        "coverage_type": "entity",
+        "legal_ids": [],
+        "evidence": [
+          {
+            "url": "https://emweb.securities.eastmoney.com/PC_HSF10/BusinessAnalysis/PageAjax?code=SZ300750",
+            "as_of": "2026-10-05",
+            "tier": 2,
+            "kind": "reviewed_business",
+            "detail": "Business review read; CN issuer report period 2026-06-30 00:00:00"
+          },
+          {
+            "url": "https://scanner.tradingview.com/china/scan",
+            "as_of": "2026-10-05",
+            "tier": 2,
+            "kind": "listing_and_financial_snapshot",
+            "detail": "Provider standardized latest fields; fiscal period is not supplied, not labelled H1 or TTM."
+          },
+          {
+            "url": "https://www.catl.com/en/news/6773.html",
+            "as_of": "2026-10-05",
+            "tier": 1,
+            "kind": "issuer_disclosure"
+          },
+          {
+            "url": "https://scanner.tradingview.com/china/scan",
+            "as_of": "2026-10-08",
+            "tier": 2,
+            "kind": "listing_and_financial_snapshot",
+            "detail": "10-08 实际在线采集；active_symbol/六位代码/venue/CNY/有效最近成交已查。报价及股权市值截面截至09-30；财务报表期间标签未提供，不称为2026半年或TTM。原始回执 research/network/financial-150.json"
+          },
+          {
+            "url": "https://emweb.securities.eastmoney.com/PC_HSF10/BusinessAnalysis/PageAjax?code=SZ300750",
+            "as_of": "2026-10-08",
+            "tier": 2,
+            "kind": "reviewed_business",
+            "detail": "在线审查主营/分部；原始报告期间 2026-06-30 00:00:00；产品 动力电池系统、储能电池系统、电池材料及回收、矿产资源、其他(补充)；原始回执 research/network/business-SZSE-300750.json"
+          }
+        ]
+      },
+      {
+        "ticker": "TSE:7203",
+        "entity_id": "ISSUER:TOYOTA",
+        "name": "Toyota Motor",
+        "economic_market": "JP",
+        "coverage_type": "entity",
+        "legal_ids": [],
+        "evidence": [
+          {
+            "url": "https://www.tradingview.com/symbols/TSE-7203/",
+            "as_of": "2026-10-07",
+            "tier": 2,
+            "kind": "reviewed_business",
+            "detail": "Business profile read; independent judgement of operating function, not inferred from provider sector or capitalization."
+          },
+          {
+            "url": "https://scanner.tradingview.com/japan/scan",
+            "as_of": "2026-10-07",
+            "tier": 2,
+            "kind": "financial_snapshot",
+            "detail": "Standardized latest fields; provider supplies no fiscal-period label. No H1/TTM period is inferred."
+          }
+        ]
+      },
+      {
+        "ticker": "TSE:8035",
+        "entity_id": "ISSUER:TOKYO_ELECTRON",
+        "name": "Tokyo Electron",
+        "economic_market": "JP",
+        "coverage_type": "entity",
+        "legal_ids": [],
+        "evidence": [
+          {
+            "url": "https://www.tradingview.com/symbols/TSE-8035/",
+            "as_of": "2026-10-07",
+            "tier": 2,
+            "kind": "reviewed_business",
+            "detail": "Business profile read; independent judgement of operating function, not inferred from provider sector or capitalization."
+          },
+          {
+            "url": "https://scanner.tradingview.com/japan/scan",
+            "as_of": "2026-10-07",
+            "tier": 2,
+            "kind": "financial_snapshot",
+            "detail": "Standardized latest fields; provider supplies no fiscal-period label. No H1/TTM period is inferred."
+          }
+        ]
+      },
+      {
+        "ticker": "TSE:6861",
+        "entity_id": "ISSUER:KEYENCE",
+        "name": "Keyence",
+        "economic_market": "JP",
+        "coverage_type": "entity",
+        "legal_ids": [],
+        "evidence": [
+          {
+            "url": "https://www.tradingview.com/symbols/TSE-6861/",
+            "as_of": "2026-10-07",
+            "tier": 2,
+            "kind": "reviewed_business",
+            "detail": "Business profile read; independent judgement of operating function, not inferred from provider sector or capitalization."
+          },
+          {
+            "url": "https://scanner.tradingview.com/japan/scan",
+            "as_of": "2026-10-07",
+            "tier": 2,
+            "kind": "financial_snapshot",
+            "detail": "Standardized latest fields; provider supplies no fiscal-period label. No H1/TTM period is inferred."
+          }
+        ]
+      },
+      {
+        "ticker": "HKEX:700",
+        "entity_id": "ISSUER:TENCENT",
+        "name": "Tencent",
+        "economic_market": "HK",
+        "coverage_type": "entity",
+        "legal_ids": [],
+        "evidence": [
+          {
+            "url": "https://www.tradingview.com/symbols/HKEX-700/",
+            "as_of": "2026-10-08",
+            "tier": 2,
+            "kind": "reviewed_business"
+          },
+          {
+            "url": "https://scanner.tradingview.com/hongkong/scan",
+            "as_of": "2026-10-08",
+            "tier": 2,
+            "kind": "financial_snapshot"
+          }
+        ]
+      },
+      {
+        "ticker": "HKEX:9988",
+        "entity_id": "ISSUER:ALIBABA",
+        "name": "Alibaba",
+        "economic_market": "HK",
+        "coverage_type": "entity",
+        "legal_ids": [],
+        "evidence": [
+          {
+            "url": "https://www.tradingview.com/symbols/HKEX-9988/",
+            "as_of": "2026-10-08",
+            "tier": 2,
+            "kind": "reviewed_business"
+          },
+          {
+            "url": "https://scanner.tradingview.com/hongkong/scan",
+            "as_of": "2026-10-08",
+            "tier": 2,
+            "kind": "financial_snapshot"
+          }
+        ]
+      },
+      {
+        "ticker": "KRX:000660",
+        "entity_id": "ISSUER:SK_HYNIX",
+        "name": "SK hynix",
+        "economic_market": "KR",
+        "coverage_type": "entity",
+        "legal_ids": [],
+        "evidence": [
+          {
+            "url": "https://www.tradingview.com/symbols/KRX-000660/",
+            "as_of": "2026-10-07",
+            "tier": 2,
+            "kind": "reviewed_business",
+            "detail": "Business profile read; independent judgement of operating function, not inferred from provider sector or capitalization."
+          },
+          {
+            "url": "https://scanner.tradingview.com/korea/scan",
+            "as_of": "2026-10-07",
+            "tier": 2,
+            "kind": "financial_snapshot",
+            "detail": "Standardized latest fields; provider supplies no fiscal-period label. No H1/TTM period is inferred."
+          }
+        ]
+      },
+      {
+        "ticker": "KRX:005930",
+        "entity_id": "ISSUER:SAMSUNG_ELECTRONICS",
+        "name": "Samsung Electronics",
+        "economic_market": "KR",
+        "coverage_type": "entity",
+        "legal_ids": [],
+        "evidence": [
+          {
+            "url": "https://www.tradingview.com/symbols/KRX-005930/",
+            "as_of": "2026-10-07",
+            "tier": 2,
+            "kind": "reviewed_business",
+            "detail": "Business profile read; independent judgement of operating function, not inferred from provider sector or capitalization."
+          },
+          {
+            "url": "https://scanner.tradingview.com/korea/scan",
+            "as_of": "2026-10-07",
+            "tier": 2,
+            "kind": "financial_snapshot",
+            "detail": "Standardized latest fields; provider supplies no fiscal-period label. No H1/TTM period is inferred."
+          }
+        ]
+      },
+      {
+        "ticker": "SP:SPX",
+        "entity_id": "GAUGE:SP500",
+        "name": "S&P 500",
+        "economic_market": "US",
+        "coverage_type": "market",
+        "legal_ids": [],
+        "evidence": [
+          {
+            "url": "https://www.tradingview.com/symbols/TVC-SPX/",
+            "as_of": "2026-10-05",
+            "tier": 2,
+            "kind": "reference_identity",
+            "detail": "S&P 500"
+          },
+          {
+            "url": "https://www.tradingview.com/symbols/SPX/?exchange=SP",
+            "as_of": "2026-10-08",
+            "tier": 2,
+            "kind": "reference_live_review",
+            "detail": "Exact requested identity is embedded in fetched page; product/offer and raw receipt retained in reference-review.json. Quotes have their own timestamps."
+          }
+        ]
+      },
+      {
+        "ticker": "SSE:000300",
+        "entity_id": "GAUGE:CSI300",
+        "name": "CSI 300",
+        "economic_market": "CN",
+        "coverage_type": "market",
+        "legal_ids": [],
+        "evidence": [
+          {
+            "url": "https://scanner.tradingview.com/china/scan",
+            "as_of": "2026-10-05",
+            "tier": 2,
+            "kind": "reference_identity",
+            "detail": "CSI 300 Index"
+          },
+          {
+            "url": "https://scanner.tradingview.com/china/scan",
+            "as_of": "2026-10-08",
+            "tier": 2,
+            "kind": "reference_identity",
+            "detail": "实际观察参考工具身份/报价，回执 research/network/financial-1600.json"
+          }
+        ]
+      },
+      {
+        "ticker": "TSE:TOPIX",
+        "entity_id": "GAUGE:TOPIX",
+        "name": "TOPIX",
+        "economic_market": "JP",
+        "coverage_type": "market",
+        "legal_ids": [],
+        "evidence": [
+          {
+            "url": "https://www.tradingview.com/symbols/TSE-TOPIX/",
+            "as_of": "2026-10-18",
+            "tier": 2
+          },
+          {
+            "url": "https://www.jpx.co.jp/english/faq/stock_price_index.html",
+            "as_of": "2026-10-18",
+            "tier": 1
+          }
+        ]
+      },
+      {
+        "ticker": "HSI:HSI",
+        "entity_id": "GAUGE:HSI",
+        "name": "Hang Seng Index",
+        "economic_market": "HK",
+        "coverage_type": "market",
+        "legal_ids": [],
+        "evidence": [
+          {
+            "url": "https://www.tradingview.com/symbols/HSI-HSI/",
+            "as_of": "2026-10-18",
+            "tier": 2
+          }
+        ]
+      },
+      {
+        "ticker": "KRX:KOSPI",
+        "entity_id": "GAUGE:KOSPI",
+        "name": "KOSPI",
+        "economic_market": "KR",
+        "coverage_type": "market",
+        "legal_ids": [],
+        "evidence": [
+          {
+            "url": "https://www.tradingview.com/symbols/KRX-KOSPI/",
+            "as_of": "2026-10-18",
+            "tier": 2
+          }
+        ]
+      }
+    ],
+    "selections": [
+      {
+        "ticker": "NASDAQ:NVDA",
+        "source": "us",
+        "market": "US",
+        "theme": "SEMI",
+        "duties": [
+          "SEMI_DUTY"
+        ],
+        "reason": "Accelerated computing platforms and the cuda software ecosystem.",
+        "evidence": [
+          {
+            "url": "https://www.tradingview.com/symbols/NASDAQ-NVDA/",
+            "as_of": "2026-10-05",
+            "tier": 2,
+            "kind": "reviewed_business",
+            "detail": "Company business profile read; outdated segment labels not reused"
+          },
+          {
+            "url": "https://scanner.tradingview.com/america/scan",
+            "as_of": "2026-10-05",
+            "tier": 2,
+            "kind": "listing_and_financial_snapshot",
+            "detail": "Provider standardized latest fields; fiscal period is not supplied, not labelled H1 or TTM."
+          },
+          {
+            "url": "https://s201.q4cdn.com/141608511/files/doc_financials/2026/ar/2026-annual-report-web-Hyperlinks.pdf",
+            "as_of": "2026-10-05",
+            "tier": 1,
+            "kind": "issuer_disclosure"
+          },
+          {
+            "url": "https://scanner.tradingview.com/america/scan",
+            "as_of": "2026-10-08",
+            "tier": 2,
+            "kind": "listing_financial_cap",
+            "detail": "Exact incumbent scan raw/scan/incumbents-references and full inventory retained; active=True; market_cap_basic=5708446631070.777 USD; live observation, financial period unknown."
+          },
+          {
+            "url": "https://www.tradingview.com/symbols/NASDAQ-NVDA/",
+            "as_of": "2026-10-08",
+            "tier": 2,
+            "kind": "online_business_review",
+            "detail": "Broad function compared with prior reviewed duty; full description and identity retained at research/online/raw/business/NASDAQ-NVDA.receipt.json. Publication/update date unknown; old segment lists are not treated as current."
+          }
+        ]
+      },
+      {
+        "ticker": "NASDAQ:AVGO",
+        "source": "us",
+        "market": "US",
+        "theme": "SEMI",
+        "duties": [
+          "SEMI_DUTY"
+        ],
+        "reason": "Networking/custom silicon and infrastructure software.",
+        "evidence": [
+          {
+            "url": "https://www.tradingview.com/symbols/NASDAQ-AVGO/",
+            "as_of": "2026-10-05",
+            "tier": 2,
+            "kind": "reviewed_business",
+            "detail": "Company business profile read; outdated segment labels not reused"
+          },
+          {
+            "url": "https://scanner.tradingview.com/america/scan",
+            "as_of": "2026-10-05",
+            "tier": 2,
+            "kind": "listing_and_financial_snapshot",
+            "detail": "Provider standardized latest fields; fiscal period is not supplied, not labelled H1 or TTM."
+          },
+          {
+            "url": "https://scanner.tradingview.com/america/scan",
+            "as_of": "2026-10-08",
+            "tier": 2,
+            "kind": "listing_financial_cap",
+            "detail": "Exact incumbent scan raw/scan/incumbents-references and full inventory retained; active=True; market_cap_basic=1781041297706.6213 USD; live observation, financial period unknown."
+          },
+          {
+            "url": "https://www.tradingview.com/symbols/NASDAQ-AVGO/",
+            "as_of": "2026-10-08",
+            "tier": 2,
+            "kind": "online_business_review",
+            "detail": "Broad function compared with prior reviewed duty; full description and identity retained at research/online/raw/business/NASDAQ-AVGO.receipt.json. Publication/update date unknown; old segment lists are not treated as current."
+          }
+        ]
+      },
+      {
+        "ticker": "NASDAQ:MSFT",
+        "source": "us",
+        "market": "US",
+        "theme": "PLATFORMS",
+        "duties": [
+          "PLATFORMS_DUTY"
+        ],
+        "reason": "Enterprise productivity software and azure cloud.",
+        "evidence": [
+          {
+            "url": "https://www.tradingview.com/symbols/NASDAQ-MSFT/",
+            "as_of": "2026-10-05",
+            "tier": 2,
+            "kind": "reviewed_business",
+            "detail": "Company business profile read; outdated segment labels not reused"
+          },
+          {
+            "url": "https://scanner.tradingview.com/america/scan",
+            "as_of": "2026-10-05",
+            "tier": 2,
+            "kind": "listing_and_financial_snapshot",
+            "detail": "Provider standardized latest fields; fiscal period is not supplied, not labelled H1 or TTM."
+          },
+          {
+            "url": "https://scanner.tradingview.com/america/scan",
+            "as_of": "2026-10-08",
+            "tier": 2,
+            "kind": "listing_financial_cap",
+            "detail": "Exact incumbent scan raw/scan/incumbents-references and full inventory retained; active=True; market_cap_basic=3917680540319.669 USD; live observation, financial period unknown."
+          },
+          {
+            "url": "https://www.tradingview.com/symbols/NASDAQ-MSFT/",
+            "as_of": "2026-10-08",
+            "tier": 2,
+            "kind": "online_business_review",
+            "detail": "Broad function compared with prior reviewed duty; full description and identity retained at research/online/raw/business/NASDAQ-MSFT.receipt.json. Publication/update date unknown; old segment lists are not treated as current."
+          }
+        ]
+      },
+      {
+        "ticker": "NASDAQ:GOOGL",
+        "source": "us",
+        "market": "US",
+        "theme": "PLATFORMS",
+        "duties": [
+          "PLATFORMS_DUTY"
+        ],
+        "reason": "Search advertising, youtube and cloud infrastructure.",
+        "evidence": [
+          {
+            "url": "https://www.tradingview.com/symbols/NASDAQ-GOOGL/",
+            "as_of": "2026-10-05",
+            "tier": 2,
+            "kind": "reviewed_business",
+            "detail": "Company business profile read; outdated segment labels not reused"
+          },
+          {
+            "url": "https://scanner.tradingview.com/america/scan",
+            "as_of": "2026-10-05",
+            "tier": 2,
+            "kind": "listing_and_financial_snapshot",
+            "detail": "Provider standardized latest fields; fiscal period is not supplied, not labelled H1 or TTM."
+          },
+          {
+            "url": "https://scanner.tradingview.com/america/scan",
+            "as_of": "2026-10-08",
+            "tier": 2,
+            "kind": "listing_financial_cap",
+            "detail": "Exact incumbent scan raw/scan/incumbents-references and full inventory retained; active=True; market_cap_basic=4207275497266.714 USD; live observation, financial period unknown."
+          },
+          {
+            "url": "https://www.tradingview.com/symbols/NASDAQ-GOOGL/",
+            "as_of": "2026-10-08",
+            "tier": 2,
+            "kind": "online_business_review",
+            "detail": "Broad function compared with prior reviewed duty; full description and identity retained at research/online/raw/business/NASDAQ-GOOGL.receipt.json. Publication/update date unknown; old segment lists are not treated as current."
+          }
+        ]
+      },
+      {
+        "ticker": "NYSE:JPM",
+        "source": "us",
+        "market": "US",
+        "theme": "FINANCE",
+        "duties": [
+          "FINANCE_DUTY"
+        ],
+        "reason": "Diversified consumer banking, investment banking and payments.",
+        "evidence": [
+          {
+            "url": "https://www.tradingview.com/symbols/NYSE-JPM/",
+            "as_of": "2026-10-05",
+            "tier": 2,
+            "kind": "reviewed_business",
+            "detail": "Company business profile read; outdated segment labels not reused"
+          },
+          {
+            "url": "https://scanner.tradingview.com/america/scan",
+            "as_of": "2026-10-05",
+            "tier": 2,
+            "kind": "listing_and_financial_snapshot",
+            "detail": "Provider standardized latest fields; fiscal period is not supplied, not labelled H1 or TTM."
+          },
+          {
+            "url": "https://www.jpmorganchase.com/ir/annual-report/2025",
+            "as_of": "2026-10-05",
+            "tier": 1,
+            "kind": "issuer_disclosure"
+          },
+          {
+            "url": "https://scanner.tradingview.com/america/scan",
+            "as_of": "2026-10-08",
+            "tier": 2,
+            "kind": "listing_financial_cap",
+            "detail": "Exact incumbent scan raw/scan/incumbents-references and full inventory retained; active=True; market_cap_basic=872589515758.448 USD; live observation, financial period unknown."
+          },
+          {
+            "url": "https://www.tradingview.com/symbols/NYSE-JPM/",
+            "as_of": "2026-10-08",
+            "tier": 2,
+            "kind": "online_business_review",
+            "detail": "Broad function compared with prior reviewed duty; full description and identity retained at research/online/raw/business/NYSE-JPM.receipt.json. Publication/update date unknown; old segment lists are not treated as current."
+          }
+        ]
+      },
+      {
+        "ticker": "NYSE:XOM",
+        "source": "us",
+        "market": "US",
+        "theme": "RESOURCES",
+        "duties": [
+          "RESOURCES_DUTY"
+        ],
+        "reason": "Integrated oil/gas production, refining and chemicals.",
+        "evidence": [
+          {
+            "url": "https://www.tradingview.com/symbols/NYSE-XOM/",
+            "as_of": "2026-10-05",
+            "tier": 2,
+            "kind": "reviewed_business",
+            "detail": "Company business profile read; outdated segment labels not reused"
+          },
+          {
+            "url": "https://scanner.tradingview.com/america/scan",
+            "as_of": "2026-10-05",
+            "tier": 2,
+            "kind": "listing_and_financial_snapshot",
+            "detail": "Provider standardized latest fields; fiscal period is not supplied, not labelled H1 or TTM."
+          },
+          {
+            "url": "https://scanner.tradingview.com/america/scan",
+            "as_of": "2026-10-08",
+            "tier": 2,
+            "kind": "listing_financial_cap",
+            "detail": "Exact incumbent scan raw/scan/incumbents-references and full inventory retained; active=True; market_cap_basic=673531186020.2554 USD; live observation, financial period unknown."
+          },
+          {
+            "url": "https://www.tradingview.com/symbols/NYSE-XOM/",
+            "as_of": "2026-10-08",
+            "tier": 2,
+            "kind": "online_business_review",
+            "detail": "Broad function compared with prior reviewed duty; full description and identity retained at research/online/raw/business/NYSE-XOM.receipt.json. Publication/update date unknown; old segment lists are not treated as current."
+          }
+        ]
+      },
+      {
+        "ticker": "SSE:600519",
+        "source": "cn",
+        "market": "CN",
+        "theme": "CONSUMER",
+        "duties": [
+          "CONSUMER_DUTY"
+        ],
+        "reason": "Moutai liquor.",
+        "evidence": [
+          {
+            "url": "https://emweb.securities.eastmoney.com/PC_HSF10/BusinessAnalysis/PageAjax?code=SH600519",
+            "as_of": "2026-10-05",
+            "tier": 2,
+            "kind": "reviewed_business",
+            "detail": "Business review read; CN issuer report period 2026-06-30 00:00:00"
+          },
+          {
+            "url": "https://scanner.tradingview.com/china/scan",
+            "as_of": "2026-10-05",
+            "tier": 2,
+            "kind": "listing_and_financial_snapshot",
+            "detail": "Provider standardized latest fields; fiscal period is not supplied, not labelled H1 or TTM."
+          },
+          {
+            "url": "https://scanner.tradingview.com/china/scan",
+            "as_of": "2026-10-08",
+            "tier": 2,
+            "kind": "listing_and_financial_snapshot",
+            "detail": "10-08 实际在线采集；active_symbol/六位代码/venue/CNY/有效最近成交已查。报价及股权市值截面截至09-30；财务报表期间标签未提供，不称为2026半年或TTM。原始回执 research/network/financial-250.json"
+          },
+          {
+            "url": "https://emweb.securities.eastmoney.com/PC_HSF10/BusinessAnalysis/PageAjax?code=SH600519",
+            "as_of": "2026-10-08",
+            "tier": 2,
+            "kind": "reviewed_business",
+            "detail": "在线审查主营/分部；原始报告期间 2026-06-30 00:00:00；产品 茅台酒、其他系列酒、其他(补充)；原始回执 research/network/business-SSE-600519.json"
+          }
+        ]
+      },
+      {
+        "ticker": "SSE:601899",
+        "source": "cn",
+        "market": "CN",
+        "theme": "RESOURCES",
+        "duties": [
+          "RESOURCES_DUTY"
+        ],
+        "reason": "Copper smelting.",
+        "evidence": [
+          {
+            "url": "https://emweb.securities.eastmoney.com/PC_HSF10/BusinessAnalysis/PageAjax?code=SH601899",
+            "as_of": "2026-10-05",
+            "tier": 2,
+            "kind": "reviewed_business",
+            "detail": "Business review read; CN issuer report period 2026-06-30 00:00:00"
+          },
+          {
+            "url": "https://scanner.tradingview.com/china/scan",
+            "as_of": "2026-10-05",
+            "tier": 2,
+            "kind": "listing_and_financial_snapshot",
+            "detail": "Provider standardized latest fields; fiscal period is not supplied, not labelled H1 or TTM."
+          },
+          {
+            "url": "https://scanner.tradingview.com/china/scan",
+            "as_of": "2026-10-08",
+            "tier": 2,
+            "kind": "listing_and_financial_snapshot",
+            "detail": "10-08 实际在线采集；active_symbol/六位代码/venue/CNY/有效最近成交已查。报价及股权市值截面截至09-30；财务报表期间标签未提供，不称为2026半年或TTM。原始回执 research/network/financial-350.json"
+          },
+          {
+            "url": "https://emweb.securities.eastmoney.com/PC_HSF10/BusinessAnalysis/PageAjax?code=SH601899",
+            "as_of": "2026-10-08",
+            "tier": 2,
+            "kind": "reviewed_business",
+            "detail": "在线审查主营/分部；原始报告期间 2026-06-30 00:00:00；产品 贸易精炼等其他销售收入、其他主营业务、冶炼产铜、冶炼产锌、矿山产银；原始回执 research/network/business-SSE-601899.json"
+          }
+        ]
+      },
+      {
+        "ticker": "SZSE:300750",
+        "source": "cn",
+        "market": "CN",
+        "theme": "BATTERIES",
+        "duties": [
+          "BATTERIES_DUTY"
+        ],
+        "reason": "Traction-battery and energy-storage systems, battery materials and recycling.",
+        "evidence": [
+          {
+            "url": "https://emweb.securities.eastmoney.com/PC_HSF10/BusinessAnalysis/PageAjax?code=SZ300750",
+            "as_of": "2026-10-05",
+            "tier": 2,
+            "kind": "reviewed_business",
+            "detail": "Business review read; CN issuer report period 2026-06-30 00:00:00"
+          },
+          {
+            "url": "https://scanner.tradingview.com/china/scan",
+            "as_of": "2026-10-05",
+            "tier": 2,
+            "kind": "listing_and_financial_snapshot",
+            "detail": "Provider standardized latest fields; fiscal period is not supplied, not labelled H1 or TTM."
+          },
+          {
+            "url": "https://www.catl.com/en/news/6773.html",
+            "as_of": "2026-10-05",
+            "tier": 1,
+            "kind": "issuer_disclosure"
+          },
+          {
+            "url": "https://scanner.tradingview.com/china/scan",
+            "as_of": "2026-10-08",
+            "tier": 2,
+            "kind": "listing_and_financial_snapshot",
+            "detail": "10-08 实际在线采集；active_symbol/六位代码/venue/CNY/有效最近成交已查。报价及股权市值截面截至09-30；财务报表期间标签未提供，不称为2026半年或TTM。原始回执 research/network/financial-150.json"
+          },
+          {
+            "url": "https://emweb.securities.eastmoney.com/PC_HSF10/BusinessAnalysis/PageAjax?code=SZ300750",
+            "as_of": "2026-10-08",
+            "tier": 2,
+            "kind": "reviewed_business",
+            "detail": "在线审查主营/分部；原始报告期间 2026-06-30 00:00:00；产品 动力电池系统、储能电池系统、电池材料及回收、矿产资源、其他(补充)；原始回执 research/network/business-SZSE-300750.json"
+          }
+        ]
+      },
+      {
+        "ticker": "TSE:7203",
+        "source": "jp",
+        "market": "JP",
+        "theme": "INDUSTRY",
+        "duties": [
+          "INDUSTRY_DUTY"
+        ],
+        "reason": "Vehicle manufacturing and sales, and related finance.",
+        "evidence": [
+          {
+            "url": "https://www.tradingview.com/symbols/TSE-7203/",
+            "as_of": "2026-10-07",
+            "tier": 2,
+            "kind": "reviewed_business",
+            "detail": "Business profile read; independent judgement of operating function, not inferred from provider sector or capitalization."
+          },
+          {
+            "url": "https://scanner.tradingview.com/japan/scan",
+            "as_of": "2026-10-07",
+            "tier": 2,
+            "kind": "financial_snapshot",
+            "detail": "Standardized latest fields; provider supplies no fiscal-period label. No H1/TTM period is inferred."
+          }
+        ]
+      },
+      {
+        "ticker": "TSE:8035",
+        "source": "jp",
+        "market": "JP",
+        "theme": "SEMI",
+        "duties": [
+          "SEMI_DUTY"
+        ],
+        "reason": "Semiconductor and display-panel manufacturing equipment.",
+        "evidence": [
+          {
+            "url": "https://www.tradingview.com/symbols/TSE-8035/",
+            "as_of": "2026-10-07",
+            "tier": 2,
+            "kind": "reviewed_business",
+            "detail": "Business profile read; independent judgement of operating function, not inferred from provider sector or capitalization."
+          },
+          {
+            "url": "https://scanner.tradingview.com/japan/scan",
+            "as_of": "2026-10-07",
+            "tier": 2,
+            "kind": "financial_snapshot",
+            "detail": "Standardized latest fields; provider supplies no fiscal-period label. No H1/TTM period is inferred."
+          }
+        ]
+      },
+      {
+        "ticker": "TSE:6861",
+        "source": "jp",
+        "market": "JP",
+        "theme": "INDUSTRY",
+        "duties": [
+          "INDUSTRY_DUTY"
+        ],
+        "reason": "Factory automation, sensors and inspection equipment.",
+        "evidence": [
+          {
+            "url": "https://www.tradingview.com/symbols/TSE-6861/",
+            "as_of": "2026-10-07",
+            "tier": 2,
+            "kind": "reviewed_business",
+            "detail": "Business profile read; independent judgement of operating function, not inferred from provider sector or capitalization."
+          },
+          {
+            "url": "https://scanner.tradingview.com/japan/scan",
+            "as_of": "2026-10-07",
+            "tier": 2,
+            "kind": "financial_snapshot",
+            "detail": "Standardized latest fields; provider supplies no fiscal-period label. No H1/TTM period is inferred."
+          }
+        ]
+      },
+      {
+        "ticker": "HKEX:700",
+        "source": "hk",
+        "market": "HK",
+        "theme": "PLATFORMS",
+        "duties": [
+          "PLATFORMS_DUTY"
+        ],
+        "reason": "Social, gaming and fintech platforms linking content and payments.",
+        "evidence": [
+          {
+            "url": "https://www.tradingview.com/symbols/HKEX-700/",
+            "as_of": "2026-10-08",
+            "tier": 2,
+            "kind": "reviewed_business"
+          },
+          {
+            "url": "https://scanner.tradingview.com/hongkong/scan",
+            "as_of": "2026-10-08",
+            "tier": 2,
+            "kind": "financial_snapshot"
+          }
+        ]
+      },
+      {
+        "ticker": "HKEX:9988",
+        "source": "hk",
+        "market": "HK",
+        "theme": "PLATFORMS",
+        "duties": [
+          "PLATFORMS_DUTY"
+        ],
+        "reason": "E-commerce and cloud platforms serving merchants, consumers and enterprises.",
+        "evidence": [
+          {
+            "url": "https://www.tradingview.com/symbols/HKEX-9988/",
+            "as_of": "2026-10-08",
+            "tier": 2,
+            "kind": "reviewed_business"
+          },
+          {
+            "url": "https://scanner.tradingview.com/hongkong/scan",
+            "as_of": "2026-10-08",
+            "tier": 2,
+            "kind": "financial_snapshot"
+          }
+        ]
+      },
+      {
+        "ticker": "KRX:000660",
+        "source": "kr",
+        "market": "KR",
+        "theme": "SEMI",
+        "duties": [
+          "SEMI_DUTY"
+        ],
+        "reason": "Memory-semiconductor design, manufacturing and sales.",
+        "evidence": [
+          {
+            "url": "https://www.tradingview.com/symbols/KRX-000660/",
+            "as_of": "2026-10-07",
+            "tier": 2,
+            "kind": "reviewed_business",
+            "detail": "Business profile read; independent judgement of operating function, not inferred from provider sector or capitalization."
+          },
+          {
+            "url": "https://scanner.tradingview.com/korea/scan",
+            "as_of": "2026-10-07",
+            "tier": 2,
+            "kind": "financial_snapshot",
+            "detail": "Standardized latest fields; provider supplies no fiscal-period label. No H1/TTM period is inferred."
+          }
+        ]
+      },
+      {
+        "ticker": "KRX:005930",
+        "source": "kr",
+        "market": "KR",
+        "theme": "SEMI",
+        "duties": [
+          "SEMI_DUTY"
+        ],
+        "reason": "Memory semiconductors, electronics and related semiconductor businesses.",
+        "evidence": [
+          {
+            "url": "https://www.tradingview.com/symbols/KRX-005930/",
+            "as_of": "2026-10-07",
+            "tier": 2,
+            "kind": "reviewed_business",
+            "detail": "Business profile read; independent judgement of operating function, not inferred from provider sector or capitalization."
+          },
+          {
+            "url": "https://scanner.tradingview.com/korea/scan",
+            "as_of": "2026-10-07",
+            "tier": 2,
+            "kind": "financial_snapshot",
+            "detail": "Standardized latest fields; provider supplies no fiscal-period label. No H1/TTM period is inferred."
+          }
+        ]
+      },
+      {
+        "ticker": "SP:SPX",
+        "source": "us",
+        "market": "US",
+        "theme": "GAUGES",
+        "duties": [
+          "US_MARKET",
+          "GAUGES_DUTY"
+        ],
+        "reason": "S&P 500; Separate reference instrument; does not consume an operating-entity seat.",
+        "evidence": [
+          {
+            "url": "https://www.tradingview.com/symbols/TVC-SPX/",
+            "as_of": "2026-10-05",
+            "tier": 2,
+            "kind": "reference_identity",
+            "detail": "S&P 500"
+          },
+          {
+            "url": "https://www.tradingview.com/symbols/SPX/?exchange=SP",
+            "as_of": "2026-10-08",
+            "tier": 2,
+            "kind": "reference_live_review",
+            "detail": "Exact requested identity is embedded in fetched page; product/offer and raw receipt retained in reference-review.json. Quotes have their own timestamps."
+          }
+        ]
+      },
+      {
+        "ticker": "SSE:000300",
+        "source": "cn",
+        "market": "CN",
+        "theme": "GAUGES",
+        "duties": [
+          "CN_MARKET",
+          "GAUGES_DUTY"
+        ],
+        "reason": "CSI 300 Index; independent reference, excluded from entity and leader counts.",
+        "evidence": [
+          {
+            "url": "https://scanner.tradingview.com/china/scan",
+            "as_of": "2026-10-05",
+            "tier": 2,
+            "kind": "reference_identity",
+            "detail": "CSI 300 Index"
+          },
+          {
+            "url": "https://scanner.tradingview.com/china/scan",
+            "as_of": "2026-10-08",
+            "tier": 2,
+            "kind": "reference_identity",
+            "detail": "实际观察参考工具身份/报价，回执 research/network/financial-1600.json"
+          }
+        ]
+      },
+      {
+        "ticker": "TSE:TOPIX",
+        "source": "refs",
+        "market": "JP",
+        "theme": "GAUGES",
+        "duties": [
+          "JP_MARKET",
+          "GAUGES_DUTY"
+        ],
+        "reason": "Japanese broad equity market, free-float capitalization weighted; native index, not an ETF.",
+        "evidence": [
+          {
+            "url": "https://www.tradingview.com/symbols/TSE-TOPIX/",
+            "as_of": "2026-10-18",
+            "tier": 2
+          },
+          {
+            "url": "https://www.jpx.co.jp/english/faq/stock_price_index.html",
+            "as_of": "2026-10-18",
+            "tier": 1
+          }
+        ]
+      },
+      {
+        "ticker": "HSI:HSI",
+        "source": "refs",
+        "market": "HK",
+        "theme": "GAUGES",
+        "duties": [
+          "HK_MARKET",
+          "GAUGES_DUTY"
+        ],
+        "reason": "Hong Kong broad equity benchmark; native index, not a US-listed China fund.",
+        "evidence": [
+          {
+            "url": "https://www.tradingview.com/symbols/HSI-HSI/",
+            "as_of": "2026-10-18",
+            "tier": 2
+          }
+        ]
+      },
+      {
+        "ticker": "KRX:KOSPI",
+        "source": "refs",
+        "market": "KR",
+        "theme": "GAUGES",
+        "duties": [
+          "KR_MARKET",
+          "GAUGES_DUTY"
+        ],
+        "reason": "Korean main-board equity benchmark; native index, not a currency-hedged country fund.",
+        "evidence": [
+          {
+            "url": "https://www.tradingview.com/symbols/KRX-KOSPI/",
+            "as_of": "2026-10-18",
+            "tier": 2
+          }
+        ]
+      }
+    ]
+  },
+  "members": [
+    {
+      "ticker": "NASDAQ:NVDA",
+      "source": "us",
+      "market": "US",
+      "theme": "SEMI",
+      "duties": [
+        "SEMI_DUTY"
+      ],
+      "reason": "Accelerated computing platforms and the cuda software ecosystem.",
+      "evidence": [
+        {
+          "url": "https://www.tradingview.com/symbols/NASDAQ-NVDA/",
+          "as_of": "2026-10-05",
+          "tier": 2,
+          "kind": "reviewed_business",
+          "detail": "Company business profile read; outdated segment labels not reused"
+        },
+        {
+          "url": "https://scanner.tradingview.com/america/scan",
+          "as_of": "2026-10-05",
+          "tier": 2,
+          "kind": "listing_and_financial_snapshot",
+          "detail": "Provider standardized latest fields; fiscal period is not supplied, not labelled H1 or TTM."
+        },
+        {
+          "url": "https://s201.q4cdn.com/141608511/files/doc_financials/2026/ar/2026-annual-report-web-Hyperlinks.pdf",
+          "as_of": "2026-10-05",
+          "tier": 1,
+          "kind": "issuer_disclosure"
+        },
+        {
+          "url": "https://scanner.tradingview.com/america/scan",
+          "as_of": "2026-10-08",
+          "tier": 2,
+          "kind": "listing_financial_cap",
+          "detail": "Exact incumbent scan raw/scan/incumbents-references and full inventory retained; active=True; market_cap_basic=5708446631070.777 USD; live observation, financial period unknown."
+        },
+        {
+          "url": "https://www.tradingview.com/symbols/NASDAQ-NVDA/",
+          "as_of": "2026-10-08",
+          "tier": 2,
+          "kind": "online_business_review",
+          "detail": "Broad function compared with prior reviewed duty; full description and identity retained at research/online/raw/business/NASDAQ-NVDA.receipt.json. Publication/update date unknown; old segment lists are not treated as current."
+        }
+      ],
+      "entity_id": "ISSUER:NVIDIA",
+      "name": "NVIDIA",
+      "kind": "equity",
+      "leader": true,
+      "source_row_sha256": "92104110c78737de7f7c30b656f6fed495bd1ee352d2004c228575c41b1696e6"
+    },
+    {
+      "ticker": "NASDAQ:AVGO",
+      "source": "us",
+      "market": "US",
+      "theme": "SEMI",
+      "duties": [
+        "SEMI_DUTY"
+      ],
+      "reason": "Networking/custom silicon and infrastructure software.",
+      "evidence": [
+        {
+          "url": "https://www.tradingview.com/symbols/NASDAQ-AVGO/",
+          "as_of": "2026-10-05",
+          "tier": 2,
+          "kind": "reviewed_business",
+          "detail": "Company business profile read; outdated segment labels not reused"
+        },
+        {
+          "url": "https://scanner.tradingview.com/america/scan",
+          "as_of": "2026-10-05",
+          "tier": 2,
+          "kind": "listing_and_financial_snapshot",
+          "detail": "Provider standardized latest fields; fiscal period is not supplied, not labelled H1 or TTM."
+        },
+        {
+          "url": "https://scanner.tradingview.com/america/scan",
+          "as_of": "2026-10-08",
+          "tier": 2,
+          "kind": "listing_financial_cap",
+          "detail": "Exact incumbent scan raw/scan/incumbents-references and full inventory retained; active=True; market_cap_basic=1781041297706.6213 USD; live observation, financial period unknown."
+        },
+        {
+          "url": "https://www.tradingview.com/symbols/NASDAQ-AVGO/",
+          "as_of": "2026-10-08",
+          "tier": 2,
+          "kind": "online_business_review",
+          "detail": "Broad function compared with prior reviewed duty; full description and identity retained at research/online/raw/business/NASDAQ-AVGO.receipt.json. Publication/update date unknown; old segment lists are not treated as current."
+        }
+      ],
+      "entity_id": "ISSUER:BROADCOM",
+      "name": "Broadcom",
+      "kind": "equity",
+      "leader": true,
+      "source_row_sha256": "4af7a5e9b5083329c4b2d6f3a613664433ccdf94b97957f206b4cf2bb2e45f53"
+    },
+    {
+      "ticker": "NASDAQ:MSFT",
+      "source": "us",
+      "market": "US",
+      "theme": "PLATFORMS",
+      "duties": [
+        "PLATFORMS_DUTY"
+      ],
+      "reason": "Enterprise productivity software and azure cloud.",
+      "evidence": [
+        {
+          "url": "https://www.tradingview.com/symbols/NASDAQ-MSFT/",
+          "as_of": "2026-10-05",
+          "tier": 2,
+          "kind": "reviewed_business",
+          "detail": "Company business profile read; outdated segment labels not reused"
+        },
+        {
+          "url": "https://scanner.tradingview.com/america/scan",
+          "as_of": "2026-10-05",
+          "tier": 2,
+          "kind": "listing_and_financial_snapshot",
+          "detail": "Provider standardized latest fields; fiscal period is not supplied, not labelled H1 or TTM."
+        },
+        {
+          "url": "https://scanner.tradingview.com/america/scan",
+          "as_of": "2026-10-08",
+          "tier": 2,
+          "kind": "listing_financial_cap",
+          "detail": "Exact incumbent scan raw/scan/incumbents-references and full inventory retained; active=True; market_cap_basic=3917680540319.669 USD; live observation, financial period unknown."
+        },
+        {
+          "url": "https://www.tradingview.com/symbols/NASDAQ-MSFT/",
+          "as_of": "2026-10-08",
+          "tier": 2,
+          "kind": "online_business_review",
+          "detail": "Broad function compared with prior reviewed duty; full description and identity retained at research/online/raw/business/NASDAQ-MSFT.receipt.json. Publication/update date unknown; old segment lists are not treated as current."
+        }
+      ],
+      "entity_id": "ISSUER:MICROSOFT",
+      "name": "Microsoft",
+      "kind": "equity",
+      "leader": true,
+      "source_row_sha256": "f0a6e07ceb8767b67ddd453296a42ce03bf3f39a1659a09823b8068ab0bbc06c"
+    },
+    {
+      "ticker": "NASDAQ:GOOGL",
+      "source": "us",
+      "market": "US",
+      "theme": "PLATFORMS",
+      "duties": [
+        "PLATFORMS_DUTY"
+      ],
+      "reason": "Search advertising, youtube and cloud infrastructure.",
+      "evidence": [
+        {
+          "url": "https://www.tradingview.com/symbols/NASDAQ-GOOGL/",
+          "as_of": "2026-10-05",
+          "tier": 2,
+          "kind": "reviewed_business",
+          "detail": "Company business profile read; outdated segment labels not reused"
+        },
+        {
+          "url": "https://scanner.tradingview.com/america/scan",
+          "as_of": "2026-10-05",
+          "tier": 2,
+          "kind": "listing_and_financial_snapshot",
+          "detail": "Provider standardized latest fields; fiscal period is not supplied, not labelled H1 or TTM."
+        },
+        {
+          "url": "https://scanner.tradingview.com/america/scan",
+          "as_of": "2026-10-08",
+          "tier": 2,
+          "kind": "listing_financial_cap",
+          "detail": "Exact incumbent scan raw/scan/incumbents-references and full inventory retained; active=True; market_cap_basic=4207275497266.714 USD; live observation, financial period unknown."
+        },
+        {
+          "url": "https://www.tradingview.com/symbols/NASDAQ-GOOGL/",
+          "as_of": "2026-10-08",
+          "tier": 2,
+          "kind": "online_business_review",
+          "detail": "Broad function compared with prior reviewed duty; full description and identity retained at research/online/raw/business/NASDAQ-GOOGL.receipt.json. Publication/update date unknown; old segment lists are not treated as current."
+        }
+      ],
+      "entity_id": "ISSUER:ALPHABET",
+      "name": "Alphabet",
+      "kind": "equity",
+      "leader": true,
+      "source_row_sha256": "12bf3b4945fb80471b82d03a187b0cab47804827d34abea7e0dd036802ed7392"
+    },
+    {
+      "ticker": "NYSE:JPM",
+      "source": "us",
+      "market": "US",
+      "theme": "FINANCE",
+      "duties": [
+        "FINANCE_DUTY"
+      ],
+      "reason": "Diversified consumer banking, investment banking and payments.",
+      "evidence": [
+        {
+          "url": "https://www.tradingview.com/symbols/NYSE-JPM/",
+          "as_of": "2026-10-05",
+          "tier": 2,
+          "kind": "reviewed_business",
+          "detail": "Company business profile read; outdated segment labels not reused"
+        },
+        {
+          "url": "https://scanner.tradingview.com/america/scan",
+          "as_of": "2026-10-05",
+          "tier": 2,
+          "kind": "listing_and_financial_snapshot",
+          "detail": "Provider standardized latest fields; fiscal period is not supplied, not labelled H1 or TTM."
+        },
+        {
+          "url": "https://www.jpmorganchase.com/ir/annual-report/2025",
+          "as_of": "2026-10-05",
+          "tier": 1,
+          "kind": "issuer_disclosure"
+        },
+        {
+          "url": "https://scanner.tradingview.com/america/scan",
+          "as_of": "2026-10-08",
+          "tier": 2,
+          "kind": "listing_financial_cap",
+          "detail": "Exact incumbent scan raw/scan/incumbents-references and full inventory retained; active=True; market_cap_basic=872589515758.448 USD; live observation, financial period unknown."
+        },
+        {
+          "url": "https://www.tradingview.com/symbols/NYSE-JPM/",
+          "as_of": "2026-10-08",
+          "tier": 2,
+          "kind": "online_business_review",
+          "detail": "Broad function compared with prior reviewed duty; full description and identity retained at research/online/raw/business/NYSE-JPM.receipt.json. Publication/update date unknown; old segment lists are not treated as current."
+        }
+      ],
+      "entity_id": "ISSUER:JPMORGAN",
+      "name": "JPMorgan Chase",
+      "kind": "equity",
+      "leader": true,
+      "source_row_sha256": "663ecd0d002f44c91a7bf3450191fc2d03501942b7a9e4741bcb9b5fad5ec928"
+    },
+    {
+      "ticker": "NYSE:XOM",
+      "source": "us",
+      "market": "US",
+      "theme": "RESOURCES",
+      "duties": [
+        "RESOURCES_DUTY"
+      ],
+      "reason": "Integrated oil/gas production, refining and chemicals.",
+      "evidence": [
+        {
+          "url": "https://www.tradingview.com/symbols/NYSE-XOM/",
+          "as_of": "2026-10-05",
+          "tier": 2,
+          "kind": "reviewed_business",
+          "detail": "Company business profile read; outdated segment labels not reused"
+        },
+        {
+          "url": "https://scanner.tradingview.com/america/scan",
+          "as_of": "2026-10-05",
+          "tier": 2,
+          "kind": "listing_and_financial_snapshot",
+          "detail": "Provider standardized latest fields; fiscal period is not supplied, not labelled H1 or TTM."
+        },
+        {
+          "url": "https://scanner.tradingview.com/america/scan",
+          "as_of": "2026-10-08",
+          "tier": 2,
+          "kind": "listing_financial_cap",
+          "detail": "Exact incumbent scan raw/scan/incumbents-references and full inventory retained; active=True; market_cap_basic=673531186020.2554 USD; live observation, financial period unknown."
+        },
+        {
+          "url": "https://www.tradingview.com/symbols/NYSE-XOM/",
+          "as_of": "2026-10-08",
+          "tier": 2,
+          "kind": "online_business_review",
+          "detail": "Broad function compared with prior reviewed duty; full description and identity retained at research/online/raw/business/NYSE-XOM.receipt.json. Publication/update date unknown; old segment lists are not treated as current."
+        }
+      ],
+      "entity_id": "ISSUER:EXXON_MOBIL",
+      "name": "Exxon Mobil",
+      "kind": "equity",
+      "leader": true,
+      "source_row_sha256": "0a74cd83b33703b0266390a53e2e4451880e8005a12d50798c4bb85a81954a48"
+    },
+    {
+      "ticker": "SSE:600519",
+      "source": "cn",
+      "market": "CN",
+      "theme": "CONSUMER",
+      "duties": [
+        "CONSUMER_DUTY"
+      ],
+      "reason": "Moutai liquor.",
+      "evidence": [
+        {
+          "url": "https://emweb.securities.eastmoney.com/PC_HSF10/BusinessAnalysis/PageAjax?code=SH600519",
+          "as_of": "2026-10-05",
+          "tier": 2,
+          "kind": "reviewed_business",
+          "detail": "Business review read; CN issuer report period 2026-06-30 00:00:00"
+        },
+        {
+          "url": "https://scanner.tradingview.com/china/scan",
+          "as_of": "2026-10-05",
+          "tier": 2,
+          "kind": "listing_and_financial_snapshot",
+          "detail": "Provider standardized latest fields; fiscal period is not supplied, not labelled H1 or TTM."
+        },
+        {
+          "url": "https://scanner.tradingview.com/china/scan",
+          "as_of": "2026-10-08",
+          "tier": 2,
+          "kind": "listing_and_financial_snapshot",
+          "detail": "10-08 实际在线采集；active_symbol/六位代码/venue/CNY/有效最近成交已查。报价及股权市值截面截至09-30；财务报表期间标签未提供，不称为2026半年或TTM。原始回执 research/network/financial-250.json"
+        },
+        {
+          "url": "https://emweb.securities.eastmoney.com/PC_HSF10/BusinessAnalysis/PageAjax?code=SH600519",
+          "as_of": "2026-10-08",
+          "tier": 2,
+          "kind": "reviewed_business",
+          "detail": "在线审查主营/分部；原始报告期间 2026-06-30 00:00:00；产品 茅台酒、其他系列酒、其他(补充)；原始回执 research/network/business-SSE-600519.json"
+        }
+      ],
+      "entity_id": "ISSUER:MOUTAI",
+      "name": "Kweichow Moutai",
+      "kind": "equity",
+      "leader": true,
+      "source_row_sha256": "ef212ff7fe63ce5e0dc2f453b8d90406b4fc32a85b7024959752901bf5171a19"
+    },
+    {
+      "ticker": "SSE:601899",
+      "source": "cn",
+      "market": "CN",
+      "theme": "RESOURCES",
+      "duties": [
+        "RESOURCES_DUTY"
+      ],
+      "reason": "Copper smelting.",
+      "evidence": [
+        {
+          "url": "https://emweb.securities.eastmoney.com/PC_HSF10/BusinessAnalysis/PageAjax?code=SH601899",
+          "as_of": "2026-10-05",
+          "tier": 2,
+          "kind": "reviewed_business",
+          "detail": "Business review read; CN issuer report period 2026-06-30 00:00:00"
+        },
+        {
+          "url": "https://scanner.tradingview.com/china/scan",
+          "as_of": "2026-10-05",
+          "tier": 2,
+          "kind": "listing_and_financial_snapshot",
+          "detail": "Provider standardized latest fields; fiscal period is not supplied, not labelled H1 or TTM."
+        },
+        {
+          "url": "https://scanner.tradingview.com/china/scan",
+          "as_of": "2026-10-08",
+          "tier": 2,
+          "kind": "listing_and_financial_snapshot",
+          "detail": "10-08 实际在线采集；active_symbol/六位代码/venue/CNY/有效最近成交已查。报价及股权市值截面截至09-30；财务报表期间标签未提供，不称为2026半年或TTM。原始回执 research/network/financial-350.json"
+        },
+        {
+          "url": "https://emweb.securities.eastmoney.com/PC_HSF10/BusinessAnalysis/PageAjax?code=SH601899",
+          "as_of": "2026-10-08",
+          "tier": 2,
+          "kind": "reviewed_business",
+          "detail": "在线审查主营/分部；原始报告期间 2026-06-30 00:00:00；产品 贸易精炼等其他销售收入、其他主营业务、冶炼产铜、冶炼产锌、矿山产银；原始回执 research/network/business-SSE-601899.json"
+        }
+      ],
+      "entity_id": "ISSUER:ZIJIN",
+      "name": "Zijin Mining",
+      "kind": "equity",
+      "leader": true,
+      "source_row_sha256": "c9c2db05dbf894b68f1eeae82f916244a7c682335312c207403fbb233b378496"
+    },
+    {
+      "ticker": "SZSE:300750",
+      "source": "cn",
+      "market": "CN",
+      "theme": "BATTERIES",
+      "duties": [
+        "BATTERIES_DUTY"
+      ],
+      "reason": "Traction-battery and energy-storage systems, battery materials and recycling.",
+      "evidence": [
+        {
+          "url": "https://emweb.securities.eastmoney.com/PC_HSF10/BusinessAnalysis/PageAjax?code=SZ300750",
+          "as_of": "2026-10-05",
+          "tier": 2,
+          "kind": "reviewed_business",
+          "detail": "Business review read; CN issuer report period 2026-06-30 00:00:00"
+        },
+        {
+          "url": "https://scanner.tradingview.com/china/scan",
+          "as_of": "2026-10-05",
+          "tier": 2,
+          "kind": "listing_and_financial_snapshot",
+          "detail": "Provider standardized latest fields; fiscal period is not supplied, not labelled H1 or TTM."
+        },
+        {
+          "url": "https://www.catl.com/en/news/6773.html",
+          "as_of": "2026-10-05",
+          "tier": 1,
+          "kind": "issuer_disclosure"
+        },
+        {
+          "url": "https://scanner.tradingview.com/china/scan",
+          "as_of": "2026-10-08",
+          "tier": 2,
+          "kind": "listing_and_financial_snapshot",
+          "detail": "10-08 实际在线采集；active_symbol/六位代码/venue/CNY/有效最近成交已查。报价及股权市值截面截至09-30；财务报表期间标签未提供，不称为2026半年或TTM。原始回执 research/network/financial-150.json"
+        },
+        {
+          "url": "https://emweb.securities.eastmoney.com/PC_HSF10/BusinessAnalysis/PageAjax?code=SZ300750",
+          "as_of": "2026-10-08",
+          "tier": 2,
+          "kind": "reviewed_business",
+          "detail": "在线审查主营/分部；原始报告期间 2026-06-30 00:00:00；产品 动力电池系统、储能电池系统、电池材料及回收、矿产资源、其他(补充)；原始回执 research/network/business-SZSE-300750.json"
+        }
+      ],
+      "entity_id": "ISSUER:CATL",
+      "name": "CATL",
+      "kind": "equity",
+      "leader": true,
+      "source_row_sha256": "13154c999edab22f3c66b548956a1992f7473e89742effdee4fefe5224ca15fa"
+    },
+    {
+      "ticker": "TSE:7203",
+      "source": "jp",
+      "market": "JP",
+      "theme": "INDUSTRY",
+      "duties": [
+        "INDUSTRY_DUTY"
+      ],
+      "reason": "Vehicle manufacturing and sales, and related finance.",
+      "evidence": [
+        {
+          "url": "https://www.tradingview.com/symbols/TSE-7203/",
+          "as_of": "2026-10-07",
+          "tier": 2,
+          "kind": "reviewed_business",
+          "detail": "Business profile read; independent judgement of operating function, not inferred from provider sector or capitalization."
+        },
+        {
+          "url": "https://scanner.tradingview.com/japan/scan",
+          "as_of": "2026-10-07",
+          "tier": 2,
+          "kind": "financial_snapshot",
+          "detail": "Standardized latest fields; provider supplies no fiscal-period label. No H1/TTM period is inferred."
+        }
+      ],
+      "entity_id": "ISSUER:TOYOTA",
+      "name": "Toyota Motor",
+      "kind": "equity",
+      "leader": true,
+      "source_row_sha256": "381c3a75ba4a96b15cf9593af53db0487169975b4710e6f6f6e06cc17ffe408e"
+    },
+    {
+      "ticker": "TSE:8035",
+      "source": "jp",
+      "market": "JP",
+      "theme": "SEMI",
+      "duties": [
+        "SEMI_DUTY"
+      ],
+      "reason": "Semiconductor and display-panel manufacturing equipment.",
+      "evidence": [
+        {
+          "url": "https://www.tradingview.com/symbols/TSE-8035/",
+          "as_of": "2026-10-07",
+          "tier": 2,
+          "kind": "reviewed_business",
+          "detail": "Business profile read; independent judgement of operating function, not inferred from provider sector or capitalization."
+        },
+        {
+          "url": "https://scanner.tradingview.com/japan/scan",
+          "as_of": "2026-10-07",
+          "tier": 2,
+          "kind": "financial_snapshot",
+          "detail": "Standardized latest fields; provider supplies no fiscal-period label. No H1/TTM period is inferred."
+        }
+      ],
+      "entity_id": "ISSUER:TOKYO_ELECTRON",
+      "name": "Tokyo Electron",
+      "kind": "equity",
+      "leader": true,
+      "source_row_sha256": "5f7cea2e8342f7f600d3fde2dd4a4320172d398a19a6a5eafc9f3a5e4669dcf8"
+    },
+    {
+      "ticker": "TSE:6861",
+      "source": "jp",
+      "market": "JP",
+      "theme": "INDUSTRY",
+      "duties": [
+        "INDUSTRY_DUTY"
+      ],
+      "reason": "Factory automation, sensors and inspection equipment.",
+      "evidence": [
+        {
+          "url": "https://www.tradingview.com/symbols/TSE-6861/",
+          "as_of": "2026-10-07",
+          "tier": 2,
+          "kind": "reviewed_business",
+          "detail": "Business profile read; independent judgement of operating function, not inferred from provider sector or capitalization."
+        },
+        {
+          "url": "https://scanner.tradingview.com/japan/scan",
+          "as_of": "2026-10-07",
+          "tier": 2,
+          "kind": "financial_snapshot",
+          "detail": "Standardized latest fields; provider supplies no fiscal-period label. No H1/TTM period is inferred."
+        }
+      ],
+      "entity_id": "ISSUER:KEYENCE",
+      "name": "Keyence",
+      "kind": "equity",
+      "leader": true,
+      "source_row_sha256": "b598339b5543b1f60a8e6b46f59a62a61758c335dde6cb2b5ba1e2939ba10018"
+    },
+    {
+      "ticker": "HKEX:700",
+      "source": "hk",
+      "market": "HK",
+      "theme": "PLATFORMS",
+      "duties": [
+        "PLATFORMS_DUTY"
+      ],
+      "reason": "Social, gaming and fintech platforms linking content and payments.",
+      "evidence": [
+        {
+          "url": "https://www.tradingview.com/symbols/HKEX-700/",
+          "as_of": "2026-10-08",
+          "tier": 2,
+          "kind": "reviewed_business"
+        },
+        {
+          "url": "https://scanner.tradingview.com/hongkong/scan",
+          "as_of": "2026-10-08",
+          "tier": 2,
+          "kind": "financial_snapshot"
+        }
+      ],
+      "entity_id": "ISSUER:TENCENT",
+      "name": "Tencent",
+      "kind": "equity",
+      "leader": true,
+      "source_row_sha256": "6218b98a4278dc2034e85b2b2a6e9c1e8928927834d40e6ed1efc171b459cf76"
+    },
+    {
+      "ticker": "HKEX:9988",
+      "source": "hk",
+      "market": "HK",
+      "theme": "PLATFORMS",
+      "duties": [
+        "PLATFORMS_DUTY"
+      ],
+      "reason": "E-commerce and cloud platforms serving merchants, consumers and enterprises.",
+      "evidence": [
+        {
+          "url": "https://www.tradingview.com/symbols/HKEX-9988/",
+          "as_of": "2026-10-08",
+          "tier": 2,
+          "kind": "reviewed_business"
+        },
+        {
+          "url": "https://scanner.tradingview.com/hongkong/scan",
+          "as_of": "2026-10-08",
+          "tier": 2,
+          "kind": "financial_snapshot"
+        }
+      ],
+      "entity_id": "ISSUER:ALIBABA",
+      "name": "Alibaba",
+      "kind": "equity",
+      "leader": true,
+      "source_row_sha256": "52f49c693d6376f8723020a4c9d8a055e443dfda298f073eddea0735b4fdf6db"
+    },
+    {
+      "ticker": "KRX:000660",
+      "source": "kr",
+      "market": "KR",
+      "theme": "SEMI",
+      "duties": [
+        "SEMI_DUTY"
+      ],
+      "reason": "Memory-semiconductor design, manufacturing and sales.",
+      "evidence": [
+        {
+          "url": "https://www.tradingview.com/symbols/KRX-000660/",
+          "as_of": "2026-10-07",
+          "tier": 2,
+          "kind": "reviewed_business",
+          "detail": "Business profile read; independent judgement of operating function, not inferred from provider sector or capitalization."
+        },
+        {
+          "url": "https://scanner.tradingview.com/korea/scan",
+          "as_of": "2026-10-07",
+          "tier": 2,
+          "kind": "financial_snapshot",
+          "detail": "Standardized latest fields; provider supplies no fiscal-period label. No H1/TTM period is inferred."
+        }
+      ],
+      "entity_id": "ISSUER:SK_HYNIX",
+      "name": "SK hynix",
+      "kind": "equity",
+      "leader": true,
+      "source_row_sha256": "6eff9a27a0493bc53077981bdf2a5f16e24c53eb249be45aae59a6fbe1b438de"
+    },
+    {
+      "ticker": "KRX:005930",
+      "source": "kr",
+      "market": "KR",
+      "theme": "SEMI",
+      "duties": [
+        "SEMI_DUTY"
+      ],
+      "reason": "Memory semiconductors, electronics and related semiconductor businesses.",
+      "evidence": [
+        {
+          "url": "https://www.tradingview.com/symbols/KRX-005930/",
+          "as_of": "2026-10-07",
+          "tier": 2,
+          "kind": "reviewed_business",
+          "detail": "Business profile read; independent judgement of operating function, not inferred from provider sector or capitalization."
+        },
+        {
+          "url": "https://scanner.tradingview.com/korea/scan",
+          "as_of": "2026-10-07",
+          "tier": 2,
+          "kind": "financial_snapshot",
+          "detail": "Standardized latest fields; provider supplies no fiscal-period label. No H1/TTM period is inferred."
+        }
+      ],
+      "entity_id": "ISSUER:SAMSUNG_ELECTRONICS",
+      "name": "Samsung Electronics",
+      "kind": "equity",
+      "leader": true,
+      "source_row_sha256": "4174a203f8772e7d5c8835535b02baaf360061bf41ebf8b277a019d79198ea4e"
+    },
+    {
+      "ticker": "SP:SPX",
+      "source": "us",
+      "market": "US",
+      "theme": "GAUGES",
+      "duties": [
+        "US_MARKET",
+        "GAUGES_DUTY"
+      ],
+      "reason": "S&P 500; Separate reference instrument; does not consume an operating-entity seat.",
+      "evidence": [
+        {
+          "url": "https://www.tradingview.com/symbols/TVC-SPX/",
+          "as_of": "2026-10-05",
+          "tier": 2,
+          "kind": "reference_identity",
+          "detail": "S&P 500"
+        },
+        {
+          "url": "https://www.tradingview.com/symbols/SPX/?exchange=SP",
+          "as_of": "2026-10-08",
+          "tier": 2,
+          "kind": "reference_live_review",
+          "detail": "Exact requested identity is embedded in fetched page; product/offer and raw receipt retained in reference-review.json. Quotes have their own timestamps."
+        }
+      ],
+      "entity_id": "GAUGE:SP500",
+      "name": "S&P 500",
+      "kind": "index",
+      "leader": false,
+      "source_row_sha256": "b18e88410c43af67f9f6f1d34c779b42b268abfa965a1bfd11795ea0759800f1"
+    },
+    {
+      "ticker": "SSE:000300",
+      "source": "cn",
+      "market": "CN",
+      "theme": "GAUGES",
+      "duties": [
+        "CN_MARKET",
+        "GAUGES_DUTY"
+      ],
+      "reason": "CSI 300 Index; independent reference, excluded from entity and leader counts.",
+      "evidence": [
+        {
+          "url": "https://scanner.tradingview.com/china/scan",
+          "as_of": "2026-10-05",
+          "tier": 2,
+          "kind": "reference_identity",
+          "detail": "CSI 300 Index"
+        },
+        {
+          "url": "https://scanner.tradingview.com/china/scan",
+          "as_of": "2026-10-08",
+          "tier": 2,
+          "kind": "reference_identity",
+          "detail": "实际观察参考工具身份/报价，回执 research/network/financial-1600.json"
+        }
+      ],
+      "entity_id": "GAUGE:CSI300",
+      "name": "CSI 300",
+      "kind": "index",
+      "leader": false,
+      "source_row_sha256": "c17a151c0bf8dc78c1f1ac482c94684b954fbfce99cfdffd54df6aef36e39287"
+    },
+    {
+      "ticker": "TSE:TOPIX",
+      "source": "refs",
+      "market": "JP",
+      "theme": "GAUGES",
+      "duties": [
+        "JP_MARKET",
+        "GAUGES_DUTY"
+      ],
+      "reason": "Japanese broad equity market, free-float capitalization weighted; native index, not an ETF.",
+      "evidence": [
+        {
+          "url": "https://www.tradingview.com/symbols/TSE-TOPIX/",
+          "as_of": "2026-10-18",
+          "tier": 2
+        },
+        {
+          "url": "https://www.jpx.co.jp/english/faq/stock_price_index.html",
+          "as_of": "2026-10-18",
+          "tier": 1
+        }
+      ],
+      "entity_id": "GAUGE:TOPIX",
+      "name": "TOPIX",
+      "kind": "index",
+      "leader": false,
+      "source_row_sha256": "7d6f1b25b4afe49730529a0e8a6106c082bb1ed810da1bcf6c6fb2170d39c1fe"
+    },
+    {
+      "ticker": "HSI:HSI",
+      "source": "refs",
+      "market": "HK",
+      "theme": "GAUGES",
+      "duties": [
+        "HK_MARKET",
+        "GAUGES_DUTY"
+      ],
+      "reason": "Hong Kong broad equity benchmark; native index, not a US-listed China fund.",
+      "evidence": [
+        {
+          "url": "https://www.tradingview.com/symbols/HSI-HSI/",
+          "as_of": "2026-10-18",
+          "tier": 2
+        }
+      ],
+      "entity_id": "GAUGE:HSI",
+      "name": "Hang Seng Index",
+      "kind": "index",
+      "leader": false,
+      "source_row_sha256": "60f7ee9227573eb649fdf221be89a85e5a8bf6525e187f0f87a3e3909a6e0677"
+    },
+    {
+      "ticker": "KRX:KOSPI",
+      "source": "refs",
+      "market": "KR",
+      "theme": "GAUGES",
+      "duties": [
+        "KR_MARKET",
+        "GAUGES_DUTY"
+      ],
+      "reason": "Korean main-board equity benchmark; native index, not a currency-hedged country fund.",
+      "evidence": [
+        {
+          "url": "https://www.tradingview.com/symbols/KRX-KOSPI/",
+          "as_of": "2026-10-18",
+          "tier": 2
+        }
+      ],
+      "entity_id": "GAUGE:KOSPI",
+      "name": "KOSPI",
+      "kind": "index",
+      "leader": false,
+      "source_row_sha256": "1b7cb0416e9832997be56237642f5a3464619934baec1e364b5732a3ed0fd2b4"
+    }
+  ],
+  "coverage": {
+    "CN_MARKET": {
+      "tickers": [
+        "SSE:000300"
+      ],
+      "leaders": 0
+    },
+    "HK_MARKET": {
+      "tickers": [
+        "HSI:HSI"
+      ],
+      "leaders": 0
+    },
+    "JP_MARKET": {
+      "tickers": [
+        "TSE:TOPIX"
+      ],
+      "leaders": 0
+    },
+    "KR_MARKET": {
+      "tickers": [
+        "KRX:KOSPI"
+      ],
+      "leaders": 0
+    },
+    "US_MARKET": {
+      "tickers": [
+        "SP:SPX"
+      ],
+      "leaders": 0
+    },
+    "BATTERIES_DUTY": {
+      "tickers": [
+        "SZSE:300750"
+      ],
+      "leaders": 1
+    },
+    "CONSUMER_DUTY": {
+      "tickers": [
+        "SSE:600519"
+      ],
+      "leaders": 1
+    },
+    "FINANCE_DUTY": {
+      "tickers": [
+        "NYSE:JPM"
+      ],
+      "leaders": 1
+    },
+    "GAUGES_DUTY": {
+      "tickers": [
+        "SP:SPX",
+        "SSE:000300",
+        "TSE:TOPIX",
+        "HSI:HSI",
+        "KRX:KOSPI"
+      ],
+      "leaders": 0
+    },
+    "INDUSTRY_DUTY": {
+      "tickers": [
+        "TSE:7203",
+        "TSE:6861"
+      ],
+      "leaders": 2
+    },
+    "PLATFORMS_DUTY": {
+      "tickers": [
+        "NASDAQ:MSFT",
+        "NASDAQ:GOOGL",
+        "HKEX:700",
+        "HKEX:9988"
+      ],
+      "leaders": 4
+    },
+    "RESOURCES_DUTY": {
+      "tickers": [
+        "NYSE:XOM",
+        "SSE:601899"
+      ],
+      "leaders": 2
+    },
+    "SEMI_DUTY": {
+      "tickers": [
+        "NASDAQ:NVDA",
+        "NASDAQ:AVGO",
+        "TSE:8035",
+        "KRX:000660",
+        "KRX:005930"
+      ],
+      "leaders": 5
+    }
+  },
+  "fund_reviews": {},
+  "fund_overlap": [],
+  "source_cutoffs": {
+    "us": "2026-10-08",
+    "cn": "2026-10-08",
+    "jp": "2026-10-07",
+    "hk": "2026-10-08",
+    "kr": "2026-10-07",
+    "refs": "2026-10-18"
+  },
+  "content_sha256": "47bf18475e298f8a46e58be36c1daa40c8df1d56ba6d2d3e5b94118a87c1f15f"
+}

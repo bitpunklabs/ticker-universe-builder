@@ -89,6 +89,34 @@
       "version_hash": "c8c395f33517",
       "content_hash": "1215b4840bdd",
       "warnings": []
+    },
+    {
+      "example": "global",
+      "entities": 16,
+      "references": 5,
+      "qualified": true,
+      "scope_level": "pilot",
+      "content_sha256": "47bf18475e298f8a46e58be36c1daa40c8df1d56ba6d2d3e5b94118a87c1f15f",
+      "warnings": [
+        "Validation checks supplied research, not factual leadership or alpha.",
+        "No TradingView UI import or account/feed entitlement validation.",
+        "Source dates are inherited; composition does not refresh market facts.",
+        "Bounded pilot/synthetic scope; not a worldwide production universe."
+      ]
+    },
+    {
+      "example": "global-core",
+      "entities": 15,
+      "references": 5,
+      "qualified": true,
+      "scope_level": "pilot",
+      "content_sha256": "163a3165d243c3e103bf09e9ded875364cc4202fef8a1681ab90578e28f766bc",
+      "warnings": [
+        "Validation checks supplied research, not factual leadership or alpha.",
+        "No TradingView UI import or account/feed entitlement validation.",
+        "Source dates are inherited; composition does not refresh market facts.",
+        "Bounded pilot/synthetic scope; not a worldwide production universe."
+      ]
     }
   ]
 }

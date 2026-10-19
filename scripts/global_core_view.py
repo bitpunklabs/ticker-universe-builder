@@ -308,7 +308,7 @@ def compose(parent_path, parent_contract_path, review_path, output, policy=None)
         PARENT_FILE: parent_path.read_bytes().decode("utf-8"),
         PARENT_CONTRACT: parent_contract_path.read_bytes().decode("utf-8"),
     }
-    suffixes = {"watchlist": "", "by_theme": "-by-theme", "by_market": "-by-market"}
+    suffixes = full.VIEW_SUFFIXES
     for key, text in full.exports(composition, contract).items():
         files[stem + suffixes[key] + ".txt"] = text
     for suffix in suffixes.values():
@@ -369,7 +369,7 @@ def validate(path, review_path, policy=None):
             "Core changed the inherited coverage contract",
         )
         for key, text in full.exports(recomputed, contract).items():
-            suffix = {"watchlist": "", "by_theme": "-by-theme", "by_market": "-by-market"}[key]
+            suffix = full.VIEW_SUFFIXES[key]
             need(
                 (path.parent / (path.stem + suffix + ".txt")).read_bytes().decode("utf-8") == text,
                 key + ": Core TXT differs from exact validated subset",

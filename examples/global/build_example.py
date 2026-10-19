@@ -14,6 +14,8 @@ sys.path.insert(0, str(ROOT / "scripts"))
 from global_core import compose, file_hash, validate  # noqa: E402
 from global_core_view import compose as compose_core  # noqa: E402
 from global_core_view import validate as validate_core  # noqa: E402
+from global_watchlist import export as export_view  # noqa: E402
+from global_watchlist import validate as validate_view  # noqa: E402
 
 AS_OF = "2026-10-18"
 SOURCES = {
@@ -49,10 +51,11 @@ SELECTIONS = [
 ]
 
 
-def inputs(destination, fund_catalog=None):
+def inputs(destination, fund_catalog=None, source_root=None):
+    source_root = Path(source_root) if source_root else ROOT / "examples"
     loaded, sources = {}, []
     for key, relative in SOURCES.items():
-        path = ROOT / "examples" / relative
+        path = source_root / relative
         if not path.exists():
             raise ValueError("Recreate worked sources first: python examples/build_examples.py")
         loaded[key] = json.loads(path.read_text())
@@ -193,22 +196,50 @@ def inputs(destination, fund_catalog=None):
     return destination / "global-spec.json", destination / "coverage-contract.json"
 
 
-def main():
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--output", type=Path, required=True, help="new empty pilot directory")
-    parser.add_argument("--fund-catalog", type=Path, help="optional researched SOXX catalog")
-    parser.add_argument(
-        "--with-core", action="store_true", help="also replay a reviewed Core subset"
-    )
-    args = parser.parse_args()
-    if args.output.exists() and any(args.output.iterdir()):
-        parser.error("output must be new or empty")
-    spec, contract = inputs(args.output / "inputs", args.fund_catalog)
-    receipt = compose(spec, contract, args.output / "bundle")
+def observation_view(universe, contract, destination):
+    """Author this bounded pilot's display input, then use the maintained exporter."""
+    path = Path(universe)
+    members = json.loads(path.read_text())["members"]
+    sections = []
+
+    def section(code, name, rows):
+        if rows:
+            sections.append(dict(id=code, name=name, tickers=[r["ticker"] for r in rows]))
+
+    section("I01", "CORE_INDICES_US_CHINA", [r for r in members
+            if r["kind"] == "index" and r["market"] in {"US", "CN"}])
+    section("I02", "INDICES_ASIA_JAPAN_HK_KOREA", [r for r in members
+            if r["kind"] == "index" and r["market"] not in {"US", "CN"}])
+    section("E01", "ETF_SEMICONDUCTORS", [r for r in members if r["kind"] == "etf"])
+    for theme in sorted({r["theme"] for r in members if r["kind"] == "equity"}):
+        section("L_" + theme, "LEADERS_" + theme,
+                [r for r in members if r["kind"] == "equity" and r["theme"] == theme])
+    layout = destination.parent / (path.stem + "-layout.json")
+    layout.write_text(json.dumps(dict(
+        schema_version=1, kind="global_watchlist_layout",
+        universe_sha256=file_hash(path), sections=sections), indent=2) + "\n")
+    receipt = export_view(path, contract, layout, destination)
+    checked = validate_view(receipt["artifacts"]["watchlist"], path, contract,
+                            receipt["artifacts"]["layout"])
+    if not checked["passed"]:
+        raise ValueError(checked)
+    return receipt
+
+
+def build(destination, fund_catalog=None, *, source_root=None, with_core=False):
+    destination = Path(destination)
+    if destination.exists() and any(destination.iterdir()):
+        raise ValueError("output must be new or empty")
+    spec, contract = inputs(destination / "inputs", fund_catalog, source_root)
+    receipt = compose(spec, contract, destination / "bundle")
     checked = validate(receipt["artifacts"]["universe"], contract)
     if not checked["passed"]:
         raise ValueError(checked)
-    if args.with_core:
+    receipt["observation"] = observation_view(
+        receipt["artifacts"]["universe"], contract, destination / "view"
+    )
+    results = {"global": receipt}
+    if with_core:
         parent = Path(receipt["artifacts"]["universe"])
         parent_data = json.loads(parent.read_text())
         parent_contract = json.loads(contract.read_text())
@@ -236,15 +267,30 @@ def main():
                               if r["theme"] == t["id"]),
             ) for t in parent_contract["themes"]],
         )
-        review_path = args.output / "inputs/core-review.json"
+        review_path = destination / "inputs/core-review.json"
         review_path.write_text(json.dumps(review, ensure_ascii=False, indent=2) + "\n")
-        core_receipt = compose_core(parent, contract, review_path, args.output / "core-bundle")
+        core_receipt = compose_core(parent, contract, review_path, destination / "core-bundle")
         core_check = validate_core(core_receipt["artifacts"]["universe"], review_path)
         if not core_check["passed"]:
             raise ValueError(core_check)
-        (args.output / "core-receipt.json").write_text(json.dumps(core_receipt, indent=2) + "\n")
-    (args.output / "receipt.json").write_text(json.dumps(receipt, indent=2) + "\n")
-    print(json.dumps(receipt, indent=2))
+        core_receipt["observation"] = observation_view(
+            core_receipt["artifacts"]["universe"], review_path, destination / "core-view"
+        )
+        results["global-core"] = core_receipt
+    return results
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--output", type=Path, required=True, help="new empty pilot directory")
+    parser.add_argument("--fund-catalog", type=Path, help="optional researched SOXX catalog")
+    parser.add_argument("--with-core", action="store_true", help="also replay a reviewed subset")
+    args = parser.parse_args()
+    try:
+        result = build(args.output, args.fund_catalog, with_core=args.with_core)
+    except ValueError as exc:
+        parser.error(str(exc))
+    print(json.dumps(result["global"], indent=2))
 
 
 if __name__ == "__main__":

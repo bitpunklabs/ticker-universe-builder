@@ -1,0 +1,25 @@
+{
+  "passed": true,
+  "errors": [],
+  "symbols": 21,
+  "headers": 9,
+  "tokens": 30,
+  "qualified": true,
+  "universe_sha256": "6c6d1c79e44d6c1460137fed6c2aaa3a612dbd2e9c6c0b3fc0a3e908ff53b505",
+  "contract_sha256": "e5278b3542cd342e2dbfba6b683b32537bfb292d02cf2e705d89147a1cb1358b",
+  "layout_sha256": "9fda3999d234f59594062403816bfe577052ea6032dd1e87c8ad9c8fa0c239a5",
+  "source_cutoffs": {
+    "us": "2026-10-08",
+    "cn": "2026-10-08",
+    "jp": "2026-10-07",
+    "hk": "2026-10-08",
+    "kr": "2026-10-07",
+    "refs": "2026-10-18"
+  },
+  "warnings": [
+    "Validation checks supplied research, not factual leadership or alpha.",
+    "No TradingView UI import or account/feed entitlement validation.",
+    "Source dates are inherited; composition does not refresh market facts.",
+    "Bounded pilot/synthetic scope; not a worldwide production universe."
+  ]
+}

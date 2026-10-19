@@ -1,0 +1,48 @@
+{
+  "passed": true,
+  "qualified": true,
+  "errors": [],
+  "scope_level": "pilot",
+  "contract_sha256": "7f3d75681960ee2b4deecd999200b21b948b59e3f794c06500d47d2830866bdb",
+  "symbols": 20,
+  "kinds": {
+    "equity": 15,
+    "index": 5
+  },
+  "duties": 13,
+  "watchlists": {
+    "watchlist": {
+      "passed": true,
+      "errors": [],
+      "symbols": 20,
+      "headers": 0,
+      "tokens": 20
+    },
+    "by_theme": {
+      "passed": true,
+      "errors": [],
+      "symbols": 20,
+      "headers": 8,
+      "tokens": 28
+    },
+    "by_market": {
+      "passed": true,
+      "errors": [],
+      "symbols": 20,
+      "headers": 5,
+      "tokens": 25
+    }
+  },
+  "warnings": [
+    "Validation checks supplied research, not factual leadership or alpha.",
+    "No TradingView UI import or account/feed entitlement validation.",
+    "Source dates are inherited; composition does not refresh market facts.",
+    "Bounded pilot/synthetic scope; not a worldwide production universe."
+  ],
+  "parent_symbols": 21,
+  "omitted_symbols": 1,
+  "strict_subset_verified": true,
+  "parent_coverage_preserved": true,
+  "basket_exposure_reviews": 0,
+  "review_sha256": "a069122d7226a0c6388c0bf085fe62a61f625ee23137d1e0637a43dc4db0ea78"
+}

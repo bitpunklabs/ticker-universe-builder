@@ -1,0 +1,864 @@
+{
+  "schema_version": 1,
+  "kind": "global_core_review",
+  "parent_sha256": "6c6d1c79e44d6c1460137fed6c2aaa3a612dbd2e9c6c0b3fc0a3e908ff53b505",
+  "parent_contract_sha256": "e5278b3542cd342e2dbfba6b683b32537bfb292d02cf2e705d89147a1cb1358b",
+  "scope": "Bounded pilot Core: retain all pilot duties and prioritize SK hynix as the direct memory representative. Samsung stays in the full pilot; not a world screen.",
+  "protected_tickers": [],
+  "decisions": [
+    {
+      "ticker": "NASDAQ:NVDA",
+      "action": "retain",
+      "reason": "Retain the pilot observation: Accelerated computing platforms and the cuda software ecosystem.",
+      "evidence": [
+        {
+          "url": "https://www.tradingview.com/symbols/NASDAQ-NVDA/",
+          "as_of": "2026-10-05",
+          "tier": 2,
+          "kind": "reviewed_business",
+          "detail": "Company business profile read; outdated segment labels not reused"
+        },
+        {
+          "url": "https://scanner.tradingview.com/america/scan",
+          "as_of": "2026-10-05",
+          "tier": 2,
+          "kind": "listing_and_financial_snapshot",
+          "detail": "Provider standardized latest fields; fiscal period is not supplied, not labelled H1 or TTM."
+        },
+        {
+          "url": "https://s201.q4cdn.com/141608511/files/doc_financials/2026/ar/2026-annual-report-web-Hyperlinks.pdf",
+          "as_of": "2026-10-05",
+          "tier": 1,
+          "kind": "issuer_disclosure"
+        },
+        {
+          "url": "https://scanner.tradingview.com/america/scan",
+          "as_of": "2026-10-08",
+          "tier": 2,
+          "kind": "listing_financial_cap",
+          "detail": "Exact incumbent scan raw/scan/incumbents-references and full inventory retained; active=True; market_cap_basic=5708446631070.777 USD; live observation, financial period unknown."
+        },
+        {
+          "url": "https://www.tradingview.com/symbols/NASDAQ-NVDA/",
+          "as_of": "2026-10-08",
+          "tier": 2,
+          "kind": "online_business_review",
+          "detail": "Broad function compared with prior reviewed duty; full description and identity retained at research/online/raw/business/NASDAQ-NVDA.receipt.json. Publication/update date unknown; old segment lists are not treated as current."
+        }
+      ],
+      "covered_by": []
+    },
+    {
+      "ticker": "NASDAQ:AVGO",
+      "action": "retain",
+      "reason": "Retain the pilot observation: Networking/custom silicon and infrastructure software.",
+      "evidence": [
+        {
+          "url": "https://www.tradingview.com/symbols/NASDAQ-AVGO/",
+          "as_of": "2026-10-05",
+          "tier": 2,
+          "kind": "reviewed_business",
+          "detail": "Company business profile read; outdated segment labels not reused"
+        },
+        {
+          "url": "https://scanner.tradingview.com/america/scan",
+          "as_of": "2026-10-05",
+          "tier": 2,
+          "kind": "listing_and_financial_snapshot",
+          "detail": "Provider standardized latest fields; fiscal period is not supplied, not labelled H1 or TTM."
+        },
+        {
+          "url": "https://scanner.tradingview.com/america/scan",
+          "as_of": "2026-10-08",
+          "tier": 2,
+          "kind": "listing_financial_cap",
+          "detail": "Exact incumbent scan raw/scan/incumbents-references and full inventory retained; active=True; market_cap_basic=1781041297706.6213 USD; live observation, financial period unknown."
+        },
+        {
+          "url": "https://www.tradingview.com/symbols/NASDAQ-AVGO/",
+          "as_of": "2026-10-08",
+          "tier": 2,
+          "kind": "online_business_review",
+          "detail": "Broad function compared with prior reviewed duty; full description and identity retained at research/online/raw/business/NASDAQ-AVGO.receipt.json. Publication/update date unknown; old segment lists are not treated as current."
+        }
+      ],
+      "covered_by": []
+    },
+    {
+      "ticker": "NASDAQ:MSFT",
+      "action": "retain",
+      "reason": "Retain the pilot observation: Enterprise productivity software and azure cloud.",
+      "evidence": [
+        {
+          "url": "https://www.tradingview.com/symbols/NASDAQ-MSFT/",
+          "as_of": "2026-10-05",
+          "tier": 2,
+          "kind": "reviewed_business",
+          "detail": "Company business profile read; outdated segment labels not reused"
+        },
+        {
+          "url": "https://scanner.tradingview.com/america/scan",
+          "as_of": "2026-10-05",
+          "tier": 2,
+          "kind": "listing_and_financial_snapshot",
+          "detail": "Provider standardized latest fields; fiscal period is not supplied, not labelled H1 or TTM."
+        },
+        {
+          "url": "https://scanner.tradingview.com/america/scan",
+          "as_of": "2026-10-08",
+          "tier": 2,
+          "kind": "listing_financial_cap",
+          "detail": "Exact incumbent scan raw/scan/incumbents-references and full inventory retained; active=True; market_cap_basic=3917680540319.669 USD; live observation, financial period unknown."
+        },
+        {
+          "url": "https://www.tradingview.com/symbols/NASDAQ-MSFT/",
+          "as_of": "2026-10-08",
+          "tier": 2,
+          "kind": "online_business_review",
+          "detail": "Broad function compared with prior reviewed duty; full description and identity retained at research/online/raw/business/NASDAQ-MSFT.receipt.json. Publication/update date unknown; old segment lists are not treated as current."
+        }
+      ],
+      "covered_by": []
+    },
+    {
+      "ticker": "NASDAQ:GOOGL",
+      "action": "retain",
+      "reason": "Retain the pilot observation: Search advertising, youtube and cloud infrastructure.",
+      "evidence": [
+        {
+          "url": "https://www.tradingview.com/symbols/NASDAQ-GOOGL/",
+          "as_of": "2026-10-05",
+          "tier": 2,
+          "kind": "reviewed_business",
+          "detail": "Company business profile read; outdated segment labels not reused"
+        },
+        {
+          "url": "https://scanner.tradingview.com/america/scan",
+          "as_of": "2026-10-05",
+          "tier": 2,
+          "kind": "listing_and_financial_snapshot",
+          "detail": "Provider standardized latest fields; fiscal period is not supplied, not labelled H1 or TTM."
+        },
+        {
+          "url": "https://scanner.tradingview.com/america/scan",
+          "as_of": "2026-10-08",
+          "tier": 2,
+          "kind": "listing_financial_cap",
+          "detail": "Exact incumbent scan raw/scan/incumbents-references and full inventory retained; active=True; market_cap_basic=4207275497266.714 USD; live observation, financial period unknown."
+        },
+        {
+          "url": "https://www.tradingview.com/symbols/NASDAQ-GOOGL/",
+          "as_of": "2026-10-08",
+          "tier": 2,
+          "kind": "online_business_review",
+          "detail": "Broad function compared with prior reviewed duty; full description and identity retained at research/online/raw/business/NASDAQ-GOOGL.receipt.json. Publication/update date unknown; old segment lists are not treated as current."
+        }
+      ],
+      "covered_by": []
+    },
+    {
+      "ticker": "NYSE:JPM",
+      "action": "retain",
+      "reason": "Retain the pilot observation: Diversified consumer banking, investment banking and payments.",
+      "evidence": [
+        {
+          "url": "https://www.tradingview.com/symbols/NYSE-JPM/",
+          "as_of": "2026-10-05",
+          "tier": 2,
+          "kind": "reviewed_business",
+          "detail": "Company business profile read; outdated segment labels not reused"
+        },
+        {
+          "url": "https://scanner.tradingview.com/america/scan",
+          "as_of": "2026-10-05",
+          "tier": 2,
+          "kind": "listing_and_financial_snapshot",
+          "detail": "Provider standardized latest fields; fiscal period is not supplied, not labelled H1 or TTM."
+        },
+        {
+          "url": "https://www.jpmorganchase.com/ir/annual-report/2025",
+          "as_of": "2026-10-05",
+          "tier": 1,
+          "kind": "issuer_disclosure"
+        },
+        {
+          "url": "https://scanner.tradingview.com/america/scan",
+          "as_of": "2026-10-08",
+          "tier": 2,
+          "kind": "listing_financial_cap",
+          "detail": "Exact incumbent scan raw/scan/incumbents-references and full inventory retained; active=True; market_cap_basic=872589515758.448 USD; live observation, financial period unknown."
+        },
+        {
+          "url": "https://www.tradingview.com/symbols/NYSE-JPM/",
+          "as_of": "2026-10-08",
+          "tier": 2,
+          "kind": "online_business_review",
+          "detail": "Broad function compared with prior reviewed duty; full description and identity retained at research/online/raw/business/NYSE-JPM.receipt.json. Publication/update date unknown; old segment lists are not treated as current."
+        }
+      ],
+      "covered_by": []
+    },
+    {
+      "ticker": "NYSE:XOM",
+      "action": "retain",
+      "reason": "Retain the pilot observation: Integrated oil/gas production, refining and chemicals.",
+      "evidence": [
+        {
+          "url": "https://www.tradingview.com/symbols/NYSE-XOM/",
+          "as_of": "2026-10-05",
+          "tier": 2,
+          "kind": "reviewed_business",
+          "detail": "Company business profile read; outdated segment labels not reused"
+        },
+        {
+          "url": "https://scanner.tradingview.com/america/scan",
+          "as_of": "2026-10-05",
+          "tier": 2,
+          "kind": "listing_and_financial_snapshot",
+          "detail": "Provider standardized latest fields; fiscal period is not supplied, not labelled H1 or TTM."
+        },
+        {
+          "url": "https://scanner.tradingview.com/america/scan",
+          "as_of": "2026-10-08",
+          "tier": 2,
+          "kind": "listing_financial_cap",
+          "detail": "Exact incumbent scan raw/scan/incumbents-references and full inventory retained; active=True; market_cap_basic=673531186020.2554 USD; live observation, financial period unknown."
+        },
+        {
+          "url": "https://www.tradingview.com/symbols/NYSE-XOM/",
+          "as_of": "2026-10-08",
+          "tier": 2,
+          "kind": "online_business_review",
+          "detail": "Broad function compared with prior reviewed duty; full description and identity retained at research/online/raw/business/NYSE-XOM.receipt.json. Publication/update date unknown; old segment lists are not treated as current."
+        }
+      ],
+      "covered_by": []
+    },
+    {
+      "ticker": "SSE:600519",
+      "action": "retain",
+      "reason": "Retain the pilot observation: Moutai liquor.",
+      "evidence": [
+        {
+          "url": "https://emweb.securities.eastmoney.com/PC_HSF10/BusinessAnalysis/PageAjax?code=SH600519",
+          "as_of": "2026-10-05",
+          "tier": 2,
+          "kind": "reviewed_business",
+          "detail": "Business review read; CN issuer report period 2026-06-30 00:00:00"
+        },
+        {
+          "url": "https://scanner.tradingview.com/china/scan",
+          "as_of": "2026-10-05",
+          "tier": 2,
+          "kind": "listing_and_financial_snapshot",
+          "detail": "Provider standardized latest fields; fiscal period is not supplied, not labelled H1 or TTM."
+        },
+        {
+          "url": "https://scanner.tradingview.com/china/scan",
+          "as_of": "2026-10-08",
+          "tier": 2,
+          "kind": "listing_and_financial_snapshot",
+          "detail": "10-08 实际在线采集；active_symbol/六位代码/venue/CNY/有效最近成交已查。报价及股权市值截面截至09-30；财务报表期间标签未提供，不称为2026半年或TTM。原始回执 research/network/financial-250.json"
+        },
+        {
+          "url": "https://emweb.securities.eastmoney.com/PC_HSF10/BusinessAnalysis/PageAjax?code=SH600519",
+          "as_of": "2026-10-08",
+          "tier": 2,
+          "kind": "reviewed_business",
+          "detail": "在线审查主营/分部；原始报告期间 2026-06-30 00:00:00；产品 茅台酒、其他系列酒、其他(补充)；原始回执 research/network/business-SSE-600519.json"
+        }
+      ],
+      "covered_by": []
+    },
+    {
+      "ticker": "SSE:601899",
+      "action": "retain",
+      "reason": "Retain the pilot observation: Copper smelting.",
+      "evidence": [
+        {
+          "url": "https://emweb.securities.eastmoney.com/PC_HSF10/BusinessAnalysis/PageAjax?code=SH601899",
+          "as_of": "2026-10-05",
+          "tier": 2,
+          "kind": "reviewed_business",
+          "detail": "Business review read; CN issuer report period 2026-06-30 00:00:00"
+        },
+        {
+          "url": "https://scanner.tradingview.com/china/scan",
+          "as_of": "2026-10-05",
+          "tier": 2,
+          "kind": "listing_and_financial_snapshot",
+          "detail": "Provider standardized latest fields; fiscal period is not supplied, not labelled H1 or TTM."
+        },
+        {
+          "url": "https://scanner.tradingview.com/china/scan",
+          "as_of": "2026-10-08",
+          "tier": 2,
+          "kind": "listing_and_financial_snapshot",
+          "detail": "10-08 实际在线采集；active_symbol/六位代码/venue/CNY/有效最近成交已查。报价及股权市值截面截至09-30；财务报表期间标签未提供，不称为2026半年或TTM。原始回执 research/network/financial-350.json"
+        },
+        {
+          "url": "https://emweb.securities.eastmoney.com/PC_HSF10/BusinessAnalysis/PageAjax?code=SH601899",
+          "as_of": "2026-10-08",
+          "tier": 2,
+          "kind": "reviewed_business",
+          "detail": "在线审查主营/分部；原始报告期间 2026-06-30 00:00:00；产品 贸易精炼等其他销售收入、其他主营业务、冶炼产铜、冶炼产锌、矿山产银；原始回执 research/network/business-SSE-601899.json"
+        }
+      ],
+      "covered_by": []
+    },
+    {
+      "ticker": "SZSE:300750",
+      "action": "retain",
+      "reason": "Retain the pilot observation: Traction-battery and energy-storage systems, battery materials and recycling.",
+      "evidence": [
+        {
+          "url": "https://emweb.securities.eastmoney.com/PC_HSF10/BusinessAnalysis/PageAjax?code=SZ300750",
+          "as_of": "2026-10-05",
+          "tier": 2,
+          "kind": "reviewed_business",
+          "detail": "Business review read; CN issuer report period 2026-06-30 00:00:00"
+        },
+        {
+          "url": "https://scanner.tradingview.com/china/scan",
+          "as_of": "2026-10-05",
+          "tier": 2,
+          "kind": "listing_and_financial_snapshot",
+          "detail": "Provider standardized latest fields; fiscal period is not supplied, not labelled H1 or TTM."
+        },
+        {
+          "url": "https://www.catl.com/en/news/6773.html",
+          "as_of": "2026-10-05",
+          "tier": 1,
+          "kind": "issuer_disclosure"
+        },
+        {
+          "url": "https://scanner.tradingview.com/china/scan",
+          "as_of": "2026-10-08",
+          "tier": 2,
+          "kind": "listing_and_financial_snapshot",
+          "detail": "10-08 实际在线采集；active_symbol/六位代码/venue/CNY/有效最近成交已查。报价及股权市值截面截至09-30；财务报表期间标签未提供，不称为2026半年或TTM。原始回执 research/network/financial-150.json"
+        },
+        {
+          "url": "https://emweb.securities.eastmoney.com/PC_HSF10/BusinessAnalysis/PageAjax?code=SZ300750",
+          "as_of": "2026-10-08",
+          "tier": 2,
+          "kind": "reviewed_business",
+          "detail": "在线审查主营/分部；原始报告期间 2026-06-30 00:00:00；产品 动力电池系统、储能电池系统、电池材料及回收、矿产资源、其他(补充)；原始回执 research/network/business-SZSE-300750.json"
+        }
+      ],
+      "covered_by": []
+    },
+    {
+      "ticker": "TSE:7203",
+      "action": "retain",
+      "reason": "Retain the pilot observation: Vehicle manufacturing and sales, and related finance.",
+      "evidence": [
+        {
+          "url": "https://www.tradingview.com/symbols/TSE-7203/",
+          "as_of": "2026-10-07",
+          "tier": 2,
+          "kind": "reviewed_business",
+          "detail": "Business profile read; independent judgement of operating function, not inferred from provider sector or capitalization."
+        },
+        {
+          "url": "https://scanner.tradingview.com/japan/scan",
+          "as_of": "2026-10-07",
+          "tier": 2,
+          "kind": "financial_snapshot",
+          "detail": "Standardized latest fields; provider supplies no fiscal-period label. No H1/TTM period is inferred."
+        }
+      ],
+      "covered_by": []
+    },
+    {
+      "ticker": "TSE:8035",
+      "action": "retain",
+      "reason": "Retain the pilot observation: Semiconductor and display-panel manufacturing equipment.",
+      "evidence": [
+        {
+          "url": "https://www.tradingview.com/symbols/TSE-8035/",
+          "as_of": "2026-10-07",
+          "tier": 2,
+          "kind": "reviewed_business",
+          "detail": "Business profile read; independent judgement of operating function, not inferred from provider sector or capitalization."
+        },
+        {
+          "url": "https://scanner.tradingview.com/japan/scan",
+          "as_of": "2026-10-07",
+          "tier": 2,
+          "kind": "financial_snapshot",
+          "detail": "Standardized latest fields; provider supplies no fiscal-period label. No H1/TTM period is inferred."
+        }
+      ],
+      "covered_by": []
+    },
+    {
+      "ticker": "TSE:6861",
+      "action": "retain",
+      "reason": "Retain the pilot observation: Factory automation, sensors and inspection equipment.",
+      "evidence": [
+        {
+          "url": "https://www.tradingview.com/symbols/TSE-6861/",
+          "as_of": "2026-10-07",
+          "tier": 2,
+          "kind": "reviewed_business",
+          "detail": "Business profile read; independent judgement of operating function, not inferred from provider sector or capitalization."
+        },
+        {
+          "url": "https://scanner.tradingview.com/japan/scan",
+          "as_of": "2026-10-07",
+          "tier": 2,
+          "kind": "financial_snapshot",
+          "detail": "Standardized latest fields; provider supplies no fiscal-period label. No H1/TTM period is inferred."
+        }
+      ],
+      "covered_by": []
+    },
+    {
+      "ticker": "HKEX:700",
+      "action": "retain",
+      "reason": "Retain the pilot observation: Social, gaming and fintech platforms linking content and payments.",
+      "evidence": [
+        {
+          "url": "https://www.tradingview.com/symbols/HKEX-700/",
+          "as_of": "2026-10-08",
+          "tier": 2,
+          "kind": "reviewed_business"
+        },
+        {
+          "url": "https://scanner.tradingview.com/hongkong/scan",
+          "as_of": "2026-10-08",
+          "tier": 2,
+          "kind": "financial_snapshot"
+        }
+      ],
+      "covered_by": []
+    },
+    {
+      "ticker": "HKEX:9988",
+      "action": "retain",
+      "reason": "Retain the pilot observation: E-commerce and cloud platforms serving merchants, consumers and enterprises.",
+      "evidence": [
+        {
+          "url": "https://www.tradingview.com/symbols/HKEX-9988/",
+          "as_of": "2026-10-08",
+          "tier": 2,
+          "kind": "reviewed_business"
+        },
+        {
+          "url": "https://scanner.tradingview.com/hongkong/scan",
+          "as_of": "2026-10-08",
+          "tier": 2,
+          "kind": "financial_snapshot"
+        }
+      ],
+      "covered_by": []
+    },
+    {
+      "ticker": "KRX:000660",
+      "action": "retain",
+      "reason": "Retain the pilot observation: Memory-semiconductor design, manufacturing and sales.",
+      "evidence": [
+        {
+          "url": "https://www.tradingview.com/symbols/KRX-000660/",
+          "as_of": "2026-10-07",
+          "tier": 2,
+          "kind": "reviewed_business",
+          "detail": "Business profile read; independent judgement of operating function, not inferred from provider sector or capitalization."
+        },
+        {
+          "url": "https://scanner.tradingview.com/korea/scan",
+          "as_of": "2026-10-07",
+          "tier": 2,
+          "kind": "financial_snapshot",
+          "detail": "Standardized latest fields; provider supplies no fiscal-period label. No H1/TTM period is inferred."
+        }
+      ],
+      "covered_by": []
+    },
+    {
+      "ticker": "KRX:005930",
+      "action": "omit",
+      "reason": "Keep SK hynix's direct memory observation; Samsung remains full-only additional memory/electronics depth.",
+      "evidence": [
+        {
+          "url": "https://www.tradingview.com/symbols/KRX-005930/",
+          "as_of": "2026-10-07",
+          "tier": 2,
+          "kind": "reviewed_business",
+          "detail": "Business profile read; independent judgement of operating function, not inferred from provider sector or capitalization."
+        },
+        {
+          "url": "https://scanner.tradingview.com/korea/scan",
+          "as_of": "2026-10-07",
+          "tier": 2,
+          "kind": "financial_snapshot",
+          "detail": "Standardized latest fields; provider supplies no fiscal-period label. No H1/TTM period is inferred."
+        }
+      ],
+      "covered_by": [
+        "KRX:000660"
+      ]
+    },
+    {
+      "ticker": "SP:SPX",
+      "action": "retain",
+      "reason": "Retain the pilot observation: S&P 500; Separate reference instrument; does not consume an operating-entity seat.",
+      "evidence": [
+        {
+          "url": "https://www.tradingview.com/symbols/TVC-SPX/",
+          "as_of": "2026-10-05",
+          "tier": 2,
+          "kind": "reference_identity",
+          "detail": "S&P 500"
+        },
+        {
+          "url": "https://www.tradingview.com/symbols/SPX/?exchange=SP",
+          "as_of": "2026-10-08",
+          "tier": 2,
+          "kind": "reference_live_review",
+          "detail": "Exact requested identity is embedded in fetched page; product/offer and raw receipt retained in reference-review.json. Quotes have their own timestamps."
+        }
+      ],
+      "covered_by": []
+    },
+    {
+      "ticker": "SSE:000300",
+      "action": "retain",
+      "reason": "Retain the pilot observation: CSI 300 Index; independent reference, excluded from entity and leader counts.",
+      "evidence": [
+        {
+          "url": "https://scanner.tradingview.com/china/scan",
+          "as_of": "2026-10-05",
+          "tier": 2,
+          "kind": "reference_identity",
+          "detail": "CSI 300 Index"
+        },
+        {
+          "url": "https://scanner.tradingview.com/china/scan",
+          "as_of": "2026-10-08",
+          "tier": 2,
+          "kind": "reference_identity",
+          "detail": "实际观察参考工具身份/报价，回执 research/network/financial-1600.json"
+        }
+      ],
+      "covered_by": []
+    },
+    {
+      "ticker": "TSE:TOPIX",
+      "action": "retain",
+      "reason": "Retain the pilot observation: Japanese broad equity market, free-float capitalization weighted; native index, not an ETF.",
+      "evidence": [
+        {
+          "url": "https://www.tradingview.com/symbols/TSE-TOPIX/",
+          "as_of": "2026-10-18",
+          "tier": 2
+        },
+        {
+          "url": "https://www.jpx.co.jp/english/faq/stock_price_index.html",
+          "as_of": "2026-10-18",
+          "tier": 1
+        }
+      ],
+      "covered_by": []
+    },
+    {
+      "ticker": "HSI:HSI",
+      "action": "retain",
+      "reason": "Retain the pilot observation: Hong Kong broad equity benchmark; native index, not a US-listed China fund.",
+      "evidence": [
+        {
+          "url": "https://www.tradingview.com/symbols/HSI-HSI/",
+          "as_of": "2026-10-18",
+          "tier": 2
+        }
+      ],
+      "covered_by": []
+    },
+    {
+      "ticker": "KRX:KOSPI",
+      "action": "retain",
+      "reason": "Retain the pilot observation: Korean main-board equity benchmark; native index, not a currency-hedged country fund.",
+      "evidence": [
+        {
+          "url": "https://www.tradingview.com/symbols/KRX-KOSPI/",
+          "as_of": "2026-10-18",
+          "tier": 2
+        }
+      ],
+      "covered_by": []
+    }
+  ],
+  "theme_reviews": [
+    {
+      "id": "BATTERIES",
+      "emphasis": "leaders",
+      "reason": "Preserve the bounded pilot's BATTERIES duty; this small replay does not replace production child-function research.",
+      "evidence": [
+        {
+          "url": "https://emweb.securities.eastmoney.com/PC_HSF10/BusinessAnalysis/PageAjax?code=SZ300750",
+          "as_of": "2026-10-05",
+          "tier": 2,
+          "kind": "reviewed_business",
+          "detail": "Business review read; CN issuer report period 2026-06-30 00:00:00"
+        },
+        {
+          "url": "https://scanner.tradingview.com/china/scan",
+          "as_of": "2026-10-05",
+          "tier": 2,
+          "kind": "listing_and_financial_snapshot",
+          "detail": "Provider standardized latest fields; fiscal period is not supplied, not labelled H1 or TTM."
+        },
+        {
+          "url": "https://www.catl.com/en/news/6773.html",
+          "as_of": "2026-10-05",
+          "tier": 1,
+          "kind": "issuer_disclosure"
+        },
+        {
+          "url": "https://scanner.tradingview.com/china/scan",
+          "as_of": "2026-10-08",
+          "tier": 2,
+          "kind": "listing_and_financial_snapshot",
+          "detail": "10-08 实际在线采集；active_symbol/六位代码/venue/CNY/有效最近成交已查。报价及股权市值截面截至09-30；财务报表期间标签未提供，不称为2026半年或TTM。原始回执 research/network/financial-150.json"
+        },
+        {
+          "url": "https://emweb.securities.eastmoney.com/PC_HSF10/BusinessAnalysis/PageAjax?code=SZ300750",
+          "as_of": "2026-10-08",
+          "tier": 2,
+          "kind": "reviewed_business",
+          "detail": "在线审查主营/分部；原始报告期间 2026-06-30 00:00:00；产品 动力电池系统、储能电池系统、电池材料及回收、矿产资源、其他(补充)；原始回执 research/network/business-SZSE-300750.json"
+        }
+      ]
+    },
+    {
+      "id": "CONSUMER",
+      "emphasis": "leaders",
+      "reason": "Preserve the bounded pilot's CONSUMER duty; this small replay does not replace production child-function research.",
+      "evidence": [
+        {
+          "url": "https://emweb.securities.eastmoney.com/PC_HSF10/BusinessAnalysis/PageAjax?code=SH600519",
+          "as_of": "2026-10-05",
+          "tier": 2,
+          "kind": "reviewed_business",
+          "detail": "Business review read; CN issuer report period 2026-06-30 00:00:00"
+        },
+        {
+          "url": "https://scanner.tradingview.com/china/scan",
+          "as_of": "2026-10-05",
+          "tier": 2,
+          "kind": "listing_and_financial_snapshot",
+          "detail": "Provider standardized latest fields; fiscal period is not supplied, not labelled H1 or TTM."
+        },
+        {
+          "url": "https://scanner.tradingview.com/china/scan",
+          "as_of": "2026-10-08",
+          "tier": 2,
+          "kind": "listing_and_financial_snapshot",
+          "detail": "10-08 实际在线采集；active_symbol/六位代码/venue/CNY/有效最近成交已查。报价及股权市值截面截至09-30；财务报表期间标签未提供，不称为2026半年或TTM。原始回执 research/network/financial-250.json"
+        },
+        {
+          "url": "https://emweb.securities.eastmoney.com/PC_HSF10/BusinessAnalysis/PageAjax?code=SH600519",
+          "as_of": "2026-10-08",
+          "tier": 2,
+          "kind": "reviewed_business",
+          "detail": "在线审查主营/分部；原始报告期间 2026-06-30 00:00:00；产品 茅台酒、其他系列酒、其他(补充)；原始回执 research/network/business-SSE-600519.json"
+        }
+      ]
+    },
+    {
+      "id": "FINANCE",
+      "emphasis": "leaders",
+      "reason": "Preserve the bounded pilot's FINANCE duty; this small replay does not replace production child-function research.",
+      "evidence": [
+        {
+          "url": "https://www.tradingview.com/symbols/NYSE-JPM/",
+          "as_of": "2026-10-05",
+          "tier": 2,
+          "kind": "reviewed_business",
+          "detail": "Company business profile read; outdated segment labels not reused"
+        },
+        {
+          "url": "https://scanner.tradingview.com/america/scan",
+          "as_of": "2026-10-05",
+          "tier": 2,
+          "kind": "listing_and_financial_snapshot",
+          "detail": "Provider standardized latest fields; fiscal period is not supplied, not labelled H1 or TTM."
+        },
+        {
+          "url": "https://www.jpmorganchase.com/ir/annual-report/2025",
+          "as_of": "2026-10-05",
+          "tier": 1,
+          "kind": "issuer_disclosure"
+        },
+        {
+          "url": "https://scanner.tradingview.com/america/scan",
+          "as_of": "2026-10-08",
+          "tier": 2,
+          "kind": "listing_financial_cap",
+          "detail": "Exact incumbent scan raw/scan/incumbents-references and full inventory retained; active=True; market_cap_basic=872589515758.448 USD; live observation, financial period unknown."
+        },
+        {
+          "url": "https://www.tradingview.com/symbols/NYSE-JPM/",
+          "as_of": "2026-10-08",
+          "tier": 2,
+          "kind": "online_business_review",
+          "detail": "Broad function compared with prior reviewed duty; full description and identity retained at research/online/raw/business/NYSE-JPM.receipt.json. Publication/update date unknown; old segment lists are not treated as current."
+        }
+      ]
+    },
+    {
+      "id": "GAUGES",
+      "emphasis": "gauge",
+      "reason": "Preserve the bounded pilot's GAUGES duty; this small replay does not replace production child-function research.",
+      "evidence": [
+        {
+          "url": "https://www.tradingview.com/symbols/TVC-SPX/",
+          "as_of": "2026-10-05",
+          "tier": 2,
+          "kind": "reference_identity",
+          "detail": "S&P 500"
+        },
+        {
+          "url": "https://www.tradingview.com/symbols/SPX/?exchange=SP",
+          "as_of": "2026-10-08",
+          "tier": 2,
+          "kind": "reference_live_review",
+          "detail": "Exact requested identity is embedded in fetched page; product/offer and raw receipt retained in reference-review.json. Quotes have their own timestamps."
+        }
+      ]
+    },
+    {
+      "id": "INDUSTRY",
+      "emphasis": "leaders",
+      "reason": "Preserve the bounded pilot's INDUSTRY duty; this small replay does not replace production child-function research.",
+      "evidence": [
+        {
+          "url": "https://www.tradingview.com/symbols/TSE-7203/",
+          "as_of": "2026-10-07",
+          "tier": 2,
+          "kind": "reviewed_business",
+          "detail": "Business profile read; independent judgement of operating function, not inferred from provider sector or capitalization."
+        },
+        {
+          "url": "https://scanner.tradingview.com/japan/scan",
+          "as_of": "2026-10-07",
+          "tier": 2,
+          "kind": "financial_snapshot",
+          "detail": "Standardized latest fields; provider supplies no fiscal-period label. No H1/TTM period is inferred."
+        }
+      ]
+    },
+    {
+      "id": "PLATFORMS",
+      "emphasis": "leaders",
+      "reason": "Preserve the bounded pilot's PLATFORMS duty; this small replay does not replace production child-function research.",
+      "evidence": [
+        {
+          "url": "https://www.tradingview.com/symbols/NASDAQ-MSFT/",
+          "as_of": "2026-10-05",
+          "tier": 2,
+          "kind": "reviewed_business",
+          "detail": "Company business profile read; outdated segment labels not reused"
+        },
+        {
+          "url": "https://scanner.tradingview.com/america/scan",
+          "as_of": "2026-10-05",
+          "tier": 2,
+          "kind": "listing_and_financial_snapshot",
+          "detail": "Provider standardized latest fields; fiscal period is not supplied, not labelled H1 or TTM."
+        },
+        {
+          "url": "https://scanner.tradingview.com/america/scan",
+          "as_of": "2026-10-08",
+          "tier": 2,
+          "kind": "listing_financial_cap",
+          "detail": "Exact incumbent scan raw/scan/incumbents-references and full inventory retained; active=True; market_cap_basic=3917680540319.669 USD; live observation, financial period unknown."
+        },
+        {
+          "url": "https://www.tradingview.com/symbols/NASDAQ-MSFT/",
+          "as_of": "2026-10-08",
+          "tier": 2,
+          "kind": "online_business_review",
+          "detail": "Broad function compared with prior reviewed duty; full description and identity retained at research/online/raw/business/NASDAQ-MSFT.receipt.json. Publication/update date unknown; old segment lists are not treated as current."
+        }
+      ]
+    },
+    {
+      "id": "RESOURCES",
+      "emphasis": "leaders",
+      "reason": "Preserve the bounded pilot's RESOURCES duty; this small replay does not replace production child-function research.",
+      "evidence": [
+        {
+          "url": "https://www.tradingview.com/symbols/NYSE-XOM/",
+          "as_of": "2026-10-05",
+          "tier": 2,
+          "kind": "reviewed_business",
+          "detail": "Company business profile read; outdated segment labels not reused"
+        },
+        {
+          "url": "https://scanner.tradingview.com/america/scan",
+          "as_of": "2026-10-05",
+          "tier": 2,
+          "kind": "listing_and_financial_snapshot",
+          "detail": "Provider standardized latest fields; fiscal period is not supplied, not labelled H1 or TTM."
+        },
+        {
+          "url": "https://scanner.tradingview.com/america/scan",
+          "as_of": "2026-10-08",
+          "tier": 2,
+          "kind": "listing_financial_cap",
+          "detail": "Exact incumbent scan raw/scan/incumbents-references and full inventory retained; active=True; market_cap_basic=673531186020.2554 USD; live observation, financial period unknown."
+        },
+        {
+          "url": "https://www.tradingview.com/symbols/NYSE-XOM/",
+          "as_of": "2026-10-08",
+          "tier": 2,
+          "kind": "online_business_review",
+          "detail": "Broad function compared with prior reviewed duty; full description and identity retained at research/online/raw/business/NYSE-XOM.receipt.json. Publication/update date unknown; old segment lists are not treated as current."
+        }
+      ]
+    },
+    {
+      "id": "SEMI",
+      "emphasis": "leaders",
+      "reason": "Preserve the bounded pilot's SEMI duty; this small replay does not replace production child-function research.",
+      "evidence": [
+        {
+          "url": "https://www.tradingview.com/symbols/NASDAQ-NVDA/",
+          "as_of": "2026-10-05",
+          "tier": 2,
+          "kind": "reviewed_business",
+          "detail": "Company business profile read; outdated segment labels not reused"
+        },
+        {
+          "url": "https://scanner.tradingview.com/america/scan",
+          "as_of": "2026-10-05",
+          "tier": 2,
+          "kind": "listing_and_financial_snapshot",
+          "detail": "Provider standardized latest fields; fiscal period is not supplied, not labelled H1 or TTM."
+        },
+        {
+          "url": "https://s201.q4cdn.com/141608511/files/doc_financials/2026/ar/2026-annual-report-web-Hyperlinks.pdf",
+          "as_of": "2026-10-05",
+          "tier": 1,
+          "kind": "issuer_disclosure"
+        },
+        {
+          "url": "https://scanner.tradingview.com/america/scan",
+          "as_of": "2026-10-08",
+          "tier": 2,
+          "kind": "listing_financial_cap",
+          "detail": "Exact incumbent scan raw/scan/incumbents-references and full inventory retained; active=True; market_cap_basic=5708446631070.777 USD; live observation, financial period unknown."
+        },
+        {
+          "url": "https://www.tradingview.com/symbols/NASDAQ-NVDA/",
+          "as_of": "2026-10-08",
+          "tier": 2,
+          "kind": "online_business_review",
+          "detail": "Broad function compared with prior reviewed duty; full description and identity retained at research/online/raw/business/NASDAQ-NVDA.receipt.json. Publication/update date unknown; old segment lists are not treated as current."
+        }
+      ]
+    }
+  ]
+}

@@ -59,6 +59,7 @@ def test_compact_package_contains_runnable_global_mode(tmp_path):
         for name in [
             "scripts/global_core.py",
             "scripts/global_core_view.py",
+            "scripts/global_watchlist.py",
             "scripts/watchlist_core.py",
             "references/global.md",
             "references/global-core.md",
@@ -75,3 +76,5 @@ def test_compact_package_contains_runnable_global_mode(tmp_path):
     assert result.returncode == 0, result.stderr
     assert "compose-global" in result.stdout and "check-watchlist" in result.stdout
     assert "compose-global-core" in result.stdout and "validate-global-core" in result.stdout
+    assert "export-global-watchlist" in result.stdout
+    assert "validate-global-watchlist" in result.stdout

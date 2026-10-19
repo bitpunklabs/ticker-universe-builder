@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "kind": "global_watchlist_layout",
+  "universe_sha256": "d360b52cad27f8cb8ceff1cd7f9c4c41a4b69c87c1c6fbd8d9484ec3316e8546",
+  "sections": [
+    {
+      "id": "I01",
+      "name": "CORE_INDICES_US_CHINA",
+      "tickers": [
+        "SP:SPX",
+        "SSE:000300"
+      ]
+    },
+    {
+      "id": "I02",
+      "name": "INDICES_ASIA_JAPAN_HK_KOREA",
+      "tickers": [
+        "TSE:TOPIX",
+        "HSI:HSI",
+        "KRX:KOSPI"
+      ]
+    },
+    {
+      "id": "L_BATTERIES",
+      "name": "LEADERS_BATTERIES",
+      "tickers": [
+        "SZSE:300750"
+      ]
+    },
+    {
+      "id": "L_CONSUMER",
+      "name": "LEADERS_CONSUMER",
+      "tickers": [
+        "SSE:600519"
+      ]
+    },
+    {
+      "id": "L_FINANCE",
+      "name": "LEADERS_FINANCE",
+      "tickers": [
+        "NYSE:JPM"
+      ]
+    },
+    {
+      "id": "L_INDUSTRY",
+      "name": "LEADERS_INDUSTRY",
+      "tickers": [
+        "TSE:7203",
+        "TSE:6861"
+      ]
+    },
+    {
+      "id": "L_PLATFORMS",
+      "name": "LEADERS_PLATFORMS",
+      "tickers": [
+        "NASDAQ:MSFT",
+        "NASDAQ:GOOGL",
+        "HKEX:700",
+        "HKEX:9988"
+      ]
+    },
+    {
+      "id": "L_RESOURCES",
+      "name": "LEADERS_RESOURCES",
+      "tickers": [
+        "NYSE:XOM",
+        "SSE:601899"
+      ]
+    },
+    {
+      "id": "L_SEMI",
+      "name": "LEADERS_SEMI",
+      "tickers": [
+        "NASDAQ:NVDA",
+        "NASDAQ:AVGO",
+        "TSE:8035",
+        "KRX:000660"
+      ]
+    }
+  ]
+}

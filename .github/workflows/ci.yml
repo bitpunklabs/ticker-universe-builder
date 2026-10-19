@@ -36,6 +36,19 @@ jobs:
         run: |
           python examples/build_examples.py
           git diff --exit-code examples/
+      - name: validate the Global pair and sectioned observation view
+        run: |
+          python scripts/universe.py validate-global \
+            examples/global/output/bundle/global-2026-10-18.json \
+            --contract examples/global/output/bundle/global-contract.json
+          python scripts/universe.py validate-global-core \
+            examples/global/output/core-bundle/global-core-2026-10-18.json \
+            --contract examples/global/output/core-bundle/global-core-contract.json
+          python scripts/universe.py validate-global-watchlist \
+            examples/global/output/view/global-2026-10-18-by-observation.txt \
+            --universe examples/global/output/bundle/global-2026-10-18.json \
+            --contract examples/global/output/bundle/global-contract.json \
+            --layout examples/global/output/view/layout.json
       - name: build each market
         # Every market with an example, read off the examples directory rather than listed here.
         # Artifact names carry the market and the date, so the path comes back from the command

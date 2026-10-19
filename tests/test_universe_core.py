@@ -49,6 +49,7 @@ from universe_core import (  # noqa: E402
     normalize_market_declaration,
     normalize_snapshot,
     normalize_taxonomy,
+    parse_watchlist,
     quality_flag_codes,
     read_json,
     render_markdown,
@@ -1749,9 +1750,49 @@ class ExampleTests(unittest.TestCase):
             [(row["example"], row["entities"]) for row in summary],
             [("cn-medium", 302), ("us-light", 100), ("us-medium", 294),
              ("us-heavy", 370), ("us-max", 481), ("crypto-medium", 35),
-             ("hk-medium", 123), ("jp-medium", 131), ("kr-medium", 108), ("uk-medium", 127)],
+             ("hk-medium", 123), ("jp-medium", 131), ("kr-medium", 108), ("uk-medium", 127),
+             ("global", 16), ("global-core", 15)],
         )
         self.assertTrue(all(row["qualified"] for row in summary))
+
+    def test_global_example_is_portable_and_its_core_is_a_reviewed_subset(self) -> None:
+        import shutil
+
+        import global_core
+        import global_core_view
+        import global_watchlist
+
+        with tempfile.TemporaryDirectory() as temporary:
+            output = Path(temporary) / "global"
+            shutil.copytree(ROOT / "examples/global/output", output)
+            full = output / "bundle/global-2026-10-18.json"
+            core = output / "core-bundle/global-core-2026-10-18.json"
+            contract = full.parent / "global-contract.json"
+            review = core.parent / "global-core-contract.json"
+            self.assertTrue(global_core.validate(full, contract)["qualified"])
+            self.assertTrue(global_core_view.validate(core, review)["qualified"])
+            full_data, core_data = read_json(full), read_json(core)
+            self.assertNotIn("profile", full_data["spec"])
+            self.assertNotIn("profile", core_data["spec"])
+            full_tickers = {r["ticker"] for r in full_data["members"]}
+            core_tickers = {r["ticker"] for r in core_data["members"]}
+            self.assertLess(core_tickers, full_tickers)
+            self.assertEqual(
+                {r["ticker"] for r in full_data["members"] if r["kind"] == "index"},
+                {r["ticker"] for r in core_data["members"] if r["kind"] == "index"},
+            )
+            for universe, expected, folder, expected_contract in (
+                (full, full_tickers, "view", contract),
+                (core, core_tickers, "core-view", review),
+            ):
+                view = output / folder / (universe.stem + "-by-observation.txt")
+                result = global_watchlist.validate(
+                    view, universe, expected_contract, view.parent / "layout.json"
+                )
+                self.assertTrue(result["qualified"], result["errors"])
+                sections = parse_watchlist(view.read_text())
+                self.assertEqual({t for _, tickers in sections for t in tickers}, expected)
+                self.assertTrue(all(tickers for _, tickers in sections))
 
     def test_examples_use_reviewed_coverage_and_standard_artifacts(self) -> None:
         for market in EXAMPLE_MARKETS:

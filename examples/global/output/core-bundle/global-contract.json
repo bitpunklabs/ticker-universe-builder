@@ -1,0 +1,2310 @@
+{
+  "schema_version": 1,
+  "kind": "global_coverage_contract",
+  "scope_level": "pilot",
+  "scope": "Bounded pilot Core: retain all pilot duties and prioritize SK hynix as the direct memory representative. Samsung stays in the full pilot; not a world screen.",
+  "markets": [
+    {
+      "id": "CN",
+      "name": "CN",
+      "purpose": "Native market observation"
+    },
+    {
+      "id": "HK",
+      "name": "HK",
+      "purpose": "Native market observation"
+    },
+    {
+      "id": "JP",
+      "name": "JP",
+      "purpose": "Native market observation"
+    },
+    {
+      "id": "KR",
+      "name": "KR",
+      "purpose": "Native market observation"
+    },
+    {
+      "id": "US",
+      "name": "US",
+      "purpose": "Native market observation"
+    }
+  ],
+  "themes": [
+    {
+      "id": "BATTERIES",
+      "name": "BATTERIES",
+      "purpose": "Dated representative business observation"
+    },
+    {
+      "id": "CONSUMER",
+      "name": "CONSUMER",
+      "purpose": "Dated representative business observation"
+    },
+    {
+      "id": "FINANCE",
+      "name": "FINANCE",
+      "purpose": "Dated representative business observation"
+    },
+    {
+      "id": "GAUGES",
+      "name": "GAUGES",
+      "purpose": "Dated representative business observation"
+    },
+    {
+      "id": "INDUSTRY",
+      "name": "INDUSTRY",
+      "purpose": "Dated representative business observation"
+    },
+    {
+      "id": "PLATFORMS",
+      "name": "PLATFORMS",
+      "purpose": "Dated representative business observation"
+    },
+    {
+      "id": "RESOURCES",
+      "name": "RESOURCES",
+      "purpose": "Dated representative business observation"
+    },
+    {
+      "id": "SEMI",
+      "name": "SEMI",
+      "purpose": "Dated representative business observation"
+    }
+  ],
+  "duties": [
+    {
+      "id": "CN_MARKET",
+      "dimension": "market",
+      "group": "CN",
+      "purpose": "Broad native equity-market gauge",
+      "allowed_kinds": [
+        "index"
+      ],
+      "minimum": 1
+    },
+    {
+      "id": "HK_MARKET",
+      "dimension": "market",
+      "group": "HK",
+      "purpose": "Broad native equity-market gauge",
+      "allowed_kinds": [
+        "index"
+      ],
+      "minimum": 1
+    },
+    {
+      "id": "JP_MARKET",
+      "dimension": "market",
+      "group": "JP",
+      "purpose": "Broad native equity-market gauge",
+      "allowed_kinds": [
+        "index"
+      ],
+      "minimum": 1
+    },
+    {
+      "id": "KR_MARKET",
+      "dimension": "market",
+      "group": "KR",
+      "purpose": "Broad native equity-market gauge",
+      "allowed_kinds": [
+        "index"
+      ],
+      "minimum": 1
+    },
+    {
+      "id": "US_MARKET",
+      "dimension": "market",
+      "group": "US",
+      "purpose": "Broad native equity-market gauge",
+      "allowed_kinds": [
+        "index"
+      ],
+      "minimum": 1
+    },
+    {
+      "id": "BATTERIES_DUTY",
+      "dimension": "theme",
+      "group": "BATTERIES",
+      "purpose": "Preserve this pilot's explicit observation role",
+      "allowed_kinds": [
+        "equity",
+        "etf"
+      ],
+      "minimum": 1,
+      "leader_minimum": 1
+    },
+    {
+      "id": "CONSUMER_DUTY",
+      "dimension": "theme",
+      "group": "CONSUMER",
+      "purpose": "Preserve this pilot's explicit observation role",
+      "allowed_kinds": [
+        "equity",
+        "etf"
+      ],
+      "minimum": 1,
+      "leader_minimum": 1
+    },
+    {
+      "id": "FINANCE_DUTY",
+      "dimension": "theme",
+      "group": "FINANCE",
+      "purpose": "Preserve this pilot's explicit observation role",
+      "allowed_kinds": [
+        "equity",
+        "etf"
+      ],
+      "minimum": 1,
+      "leader_minimum": 1
+    },
+    {
+      "id": "GAUGES_DUTY",
+      "dimension": "theme",
+      "group": "GAUGES",
+      "purpose": "Preserve this pilot's explicit observation role",
+      "allowed_kinds": [
+        "index"
+      ],
+      "minimum": 1,
+      "leader_minimum": 0
+    },
+    {
+      "id": "INDUSTRY_DUTY",
+      "dimension": "theme",
+      "group": "INDUSTRY",
+      "purpose": "Preserve this pilot's explicit observation role",
+      "allowed_kinds": [
+        "equity",
+        "etf"
+      ],
+      "minimum": 1,
+      "leader_minimum": 1
+    },
+    {
+      "id": "PLATFORMS_DUTY",
+      "dimension": "theme",
+      "group": "PLATFORMS",
+      "purpose": "Preserve this pilot's explicit observation role",
+      "allowed_kinds": [
+        "equity",
+        "etf"
+      ],
+      "minimum": 1,
+      "leader_minimum": 1
+    },
+    {
+      "id": "RESOURCES_DUTY",
+      "dimension": "theme",
+      "group": "RESOURCES",
+      "purpose": "Preserve this pilot's explicit observation role",
+      "allowed_kinds": [
+        "equity",
+        "etf"
+      ],
+      "minimum": 1,
+      "leader_minimum": 1
+    },
+    {
+      "id": "SEMI_DUTY",
+      "dimension": "theme",
+      "group": "SEMI",
+      "purpose": "Preserve this pilot's explicit observation role",
+      "allowed_kinds": [
+        "equity",
+        "etf"
+      ],
+      "minimum": 1,
+      "leader_minimum": 1
+    }
+  ],
+  "source_themes": [
+    {
+      "id": "us:00_A",
+      "disposition": "mapped",
+      "themes": [
+        "GAUGES"
+      ],
+      "reason": "Core retains representatives from this original native source theme."
+    },
+    {
+      "id": "us:00_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:01_A",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:01_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:01_C",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:01_D",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:02_A",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:02_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:10_A",
+      "disposition": "mapped",
+      "themes": [
+        "SEMI"
+      ],
+      "reason": "Core retains representatives from this original native source theme."
+    },
+    {
+      "id": "us:10_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:10_C",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:10_D",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:10_E",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:10_F",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:10_G",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:11_A",
+      "disposition": "mapped",
+      "themes": [
+        "PLATFORMS"
+      ],
+      "reason": "Core retains representatives from this original native source theme."
+    },
+    {
+      "id": "us:11_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:12_A",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:12_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:12_C",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:13_A",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:13_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:13_C",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:13_D",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:14_A",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:14_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:14_C",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:14_D",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:15_A",
+      "disposition": "mapped",
+      "themes": [
+        "FINANCE"
+      ],
+      "reason": "Core retains representatives from this original native source theme."
+    },
+    {
+      "id": "us:15_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:15_C",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:15_D",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:15_E",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:15_F",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:15_G",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:15_H",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:15_I",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:16_A",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:16_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:16_C",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:16_D",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:16_E",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:16_F",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:17_A",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:17_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:17_C",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:17_D",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:17_E",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:17_F",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:17_G",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:17_H",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:17_I",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:18_A",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:18_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:18_C",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:18_D",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:18_E",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:18_F",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:19_A",
+      "disposition": "mapped",
+      "themes": [
+        "RESOURCES"
+      ],
+      "reason": "Core retains representatives from this original native source theme."
+    },
+    {
+      "id": "us:19_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:19_C",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:19_D",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:20_A",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:20_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:20_C",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:20_D",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:20_E",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:20_F",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:20_G",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:21_A",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:21_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:21_C",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:21_D",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:21_E",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:22_A",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:22_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:22_C",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:22_D",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:22_E",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:22_F",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:23_A",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "us:23_C",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:00_A",
+      "disposition": "mapped",
+      "themes": [
+        "GAUGES"
+      ],
+      "reason": "Core retains representatives from this original native source theme."
+    },
+    {
+      "id": "cn:01_A",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:01_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:01_C",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:01_D",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:01_E",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:01_F",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:01_G",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:01_H",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:01_I",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:01_J",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:10_A",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:10_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:10_C",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:10_D",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:10_E",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:10_F",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:10_G",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:11_A",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:11_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:11_C",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:11_D",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:11_E",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:11_F",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:11_G",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:11_H",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:11_I",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:11_J",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:12_A",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:12_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:12_C",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:12_D",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:12_F",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:13_A",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:13_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:13_C",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:13_D",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:13_E",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:13_F",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:13_G",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:13_H",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:14_A",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:14_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:14_C",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:14_E",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:15_A",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:15_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:16_A",
+      "disposition": "mapped",
+      "themes": [
+        "BATTERIES"
+      ],
+      "reason": "Core retains representatives from this original native source theme."
+    },
+    {
+      "id": "cn:16_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:16_C",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:16_D",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:16_E",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:16_F",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:16_G",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:16_H",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:17_A",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:17_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:17_C",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:18_A",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:18_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:18_C",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:18_D",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:18_E",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:18_F",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:19_A",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:19_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:19_C",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:20_A",
+      "disposition": "mapped",
+      "themes": [
+        "RESOURCES"
+      ],
+      "reason": "Core retains representatives from this original native source theme."
+    },
+    {
+      "id": "cn:20_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:20_C",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:20_D",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:20_E",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:21_A",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:21_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:21_C",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:21_D",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:22_A",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:22_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:22_C",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:22_D",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:22_E",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:22_F",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:22_G",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:22_H",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:22_I",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:23_A",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:24_A",
+      "disposition": "mapped",
+      "themes": [
+        "CONSUMER"
+      ],
+      "reason": "Core retains representatives from this original native source theme."
+    },
+    {
+      "id": "cn:24_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:24_C",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:24_D",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:24_E",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:24_F",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:24_G",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:24_H",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:24_I",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:24_J",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:25_A",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:25_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:25_C",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "cn:26_A",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "jp:00_A",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "jp:00_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "jp:00_C",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "jp:10_A",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "jp:10_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "jp:10_C",
+      "disposition": "mapped",
+      "themes": [
+        "SEMI"
+      ],
+      "reason": "Core retains representatives from this original native source theme."
+    },
+    {
+      "id": "jp:10_D",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "jp:10_E",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "jp:10_F",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "jp:10_G",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "jp:10_H",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "jp:11_A",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "jp:11_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "jp:20_A",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "jp:20_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "jp:20_C",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "jp:20_D",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "jp:30_A",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "jp:30_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "jp:30_C",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "jp:30_D",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "jp:30_E",
+      "disposition": "mapped",
+      "themes": [
+        "INDUSTRY"
+      ],
+      "reason": "Core retains representatives from this original native source theme."
+    },
+    {
+      "id": "jp:30_G",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "jp:40_A",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "jp:40_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "jp:40_C",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "jp:40_D",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "jp:40_E",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "jp:50_A",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "jp:50_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "jp:50_C",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "jp:50_D",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "jp:50_E",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "jp:50_F",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "jp:60_A",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "jp:60_B",
+      "disposition": "mapped",
+      "themes": [
+        "INDUSTRY"
+      ],
+      "reason": "Core retains representatives from this original native source theme."
+    },
+    {
+      "id": "jp:60_C",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "jp:60_D",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "jp:60_E",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "jp:60_F",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "jp:65_A",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "jp:65_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "jp:70_A",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "jp:70_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "jp:70_C",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "jp:70_D",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "jp:80_A",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "jp:80_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "jp:80_C",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "jp:80_D",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "jp:80_E",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "jp:90_A",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "jp:90_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "jp:90_C",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "jp:90_D",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "jp:95_A",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "hk:00_A",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "hk:00_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "hk:00_C",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "hk:10_A",
+      "disposition": "mapped",
+      "themes": [
+        "PLATFORMS"
+      ],
+      "reason": "Core retains representatives from this original native source theme."
+    },
+    {
+      "id": "hk:10_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "hk:10_D",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "hk:10_E",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "hk:10_F",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "hk:10_G",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "hk:10_H",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "hk:11_A",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "hk:11_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "hk:20_A",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "hk:20_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "hk:20_C",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "hk:20_E",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "hk:30_A",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "hk:30_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "hk:30_C",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "hk:30_D",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "hk:30_E",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "hk:30_G",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "hk:40_A",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "hk:40_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "hk:40_C",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "hk:40_D",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "hk:40_E",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "hk:40_F",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "hk:50_A",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "hk:50_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "hk:50_C",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "hk:50_D",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "hk:50_E",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "hk:50_F",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "hk:60_A",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "hk:60_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "hk:60_C",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "hk:60_D",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "hk:60_E",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "hk:60_F",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "hk:70_A",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "hk:70_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "hk:70_C",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "hk:70_D",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "hk:80_A",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "hk:80_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "hk:80_C",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "hk:80_D",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "hk:90_A",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "hk:90_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "hk:90_C",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "hk:90_D",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "hk:95_A",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "kr:00_A",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "kr:00_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "kr:00_C",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "kr:10_A",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "kr:10_B",
+      "disposition": "mapped",
+      "themes": [
+        "SEMI"
+      ],
+      "reason": "Core retains representatives from this original native source theme."
+    },
+    {
+      "id": "kr:10_C",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "kr:10_D",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "kr:10_E",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "kr:10_F",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "kr:10_H",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "kr:11_A",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "kr:11_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "kr:20_A",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "kr:20_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "kr:20_C",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "kr:20_D",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "kr:20_E",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "kr:30_A",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "kr:30_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "kr:30_C",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "kr:30_D",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "kr:30_E",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "kr:35_A",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "kr:35_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "kr:40_A",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "kr:40_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "kr:40_C",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "kr:40_D",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "kr:40_E",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "kr:40_F",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "kr:50_A",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "kr:50_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "kr:50_C",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "kr:50_D",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "kr:50_E",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "kr:50_F",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "kr:60_A",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "kr:60_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "kr:60_C",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "kr:60_D",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "kr:60_E",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "kr:60_F",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "kr:70_A",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "kr:70_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "kr:70_C",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "kr:80_A",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "kr:80_B",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "kr:80_C",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "kr:80_D",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "kr:80_E",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "kr:80_F",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    },
+    {
+      "id": "kr:90_A",
+      "disposition": "out_of_scope",
+      "themes": [],
+      "reason": "No Core representative from this native source slice; all Global duties remain mandatory. See the complete parent-ticker decision ledger."
+    }
+  ]
+}

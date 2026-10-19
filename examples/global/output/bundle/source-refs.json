@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "kind": "global_reference_catalog",
+  "as_of": "2026-10-18",
+  "references": [
+    {
+      "ticker": "TSE:TOPIX",
+      "name": "TOPIX",
+      "kind": "index",
+      "observes": "Japanese broad equity market, free-float capitalization weighted; native index, not an ETF.",
+      "verified_ticker": "TSE:TOPIX",
+      "verified_as_of": "2026-10-18",
+      "evidence": [
+        {"url": "https://www.tradingview.com/symbols/TSE-TOPIX/", "as_of": "2026-10-18", "tier": 2},
+        {"url": "https://www.jpx.co.jp/english/faq/stock_price_index.html", "as_of": "2026-10-18", "tier": 1}
+      ]
+    },
+    {
+      "ticker": "HSI:HSI",
+      "name": "Hang Seng Index",
+      "kind": "index",
+      "observes": "Hong Kong broad equity benchmark; native index, not a US-listed China fund.",
+      "verified_ticker": "HSI:HSI",
+      "verified_as_of": "2026-10-18",
+      "evidence": [
+        {"url": "https://www.tradingview.com/symbols/HSI-HSI/", "as_of": "2026-10-18", "tier": 2}
+      ]
+    },
+    {
+      "ticker": "KRX:KOSPI",
+      "name": "KOSPI",
+      "kind": "index",
+      "observes": "Korean main-board equity benchmark; native index, not a currency-hedged country fund.",
+      "verified_ticker": "KRX:KOSPI",
+      "verified_as_of": "2026-10-18",
+      "evidence": [
+        {"url": "https://www.tradingview.com/symbols/KRX-KOSPI/", "as_of": "2026-10-18", "tier": 2}
+      ]
+    }
+  ]
+}

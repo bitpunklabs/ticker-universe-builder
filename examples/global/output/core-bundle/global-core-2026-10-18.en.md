@@ -1,0 +1,35 @@
+# Global Core observation universe
+
+Scope: Bounded pilot Core: retain all pilot duties and prioritize SK hynix as the direct memory representative. Samsung stays in the full pilot; not a world screen.
+
+As of 2026-10-18; 20 instruments; scope level: pilot.
+
+- Validation checks supplied research, not factual leadership or alpha.
+- No TradingView UI import or account/feed entitlement validation.
+- Source dates are inherited; composition does not refresh market facts.
+- Bounded pilot/synthetic scope; not a worldwide production universe.
+
+Source dates: {"us": "2026-10-08", "cn": "2026-10-08", "jp": "2026-10-07", "hk": "2026-10-08", "kr": "2026-10-07", "refs": "2026-10-18"}
+
+| Ticker | Name | Kind | Market | Theme | Reason |
+|---|---|---|---|---|---|
+| NASDAQ:NVDA | NVIDIA | equity | US | SEMI | Accelerated computing platforms and the cuda software ecosystem. |
+| NASDAQ:AVGO | Broadcom | equity | US | SEMI | Networking/custom silicon and infrastructure software. |
+| NASDAQ:MSFT | Microsoft | equity | US | PLATFORMS | Enterprise productivity software and azure cloud. |
+| NASDAQ:GOOGL | Alphabet | equity | US | PLATFORMS | Search advertising, youtube and cloud infrastructure. |
+| NYSE:JPM | JPMorgan Chase | equity | US | FINANCE | Diversified consumer banking, investment banking and payments. |
+| NYSE:XOM | Exxon Mobil | equity | US | RESOURCES | Integrated oil/gas production, refining and chemicals. |
+| SSE:600519 | Kweichow Moutai | equity | CN | CONSUMER | Moutai liquor. |
+| SSE:601899 | Zijin Mining | equity | CN | RESOURCES | Copper smelting. |
+| SZSE:300750 | CATL | equity | CN | BATTERIES | Traction-battery and energy-storage systems, battery materials and recycling. |
+| TSE:7203 | Toyota Motor | equity | JP | INDUSTRY | Vehicle manufacturing and sales, and related finance. |
+| TSE:8035 | Tokyo Electron | equity | JP | SEMI | Semiconductor and display-panel manufacturing equipment. |
+| TSE:6861 | Keyence | equity | JP | INDUSTRY | Factory automation, sensors and inspection equipment. |
+| HKEX:700 | Tencent | equity | HK | PLATFORMS | Social, gaming and fintech platforms linking content and payments. |
+| HKEX:9988 | Alibaba | equity | HK | PLATFORMS | E-commerce and cloud platforms serving merchants, consumers and enterprises. |
+| KRX:000660 | SK hynix | equity | KR | SEMI | Memory-semiconductor design, manufacturing and sales. |
+| SP:SPX | S&P 500 | index | US | GAUGES | S&P 500; Separate reference instrument; does not consume an operating-entity seat. |
+| SSE:000300 | CSI 300 | index | CN | GAUGES | CSI 300 Index; independent reference, excluded from entity and leader counts. |
+| TSE:TOPIX | TOPIX | index | JP | GAUGES | Japanese broad equity market, free-float capitalization weighted; native index, not an ETF. |
+| HSI:HSI | Hang Seng Index | index | HK | GAUGES | Hong Kong broad equity benchmark; native index, not a US-listed China fund. |
+| KRX:KOSPI | KOSPI | index | KR | GAUGES | Korean main-board equity benchmark; native index, not a currency-hedged country fund. |

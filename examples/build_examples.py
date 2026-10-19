@@ -7,6 +7,7 @@ import json
 import shutil
 import sys
 import tempfile
+from importlib import import_module
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -58,6 +59,21 @@ def main() -> None:
                 "content_hash": universe["content_hash"],
                 "warnings": report["warnings"],
             })
+        # Compose from the just-qualified staging sources, never stale committed output.
+        global_results = import_module("global.build_example").build(
+            staging / "global", source_root=staging, with_core=True
+        )
+        for name, receipt in global_results.items():
+            universe = read_json(receipt["artifacts"]["universe"])
+            summary.append({
+                "example": name,
+                "entities": sum(r["kind"] == "equity" for r in universe["members"]),
+                "references": sum(r["kind"] != "equity" for r in universe["members"]),
+                "qualified": receipt["validation_passed"],
+                "scope_level": universe["scope_level"],
+                "content_sha256": universe["content_sha256"],
+                "warnings": receipt["warnings"],
+            })
         for name in EXAMPLES:
             folder = ROOT / "examples" / name
             for output in (staging / name).iterdir():
@@ -67,6 +83,13 @@ def main() -> None:
                 elif destination.exists():
                     destination.unlink()
                 shutil.move(str(output), str(destination))
+        destination = ROOT / "examples/global/output"
+        destination.mkdir(exist_ok=True)
+        for name in ("bundle", "core-bundle", "view", "core-view"):
+            target = destination / name
+            if target.exists():
+                shutil.rmtree(target)
+            shutil.move(str(staging / "global" / name), str(target))
         write(ROOT / "examples" / "build-summary.json", {"examples": summary})
     for item in summary:
         print(f"{item['example']}: {item['entities']} entities; qualified")
