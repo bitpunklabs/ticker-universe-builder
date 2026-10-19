@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "ticker-universe-builder",
-  "version": "0.12.1",
+  "version": "0.13.0",
   "description": "Build evidence-gated native, Global and Global Core universes with validated TradingView exports.",
   "homepage": "https://github.com/bitpunklabs/ticker-universe-builder",
   "repository": "https://github.com/bitpunklabs/ticker-universe-builder",
@@ -17,7 +17,7 @@
       "interface": {
         "displayName": "Ticker Universe Builder",
         "shortDescription": "Build auditable watchlists",
-        "longDescription": "Compose audited Global observations from qualified native-market universes and verified references, derive a reviewed Global Core with complete or explicitly focused operating coverage, or build and maintain fourteen native markets at four depths. Research issuer identities, ETF quality, economic coverage and dated measurements. Python validates contracts and writes portable JSON, TradingView TXT, Markdown and HTML. Global validation checks independent coverage duties, exact source hashes, issuer duplicates and ETF evidence. Pilot scope and source cutoffs remain explicit. Standard library, Python 3.10+, no service or required API key. No return guarantees, allocations or trade execution.",
+        "longDescription": "Compose one Global universe without depth profiles from qualified native-market universes and verified references, derive a reviewed Global Core with complete or explicitly focused operating coverage, or build and maintain fourteen native markets at four depths. Research issuer identities, ETF quality, economic coverage and dated measurements. Python validates contracts and writes portable JSON, TradingView TXT, Markdown and HTML. Global validation checks independent coverage duties, exact source hashes, issuer duplicates and ETF evidence. Pilot scope and source cutoffs remain explicit. Standard library, Python 3.10+, no service or required API key. No return guarantees, allocations or trade execution.",
         "category": "Productivity",
         "capabilities": [],
         "websiteURL": "https://github.com/bitpunklabs/ticker-universe-builder",
@@ -34,11 +34,11 @@
       },
       "publication": {
         "countries": [],
-        "release_notes": "0.12.1: reviewed Global/Core navigation layouts with exact membership, pinned qualified sources and independently validated TradingView sections.",
+        "release_notes": "0.13.0: consolidated single-mode Global workflow, reviewed Core companion and reproducible sectioned Global examples in the unified offline rebuild.",
         "translations": {
           "zh-CN": {
             "subtitle": "构建可核验的标的观察池",
-            "description": "按行业与主题构建和维护标的观察池，覆盖十四个已审查市场及 Light、Medium、Heavy、Max 四个档位。Agent 研究主营、龙头与补充 Beta，Python 验证证据、保护基础覆盖并生成 TradingView TXT、Markdown、完整离线 HTML、JSON 和验证报告。Max 沿用 Heavy 的主题比例；证据不足会保留诊断和续跑记录。需 Python 3.10+、文件及命令访问能力，最新构建还需在线研究和有日期的市场数据。仅提供观察工具，不提供收益承诺、仓位配置或交易执行。"
+            "description": "构建和维护有证据支持的观察池：十四个原生市场使用 Light、Medium、Heavy、Max 四个档位；Global 使用单一构建模式，可派生经过审核的 Core 子集。Agent 研究龙头、ETF 质量与覆盖，Python 验证证据并生成带分组的 TradingView TXT、Markdown、HTML、JSON 和验证报告。示例可离线复现，最新研究需要网络及有日期的数据。Python 3.10+，标准库，无必需 API 密钥。不提供收益承诺、仓位配置或交易执行。"
           }
         }
       }

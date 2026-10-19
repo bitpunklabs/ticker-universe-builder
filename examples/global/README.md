@@ -1,46 +1,55 @@
-# Global: bounded five-market pilot
+# Global and its Core companion
 
-This is a reproducible composition example, not a completed worldwide leadership screen.
-It reuses qualified dated CN/US/JP/HK/KR worked sources and three index identities read on
-2026-10-18. Company research, listing and measurement dates remain inherited. The default
-pilot has sixteen companies and five direct index references; it contains no ETF because the
-older examples' fund fields do not satisfy the new Global fund evidence contract.
+Global has one composition mode, without Light/Medium/Heavy/Max profiles. Core is an optional
+reviewed subset for focused observation. This worked example demonstrates the contracts with
+**bounded CN/US/JP/HK/KR scope**, not a completed worldwide leadership screen.
+
+The full pilot has sixteen companies and five market indices. Core keeps fifteen companies
+and the same indices, prioritizing SK hynix as its direct memory representative while Samsung
+remains additional depth in full. This small difference illustrates a review, not a target
+full/Core ratio or a finding about investment returns.
+
+| View | Report | Watchlist | Independent validation |
+|---|---|---|---|
+| Global | [Markdown](output/bundle/global-2026-10-18.en.md) / [HTML](output/bundle/global-2026-10-18.en.html) | [Sectioned](output/view/global-2026-10-18-by-observation.txt) / [Ticker-only](output/bundle/global-2026-10-18.txt) | [JSON](output/bundle/global-2026-10-18.validation.json) |
+| Core companion | [Markdown](output/core-bundle/global-core-2026-10-18.en.md) / [HTML](output/core-bundle/global-core-2026-10-18.en.html) | [Sectioned](output/core-view/global-core-2026-10-18-by-observation.txt) / [Ticker-only](output/core-bundle/global-core-2026-10-18.txt) | [JSON](output/core-bundle/global-core-2026-10-18.validation.json) |
+
+## Rebuild and validate
 
 ```bash
-# Only needed if native example output directories are missing:
+# Rebuild all native examples, then compose Global/Core from those qualified outputs.
 python examples/build_examples.py
 
-python examples/global/build_example.py --output temp/global-pilot
 python scripts/universe.py validate-global \
-  temp/global-pilot/bundle/global-2026-10-18.json \
-  --contract temp/global-pilot/inputs/coverage-contract.json
-python scripts/universe.py check-watchlist \
-  temp/global-pilot/bundle/global-2026-10-18.txt --ticker-only
+  examples/global/output/bundle/global-2026-10-18.json \
+  --contract examples/global/output/bundle/global-contract.json
+python scripts/universe.py validate-global-core \
+  examples/global/output/core-bundle/global-core-2026-10-18.json \
+  --contract examples/global/output/core-bundle/global-core-contract.json
+python scripts/universe.py validate-global-watchlist \
+  examples/global/output/view/global-2026-10-18-by-observation.txt \
+  --universe examples/global/output/bundle/global-2026-10-18.json \
+  --contract examples/global/output/bundle/global-contract.json \
+  --layout examples/global/output/view/layout.json
 ```
 
-Use a new output destination when rerunning. The pilot is tied to the stated source dates;
-replaying it preserves those dates, not today's market facts. `build_example.py` authors research
-inputs and calls the maintained composition engine; it never writes final watchlists itself.
-Output sources are portable byte-preserved copies.
-
-An optional `--fund-catalog PATH` adds an independently researched `NASDAQ:SOXX` reference and
-requires it in the pilot contract. That catalog must satisfy every [Global fund gate](../../references/global.md).
-Missing histories, full holdings or dated costs/spreads block publication. Synthetic adverse
-ETF cases live in the tests and do not become market-research records. Neither this bounded
-pilot nor those tests establish live TradingView import or complete Global coverage.
-
-## Reviewed Core companion
+For a separate CLI rehearsal, use a new empty destination:
 
 ```bash
-python examples/global/build_example.py --output temp/global-core-pilot --with-core
-python scripts/universe.py validate-global-core \
-  temp/global-core-pilot/core-bundle/global-core-2026-10-18.json \
-  --contract temp/global-core-pilot/inputs/core-review.json
+python examples/global/build_example.py --output temp/global-replay --with-core
 ```
 
-This bounded example reviews all parent tickers and themes, then keeps SK hynix as the direct
-memory representative while Samsung remains full-only additional depth. Default full/Core
-counts are 21/20, or 22/21 with the optional qualified SOXX catalog. All original pilot duties
-remain mandatory. The portable Core bundle revalidates its complete copied parent and native
-sources. It is a worked [Core contract](../../references/global-core.md), not an automatically
-generated production selection or a finding that one company has better returns.
+`build_example.py` authors inputs and calls the maintained composition/layout engines; it never
+writes final TXT. Output bundles retain exact source copies and can be moved independently.
+The sectioned views place core/geographic indices first and industry-grouped companies last.
+The pilot has no cross-asset instruments or admitted ETFs, so it creates no empty sections.
+
+An optional `--fund-catalog PATH` adds a separately researched SOXX reference. It must pass every
+[Global ETF gate](../../references/global.md); dated complete holdings, scale, costs, spreads and
+histories are mandatory. Synthetic ETF tests are not market evidence. Production geography,
+complementary-native overlap and thirty-family research follow the
+[Global checklist](../../references/global-coverage.md).
+
+Company facts and measurements retain native cutoffs; the three catalog index identities were
+read on 2026-10-18. Offline replay refreshes no evidence and does not establish TradingView UI
+import or feed permissions. Compact packages omit generated output: rebuild before opening links.

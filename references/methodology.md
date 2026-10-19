@@ -2,6 +2,8 @@
 
 A universe observes economic structure, leadership and supplementary information. A member must
 explain what observation would be lost if removed. Popularity or recent returns are insufficient.
+The depth-selection rules below govern native markets; [Global](global.md) composes one
+independently reviewed cross-market selection and an optional Core subset.
 
 ## Research and selection
 

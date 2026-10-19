@@ -1,6 +1,6 @@
 # Worked examples
 
-Ten dated builds with researched inputs and standard artifacts. Full evidence/diagnostics stay
+Ten native builds plus one Global example and its optional Core companion. Full evidence/diagnostics stay
 in JSON. Download HTML to view it; GitHub displays source. Preview thumbnails link to full
 screenshots, with research notes collapsed. Local images show market-language companions.
 
@@ -16,7 +16,11 @@ screenshots, with research notes collapsed. Local images show market-language co
 | JP Medium | 131 | 2 | [English](jp-medium/output/jp-medium-2026-10-07.en.md) / [Local](jp-medium/output/jp-medium-2026-10-07.ja.md) | [English](jp-medium/output/jp-medium-2026-10-07.en.html) / [Local](jp-medium/output/jp-medium-2026-10-07.ja.html) | <a href="jp-medium/preview/jp-medium-2026-10-07.en.full.jpg"><img src="jp-medium/preview/jp-medium-2026-10-07.en.jpg" width="130" alt="JP Medium HTML report preview"></a><br>[Local image](jp-medium/preview/jp-medium-2026-10-07.ja.full.jpg) | [TXT](jp-medium/output/jp-medium-2026-10-07.txt) |
 | KR Medium | 108 | 2 | [English](kr-medium/output/kr-medium-2026-10-07.en.md) / [Local](kr-medium/output/kr-medium-2026-10-07.ko.md) | [English](kr-medium/output/kr-medium-2026-10-07.en.html) / [Local](kr-medium/output/kr-medium-2026-10-07.ko.html) | <a href="kr-medium/preview/kr-medium-2026-10-07.en.full.jpg"><img src="kr-medium/preview/kr-medium-2026-10-07.en.jpg" width="130" alt="KR Medium HTML report preview"></a><br>[Local image](kr-medium/preview/kr-medium-2026-10-07.ko.full.jpg) | [TXT](kr-medium/output/kr-medium-2026-10-07.txt) |
 | UK Medium | 127 | 2 | [English](uk-medium/output/uk-medium-2026-10-08.en.md) | [English](uk-medium/output/uk-medium-2026-10-08.en.html) | <a href="uk-medium/preview/uk-medium-2026-10-08.en.full.jpg"><img src="uk-medium/preview/uk-medium-2026-10-08.en.jpg" width="130" alt="UK Medium HTML report preview"></a> | [TXT](uk-medium/output/uk-medium-2026-10-08.txt) |
+| Global (pilot) | 16 | 5 | [English](global/output/bundle/global-2026-10-18.en.md) | [English](global/output/bundle/global-2026-10-18.en.html) | — | [Sectioned TXT](global/output/view/global-2026-10-18-by-observation.txt) |
 
+Global has no Light/Medium/Heavy/Max profiles. Its [Core companion](global/README.md) retains
+15 companies and all five market indices. Both are bounded five-market contract demonstrations;
+their geographic/industry sections do not claim worldwide or complete thematic coverage.
 
 All US depths share us-medium/snapshot.json; other Medium folders each contain a snapshot/spec.
 US Max retains 370 Heavy entities and adds 111 Beta (30%).
@@ -61,6 +65,7 @@ Previews live separately from output; refresh them when HTML changes.
 | US / Crypto | 2026-10-08 | 2026-10-06 | Use completed online research and add the requested depth examples |
 | HK / UK | 2026-10-08 | 2026-10-07 | New online business, financial, valid-quote and historical-price research |
 | JP / KR | 2026-10-07 | 2026-09-28 | Restore reviewed business inputs and add brief reasons and English display; listing observations remain dated 2026-09-29 |
+| Global / Core | 2026-10-18 | Inherited above | Reuse qualified CN/US/JP/HK/KR sources and three dated direct index identities; no refreshed measurements |
 
 
 HK/UK supplier-code/business corrections: [HK](hk-medium/research-review.json),

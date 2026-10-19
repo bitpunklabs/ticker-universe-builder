@@ -3,6 +3,15 @@
 Skill versions identify code/contracts; universe hashes identify dated artifacts.
 Development versions below were not separate public releases.
 
+## 0.13.0 — 2026-10-19
+
+- Consolidate Global research, complementary scope, reviewed Core and sectioned observation
+  rules in the skill; Global has one composition mode without native depth profiles.
+- Include the Global/Core pilot in the unified offline example rebuild, with portable proof
+  bundles, geographic/industry watchlists and independent validation.
+- Simplify routing and delivery documentation; reuse existing dated native inputs and retain
+  all qualification gates and maintained watchlist memberships.
+
 ## 0.12.1 — 2026-10-19
 
 - Export and independently validate reviewed Global/Core presentation layouts, bound to exact

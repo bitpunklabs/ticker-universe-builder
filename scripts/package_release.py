@@ -22,11 +22,12 @@ COMPACT_READMES = {
 An evidence-backed ticker universe skill. Python 3.10+, standard library only.
 
 Extract this complete folder into your agent's skills directory, then restart the agent
-if needed. Ask it to build a market and depth; `SKILL.md` is its entry point.
+if needed. Ask for a native market/depth or Global; `SKILL.md` is its entry point.
 
 This package includes runtime code, rules and all worked inputs. Generated reports and
 screenshots are omitted. Run `python examples/build_examples.py` from this folder to
-recreate all ten examples offline. Their dated research is not a fresh market assessment.
+recreate the ten native builds and Global/Core pilot offline. Their dated research is not
+a fresh market assessment. Global has no depth profiles.
 
 [Documentation and previews](https://github.com/bitpunklabs/ticker-universe-builder)
 · [Releases](https://github.com/bitpunklabs/ticker-universe-builder/releases)
@@ -37,6 +38,8 @@ MIT license. Observation instruments, not investment recommendations.
 
 US Light/Medium/Heavy/Max and CN/Crypto/HK/JP/KR/UK Medium share seven researched
 snapshots and ten build specs. US uses `us-medium/snapshot.json`; Max retains Heavy.
+The Global example composes these qualified sources without depth profiles; its optional
+Core is a reviewed subset. See `global/README.md` for the bounded scope and sectioned views.
 
 Run `python examples/build_examples.py` from the skill root before reading the generated
 `output/` directories. This offline replay preserves the inputs' original research dates,

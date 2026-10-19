@@ -1,5 +1,8 @@
 # Light / Medium / Heavy / Max
 
+These depths apply to native markets. [Global](global.md) has one composition mode and an
+optional reviewed Core subset, with no depth profiles.
+
 | Depth | Entity selection | Satellite maximum |
 |---|---|---:|
 | Light | Concise leader-only backbone | 0% |

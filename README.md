@@ -66,7 +66,7 @@ $ticker-universe-builder Research a Global universe of distinctive indices, cred
 $ticker-universe-builder Build its Global Core companion, preserving coverage and reviewing every omission.
 ```
 
-Choose a market and depth; Medium is the default. Markets:
+For a native universe, choose a market and depth; Medium is the default. Markets:
 `us`, `cn`, `jp`, `in`, `hk`, `kr`, `uk`, `tw`, `de`, `fr`, `ca`, `au`, `br`, `crypto`.
 
 | Depth | Coverage |
@@ -79,27 +79,23 @@ Choose a market and depth; Medium is the default. Markets:
 Beta adds business/token coverage and is ranked by sourced market cap within the planned
 sector/group distribution. Price beta is descriptive. [Selection rules](references/coverage-plan.md).
 
-Global compositions have a separate [research and validation contract](references/global.md):
-qualified native sources, verified references, issuer deduplication, ETF quality/overlap and frozen
-geographic/theme duties. They export one ticker-only TXT plus two equivalent grouped views.
-Maintained human watchlists default to the thematic view, with the exact view and hash pinned
-in the current registry. Requested geographic/instrument ordering uses an independently checked
-[presentation layout](references/global.md#presentation-layout), preserving exact membership
-and economic coverage. Global can explicitly complement existing native lists: retain major
-indices and exceptional franchises while auditing issuer overlap and prioritizing international
-observation. Scope changes must be reviewed before selection; Core inherits the revised parent.
-Try the [bounded five-market pilot](examples/global/README.md); it is dated research, not a full
-worldwide screen. `check-watchlist` validates the strict TradingView export syntax independently.
-The [Global Core workflow](references/global-core.md) produces a reviewed strict subset, preserves
-all market/theme groups and pins its qualified Global parent. Complete inheritance is the default;
-a requested focused view audits every detailed function left exclusively in full. Complete reviews explain
-the difference without treating market cap as a hard gate; grouped and ticker-only views use
-the same members.
+**Global has one composition mode, without depth profiles.** It observes major world indices,
+credible ETFs and exceptional leaders, either independently or as a complement to existing
+native lists. Review issuer overlap and prioritize incremental international coverage while
+retaining intentional CN/US anchors. [Global workflow](references/global.md).
+
+Its optional [Global Core](references/global-core.md) is a reviewed subset for focused daily
+observation. Keep market/theme coverage, explain full-only operating depth, and compare the
+company layer separately from the shared index/context base. Human watchlists use
+[ordered sections](references/global.md#presentation-layout): indices, classified ETFs,
+cross-asset context, then industry-grouped leaders. The [worked Global example](examples/global/README.md)
+replays both views from dated research with explicit pilot scope.
 
 ## Output
 
-Results go to `ticker-universes/<market>/<profile>/<as_of>/` in your working project.
-Each file uses the stem `<market>-<profile>-<as_of>`:
+Native results go to `ticker-universes/<market>/<profile>/<as_of>/`, with stem
+`<market>-<profile>-<as_of>`. Global uses `ticker-universes/global/<as_of>/`, with stem
+`global-<as_of>`; its optional Core uses `global-core` in the same pattern.
 
 | Format | Content |
 |---|---|
@@ -127,7 +123,8 @@ US Medium HTML report · Click the image for the full report screenshot.
 [Read the full report](examples/us-medium/output/us-medium-2026-10-08.en.md) ·
 [Browse all examples](examples/README.md)
 
-Ten dated builds: US Light/Medium/Heavy/Max and CN/Crypto/HK/JP/KR/UK Medium.
+Ten native builds plus one [Global example and its Core companion](examples/global/README.md).
+The Global example is a bounded five-market pilot, not a completed worldwide screen.
 Rebuild all outputs offline with `python examples/build_examples.py`; this does not refresh evidence.
 [Online CLI test](docs/validation/codex-online-2026-10-08.md).
 

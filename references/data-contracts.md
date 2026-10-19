@@ -51,7 +51,8 @@ and at least 30 overlapping returns when supplied. Legacy Beta requires R² >=30
 
 Both `version_hash` and `content_hash` are required for stored validation. Version 0.3 inputs need
 listing, reasons and measurement records before rebuilding. Four current profiles are Light/Medium/
-Heavy/Max. Former 45% growth/70% incremental-beta preference belongs only to archived replay.
+Heavy/Max for native markets. Global uses its separate composition contract without a profile.
+Former 45% growth/70% incremental-beta preference belongs only to archived replay.
 Entities, references and headers together must fit the 1,000-token TradingView file cap.
 
 ## build-spec.json

@@ -3,7 +3,7 @@ name: ticker-universe-builder
 description: Build evidence-gated native and Global/Core ticker universes, with audited coverage and validated TradingView TXT exports. Not stock tips.
 allowed-tools: Read, Write, Bash, WebSearch, WebFetch
 metadata:
-  version: 0.12.1
+  version: 0.13.0
   homepage: https://github.com/bitpunklabs/ticker-universe-builder
   openclaw:
     emoji: "📋"
@@ -37,9 +37,10 @@ inspect relevant snapshot rows programmatically. Compact ZIPs omit reports: recr
 
 Registered markets: `us`, `cn`, `jp`, `in`, `hk`, `kr`, `uk`, `tw`, `de`, `fr`, `ca`, `au`, `br`,
 `crypto`. Unregistered markets need a sourced [market_spec](references/data-contracts.md#market_spec).
-Registered rules cannot be overridden. Ask for a missing market; default unspecified depth to Medium.
+Native markets use Light/Medium/Heavy/Max; default unspecified native depth to Medium.
+Registered rules cannot be overridden. Ask for a missing market. Global uses the separate route below.
 
-## Build
+## Native build
 
 1. Declare `coverage_plan` before optional candidates: scope, sectors/caps, economic branches,
    reviewed leaders/necessary peers, four entity ceilings and separate references. When migrating
@@ -113,7 +114,7 @@ python scripts/universe.py maintain --universe universe.json --changes changes.j
 
 Apply justified operations now or record them in `deferred`. Prefer `NO_CHANGE` when evidence
 shows no useful change. Failed validation publishes no new universe. Plan/reference/Core changes
-require rebuilding Heavy and then Max. Use forward-window `evaluate` before proposing changes
+require rebuilding the native Heavy and then Max. Use forward-window `evaluate` before proposing changes
 when a wider price table is available; it measures observation coverage, not portfolio returns.
 
 When full and Core converge, review primary anchors versus additional representatives before
@@ -123,55 +124,43 @@ does not demote a qualified leader to Beta or establish failed quality. Record o
 explicitly and preserve the complete migration audit. Compare company/entity counts separately
 from the common index/reference base; no fixed Core/full ratio is a quality gate.
 
-## Global compositions
+## Global and Global Core
 
-For Global requests, read [Global](references/global.md) and its worked input. Freeze separate
-geographic/theme duties before selection, preserve source-theme dispositions, and research
-global issuer identities and ETF quality/overlap. Use exceptional leaders and credible baskets;
-do not fill national quotas, infer ADR aliases or call a distinctive index proven alpha.
+Global has one composition mode, with no Light/Medium/Heavy/Max profiles. Global Core is an
+optional reviewed subset for focused observation, not a depth. Read the [Global contract](references/global.md),
+[coverage checklist](references/global-coverage.md) and [worked example](examples/global/README.md);
+Core also needs its [complete review contract](references/global-core.md).
 
-Declare whether Global stands alone or complements existing native lists. For a complement,
-audit overlap by exact ticker and researched issuer identity; distinguish US listings from US
-businesses and international ETF holdings. Prefer major indices, substantial qualified baskets
-and exceptional world franchises. Keep intentional CN/US anchors, rather than copying every
-native subindustry. Record revised scope and each retired duty before selection, preserving
-the original taxonomy ledger; never conceal a gap by renaming an adjacent business.
+1. Declare standalone or complementary scope before selection. When native lists exist, preserve
+   major CN/US index anchors and intentional world franchises while prioritizing incremental
+   international coverage. Audit exact tickers and researched issuer aliases; listing venue,
+   operating geography and fund holdings are different. Record scope changes explicitly.
+2. Freeze geographic and economic duties independently. Select exceptional leaders and credible
+   baskets from qualified sources; review identity, ETF scale/liquidity/fees, holdings and overlap.
+   Concentrated franchises favor leaders; dispersed functions favor baskets plus distinct leaders.
+   Preserve source classifications and do not fill country quotas or relax gates to add coverage.
+3. Derive Core through complete member/theme reviews. Preserve every market/theme group and
+   protected duty; explicitly requested focused scope may leave reviewed operating depth in full.
+   Compare companies separately from the shared index/context base; do not force a size ratio.
+   Omission from Core does not establish failed quality. Refresh Global before refreshing Core.
+4. Generate sectioned human watchlists: core indices, geographic indices, broad/regional/country
+   ETFs, thematic ETFs, Crypto/FX/commodities/rates/volatility, then industry-grouped leaders.
+   Keep presentation separate from economic coverage. Use the [layout exporter](references/global.md#presentation-layout)
+   for ordered sections; bind each layout to exact JSON, assign every member once, and filter Core
+   layouts to retained members without empty sections. Keep ticker-only tooling/aggregate companions.
 
-Use `compose-global --spec S --contract C --output DIR`, then independently run
-`validate-global DIR/global-DATE.json --contract C` against the original reviewed contract.
-The portable bundle retains qualified source JSON and separately checked references. It generates
-ticker-only, by-theme and by-market TXT views with identical membership. For a human watchlist,
-publish the generated by-theme view as the main Global/Core TXT unless another view is requested;
-for custom section ordering use the [reviewed presentation layout](references/global.md#presentation-layout)
-and `export-global-watchlist`, then independently `validate-global-watchlist`. Keep geographic,
-instrument and observation headings separate from economic coverage duties; assign every member
-exactly once and bind the layout to the exact qualified JSON. Filter Core layouts to retained
-members and omit empty sections. Never change taxonomy or membership just to rearrange a view.
-Keep the ticker-only companion for tooling and ticker-only aggregates. Validate grouped files
-with `check-watchlist FILE` and ticker-only files with `--ticker-only`. Do not infer format from
-the destination basename. Failed gates publish no watchlist. Declare pilot/synthetic
-scope, dated evidence and unverified TradingView UI import explicitly.
+```bash
+python scripts/universe.py compose-global --spec S --contract C --output DIR
+python scripts/universe.py validate-global DIR/global-DATE.json --contract C
+python scripts/universe.py compose-global-core --parent G --parent-contract C --contract R --output CORE
+python scripts/universe.py validate-global-core CORE/global-core-DATE.json --contract R
+```
 
-Global Core requires the [complete Core review](references/global-core.md), not a top-cap filter.
-Review every parent ticker and theme; preserve every market/theme group and qualified ETF gate.
-Default to all parent duties. When the user requests focused Core, use the complete optional
-coverage-decision ledger to assign non-leader operating depth to full only; market, leader,
-index and context duties and all retained minima stay binding. Never claim those omitted
-functions as Core coverage. Prefer business relevance and genuine leadership before size/profit: an adjacent
-advertising business cannot alone replace content/platform coverage. Concentrated franchises
-favor leaders; dispersed functions favor credible baskets and essential distinct leaders.
-Counts are guidance, not quotas. Review essential reference protection individually; do not freeze
-every parent ETF when a retained index serves the same Core observation. Explain omissions with
-surviving Core coverage and explicit full-only depth; verify holdings
-when a basket is used to retain an omitted company's exposure.
-
-Use `compose-global-core --parent G --parent-contract C --contract R --output DIR`, then
-`validate-global-core DIR/global-core-DATE.json --contract R`. Core must be strictly smaller,
-contain only unchanged parent members, and retain protected tickers. Its portable bundle pins
-and revalidates the complete parent. Inherit evidence dates; refresh Global before refreshing
-Core. Publish a maintained pair only after checking that Core references the currently selected
-Global parent, each published format matches its exact generated view, and grouped sections
-are nonempty with the same complete ticker set as the ticker-only companion.
+Use `ticker-universes/global/DATE/` and `ticker-universes/global-core/DATE/` in the working project,
+with new revision directories as needed. Independently validate source bundles and the exact
+published view; pin view/layout hashes and Core's currently selected parent. Report inherited
+cutoffs, full-only Core functions and bounded pilot scope. Syntax checks do not establish
+TradingView UI import, feed access or alpha.
 
 ## Boundaries
 

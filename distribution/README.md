@@ -19,6 +19,8 @@ python scripts/package_release.py --compact --output temp/release-packages
 
 Use a new/empty directory. Compact ZIP preserves runtime/rules and all ten specs/seven snapshots
 byte-for-byte, excluding reports/screenshots; README files explain offline rebuilding.
+The Global/Core generator and dated index catalog are included, reusing those native inputs
+without additional snapshots or depth variants.
 Publish ZIP + SHA256SUMS. The local receipt records commit/dirty state and copied/rewritten hashes.
 Test extracted CLI and examples before uploading. ClawHub's smaller bundle also omits outputs,
 but compacts JSON whitespace; provenance hashes refer to upstream serialization.
