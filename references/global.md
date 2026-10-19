@@ -159,6 +159,43 @@ must retain exactly the main ticker set; each header counts toward the repositor
 export contract. Do not silently truncate or split coverage. The legacy import parser still
 accepts handwritten/newline inputs; the new export checker deliberately rejects lossy output.
 
+### Presentation layout
+
+When the user requests a different navigation order, author an export-only layout instead of
+changing economic themes or recomposing membership. Suggested observation order, when requested:
+major indices, geographic indices, broad/regional/country ETFs, thematic ETFs, Crypto, FX,
+commodities, rates/volatility, then industry-grouped company leaders. Keep listing venue separate
+from economic geography. A currency index belongs with FX gauges; a volatility index is not a
+regional equity index. Label perpetuals, commodity quotations and yields accurately.
+
+The layout is a JSON object with exactly these fields:
+
+| Field | Contract |
+|---|---|
+| `schema_version`, `kind` | Integer `1`, `"global_watchlist_layout"`. |
+| `universe_sha256` | SHA-256 of the exact qualified Global or Core JSON file bytes. |
+| `sections` | Ordered nonempty array of `{id, name, tickers}`. IDs use the Global safe-ID grammar; generated `###ID_NAME` headers use the strict ASCII heading grammar. Tickers are ordered full codes. Every section is nonempty; every universe member occurs exactly once, with no additions. |
+
+```bash
+python scripts/universe.py export-global-watchlist --universe BUNDLE/global-DATE.json \
+  --contract approved-coverage.json --layout layout.json --output NEW_EMPTY_VIEW_DIR
+python scripts/universe.py validate-global-watchlist \
+  NEW_EMPTY_VIEW_DIR/global-DATE-by-observation.txt --universe BUNDLE/global-DATE.json \
+  --contract approved-coverage.json --layout NEW_EMPTY_VIEW_DIR/layout.json
+```
+
+For Core pass its JSON and the complete Core review as `--contract`. Derive a separate Core
+layout from retained parent members, omitting empty sections and pinning the Core JSON hash.
+The commands revalidate the complete source bundle, including the parent for Core. Export writes
+`*-by-observation.txt`, exact `layout.json` and validation JSON to a new empty directory; it does
+not copy or replace the source bundle. Keep that independently portable bundle and expected
+contract available alongside the layout view. Validation compares exact regenerated TXT bytes,
+including member order and headings, rather than trusting a stored success flag.
+
+Register a custom view as `by_observation` with its source path/hash and layout path/hash. This
+view changes navigation only: evidence dates, members and all economic coverage claims remain
+unchanged. The original three bundle exports still independently validate byte-for-byte.
+
 [TradingView's official import documentation](https://www.tradingview.com/support/solutions/43000487233-how-to-import-or-export-a-watchlist/)
 confirms TXT, exchange prefixes and comma separation. `###` grouped TXT follows the existing
 repository convention; a ticker-only companion remains available. Correct syntax and

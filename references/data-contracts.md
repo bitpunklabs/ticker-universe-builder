@@ -343,6 +343,8 @@ stored validation omits it rather than reporting zero or an old result.
 Global compositions use a separate [Global input/output contract](global.md), preserving qualified
 native universes rather than declaring a new market. Their expected coverage contract, source
 hashes, identity mapping, ETF observations and TXT views are independently revalidated.
+An optional [presentation layout](global.md#presentation-layout) pins exact Global/Core JSON
+bytes and assigns every member once to ordered display sections, without changing coverage.
 [Global Core](global-core.md#core-review-contract) adds a complete parent-ticker/theme review,
 pinned parent file hashes, protected tickers and evidenced surviving coverage. Its complete
 parent contract and source qualification remain binding. An optional complete Core

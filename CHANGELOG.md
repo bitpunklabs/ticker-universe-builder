@@ -3,6 +3,13 @@
 Skill versions identify code/contracts; universe hashes identify dated artifacts.
 Development versions below were not separate public releases.
 
+## 0.12.1 — 2026-10-19
+
+- Export and independently validate reviewed Global/Core presentation layouts, bound to exact
+  qualified JSON bytes with complete, exact-once section assignment and unchanged membership.
+- Support geography/instrument navigation separately from economic duties; retain all existing
+  bundle exports and source validation, including the complete Global parent for Core.
+
 ## 0.12.0 — 2026-10-19
 
 - Explicit focused Global Core reviews: audit every parent duty, retain all market/theme groups

@@ -83,7 +83,9 @@ Global compositions have a separate [research and validation contract](reference
 qualified native sources, verified references, issuer deduplication, ETF quality/overlap and frozen
 geographic/theme duties. They export one ticker-only TXT plus two equivalent grouped views.
 Maintained human watchlists default to the thematic view, with the exact view and hash pinned
-in the current registry. Global can explicitly complement existing native lists: retain major
+in the current registry. Requested geographic/instrument ordering uses an independently checked
+[presentation layout](references/global.md#presentation-layout), preserving exact membership
+and economic coverage. Global can explicitly complement existing native lists: retain major
 indices and exceptional franchises while auditing issuer overlap and prioritizing international
 observation. Scope changes must be reviewed before selection; Core inherits the revised parent.
 Try the [bounded five-market pilot](examples/global/README.md); it is dated research, not a full
