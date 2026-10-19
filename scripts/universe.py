@@ -35,6 +35,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import evaluate_core  # noqa: E402
 import global_core  # noqa: E402
 import global_core_view  # noqa: E402
+import global_watchlist  # noqa: E402
 import measure_core  # noqa: E402
 import provider_core  # noqa: E402
 from build_run import run_build  # noqa: E402
@@ -236,6 +237,25 @@ def validate_global_core(args: argparse.Namespace) -> int:
     return 0 if checked["passed"] else 2
 
 
+def export_global_watchlist(args: argparse.Namespace) -> int:
+    try:
+        receipt = global_watchlist.export(
+            args.universe, args.contract, args.layout, args.output, load_policy(args.policy)
+        )
+    except (OSError, ValueError, TypeError, KeyError, AttributeError) as exc:
+        raise UniverseError(f"Global layout/input error: {exc}") from exc
+    print(json.dumps(receipt, ensure_ascii=False, indent=2))
+    return 0
+
+
+def validate_global_watchlist(args: argparse.Namespace) -> int:
+    checked = global_watchlist.validate(
+        args.watchlist, args.universe, args.contract, args.layout, load_policy(args.policy)
+    )
+    print(json.dumps(checked, ensure_ascii=False, indent=2))
+    return 0 if checked["passed"] else 2
+
+
 def check_watchlist_command(args: argparse.Namespace) -> int:
     from watchlist_core import check_watchlist
     try:
@@ -422,6 +442,18 @@ def parser() -> argparse.ArgumentParser:
     core_check.add_argument("universe")
     core_check.add_argument("--contract", required=True, help="caller's expected Core review")
     core_check.set_defaults(handler=validate_global_core)
+
+    for command, handler in (("export-global-watchlist", export_global_watchlist),
+                             ("validate-global-watchlist", validate_global_watchlist)):
+        layout_view = sub.add_parser(command, help="reviewed Global/Core presentation layout")
+        layout_view.add_argument("--universe", required=True)
+        layout_view.add_argument("--contract", required=True)
+        layout_view.add_argument("--layout", required=True)
+        if command == "export-global-watchlist":
+            layout_view.add_argument("--output", required=True, help="new empty view directory")
+        else:
+            layout_view.add_argument("watchlist")
+        layout_view.set_defaults(handler=handler)
 
     watchlist_check = sub.add_parser("check-watchlist", help="strict TradingView TXT format checks")
     watchlist_check.add_argument("watchlist")
